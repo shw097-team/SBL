@@ -36,10 +36,20 @@ ALLOW_PLACEHOLDER_VALUES = frozenset(
 
 
 def _value_of(matched: str) -> str:
-    """The right-hand side of an ``assigned_secret``-style match, unquoted."""
+    """The right-hand side of an ``assigned_secret``-style match, unquoted.
 
-    tail = matched.replace("'", '"').rsplit(":", 1)[-1].rsplit("=", 1)[-1]
-    return tail.strip().strip('"')
+    Split on the FIRST separator only. Splitting on the last one let a value like
+    ``"xxxx=changeme"`` collapse to ``changeme`` and pass as a placeholder -- the bypass the third
+    independent checker demonstrated (R3-NEW-01).
+    """
+
+    text = matched.replace("'", '"')
+    cut = len(text)
+    for separator in (":", "="):
+        index = text.find(separator)
+        if index != -1:
+            cut = min(cut, index)
+    return text[cut + 1 :].strip().strip('"')
 
 
 def _allowed(rule: str, matched: str) -> bool:

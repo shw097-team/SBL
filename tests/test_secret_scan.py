@@ -58,6 +58,14 @@ def test_allowlisted_text_inside_a_token_line_still_blocks(tmp_path):
     assert result["verdict"] == "BLOCKED"
 
 
+def test_a_placeholder_after_an_equals_sign_does_not_hide_the_value(tmp_path):
+    """R3-NEW-01: 'xxxx=changeme' must not collapse to the placeholder 'changeme'."""
+
+    secret = "long-" + "assigned-" + "value-" + "=changeme"
+    result = _scan_text(tmp_path, "api_key = '" + secret + "'\n")
+    assert result["verdict"] == "BLOCKED"
+
+
 def test_placeholder_value_stays_clean(tmp_path):
     result = _scan_text(tmp_path, 'password = "<token>"\n')
     assert result["verdict"] == "CLEAN"
