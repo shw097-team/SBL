@@ -14,7 +14,10 @@ dependencies = []
 sbl-todo = "sbl_cli.sbl_todo:main"
 
 [tool.setuptools]
-packages = ["sbl_core", "sbl_sp", "sbl_cli"]
+packages = ["sbl_core", "sbl_sp", "sbl_sp.plugins", "sbl_cli"]
+
+[tool.setuptools.package-data]
+"sbl_sp.plugins" = ["*/SKILL.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
