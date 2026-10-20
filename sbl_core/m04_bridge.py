@@ -137,6 +137,32 @@ class GovernedBuildBridge:
                 "resolved path is outside the declared writeset",
                 {"path": relative, "writeset": list(order.writeset.paths)},
             )
+        # Lexical containment is not containment: ``allowed -> outside_dir`` passes abspath/relpath
+        # and then writes through the link (external acceptance report R1, D2). Resolve the real
+        # destination and re-check it against the real root before touching the file.
+        real_root = os.path.realpath(root)
+        real_target = os.path.realpath(target)
+        try:
+            real_relative = os.path.relpath(real_target, real_root).replace("\\", "/")
+        except ValueError as exc:
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write target cannot be resolved against the repository root",
+                {"path": path, "root": root},
+            ) from exc
+        if real_relative == ".." or real_relative.startswith("../"):
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write target resolves outside the repository root through a link",
+                {"path": path, "real_target": real_target, "real_root": real_root},
+            )
+        if not any(_is_under(real_relative, prefix) for prefix in prefixes):
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "resolved real destination leaves the declared writeset",
+                {"path": real_relative, "writeset": list(order.writeset.paths)},
+            )
+
         current_head = _head_of(root)
         if current_head != order.head:
             raise SBLError(

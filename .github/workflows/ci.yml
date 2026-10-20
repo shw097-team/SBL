@@ -31,12 +31,18 @@ jobs:
       - name: Install package
         run: python -m pip install -e .
 
+      # pytest is a CI tool, not a runtime dependency: pyproject declares dependencies = [].
+      # Without this the suite never ran and the job failed on "No module named pytest"
+      # (external acceptance report R1, D1).
+      - name: Install test tooling
+        run: python -m pip install "pytest>=8,<9"
+
       - name: Run test suite
         run: python -m pytest -q -p no:cacheprovider
 
-      # Windows only: the frozen source mirror is referenced by a Windows path
-      # (C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG), so the
-      # source-verification step cannot run on the Linux runner.
-      - name: Verify frozen source mirror
-        if: runner.os == 'Windows'
-        run: python tools/verify_source.py --verify
+      # The frozen 14-book byte check needs the private corpus, which a hosted runner does not have.
+      # CI verifies the published manifest's internal consistency instead; the byte-level check stays
+      # a local gate. Do not fake a green source freeze on a runner that cannot see the source.
+      - name: Verify published source manifest
+        run: python tools/verify_source.py --self-check
+

@@ -96,3 +96,24 @@ def test_real_receipt_passes_when_the_mirror_is_present():
     report = verify_source.verify(real)
     assert record["doc_count"] == 14
     assert report["ok"] is True, report["mismatches"]
+
+
+def test_self_check_accepts_the_published_record_without_the_corpus():
+    real = REPO / "evidence" / "source" / "SOURCE_VERIFY.json"
+    report = verify_source.self_check(real)
+    assert report["ok"] is True, report["problems"]
+    assert report["byte_verification"].startswith("NOT_PERFORMED")
+
+
+def test_self_check_catches_a_tampered_digest(tmp_path):
+    """The manifest check must be a real check: flipping one digest breaks the aggregate."""
+
+    real = REPO / "evidence" / "source" / "SOURCE_VERIFY.json"
+    payload = json.loads(real.read_text(encoding="utf-8"))
+    payload["docs"][0]["sha256"] = "0" * 64
+    tampered = tmp_path / "SOURCE_VERIFY.json"
+    tampered.write_text(json.dumps(payload), encoding="utf-8")
+    report = verify_source.self_check(tampered)
+    assert report["ok"] is False
+    assert any(problem["reason"] == "aggregate_sha256" for problem in report["problems"])
+    assert verify_source.main(["--self-check", "--record", str(tampered)]) == 1

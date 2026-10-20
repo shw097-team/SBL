@@ -79,6 +79,54 @@ def test_query_negative_upper_bound_is_enforced(corpus, tmp_path):
     assert caught.value.code == "SBL_E_KNOWLEDGE_NO_ANSWER"
 
 
+def test_a_named_source_that_does_not_exist_is_refused(corpus, tmp_path):
+    """M3: a question about a DOC that is not in the index must refuse, not answer nearest-neighbour."""
+
+    index = tmp_path / "i-unknown.json"
+    build_index(str(corpus), str(index))
+    with pytest.raises(SBLError) as caught:
+        query(str(index), "DOC-27 says the shadow mode rule is which")
+    assert caught.value.code == "SBL_E_KNOWLEDGE_NO_ANSWER"
+    assert caught.value.detail["unresolved_doc_ids"] == ["DOC-27"]
+
+
+def test_a_document_over_the_old_cap_is_indexed(tmp_path):
+    """M3: DOC-05 is 2,382,349 B and the 2 MiB cap silently dropped it."""
+
+    root = tmp_path / "big"
+    root.mkdir()
+    body = "# Native\n\n" + ("native permission denied requires hgk approval\n" * 60000)
+    (root / "DOC-05.md").write_text(body, encoding="utf-8")
+    assert (root / "DOC-05.md").stat().st_size > 2 * 1024 * 1024
+    index = tmp_path / "i-big.json"
+    report = build_index(str(root), str(index))
+    assert report["files_indexed"] == 1
+    assert report["files_skipped"] == 0
+    hits = query(str(index), "native permission denied")
+    assert hits[0]["path"].endswith("DOC-05.md")
+    assert hits[0]["authority"] == "NON_AUTHORITATIVE_LOCATOR"
+
+
+def test_a_named_source_with_a_coverage_gap_is_refused(tmp_path):
+    """M3: an indexed-but-skipped source must answer with a coverage gap, never with a locator."""
+
+    root = tmp_path / "gap"
+    root.mkdir()
+    (root / "DOC-00.md").write_text("# Router\n\nnative permission denied\n", encoding="utf-8")
+    (root / "DOC-05.md").write_text("native permission denied\n", encoding="utf-8")
+    index = tmp_path / "i-gap.json"
+    build_index(str(root), str(index))
+    payload = json.loads(index.read_text(encoding="utf-8"))
+    payload["coverage_gaps"] = [
+        {"doc_id": "DOC-05", "bytes": 27, "reason": "UNREADABLE:PermissionError"}
+    ]
+    index.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(SBLError) as caught:
+        query(str(index), "DOC-05 native permission denied")
+    assert caught.value.code == "SBL_E_KNOWLEDGE_COVERAGE_GAP"
+    assert caught.value.detail["gap_doc_ids"] == ["DOC-05"]
+
+
 def test_build_index_negative_missing_corpus(tmp_path):
     with pytest.raises(SBLError) as caught:
         build_index(str(tmp_path / "absent"), str(tmp_path / "out.json"))

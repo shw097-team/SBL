@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from hashlib import sha256
 from pathlib import Path
@@ -103,10 +104,67 @@ def verify(record_path: Path | None = None) -> dict[str, Any]:
     }
 
 
+def self_check(record_path: Path | None = None) -> dict[str, Any]:
+    """Verify the published record without the corpus (for hosts that cannot see the source).
+
+    This is not the byte check. It proves the record is internally consistent: the exact inventory,
+    well-formed digests, and an aggregate that is really the hash of the listed per-document digests.
+    A hosted CI runner has no access to the private corpus, so faking a green byte check there would
+    be worse than saying plainly what was verified (external acceptance report R1, D1).
+    """
+
+    record = json.loads(Path(record_path or EVIDENCE).read_text(encoding="utf-8"))
+    docs = record.get("docs") or []
+    problems: list[dict[str, Any]] = []
+    present = [str(entry.get("doc") or "") for entry in docs]
+    missing_docs = [d for d in REQUIRED_DOCS if d not in present]
+    unexpected_docs = [d for d in present if d not in REQUIRED_DOCS]
+    duplicates = sorted({d for d in present if present.count(d) > 1})
+    if missing_docs or unexpected_docs or duplicates:
+        problems.append(
+            {
+                "reason": "document_inventory",
+                "missing_docs": missing_docs,
+                "unexpected_docs": unexpected_docs,
+                "duplicates": duplicates,
+            }
+        )
+    digests: list[str] = []
+    for entry in docs:
+        value = str(entry.get("sha256") or "")
+        if not re.fullmatch(r"[0-9a-f]{64}", value):
+            problems.append({"reason": "malformed_sha256", "doc": str(entry.get("doc") or "")})
+        digests.append(value)
+    aggregate = _aggregate(digests) if all(re.fullmatch(r"[0-9a-f]{64}", d) for d in digests) else None
+    recorded_aggregate = record.get("aggregate_sha256")
+    if aggregate is None or aggregate != recorded_aggregate:
+        problems.append(
+            {"reason": "aggregate_sha256", "expected": recorded_aggregate, "actual": aggregate}
+        )
+    if record.get("doc_count") not in (None, len(docs)):
+        problems.append(
+            {"reason": "doc_count", "expected": record.get("doc_count"), "actual": len(docs)}
+        )
+    return {
+        "ok": not problems,
+        "mode": "SELF_CHECK_MANIFEST_ONLY",
+        "byte_verification": "NOT_PERFORMED (no corpus on this host)",
+        "docs": len(docs),
+        "aggregate_sha256": aggregate,
+        "recorded_aggregate": recorded_aggregate,
+        "problems": problems,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--verify", action="store_true", help="recompute and compare all digests"
+    )
+    parser.add_argument(
+        "--self-check",
+        action="store_true",
+        help="verify the published record without the corpus (manifest-only, for hosted CI)",
     )
     parser.add_argument("--json-out", default=None, help="optional report path")
     parser.add_argument(
@@ -115,10 +173,13 @@ def main(argv: list[str] | None = None) -> int:
         help="verify an alternative SOURCE_VERIFY.json (default: evidence/source/SOURCE_VERIFY.json)",
     )
     args = parser.parse_args(argv)
-    if not args.verify:
+    if not args.verify and not args.self_check:
         parser.print_help(sys.stderr)
         return 2
-    report = verify(Path(args.record) if args.record else None)
+    if args.self_check and not args.verify:
+        report = self_check(Path(args.record) if args.record else None)
+    else:
+        report = verify(Path(args.record) if args.record else None)
     text = json.dumps(report, ensure_ascii=False)
     sys.stdout.write(text + "\n")
     sys.stdout.flush()

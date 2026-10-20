@@ -13,10 +13,15 @@ from typing import Any, Iterable, Iterator
 from .errors import SBLError
 
 INDEX_SCHEMA = "SBL-GKNOW-INDEX/1"
-MAX_FILE_BYTES = 2 * 1024 * 1024
+# 2 MiB silently dropped DOC-05 (2,382,349 B) out of the corpus, so a query about it returned a
+# confident wrong locator instead of a refusal (external acceptance report R1, D3). The cap now sits
+# above the largest authoritative book and every skip is recorded as a coverage gap.
+MAX_FILE_BYTES = 8 * 1024 * 1024
 CHUNK_LINES = 40
 SUFFIXES = (".md", ".json")
 TOKEN_RE = re.compile(r"[a-z0-9]+")
+# A source id a reader can name in a question ("what does DOC-05 say", "DOC-27", "DOC_99").
+DOC_ID_RE = re.compile(r"\bdoc[-_ ]?(\d{1,3})\b", re.IGNORECASE)
 
 
 def _iter_corpus_files(corpus_root: str) -> Iterator[str]:
@@ -69,22 +74,33 @@ def build_index(corpus_root: str, out_path: str) -> dict[str, Any]:
     chunks: list[dict[str, Any]] = []
     files_indexed = 0
     files_skipped = 0
+    coverage_gaps: list[dict[str, Any]] = []
     for path in _iter_corpus_files(root):
         try:
-            if os.path.getsize(path) > MAX_FILE_BYTES:
+            size = os.path.getsize(path)
+            if size > MAX_FILE_BYTES:
                 files_skipped += 1
+                coverage_gaps.append(
+                    {"doc_id": _doc_id_of(path), "bytes": size, "reason": "OVER_MAX_FILE_BYTES"}
+                )
                 continue
-        except OSError:
+        except OSError as exc:
             files_skipped += 1
+            coverage_gaps.append(
+                {"doc_id": _doc_id_of(path), "bytes": None, "reason": f"UNREADABLE:{type(exc).__name__}"}
+            )
             continue
         try:
             file_chunks = list(_chunks_for(path))
-        except OSError:
+        except OSError as exc:
             files_skipped += 1
+            coverage_gaps.append(
+                {"doc_id": _doc_id_of(path), "bytes": size, "reason": f"UNREADABLE:{type(exc).__name__}"}
+            )
             continue
         files_indexed += 1
         chunks.extend(file_chunks)
-    payload = {"schema": INDEX_SCHEMA, "chunks": chunks}
+    payload = {"schema": INDEX_SCHEMA, "chunks": chunks, "coverage_gaps": coverage_gaps}
     parent = os.path.dirname(os.path.abspath(out_path))
     if parent:
         os.makedirs(parent, exist_ok=True)
@@ -98,15 +114,36 @@ def build_index(corpus_root: str, out_path: str) -> dict[str, Any]:
         "out_path": os.path.abspath(out_path),
         "files_indexed": files_indexed,
         "files_skipped": files_skipped,
+        "coverage_gaps": coverage_gaps,
         "chunks": len(chunks),
     }
+
+
+def _doc_id_of(path: str) -> str | None:
+    """The DOC-NN identity carried by a corpus file name, if it carries one."""
+    match = DOC_ID_RE.search(os.path.basename(path))
+    return f"DOC-{int(match.group(1)):02d}" if match else None
+
+
+def _referenced_doc_ids(text: str) -> set[str]:
+    return {f"DOC-{int(match.group(1)):02d}" for match in DOC_ID_RE.finditer(str(text))}
 
 
 def _tokens(text: str) -> set[str]:
     return set(TOKEN_RE.findall(str(text).lower()))
 
 
-def _load_chunks(index_path: str) -> list[dict[str, Any]]:
+def _load_chunks_and_gaps(index_path: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    payload = _load_payload(index_path)
+    chunks = payload.get("chunks")
+    gaps = payload.get("coverage_gaps")
+    return (
+        chunks if isinstance(chunks, list) else [],
+        [gap for gap in gaps if isinstance(gap, dict)] if isinstance(gaps, list) else [],
+    )
+
+
+def _load_payload(index_path: str) -> dict[str, Any]:
     try:
         with open(index_path, "r", encoding="utf-8") as handle:
             payload = json.load(handle)
@@ -128,8 +165,7 @@ def _load_chunks(index_path: str) -> list[dict[str, Any]]:
             "knowledge index schema mismatch",
             {"index_path": index_path, "expected": INDEX_SCHEMA},
         )
-    chunks = payload.get("chunks")
-    return chunks if isinstance(chunks, list) else []
+    return payload
 
 
 def query(
@@ -144,7 +180,27 @@ def query(
             "query has no searchable tokens",
             {"text": str(text)},
         )
-    chunks = _load_chunks(index_path)
+    chunks, gaps = _load_chunks_and_gaps(index_path)
+    referenced = _referenced_doc_ids(text)
+    indexed_ids = {_doc_id_of(str(chunk.get("source", chunk.get("path", "")))) for chunk in chunks}
+    indexed_ids.discard(None)
+    gap_ids = {gap.get("doc_id") for gap in gaps if gap.get("doc_id")}
+    # A named source that is not in the index must be a refusal, not a nearest-neighbour answer:
+    # token overlap happily returns DOC-00 for a question about a DOC-27 that never existed.
+    unknown = sorted(referenced - indexed_ids - gap_ids)
+    if unknown:
+        raise SBLError(
+            "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "the question names a source id that is not in the index",
+            {"unresolved_doc_ids": unknown, "indexed_doc_ids": sorted(indexed_ids)},
+        )
+    covered_gaps = sorted(referenced & gap_ids)
+    if covered_gaps:
+        raise SBLError(
+            "SBL_E_KNOWLEDGE_COVERAGE_GAP",
+            "the named source exists but was not indexed, so it cannot be answered",
+            {"gap_doc_ids": covered_gaps, "gaps": [g for g in gaps if g.get("doc_id") in covered_gaps]},
+        )
     scored: list[dict[str, Any]] = []
     for chunk in chunks:
         if not isinstance(chunk, dict):
@@ -155,6 +211,9 @@ def query(
             continue
         hit = dict(chunk)
         hit["score"] = round(float(score), 6)
+        # Retrieval is a locator, never an authority: a hit is not entailment, not an Oracle and not
+        # an approval (external acceptance report R1, D3).
+        hit["authority"] = "NON_AUTHORITATIVE_LOCATOR"
         scored.append(hit)
     if not scored or max(hit["score"] for hit in scored) < min_score:
         raise SBLError(

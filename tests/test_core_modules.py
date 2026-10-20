@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import subprocess
 import shutil
 import tempfile
 
@@ -147,6 +148,26 @@ def test_bind_repo_context_negative_not_a_repo():
         shutil.rmtree(outside, ignore_errors=True)
 
 
+def _make_directory_link(link, target):
+    """Create a directory link, or skip: symlinks need privilege on Windows, junctions do not."""
+
+    try:
+        os.symlink(str(target), str(link), target_is_directory=True)
+        return "symlink"
+    except (OSError, NotImplementedError, AttributeError):
+        pass
+    if os.name == "nt":
+        # No text=True: mklink writes the console codepage, and decoding it can raise.
+        completed = subprocess.run(
+            ["cmd", "/c", "mklink", "/J", str(link), str(target)],
+            capture_output=True,
+            check=False,
+        )
+        if completed.returncode == 0 and os.path.exists(str(link)):
+            return "junction"
+    pytest.skip("ENV: this host can create neither a symlink nor a junction")
+
+
 def _fake_order(tmp_path, head="a" * 40, prefixes=("src",)):
     return BuildOrder(
         order_id=order_id_for(head, WriteSet(prefixes)),
@@ -190,6 +211,34 @@ def test_bridge_apply_negative_outside_writeset(tmp_path, bad_path):
         bridge.apply(_fake_order(tmp_path), bad_path, "x")
     assert caught.value.code == "SBL_E_WRITE_OUTSIDE_WRITESET"
     assert not (tmp_path.parent / "escape.py").exists()
+
+
+def test_bridge_apply_negative_symlink_escape(tmp_path, monkeypatch):
+    """A link inside the writeset must not carry a write outside the repository (M2)."""
+
+    monkeypatch.setattr("sbl_core.m04_bridge._head_of", lambda root: "a" * 40)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    root = tmp_path / "repo"
+    (root / "src").mkdir(parents=True)
+    _make_directory_link(root / "src" / "link", outside)
+    bridge = GovernedBuildBridge()
+    with pytest.raises(SBLError) as caught:
+        bridge.apply(_fake_order(root, prefixes=("src",)), "src/link/pwned.py", "owned\n")
+    assert caught.value.code == "SBL_E_WRITE_OUTSIDE_WRITESET"
+    assert not (outside / "pwned.py").exists()
+
+
+def test_bridge_apply_positive_inside_a_link_that_stays_inside(tmp_path, monkeypatch):
+    """The link check must not refuse a link whose real destination is still in scope."""
+
+    monkeypatch.setattr("sbl_core.m04_bridge._head_of", lambda root: "a" * 40)
+    root = tmp_path / "repo"
+    (root / "src" / "real").mkdir(parents=True)
+    _make_directory_link(root / "src" / "alias", root / "src" / "real")
+    bridge = GovernedBuildBridge()
+    bridge.apply(_fake_order(root, prefixes=("src",)), "src/alias/ok.py", "value = 1\n")
+    assert (root / "src" / "real" / "ok.py").read_text(encoding="utf-8") == "value = 1\n"
 
 
 def test_bridge_apply_negative_stale_head(tmp_path, monkeypatch):
