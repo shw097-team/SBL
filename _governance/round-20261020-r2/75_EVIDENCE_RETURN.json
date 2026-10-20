@@ -5,10 +5,10 @@
     "base": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
     "candidate_sha": "2d1c32d6c48fdc09a7d529fc4535482283552487",
     "candidate_branch": "candidate/r2-20261020-v10",
-    "pr_number": "NOT_OPENED",
+    "pr_number": "NOT_OPENED_BY_DESIGN_M4_BLOCKED",
     "evidence_branch": "evidence/r2-20261020-c2",
-    "evidence_commit_sha": "PENDING_THIS_COMMIT",
-    "evidence_manifest_sha256": "SEE_evidence_MANIFEST_json_AFTER_THIS_COMMIT"
+    "evidence_commit_sha": "017469b749ae84bb10898c222188df37c1fd868c",
+    "evidence_manifest_sha256": "0552b28680f77c35f64c630785a97834d2d80c3c2ce78253134ae3dffc1cd865"
   },
   "checks": {
     "ci_windows": {
@@ -50,7 +50,10 @@
       "command": "python -m pytest -q tests/test_gknow.py",
       "exit": 0,
       "raw_sha256_of_transcript": "evidence/m3/M3_FOCUSED.txt",
-      "refusal_codes": ["SBL_E_KNOWLEDGE_NO_ANSWER", "SBL_E_KNOWLEDGE_COVERAGE_GAP"],
+      "refusal_codes": [
+        "SBL_E_KNOWLEDGE_NO_ANSWER",
+        "SBL_E_KNOWLEDGE_COVERAGE_GAP"
+      ],
       "independently_reproduced": false
     },
     "gj01_gj02_gj03": {
@@ -59,8 +62,14 @@
         "python -m pytest -q tests/e2e/test_gj02_patch.py",
         "python -m pytest -q tests/e2e/test_rollback.py"
       ],
-      "denominators": [7, 7, 4],
-      "raw_sha256": ["evidence/gates/GATES_RAW.json"],
+      "denominators": [
+        7,
+        7,
+        4
+      ],
+      "raw_sha256": [
+        "evidence/gates/GATES_RAW.json"
+      ],
       "note": "maker-side local gates; the independent re-run is M4 and did not happen"
     },
     "scanner": {
@@ -111,5 +120,6 @@
     "RELEASED",
     "PRODUCTION",
     "SWOF_CONNECTED"
-  ]
+  ],
+  "meta_commit_note": "This file names the commit that published it, so the named fields were filled by a trailing meta-commit. The evidence commit 017469b contains every other file unchanged and is the one to audit."
 }
