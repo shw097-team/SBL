@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -21,6 +22,11 @@ from pathlib import Path
 # Every "<n> <outcome>" pair on pytest's summary line counts. The old pattern was anchored at the
 # start of a line, so "1 failed, 31 passed" recorded a denominator of 1 (VERIFY-02).
 PYTEST_LINE = re.compile(r"(\d+) (passed|failed|error|errors|skipped)\b")
+
+# Third-party pytest plugins that happen to be installed on the host must not change what a gate
+# measures: a foreign host with an autoloaded plugin produced zero-denominator gates (round 7
+# checker, ENV). The gate runner pins the pytest environment instead of inheriting it.
+GATE_ENV_OVERRIDES = {"PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1", "PYTHONDONTWRITEBYTECODE": "1"}
 
 # gate_id -> argv (relative paths resolved against the root)
 GATES: list[tuple[str, list[str]]] = [
@@ -44,7 +50,8 @@ def sha_bytes(data: bytes) -> str:
 
 def run(root: Path, out_dir: Path, gate_id: str, argv: list[str]) -> dict:
     started = time.time()
-    proc = subprocess.run([sys.executable, *argv], cwd=str(root), capture_output=True)
+    env = {**os.environ, **GATE_ENV_OVERRIDES}
+    proc = subprocess.run([sys.executable, *argv], cwd=str(root), capture_output=True, env=env)
     elapsed = round(time.time() - started, 3)
     out_path = out_dir / f"{gate_id}.stdout.txt"
     err_path = out_dir / f"{gate_id}.stderr.txt"
@@ -86,6 +93,7 @@ def main() -> int:
         "generated_utc": datetime.now(timezone.utc).isoformat(),
         "root": str(root),
         "python": sys.executable,
+        "env_overrides": GATE_ENV_OVERRIDES,
         "gates": rows,
         "summary": {
             "gates": len(rows),
