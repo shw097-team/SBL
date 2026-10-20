@@ -104,5 +104,13 @@ from prose.
 
 ## Licence
 
-`LICENSE: pending owner ruling`. No licence is granted by this repository, by
-its metadata, or by anything it produces.
+MIT, Copyright (c) 2026 shw097-team — see `LICENSE`. Third-party notices are in
+`NOTICE`, and the exact shipped-material inventory (including what is *not*
+redistributed) is `SHIPPED_MATERIAL_INVENTORY.md`.
+
+## Effect scope
+
+`STANDALONE_ONLY`. This build performs no HGK-governed effect: it holds no
+WorkOrder, ECP, Permit or ExecutionBinding, and it makes no native or connected
+claim. `PREW3_SHADOW` is `NO_EFFECT`; `SWOF_CONNECTED` refuses without a Native
+Receiver ACK, and no such ACK exists.
