@@ -23,9 +23,17 @@ def test_ci_installs_pytest_before_it_runs_the_suite() -> None:
     text = _text()
     install = re.search(r"pip install\s+\"?pytest", text)
     assert install is not None, "CI never installs pytest, so the suite cannot run"
-    run = text.find("pytest -q")
+    run = text.find("pytest -p no:cacheprovider")
     assert run != -1, "CI never runs the suite"
     assert install.start() < run, "pytest must be installed before the suite runs"
+
+
+def test_ci_run_line_keeps_the_summary_visible() -> None:
+    """A second -q erases the "N passed" line, so the log would prove an exit code and nothing else."""
+
+    text = _text()
+    assert "pytest -q" not in text
+    assert "pytest -p no:cacheprovider" in text
 
 
 def test_ci_never_reads_the_private_source_mirror() -> None:

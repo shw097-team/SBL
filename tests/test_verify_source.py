@@ -62,12 +62,27 @@ def test_partial_inventory_is_refused(tmp_path):
     assert any(m.get("reason") == "document_inventory" for m in report["mismatches"])
 
 
-def test_inventory_with_a_wrong_digest_is_refused(tmp_path):
+def test_inventory_with_a_wrong_digest_is_refused(tmp_path, monkeypatch):
+    """The digest check must be exercised with a corpus that exists on any host.
+
+    On a hosted runner the private mirror is absent, so every document reports ``missing`` and a
+    digest mismatch is never reached. Build the corpus here instead of depending on the host.
+    """
+
     real = json.loads((REPO / "evidence" / "source" / "SOURCE_VERIFY.json").read_text(encoding="utf-8"))
-    docs = [dict(d) for d in real["docs"]]
+    mirror = tmp_path / "mirror"
+    mirror.mkdir()
+    docs = []
+    for entry in real["docs"]:
+        doc = entry["doc"]
+        body = f"# {doc}\n\nsynthetic document for the digest test\n".encode("utf-8")
+        (mirror / f"{doc}.md").write_bytes(body)
+        docs.append({"doc": doc, "sha256": sha256(body).hexdigest()})
+    monkeypatch.setattr(verify_source, "FALLBACK_ROOT", mirror)
+    good = verify_source.verify(_write_record(tmp_path, docs))
+    assert good["ok"] is True, good["mismatches"]
     docs[0]["sha256"] = "0" * 64
-    path = _write_record(tmp_path, docs)
-    report = verify_source.verify(path)
+    report = verify_source.verify(_write_record(tmp_path, docs))
     assert report["ok"] is False
     assert any(m.get("reason") == "sha256" for m in report["mismatches"])
 

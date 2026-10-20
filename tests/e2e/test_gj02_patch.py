@@ -99,7 +99,9 @@ def test_bind_repo_context_reads_clean_head(repo: Path) -> None:
     assert len(ctx.head) == 40
     assert all(ch in "0123456789abcdef" for ch in ctx.head)
     assert ctx.dirty is False
-    assert ctx.root == str(repo.resolve())
+    # Windows runners hand out 8.3 short paths ("RUNNER~1") while resolve() returns the long form,
+    # so compare the canonical form case-insensitively rather than the literal string.
+    assert os.path.normcase(os.path.realpath(ctx.root)) == os.path.normcase(str(repo.resolve()))
 
 
 def test_prepare_issues_order_id(repo: Path) -> None:

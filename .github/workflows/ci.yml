@@ -37,8 +37,11 @@ jobs:
       - name: Install test tooling
         run: python -m pip install "pytest>=8,<9"
 
+      # No extra -q: pyproject already sets addopts=-q, and a second -q raises the quiet level
+      # until pytest stops printing the summary, so the job log would prove an exit code but no
+      # denominator. The log must show the count.
       - name: Run test suite
-        run: python -m pytest -q -p no:cacheprovider
+        run: python -m pytest -p no:cacheprovider
 
       # The frozen 14-book byte check needs the private corpus, which a hosted runner does not have.
       # CI verifies the published manifest's internal consistency instead; the byte-level check stays
