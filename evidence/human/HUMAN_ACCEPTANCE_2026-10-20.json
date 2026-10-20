@@ -1,0 +1,39 @@
+{
+  "schema": "SBL-HUMAN-PROCEDURAL-ACCEPTANCE/1",
+  "reviewer_identity": "shw097-team (repository owner)",
+  "reviewer_independence": "owner-reviewing-own-product",
+  "subject_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+  "subject_tree_sha": "fa7c12923589201fb2286c131e6511432de600a9",
+  "date_utc": "2026-10-20T14:34:37Z",
+  "declared_via": "direct owner directive in the R3 session, verbatim: \"我（owner）以 owner-self-review 簽 PASS：記 reviewer_independence=owner-reviewing-own-product、label=HUMAN_PROCEDURAL_ACCEPTANCE（不冒稱 INDEPENDENT_CASE_PASS）\"",
+  "checks_run": [
+    "python _governance/round-20261020-r3/M4LITE/run_m4lite.py --subject-root <v13 checkout> --out-dir <tmp>",
+    "python tools/run_gates.py (11/11 exit 0 on the c3 candidate worktree)",
+    "GitHub Actions run 39426671565 (ubuntu+windows) on the same subject sha"
+  ],
+  "properties": {
+    "GKNOW-ID": "pass",
+    "GKNOW-SEP": "pass",
+    "GKNOW-BIND": "pass",
+    "MODE-ACK": "pass",
+    "MODE-SIG": "pass",
+    "BRIDGE-SETTLE": "pass"
+  },
+  "case_counts": {
+    "human_visible_cases": 24,
+    "repo_tests": 9,
+    "independent_probes": 15,
+    "failed": 0
+  },
+  "subject_mutation": "CLEAN",
+  "raw_receipts": {
+    "path": "_governance/round-20261020-r3/M4LITE/receipts/M4LITE_RAW.json",
+    "sha256": "b28337e2da2266a7a0f1c1e2b0f96fac56aa99f4c2abd540caf892d1f5974de3"
+  },
+  "findings": [],
+  "verdict": "PASS",
+  "label": "HUMAN_PROCEDURAL_ACCEPTANCE",
+  "limits": "One owner self-review of six security-relevant properties by procedure, not an independent case pass. It does not cover host installation, native ECP/permit, the 149 child requirements, the 38 delivery surfaces or the 441 donor identities. The mandated openai-codex checker never produced a verdict on this code.",
+  "carrier_note": "The mandated checker carrier (openai-codex websocket) returns 426 and the PLAN-lane fallback was cut by the provider content filter; this review substitutes for that receipt under FAR option 5 and must never be relabelled INDEPENDENT_CASE_PASS.",
+  "scope_of_authority": "authorises the M4-LITE merge gate only; the release decision is a separate owner action"
+}
