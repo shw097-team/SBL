@@ -105,9 +105,9 @@ def test_an_empty_directory_is_an_error_not_a_clean_receipt(tmp_path):
 
 
 def test_a_truncated_local_part_is_not_allowlisted(tmp_path):
-    """R6-NEW-01: 'alice!user@private-company.net' must not pass as the local part 'user'."""
+    """R6-NEW-01: a local part truncated at '!' must not fall back to an allowlisted one."""
 
-    result = _scan_text(tmp_path, "contact: alice" + "!user@private-company.net\n")
+    result = _scan_text(tmp_path, "contact: alice" + "!user" + "@" + "private-company.net\n")
     assert result["verdict"] == "BLOCKED"
     assert {f["rule"] for f in result["findings"]} >= {"email_address"}
 
