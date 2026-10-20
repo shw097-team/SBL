@@ -106,6 +106,26 @@ checker 在第 6 回合把殘留項明確歸類為 repo 自家 gate 工具（`to
    U01–U50/149 children 與 P01–P07/M00–M15 的 trace closure 未建、PIPD P4 native intake/ECP/TQAEP 未執行。
 9. **環境殘留（不可刪，已 gitignore）**：`SBL/.pytest_cache`、`SBL/.pytest_tmp`（sandbox ACL 拒絕本使用者）。
 
+## 5.1 並行子代理最終回報（兩份都已落檔，這裡只補「不可忽略的限制」）
+
+**A. G-KNOW（`16_GKNOW/`，227/291 檔可索引、23,174 chunks、17 probes 中 13 過）**
+- **真缺陷（產品級，未修）**：`sbl_core.gknow.MAX_FILE_BYTES = 2 MiB` 會**靜默跳過**
+  `SBL_PIPD-LS-PKG_DOC-05.md`（2.38 MB，14 冊權威之一）→ 該冊 0 chunk 可檢索。因此 probe P9
+  （`NATIVE_PERMISSION_DENIED` 只在 DOC-05）**以 score 1.0 給出錯誤 locator**，而不是拒答。
+  另有 61 個檔因 Windows 路徑長度（261–305 字元）打不開，需 `\\?\` 前綴或 `os.scandir` 走訪修正。
+- 檢索能力上限（已寫入 `FINDINGS.md`）：只吃 `[a-z0-9]+`（**CJK 完全無法檢索**）、無 identity/version/
+  polarity 綁定 → 假版本 `DOC-27 v2099`、假冊號 `DOC-99`、被語料否定的命題都被 **false accept**。
+- 結論：可作為 exact ASCII identifier 的定位器，**引用前必須人工複核 locator**；不得宣稱 RAG 已合格。
+
+**B. Donor/Slot/Method/Key（`17_DONORS/`，441 列、851 條引用全部回開比對 0 失敗）**
+- 6 donor / 24 slot / 25 method / 386 key 都在語料中確認；`386 = 24+19+31+17+17+78+40+160`（DOC-01:1987）。
+- 執行現況：**ACTIVE 1**（pytest）、NATIVE_SUBSTITUTED 6、STANDBY 3、PROHIBITED 8、DEFERRED 423。
+- 唯一 UNCONFIRMED：`METHOD-18` Dependabot（語料自己標 `NO_SOURCE_EVIDENCE`）。
+- 三點必須進 TT：① **160/386 是治理規則（MUST/MUST NOT）而非技術**，DOC-06 全歸 `N/A_RULE`；
+  ② `CR-386UNIVERSE`（DOC-00:1437）**仍 OPEN**，明文不得宣稱 386 全數個別合格；
+  ③ `TS11`/`CHK09` 這兩個 gate id **不存在於 DOC-00..13**，需求本體在 R04.r3 / R08.2A / C32-C33，
+  gate id 需由控制平面命名後才可閉合。
+
 ## 6. 檔案位置
 
 | 內容 | 路徑 |
