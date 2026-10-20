@@ -1,0 +1,54 @@
+{
+  "schema": "SBL-R3-REMOTE-READBACK/1",
+  "method": "git ls-remote origin against github.com/shw097-team/SBL (token-authenticated transport)",
+  "observed_remote_heads": {
+    "candidate/c3-20261020-v1": "39c604d52570922fdf84b6df9c9359765643b450",
+    "candidate/r2-20261020-v13": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "evidence/r2-20261020-c3": "9460d6a4c833b41f5a5cfe0da55640ffaf761989",
+    "main": "ca6830d9fc9d89b7b87e818670dd67b393472d79"
+  },
+  "product": {
+    "foundation_candidate": {
+      "ref": "candidate/r2-20261020-v13",
+      "expected": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "remote": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "match": true
+    },
+    "c_track_candidate": {
+      "ref": "candidate/c3-20261020-v1",
+      "expected": "39c604d52570922fdf84b6df9c9359765643b450",
+      "remote": "39c604d52570922fdf84b6df9c9359765643b450",
+      "match": true
+    },
+    "main_unmoved": {
+      "expected": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+      "remote": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+      "match": true
+    }
+  },
+  "evidence": {
+    "ref": "evidence/r2-20261020-c3",
+    "remote": "9460d6a4c833b41f5a5cfe0da55640ffaf761989",
+    "r3_receipts_commit": "9460d6a4c833b41f5a5cfe0da55640ffaf761989",
+    "parent_of_r3_receipts": "6cb9d03f6fe5f43baf379b5a9a2e7ad328d38dce",
+    "this_readback_commit_recorded_in": "the commit that adds this file (see git log)"
+  },
+  "ci": {
+    "foundation": {
+      "run": 39426671565,
+      "subject": "bedc119…",
+      "conclusion": "success"
+    },
+    "c_track": {
+      "run": 39438217104,
+      "subject": "39c604d…",
+      "conclusion": "success"
+    }
+  },
+  "not_done": [
+    "no PR opened (waits on the human signature)",
+    "no Release or Tag created (waits on the Owner)",
+    "main not moved (unchanged, as required)"
+  ],
+  "note": "an evidence commit sha never substitutes for a product sha; both are recorded separately above"
+}
