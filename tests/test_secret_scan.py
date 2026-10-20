@@ -104,6 +104,14 @@ def test_an_empty_directory_is_an_error_not_a_clean_receipt(tmp_path):
     assert secret_scan.main(["--root", str(empty)]) == 2
 
 
+def test_a_truncated_local_part_is_not_allowlisted(tmp_path):
+    """R6-NEW-01: 'alice!user@private-company.net' must not pass as the local part 'user'."""
+
+    result = _scan_text(tmp_path, "contact: alice" + "!user@private-company.net\n")
+    assert result["verdict"] == "BLOCKED"
+    assert {f["rule"] for f in result["findings"]} >= {"email_address"}
+
+
 def test_documentation_email_stays_clean(tmp_path):
     result = _scan_text(tmp_path, "write to you@example.com for access\n")
     assert result["verdict"] == "CLEAN"

@@ -32,7 +32,9 @@ HARD_RULES = [
 # allowlisted text INSIDE the matched value hid it again (round 2, NEW-03). So an allowance is a
 # property of the rule and of the matched value, never of the surrounding text.
 ALLOW_EMAIL_DOMAINS = ("example.com", "example.invalid", "users.noreply.github.com")
-ALLOW_EMAIL_LOCAL_PARTS = ("you", "user", "mode.agent")
+# No local-part allowances. A local-part allowance is what produced the R6-NEW-01 bypass: the
+# matcher truncated "alice!user" to "user", which was then "allowlisted". The domain is the only
+# thing an allowance may key on.
 ALLOW_PLACEHOLDER_VALUES = frozenset(
     {"<token>", "<your-token>", "<api-key>", "<redacted>", "x-access-token", "changeme"}
 )
@@ -58,11 +60,9 @@ def _value_of(matched: str) -> str:
 def _allowed(rule: str, matched: str) -> bool:
     lowered = matched.lower()
     if rule == "email_address":
-        local, _, domain = lowered.partition("@")
-        # A domain-label boundary is required: ``attackerexample.com`` must not be treated as
-        # ``example.com`` just because it ends with those characters (R4-NEW-01).
-        if local in ALLOW_EMAIL_LOCAL_PARTS:
-            return True
+        _, _, domain = lowered.rpartition("@")
+        # A domain-label boundary is required: an address on ``attackerexample.com`` must not be
+        # treated as ``example.com`` (R4-NEW-01), and only the domain may carry an allowance.
         return any(
             domain == allowed or domain.endswith("." + allowed) for allowed in ALLOW_EMAIL_DOMAINS
         )
