@@ -1,0 +1,99 @@
+{
+ "schema": "SBL-ROUND-MANIFEST/1",
+ "round": "SBL-PIPDLS-20261020",
+ "created_utc": "2026-10-20T04:53:01Z",
+ "control_plane": "HG-KSEOS",
+ "project": {
+  "project_id": "HGK-PRJ-SBL-PIPDLS",
+  "run_id": "RUN-DEF3C204",
+  "workorders": [
+   "WO-TS-PIPDLS-01",
+   "WO-TS-PIPDLS-02",
+   "WO-TS-PIPDLS-03",
+   "WO-TS-PIPDLS-04"
+  ],
+  "lifecycle_state_at_admission": "WORKORDERS_ADMITTED",
+  "source_count": 306
+ },
+ "kanban": {
+  "board": "sbl-pipdls-20261020",
+  "root": "t_bf8acd6d",
+  "workers": [
+   "t_88de4454",
+   "t_543f8bf3",
+   "t_30f8c302",
+   "t_73364f50"
+  ],
+  "verifier": "t_38296605",
+  "synthesizer": "t_b598a788"
+ },
+ "openspec": {
+  "change": "sbl-v01-candidate-build",
+  "validate": "valid (openspec 1.8.0, --strict)",
+  "tasks": "0/17"
+ },
+ "gstack": {
+  "flow": "sbl_candidate_build",
+  "route": "NATIVE",
+  "named_methods_registered": 9
+ },
+ "model_plan": {
+  "PLAN": {
+   "provider": "openai-codex",
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "receipt": "scratch/plan_gpt_probe.json",
+   "served_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "EXECUTE": {
+   "provider": "opencode-go",
+   "model": "deepseek-v4.1-flash",
+   "receipt": "scratch/lane_probe_EXECUTE.json",
+   "served_arm": "opencode-go/deepseek-v4.1-flash"
+  },
+  "VERIFY_SECURITY": {
+   "provider": "openai-codex",
+   "model": "gpt-6.1-sol",
+   "effort": "medium",
+   "receipt": "scratch/lane_probe_VERIFY_SECURITY.json",
+   "served_arm": "openai-codex/gpt-6.1-sol"
+  }
+ },
+ "toolchain": {
+  "codex_executable": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/896a0166b774037a/codex.exe",
+  "version": "0.163.0-alpha.10.2",
+  "pin_note": "declared pin e78bad... is stale; task-local override required"
+ },
+ "sources": {
+  "original_root": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/SBL",
+  "working_mirror": "C:/Projects/Agent_Workspace/_sbl_src_mirror",
+  "mirror_files": 306,
+  "longpath_aliases": "scratch/sbl_mirror_rename_map.json"
+ },
+ "governance_docs": {
+  "00_NORTH_STAR.md": {
+   "bytes": 3557,
+   "sha256": "2f799e9c542da2854f5fd7128dfc6acd6d5f43fe2529a1796e764ddfeca0b15e"
+  },
+  "01_EXECUTION_SPEC.md": {
+   "bytes": 5001,
+   "sha256": "54280a30a86dc742318e2efb50be2a13917631bc4e07be14db16ee56ecf25166"
+  },
+  "02_TASK_LIST.md": {
+   "bytes": 4307,
+   "sha256": "63340fcf51c7e9e97d54e41d663ec4bb34a70209a5da3a0afe7e5bc19dc4e3e2"
+  },
+  "03_DETECTION_LIST.md": {
+   "bytes": 4003,
+   "sha256": "f7e17234d0a1f329f680927b98030b894b94f933465f0c8b57ed2ad8d7f1fa8a"
+  }
+ },
+ "claim_ceiling": "LOCAL_BOOTSTRAP + CANDIDATE_ONLY; no product function claimed accepted",
+ "tt": [
+  "TT-LANE-REGISTRY-DRIFT-001",
+  "TT-CODEX-PIN-STALE-001",
+  "TT-SRC-LONGPATH-001",
+  "TT-COMPILER-SKILL-VARIANT-001",
+  "TX-LICENSE-OWNER-RULING"
+ ]
+}
