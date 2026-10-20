@@ -71,6 +71,19 @@ def test_placeholder_value_stays_clean(tmp_path):
     assert result["verdict"] == "CLEAN"
 
 
+def test_a_domain_that_merely_ends_with_an_allowed_name_is_blocked(tmp_path):
+    """R4-NEW-01: attackerexample.com is not example.com."""
+
+    result = _scan_text(tmp_path, "contact: alice@" + "attackerexample.com\n")
+    assert result["verdict"] == "BLOCKED"
+    assert {f["rule"] for f in result["findings"]} >= {"email_address"}
+
+
+def test_subdomain_of_an_allowed_name_stays_clean(tmp_path):
+    result = _scan_text(tmp_path, "contact: build@" + "ci.example.com\n")
+    assert result["verdict"] == "CLEAN"
+
+
 def test_documentation_email_stays_clean(tmp_path):
     result = _scan_text(tmp_path, "write to you@example.com for access\n")
     assert result["verdict"] == "CLEAN"

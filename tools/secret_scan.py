@@ -56,8 +56,12 @@ def _allowed(rule: str, matched: str) -> bool:
     lowered = matched.lower()
     if rule == "email_address":
         local, _, domain = lowered.partition("@")
-        return local in ALLOW_EMAIL_LOCAL_PARTS or any(
-            domain.endswith(allowed) for allowed in ALLOW_EMAIL_DOMAINS
+        # A domain-label boundary is required: ``attackerexample.com`` must not be treated as
+        # ``example.com`` just because it ends with those characters (R4-NEW-01).
+        if local in ALLOW_EMAIL_LOCAL_PARTS:
+            return True
+        return any(
+            domain == allowed or domain.endswith("." + allowed) for allowed in ALLOW_EMAIL_DOMAINS
         )
     if rule in ("assigned_secret", "token_file_reference_with_value"):
         return _value_of(lowered) in ALLOW_PLACEHOLDER_VALUES
