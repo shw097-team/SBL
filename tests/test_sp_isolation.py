@@ -5,7 +5,20 @@ from __future__ import annotations
 import pytest
 
 from sbl_core.errors import SBLError
-from sbl_sp import assert_permission, expected_signature, load_manifest, sign_verdict
+from sbl_sp import assert_permission, load_manifest, sign_verdict
+from sbl_sp.sp import expected_signature
+
+CHALLENGER_KEY = "test-key-for-the-external-challenger-0123456789"
+OTHER_KEY = "test-key-for-a-different-principal-0123456789abcdef"
+
+
+@pytest.fixture(autouse=True)
+def provisioned_keys(monkeypatch):
+    """Keys are provisioned out-of-band, never committed: this fixture plays the operator."""
+
+    monkeypatch.setenv("SBL_SP_KEY_EXTERNAL_CHALLENGE_SP", CHALLENGER_KEY)
+    monkeypatch.setenv("SBL_SP_KEY_TPM_SP", OTHER_KEY)
+    monkeypatch.setenv("SBL_SP_KEY_COMMANDER_SP", OTHER_KEY)
 
 
 def test_loads_all_three_manifests() -> None:
@@ -110,6 +123,24 @@ def test_proxy_or_undeclared_status_cannot_be_signed(status) -> None:
     with pytest.raises(SBLError) as excinfo:
         sign_verdict("external_challenge_sp", "commander_sp", verdict, credential)
     assert excinfo.value.code == "SBL_E_BAD_STATE"
+
+
+def test_no_key_provisioned_means_no_signature(monkeypatch) -> None:
+    monkeypatch.delenv("SBL_SP_KEY_EXTERNAL_CHALLENGE_SP", raising=False)
+    verdict = {"schema": "SBL-VERDICT/1", "status": "PASS"}
+    with pytest.raises(SBLError) as excinfo:
+        sign_verdict("external_challenge_sp", "commander_sp", verdict, "anything")
+    assert excinfo.value.code == "SBL_E_PERMISSION_DENIED"
+    assert excinfo.value.detail["reason"] == "no_key_provisioned"
+
+
+def test_package_does_not_export_key_material() -> None:
+    """NEW-02: importing the package must not hand out the key or its digest helper."""
+
+    import sbl_sp
+
+    assert "load_key" not in dir(sbl_sp)
+    assert "expected_signature" not in dir(sbl_sp)
 
 
 def test_permitted_action_returns_none() -> None:

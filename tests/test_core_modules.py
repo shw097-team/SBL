@@ -217,19 +217,33 @@ def test_verify_positive_record_and_verdict():
 
 
 def test_verify_ceiling_belongs_to_the_instance():
-    """SEC-02: a caller may lower the ceiling it asks for, never raise it."""
-
-    high = EvidenceVerification(ceiling="PRODUCTION")
-    high.record("G01", "pytest -q", 0, "1 passed\n", 1)
-    raised = high.verdict("G01", "a", "b", "PASS", "PRODUCTION", "EXTERNAL_ACCEPTANCE")
-    assert raised.claim_level == "EXTERNAL_ACCEPTANCE"
+    """SEC-02: the ceiling comes from the instance; an argument may not lift it."""
 
     local = EvidenceVerification()  # build ceiling LOCAL
     local.record("G01", "pytest -q", 0, "1 passed\n", 1)
+    assert local.verdict("G01", "a", "b", "PASS", "LOCAL", "LOCAL").claim_level == "LOCAL"
+
+    for requested in ("PACKAGE", "EXTERNAL_ACCEPTANCE", "PRODUCTION"):
+        with pytest.raises(SBLError) as caught:
+            local.verdict("G01", "a", "b", "FAIL", requested, "LOCAL")
+        assert caught.value.code == "SBL_E_CLAIM_CEILING_EXCEEDED"
+        assert caught.value.detail["build_ceiling"] == "LOCAL"
+
+
+def test_verify_constructor_cannot_raise_the_build_ceiling():
+    """NEW-01: constructing a verifier with a higher ceiling is itself a bypass attempt."""
+
     with pytest.raises(SBLError) as caught:
-        local.verdict("G01", "a", "b", "FAIL", "PRODUCTION", "EXTERNAL_ACCEPTANCE")
+        EvidenceVerification(ceiling="PRODUCTION")
     assert caught.value.code == "SBL_E_CLAIM_CEILING_EXCEEDED"
     assert caught.value.detail["build_ceiling"] == "LOCAL"
+
+
+def test_verify_ceiling_attribute_is_read_only():
+    verifier = EvidenceVerification()
+    with pytest.raises(AttributeError):
+        verifier.ceiling = "PRODUCTION"  # type: ignore[misc]
+    assert verifier.ceiling == "LOCAL"
 
 
 def test_verify_negative_pass_without_evidence():

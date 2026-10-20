@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -37,12 +38,23 @@ def run(args: list[str]) -> tuple[subprocess.CompletedProcess[str], dict]:
     return completed, json.loads(completed.stdout)
 
 
+GIT_ENV = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+GIT_ENV.update({"GIT_CONFIG_NOSYSTEM": "1", "GIT_TERMINAL_PROMPT": "0"})
+
+
 def _git(root: Path, *args: str) -> str:
+    # A hostile inherited environment (GIT_DIR, a broken global config, a read-only HOME) must not
+    # be able to break the fixture: otherwise a red result says nothing about the product
+    # (independent challenge round 2, ENV-01).
+    env = dict(GIT_ENV)
+    env["HOME"] = str(root.parent)
+    env["USERPROFILE"] = str(root.parent)
     completed = subprocess.run(
         ["git", "-C", str(root), *args],
         capture_output=True,
         text=True,
         check=False,
+        env=env,
     )
     assert completed.returncode == 0, completed.stderr
     return completed.stdout.strip()

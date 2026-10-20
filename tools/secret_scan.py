@@ -24,13 +24,34 @@ HARD_RULES = [
     ("taiwan_id", re.compile(r"\b[A-Z][12]\d{8}\b")),
     ("email_address", re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.]{2,}\b")),
 ]
-# Allowed exceptions: documentation placeholders and the repository's own commit identity.
-ALLOW_SUBSTRINGS = (
-    "example.com",
-    "you@",
-    "<token>",
-    "x-access-token",
+# Allowed exceptions, applied PER RULE to the matched span. A single global substring list was
+# bypassable twice over: appending "example.com" to a line hid a token (round 1), and putting the
+# allowlisted text INSIDE the matched value hid it again (round 2, NEW-03). So an allowance is a
+# property of the rule and of the matched value, never of the surrounding text.
+ALLOW_EMAIL_DOMAINS = ("example.com", "example.invalid", "users.noreply.github.com")
+ALLOW_EMAIL_LOCAL_PARTS = ("you", "user", "mode.agent")
+ALLOW_PLACEHOLDER_VALUES = frozenset(
+    {"<token>", "<your-token>", "<api-key>", "<redacted>", "x-access-token", "changeme"}
 )
+
+
+def _value_of(matched: str) -> str:
+    """The right-hand side of an ``assigned_secret``-style match, unquoted."""
+
+    tail = matched.replace("'", '"').rsplit(":", 1)[-1].rsplit("=", 1)[-1]
+    return tail.strip().strip('"')
+
+
+def _allowed(rule: str, matched: str) -> bool:
+    lowered = matched.lower()
+    if rule == "email_address":
+        local, _, domain = lowered.partition("@")
+        return local in ALLOW_EMAIL_LOCAL_PARTS or any(
+            domain.endswith(allowed) for allowed in ALLOW_EMAIL_DOMAINS
+        )
+    if rule in ("assigned_secret", "token_file_reference_with_value"):
+        return _value_of(lowered) in ALLOW_PLACEHOLDER_VALUES
+    return False
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "node_modules", "_local", "raw"}
 SKIP_SUFFIXES = {".pyc", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".whl", ".exe", ".dll"}
 # The scanner must not scan its own receipts: a finding excerpt stored in a report would
@@ -76,10 +97,7 @@ def scan(root: Path) -> dict:
                 hit = None
                 for match in pattern.finditer(line):
                     matched = match.group(0)
-                    # The allowlist applies to the MATCHED SPAN only. Applying it to the whole
-                    # line let an appendable token ("example.com") hide a real secret on that
-                    # line -- the exact bypass the independent checker demonstrated (SEC-04).
-                    if any(token in matched for token in ALLOW_SUBSTRINGS):
+                    if _allowed(rule, matched):
                         continue
                     hit = match
                     break

@@ -44,6 +44,20 @@ def test_appending_an_allowed_substring_does_not_hide_the_token(tmp_path):
     assert "github_classic_token" in rules
 
 
+def test_allowlisted_text_inside_the_value_does_not_hide_it(tmp_path):
+    """NEW-03: putting "example.com" INSIDE the secret value must not suppress the finding."""
+
+    secret = "example.com" + "supersecret123456"
+    result = _scan_text(tmp_path, 'password = "' + secret + '"\n')
+    assert result["verdict"] == "BLOCKED"
+    assert {f["rule"] for f in result["findings"]} >= {"assigned_secret"}
+
+
+def test_allowlisted_text_inside_a_token_line_still_blocks(tmp_path):
+    result = _scan_text(tmp_path, 'api_token = "' + GH_TOKEN + '-example.com"\n')
+    assert result["verdict"] == "BLOCKED"
+
+
 def test_placeholder_value_stays_clean(tmp_path):
     result = _scan_text(tmp_path, 'password = "<token>"\n')
     assert result["verdict"] == "CLEAN"

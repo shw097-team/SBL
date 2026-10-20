@@ -14,13 +14,19 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import os
 from pathlib import Path
 from typing import Any
 
 from sbl_core.errors import SBLError
 
 MANIFEST_DIR = Path(__file__).parent / "manifests"
-KEYS_PATH = Path(__file__).parent / "keys.json"
+
+#: Signing keys are NEVER stored in the repository. The operator provisions one per principal in
+#: the environment of the process that is allowed to sign; a fresh checkout therefore cannot mint
+#: a challenger credential (independent challenge round 2, NEW-02).
+KEY_ENV_PREFIX = "SBL_SP_KEY_"
+MIN_KEY_CHARS = 32
 
 REAL_STATUSES = frozenset({"PASS", "FAIL", "BLOCKED_HITL", "BLOCKED_EXTERNAL"})
 PROXY_STATUSES = frozenset({"FILE_EXISTS", "SYMBOL_EXISTS", "SUMMARY_ONLY", "DOCUMENTED"})
@@ -79,21 +85,24 @@ def load_manifest(sp_id: str) -> dict:
 
 
 def load_key(sp_id: str) -> str:
-    """Return the demo signing key for ``sp_id`` (never logged, never returned to a caller)."""
+    """Return the operator-provisioned signing key for ``sp_id``.
+
+    The key comes from the environment, never from the repository, and is never logged or echoed
+    in a refusal detail.
+    """
 
     safe_id = _safe_sp_id(sp_id)
-    try:
-        ring = json.loads(KEYS_PATH.read_text(encoding="utf-8"))
-    except (OSError, ValueError) as exc:
+    key = os.environ.get(KEY_ENV_PREFIX + safe_id.upper(), "")
+    if not isinstance(key, str) or len(key) < MIN_KEY_CHARS:
         raise SBLError(
-            "SBL_E_BAD_STATE",
-            "principal keyring is missing or unreadable",
-            {"path": str(KEYS_PATH)},
-        ) from exc
-    keys = ring.get("keys") or {}
-    key = keys.get(safe_id)
-    if not isinstance(key, str) or not key:
-        raise _unknown_sp(sp_id)
+            "SBL_E_PERMISSION_DENIED",
+            "no signing key is provisioned for this principal",
+            {
+                "reason": "no_key_provisioned",
+                "principal": safe_id,
+                "expected_env": KEY_ENV_PREFIX + safe_id.upper(),
+            },
+        )
     return key
 
 

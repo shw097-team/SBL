@@ -40,10 +40,26 @@ class EvidenceVerification:
     """Records evidence and issues non-self-signed, ceiling-bounded verdicts."""
 
     def __init__(self, ceiling: str = BUILD_CEILING) -> None:
-        if str(ceiling) not in CLAIM_RANKS:
-            raise SBLError("SBL_E_BAD_STATE", "unknown build ceiling", {"ceiling": str(ceiling)})
-        self.ceiling = str(ceiling)
+        requested = str(ceiling)
+        if requested not in CLAIM_RANKS:
+            raise SBLError("SBL_E_BAD_STATE", "unknown build ceiling", {"ceiling": requested})
+        # A caller may tighten the ceiling for its own scope, never lift it above the build
+        # ceiling: constructing ``EvidenceVerification(ceiling="PRODUCTION")`` was itself a
+        # bypass (independent challenge round 2, NEW-01).
+        if CLAIM_RANKS[requested] > CLAIM_RANKS[BUILD_CEILING]:
+            raise SBLError(
+                "SBL_E_CLAIM_CEILING_EXCEEDED",
+                f"ceiling {requested} exceeds the build ceiling {BUILD_CEILING}",
+                {"requested": requested, "build_ceiling": BUILD_CEILING},
+            )
+        self._ceiling = requested
         self._evidence: dict[str, EvidenceItem] = {}
+
+    @property
+    def ceiling(self) -> str:
+        """Read-only: assigning ``instance.ceiling = ...`` must not be a way to raise it."""
+
+        return self._ceiling
 
     # -- evidence ---------------------------------------------------------
     def record(
