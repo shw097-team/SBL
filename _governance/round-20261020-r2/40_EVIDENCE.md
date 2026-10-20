@@ -91,7 +91,7 @@ not an accepted product.
 | R5 | 718a48d | same arm | **FAIL** | `R4-NEW-01` closed; two new: the email matcher truncated the domain at `-`, and a missing root returned CLEAN instead of an error |
 | R6 | eb2e07c | same arm | **FAIL** | `R5-NEW-01`/`R5-NEW-02` closed (9 variants blocked); its only remaining finding was classified by the checker itself as **GATE TOOLING**: `alice!user@…` truncated to an allowlisted local part |
 | R7 | f793e1d | same arm | **PARTIAL** | `R6-NEW-01` **closed** (6 attack variants), all 16 prior probes **closed**, **0 new defects**, **0 product findings**. The PARTIAL was environmental: a third-party pytest plugin autoloaded on the checker host zeroed nine gate denominators, and its sandbox could not create a git repository |
-| R8 | fb7af87 | same arm | pending | fixes exactly those two environment properties (gate env pinning + an explicit ENV skip) and nothing else |
+| R8 | fb7af87 | same arm | **PARTIAL** | Both changes judged **sound** (`change_1`: no pytest-plugin dependency exists, so pinning autoload weakens nothing; `change_2`: the skip cannot mask a product defect). Every pytest gate now reports a positive denominator on the checker's host (44/10/6/18/7/7/7/4/125) — the zero-denominator problem is gone. All 16 prior probes **closed**. Verdict is PARTIAL for two reasons that are not product defects: its own adversarial probe files under `_local/verify10/` tripped `G-SEC-SCAN` in its copy, and one **LOW tooling** item — `tests/test_core_modules.py:140` assumes `tempfile.mkdtemp` lands outside any git worktree |
 
 Repairs are recorded with the test that would fail if the fix were removed:
 `16_REPAIR_R1_RESULT.md`, `18_REPAIR_R2_RESULT.md`, `19_REPAIR_R3_RESULT.md`.
@@ -102,6 +102,13 @@ Two things this says plainly:
 2. The EXECUTE writer lane failed twice on the repair shape (`ERR_LANE_ALL_ROUTES_EXHAUSTED`), so PLAN
    authored the repairs and a **different principal** re-verified them. That substitution is a governance
    deviation, recorded in `16_REPAIR_R1_RESULT.md`, not a hidden shortcut.
+
+### 6.1 Open after round 8 (recorded, deliberately not fixed under this SHA)
+
+| id | class | finding | decision |
+|---|---|---|---|
+| `VERIFY10-TOOLING-01` | LOW, tooling | `tests/test_core_modules.py:140` assumes the temp root is outside any git worktree; if `TMP`/`TEMP` point inside a repo, git discovers the enclosing repository and the "not a repository" negative case does not raise | **Open.** Fixing it now would produce a ninth candidate that no checker has seen, which is worse than publishing the SHA the checker actually examined. It is a test-hygiene assumption, not a product behaviour; the next round should fix it *and* re-run a checker on that SHA |
+| checker probe artifacts | not a defect | the checker writes adversarial literals under `_local/verify10/`, which the repo scanner then correctly rejects, so its `G-SEC-SCAN` exits 1 | **No action.** The scan is doing its job on files the checker created; the candidate's own tree is CLEAN over 175 files |
 
 ## 7. What is NOT done — do not read this pack as more than it is
 
