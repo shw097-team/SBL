@@ -13,9 +13,10 @@
   "evidence_branch": "evidence/r2-20261020-c1",
   "remote_readback_evidence": "968a4fde0b85b0deb6db1e4a04847dc99fd05e2a",
   "evidence_parent_equals_candidate": true,
-  "evidence_manifest_sha256": "0d30ce5584e280f9bd93af9a877dfffe069579165a8bf1bec054c831b81d8036",
-  "readback_commit_sha": "362b988fb37c15f003583a86013807fbc8c8988b",
-  "note": "evidence_commit_sha 968a4fde is the product evidence commit (parent = the candidate). readback_commit_sha 362b988 adds only this file and its parent is 968a4fde; a file cannot name the commit that contains it, so the trailing meta-commit is declared here instead of being silently folded in."
+  "evidence_manifest_sha256": "fc509ccf538ed285ae1d076b850b958163367edb764654cfd57f1469d86685b3",
+  "note": "evidence_commit_sha 968a4fde is the product evidence commit (parent = the frozen candidate). The manifest digest is stable because MANIFEST.json excludes itself and this record. No commit can name the commit that contains it, so this record names none: read `git log --follow 30_PUBLICATION_READBACK.json` on evidence/r2-20261020-c1 for the commit that carries it.",
+  "evidence_manifest_files": 133,
+  "evidence_manifest_note": "MANIFEST.json excludes itself by design, and it also excludes this readback record, so the digest is stable across edits to the readback. The digest is of the manifest file as committed."
  },
  "method": "anonymous GitHub REST readback of both branches (no token in the request)",
  "branch_protection": {
