@@ -2,20 +2,20 @@
  "schema": "SBL-RESUME-CHECKPOINT/2",
  "created_utc": "2026-10-20T08:09:45.790289+00:00",
  "reason": "user requested shutdown; all work stopped and persisted",
- "status": "PAUSED_REMEDIABLE",
+ "status": "ACTIVE_BOUNDED",
  "phase": "repair R6 (gate tooling) awaiting re-run of gates",
  "head": {
-  "branch": "wip/r2-r6-localpart",
-  "commit": "a01d336408536fa1f4dd637c6f122b92fb951b3b"
+  "branch": "evidence/r2-20261020-c1",
+  "commit": "34a585e31c95f5c9207f733a6b4ddd82b8c1f05b"
  },
- "frozen_candidate_verified_by_checker": "eb2e07c11dc44ef1789e7c3e468d43816057bc28",
+ "frozen_candidate_verified_by_checker": "fb7af87aeeb0b596d6000404e2df9821e9205ccd",
  "last_checker_verdict": {
-  "round": 6,
-  "verdict": "FAIL",
-  "sole_remaining_finding": "R6-NEW-01 (GATE TOOLING)",
-  "closed_in_that_round": [
-   "R5-NEW-01",
-   "R5-NEW-02"
+  "round": 8,
+  "verdict": "PARTIAL",
+  "product_findings": 0,
+  "remaining": [
+   "VERIFY10-TOOLING-01 (LOW, tooling): tests/test_core_modules.py:140 assumes mkdtemp is outside any git worktree",
+   "checker probe artifacts under _local/ trip G-SEC-SCAN inside its own copy (not a defect)"
   ]
  },
  "unverified_change": "tools/secret_scan.py + tests/test_secret_scan.py: local-part allowlist removed",
@@ -45,7 +45,7 @@
   "lane_execute": "opencode-go/deepseek-v4.1-flash rank1",
   "lane_verify": "openai-codex/gpt-6.1-sol rank2"
  },
- "claim_ceiling": "LOCAL_QUALIFIED_CANDIDATE; INDEPENDENT_CASE_PASS not achieved (last verdict FAIL)",
+ "claim_ceiling": "LOCAL_QUALIFIED_CANDIDATE; last verdict PARTIAL with zero product findings; INDEPENDENT_CASE_PASS, RELEASED and PRODUCTION remain unclaimed",
  "rollback": "git reset --hard ca6830d9fc9d89b7b87e818670dd67b393472d79; delete candidate/r2-20261020{,-v2..-v6} and wip/r2-r6-localpart",
  "last_interrupted_gate_run": {
   "suite": "125 passed (R6 fix green)",
@@ -85,5 +85,27 @@
     "gate ids TS11/CHK09 are not named in DOC-00..13"
    ]
   }
+ },
+ "updated_utc": "2026-10-20T10:09:28.788117+00:00",
+ "round": "SBL-PIPDLS-20261020-R2-C1 (v3 command packet)",
+ "product_evidence_commit": "968a4fde0b85b0deb6db1e4a04847dc99fd05e2a",
+ "continuation_contract": {
+  "task_id": "SBL-PIPDLS-20261020-R2-C1",
+  "changeset": "CONTINUATION",
+  "verdict": "PROMPT_COMPILE_PASS",
+  "contract_sha256": "5e8a2399f43adb5fd60323a3007f3252fb471b4809f80bce0f14081cc9fed343"
+ },
+ "next_actions": [
+  "fix VERIFY10-TOOLING-01 and mint candidate v9, then run one checker round on that SHA",
+  "build the 149-child / P01-P07 / M00-M15 trace closure (TS04/CHK03) - still OPEN",
+  "native PIPD intake + WorkOrder/ECP/permit (TS12/CHK10) - still OPEN, no native writer on this host",
+  "fix the G-KNOW MAX_FILE_BYTES cap that silently skips DOC-05, and the 61 long-path files (TS01/TS02)",
+  "generate SBOM, decide licence, enable branch protection, observe one real CI run (TS06/TS15)"
+ ],
+ "model_binding": {
+  "PLAN": "lane PLAN rank2 openai-codex/gpt-6.1-sol (hermes engine)",
+  "EXECUTE": "lane EXECUTE rank1 opencode-go/deepseek-v4.1-flash",
+  "VERIFY": "lane VERIFY_SECURITY rank2 openai-codex/gpt-6.1-sol",
+  "session": "interaction plane only"
  }
 }
