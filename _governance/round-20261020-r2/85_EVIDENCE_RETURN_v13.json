@@ -1,0 +1,110 @@
+{
+  "schema": "SBL-MVP-EVIDENCE-RETURN/1",
+  "subject": {
+    "repo": "shw097-team/SBL",
+    "base": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+    "base_unchanged": true,
+    "candidate_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "candidate_branch": "candidate/r2-20261020-v13",
+    "superseded": {
+      "v10": "2d1c32d6c48fdc09a7d529fc4535482283552487",
+      "v11": "b5fd5d0a4f9eddf91cb98d7c2aafd77776fca295",
+      "v12": "815057dd7e8c1d9a2c982d9c56121081aa06dc21"
+    },
+    "pr_number": "NOT_OPENED_M4_OPEN",
+    "evidence_branch": "evidence/r2-20261020-c3",
+    "evidence_commit_sha": "PENDING_THIS_COMMIT",
+    "evidence_manifest_sha256": "SEE_evidence_MANIFEST_json"
+  },
+  "checks": {
+    "ci_windows": {
+      "run_url": "https://github.com/shw097-team/SBL/actions/runs/39426671565",
+      "exit": 0,
+      "unique_tests": 145,
+      "skipped": 1,
+      "note": "summary line '145 passed, 1 skipped'; the skip is the link-capability ENV skip"
+    },
+    "ci_ubuntu": {
+      "run_url": "https://github.com/shw097-team/SBL/actions/runs/39426671565",
+      "exit": 0,
+      "unique_tests": 145,
+      "skipped": 1
+    },
+    "local_gates": {
+      "gates_exit": 0,
+      "gates_with_zero_denominator": [],
+      "denominators": {"CORE": 47, "MODES": 14, "KNOW": 15, "SP": 18, "GJ03": 7, "GJ01": 7, "GJ02": 7, "ROLLBACK": 4, "FULL": 148},
+      "raw": "evidence/gates/GATES_RAW.json"
+    },
+    "symlink_escape_negative": {
+      "tests": [
+        "tests/test_core_modules.py::test_bridge_apply_negative_symlink_escape",
+        "tests/test_core_modules.py::test_bridge_apply_positive_inside_a_link_that_stays_inside",
+        "tests/test_core_modules.py::test_bridge_apply_refuses_a_path_that_changes_between_check_and_write"
+      ],
+      "exit": 0,
+      "refusal_code": "SBL_E_WRITE_OUTSIDE_WRITESET",
+      "independently_confirmed": "run 15 confirmed the containment property; run 16 reproduced a settle-time escape that is now fixed and unconfirmed by a completed receipt"
+    },
+    "gknow_false_accept_negative": {
+      "tests": [
+        "tests/test_gknow.py::test_the_ids_the_real_corpus_uses_are_recognised",
+        "tests/test_gknow.py::test_separator_variants_of_an_unknown_source_are_refused",
+        "tests/test_gknow.py::test_a_named_source_constrains_the_answer_to_that_source"
+      ],
+      "exit": 0,
+      "refusal_codes": ["SBL_E_KNOWLEDGE_NO_ANSWER", "SBL_E_KNOWLEDGE_COVERAGE_GAP"],
+      "independently_confirmed": false
+    },
+    "mode_ack_trust": {
+      "tests": [
+        "tests/test_modes.py::test_swof_refuses_an_ack_that_is_only_four_non_empty_strings",
+        "tests/test_modes.py::test_swof_refuses_when_no_trust_anchor_is_configured",
+        "tests/test_modes.py::test_swof_refuses_an_untrusted_issuer",
+        "tests/test_modes.py::test_ack_signature_cannot_be_moved_between_tuples",
+        "tests/test_modes.py::test_swof_accepts_an_ack_signed_with_the_configured_key"
+      ],
+      "exit": 0,
+      "independently_confirmed": false,
+      "defect_found_by_checker": "V15-MODE-01, V16-MODE-02"
+    },
+    "scanner": {"hard_findings": 0, "files_scanned": 195, "verdict": "CLEAN", "raw": "evidence/security/"},
+    "independent_checker": {
+      "principal": "openai-codex/gpt-6.1-sol rank 2, hermes carrier (owner-authorised substitution)",
+      "subject_mutation": "CLEAN",
+      "subject_mutation_evidence": "run 15: 912->912; run 16: 933->933; run 17: 955->955; added/changed/removed 0 each",
+      "report_sha256": "518099d0f6083d8b1a1217e240dcfec81b11ac9079da86ad20d82ce55005db06",
+      "verdict": "FAIL (run 15, four findings) — no completed receipt since",
+      "blocker": {
+        "kind": "PROVIDER_CONTENT_FILTER",
+        "detail": "runs 16 and 17 ended with 'This content was flagged for possible cybersecurity risk' followed by turn.failed and the known 426 websocket retry failure; a reworded brief was refused as well, which places the trigger in the reviewed code rather than in the task phrasing",
+        "attempts": 3,
+        "receipts": ["evidence/checker/VERIFY_15_receipt.json", "evidence/checker/VERIFY_16_partial.txt", "evidence/checker/VERIFY_17_partial.txt"]
+      }
+    }
+  },
+  "defects_found_by_checker": [
+    {"id": "V15-GKNOW-01", "severity": "MEDIUM", "state": "FIXED_IN_V12", "fix": "doc-id pattern accepts the corpus's underscore form and normalises to DOC-NN"},
+    {"id": "V15-GKNOW-02", "severity": "MEDIUM", "state": "FIXED_IN_V12", "fix": "a named indexed source constrains the candidate chunks"},
+    {"id": "V15-GKNOW-03", "severity": "MEDIUM", "state": "FIXED_IN_V12", "fix": "separator variants normalise and are refused as unknown"},
+    {"id": "V15-MODE-01", "severity": "MEDIUM", "state": "FIXED_IN_V12", "fix": "native ACK verified: trusted issuer list + HMAC + fail closed without an anchor"},
+    {"id": "V16-BRIDGE-01", "severity": "MEDIUM", "state": "FIXED_IN_V13", "fix": "re-resolve immediately before writing, write the resolved path, verify the landed path and remove on failure"},
+    {"id": "V16-MODE-02", "severity": "MEDIUM", "state": "FIXED_IN_V13", "fix": "length-prefixed HMAC material; tuples can no longer share a signature"}
+  ],
+  "release_only": {
+    "license_owner_receipt": "SIGNED_2026-10-20_MIT_SEE_90_OWNER_DECISIONS",
+    "package_sha256": "HOLD",
+    "install_uninstall_readback": "HOLD",
+    "native_effect_scope": "STANDALONE_ONLY (signed)"
+  },
+  "open_tt": [
+    "M4 independent acceptance — provider content filter blocks the mandated checker; human review pack 84 is the remaining route",
+    "R2 reproducible package + clean install/uninstall readback",
+    "G-KNOW: CJK tokenisation, 61 Windows long-path files, semantic recall",
+    "VERIFY10-TOOLING-01 test_core_modules.py:140 mkdtemp assumption",
+    "TT-DONOR-GATE-01/02 donor ledger gates",
+    "GitHub branch protection unreadable (403); bounded manual merge control signed instead"
+  ],
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "not_claimed": ["INDEPENDENT_CASE_PASS", "MERGED", "RELEASED", "PRODUCTION", "SWOF_CONNECTED"]
+}

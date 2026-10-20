@@ -1,0 +1,253 @@
+{
+  "nonce": "SBLR2-VERIFY-15",
+  "candidate_sha_readback": "b5fd5d0a4f9eddf91cb98d7c2aafd77776fca295",
+  "carrier_deviation": "This receipt uses the supplied session rather than the mandated codex-cli carrier. The brief declares an owner-authorized carrier substitution because the mandated route encounters a websocket handshake failure with 426 Upgrade Required and its client-side override is no longer recognized. I did not independently reproduce that transport failure or attest the session's model identity or reasoning setting.",
+  "verdict": "FAIL",
+  "subject_mutation": {
+    "status": "CLEAN",
+    "observed": "The guarded subject had HEAD b5fd5d0a4f9eddf91cb98d7c2aafd77776fca295 and empty porcelain status at both observations. Candidate tracked files also remained unchanged; only the pre-existing untracked _verify15_brief.md appeared. I performed no filesystem writes or git write commands.",
+    "limitation": "These observations support a clean, stationary subject at the observation points; they cannot independently prove that the maker remained stopped continuously."
+  },
+  "m1": {
+    "assessment": "The workflow and self-check implement the stated CI-honesty repair. The specified hosted run could not be independently authenticated.",
+    "probes": [
+      {
+        "probe": "Read workflow and self_check implementation",
+        "result": "pytest is explicitly installed before execution; the pytest command preserves its summary; the workflow uses --self-check rather than private-corpus verification; no continue-on-error or failure-swallowing shell suffix is present.",
+        "code": ".github/workflows/ci.yml:37"
+      },
+      {
+        "probe": "Published manifest self-check",
+        "result": "Passed: 14 documents, matching aggregate, no problems, and byte_verification explicitly reports NOT_PERFORMED.",
+        "code": "SELF_CHECK_MANIFEST_ONLY"
+      },
+      {
+        "probe": "Tamper one document digest",
+        "result": "An in-memory copy with the first digest replaced by 64 zeroes was rejected with ok=false and an aggregate mismatch. A physical tampered-copy probe was prohibited by the read-only sandbox.",
+        "code": "aggregate_sha256"
+      },
+      {
+        "probe": "Authenticate run 39420937990 and jobs 118621401865 / 118621402165",
+        "result": "ENV: GitHub access failed. The claimed 136 passed, 1 skipped results remain unverified for this SHA. The tracked CI_V10_SUMMARY.json instead identifies run 39411780991 and SHA 2d1c32d6c48fdc09a7d529fc4535482283552487; it cannot authenticate the requested run.",
+        "code": "ENV_NETWORK_ACCESS_DENIED"
+      }
+    ],
+    "can_be_bypassed": false
+  },
+  "m2": {
+    "assessment": "Static review and simulated realpath probes support the containment repair, but actual junction/symlink attacks and physical positive writes could not be performed.",
+    "probes": [
+      {
+        "probe": "Directory link escaping the repository",
+        "result": "Blocked before open in a simulated realpath probe; actual link creation was ENV-blocked.",
+        "code": "SBL_E_WRITE_OUTSIDE_WRITESET"
+      },
+      {
+        "probe": "Nested link escaping the repository",
+        "result": "Blocked before open in a simulated realpath probe; actual link creation was ENV-blocked.",
+        "code": "SBL_E_WRITE_OUTSIDE_WRITESET"
+      },
+      {
+        "probe": "Link as final component",
+        "result": "Blocked before open in a simulated realpath probe; actual link creation was ENV-blocked.",
+        "code": "SBL_E_WRITE_OUTSIDE_WRITESET"
+      },
+      {
+        "probe": "Relative link resolving into another repository directory",
+        "result": "Blocked before open in a simulated realpath probe.",
+        "code": "SBL_E_WRITE_OUTSIDE_WRITESET"
+      },
+      {
+        "probe": "Link resolving into sibling prefix sbl_core_evil",
+        "result": "Blocked before open when the writeset allowed only sbl_core.",
+        "code": "SBL_E_WRITE_OUTSIDE_WRITESET"
+      },
+      {
+        "probe": "Link resolving inside the allowed prefix",
+        "result": "Accepted and reached the mocked writer. This establishes control-flow behavior, not successful physical link traversal.",
+        "code": "SIMULATED_POSITIVE"
+      },
+      {
+        "probe": "TOCTOU review",
+        "result": "A window exists between realpath validation and opening the original target pathname, including a git subprocess between those operations. Concurrent replacement of a checked link could invalidate the check. This is realistic where an untrusted concurrent actor can mutate the relevant directories, but was not physically reproduced and is not demonstrated under the declared frozen-maker conditions.",
+        "code": "sbl_core/m04_bridge.py:143"
+      }
+    ],
+    "can_be_bypassed": null
+  },
+  "m3": {
+    "assessment": "The size-cap increase and non-authoritative labeling work, but document identity and source binding remain defective. Reproduced failures justify FAIL independently of incomplete environment-dependent checks.",
+    "probes": [
+      {
+        "probe": "DOC-05 size and indexing",
+        "result": "MAX_FILE_BYTES is 8388608. Running the actual index builder over the available 14-document mirror with output redirected into memory indexed all 14 files and produced 177 DOC-05 chunks, with no coverage gaps.",
+        "code": "OLD_2_MIB_LIMIT_REMOVED"
+      },
+      {
+        "probe": "Recognize actual corpus filenames",
+        "result": "All actual filenames, including SBL_PIPD-LS-PKG_DOC-05.md, yielded no document identity. A DOC-05 query consequently raised NO_ANSWER with indexed_doc_ids=[] despite its 177 indexed chunks.",
+        "code": "SBL_E_KNOWLEDGE_NO_ANSWER"
+      },
+      {
+        "probe": "Skipped actual DOC-05 filename",
+        "result": "With its size simulated above the cap, the builder recorded a gap with doc_id=null. Querying DOC-05 returned NO_ANSWER instead of COVERAGE_GAP.",
+        "code": "SBL_E_KNOWLEDGE_NO_ANSWER"
+      },
+      {
+        "probe": "DOC-27, DOC-99, case, supported separators, and an ID in prose",
+        "result": "Unknown IDs were refused for DOC-27, DOC-99, doc_27, DOC 27, DOC27, and ordinary prose mentioning an unknown ID.",
+        "code": "SBL_E_KNOWLEDGE_NO_ANSWER"
+      },
+      {
+        "probe": "Known indexed ID and DOC-5 versus DOC-05",
+        "result": "In a synthetic in-memory index containing DOC-00 and DOC-05, both DOC-5 and DOC-05 queries returned DOC-00. DOC-05 achieved score 1.0 against text in DOC-00 because recognized IDs are checked for existence but do not constrain the returned chunks.",
+        "code": "REPRODUCED_SOURCE_BINDING_BYPASS"
+      },
+      {
+        "probe": "Unsupported separators",
+        "result": "DOC/27 and DOC--27 bypassed named-source validation. With relevant words appended, they returned locators from both synthetic and real-corpus chunks instead of rejecting the unavailable source.",
+        "code": "REPRODUCED_DOC_ID_PARSER_BYPASS"
+      },
+      {
+        "probe": "Fabricated version and forbidden Native Effect claim",
+        "result": "Real-corpus retrieval returned hits for a fabricated version and for 'SBL Writer may issue Native Effect without HGK approval', including score 1.0 for the latter. Every returned hit carried NON_AUTHORITATIVE_LOCATOR; these are lexical matches, not demonstrated entailment or approval.",
+        "code": "NON_AUTHORITATIVE_LOCATOR"
+      },
+      {
+        "probe": "Coverage gap with a recognized synthetic source ID",
+        "result": "A synthetic DOC-13 coverage gap correctly caused refusal.",
+        "code": "SBL_E_KNOWLEDGE_COVERAGE_GAP"
+      }
+    ],
+    "can_be_bypassed": true
+  },
+  "r1_r3": {
+    "assessment": "License, inventory, and standalone declarations are present, but the product's mode-decision API accepts fabricated native acknowledgements. Builds remain unverified because of environment restrictions.",
+    "probes": [
+      {
+        "probe": "License and metadata",
+        "result": "LICENSE contains MIT text; NOTICE identifies MIT and standalone scope; pyproject.toml declares license = \"MIT\".",
+        "code": "STATIC_CHECK_PASS"
+      },
+      {
+        "probe": "Inventory against tracked tree",
+        "result": "Checked 182 tracked files and all 12 tracked top-level directories. Every shipped directory is represented by the inventory. No tracked corpus or bulk knowledge index was identified, and checked excluded paths were absent.",
+        "code": "TRACKED_TREE_CHECK_PASS"
+      },
+      {
+        "probe": "User-facing effect declarations",
+        "result": "README and NOTICE explicitly declare STANDALONE_ONLY. Architecture documentation describes the connected branch as requiring a complete native ACK, while disclaiming an actual connection.",
+        "code": "README.md:113"
+      },
+      {
+        "probe": "Fabricated native acknowledgement",
+        "result": "Setting issuer, permit_id, subject_id, and signature to the literal string 'fabricated' made ModeGate('SWOF_CONNECTED').decide('net.call') return allowed=true, no_effect=false, reason=NATIVE_ACK_PRESENT. No signature or native-issuer authenticity was checked. No actual network effect was executed.",
+        "code": "sbl_core/modes.py:39"
+      },
+      {
+        "probe": "Wheel and editable build",
+        "result": "ENV: build backend import failed with PermissionError accessing the installed more_itertools package. Artifact and editable-install writes are also prohibited by this session's read-only policy.",
+        "code": "ENV_BUILD_UNVERIFIED"
+      }
+    ],
+    "can_be_bypassed": true
+  },
+  "prior": {
+    "ceiling_via_constructor": "closed",
+    "ceiling_via_attribute": "closed",
+    "ceiling_via_argument": "closed",
+    "package_exports_no_key_accessors": "closed",
+    "signing_without_external_key": "closed",
+    "assigned_value_containing_allowlisted_domain": "closed",
+    "token_with_appended_domain_suffix": "closed",
+    "PASS_without_evidence": "closed",
+    "PASS_after_exit_code_1": "closed",
+    "file_exists": "closed",
+    "FILE_EXISTS_trailing_space": "closed",
+    "empty_docs_inventory": "closed",
+    "mixed_failed_passed_denominator_2": "closed",
+    "equals_changeme_suffix": "closed",
+    "empty_root_scan": "closed",
+    "missing_root_scan": "closed",
+    "email_local_part_exclamation": "closed",
+    "email_local_part_percent": "closed",
+    "email_local_part_slash": "closed"
+  },
+  "rederived": {
+    "gates_exit": null,
+    "gates_with_zero_denominator": null,
+    "tests": {
+      "primary_python": "3.12.14",
+      "pytest": "9.1.1",
+      "read_only_subsets": [
+        {
+          "passed": 68,
+          "deselected": 18,
+          "exit": 0
+        },
+        {
+          "passed": 6,
+          "deselected": 1,
+          "exit": 0
+        }
+      ],
+      "full_suite": "ENV: startup could not obtain a writable temporary directory under the explicit write-denial guard.",
+      "second_python": "3.11.17",
+      "second_interpreter_pytest": "ENV: ModuleNotFoundError: No module named 'pytest'",
+      "second_interpreter_direct_probes": "Executed the same in-memory adversarial probe set successfully."
+    },
+    "source_verify_ok": true,
+    "manifest_self_check_ok": true,
+    "secret_scan": {
+      "exit": 0,
+      "verdict": "CLEAN",
+      "files_scanned": 196,
+      "hard_findings": 0
+    },
+    "journeys": {
+      "GJ01": "ENV: persistent lifecycle and separate-process persistence were not run because filesystem writes are prohibited.",
+      "GJ02": "ENV: physical fixture, patch, and rollback were not run; simulated containment probes are reported separately.",
+      "GJ03": "PASS for six read-only bridge tests covering discovery, matching, provider refusal, permissions, invocation, and unload."
+    },
+    "build_ok": null
+  },
+  "new_defects": [
+    {
+      "id": "V15-GKNOW-01",
+      "severity": "MEDIUM",
+      "product_or_tooling": "product",
+      "evidence": "sbl_core/gknow.py:24 uses a word boundary before doc. The underscore before DOC in actual SBL_PIPD-LS-PKG_DOC-NN.md filenames prevents a match. The real builder indexed all 14 documents, but recognized no document IDs; DOC-05 queries failed despite 177 chunks. Simulated skipping also produced doc_id=null and the wrong refusal category."
+    },
+    {
+      "id": "V15-GKNOW-02",
+      "severity": "MEDIUM",
+      "product_or_tooling": "product",
+      "evidence": "sbl_core/gknow.py:185 verifies that a named ID exists somewhere, but sbl_core/gknow.py:205 scores every chunk without filtering by that ID. A DOC-05 query returned DOC-00 at score 1.0 in an in-memory index containing both sources. NON_AUTHORITATIVE_LOCATOR remained present, so this demonstrates broken source binding rather than an authoritative answer."
+    },
+    {
+      "id": "V15-GKNOW-03",
+      "severity": "MEDIUM",
+      "product_or_tooling": "product",
+      "evidence": "sbl_core/gknow.py:24 does not recognize DOC/27 or DOC--27. Appending relevant query terms returned real-corpus locators for an unavailable source instead of triggering the named-source refusal."
+    },
+    {
+      "id": "V15-MODE-01",
+      "severity": "MEDIUM",
+      "product_or_tooling": "product",
+      "evidence": "sbl_core/modes.py:39 validates only four non-empty strings. A completely fabricated ACK caused the connected-mode API to report allowed=true and no_effect=false for net.call. This is an authorization-decision failure; actual external execution was not demonstrated."
+    }
+  ],
+  "notes": [
+    "FAIL is based on reproduced product behavior, not on treating environment-blocked checks as product failures.",
+    "Read-only tests used disabled bytecode, disabled plugin autoload, --noconftest, disabled capture and logging, and an explicit mutation-denial audit hook. They are not equivalent to the requested full-suite command.",
+    "The gate runner stopped before executing gates because its output-directory creation encountered PermissionError: ENV_READ_ONLY: filesystem mutation prohibited. Fresh per-gate exits and denominators therefore remain unmeasured, not zero.",
+    "Historical gate receipts were read and all stdout/stderr hashes matched their recorded digests. Historical exit/denominator pairs were CORE 0/46, MODES 0/10, KNOW 0/9, SP 0/18, GJ03 0/7, GJ01 0/7, GJ02 0/7, ROLLBACK 0/4, SOURCE 0/0, SEC 0/0, FULL 0/137. No historical pytest gate had denominator zero. These are not independently rerun results.",
+    "The private source mirror was available: --verify successfully checked all 14 documents and aggregate 754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b.",
+    "Physical manifest tampering and link creation were not performed. Their in-memory substitutes are explicitly labeled and must not be treated as physical filesystem attack evidence.",
+    "Prior-probe variants are expanded into separate keys. Scanner fixture content, empty inventory, and empty-root behavior were exercised in memory; missing-root behavior used a nonexistent path.",
+    "ENV/tooling: GitHub access returned '嘗試存取通訊端被拒絕，因為存取權限不足。 (api.github.com:443)'. The specified hosted run and job logs could not be authenticated.",
+    "ENV/tooling: build backend import returned '[Errno 13] Permission denied: C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Lib\\site-packages\\more_itertools\\__init__.py'. Neither wheel nor editable build is claimed successful.",
+    "The initial preamble preceded reading the brief and did not start with the required nonce. That reporting-protocol requirement was missed; the nonce was emitted immediately after reading the brief."
+  ]
+}
+NONCE SBLR2-VERIFY-15
