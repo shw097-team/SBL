@@ -1,36 +1,56 @@
 {
-  "schema": "SBL-R3-ROUND-MANIFEST/1",
+  "schema": "SBL-R3-ROUND-MANIFEST/2",
   "round": "round-20261020-r3",
   "instruction_id": "SBL-R3-V13-FULL-COVERAGE-20261020",
-  "file_count": 29,
-  "total_bytes": 719145,
-  "aggregate_sha256": "9e8900178b10f1a752ca077165976b654c54929db96b827e399d8b4c3d1943bf",
-  "aggregate_method": "sha256 over '<sha256>  <path>' lines, sorted by path",
+  "file_count": 26,
+  "total_bytes": 656640,
+  "aggregate_sha256": "5fddf8e63ec591274d79bd770bb3b796f09f344aa9f994fc5a701581fdab4566",
+  "aggregate_method": "sha256 over '<sha256>  <path>' lines, sorted by path; paths are repo-tracked only",
+  "source_of_truth": "git ls-files (the index), not the working tree: a gitignored build output is not a published file",
   "excluded": [
-    "80_REMOTE_READBACK.json",
-    "ROUND_MANIFEST.json",
-    "*.pyc"
+    "ROUND_MANIFEST.json (self)",
+    "dist/ and *.whl (gitignored build output: shipped as release assets instead)"
+  ],
+  "artifacts_external": [
+    {
+      "file": "sbl_v01-0.1.0-py3-none-any.whl",
+      "bytes": 27181,
+      "sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50",
+      "release": "v0.1.0-foundation-preview",
+      "release_id": 418507595,
+      "asset_id": 659583499,
+      "github_reported_digest": "sha256:95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50"
+    },
+    {
+      "file": "sbl_v01-0.1.0.tar.gz",
+      "bytes": 36278,
+      "sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d",
+      "release": "v0.1.0-foundation-preview",
+      "release_id": 418507595,
+      "asset_id": 659583554,
+      "github_reported_digest": "sha256:5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d"
+    }
   ],
   "files": [
     {
       "path": "00_NORTH_STAR.md",
-      "bytes": 2874,
-      "sha256": "a376bd128fb9cc2fc28993c124d4ea2b611db68e83fc042d7aa6f66bc02382d1"
+      "bytes": 2915,
+      "sha256": "08d3bda46451a5947d073abb84d6511c0709940193fd3afc0b13907711fb5603"
     },
     {
       "path": "01_EXECUTION_SPEC.md",
-      "bytes": 2884,
-      "sha256": "21d7e04f4fc5caa1736206685850cb533fff1bc3c7d39037ee746833cf071250"
+      "bytes": 2935,
+      "sha256": "dbca66aa24e0ba12d92dcb7af4839d7d8bf33fde5954d4a283e6cd9d8d8699d8"
     },
     {
       "path": "02_TASK_LIST.md",
-      "bytes": 3606,
-      "sha256": "f66f817f01c023da2821dc6067117fb83482e6662827ac9b69f9d4959106529a"
+      "bytes": 3979,
+      "sha256": "af890678840919e95cd3836aa82f9e667b4854d4ac5d2924f618234d0592c732"
     },
     {
       "path": "03_DETECTION_LIST.md",
-      "bytes": 2738,
-      "sha256": "77c243403f694ca57fc04381ebb87522124f419e6797c79378fd397b9098208b"
+      "bytes": 2771,
+      "sha256": "e4742c50ee96b4b90fe565735f0d048dc8e8fcb8ab1249bc3b882cd84b9b60bb"
     },
     {
       "path": "10_BASELINE_PREFLIGHT.json",
@@ -44,8 +64,8 @@
     },
     {
       "path": "13_GATE_CALIBRATION.md",
-      "bytes": 4194,
-      "sha256": "9a102f02879ca4054100059a08099f45305e10302e8186ea75234c44fd23b03b"
+      "bytes": 4225,
+      "sha256": "915dcc9d3c6d1e3a3b5a11744959ee71da1179722bca1d1b0326a4b9fb30c9fc"
     },
     {
       "path": "20_SOURCE_LEDGER.json",
@@ -54,8 +74,8 @@
     },
     {
       "path": "30_LANE_AND_REUSE.md",
-      "bytes": 4172,
-      "sha256": "fc432774e6837b3fcf7d1345ae1ffdbfa8ced25d15860a7a4944f3fad3259c76"
+      "bytes": 4239,
+      "sha256": "6b04bab1b9a138c3d56c45d58e3059ad9010947c6f677e67c1a6f84b161d3b6b"
     },
     {
       "path": "40_REQUIREMENT_LEDGER.json",
@@ -73,44 +93,14 @@
       "sha256": "49d907ed4198101254642c84cb86468fc42399c880d7d0e3cdad85fc838eded2"
     },
     {
-      "path": "51_HOST_INSTALL_REQUEST.md",
-      "bytes": 3809,
-      "sha256": "fed191c44c7ca032afa89a24b5dd4c2fddbc1be528280ad34f08a34c09e7b717"
-    },
-    {
-      "path": "70_A_PR_PACKET.md",
-      "bytes": 4086,
-      "sha256": "c1af107c8c43890193cacdf907c05192fac97d9ed97c6d5070d5cf27258ff7d9"
-    },
-    {
-      "path": "90_EVIDENCE_RETURN_R3.json",
-      "bytes": 8130,
-      "sha256": "e04409079afe505ef5778cfb34ab2c952dc9e2dff40d61618b6aa1904f9d6cdd"
-    },
-    {
-      "path": "95_SWOF_W2_HANDOFF.md",
-      "bytes": 2522,
-      "sha256": "4fbc232aaa9ce558442366fc8887b40e7de442cc35b4f026e8c9a20fba9dc487"
-    },
-    {
       "path": "50_SP_PACKAGES/SP_SET.json",
       "bytes": 1627,
       "sha256": "5eebbfb0e8e7a8b9e2ed70f0c08d08407f474a2f44aef38e4d1c1de43ae6da73"
     },
     {
-      "path": "50_SP_PACKAGES/dist/sbl-commander-sp-0.1.0.zip",
-      "bytes": 2129,
-      "sha256": "f981d53fc164b1ef4eb0a3e8fcf4439ca7b1132d76c5956e9961a33b654dcb78"
-    },
-    {
-      "path": "50_SP_PACKAGES/dist/sbl-external-challenge-sp-0.1.0.zip",
-      "bytes": 2200,
-      "sha256": "75a904c470bba582e0a7f0c5282c7039b4f9ae4a7decbae334fafc559f148746"
-    },
-    {
-      "path": "50_SP_PACKAGES/dist/sbl-tpm-sp-0.1.0.zip",
-      "bytes": 2087,
-      "sha256": "eb26683dc1657bc897b71bb17822aa7da4bfce1951317e85d73d52802209abc8"
+      "path": "51_HOST_INSTALL_REQUEST.md",
+      "bytes": 3877,
+      "sha256": "20bd90133d749abc6c844ff5add6a060bce47dd31698c07f54c7235666942041"
     },
     {
       "path": "60_R2_PREVIEW/AC_R2_RECEIPT.json",
@@ -118,19 +108,14 @@
       "sha256": "0e6361f127f08c2d4cd02ae13e348472b577dce472b611e472e68e8ece51bdf8"
     },
     {
+      "path": "60_R2_PREVIEW/DISTRIBUTION_NOTE.md",
+      "bytes": 2195,
+      "sha256": "df95feddd6607eb50438f1f1ceca6ff07f48d76b00d4234de75992ba0bca1a48"
+    },
+    {
       "path": "60_R2_PREVIEW/run_r2.py",
-      "bytes": 10129,
-      "sha256": "8a9a1987af9f5a00ed8c3c31c18f9c1bd0f2527f61161936beddae02c40e6c2e"
-    },
-    {
-      "path": "60_R2_PREVIEW/dist/sbl_v01-0.1.0-py3-none-any.whl",
-      "bytes": 27181,
-      "sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50"
-    },
-    {
-      "path": "60_R2_PREVIEW/dist/sbl_v01-0.1.0.tar.gz",
-      "bytes": 36278,
-      "sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d"
+      "bytes": 10320,
+      "sha256": "8765e85e37c5260fd9fe82770cb29f84dbbb37aa1e0f8785efdba206c8ae3abe"
     },
     {
       "path": "61_C_TRACK/C_TRACK_RECEIPT.json",
@@ -143,9 +128,24 @@
       "sha256": "32ca371452b1b38d87d3ea901aea069daa63d620375fb138485ab2f2606a6aa1"
     },
     {
-      "path": "M4LITE/run_m4lite.py",
-      "bytes": 23403,
-      "sha256": "0e2cffc85cce4d2a7b7f7a437d4cef015d38c398371e107c99bfcc4fd0a2b2bd"
+      "path": "70_A_PR_PACKET.md",
+      "bytes": 4175,
+      "sha256": "638a2adfa3aab8bf556f6250da097f817c62faae8bfc21b5bbb57bdf79c1f9b6"
+    },
+    {
+      "path": "80_REMOTE_READBACK.json",
+      "bytes": 2011,
+      "sha256": "2130d10517a5caef5dece70645195be3e315e6bdfba6ef0a7fc43fc01978fd8c"
+    },
+    {
+      "path": "90_EVIDENCE_RETURN_R3.json",
+      "bytes": 9834,
+      "sha256": "7743d286b693d6da40b64eb6c52b2e770cacea5c4a10e56764e7e7598336c245"
+    },
+    {
+      "path": "95_SWOF_W2_HANDOFF.md",
+      "bytes": 2564,
+      "sha256": "c6ddc82cee8051822f2539f24f6ac75e9c15bc7dd34a52c38f62524fd40a3e10"
     },
     {
       "path": "M4LITE/receipts/M4LITE_RAW.json",
@@ -156,6 +156,11 @@
       "path": "M4LITE/receipts/M4LITE_TRANSCRIPT.md",
       "bytes": 4525,
       "sha256": "139e091c155d3f48001806761eb80aae7d57afa83c67fe2716bb4aa8ef48adaa"
+    },
+    {
+      "path": "M4LITE/run_m4lite.py",
+      "bytes": 23877,
+      "sha256": "8ee0c5c1da84d6dc5ddcf97cb4d55d95712ff25e4d04a41f5b378be4b86a05f9"
     }
   ]
 }

@@ -17,11 +17,21 @@
       "branch": "candidate/c3-20261020-v1",
       "sha": "39c604d52570922fdf84b6df9c9359765643b450"
     },
-    "evidence_commit_sha": null,
-    "evidence_commit_sha_note": "self-referential: resolved by the parent edge of this commit, recorded in 80_REMOTE_READBACK.json",
+    "evidence_commit_sha": "8444c7c5a828b98c16280047572419bd2da1e3a9",
+    "evidence_commit_sha_note": "the commit that added the human acceptance receipt; later commits are additive",
     "evidence_manifest_sha256": null,
-    "pr_number": "HOLD",
-    "pr_hold_reason": "PR opens only after a human signs HUMAN_PROCEDURAL_ACCEPTANCE (audit F13-08 is procedural)"
+    "pr_number": 1,
+    "pr_hold_reason": null,
+    "pr": {
+      "number": 1,
+      "url": "https://github.com/shw097-team/SBL/pull/1",
+      "head": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "base": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+      "merged": true,
+      "merged_at": "2026-10-20T14:38:55Z",
+      "merge_commit_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "method": "fast-forward (no force), then read back by git ls-remote"
+    }
   },
   "checks": {
     "ci_ubuntu": {
@@ -53,12 +63,13 @@
       "passed": 24,
       "failed": 0,
       "executor": "maker-side procedural harness (M4LITE/run_m4lite.py)",
-      "human_identity": null,
-      "independence": "NOT_APPLICABLE_UNTIL_SIGNED",
+      "human_identity": "shw097-team (repository owner)",
+      "independence": "OWNER_SELF_REVIEW (owner-reviewing-own-product)",
       "subject_mutation": "CLEAN",
       "raw_sha256": "b28337e2da2266a7a0f1c1e2b0f96fac56aa99f4c2abd540caf892d1f5974de3",
-      "verdict": "HOLD",
-      "verdict_reason": "automated cases green; the signature is the human's"
+      "verdict": "PASS",
+      "verdict_reason": "signed HUMAN_PROCEDURAL_ACCEPTANCE; explicitly not INDEPENDENT_CASE_PASS",
+      "signed_receipt": "evidence/human/HUMAN_ACCEPTANCE_2026-10-20.json"
     },
     "gj01_gj02_gj03": {
       "commands": [
@@ -106,7 +117,30 @@
       "fuo": "sbl-todo init/add/list --json in a separate process",
       "residue": "no sbl_* module, no sbl-todo console script"
     },
-    "owner_human_release": "HOLD — no Release/Tag authorised this round"
+    "owner_human_release": {
+      "decision": "AUTHORISED_BY_OWNER (directive in session)",
+      "tag": "v0.1.0-foundation-preview",
+      "prerelease": true,
+      "release_id": 418507595,
+      "url": "https://github.com/shw097-team/SBL/releases/tag/v0.1.0-foundation-preview",
+      "target_commitish": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "assets": [
+        {
+          "name": "sbl_v01-0.1.0-py3-none-any.whl",
+          "asset_id": 659583499,
+          "bytes": 27181,
+          "sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50",
+          "github_digest_matches": true
+        },
+        {
+          "name": "sbl_v01-0.1.0.tar.gz",
+          "asset_id": 659583554,
+          "bytes": 36278,
+          "sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d",
+          "github_digest_matches": true
+        }
+      ]
+    }
   },
   "extension_full_design": {
     "official_pipd_writer": "NOT_RUN: the eight PIPD skills are specifications, not executables here; PIPD_PI_PD_BOUND not claimed",
@@ -154,19 +188,18 @@
     }
   },
   "claim_ceiling": {
-    "A": "M4_LITE_HOLD (harness green, signature missing)",
-    "B": "FOUNDATION_PREVIEW_READY (packaging verified; Release not authorised)",
+    "A": "MERGED (main = bedc119, fast-forward, read back)",
+    "B": "FOUNDATION_PREVIEW_RELEASED (prerelease v0.1.0-foundation-preview, 2 assets, digests match)",
     "C": "PARTIAL_FULL_DESIGN",
     "not_claimed": [
       "INDEPENDENT_CASE_PASS",
-      "MERGED",
-      "FOUNDATION_PREVIEW_RELEASED",
       "THREE_PRIVATE_PLUGINS_HOST_VERIFIED",
       "HGK_NATIVE_ACCEPTED",
       "FULL_SBL_ACCEPTED",
       "SWOF_W3",
       "PRODUCTION",
-      "PIPD_PI_PD_BOUND"
+      "PIPD_PI_PD_BOUND",
+      "any claim over the 149 children, 38 surfaces or 441 identities"
     ]
   },
   "open_items": [
@@ -176,8 +209,8 @@
       "blocks": [
         "A merge"
       ],
-      "exit": "signed HUMAN_PROCEDURAL_ACCEPTANCE against bedc119",
-      "state": "OPEN"
+      "exit": "signed by the owner as HUMAN_PROCEDURAL_ACCEPTANCE",
+      "state": "CLOSED_THIS_ROUND"
     },
     {
       "id": "TT-R3-PR-OPEN",
@@ -185,8 +218,8 @@
       "blocks": [
         "A merge"
       ],
-      "exit": "PR from v13 to main, reviewed",
-      "state": "OPEN"
+      "exit": "PR #1 opened, reviewed, fast-forward merged to bedc119",
+      "state": "CLOSED_THIS_ROUND"
     },
     {
       "id": "TT-R3-RELEASE",
@@ -194,8 +227,8 @@
       "blocks": [
         "B release"
       ],
-      "exit": "Owner authorises v0.1.0-foundation-preview",
-      "state": "OPEN"
+      "exit": "prerelease v0.1.0-foundation-preview with 2 digest-matching assets",
+      "state": "CLOSED_THIS_ROUND"
     },
     {
       "id": "TT-R3-HOST-INSTALL",
@@ -252,5 +285,6 @@
       "exit": "CJK tokenisation and 61 long paths handled",
       "state": "HOLD_SCOPED"
     }
-  ]
+  ],
+  "round_outcome": "A merged and B released as a foundation preview. C remains PARTIAL_FULL_DESIGN: packages exist, host receipts do not. Nothing in this file claims an independent case pass, a native effect, or a full product."
 }

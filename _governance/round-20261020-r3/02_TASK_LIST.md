@@ -31,6 +31,6 @@
 - [x] A：六性質 harness + 12 筆 POS/NEG raw receipts（maker-side 程序執行，非簽名）
 - [x] B：`bedc119` wheel + sdist + clean-install FUO + uninstall + digest readback
 - [x] C：三 SP ZIP + 3 份 HOST_INSTALL_REQUEST + 441/149/38 三本 ledger
-- [ ] A 終態：人類 `HUMAN_PROCEDURAL_ACCEPTANCE` 簽名（唯一阻斷，Maker 不得代簽）
-- [ ] B 終態：Owner Release/Tag 授權
-- [ ] C 終態：ChatGPT workspace 實裝、HGK Harness 原生安裝、PIPD Native Writer 執行
+- [x] A 終態：owner `HUMAN_PROCEDURAL_ACCEPTANCE` 已簽（`evidence/human/HUMAN_ACCEPTANCE_2026-10-20.json`，label 明示非 `INDEPENDENT_CASE_PASS`）；PR #1 以 fast-forward 合併，`main` = `bedc119`
+- [x] B 終態：Owner 授權並已發 prerelease `v0.1.0-foundation-preview`（release 418507595，兩個 asset 的 GitHub digest 與本機 sha256 相符）
+- [ ] C 終態：ChatGPT workspace 實裝（`HOST_PENDING`）、HGK Harness 原生安裝（未取得 Owner/Permit）、PIPD Native Writer 執行（未執行）— 三項皆為具名 open item，不阻斷 A/B
