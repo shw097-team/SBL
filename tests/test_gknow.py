@@ -9,6 +9,7 @@ import sys
 
 import pytest
 
+from sbl_core import gknow
 from sbl_core.errors import SBLError
 from sbl_core.gknow import INDEX_SCHEMA, build_index, query
 
@@ -77,6 +78,51 @@ def test_query_negative_upper_bound_is_enforced(corpus, tmp_path):
     with pytest.raises(SBLError) as caught:
         query(str(out), "shadow mode read only no effect", min_score=1.01)
     assert caught.value.code == "SBL_E_KNOWLEDGE_NO_ANSWER"
+
+
+def test_the_ids_the_real_corpus_uses_are_recognised():
+    """V15-GKNOW-01: a \\b before DOC never matched SBL_PIPD-LS-PKG_DOC-05.md, so every real question refused."""
+
+    for name, expected in {
+        "SBL_PIPD-LS-PKG_DOC-05.md": "DOC-05",
+        "DOC-00.md": "DOC-00",
+        "SBL_PIPD-LS-PKG_DOC-13.md": "DOC-13",
+    }.items():
+        assert gknow._doc_id_of(name) == expected
+    for text in ("what does DOC-05 say", "DOC/27", "DOC--27", "DOC27", "doc_27", "DOC 27"):
+        assert gknow._referenced_doc_ids(text), text
+        assert gknow._referenced_doc_ids(text) <= {f"DOC-{n:02d}" for n in range(0, 100)}
+
+
+@pytest.mark.parametrize("text", ["DOC/27", "DOC--27", "DOC27", "doc_27"])
+def test_separator_variants_of_an_unknown_source_are_refused(text, corpus, tmp_path):
+    """V15-GKNOW-03: DOC/27 and DOC--27 used to slip past the named-source check."""
+
+    index = tmp_path / "i.json"
+    gknow.build_index(str(corpus), str(index))
+    with pytest.raises(gknow.SBLError) as caught:
+        gknow.query(str(index), f"{text} shadow mode rule")
+    assert caught.value.code == "SBL_E_KNOWLEDGE_NO_ANSWER"
+
+
+def test_a_named_source_constrains_the_answer_to_that_source(tmp_path):
+    """V15-GKNOW-02: a DOC-05 question was answered from DOC-00 at score 1.0."""
+
+    root = tmp_path / "two"
+    root.mkdir()
+    (root / "SBL_PIPD-LS-PKG_DOC-00.md").write_text(
+        "permission denied for every shadow effect and native permit\n" * 20, encoding="utf-8"
+    )
+    (root / "SBL_PIPD-LS-PKG_DOC-05.md").write_text(
+        "shadow effect description for the governed build bridge\n" * 20, encoding="utf-8"
+    )
+    index = tmp_path / "two.json"
+    gknow.build_index(str(root), str(index))
+    hits = gknow.query(str(index), "DOC-05 shadow effect")
+    assert hits, "the indexed source must still be answerable"
+    assert {os.path.basename(h["path"]) for h in hits} == {"SBL_PIPD-LS-PKG_DOC-05.md"}, [h["path"] for h in hits]
+    other = gknow.query(str(index), "DOC-00 permission denied")
+    assert other and {os.path.basename(h["path"]) for h in other} == {"SBL_PIPD-LS-PKG_DOC-00.md"}
 
 
 def test_a_named_source_that_does_not_exist_is_refused(corpus, tmp_path):

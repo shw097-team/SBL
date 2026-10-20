@@ -20,8 +20,11 @@ MAX_FILE_BYTES = 8 * 1024 * 1024
 CHUNK_LINES = 40
 SUFFIXES = (".md", ".json")
 TOKEN_RE = re.compile(r"[a-z0-9]+")
-# A source id a reader can name in a question ("what does DOC-05 say", "DOC-27", "DOC_99").
-DOC_ID_RE = re.compile(r"\bdoc[-_ ]?(\d{1,3})\b", re.IGNORECASE)
+# A source id a reader can name in a question ("what does DOC-05 say", "DOC-27", "DOC_99"), and the
+# prefix the corpus actually uses in its filenames ("SBL_PIPD-LS-PKG_DOC-05.md"). The lookbehind rejects
+# an id glued into a word ("prodoc5") but accepts the underscore that real filenames put before DOC, which
+# a plain \b rejects. One to two separators cover "DOC/27" and "DOC--27"; zero covers "DOC27".
+DOC_ID_RE = re.compile(r"(?<![0-9a-z])doc[-/_ ]{0,2}(\d{1,3})(?!\d)", re.IGNORECASE)
 
 
 def _iter_corpus_files(corpus_root: str) -> Iterator[str]:
@@ -201,6 +204,15 @@ def query(
             "the named source exists but was not indexed, so it cannot be answered",
             {"gap_doc_ids": covered_gaps, "gaps": [g for g in gaps if g.get("doc_id") in covered_gaps]},
         )
+    # A named, indexed source constrains the answer: without this filter a question about DOC-05 was
+    # answered from DOC-00 with score 1.0, because the id was only checked for existence (V15-GKNOW-02).
+    if referenced:
+        chunks = [
+            chunk
+            for chunk in chunks
+            if isinstance(chunk, dict)
+            and _doc_id_of(str(chunk.get("source", chunk.get("path", "")))) in referenced
+        ]
     scored: list[dict[str, Any]] = []
     for chunk in chunks:
         if not isinstance(chunk, dict):

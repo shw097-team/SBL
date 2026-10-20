@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pytest
 
+from sbl_core import modes
 from sbl_core.errors import SBLError
 from sbl_core.modes import GATE_IDS, MODES, ModeGate, mode_gate_matrix
 
@@ -50,16 +51,55 @@ def test_shadow_positive_is_no_effect_for_any_effect():
         assert decision.reason == "SHADOW_READ_ONLY_NO_EFFECT"
 
 
-def test_swof_positive_with_complete_ack():
+def _ack(**overrides):
     ack = {
         "issuer": "native-host",
         "permit_id": "P-1",
         "subject_id": "S-1",
-        "signature": "sig",
+        "signature": "fabricated",
     }
+    ack.update(overrides)
+    return ack
+
+
+def test_swof_refuses_an_ack_that_is_only_four_non_empty_strings(monkeypatch):
+    """V15-MODE-01: typed-but-unverified strings used to be accepted as a native authorisation."""
+
+    monkeypatch.setenv("SBL_SWOF_ACK_ISSUERS", "native-host")
+    monkeypatch.setenv("SBL_SWOF_ACK_KEY", "k" * 32)
+    with pytest.raises(SBLError) as caught:
+        ModeGate("SWOF_CONNECTED", native_ack=_ack()).decide("net.call")
+    assert caught.value.code == "SBL_E_REQUIRES_NATIVE_ACK"
+    assert caught.value.detail.get("state") == "SIGNATURE_MISMATCH"
+
+
+def test_swof_refuses_when_no_trust_anchor_is_configured(monkeypatch):
+    monkeypatch.delenv("SBL_SWOF_ACK_ISSUERS", raising=False)
+    monkeypatch.delenv("SBL_SWOF_ACK_KEY", raising=False)
+    with pytest.raises(SBLError) as caught:
+        ModeGate("SWOF_CONNECTED", native_ack=_ack()).decide("net.call")
+    assert "NO_TRUSTED_ISSUERS_CONFIGURED" in caught.value.detail.get("state", "")
+
+
+def test_swof_refuses_an_untrusted_issuer(monkeypatch):
+    monkeypatch.setenv("SBL_SWOF_ACK_ISSUERS", "trusted-host")
+    monkeypatch.setenv("SBL_SWOF_ACK_KEY", "k" * 32)
+    with pytest.raises(SBLError) as caught:
+        ModeGate("SWOF_CONNECTED", native_ack=_ack()).decide("net.call")
+    assert caught.value.detail.get("state") == "ISSUER_NOT_TRUSTED"
+
+
+def test_swof_accepts_an_ack_signed_with_the_configured_key(monkeypatch):
+    """The refusal must not be blanket: a correctly signed ACK from a trusted issuer still allows."""
+
+    key = "k" * 32
+    monkeypatch.setenv("SBL_SWOF_ACK_ISSUERS", "native-host,other-host")
+    monkeypatch.setenv("SBL_SWOF_ACK_KEY", key)
+    ack = _ack(signature=modes.ack_signature("native-host", "P-1", "S-1", key))
     decision = ModeGate("SWOF_CONNECTED", native_ack=ack).decide("net.call")
     assert decision.allowed is True
     assert decision.no_effect is False
+    assert decision.reason == "NATIVE_ACK_VERIFIED"
 
 
 @pytest.mark.parametrize(
