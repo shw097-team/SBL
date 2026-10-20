@@ -103,6 +103,30 @@ Two things this says plainly:
    authored the repairs and a **different principal** re-verified them. That substitution is a governance
    deviation, recorded in `16_REPAIR_R1_RESULT.md`, not a hidden shortcut.
 
+### 6.0 Governance deviation: the orchestrator kept writing while the checker ran
+
+Both of this round's checker dispatches returned `ok: false, code: ERR_CHECKER_MUTATED_SUBJECT` while
+also producing a usable verdict. The guard is right and the fault is mine: I committed the evidence
+branch and consolidated receipts inside `SBL` during the checker windows.
+
+| round | candidate | files before → after | added | changed | removed |
+|---|---|---|---|---|---|
+| R7 | f793e1d | 638 → 648 | 10 | 4 | 0 (all `.git` internals: my branch and commits) |
+| R8 | fb7af87 | 689 → 734 | 50 | 17 | **5** (evidence consolidation: `RECEIPTS_INDEX.json`, `MANIFEST.json`, and the removal of the copied receipt files) |
+
+What this does and does not break:
+- **Does not break the probe results.** The checker printed `git rev-parse HEAD` and worked in its own
+  copy, so its findings describe the tree at `f793e1d` / `fb7af87`.
+- **Does break the freeze claim.** A frozen-subject receipt requires that nothing under the subject
+  move, and in R8 files were removed and changed. An external assessor should treat R8 as
+  *checker findings on a copy of fb7af87*, not as a frozen-subject acceptance.
+- **Correction to an earlier note in the skill:** `subject_mutation` does **not** treat `added` as
+  merely informational — this dispatcher fails the receipt on added, changed **and** removed.
+
+Rule adopted from here: all orchestrator writes for a round finish **before** the checker is
+dispatched, and nothing under the subject is touched until its receipt returns. Evidence publication
+happens after the receipt, not during it.
+
 ### 6.1 Open after round 8 (recorded, deliberately not fixed under this SHA)
 
 | id | class | finding | decision |
