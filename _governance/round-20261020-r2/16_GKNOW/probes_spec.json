@@ -1,0 +1,129 @@
+{
+ "schema": "SBL-GKNOW-PROBES-SPEC/1",
+ "notes": "Queries are the literal --text passed to sbl_core.gknow.query. Expected file is fixed here; expected heading is derived independently from the corpus file at the anchor line by run_probes.py, so the index cannot grade itself.",
+ "positives": [
+  {
+   "id": "P1",
+   "question": "Which book and section introduce the FullScanLocatorIndex artifact?",
+   "query": "FullScanLocatorIndex openapis",
+   "anchor": "FullScanLocatorIndex",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-11.md"
+  },
+  {
+   "id": "P2",
+   "question": "Where is the AcceptancePredicateMatrix defined, and what host claim does that chunk carry?",
+   "query": "AcceptancePredicateMatrix AffectedHost",
+   "anchor": "AcceptancePredicateMatrix",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-07.md"
+  },
+  {
+   "id": "P3",
+   "question": "Which section defines the AppendOnlyEventEnvelope for the six ledger families?",
+   "query": "AppendOnlyEventEnvelope domainowner",
+   "anchor": "AppendOnlyEventEnvelope",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-09.md"
+  },
+  {
+   "id": "P4",
+   "question": "Which section places the AntiCorrelationMatrix inside the high-risk seam threat fixtures?",
+   "query": "AntiCorrelationMatrix joinintegrityvalidator",
+   "anchor": "AntiCorrelationMatrix",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-04.md"
+  },
+  {
+   "id": "P5",
+   "question": "Which section defines the ArchitectureConstructionEnvelope for the SWOF PI/PD packages?",
+   "query": "ArchitectureConstructionEnvelope searchbeforebuildadmission",
+   "anchor": "ArchitectureConstructionEnvelope",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-11.md"
+  },
+  {
+   "id": "P6",
+   "question": "Which section defines AdmissionDecisionReadAck under the ConsumerAckMatrix?",
+   "query": "AdmissionDecisionReadAck requirementtraceack",
+   "anchor": "AdmissionDecisionReadAck",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-03.md"
+  },
+  {
+   "id": "P7",
+   "question": "Which section defines AtomMutationBundle in the source-meaning recovery algorithm?",
+   "query": "AtomMutationBundle rowcount",
+   "anchor": "AtomMutationBundle",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-08.md"
+  },
+  {
+   "id": "P8",
+   "question": "Which section defines AliasDecision alongside the role route matrix?",
+   "query": "AliasDecision roleroutematrix",
+   "anchor": "AliasDecision",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-13.md"
+  },
+  {
+   "id": "P9",
+   "question": "What does DOC-05 R06.2.B define for the NATIVE_PERMISSION_DENIED refusal?",
+   "query": "NATIVE_PERMISSION_DENIED",
+   "anchor": "NATIVE_PERMISSION_DENIED",
+   "expected_file": "SBL_PIPD-LS-PKG_DOC-05.md",
+   "coverage_gap_probe": true,
+   "note": "DOC-05 is 2.38 MB and is skipped by gknow MAX_FILE_BYTES=2MiB, so this probe is expected to fail; kept to measure the gap instead of hiding it."
+  }
+ ],
+ "negatives": [
+  {
+   "id": "N1",
+   "question": "Empty query must be refused, not answered.",
+   "query": "",
+   "category": "empty_query",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N2",
+   "question": "Pure Chinese (zh-TW) query: no ASCII tokens exist, so no honest hit is possible.",
+   "query": "量子退火稀釋冷凍機的低溫恆溫器",
+   "category": "non_ascii_query",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N3",
+   "question": "Out-of-corpus topic: cryogenic dilution refrigerator.",
+   "query": "dilution refrigerator cryostat helium",
+   "category": "out_of_corpus_topic",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N4",
+   "question": "Out-of-corpus topic: plant photosynthesis.",
+   "query": "thylakoid chlorophyll photosynthesis",
+   "category": "out_of_corpus_topic",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N5",
+   "question": "Out-of-corpus topic: sourdough baking.",
+   "query": "sourdough starter hydration baker",
+   "category": "out_of_corpus_topic",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N6",
+   "question": "A version that does not exist: DOC-27 with a future rNEXT date.",
+   "query": "SBL_PIPD-LS-PKG_DOC-27 v2099.12.31",
+   "category": "nonexistent_version",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N7",
+   "question": "An artifact id that does not exist in the corpus.",
+   "query": "SBL_PIPD-LS-PKG_DOC-99 phantom artifact",
+   "category": "nonexistent_artifact",
+   "must": "REFUSED"
+  },
+  {
+   "id": "N8",
+   "question": "A claim the corpus contradicts: SBL Writer issuing Native Effect without HGK approval.",
+   "query": "SBL Writer may issue Native Effect without HGK approval",
+   "category": "contradicted_claim",
+   "must": "REFUSED"
+  }
+ ]
+}

@@ -18,7 +18,9 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-PYTEST_LINE = re.compile(r"^(?:=+ )?(\d+) (passed|failed|error|errors|skipped)", re.MULTILINE)
+# Every "<n> <outcome>" pair on pytest's summary line counts. The old pattern was anchored at the
+# start of a line, so "1 failed, 31 passed" recorded a denominator of 1 (VERIFY-02).
+PYTEST_LINE = re.compile(r"(\d+) (passed|failed|error|errors|skipped)\b")
 
 # gate_id -> argv (relative paths resolved against the root)
 GATES: list[tuple[str, list[str]]] = [
@@ -63,6 +65,7 @@ def run(root: Path, out_dir: Path, gate_id: str, argv: list[str]) -> dict:
         "stdout_path": str(out_path),
         "stderr_path": str(err_path),
         "test_counts": counts,
+        "failed": counts.get("failed", 0) + counts.get("error", 0) + counts.get("errors", 0),
         "denominator": denominator,
         "tail": "\n".join(text.strip().splitlines()[-6:]),
     }

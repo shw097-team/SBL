@@ -55,20 +55,10 @@ def _digest(path: Path) -> str | None:
 
 
 def _purge(path: Path) -> None:
-    def _onexc(func, target, exc):  # pragma: no cover - Windows read-only objects
-        import stat
-
-        try:
-            Path(target).chmod(stat.S_IWRITE)
-        except OSError:
-            pass
-        try:
-            func(target)
-        except OSError:
-            pass
-
+    # ``ignore_errors=True`` instead of ``onexc=``: the latter is 3.12-only while pyproject
+    # declares 3.11 as the floor, so the suite has to run on both (VERIFY-03).
     if path.exists():
-        shutil.rmtree(path, onexc=_onexc)
+        shutil.rmtree(path, ignore_errors=True)
 
 
 @pytest.fixture()
@@ -122,6 +112,7 @@ def test_patch_rollback_leaves_no_residue() -> None:
 
 def test_refusal_as_dict_is_json_serialisable() -> None:
     verifier = EvidenceVerification()
+    verifier.record("G-test", "pytest -q", 0, "1 passed\n", 1)
 
     with pytest.raises(SBLError) as excinfo:
         verifier.verdict(

@@ -1,0 +1,42 @@
+{
+ "schema": "SBL-RESUME-CHECKPOINT/1",
+ "task_id": "SBL-PIPDLS-20261020-R2-NEW_IMPLEMENTATION",
+ "generated_utc": "2026-10-20T06:27:39.458689+00:00",
+ "source_hashes": {
+  "doc_package_aggregate_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+  "docs": 14,
+  "corpus_files": 306,
+  "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+ },
+ "current_candidate": {
+  "branch": "candidate/r2-20261020",
+  "commit": "ab17440ab68f8c7a1bd9702aba3624149d3f0506",
+  "remote_ref": "origin/candidate/r2-20261020"
+ },
+ "completed_gates": [
+  "G-CORE-MODULES",
+  "G-MODES-NOEFFECT",
+  "G-KNOW",
+  "G-SP-ISOLATION",
+  "G-GJ03-BRIDGE",
+  "G-GJ01-CLI",
+  "G-GJ02-PATCH",
+  "G-ROLLBACK",
+  "G-SOURCE-FREEZE",
+  "G-SEC-SCAN",
+  "G-SUITE-FULL"
+ ],
+ "open_gates": [
+  "G-PUBLIC-READBACK (candidate done, evidence commit pending)",
+  "G-INDEPENDENT-CHECKER (VERIFY_SECURITY lane running)",
+  "G-KNOW real-corpus index (deferred: tests/test_gknow.py only)"
+ ],
+ "next_work_order": "after the checker verdict: write 40_EVIDENCE.md, commit evidence, read back remote SHAs, close the kanban verifier/synthesizer cards",
+ "rollback_pointer": {
+  "how": "git -C C:/Projects/Agent_Workspace/SBL reset --hard ca6830d (bootstrap) or delete branch candidate/r2-20261020 locally and on origin",
+  "baseline_commit": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+  "cli_uninstall": "python -m sbl_cli.sbl_todo uninstall --yes --data-dir <dir>"
+ },
+ "test_denominator": 162,
+ "claim_ceiling": "LOCAL_CANDIDATE_ONLY"
+}

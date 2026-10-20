@@ -214,7 +214,60 @@ def test_verify_positive_record_and_verdict():
     assert verdict.status == "PASS"
     assert verdict.claim_level == "LOCAL"
     assert verdict.to_dict()["checker"] == "checker_sp"
-    assert verifier.verdict("G01", "a", "b", "FAIL", "PRODUCTION", "EXTERNAL_ACCEPTANCE")
+
+
+def test_verify_ceiling_belongs_to_the_instance():
+    """SEC-02: a caller may lower the ceiling it asks for, never raise it."""
+
+    high = EvidenceVerification(ceiling="PRODUCTION")
+    high.record("G01", "pytest -q", 0, "1 passed\n", 1)
+    raised = high.verdict("G01", "a", "b", "PASS", "PRODUCTION", "EXTERNAL_ACCEPTANCE")
+    assert raised.claim_level == "EXTERNAL_ACCEPTANCE"
+
+    local = EvidenceVerification()  # build ceiling LOCAL
+    local.record("G01", "pytest -q", 0, "1 passed\n", 1)
+    with pytest.raises(SBLError) as caught:
+        local.verdict("G01", "a", "b", "FAIL", "PRODUCTION", "EXTERNAL_ACCEPTANCE")
+    assert caught.value.code == "SBL_E_CLAIM_CEILING_EXCEEDED"
+    assert caught.value.detail["build_ceiling"] == "LOCAL"
+
+
+def test_verify_negative_pass_without_evidence():
+    """SEC-03: a PASS must be bound to a recorded receipt for the same gate."""
+
+    with pytest.raises(SBLError) as caught:
+        EvidenceVerification().verdict("G-never", "a", "b", "PASS", "LOCAL", "LOCAL")
+    assert caught.value.code == "SBL_E_BAD_STATE"
+    assert caught.value.detail["reason"] == "no_recorded_evidence"
+
+
+def test_verify_negative_pass_after_failing_evidence():
+    verifier = EvidenceVerification()
+    verifier.record("G01", "pytest -q", 1, "1 failed\n", 1)
+    with pytest.raises(SBLError) as caught:
+        verifier.verdict("G01", "a", "b", "PASS", "LOCAL", "LOCAL")
+    assert caught.value.code == "SBL_E_BAD_STATE"
+    assert caught.value.detail["reason"] == "evidence_exit_nonzero"
+
+
+@pytest.mark.parametrize("status", ["file_exists", "FILE_EXISTS ", " File_Exists", "SYMBOL_EXISTS"])
+def test_verify_negative_proxy_status_variants(status):
+    """SEC-03: proxy statuses are refused after normalisation, not by exact spelling."""
+
+    verifier = EvidenceVerification()
+    verifier.record("G01", "pytest -q", 0, "1 passed\n", 1)
+    with pytest.raises(SBLError) as caught:
+        verifier.verdict("G01", "a", "b", status, "LOCAL", "LOCAL")
+    assert caught.value.code == "SBL_E_BAD_STATE"
+
+
+@pytest.mark.parametrize("status", ["OK", "DONE", ""])
+def test_verify_negative_undeclared_status(status):
+    verifier = EvidenceVerification()
+    verifier.record("G01", "pytest -q", 0, "1 passed\n", 1)
+    with pytest.raises(SBLError) as caught:
+        verifier.verdict("G01", "a", "b", status, "LOCAL", "LOCAL")
+    assert caught.value.code == "SBL_E_BAD_STATE"
 
 
 def test_verify_negative_zero_denominator():
@@ -230,10 +283,10 @@ def test_verify_negative_self_check():
 
 
 def test_verify_negative_claim_ceiling():
+    verifier = EvidenceVerification()
+    verifier.record("G01", "pytest -q", 0, "1 passed\n", 1)
     with pytest.raises(SBLError) as caught:
-        EvidenceVerification().verdict(
-            "G01", "a", "b", "PASS", "PACKAGE", "PRODUCTION"
-        )
+        verifier.verdict("G01", "a", "b", "PASS", "PACKAGE", "PRODUCTION")
     assert caught.value.code == "SBL_E_CLAIM_CEILING_EXCEEDED"
 
 

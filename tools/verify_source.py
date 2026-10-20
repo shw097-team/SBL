@@ -13,6 +13,10 @@ REPO = Path(__file__).resolve().parents[1]
 EVIDENCE = REPO / "evidence" / "source" / "SOURCE_VERIFY.json"
 FALLBACK_ROOT = Path("C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG")
 
+#: The control package is exactly DOC-00..DOC-13. A receipt that lists fewer documents must not
+#: verify: an empty inventory used to return ok=true (VERIFY-01).
+REQUIRED_DOCS = tuple(f"DOC-{i:02d}" for i in range(14))
+
 
 def _digest(path: Path) -> str:
     hasher = sha256()
@@ -37,8 +41,8 @@ def _resolve(entry: dict[str, Any]) -> Path:
     return FALLBACK_ROOT / f"{doc}.md"
 
 
-def verify() -> dict[str, Any]:
-    record = json.loads(EVIDENCE.read_text(encoding="utf-8"))
+def verify(record_path: Path | None = None) -> dict[str, Any]:
+    record = json.loads(Path(record_path or EVIDENCE).read_text(encoding="utf-8"))
     docs = record.get("docs") or []
     computed: list[str] = []
     mismatches: list[dict[str, Any]] = []
@@ -63,6 +67,22 @@ def verify() -> dict[str, Any]:
                     "path": str(path),
                 }
             )
+    present = [str(entry.get("doc") or "") for entry in docs]
+    missing_docs = [d for d in REQUIRED_DOCS if d not in present]
+    unexpected_docs = [d for d in present if d not in REQUIRED_DOCS]
+    duplicates = sorted({d for d in present if present.count(d) > 1})
+    if missing_docs or unexpected_docs or duplicates:
+        mismatches.append(
+            {
+                "doc": "INVENTORY",
+                "reason": "document_inventory",
+                "missing_docs": missing_docs,
+                "unexpected_docs": unexpected_docs,
+                "duplicates": duplicates,
+                "required_count": len(REQUIRED_DOCS),
+                "actual_count": len(present),
+            }
+        )
     aggregate = _aggregate(computed) if len(computed) == len(docs) else None
     recorded_aggregate = record.get("aggregate_sha256")
     if aggregate is None or aggregate != recorded_aggregate:
@@ -89,11 +109,16 @@ def main(argv: list[str] | None = None) -> int:
         "--verify", action="store_true", help="recompute and compare all digests"
     )
     parser.add_argument("--json-out", default=None, help="optional report path")
+    parser.add_argument(
+        "--record",
+        default=None,
+        help="verify an alternative SOURCE_VERIFY.json (default: evidence/source/SOURCE_VERIFY.json)",
+    )
     args = parser.parse_args(argv)
     if not args.verify:
         parser.print_help(sys.stderr)
         return 2
-    report = verify()
+    report = verify(Path(args.record) if args.record else None)
     text = json.dumps(report, ensure_ascii=False)
     sys.stdout.write(text + "\n")
     sys.stdout.flush()

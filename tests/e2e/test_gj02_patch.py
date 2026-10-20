@@ -48,20 +48,10 @@ def run_tests(root: Path) -> bool:
 
 
 def _purge(path: Path) -> None:
-    def _onexc(func, target, exc):  # pragma: no cover - defensive only
-        import stat
-
-        try:
-            Path(target).chmod(stat.S_IWRITE)
-        except OSError:
-            pass
-        try:
-            func(target)
-        except OSError:
-            pass
-
+    # ``ignore_errors=True`` instead of ``onexc=``: the latter is 3.12-only while pyproject
+    # declares 3.11 as the floor, so the suite has to run on both (VERIFY-03).
     if path.exists():
-        shutil.rmtree(path, onexc=_onexc)
+        shutil.rmtree(path, ignore_errors=True)
 
 
 @pytest.fixture()

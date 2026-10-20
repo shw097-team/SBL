@@ -72,10 +72,18 @@ def scan(root: Path) -> dict:
             continue
         scanned += 1
         for lineno, line in enumerate(text.splitlines(), start=1):
-            if any(token in line for token in ALLOW_SUBSTRINGS):
-                continue
             for rule, pattern in HARD_RULES:
-                if pattern.search(line):
+                hit = None
+                for match in pattern.finditer(line):
+                    matched = match.group(0)
+                    # The allowlist applies to the MATCHED SPAN only. Applying it to the whole
+                    # line let an appendable token ("example.com") hide a real secret on that
+                    # line -- the exact bypass the independent checker demonstrated (SEC-04).
+                    if any(token in matched for token in ALLOW_SUBSTRINGS):
+                        continue
+                    hit = match
+                    break
+                if hit is not None:
                     findings.append({
                         "file": str(path.relative_to(root)),
                         "line": lineno,
