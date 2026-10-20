@@ -22,7 +22,10 @@ HARD_RULES = [
     ("assigned_secret", re.compile(r"(?i)\b(?:api[_-]?key|secret|password|passwd|token)\b\s*[:=]\s*['\"][^'\"\s]{16,}['\"]")),
     ("token_file_reference_with_value", re.compile(r"GITHUB-REPO_SHW097-4\.txt\s*[:=]\s*\S{8,}")),
     ("taiwan_id", re.compile(r"\b[A-Z][12]\d{8}\b")),
-    ("email_address", re.compile(r"\b[\w.+-]+@[\w-]+\.[\w.]{2,}\b")),
+    # The domain part must consume hyphens and every label, otherwise the match truncates at a
+    # hyphen and an address on "example.com-<suffix>" looks like the allowed "example.com"
+    # (R5-NEW-01).
+    ("email_address", re.compile(r"\b[\w.+-]+@(?:[\w-]+\.)+[\w-]{2,}\b")),
 ]
 # Allowed exceptions, applied PER RULE to the matched span. A single global substring list was
 # bypassable twice over: appending "example.com" to a line hid a token (round 1), and putting the
@@ -134,16 +137,24 @@ def scan(root: Path) -> dict:
     }
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--json-out", default="")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     root = Path(args.root).resolve()
+    # A root that does not exist, or one with nothing scannable in it, measured nothing. Reporting
+    # CLEAN there is a false negative on the whole gate (R5-NEW-02).
+    if not root.is_dir():
+        print(json.dumps({"verdict": "ERROR", "detail": "root is not a directory", "root": str(root)}, ensure_ascii=False))
+        return 2
     try:
         result = scan(root)
     except Exception as exc:  # noqa: BLE001
         print(json.dumps({"verdict": "ERROR", "detail": str(exc)}, ensure_ascii=False))
+        return 2
+    if result["files_scanned"] == 0:
+        print(json.dumps({"verdict": "ERROR", "detail": "no files were scanned", "root": str(root)}, ensure_ascii=False))
         return 2
     if args.json_out:
         out = Path(args.json_out)

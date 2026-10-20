@@ -84,6 +84,26 @@ def test_subdomain_of_an_allowed_name_stays_clean(tmp_path):
     assert result["verdict"] == "CLEAN"
 
 
+def test_a_domain_with_a_hyphen_suffix_is_not_truncated(tmp_path):
+    """R5-NEW-01: the match must not stop at the hyphen and accept example.com-evil.net."""
+
+    result = _scan_text(tmp_path, "contact: alice@example.com" + "-evil.net\n")
+    assert result["verdict"] == "BLOCKED"
+
+
+def test_a_nonexistent_root_is_an_error_not_a_clean_receipt(tmp_path):
+    """R5-NEW-02: scanning nothing must not produce CLEAN."""
+
+    missing = tmp_path / "does-not-exist"
+    assert secret_scan.main(["--root", str(missing)]) == 2
+
+
+def test_an_empty_directory_is_an_error_not_a_clean_receipt(tmp_path):
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    assert secret_scan.main(["--root", str(empty)]) == 2
+
+
 def test_documentation_email_stays_clean(tmp_path):
     result = _scan_text(tmp_path, "write to you@example.com for access\n")
     assert result["verdict"] == "CLEAN"
