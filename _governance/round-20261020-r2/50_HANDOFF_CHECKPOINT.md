@@ -26,9 +26,14 @@ PY="C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe"
 py -3.11 -m pytest -q -p no:cacheprovider
 ```
 
-`tools/run_gates.py` 必須 exit 0、每個 pytest gate denominator > 0、`G-SUITE-FULL` denominator = 真實總數
-（v6 時是 124；R6 修正後應為 125）。若綠燈，把 wip 併成新候選分支（`candidate/r2-20261020-v7`）並推，
-再決定是否再請 checker 跑一回合。
+`tools/run_gates.py` 必須 exit 0、每個 pytest gate denominator > 0、`G-SUITE-FULL` denominator = 真實總數。
+
+**已被中斷前的那次 gate 跑出的結果（關機後補記，收據在 `/tmp/gates13.txt` 與該次 stdout）：**
+`G-SUITE-FULL` = **125 passed**（R6 修正讓測試全綠），但 `G-SEC-SCAN` = **exit 1**，唯一 finding 是
+`email_address: tests\test_secret_scan.py:110` —— 掃描器把**自己的測試檔**第 108 行的 docstring
+（`alice!user@private-company.net`）判成 email。因為 local-part 白名單已移除，這個字面值現在會被正確擋下。
+所以下一步只有一件事：把該 fixture 字串改成執行期拼接（比照同檔其他 fixture 的寫法），
+再重跑 gate；預期 125 綠、11/11 gate exit 0。之後才升 `candidate/r2-20261020-v7`。
 
 ## 2. 車道／模型（已實測可用，勿改）
 

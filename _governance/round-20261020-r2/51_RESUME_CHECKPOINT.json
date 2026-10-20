@@ -46,5 +46,13 @@
   "lane_verify": "openai-codex/gpt-6.1-sol rank2"
  },
  "claim_ceiling": "LOCAL_QUALIFIED_CANDIDATE; INDEPENDENT_CASE_PASS not achieved (last verdict FAIL)",
- "rollback": "git reset --hard ca6830d9fc9d89b7b87e818670dd67b393472d79; delete candidate/r2-20261020{,-v2..-v6} and wip/r2-r6-localpart"
+ "rollback": "git reset --hard ca6830d9fc9d89b7b87e818670dd67b393472d79; delete candidate/r2-20261020{,-v2..-v6} and wip/r2-r6-localpart",
+ "last_interrupted_gate_run": {
+  "suite": "125 passed (R6 fix green)",
+  "gates_exit": 1,
+  "failing_gate": "G-SEC-SCAN",
+  "cause": "scanner flags its own test docstring literal at tests/test_secret_scan.py:108/110 (email_address)",
+  "next_fix": "build that fixture string at runtime, like the other fixtures in the same file",
+  "expected_after_fix": "125 passed, 11/11 gates exit 0"
+ }
 }
