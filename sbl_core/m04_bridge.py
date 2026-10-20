@@ -170,11 +170,33 @@ class GovernedBuildBridge:
                 "HEAD moved since the build order was prepared",
                 {"expected": order.head, "actual": current_head},
             )
-        parent = os.path.dirname(target)
+        # The check above and the write below are not the same instant. A checker reproduced a
+        # junction-swap escape by replacing a directory with a link between them (V16-BRIDGE-01), so:
+        # resolve again immediately before opening, write to the RESOLVED path rather than the literal
+        # one, and verify after the write that the file really landed inside the root.
+        settled = os.path.realpath(target)
+        if settled != real_target:
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write target changed between validation and write",
+                {"path": path, "validated": real_target, "at_write": settled},
+            )
+        parent = os.path.dirname(real_target)
         if parent:
             os.makedirs(parent, exist_ok=True)
-        with open(target, "w", encoding="utf-8", newline="\n") as handle:
+        with open(real_target, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(content)
+        landed = os.path.realpath(real_target)
+        if os.path.relpath(landed, real_root).replace("\\", "/").startswith(".."):
+            try:
+                os.unlink(real_target)
+            except OSError:
+                pass
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write landed outside the repository root and was removed",
+                {"path": path, "landed": landed, "real_root": real_root},
+            )
         applied = tuple(order.writeset.paths)
         if relative not in set(prefixes):
             applied = applied + (relative,)

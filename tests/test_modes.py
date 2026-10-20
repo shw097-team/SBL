@@ -89,6 +89,15 @@ def test_swof_refuses_an_untrusted_issuer(monkeypatch):
     assert caught.value.detail.get("state") == "ISSUER_NOT_TRUSTED"
 
 
+def test_ack_signature_cannot_be_moved_between_tuples():
+    """V16-MODE-02: a delimiter-joined digest let one signature stand for two different tuples."""
+
+    key = "k" * 32
+    left = modes.ack_signature("issuer", "a\x1fB", "C", key)
+    right = modes.ack_signature("issuer", "a", "B\x1fC", key)
+    assert left != right
+
+
 def test_swof_accepts_an_ack_signed_with_the_configured_key(monkeypatch):
     """The refusal must not be blanket: a correctly signed ACK from a trusted issuer still allows."""
 

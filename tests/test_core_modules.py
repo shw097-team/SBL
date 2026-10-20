@@ -9,6 +9,7 @@ import tempfile
 
 import pytest
 
+from sbl_core import m04_bridge
 from sbl_core.core import MODULES, SharedCore
 from sbl_core.dto import (
     BuildOrder,
@@ -211,6 +212,34 @@ def test_bridge_apply_negative_outside_writeset(tmp_path, bad_path):
         bridge.apply(_fake_order(tmp_path), bad_path, "x")
     assert caught.value.code == "SBL_E_WRITE_OUTSIDE_WRITESET"
     assert not (tmp_path.parent / "escape.py").exists()
+
+
+def test_bridge_apply_refuses_a_path_that_changes_between_check_and_write(tmp_path, monkeypatch):
+    """V16-BRIDGE-01: a checker swapped a directory for a junction after validation and escaped."""
+
+    monkeypatch.setattr("sbl_core.m04_bridge._head_of", lambda root: "a" * 40)
+    root = tmp_path / "repo"
+    (root / "src").mkdir(parents=True)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    target = str(root / "src" / "file.txt")
+    real = m04_bridge.os.path.realpath
+
+    calls = {"target": 0}
+
+    def swap_after_validation(path, *args, **kwargs):
+        if os.path.abspath(str(path)) == os.path.abspath(target):
+            calls["target"] += 1
+            if calls["target"] >= 2:  # the pre-write re-resolution
+                return str(outside / "file.txt")
+        return real(path, *args, **kwargs)
+
+    monkeypatch.setattr("sbl_core.m04_bridge.os.path.realpath", swap_after_validation)
+    bridge = GovernedBuildBridge()
+    with pytest.raises(SBLError) as caught:
+        bridge.apply(_fake_order(root), "src/file.txt", "payload")
+    assert caught.value.code == "SBL_E_WRITE_OUTSIDE_WRITESET"
+    assert not (outside / "file.txt").exists()
 
 
 def test_bridge_apply_negative_symlink_escape(tmp_path, monkeypatch):

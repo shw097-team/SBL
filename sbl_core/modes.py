@@ -31,7 +31,10 @@ _ACK_KEY_ENV = "SBL_SWOF_ACK_KEY"
 def ack_signature(issuer: str, permit_id: str, subject_id: str, key: str) -> str:
     """The only accepted signature shape for a native acknowledgement."""
 
-    material = "\x1f".join([str(issuer), str(permit_id), str(subject_id)]).encode("utf-8")
+    # Length-prefixed, not delimiter-joined: with a bare separator, ("a\x1fB", "C") and ("a", "B\x1fC")
+    # produce identical material and therefore interchangeable signatures (V16-MODE-02).
+    parts = (str(issuer), str(permit_id), str(subject_id))
+    material = "".join(f"{len(part)}:{part}" for part in parts).encode("utf-8")
     return hmac.new(str(key).encode("utf-8"), material, hashlib.sha256).hexdigest()
 
 
