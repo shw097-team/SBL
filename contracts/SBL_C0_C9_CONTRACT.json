@@ -1,0 +1,1942 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "SBL-PIPDLS-20261020-R2-NEW_IMPLEMENTATION",
+ "source_scan": {
+  "required_source_families": [
+   "SBL_PIPD_LS_PKG_DOCS",
+   "HGK_CONTROL_PLANE",
+   "FABRIC_CONTRACT_SURFACE",
+   "COMMANDER_PROMPT_V2",
+   "CAPC_COMPILER_BUNDLE"
+  ],
+  "reviewed": [
+   {
+    "source_family": "SBL_PIPD_LS_PKG_DOCS",
+    "source_id": "SRC-SBL-DOC00-13",
+    "locator": "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-00.md .. DOC-13.md (14 files, byte hashed)",
+    "sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "HGK_CONTROL_PLANE",
+    "source_id": "SRC-HGK-AGENTS",
+    "locator": "C:/Projects/Agent_Workspace/HG-KSEOS/AGENTS.md + config/lane-routing-registry.yaml",
+    "sha256": "7f7246d34be112bb465b48dadaef6163e466e16e5e705fc58acee04b3809a613",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "FABRIC_CONTRACT_SURFACE",
+    "source_id": "SRC-FABRIC-AGENTS",
+    "locator": "C:/Projects/Agent_Workspace/Fabric/FABRIC/AGENTS.md",
+    "sha256": "115912cdccbf5b3788fe1d6e1c8c10fe575252d72accf31cb6f1955dd8750974",
+    "role": "SUPPORT",
+    "critical": false
+   },
+   {
+    "source_family": "COMMANDER_PROMPT_V2",
+    "source_id": "SRC-COMMANDER-V2",
+    "locator": "attachments/SBL／HERMES／HG-KSEOS／Fabric 完整指揮薄 PROMPT v2-3.md",
+    "sha256": "2536784573927b391467a51b14920b9853ae85e0632c06027d84cb71b07ec5d8",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "CAPC_COMPILER_BUNDLE",
+    "source_id": "SRC-CAPC-COMPILER",
+    "locator": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+    "sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "role": "NORMATIVE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-01",
+    "text": "DOC-00..DOC-13 are the product authority surface for SBL v0.1; scope outside them is not invented by this round.",
+    "source_ids": [
+     "SRC-SBL-DOC00-13"
+    ],
+    "locators": [
+     "SBL_PIPD-LS-PKG_DOC-00..DOC-13"
+    ]
+   },
+   {
+    "claim_id": "NC-02",
+    "text": "HG-KSEOS is the sole normative control plane for task admission, effects and evidence; no second control plane is created.",
+    "source_ids": [
+     "SRC-HGK-AGENTS"
+    ],
+    "locators": [
+     "C:/Projects/Agent_Workspace/HG-KSEOS/AGENTS.md"
+    ]
+   },
+   {
+    "claim_id": "NC-03",
+    "text": "The round is admitted only if the canonical CAPC compiler returns PROMPT_COMPILE_PASS on exactly these contract bytes.",
+    "source_ids": [
+     "SRC-CAPC-COMPILER"
+    ],
+    "locators": [
+     "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "Build SBL / SpecBuild Loop v0.1 in the authorized target root as a real installable, operable, testable, restartable, uninstallable and rollbackable product: one Shared Core, six modules SBLM01..SBLM06, three permission-separated SPs, three modes, three golden journeys, a source-bound G-KNOW layer, and a public candidate plus scrubbed evidence for independent external acceptance.",
+  "user_expected_outcome": "A working product tree with reproducible raw evidence and a public candidate an external checker can re-verify from bytes.",
+  "user_expected_experience": "Run each golden journey end to end from the CLI without reading internal design documents; every failure is typed and recoverable.",
+  "explicit_constraints": [
+   "HG-KSEOS remains the only control plane; no second orchestrator, task DB or evidence authority",
+   "maker != checker and the checker lane is read-only",
+   "PLAN/VERIFY = openai-codex/gpt-6.1-sol medium; EXECUTE = opencode-go/deepseek-v4.1-flash through the Codex CLI lane",
+   "candidate-only; no self-acceptance, no RELEASED, no PRODUCTION claim",
+   "PREW3_SHADOW must produce NoEffect; SWOF_CONNECTED stays blocked without a native ACK/Permit",
+   "no private corpus text and no credential value may enter the public repository",
+   "SBL_MASTER_v2.0r1 and the PIPD native P4 package are absent from the mounted corpus; the absence is carried as TT and is not substituted by same-named material from another subject",
+   "claim ceiling is LOCAL: only raw receipts from this host lift it, and only an external checker can grant acceptance"
+  ],
+  "non_goals": [
+   "install all 386 donor technologies",
+   "modify sealed HG-KSEOS or Fabric policy",
+   "claim a SWOF world connection",
+   "claim independent acceptance from the maker side",
+   "publish private corpus content or credential material"
+  ],
+  "authorized_mutations": [
+   "C:/Projects/Agent_Workspace/SBL (full tree)",
+   "github.com/shw097-team/SBL candidate branches and scrubbed evidence",
+   "HG-KSEOS Shared Spine records scoped to this project"
+  ],
+  "forbidden_mutations": [
+   "HG-KSEOS and Fabric sealed policy",
+   "the read-only source corpus root",
+   "other repositories",
+   "credential stores",
+   "Oracles, RBWI and reducers"
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "scope expansion",
+   "credential or permission change",
+   "release promotion",
+   "owner ruling on a TT/CR"
+  ],
+  "requested_delivery": [
+   "DELIV_PRODUCT_TREE",
+   "DELIV_PUBLIC_CANDIDATE",
+   "DELIV_HANDOVER_BUNDLE"
+  ],
+  "active_requirement_ids": [
+   "SBL_SHARED_CORE",
+   "SBLM01_GOAL_INTAKE",
+   "SBLM02_GUIDED_SPECIFICATION",
+   "SBLM03_GOVERNED_ROUTING",
+   "SBLM04_GOVERNED_BUILD_BRIDGE",
+   "SBLM05_EVIDENCE_VERIFICATION",
+   "SBLM06_BOUNDED_REPAIR",
+   "TPM_SP",
+   "COMMANDER_SP",
+   "EXTERNAL_CHALLENGE_SP",
+   "MODE_STANDALONE",
+   "MODE_PREW3_SHADOW",
+   "GJ01_CLI_TOOL",
+   "GJ02_BROWNFIELD_PATCH",
+   "GJ03_SKILL_AGENT_BRIDGE",
+   "GKNOW_RETRIEVAL",
+   "PUBLIC_CANDIDATE_PUBLICATION"
+  ],
+  "claim_ceiling": "LOCAL"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "SRC-SBL-DOC00-13",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG",
+    "sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "locator": "SBL_PIPD-LS-PKG_DOC-00.md .. SBL_PIPD-LS-PKG_DOC-13.md",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-HGK-AGENTS",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/HG-KSEOS/AGENTS.md",
+    "sha256": "7f7246d34be112bb465b48dadaef6163e466e16e5e705fc58acee04b3809a613",
+    "locator": "AGENTS.md control-plane rules",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-HGK-REGISTRY",
+    "rank": "R2",
+    "path": "C:/Projects/Agent_Workspace/HG-KSEOS/config/lane-routing-registry.yaml",
+    "sha256": "02481992df124ca4f83b655b4583fc2053ecebbbb3125702ab28e39d0c35ea70",
+    "locator": "config/lane-routing-registry.yaml",
+    "role": "STATE_EVIDENCE",
+    "governs": false
+   },
+   {
+    "id": "SRC-COMMANDER-V2",
+    "rank": "R1",
+    "path": "attachments/SBL／HERMES／HG-KSEOS／Fabric 完整指揮薄 PROMPT v2-3.md",
+    "sha256": "2536784573927b391467a51b14920b9853ae85e0632c06027d84cb71b07ec5d8",
+    "locator": "commander prompt v2-3 machine header + TS00..TS19",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-FABRIC-AGENTS",
+    "rank": "R3",
+    "path": "C:/Projects/Agent_Workspace/Fabric/FABRIC/AGENTS.md",
+    "sha256": "115912cdccbf5b3788fe1d6e1c8c10fe575252d72accf31cb6f1955dd8750974",
+    "locator": "Fabric governance and assurance contract surface",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "SRC-CAPC-COMPILER",
+    "rank": "R1",
+    "path": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/HG-KSEOS/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+    "sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "locator": "scripts/prompt_contract_compiler.py + references/prompt-contract.schema.json",
+    "role": "NORMATIVE",
+    "governs": true
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "NEW_IMPLEMENTATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "product-code",
+   "tests",
+   "evidence",
+   "publication"
+  ],
+  "affected_files": [
+   "sbl_core/",
+   "sbl_sp/",
+   "sbl_cli/",
+   "skills/",
+   "tests/",
+   "tools/",
+   "evidence/",
+   "openspec/",
+   ".github/"
+  ],
+  "must_not_reopen": [
+   "HG-KSEOS sealed policy",
+   "Fabric sealed contracts",
+   "the read-only source corpus",
+   "other repositories",
+   "Oracles, RBWI and reducers"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": true,
+  "product_mutation_allowed": true
+ },
+ "execution_scope": [
+  {
+   "capability": "SBL_SHARED_CORE",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#one-core"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM01_GOAL_INTAKE",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM02_GUIDED_SPECIFICATION",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM03_GOVERNED_ROUTING",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM04_GOVERNED_BUILD_BRIDGE",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-05#ecp"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM05_EVIDENCE_VERIFICATION",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#tqaep"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "SBLM06_BOUNDED_REPAIR",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#repair"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "TPM_SP",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "COMMANDER_SP",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "EXTERNAL_CHALLENGE_SP",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "MODE_STANDALONE",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "MODE_PREW3_SHADOW",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "GJ01_CLI_TOOL",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-01#journeys"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "GJ02_BROWNFIELD_PATCH",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-05#repocontext"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "GJ03_SKILL_AGENT_BRIDGE",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-10#hosts"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "GKNOW_RETRIEVAL",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-10#gknow"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "PUBLIC_CANDIDATE_PUBLICATION",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": true,
+   "runtime_required_now": true,
+   "action": "INSTALL",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#independent"
+   ],
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "MODE_SWOFCON",
+   "source_disposition": "SOURCE_REQUIRED",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "external_method": false,
+   "control_authority": false
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "SBL_SHARED_CORE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBL_SHARED_CORE runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBL_SHARED_CORE"
+   ]
+  },
+  {
+   "capability": "SBLM01_GOAL_INTAKE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM01_GOAL_INTAKE runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM01_GOAL_INTAKE"
+   ]
+  },
+  {
+   "capability": "SBLM02_GUIDED_SPECIFICATION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM02_GUIDED_SPECIFICATION runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM02_GUIDED_SPECIFICATION"
+   ]
+  },
+  {
+   "capability": "SBLM03_GOVERNED_ROUTING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM03_GOVERNED_ROUTING runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM03_GOVERNED_ROUTING"
+   ]
+  },
+  {
+   "capability": "SBLM04_GOVERNED_BUILD_BRIDGE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM04_GOVERNED_BUILD_BRIDGE runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM04_GOVERNED_BUILD_BRIDGE"
+   ]
+  },
+  {
+   "capability": "SBLM05_EVIDENCE_VERIFICATION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM05_EVIDENCE_VERIFICATION runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM05_EVIDENCE_VERIFICATION"
+   ]
+  },
+  {
+   "capability": "SBLM06_BOUNDED_REPAIR",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize SBLM06_BOUNDED_REPAIR runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-SBLM06_BOUNDED_REPAIR"
+   ]
+  },
+  {
+   "capability": "TPM_SP",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize TPM_SP runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-TPM_SP"
+   ]
+  },
+  {
+   "capability": "COMMANDER_SP",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize COMMANDER_SP runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-COMMANDER_SP"
+   ]
+  },
+  {
+   "capability": "EXTERNAL_CHALLENGE_SP",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize EXTERNAL_CHALLENGE_SP runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-EXTERNAL_CHALLENGE_SP"
+   ]
+  },
+  {
+   "capability": "MODE_STANDALONE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize MODE_STANDALONE runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-MODE_STANDALONE"
+   ]
+  },
+  {
+   "capability": "MODE_PREW3_SHADOW",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize MODE_PREW3_SHADOW runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-MODE_PREW3_SHADOW"
+   ]
+  },
+  {
+   "capability": "GJ01_CLI_TOOL",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize GJ01_CLI_TOOL runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-GJ01_CLI_TOOL"
+   ]
+  },
+  {
+   "capability": "GJ02_BROWNFIELD_PATCH",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize GJ02_BROWNFIELD_PATCH runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-GJ02_BROWNFIELD_PATCH"
+   ]
+  },
+  {
+   "capability": "GJ03_SKILL_AGENT_BRIDGE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize GJ03_SKILL_AGENT_BRIDGE runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-GJ03_SKILL_AGENT_BRIDGE"
+   ]
+  },
+  {
+   "capability": "GKNOW_RETRIEVAL",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize GKNOW_RETRIEVAL runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-GKNOW_RETRIEVAL"
+   ]
+  },
+  {
+   "capability": "PUBLIC_CANDIDATE_PUBLICATION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "OPEN",
+    "pin": "OPEN",
+    "install_materialize": "OPEN",
+    "configure": "OPEN",
+    "discover": "OPEN",
+    "bind": "OPEN",
+    "route": "OPEN",
+    "effective_load": "OPEN",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "OPEN",
+    "rollback_uninstall": "OPEN",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "materialize PUBLIC_CANDIDATE_PUBLICATION runtime closure with typed errors",
+    "positive + negative + security fixtures executed for real",
+    "raw receipt plus a distinct-model independent checker verdict"
+   ],
+   "acceptance_ids": [
+    "ACC-PUBLIC_CANDIDATE_PUBLICATION"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "GJ01_CLI_TOOL",
+   "required": true,
+   "user_goal": "Install a small CLI tool, add one item, and read it back after restarting",
+   "expected_visible_result": "add prints an id; list --json shows the same id/title/status after restart; uninstall leaves nothing behind",
+   "expected_automatic_behavior": [
+    "install into an isolated user data dir",
+    "persist state across restart",
+    "report typed errors on duplicate/invalid input",
+    "clean uninstall"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "confirm data directory when ambiguous"
+   ],
+   "required_capabilities": [
+    "GJ01_CLI_TOOL",
+    "SBLM01_GOAL_INTAKE",
+    "SBLM05_EVIDENCE_VERIFICATION"
+   ],
+   "negative_behavior": [
+    "reject empty title",
+    "reject duplicate title with typed error",
+    "refuse uninstall when foreign files are present"
+   ],
+   "failure_recovery": [
+    "reinstall over a broken install",
+    "restore data dir from backup"
+   ],
+   "source_expectation_ids": [
+    "EXP-GJ01"
+   ],
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-01#journeys"
+   ]
+  },
+  {
+   "journey_id": "GJ02_BROWNFIELD_PATCH",
+   "required": true,
+   "user_goal": "Have a scoped defect patched inside an existing repository without touching unrelated code",
+   "expected_visible_result": "diff limited to the declared write-set; failing test turns green; affected regression clean; rollback restores the exact baseline",
+   "expected_automatic_behavior": [
+    "bind RepoContext + HEAD",
+    "produce red then green",
+    "run affected regression",
+    "emit rollback pointer"
+   ],
+   "expected_manual_behavior": [
+    "user approves scope expansion when the write-set must grow"
+   ],
+   "allowed_hitl": [
+    "scope expansion approval"
+   ],
+   "required_capabilities": [
+    "GJ02_BROWNFIELD_PATCH",
+    "SBLM04_GOVERNED_BUILD_BRIDGE",
+    "SBLM06_BOUNDED_REPAIR"
+   ],
+   "negative_behavior": [
+    "refuse writes outside the write-set",
+    "refuse stale HEAD binding"
+   ],
+   "failure_recovery": [
+    "rollback by pointer",
+    "resume from checkpoint"
+   ],
+   "source_expectation_ids": [
+    "EXP-GJ02"
+   ],
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-05#repocontext"
+   ]
+  },
+  {
+   "journey_id": "GJ03_SKILL_AGENT_BRIDGE",
+   "required": true,
+   "user_goal": "Use an agent skill that is discoverable, effectively loaded and refuses out-of-scope effects",
+   "expected_visible_result": "skill is discovered and triggers on its intent, does not trigger on unrelated intents, and refuses unauthorised effects",
+   "expected_automatic_behavior": [
+    "register skill manifest",
+    "effective load in host",
+    "trigger/non-trigger routing"
+   ],
+   "expected_manual_behavior": [],
+   "allowed_hitl": [
+    "provider-off confirmation"
+   ],
+   "required_capabilities": [
+    "GJ03_SKILL_AGENT_BRIDGE",
+    "SBLM03_GOVERNED_ROUTING",
+    "MODE_PREW3_SHADOW"
+   ],
+   "negative_behavior": [
+    "no trigger on unrelated intent",
+    "refuse effect when provider is off"
+   ],
+   "failure_recovery": [
+    "unload skill with no residue"
+   ],
+   "source_expectation_ids": [
+    "EXP-GJ03"
+   ],
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-10#hosts"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-SBL_SHARED_CORE",
+   "subject_id": "SBL_SHARED_CORE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#one-core"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBL_SHARED_CORE: real invocation produces the declared observable result",
+   "negative_fixture": "SBL_SHARED_CORE: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBL_SHARED_CORE: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM01_GOAL_INTAKE",
+   "subject_id": "SBLM01_GOAL_INTAKE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM01_GOAL_INTAKE: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM01_GOAL_INTAKE: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM01_GOAL_INTAKE: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM02_GUIDED_SPECIFICATION",
+   "subject_id": "SBLM02_GUIDED_SPECIFICATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM02_GUIDED_SPECIFICATION: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM02_GUIDED_SPECIFICATION: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM02_GUIDED_SPECIFICATION: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM03_GOVERNED_ROUTING",
+   "subject_id": "SBLM03_GOVERNED_ROUTING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modules"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM03_GOVERNED_ROUTING: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM03_GOVERNED_ROUTING: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM03_GOVERNED_ROUTING: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM04_GOVERNED_BUILD_BRIDGE",
+   "subject_id": "SBLM04_GOVERNED_BUILD_BRIDGE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-05#ecp"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM04_GOVERNED_BUILD_BRIDGE: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM04_GOVERNED_BUILD_BRIDGE: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM04_GOVERNED_BUILD_BRIDGE: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM05_EVIDENCE_VERIFICATION",
+   "subject_id": "SBLM05_EVIDENCE_VERIFICATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#tqaep"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM05_EVIDENCE_VERIFICATION: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM05_EVIDENCE_VERIFICATION: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM05_EVIDENCE_VERIFICATION: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SBLM06_BOUNDED_REPAIR",
+   "subject_id": "SBLM06_BOUNDED_REPAIR",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#repair"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "SBLM06_BOUNDED_REPAIR: real invocation produces the declared observable result",
+   "negative_fixture": "SBLM06_BOUNDED_REPAIR: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "SBLM06_BOUNDED_REPAIR: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-TPM_SP",
+   "subject_id": "TPM_SP",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "TPM_SP: real invocation produces the declared observable result",
+   "negative_fixture": "TPM_SP: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "TPM_SP: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-COMMANDER_SP",
+   "subject_id": "COMMANDER_SP",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "COMMANDER_SP: real invocation produces the declared observable result",
+   "negative_fixture": "COMMANDER_SP: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "COMMANDER_SP: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-EXTERNAL_CHALLENGE_SP",
+   "subject_id": "EXTERNAL_CHALLENGE_SP",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#three-sp"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "EXTERNAL_CHALLENGE_SP: real invocation produces the declared observable result",
+   "negative_fixture": "EXTERNAL_CHALLENGE_SP: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "EXTERNAL_CHALLENGE_SP: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-MODE_STANDALONE",
+   "subject_id": "MODE_STANDALONE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "MODE_STANDALONE: real invocation produces the declared observable result",
+   "negative_fixture": "MODE_STANDALONE: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "MODE_STANDALONE: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-MODE_PREW3_SHADOW",
+   "subject_id": "MODE_PREW3_SHADOW",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "MODE_PREW3_SHADOW: real invocation produces the declared observable result",
+   "negative_fixture": "MODE_PREW3_SHADOW: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "MODE_PREW3_SHADOW: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-GJ01_CLI_TOOL",
+   "subject_id": "GJ01_CLI_TOOL",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-01#journeys"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "GJ01_CLI_TOOL: real invocation produces the declared observable result",
+   "negative_fixture": "GJ01_CLI_TOOL: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "GJ01_CLI_TOOL: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-GJ02_BROWNFIELD_PATCH",
+   "subject_id": "GJ02_BROWNFIELD_PATCH",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-05#repocontext"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "GJ02_BROWNFIELD_PATCH: real invocation produces the declared observable result",
+   "negative_fixture": "GJ02_BROWNFIELD_PATCH: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "GJ02_BROWNFIELD_PATCH: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-GJ03_SKILL_AGENT_BRIDGE",
+   "subject_id": "GJ03_SKILL_AGENT_BRIDGE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-10#hosts"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "GJ03_SKILL_AGENT_BRIDGE: real invocation produces the declared observable result",
+   "negative_fixture": "GJ03_SKILL_AGENT_BRIDGE: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "GJ03_SKILL_AGENT_BRIDGE: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-GKNOW_RETRIEVAL",
+   "subject_id": "GKNOW_RETRIEVAL",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-10#gknow"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "GKNOW_RETRIEVAL: real invocation produces the declared observable result",
+   "negative_fixture": "GKNOW_RETRIEVAL: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "GKNOW_RETRIEVAL: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-PUBLIC_CANDIDATE_PUBLICATION",
+   "subject_id": "PUBLIC_CANDIDATE_PUBLICATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#independent"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "PUBLIC_CANDIDATE_PUBLICATION: real invocation produces the declared observable result",
+   "negative_fixture": "PUBLIC_CANDIDATE_PUBLICATION: wrong or unauthorised input is refused with a typed error, never silently accepted",
+   "recovery_fixture": "PUBLIC_CANDIDATE_PUBLICATION: bounded repair plus checkpoint resume after a confirmed defect",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-MODE_SWOFCON",
+   "subject_id": "MODE_SWOFCON",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-04#modes"
+   ],
+   "runtime_required": false,
+   "required_depth": "L1_SCHEMA_CONTRACT",
+   "positive_fixture": "MODE_SWOFCON: gate reports BLOCKED_EXTERNAL without a native ACK/Permit",
+   "negative_fixture": "MODE_SWOFCON: a claimed world effect without a native ACK is a refusal, never a pass",
+   "recovery_fixture": "MODE_SWOFCON: stays blocked and resumable; no synthetic ACK is fabricated",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DELIV_PRODUCT_TREE",
+   "subject_id": "DELIV_PRODUCT_TREE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#independent"
+   ],
+   "runtime_required": false,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "DELIV_PRODUCT_TREE: produced by the round and read back from disk/remote",
+   "negative_fixture": "DELIV_PRODUCT_TREE: absent or partially written artefact is reported absent, never assumed",
+   "recovery_fixture": "DELIV_PRODUCT_TREE: regenerated from source plus checkpoint with a digest comparison",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DELIV_PUBLIC_CANDIDATE",
+   "subject_id": "DELIV_PUBLIC_CANDIDATE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#independent"
+   ],
+   "runtime_required": false,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "DELIV_PUBLIC_CANDIDATE: produced by the round and read back from disk/remote",
+   "negative_fixture": "DELIV_PUBLIC_CANDIDATE: absent or partially written artefact is reported absent, never assumed",
+   "recovery_fixture": "DELIV_PUBLIC_CANDIDATE: regenerated from source plus checkpoint with a digest comparison",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DELIV_HANDOVER_BUNDLE",
+   "subject_id": "DELIV_HANDOVER_BUNDLE",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "SBL_PIPD-LS-PKG_DOC-08#independent"
+   ],
+   "runtime_required": false,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "DELIV_HANDOVER_BUNDLE: produced by the round and read back from disk/remote",
+   "negative_fixture": "DELIV_HANDOVER_BUNDLE: absent or partially written artefact is reported absent, never assumed",
+   "recovery_fixture": "DELIV_HANDOVER_BUNDLE: regenerated from source plus checkpoint with a digest comparison",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-COMPILER",
+   "predicate": "canonical CAPC compiler returns PROMPT_COMPILE_PASS for these exact contract bytes",
+   "expected": "PASS",
+   "command_or_probe": "prompt_contract_compiler.py lint|activation|acceptance|compile exit 0",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-SOURCE-FREEZE",
+   "predicate": "306 corpus files byte-hashed, 14 normative DOC digests recomputed, originals untouched",
+   "expected": "PASS",
+   "command_or_probe": "python tools/verify_source.py --verify",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "WORKTREE_OR_REMOTE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "bd9c1a85ea0cae68fa8cde617e5592fca6123f72b4caf1a9d2894167d9a82e01",
+     "43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+     "4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+     "ea69e1d3718ed86aecd74a3ebcc933960eacc30b586ab80fcb9f733037e33476",
+     "ee90cb1c86f6f7350c11c9c962233a89b035ca41ff82c8968f7968608fc6f6e0",
+     "3b47a0b6224b1984a4047cf53aac5ac50615c93a560fea46e1b43d079a5d9f27",
+     "64ea4977dab3093301f82dc7469413cc754998fc53946467842e06d83645102b",
+     "a366d3783c82089c5593ffabb0704d8507632cce45622684f7a0186f2ae310f8",
+     "c7029c1ff07abe3135d33d3abf858a5fecedd911b494cd69c16eb1ddb8158288",
+     "6450f7c15915ec8b304f4e5fd4093ea707434db8bae9d2bb6e66c30ab6eed2e1",
+     "a64aa21c977334dd74d660a86377ee10c4d329aa5fde0dae25ff81a3e69e8d8f",
+     "12f8705d780b76f264457c194a6ff359da8d74b5d6d8c83fa245b74d2a37508e",
+     "d1e470d82ca14319582cb8947aa52007927aa38e726249b1430804cfe8c8ca56",
+     "7cc0c8b17311130c875910b2548b93c28bd4e1c8ee04d300f85fc33d4c09beb1"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-KNOW",
+   "predicate": "G-KNOW local index answers a source-bound query with an exact locator and refuses an unanswerable one",
+   "expected": "PASS",
+   "command_or_probe": "python -m sbl_core.gknow --query <q> --json",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-CORE-MODULES",
+   "predicate": "Shared Core plus SBLM01..06 import and execute with typed refusals",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/test_core_modules.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-SP-ISOLATION",
+   "predicate": "three SP manifests are permission-separated and a maker cannot self-sign the challenge verdict",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/test_sp_isolation.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-GJ01-CLI",
+   "predicate": "install -> add -> list --json -> restart -> uninstall with exact id readback and no residue",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/e2e/test_gj01_cli.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-GJ02-PATCH",
+   "predicate": "brownfield patch limited to the write-set, red then green, rollback to the baseline digest",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/e2e/test_gj02_patch.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-GJ03-BRIDGE",
+   "predicate": "skill manifest discovered, effective-load trace, trigger and non-trigger verdicts",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/test_gj03_bridge.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-MODES-NOEFFECT",
+   "predicate": "PREW3_SHADOW reports NO_EFFECT; SWOF_CONNECTED refuses without a native ACK",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/test_modes.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-SEC-SCAN",
+   "predicate": "secret/PII/path-traversal scan CLEAN over the published tree",
+   "expected": "CLEAN",
+   "command_or_probe": "python tools/secret_scan.py --root .",
+   "raw_receipt_required": true,
+   "producer": "HERMES",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "CLEAN",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-PUBLIC-READBACK",
+   "predicate": "the public repo exists and the remote ref equals the published candidate SHA",
+   "expected": "PASS",
+   "command_or_probe": "git ls-remote origin refs/heads/<candidate-branch>",
+   "raw_receipt_required": true,
+   "producer": "HERMES-OPS",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "WORKTREE_OR_REMOTE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-INDEPENDENT-CHECKER",
+   "predicate": "checker lane served by gpt-6.1-sol read-only with require_arm == served_arm and a raw verdict",
+   "expected": "PASS",
+   "command_or_probe": "hgk-lane-dispatch.py --lane VERIFY_SECURITY --require-arm openai-codex/gpt-6.1-sol --force-rank <rank>",
+   "raw_receipt_required": true,
+   "producer": "HERMES-OPS",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "full",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-ROLLBACK",
+   "predicate": "uninstall/rollback restores the pre-round state and leaves no residue",
+   "expected": "PASS",
+   "command_or_probe": "python -m pytest tests/e2e/test_rollback.py -q",
+   "raw_receipt_required": true,
+   "producer": "CODEX-EXECUTE-DS41",
+   "independent_checker": "CODEX-VERIFY-GPT61",
+   "candidate_binding": {
+    "head": "CANDIDATE_SHA",
+    "package_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b",
+    "source_hashes": [
+     "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    ]
+   },
+   "tracked_subject": true,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "candidate drift",
+    "raw receipt missing",
+    "self-signed verdict"
+   ],
+   "terminal_verdict": "PASS",
+   "runtime_pass_allowed": true,
+   "claim_level": "LOCAL"
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "COMPLETED_ACCEPTED"
+  ],
+  "non_terminal_pause": [
+   "PAUSED_REMEDIABLE",
+   "BLOCKED",
+   "STOP_ESCALATE",
+   "TEMP_CLOSED",
+   "BLOCKED_EXTERNAL",
+   "BLOCKED_HITL"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "task_id",
+   "source_hashes",
+   "current_candidate",
+   "completed_gates",
+   "open_gates",
+   "next_work_order",
+   "rollback_pointer"
+  ],
+  "retry_budget": 3,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 20000,
+  "output_language": "zh-TW"
+ }
+}

@@ -1,0 +1,160 @@
+"""SBLM04 - Governed Build Bridge."""
+
+from __future__ import annotations
+
+import os
+import subprocess
+
+from .dto import BuildOrder, RepoContextDTO, WriteSet, order_id_for
+from .errors import SBLError
+
+
+def _run_git(root: str, *args: str) -> str:
+    try:
+        completed = subprocess.run(
+            ["git", "-C", root, *args],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=30,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise SBLError(
+            "SBL_E_BAD_STATE", "git is unavailable", {"root": root, "error": str(exc)}
+        ) from exc
+    if completed.returncode != 0:
+        raise SBLError(
+            "SBL_E_BAD_STATE",
+            f"git {' '.join(args)} failed",
+            {
+                "root": root,
+                "exit": completed.returncode,
+                "stderr": completed.stderr.strip(),
+            },
+        )
+    return completed.stdout
+
+
+def _head_of(root: str) -> str:
+    return _run_git(root, "rev-parse", "HEAD").strip()
+
+
+def bind_repo_context(root: str) -> RepoContextDTO:
+    """Read HEAD, porcelain status and tracked-file count for ``root``."""
+
+    if not root:
+        raise SBLError("SBL_E_BAD_STATE", "repo root is required", {"root": root})
+    resolved = os.path.abspath(root)
+    if not os.path.isdir(resolved):
+        raise SBLError(
+            "SBL_E_BAD_STATE", "repo root is not a directory", {"root": resolved}
+        )
+    head = _head_of(resolved)
+    if len(head) != 40 or any(ch not in "0123456789abcdef" for ch in head.lower()):
+        raise SBLError(
+            "SBL_E_BAD_STATE", "not a git work tree", {"root": resolved, "head": head}
+        )
+    status = _run_git(resolved, "status", "--porcelain")
+    tracked_lines = [
+        line for line in _run_git(resolved, "ls-files").splitlines() if line.strip()
+    ]
+    return RepoContextDTO(
+        root=resolved,
+        head=head,
+        tracked_files=len(tracked_lines),
+        dirty=bool(status.strip()),
+    )
+
+
+def _normalize_prefix(prefix: str) -> str:
+    cleaned = str(prefix).replace("\\", "/").strip()
+    while cleaned.startswith("./"):
+        cleaned = cleaned[2:]
+    return cleaned.rstrip("/")
+
+
+def _is_under(relative: str, prefix: str) -> bool:
+    if prefix in ("", "."):
+        return True
+    return relative == prefix or relative.startswith(prefix + "/")
+
+
+class GovernedBuildBridge:
+    """Prepare and apply writes strictly inside the declared writeset."""
+
+    def prepare(self, ctx: RepoContextDTO, writeset: WriteSet) -> BuildOrder:
+        if writeset is None or not tuple(writeset.paths):
+            raise SBLError(
+                "SBL_E_BAD_STATE",
+                "writeset must declare at least one path prefix",
+                {"root": getattr(ctx, "root", None)},
+            )
+        return BuildOrder(
+            order_id=order_id_for(ctx.head, writeset),
+            root=ctx.root,
+            head=ctx.head,
+            writeset=writeset,
+        )
+
+    def apply(self, order: BuildOrder, path: str, content: str) -> BuildOrder:
+        if not isinstance(path, str) or not path.strip():
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write path must be a non-empty relative path",
+                {"path": path},
+            )
+        raw = path.replace("\\", "/").strip()
+        if raw.startswith("/") or (len(raw) > 1 and raw[1] == ":"):
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "absolute write paths are refused",
+                {"path": path},
+            )
+        root = os.path.abspath(order.root)
+        target = os.path.abspath(os.path.join(root, raw))
+        try:
+            relative = os.path.relpath(target, root).replace("\\", "/")
+        except ValueError as exc:
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "write path cannot be resolved against the order root",
+                {"path": path, "root": root},
+            ) from exc
+        if relative == ".." or relative.startswith("../"):
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "path traversal is refused",
+                {"path": path, "root": root},
+            )
+        prefixes = [
+            _normalize_prefix(prefix) for prefix in order.writeset.paths
+        ]
+        if not any(_is_under(relative, prefix) for prefix in prefixes):
+            raise SBLError(
+                "SBL_E_WRITE_OUTSIDE_WRITESET",
+                "resolved path is outside the declared writeset",
+                {"path": relative, "writeset": list(order.writeset.paths)},
+            )
+        current_head = _head_of(root)
+        if current_head != order.head:
+            raise SBLError(
+                "SBL_E_STALE_HEAD",
+                "HEAD moved since the build order was prepared",
+                {"expected": order.head, "actual": current_head},
+            )
+        parent = os.path.dirname(target)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
+        with open(target, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(content)
+        applied = tuple(order.writeset.paths)
+        if relative not in set(prefixes):
+            applied = applied + (relative,)
+        return BuildOrder(
+            order_id=order.order_id,
+            root=order.root,
+            head=order.head,
+            writeset=WriteSet(applied),
+        )

@@ -1,0 +1,42 @@
+name: ci
+
+# Candidate-only CI. No secrets, no deploy step, read-only token.
+"on":
+  push:
+    branches: ["main", "candidate/**"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Run test suite
+        run: python -m pytest -q -p no:cacheprovider
+
+      # Windows only: the frozen source mirror is referenced by a Windows path
+      # (C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG), so the
+      # source-verification step cannot run on the Linux runner.
+      - name: Verify frozen source mirror
+        if: runner.os == 'Windows'
+        run: python tools/verify_source.py --verify

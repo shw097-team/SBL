@@ -33,6 +33,10 @@ ALLOW_SUBSTRINGS = (
 )
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "node_modules", "_local", "raw"}
 SKIP_SUFFIXES = {".pyc", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".whl", ".exe", ".dll"}
+# The scanner must not scan its own receipts: a finding excerpt stored in a report would
+# re-trigger on the next run and turn the gate into a self-poisoning loop.
+SKIP_RELATIVE = {"evidence/security/SECRET_SCAN.json"}
+MASK_KEEP = 3
 
 
 def iter_files(root: Path):
@@ -42,13 +46,25 @@ def iter_files(root: Path):
             path = Path(dirpath) / name
             if path.suffix.lower() in SKIP_SUFFIXES:
                 continue
+            # Raw model/lane transcripts are never published (see .gitignore); they are kept
+            # locally with a digest manifest instead, so scanning them would only re-flag
+            # superseded fixture text quoted in an old transcript.
+            if path.name.startswith("attempt-") and path.parent.name == "lanes":
+                continue
             yield path
+
+
+def _mask(line: str) -> str:
+    """Keep a short prefix so a finding is locatable without republishing the value."""
+    return line[:MASK_KEEP] + "***" if len(line) > MASK_KEEP else "***"
 
 
 def scan(root: Path) -> dict:
     findings = []
     scanned = 0
     for path in iter_files(root):
+        if str(path.relative_to(root)).replace("\\", "/") in SKIP_RELATIVE:
+            continue
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError as exc:  # unreadable file is itself a finding
@@ -64,7 +80,7 @@ def scan(root: Path) -> dict:
                         "file": str(path.relative_to(root)),
                         "line": lineno,
                         "rule": rule,
-                        "excerpt": line.strip()[:120],
+                        "excerpt": _mask(line.strip())[:120],
                     })
     return {
         "schema": "SBL-SECRET-SCAN/1",

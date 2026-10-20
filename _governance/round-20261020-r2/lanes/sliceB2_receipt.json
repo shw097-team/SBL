@@ -1,0 +1,59 @@
+{
+  "schema": "SBL-LANE-RECEIPT/1",
+  "slice": "B2",
+  "nonce": "SBLR2-B2-1410",
+  "interpreter": "C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe",
+  "files_written": [
+    "sbl_cli/__init__.py",
+    "sbl_cli/sbl_todo.py",
+    "sbl_cli/__main__.py",
+    "tools/verify_source.py",
+    "tests/e2e/__init__.py",
+    "tests/e2e/test_gj01_cli.py",
+    "tests/e2e/test_gj02_patch.py",
+    "tests/e2e/test_rollback.py"
+  ],
+  "untouched": [
+    "sbl_core/",
+    "sbl_sp/"
+  ],
+  "commands": [
+    {
+      "command": "python -m pytest tests/e2e -q -p no:cacheprovider",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout_tail": "18 passed in 5.72s"
+    },
+    {
+      "command": "python tools/verify_source.py --verify",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"docs\": 14, \"aggregate_sha256\": \"754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b\", \"recorded_aggregate\": \"754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b\", \"mismatches\": []}"
+    },
+    {
+      "command": "python -m pytest tests -q -p no:cacheprovider",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout_tail": "81 passed in 6.24s"
+    }
+  ],
+  "test_summary": {
+    "e2e_collected": 18,
+    "e2e_passed": 18,
+    "e2e_failed": 0,
+    "full_suite_collected": 81,
+    "full_suite_passed": 81,
+    "full_suite_failed": 0,
+    "verify_source": {
+      "ok": true,
+      "docs": 14,
+      "mismatches": 0
+    }
+  },
+  "notes": [
+    "CLI state writes are atomic via data.json.tmp + os.replace.",
+    "GJ02 git init/add/commit/checkout verbs ran only inside .pytest_tmp/gj02; no git write verb touched the SBL repo.",
+    "Fixture repos pin core.autocrlf=false so rollback byte comparison is exact on Windows.",
+    "Rollback check runs python with -B/PYTHONDONTWRITEBYTECODE to avoid stale __pycache__ masking restored bytes."
+  ]
+}

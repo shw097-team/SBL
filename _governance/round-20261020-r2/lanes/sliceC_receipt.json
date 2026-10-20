@@ -1,0 +1,147 @@
+{
+  "schema": "SBL-LANE-RECEIPT/1",
+  "slice": "C",
+  "nonce": "SBLR2-C-1502",
+  "interpreter": "C:/Projects/Agent_Workspace/HG-KSEOS/.venv/Scripts/python.exe",
+  "interpreter_version": "3.12.14",
+  "pytest_version": "9.1.1",
+  "files_written": [
+    "pyproject.toml",
+    ".github/workflows/ci.yml",
+    "docs/ARCHITECTURE.md",
+    "docs/JOURNEYS.md",
+    "README.md"
+  ],
+  "untouched": [
+    "sbl_core/",
+    "sbl_sp/",
+    "sbl_cli/",
+    "tests/"
+  ],
+  "commands": [
+    {
+      "command": "python -m pytest -q -p no:cacheprovider",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout_tail": "81 passed in 6.68s (baseline before writes); 81 passed after writes"
+    },
+    {
+      "command": "python -m pytest -p no:cacheprovider",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout_tail": "81 passed in 6.91s",
+      "note": "used to read the count, because pyproject addopts adds -q on top of an explicit -q"
+    },
+    {
+      "command": "python -c \"import tomllib,pathlib;tomllib.loads(pathlib.Path('pyproject.toml').read_text(encoding='utf-8'))\"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0
+    },
+    {
+      "command": "python -c \"import pathlib;print(pathlib.Path('.github/workflows/ci.yml').read_text(encoding='utf-8')[:40])\"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout_head": "name: ci"
+    },
+    {
+      "command": "python -c \"import yaml,pathlib;d=yaml.safe_load(pathlib.Path('.github/workflows/ci.yml').read_text(encoding='utf-8'));print('YAML_PARSE_OK',list(d),d['permissions'],d['jobs']['test']['strategy']['matrix']['os'])\"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "YAML_PARSE_OK ['name', 'on', 'permissions', 'jobs'] {'contents': 'read'} ['ubuntu-latest', 'windows-latest']"
+    },
+    {
+      "command": "python tools/verify_source.py --verify",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"docs\": 14, \"aggregate_sha256\": \"754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b\", \"recorded_aggregate\": \"754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b\", \"mismatches\": []}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo init",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"data_dir\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\.demo\"}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo add --title \"buy milk\"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"item\": {\"id\": \"T-933260194c\", \"title\": \"buy milk\", \"status\": \"open\", \"created\": \"2026-10-20T06:05:28Z\"}, \"status\": \"open\"}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo list --json",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"items\": [{\"id\": \"T-933260194c\", \"title\": \"buy milk\", \"status\": \"open\", \"created\": \"2026-10-20T06:05:28Z\"}], \"count\": 1}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo add --title \"buy milk\"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 3,
+      "stdout": "{\"ok\": false, \"code\": \"SBL_E_DUPLICATE_TITLE\", \"message\": \"an item with this title already exists\", \"detail\": {\"id\": \"T-933260194c\", \"title\": \"buy milk\"}}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo add --title \"   \"",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 2,
+      "stdout": "{\"ok\": false, \"code\": \"SBL_E_EMPTY_TITLE\", \"message\": \"title must not be empty\", \"detail\": {\"title\": \"   \"}}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo init --data-dir ./.demo",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 4,
+      "stdout": "{\"ok\": false, \"code\": \"SBL_E_BAD_STATE\", \"message\": \"unexpected argument '--data-dir'\", \"detail\": {\"args\": [\"--data-dir\", \"./.demo\"]}}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo-foreign uninstall --yes",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 5,
+      "stdout": "{\"ok\": false, \"code\": \"SBL_E_FOREIGN_FILES\", \"message\": \"data dir contains files that sbl-todo does not own\", \"detail\": {\"data_dir\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\.demo-foreign\", \"files\": [\"stranger.txt\"]}}"
+    },
+    {
+      "command": "python -m sbl_cli.sbl_todo --data-dir ./.demo uninstall --yes",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "{\"ok\": true, \"uninstalled\": true}",
+      "follow_up": "residue check .demo -> NO_RESIDUE"
+    },
+    {
+      "command": "GJ02 fixture script (PowerShell here-string piped to python -)",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "1 baseline: red\n2 order: O-d557666aa2e8 head 0a17e398d4bc dirty False\n3 after apply: green | bytes match FIXED: True\n4 out-of-writeset: SBL_E_WRITE_OUTSIDE_WRITESET | other.py exists: False\n5 stale head: SBL_E_STALE_HEAD\n6 rollback: red | bytes restored: True | porcelain: ''\n7 head: 4cd05a0a2f84",
+      "note": "git init/add/commit/checkout -- ran only inside .tmp-docs/gj02; no git write verb touched the SBL repo"
+    },
+    {
+      "command": "python -c \"from sbl_sp.bridge import SkillBridge; ...\" (GJ03 discover/match/load/unload/invoke)",
+      "cwd": "C:/Projects/Agent_Workspace/SBL",
+      "exit_code": 0,
+      "stdout": "discover skill=sbl-todo triggers=['todo', 'task list', '待辦']; match todo=True; match unrelated=False; load schema=SBL-SKILL-LOAD/1 loaded=True host=codex trace_id=L-7f9eb405f7af; provider_on=False -> SBL_E_PROVIDER_OFF; unload residue=[]; repo.write/net.call/todo.delete -> SBL_E_PERMISSION_DENIED"
+    }
+  ],
+  "test_summary": {
+    "command": "python -m pytest -q -p no:cacheprovider",
+    "collected": 81,
+    "passed": 81,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "pyproject_toml_parses": true,
+    "yaml_parse": "RUN (PyYAML 6.0.3 present): OK, permissions=contents:read, matrix os=[ubuntu-latest, windows-latest]",
+    "verify_source": {
+      "ok": true,
+      "docs": 14,
+      "mismatches": 0
+    }
+  },
+  "notes": [
+    "pyproject.toml is verbatim per 13_SLICE_C.md, with no licence field; no LICENSE file exists and README states 'LICENSE: pending owner ruling'.",
+    "ci.yml quotes the 'on' key because PyYAML's YAML 1.1 loader otherwise reads it as boolean True; GitHub Actions accepts both.",
+    "13_SLICE_C.md's GJ01 examples place --data-dir after the subcommand; the CLI parses it as a global option and refuses with exit 4. Source is out of scope, so docs/JOURNEYS.md uses the working order and records the failure as the negative case.",
+    "docs/JOURNEYS.md documents that `python -m sbl_cli.sbl_todo` emits a harmless RuntimeWarning from sbl_cli/__init__.py, and that `--help` is an unknown subcommand (exit 2) rather than a help surface.",
+    "On this host `python` on PATH is a 3.11 runtime without pytest; all acceptance commands above were run with the mandated HG-KSEOS venv interpreter (3.12.14).",
+    "docs/JOURNEYS.md commands are PowerShell form; the GJ02 body was also executed under bash -lc with identical results.",
+    "Two concurrent pytest invocations were observed once to race on the shared scratch fixture (tests/conftest.py uses one per-machine path). The suite is green when run serially, which is how the acceptance count was taken.",
+    "No source or test file was modified; no network call, no git write verb against the repo, and no write outside the repo root."
+  ]
+}
