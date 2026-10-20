@@ -166,3 +166,22 @@ Repo `https://github.com/shw097-team/SBL` (public, default `main`), branches
 (`30_PUBLICATION_READBACK.json`). Token handling: read only by a local credential helper script; never
 printed, never in argv, never in a commit — the scanner gate enforces the "no credential in the tree" side
 of that.
+
+
+## 10. NARROW_REPAIR round (external report SBL-EIAR-20261020-R1)
+
+This section is the pointer for the repair round that follows the external acceptance report; the detail
+lives in `70_NARROW_REPAIR_M1_M4.md` and the machine-readable return in `75_EVIDENCE_RETURN.json`.
+
+| Item | State |
+|---|---|
+| Candidate | `candidate/r2-20261020-v10` @ `2d1c32d6c48fdc09a7d529fc4535482283552487` (supersedes `47a428a`, whose CI failed) |
+| M1 CI | `CLOSED_WITH_EVIDENCE` — run `39411780991`, both platforms `136 passed, 1 skipped` |
+| M2 write-set escape | `FIXED_MAKER_SIDE` — real-path containment, `SBL_E_WRITE_OUTSIDE_WRITESET` |
+| M3 G-KNOW false authority | `FIXED_MAKER_SIDE` — coverage gaps recorded, unindexed ids refused, hits non-authoritative |
+| M4 clean-room checker | `NOT_EXECUTED` — four dispatches died on `ws://127.0.0.1:10101/v1/responses` `426`; freeze verified `838 -> 838` each time |
+| Merge / release | `NOT_GRANTED` — no independent receipt, no licence ruling |
+
+The earlier statement in `30_PUBLICATION_READBACK.json` that CI had never been observed is a historical
+record of that moment. GitHub CI has since been observed, and it failed eight times before M1; this round's
+runs are the authoritative state.
