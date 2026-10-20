@@ -1,0 +1,420 @@
+{
+  "schema": "SBL-M4-LITE-RAW/1",
+  "subject_root": "C:\\Projects\\_sbl_r3\\v13",
+  "subject_head": "bedc11957d4fc2474b249b69d200829272c118ef",
+  "subject_dirty_porcelain": "",
+  "reviewer": "ORCHESTRATOR_AUTOMATED_PROCEDURE (not a signature)",
+  "python": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+  "independent_probes": [
+    {
+      "case_id": "AC-M4-01/POS",
+      "kind": "POS",
+      "expectation": "real corpus filenames carry their DOC id",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "resolved": {
+          "SBL_PIPD-LS-PKG_DOC-05.md": "DOC-05",
+          "SBL_PIPD-LS-PKG_DOC-13.md": "DOC-13",
+          "DOC-00.md": "DOC-00"
+        }
+      },
+      "error": null,
+      "raw_sha256": "7cc57f3e7d57be9f314bf1e216855d1058a3e5f41527813671da3d7af8d374a0"
+    },
+    {
+      "case_id": "AC-M4-01/NEG",
+      "kind": "NEG",
+      "expectation": "a DOC id absent from the index is refused",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+        "message": "the question names a source id that is not in the index",
+        "details": null
+      },
+      "error": null,
+      "raw_sha256": "78af55321ae64111f7cfa82eb8a7b4fd28f307eb6378bc26db024bb7c36c77fd"
+    },
+    {
+      "case_id": "AC-M4-02/NEG",
+      "kind": "NEG",
+      "expectation": "separator variants of an unknown id all refuse",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "variants": {
+          "DOC/27": {
+            "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "message": "the question names a source id that is not in the index",
+            "details": null
+          },
+          "DOC--27": {
+            "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "message": "the question names a source id that is not in the index",
+            "details": null
+          },
+          "DOC27": {
+            "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "message": "the question names a source id that is not in the index",
+            "details": null
+          },
+          "doc_27": {
+            "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "message": "the question names a source id that is not in the index",
+            "details": null
+          },
+          "DOC 27": {
+            "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+            "message": "the question names a source id that is not in the index",
+            "details": null
+          }
+        }
+      },
+      "error": null,
+      "raw_sha256": "6fa23f5aca868fc98c94a4dd7c57b0ba8fdd09fec96a7f29245d8a519c645f5f"
+    },
+    {
+      "case_id": "AC-M4-02/POS",
+      "kind": "POS",
+      "expectation": "the refusal is not blanket: an indexed id answers",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "hits": 1
+      },
+      "error": null,
+      "raw_sha256": "01b418cf10b2adff710de0847be028c4ba00dad4f69ea26777ab3b68a55b297c"
+    },
+    {
+      "case_id": "AC-M4-03/POS",
+      "kind": "POS",
+      "expectation": "a DOC-05 question answers only from DOC-05",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "doc05_hits": [
+          "SBL_PIPD-LS-PKG_DOC-05.md"
+        ],
+        "doc00_hits": [
+          "SBL_PIPD-LS-PKG_DOC-00.md"
+        ]
+      },
+      "error": null,
+      "raw_sha256": "e4843c76a13524a3355a83ea428fec7906ede5bef7506198cdf8f434d28a00fa"
+    },
+    {
+      "case_id": "AC-M4-03/NEG",
+      "kind": "NEG",
+      "expectation": "a named source with no content is refused",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "raised": "SBL_E_KNOWLEDGE_NO_ANSWER",
+        "message": "the question names a source id that is not in the index",
+        "details": null
+      },
+      "error": null,
+      "raw_sha256": "0a3df9ce4a6f4b90fd2502aa76d374e3e0d2dd7731d9cf58f319be082b0d912e"
+    },
+    {
+      "case_id": "AC-M4-04/POS",
+      "kind": "POS",
+      "expectation": "a signed ACK from a trusted issuer allows",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "allowed": true,
+        "no_effect": false,
+        "reason": "NATIVE_ACK_VERIFIED"
+      },
+      "error": null,
+      "raw_sha256": "81fb9ddd075bb911592435ebc56a5853ceb8db392a6c398223cf552df1b9fa96"
+    },
+    {
+      "case_id": "AC-M4-04/NEG",
+      "kind": "NEG",
+      "expectation": "fabricated and blank signatures refuse",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "refusal_form": "exception",
+        "codes": [
+          "SBL_E_REQUIRES_NATIVE_ACK"
+        ],
+        "fabricated": {
+          "raised": "SBL_E_REQUIRES_NATIVE_ACK",
+          "message": "SWOF_CONNECTED requires a verifiable native acknowledgement",
+          "details": null
+        },
+        "unsigned": {
+          "raised": "SBL_E_REQUIRES_NATIVE_ACK",
+          "message": "SWOF_CONNECTED requires a verifiable native acknowledgement",
+          "details": null
+        }
+      },
+      "error": null,
+      "raw_sha256": "f875cb5c9f03ccb1a1582a84f5f2fad35c2092dcd2aec0f1487684b3d1f3e2c4"
+    },
+    {
+      "case_id": "AC-M4-04/NEG-2",
+      "kind": "NEG",
+      "expectation": "an ACK signed by an untrusted issuer refuses",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "refusal_form": "exception",
+        "raised": "SBL_E_REQUIRES_NATIVE_ACK",
+        "message": "SWOF_CONNECTED requires a verifiable native acknowledgement",
+        "details": null
+      },
+      "error": null,
+      "raw_sha256": "2693e700871e9b077d80acaf35d2e5e2c49cfb21652001d07199605dca610d9f"
+    },
+    {
+      "case_id": "AC-M4-04/SHADOW",
+      "kind": "POS",
+      "expectation": "PREW3_SHADOW never effects",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "reason": "SHADOW_READ_ONLY_NO_EFFECT"
+      },
+      "error": null,
+      "raw_sha256": "e39ed633fdd29ab1309164236765be3e0336bea53e27f689af93499d1964b0d4"
+    },
+    {
+      "case_id": "AC-M4-05/NEG",
+      "kind": "NEG",
+      "expectation": "signature cannot move tuple / collide",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "refusal_form": "exception",
+        "moved": {
+          "raised": "SBL_E_REQUIRES_NATIVE_ACK",
+          "message": "SWOF_CONNECTED requires a verifiable native acknowledgement",
+          "details": null
+        },
+        "delimiter_collision": false
+      },
+      "error": null,
+      "raw_sha256": "67e35f00d7ce069ed82ca7154696c18592d297770872286a11832e2cf136ba74"
+    },
+    {
+      "case_id": "AC-M4-05/POS",
+      "kind": "POS",
+      "expectation": "distinct tuples sign distinctly",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "distinct": true
+      },
+      "error": null,
+      "raw_sha256": "224b2c487229b2bdbc10ad3bf80f81f9c54a959de15654dc97baa899a7d57559"
+    },
+    {
+      "case_id": "AC-M4-06/NEG",
+      "kind": "NEG",
+      "expectation": "a target that changes after validation refuses",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "raised": {
+          "raised": "SBL_E_WRITE_OUTSIDE_WRITESET",
+          "message": "write target changed between validation and write",
+          "details": null
+        },
+        "outside_written": false
+      },
+      "error": null,
+      "raw_sha256": "2bec3eaff3f775aa9b91352782ee2aea5e2dd563d438f0b7c6af6ec748fc2b36"
+    },
+    {
+      "case_id": "AC-M4-06/NEG-2",
+      "kind": "NEG",
+      "expectation": "a link inside the writeset cannot escape",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "link_kind": "junction",
+        "raised": {
+          "raised": "SBL_E_WRITE_OUTSIDE_WRITESET",
+          "message": "write target resolves outside the repository root through a link",
+          "details": null
+        }
+      },
+      "error": null,
+      "raw_sha256": "95d27c98e35454fb16fc8abe63134348c53f8da959bb17f96727ca9b78ea7a26"
+    },
+    {
+      "case_id": "AC-M4-06/POS",
+      "kind": "POS",
+      "expectation": "an in-scope write still lands",
+      "executor": "independent_probe",
+      "ok": true,
+      "observed": {
+        "ok": true,
+        "content": "value = 1"
+      },
+      "error": null,
+      "raw_sha256": "27038c8a86525a1362da15c77f483fa8c50a79f6a3aad787a761e7fdfde47f02"
+    }
+  ],
+  "repo_tests": [
+    {
+      "case_id": "GKNOW-ID/NEG/repo-test",
+      "property": "GKNOW-ID",
+      "kind": "NEG",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_gknow.py::test_a_named_source_that_does_not_exist_is_refused -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "GKNOW-ID/POS/repo-test",
+      "property": "GKNOW-ID",
+      "kind": "POS",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_gknow.py::test_the_ids_the_real_corpus_uses_are_recognised -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "GKNOW-SEP/NEG/repo-test",
+      "property": "GKNOW-SEP",
+      "kind": "NEG",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_gknow.py::test_separator_variants_of_an_unknown_source_are_refused -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        "....                                                                     [100%]"
+      ],
+      "stdout_sha256": "9d5a2646cfea101970d3c6e3eb8c2650770734a095b2562b4c25cf9f554c913c",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "GKNOW-BIND/POS/repo-test",
+      "property": "GKNOW-BIND",
+      "kind": "POS",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_gknow.py::test_a_named_source_constrains_the_answer_to_that_source -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "MODE-ACK/NEG/repo-test",
+      "property": "MODE-ACK",
+      "kind": "NEG",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_modes.py::test_swof_refuses_an_ack_that_is_only_four_non_empty_strings -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "MODE-ACK/POS/repo-test",
+      "property": "MODE-ACK",
+      "kind": "POS",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_modes.py::test_swof_accepts_an_ack_signed_with_the_configured_key -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "MODE-SIG/NEG/repo-test",
+      "property": "MODE-SIG",
+      "kind": "NEG",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_modes.py::test_ack_signature_cannot_be_moved_between_tuples -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "BRIDGE-SETTLE/NEG/repo-test",
+      "property": "BRIDGE-SETTLE",
+      "kind": "NEG",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_core_modules.py::test_bridge_apply_refuses_a_path_that_changes_between_check_and_write -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    },
+    {
+      "case_id": "BRIDGE-SETTLE/POS/repo-test",
+      "property": "BRIDGE-SETTLE",
+      "kind": "POS",
+      "executor": "repo_test",
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m pytest tests/test_core_modules.py::test_bridge_apply_positive_inside_a_link_that_stays_inside -q -p no:cacheprovider --no-header",
+      "exit": 0,
+      "ok": true,
+      "stdout_tail": [
+        ".                                                                        [100%]"
+      ],
+      "stdout_sha256": "914192d0b998765b000418f37d07a01536c2ae674628eb5a10b106f2b50ebb92",
+      "stderr_tail": []
+    }
+  ],
+  "snapshot_before": {
+    "files": 183,
+    "bytes": 1243314,
+    "digest": "c4d6f6d46fa6ef40bdaa54907ae5b2c8a6f612488c3ccf42c5c6477a1ec68b1f"
+  },
+  "snapshot_after": {
+    "files": 183,
+    "bytes": 1243314,
+    "digest": "c4d6f6d46fa6ef40bdaa54907ae5b2c8a6f612488c3ccf42c5c6477a1ec68b1f"
+  },
+  "subject_mutation": "CLEAN",
+  "all_cases_ok": true,
+  "verdict": "HOLD_PENDING_HUMAN_SIGNATURE",
+  "verdict_reason": "Every automated case passed, but this runner is the maker-side procedure, not the reviewer. Only a human signature turns it into HUMAN_PROCEDURAL_ACCEPTANCE."
+}

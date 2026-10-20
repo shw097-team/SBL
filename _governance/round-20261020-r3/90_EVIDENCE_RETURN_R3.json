@@ -1,0 +1,256 @@
+{
+  "schema": "SBL-MVP-EVIDENCE-RETURN/1",
+  "round": "R3 (v13 FULL-COVERAGE CONTINUATION)",
+  "instruction_id": "SBL-R3-V13-FULL-COVERAGE-20261020",
+  "external_audit": {
+    "id": "SBL-EIAR-20261020-R2-V13-FULL",
+    "sha256": "e476a1d884b2fcb40a82343ca999267c8d83073a6216671ff4b5a3f875fa1b9a",
+    "header_sha_matches_source": true
+  },
+  "subject": {
+    "repo": "shw097-team/SBL",
+    "base": "ca6830d9fc9d89b7b87e818670dd67b393472d79",
+    "candidate_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "candidate_tree_sha": "fa7c12923589201fb2286c131e6511432de600a9",
+    "candidate_branch": "candidate/r2-20261020-v13",
+    "c_track_candidate": {
+      "branch": "candidate/c3-20261020-v1",
+      "sha": "39c604d52570922fdf84b6df9c9359765643b450"
+    },
+    "evidence_commit_sha": null,
+    "evidence_commit_sha_note": "self-referential: resolved by the parent edge of this commit, recorded in 80_REMOTE_READBACK.json",
+    "evidence_manifest_sha256": null,
+    "pr_number": "HOLD",
+    "pr_hold_reason": "PR opens only after a human signs HUMAN_PROCEDURAL_ACCEPTANCE (audit F13-08 is procedural)"
+  },
+  "checks": {
+    "ci_ubuntu": {
+      "url": "https://github.com/shw097-team/SBL/actions/runs/39426671565",
+      "job": 118640874662,
+      "exit": 0,
+      "denominator": "145 passed, 1 skipped",
+      "subject_sha": "bedc11957d4fc2474b249b69d200829272c118ef"
+    },
+    "ci_windows": {
+      "url": "https://github.com/shw097-team/SBL/actions/runs/39426671565",
+      "job": 118640874677,
+      "exit": 0,
+      "denominator": "145 passed, 1 skipped",
+      "subject_sha": "bedc11957d4fc2474b249b69d200829272c118ef"
+    },
+    "ci_c_track": {
+      "url": "https://github.com/shw097-team/SBL/actions/runs/39438217104",
+      "jobs": [
+        118680813011,
+        118680813509
+      ],
+      "exit": 0,
+      "subject_sha": "39c604d52570922fdf84b6df9c9359765643b450"
+    },
+    "m4_lite": {
+      "six_properties": "AC-M4-01..06 POS+NEG",
+      "cases": 24,
+      "passed": 24,
+      "failed": 0,
+      "executor": "maker-side procedural harness (M4LITE/run_m4lite.py)",
+      "human_identity": null,
+      "independence": "NOT_APPLICABLE_UNTIL_SIGNED",
+      "subject_mutation": "CLEAN",
+      "raw_sha256": "b28337e2da2266a7a0f1c1e2b0f96fac56aa99f4c2abd540caf892d1f5974de3",
+      "verdict": "HOLD",
+      "verdict_reason": "automated cases green; the signature is the human's"
+    },
+    "gj01_gj02_gj03": {
+      "commands": [
+        "python tools/run_gates.py",
+        "python -m pytest -p no:cacheprovider"
+      ],
+      "denominators": [
+        156,
+        156
+      ],
+      "subject_sha": "39c604d52570922fdf84b6df9c9359765643b450",
+      "raw_sha256": "32ca371452b1b38d87d3ea901aea069daa63d620375fb138485ab2f2606a6aa1"
+    },
+    "scanner": {
+      "verdict": "CLEAN",
+      "files": 188,
+      "hard_findings": 0
+    },
+    "prompt_compiler": {
+      "contracts": [
+        "SBL_C0_C9_CONTRACT-R3AB.json",
+        "SBL_C0_C9_CONTRACT-R3C.json"
+      ],
+      "verdict": "PROMPT_COMPILE_PASS",
+      "stages": [
+        "lint",
+        "activation",
+        "acceptance",
+        "compile"
+      ],
+      "all_exit_zero": true
+    }
+  },
+  "release_only": {
+    "license_owner_ref": "90_OWNER_DECISIONS.md (MIT, 2026-10-20) + LICENSE + NOTICE + SHIPPED_MATERIAL_INVENTORY.md",
+    "wheel_sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50",
+    "wheel_bytes": 27181,
+    "wheel_built_from": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "sdist_sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d",
+    "sdist_bytes": 36278,
+    "clean_install_uninstall": {
+      "receipt": "60_R2_PREVIEW/AC_R2_RECEIPT.json",
+      "all_steps_ok": true,
+      "python": "3.11.9 fresh venv",
+      "fuo": "sbl-todo init/add/list --json in a separate process",
+      "residue": "no sbl_* module, no sbl-todo console script"
+    },
+    "owner_human_release": "HOLD — no Release/Tag authorised this round"
+  },
+  "extension_full_design": {
+    "official_pipd_writer": "NOT_RUN: the eight PIPD skills are specifications, not executables here; PIPD_PI_PD_BOUND not claimed",
+    "three_private_plugins": {
+      "state": "HOST_PENDING",
+      "packages": 3,
+      "distinct_identities": true,
+      "deterministic": true,
+      "host_receipts": 0,
+      "request": "51_HOST_INSTALL_REQUEST.md"
+    },
+    "hgk_harness": "NOT_RUN: needs HGK native Owner/WorkOrder/ECP/Permit; this round's SBL authority does not grant HGK installer write access",
+    "capability_ledger": {
+      "path": "42_DONOR_LEDGER.json",
+      "rows": 441,
+      "installed": 0,
+      "amended_rows": [
+        "METHOD-09",
+        "NOBJ24/NOBJ-020"
+      ]
+    },
+    "requirement_ledger": {
+      "path": "40_REQUIREMENT_LEDGER.json",
+      "parents": 50,
+      "children": 149,
+      "proven": 0,
+      "state": "NOT_PROVEN with locators"
+    },
+    "delivery_surface_matrix": {
+      "path": "41_SURFACE_MATRIX.json",
+      "surfaces": 38,
+      "host_pending": 33,
+      "not_admitted": 5,
+      "passed": 0
+    },
+    "source_claims": {
+      "path": "20_SOURCE_LEDGER.json",
+      "docs_rehashed": 14,
+      "aggregate_sha256": "754cf7bed08f58b89003a93cbf3e2d5349b85dd503121d38b74628683efcda3b"
+    },
+    "swof_handoff": {
+      "path": "95_SWOF_W2_HANDOFF.md",
+      "state": "W2_SHADOW_ONLY",
+      "w3": "NOT_GRANTED"
+    }
+  },
+  "claim_ceiling": {
+    "A": "M4_LITE_HOLD (harness green, signature missing)",
+    "B": "FOUNDATION_PREVIEW_READY (packaging verified; Release not authorised)",
+    "C": "PARTIAL_FULL_DESIGN",
+    "not_claimed": [
+      "INDEPENDENT_CASE_PASS",
+      "MERGED",
+      "FOUNDATION_PREVIEW_RELEASED",
+      "THREE_PRIVATE_PLUGINS_HOST_VERIFIED",
+      "HGK_NATIVE_ACCEPTED",
+      "FULL_SBL_ACCEPTED",
+      "SWOF_W3",
+      "PRODUCTION",
+      "PIPD_PI_PD_BOUND"
+    ]
+  },
+  "open_items": [
+    {
+      "id": "TT-R3-M4LITE-SIGN",
+      "owner": "human reviewer (owner or third party)",
+      "blocks": [
+        "A merge"
+      ],
+      "exit": "signed HUMAN_PROCEDURAL_ACCEPTANCE against bedc119",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-PR-OPEN",
+      "owner": "repo owner",
+      "blocks": [
+        "A merge"
+      ],
+      "exit": "PR from v13 to main, reviewed",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-RELEASE",
+      "owner": "repo owner",
+      "blocks": [
+        "B release"
+      ],
+      "exit": "Owner authorises v0.1.0-foundation-preview",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-HOST-INSTALL",
+      "owner": "workspace operator with plugin rights",
+      "blocks": [
+        "C-SP"
+      ],
+      "exit": "3 receipts, 3 distinct plugin ids",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-HGK-HARNESS",
+      "owner": "HGK native Owner",
+      "blocks": [
+        "C-HGK"
+      ],
+      "exit": "native InstallSession receipt",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-PIPD-NATIVE",
+      "owner": "PIPD native writer operator",
+      "blocks": [
+        "C-PIPD-8"
+      ],
+      "exit": "native PI/PD + ONE ECP/permit",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-LEDGER-STALE-09",
+      "owner": "donor ledger maintainer",
+      "blocks": [],
+      "exit": "METHOD-09 adoption status updated",
+      "state": "CLOSED_THIS_ROUND"
+    },
+    {
+      "id": "TT-LEDGER-STALE-020",
+      "owner": "donor ledger maintainer",
+      "blocks": [],
+      "exit": "NOBJ24/NOBJ-020 updated",
+      "state": "CLOSED_THIS_ROUND"
+    },
+    {
+      "id": "TT-R3-SBOM",
+      "owner": "packaging maintainer",
+      "blocks": [],
+      "exit": "an SBOM produced by a real generator (none installed here)",
+      "state": "OPEN"
+    },
+    {
+      "id": "TT-R3-GKNOW-CJK",
+      "owner": "product owner",
+      "blocks": [],
+      "exit": "CJK tokenisation and 61 long paths handled",
+      "state": "HOLD_SCOPED"
+    }
+  ]
+}

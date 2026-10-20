@@ -1,0 +1,80 @@
+{
+  "schema": "SBL-C-TRACK-RECEIPT/1",
+  "track": "C (full design) — first slice only",
+  "candidate": {
+    "branch": "candidate/c3-20261020-v1",
+    "sha": "39c604d52570922fdf84b6df9c9359765643b450",
+    "base": "bedc11957d4fc2474b249b69d200829272c118ef"
+  },
+  "ci": {
+    "run": 39438217104,
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": {
+      "ubuntu": 118680813011,
+      "windows": 118680813509
+    },
+    "url": "https://github.com/shw097-team/SBL/actions/runs/39438217104"
+  },
+  "gates": {
+    "receipt": "61_C_TRACK/gates_c3_stdout.txt",
+    "receipt_sha256": "32ca371452b1b38d87d3ea901aea069daa63d620375fb138485ab2f2606a6aa1",
+    "gates": 11,
+    "exit_zero": 11,
+    "suite_full_passed": 156,
+    "denominators": {
+      "core": 47,
+      "modes": 14,
+      "know": 15,
+      "sp_isolation": 18,
+      "gj03": 7,
+      "gj01": 7,
+      "gj02": 7,
+      "rollback": 4
+    },
+    "secret_scan": {
+      "verdict": "CLEAN",
+      "files": 188,
+      "hard_findings": 0
+    },
+    "source_freeze": {
+      "ok": true,
+      "docs": 14
+    }
+  },
+  "packages": [
+    {
+      "principal": "tpm_sp",
+      "file": "50_SP_PACKAGES/dist/sbl-tpm-sp-0.1.0.zip",
+      "bytes": 2087,
+      "sha256": "eb26683dc1657bc897b71bb17822aa7da4bfce1951317e85d73d52802209abc8"
+    },
+    {
+      "principal": "commander_sp",
+      "file": "50_SP_PACKAGES/dist/sbl-commander-sp-0.1.0.zip",
+      "bytes": 2129,
+      "sha256": "f981d53fc164b1ef4eb0a3e8fcf4439ca7b1132d76c5956e9961a33b654dcb78"
+    },
+    {
+      "principal": "external_challenge_sp",
+      "file": "50_SP_PACKAGES/dist/sbl-external-challenge-sp-0.1.0.zip",
+      "bytes": 2200,
+      "sha256": "75a904c470bba582e0a7f0c5282c7039b4f9ae4a7decbae334fafc559f148746"
+    }
+  ],
+  "determinism": {
+    "builds": 2,
+    "identical": true,
+    "method": "two out-dirs, byte compare of all three archives"
+  },
+  "state": {
+    "C-SP-01/02/03": "PACKAGED_NOT_INSTALLED (HOST_PENDING)",
+    "C-HOST-01": "NOT_RUN (no host loader authority)",
+    "C-HGK-HARNESS": "NOT_RUN (needs HGK native Owner/WorkOrder/ECP/Permit)",
+    "C-PIPD-8": "NOT_RUN (official PIPD writers are not executables here)",
+    "C-PRODUCT": "PARTIAL (existing core/CLI/GJ unchanged; ProductKind expansion not attempted)",
+    "C-DONOR": "LEDGER_ONLY (441 dispositions recorded; 0 installed by design)",
+    "C-TRACE-UX": "LEDGER_ONLY (50/149 and 38 surfaces recorded with NOT_PROVEN/HOST_PENDING)"
+  },
+  "claim": "PARTIAL_FULL_DESIGN"
+}

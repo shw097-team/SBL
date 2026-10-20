@@ -1,0 +1,247 @@
+{
+  "schema": "SBL-R2-PACKAGING-RECEIPT/1",
+  "subject_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+  "subject_tree_sha": "fa7c12923589201fb2286c131e6511432de600a9",
+  "python_build": "3.12.14",
+  "python_install": "3.11",
+  "artefacts": {
+    "wheel": {
+      "name": "sbl_v01-0.1.0-py3-none-any.whl",
+      "bytes": 27181,
+      "sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50"
+    },
+    "sdist": {
+      "name": "sbl_v01-0.1.0.tar.gz",
+      "bytes": 36278,
+      "sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d"
+    }
+  },
+  "receipts": [
+    {
+      "case_id": "AC-R2-01/export",
+      "expectation": "the exact frozen tree is exported, not a directory copy",
+      "ok": true,
+      "command": "git -C C:/Projects/Agent_Workspace/SBL archive --format=tar -o C:\\Projects\\_sbl_r3\\subject.tar bedc11957d4fc2474b249b69d200829272c118ef",
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "AC-R2-01/extract",
+      "expectation": "the exported tar expands",
+      "ok": true,
+      "command": "tar -xf C:\\Projects\\_sbl_r3\\subject.tar -C C:\\Projects\\_sbl_r3\\build-src",
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "AC-R2-01/tree",
+      "expectation": "the tree sha is recorded with the artefacts",
+      "ok": true,
+      "command": "git -C C:/Projects/Agent_Workspace/SBL rev-parse bedc11957d4fc2474b249b69d200829272c118ef^{tree}",
+      "exit": 0,
+      "stdout": "fa7c12923589201fb2286c131e6511432de600a9",
+      "stderr": "",
+      "stdout_sha256": "72e23f397c50b4f5f334f2feb1747ecc9ca4c9d6737a9cf95346e22c11daeb6d",
+      "tree_sha": "fa7c12923589201fb2286c131e6511432de600a9"
+    },
+    {
+      "case_id": "AC-R2-01/build",
+      "expectation": "wheel and sdist are produced (build --no-isolation)",
+      "ok": true,
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -m build --no-isolation --outdir C:\\Projects\\Agent_Workspace\\SBL\\_governance\\round-20261020-r3\\60_R2_PREVIEW\\dist",
+      "exit": 0,
+      "stdout": "running egg_info\r\ncreating sbl_v01.egg-info\r\nwriting sbl_v01.egg-info\\PKG-INFO\r\nwriting dependency_links to sbl_v01.egg-info\\dependency_links.txt\r\nwriting entry points to sbl_v01.egg-info\\entry_points.txt\r\nwriting top-level names to sbl_v01.egg-info\\top_level.txt\r\nwriting manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nreading manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nadding license file 'LICENSE'\r\nadding license file 'NOTICE'\r\nwriting manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nrunning sdist\r\nrunning egg_info\r\nwriting sbl_v01.egg-info\\PKG-INFO\r\nwriting dependency_links to sbl_v01.egg-info\\dependency_links.txt\r\nwriting entry points to sbl_v01.egg-info\\entry_points.txt\r\nwriting top-level names to sbl_v01.egg-info\\top_level.txt\r\nreading manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nadding license file 'LICENSE'\r\nadding license file 'NOTICE'\r\nwriting manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nrunning check\r\ncreating sbl_v01-0.1.0\r\ncreating sbl_v01-0.1.0\\sbl_cli\r\ncreating sbl_v01-0.1.0\\sbl_core\r\ncreating sbl_v01-0.1.0\\sbl_sp\r\ncreating sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncreating sbl_v01-0.1.0\\tests\r\ncopying files to sbl_v01-0.1.0...\r\ncopying LICENSE -> sbl_v01-0.1.0\r\ncopying NOTICE -> sbl_v01-0.1.0\r\ncopying README.md -> sbl_v01-0.1.0\r\ncopying pyproject.toml -> sbl_v01-0.1.0\r\ncopying sbl_cli\\__init__.py -> sbl_v01-0.1.0\\sbl_cli\r\ncopying sbl_cli\\__main__.py -> sbl_v01-0.1.0\\sbl_cli\r\ncopying sbl_cli\\sbl_todo.py -> sbl_v01-0.1.0\\sbl_cli\r\ncopying sbl_core\\__init__.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\core.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\dto.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\errors.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\gknow.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m01_intake.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m02_spec.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m03_routing.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m04_bridge.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m05_verify.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\m06_repair.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_core\\modes.py -> sbl_v01-0.1.0\\sbl_core\r\ncopying sbl_sp\\__init__.py -> sbl_v01-0.1.0\\sbl_sp\r\ncopying sbl_sp\\bridge.py -> sbl_v01-0.1.0\\sbl_sp\r\ncopying sbl_sp\\sp.py -> sbl_v01-0.1.0\\sbl_sp\r\ncopying sbl_v01.egg-info\\PKG-INFO -> sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncopying sbl_v01.egg-info\\SOURCES.txt -> sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncopying sbl_v01.egg-info\\dependency_links.txt -> sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncopying sbl_v01.egg-info\\entry_points.txt -> sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncopying sbl_v01.egg-info\\top_level.txt -> sbl_v01-0.1.0\\sbl_v01.egg-info\r\ncopying tests\\test_ci_contract.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_core_modules.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_gj03_bridge.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_gknow.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_modes.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_secret_scan.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_sp_isolation.py -> sbl_v01-0.1.0\\tests\r\ncopying tests\\test_verify_source.py -> sbl_v01-0.1.0\\tests\r\nWriting sbl_v01-0.1.0\\setup.cfg\r\nCreating tar archive\r\nremoving 'sbl_v01-0.1.0' (and everything under it)\r\nrunning egg_info\r\nwriting sbl_v01.egg-info\\PKG-INFO\r\nwriting dependency_links to sbl_v01.egg-info\\dependency_links.txt\r\nwriting entry points to sbl_v01.egg-info\\entry_points.txt\r\nwriting top-level names to sbl_v01.egg-info\\top_level.txt\r\nreading manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nadding license file 'LICENSE'\r\nadding license file 'NOTICE'\r\nwriting manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nrunning bdist_wheel\r\nrunning build\r\nrunning build_py\r\ncreating build\\lib\\sbl_core\r\ncopying sbl_core\\core.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\dto.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\errors.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\gknow.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m01_intake.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m02_spec.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m03_routing.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m04_bridge.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m05_verify.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\m06_repair.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\modes.py -> build\\lib\\sbl_core\r\ncopying sbl_core\\__init__.py -> build\\lib\\sbl_core\r\ncreating build\\lib\\sbl_sp\r\ncopying sbl_sp\\bridge.py -> build\\lib\\sbl_sp\r\ncopying sbl_sp\\sp.py -> build\\lib\\sbl_sp\r\ncopying sbl_sp\\__init__.py -> build\\lib\\sbl_sp\r\ncreating build\\lib\\sbl_cli\r\ncopying sbl_cli\\sbl_todo.py -> build\\lib\\sbl_cli\r\ncopying sbl_cli\\__init__.py -> build\\lib\\sbl_cli\r\ncopying sbl_cli\\__main__.py -> build\\lib\\sbl_cli\r\nrunning egg_info\r\nwriting sbl_v01.egg-info\\PKG-INFO\r\nwriting dependency_links to sbl_v01.egg-info\\dependency_links.txt\r\nwriting entry points to sbl_v01.egg-info\\entry_points.txt\r\nwriting top-level names to sbl_v01.egg-info\\top_level.txt\r\nreading manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\nadding license file 'LICENSE'\r\nadding license file 'NOTICE'\r\nwriting manifest file 'sbl_v01.egg-info\\SOURCES.txt'\r\ninstalling to build\\bdist.win-amd64\\wheel\r\nrunning install\r\nrunning install_lib\r\ncreating build\\bdist.win-amd64\\wheel\r\ncreating build\\bdist.win-amd64\\wheel\\sbl_cli\r\ncopying build\\lib\\sbl_cli\\sbl_todo.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_cli\r\ncopying build\\lib\\sbl_cli\\__init__.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_cli\r\ncopying build\\lib\\sbl_cli\\__main__.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_cli\r\ncreating build\\bdist.win-amd64\\wheel\\sbl_core\r\ncopying build\\lib\\sbl_core\\core.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\dto.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\errors.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\gknow.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m01_intake.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m02_spec.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m03_routing.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m04_bridge.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m05_verify.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\m06_repair.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\modes.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncopying build\\lib\\sbl_core\\__init__.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_core\r\ncreating build\\bdist.win-amd64\\wheel\\sbl_sp\r\ncopying build\\lib\\sbl_sp\\bridge.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_sp\r\ncopying build\\lib\\sbl_sp\\sp.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_sp\r\ncopying build\\lib\\sbl_sp\\__init__.py -> build\\bdist.win-amd64\\wheel\\.\\sbl_sp\r\nrunning install_egg_info\r\nCopying sbl_v01.egg-info to build\\bdist.win-amd64\\wheel\\.\\sbl_v01-0.1.0-py3.12.egg-info\r\nrunning install_scripts\r\ncreating build\\bdist.win-amd64\\wheel\\sbl_v01-0.1.0.dist-info\\WHEEL\r\ncreating 'C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\_governance\\\\round-20261020-r3\\\\60_R2_PREVIEW\\\\dist\\\\.tmp-foyqjd_c\\\\sbl_v01-0.1.0-py3-none-any.whl' and adding 'build\\\\bdist.win-amd64\\\\wheel' to it\r\nadding 'sbl_cli/__init__.py'\r\nadding 'sbl_cli/__main__.py'\r\nadding 'sbl_cli/sbl_todo.py'\r\nadding 'sbl_core/__init__.py'\r\nadding 'sbl_core/core.py'\r\nadding 'sbl_core/dto.py'\r\nadding 'sbl_core/errors.py'\r\nadding 'sbl_core/gknow.py'\r\nadding 'sbl_core/m01_intake.py'\r\nadding 'sbl_core/m02_spec.py'\r\nadding 'sbl_core/m03_routing.py'\r\nadding 'sbl_core/m04_bridge.py'\r\nadding 'sbl_core/m05_verify.py'\r\nadding 'sbl_core/m06_repair.py'\r\nadding 'sbl_core/modes.py'\r\nadding 'sbl_sp/__init__.py'\r\nadding 'sbl_sp/bridge.py'\r\nadding 'sbl_sp/sp.py'\r\nadding 'sbl_v01-0.1.0.dist-info/licenses/LICENSE'\r\nadding 'sbl_v01-0.1.0.dist-info/licenses/NOTICE'\r\nadding 'sbl_v01-0.1.0.dist-info/METADATA'\r\nadding 'sbl_v01-0.1.0.dist-info/WHEEL'\r\nadding 'sbl_v01-0.1.0.dist-info/entry_points.txt'\r\nadding 'sbl_v01-0.1.0.dist-info/top_level.txt'\r\nadding 'sbl_v01-0.1.0.dist-info/RECORD'\r\nremoving build\\bdist.win-amd64\\wheel\r\nSuccessfully built sbl_v01-0.1.0.tar.gz and sbl_v01-0.1.0-py3-none-any.whl",
+      "stderr": "* Getting build dependencies for sdist...\r\n* Building sdist...\r\n* Building wheel from sdist\r\n* Getting build dependencies for wheel...\r\n* Building wheel...",
+      "stdout_sha256": "3428c5751b43cf3f3e46e34bde15b7bd880381cd192d97b0b8da691f78572c0f",
+      "artefacts": [
+        {
+          "name": "sbl_v01-0.1.0-py3-none-any.whl",
+          "bytes": 27181,
+          "sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50"
+        },
+        {
+          "name": "sbl_v01-0.1.0.tar.gz",
+          "bytes": 36278,
+          "sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d"
+        }
+      ]
+    },
+    {
+      "case_id": "AC-R2-02/venv",
+      "expectation": "a 3.11 virtual environment outside the repo",
+      "ok": true,
+      "command": "C:\\WINDOWS\\py.EXE -3.11 -m venv C:\\Projects\\_sbl_r3\\venv-r2",
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "case_id": "AC-R2-02/install",
+      "expectation": "the wheel installs with no network",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\python.exe -m pip install --no-index --no-deps C:\\Projects\\Agent_Workspace\\SBL\\_governance\\round-20261020-r3\\60_R2_PREVIEW\\dist\\sbl_v01-0.1.0-py3-none-any.whl",
+      "exit": 0,
+      "stdout": "Processing c:\\projects\\agent_workspace\\sbl\\_governance\\round-20261020-r3\\60_r2_preview\\dist\\sbl_v01-0.1.0-py3-none-any.whl\r\nInstalling collected packages: sbl-v01\r\nSuccessfully installed sbl-v01-0.1.0",
+      "stderr": "",
+      "stdout_sha256": "49f9030a2ed14ef3bcc7964a1944519ad83f94d5723785e7a6f42236699c3731"
+    },
+    {
+      "case_id": "AC-R2-02/pip-show",
+      "expectation": "the installed distribution is visible to pip",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\python.exe -m pip show sbl-v01",
+      "exit": 0,
+      "stdout": "Name: sbl-v01\r\nVersion: 0.1.0\r\nSummary: SBL / SpecBuild Loop v0.1 — candidate build (not released)\r\nHome-page: \r\nAuthor: \r\nAuthor-email: \r\nLicense: \r\nLocation: C:\\Projects\\_sbl_r3\\venv-r2\\Lib\\site-packages\r\nRequires: \r\nRequired-by:",
+      "stderr": "",
+      "stdout_sha256": "5c63e4559a99828567e28ca94bf997dbb85884701e67837895d0f0d4b48b3c74"
+    },
+    {
+      "case_id": "AC-R2-03/init",
+      "expectation": "init creates the data dir",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\sbl-todo.exe --data-dir C:\\Projects\\_sbl_r3\\todo-data init",
+      "exit": 0,
+      "stdout": "{\"ok\": true, \"data_dir\": \"C:\\\\Projects\\\\_sbl_r3\\\\todo-data\"}",
+      "stderr": "",
+      "stdout_sha256": "c0741d69522ed6eb79bd7a2248b9990ff8e173be4641bc4fdeb3236ef3646677"
+    },
+    {
+      "case_id": "AC-R2-03/add",
+      "expectation": "add records an item",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\sbl-todo.exe --data-dir C:\\Projects\\_sbl_r3\\todo-data add --title ship the foundation preview",
+      "exit": 0,
+      "stdout": "{\"ok\": true, \"item\": {\"id\": \"T-5bfbe60788\", \"title\": \"ship the foundation preview\", \"status\": \"open\", \"created\": \"2026-10-20T14:11:50Z\"}, \"status\": \"open\"}",
+      "stderr": "",
+      "stdout_sha256": "b24573a14069ea392a0f32207c6d1688b45095ad74bf750bc7a81a577eb63e18"
+    },
+    {
+      "case_id": "AC-R2-03/list-new-process",
+      "expectation": "a second process reads the item back",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\sbl-todo.exe --data-dir C:\\Projects\\_sbl_r3\\todo-data list --json",
+      "exit": 0,
+      "stdout": "{\"ok\": true, \"items\": [{\"id\": \"T-5bfbe60788\", \"title\": \"ship the foundation preview\", \"status\": \"open\", \"created\": \"2026-10-20T14:11:50Z\"}], \"count\": 1}",
+      "stderr": "",
+      "stdout_sha256": "6034529bc5e6b96f8f05ca0a350056803944a48e7914d09db2c33d5ae7cf1c71",
+      "items": [
+        {
+          "id": "T-5bfbe60788",
+          "title": "ship the foundation preview",
+          "status": "open",
+          "created": "2026-10-20T14:11:50Z"
+        }
+      ]
+    },
+    {
+      "case_id": "AC-R2-03/negative-empty-title",
+      "expectation": "an empty title is refused, not silently stored",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\sbl-todo.exe --data-dir C:\\Projects\\_sbl_r3\\todo-data add --title    ",
+      "exit": 2,
+      "stdout": "{\"ok\": false, \"code\": \"SBL_E_EMPTY_TITLE\", \"message\": \"title must not be empty\", \"detail\": {\"title\": \"   \"}}",
+      "stderr": "",
+      "stdout_sha256": "83878c88dfd27a916a8b61c40d962818726f45ec48f38dc9f0a7d5d692335e6e"
+    },
+    {
+      "case_id": "AC-R2-04/uninstall-data",
+      "expectation": "uninstall removes the state dir it owns",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\sbl-todo.exe --data-dir C:\\Projects\\_sbl_r3\\todo-data uninstall --yes",
+      "exit": 0,
+      "stdout": "{\"ok\": true, \"uninstalled\": true}",
+      "stderr": "",
+      "stdout_sha256": "afecc6bf1fbb94ab4a4b70deabe5d02d7997eed30545a6b4ece01a3fef579763",
+      "data_dir_exists": false
+    },
+    {
+      "case_id": "AC-R2-04/pip-uninstall",
+      "expectation": "pip uninstall succeeds",
+      "ok": true,
+      "command": "C:\\Projects\\_sbl_r3\\venv-r2\\Scripts\\python.exe -m pip uninstall -y sbl-v01",
+      "exit": 0,
+      "stdout": "Found existing installation: sbl-v01 0.1.0\r\nUninstalling sbl-v01-0.1.0:\r\n  Successfully uninstalled sbl-v01-0.1.0",
+      "stderr": "",
+      "stdout_sha256": "956775e35d3d83587692279bf6b0f63857faf68516abf32fd7c36de0d0fb1658"
+    },
+    {
+      "case_id": "AC-R2-04/residue",
+      "expectation": "no sbl module or console script survives uninstall",
+      "ok": true,
+      "site_packages": [],
+      "console_scripts": []
+    },
+    {
+      "case_id": "AC-R2-05/scope-readback",
+      "expectation": "licence/notice/readme are present in the tree; wheel packaging is recorded as-is",
+      "ok": true,
+      "command": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe -c import zipfile,sys;print('\\n'.join(zipfile.ZipFile(sys.argv[1]).namelist())) C:\\Projects\\Agent_Workspace\\SBL\\_governance\\round-20261020-r3\\60_R2_PREVIEW\\dist\\sbl_v01-0.1.0-py3-none-any.whl",
+      "exit": 0,
+      "stdout": "sbl_cli/__init__.py\r\nsbl_cli/__main__.py\r\nsbl_cli/sbl_todo.py\r\nsbl_core/__init__.py\r\nsbl_core/core.py\r\nsbl_core/dto.py\r\nsbl_core/errors.py\r\nsbl_core/gknow.py\r\nsbl_core/m01_intake.py\r\nsbl_core/m02_spec.py\r\nsbl_core/m03_routing.py\r\nsbl_core/m04_bridge.py\r\nsbl_core/m05_verify.py\r\nsbl_core/m06_repair.py\r\nsbl_core/modes.py\r\nsbl_sp/__init__.py\r\nsbl_sp/bridge.py\r\nsbl_sp/sp.py\r\nsbl_v01-0.1.0.dist-info/licenses/LICENSE\r\nsbl_v01-0.1.0.dist-info/licenses/NOTICE\r\nsbl_v01-0.1.0.dist-info/METADATA\r\nsbl_v01-0.1.0.dist-info/WHEEL\r\nsbl_v01-0.1.0.dist-info/entry_points.txt\r\nsbl_v01-0.1.0.dist-info/top_level.txt\r\nsbl_v01-0.1.0.dist-info/RECORD",
+      "stderr": "",
+      "stdout_sha256": "4f30933766c1c77981869833a81a49617816ff9f959fe67f2135c3b124d6850a",
+      "tree_docs": {
+        "LICENSE": {
+          "path": "LICENSE",
+          "exists": true,
+          "sha256": "759b0f8830b642eadfb405bd92703a4058a80b3a886f07282a27f5851a43bfc8",
+          "excerpt": "MIT License\n\nCopyright (c) 2026 shw097-team\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to "
+        },
+        "NOTICE": {
+          "path": "NOTICE",
+          "exists": true,
+          "sha256": "3ffd9f06639e9a95b3f057b3400574d6d8c6682318375559221c46a62d81d7fc",
+          "excerpt": "SBL — SpecBuild Loop\n====================\n\nMIT License, Copyright (c) 2026 shw097-team. See LICENSE.\n\nThird-party notices: no third-party source code is bundled in this repository.\nThe specification corpus, the knowledge-pack documents and the GENIEMAKER design\nvolumes are referenced by locator and are not redistributed here. `pytest` is a\nCI-only tool, not a runtime dependency. Full inventory: SH"
+        },
+        "SHIPPED_MATERIAL_INVENTORY.md": {
+          "path": "SHIPPED_MATERIAL_INVENTORY.md",
+          "exists": true,
+          "sha256": "85c1c70a1718a439b41c26f092eb0a36e3984c0ed73163392d23b07bf99eb480",
+          "excerpt": "# Shipped-material inventory (R1 evidence)\n\nPurpose: the licence file may only be signed by an owner who knows exactly what ships. This is that list,\nmeasured from the tracked tree, not from the source corpus behind it.\n\n## Ships, under the repository's MIT licence\n\n| Path | What it is | Provenance |\n|---|---|---|\n| `sbl_core/`, `sbl_sp/`, `sbl_cli/`, `skills/` | product code: shared core, three S"
+        },
+        "README.md": {
+          "path": "README.md",
+          "exists": true,
+          "sha256": "36e36aa2528e9ecc94a3ee8fc17a3e2a1b29eeadf4a9c0d13813769ff47e8270",
+          "excerpt": "# SBL — SpecBuild Loop v0.1\n\nSBL is a governed build loop: a request becomes a source-bound specification,\nroutes to exactly one permitted build target, is applied through a bridge that\ncan only write inside a declared writeset, is backed by raw evidence, and is\nrepaired in a bounded cone or escalated. This repository is the **v0.1\ncandidate build** of that product.\n\n## Status and claim ceiling\n\n*"
+        }
+      },
+      "wheel_contains_licence": true,
+      "wheel_files": [
+        "sbl_cli/__init__.py",
+        "sbl_cli/__main__.py",
+        "sbl_cli/sbl_todo.py",
+        "sbl_core/__init__.py",
+        "sbl_core/core.py",
+        "sbl_core/dto.py",
+        "sbl_core/errors.py",
+        "sbl_core/gknow.py",
+        "sbl_core/m01_intake.py",
+        "sbl_core/m02_spec.py",
+        "sbl_core/m03_routing.py",
+        "sbl_core/m04_bridge.py",
+        "sbl_core/m05_verify.py",
+        "sbl_core/m06_repair.py",
+        "sbl_core/modes.py",
+        "sbl_sp/__init__.py",
+        "sbl_sp/bridge.py",
+        "sbl_sp/sp.py",
+        "sbl_v01-0.1.0.dist-info/licenses/LICENSE",
+        "sbl_v01-0.1.0.dist-info/licenses/NOTICE",
+        "sbl_v01-0.1.0.dist-info/METADATA",
+        "sbl_v01-0.1.0.dist-info/WHEEL",
+        "sbl_v01-0.1.0.dist-info/entry_points.txt",
+        "sbl_v01-0.1.0.dist-info/top_level.txt",
+        "sbl_v01-0.1.0.dist-info/RECORD"
+      ]
+    }
+  ],
+  "all_ok": true,
+  "verdict": "PACKAGING_CANDIDATE_READY_OWNER_RELEASE_PENDING",
+  "claim": "STANDALONE_FOUNDATION_PREVIEW candidate: sbl-todo CLI + shared core, not a general Skill/Agent builder"
+}
