@@ -1,12 +1,12 @@
 {
-  "schema": "SBL-R3-ROUND-MANIFEST/2",
+  "schema": "SBL-R3-ROUND-MANIFEST/3",
   "round": "round-20261020-r3",
   "instruction_id": "SBL-R3-V13-FULL-COVERAGE-20261020",
-  "file_count": 26,
-  "total_bytes": 656640,
-  "aggregate_sha256": "5fddf8e63ec591274d79bd770bb3b796f09f344aa9f994fc5a701581fdab4566",
-  "aggregate_method": "sha256 over '<sha256>  <path>' lines, sorted by path; paths are repo-tracked only",
-  "source_of_truth": "git ls-files (the index), not the working tree: a gitignored build output is not a published file",
+  "file_count": 27,
+  "total_bytes": 646792,
+  "aggregate_sha256": "acdb3c0782198f39c87078a484697b449fef7727d904662386e42ccfb53a99b7",
+  "aggregate_method": "sha256 over '<sha256>  <path>' lines, sorted by path; each file hashed as its repository BLOB (LF), reproducible with `git show <rev>:<path> | sha256sum`",
+  "source_of_truth": "git index / blob content (git ls-files + git cat-file), never the working tree: a CRLF checkout or a gitignored build output is not a published file",
   "excluded": [
     "ROUND_MANIFEST.json (self)",
     "dist/ and *.whl (gitignored build output: shipped as release assets instead)"
@@ -34,78 +34,78 @@
   "files": [
     {
       "path": "00_NORTH_STAR.md",
-      "bytes": 2915,
-      "sha256": "08d3bda46451a5947d073abb84d6511c0709940193fd3afc0b13907711fb5603"
+      "bytes": 2874,
+      "sha256": "a376bd128fb9cc2fc28993c124d4ea2b611db68e83fc042d7aa6f66bc02382d1"
     },
     {
       "path": "01_EXECUTION_SPEC.md",
-      "bytes": 2935,
-      "sha256": "dbca66aa24e0ba12d92dcb7af4839d7d8bf33fde5954d4a283e6cd9d8d8699d8"
+      "bytes": 2884,
+      "sha256": "21d7e04f4fc5caa1736206685850cb533fff1bc3c7d39037ee746833cf071250"
     },
     {
       "path": "02_TASK_LIST.md",
-      "bytes": 3979,
-      "sha256": "af890678840919e95cd3836aa82f9e667b4854d4ac5d2924f618234d0592c732"
+      "bytes": 3943,
+      "sha256": "2a97a745f89746c1599e9f1c5374bf0de8b20cf762940c0dc272a36bacece19a"
     },
     {
       "path": "03_DETECTION_LIST.md",
-      "bytes": 2771,
-      "sha256": "e4742c50ee96b4b90fe565735f0d048dc8e8fcb8ab1249bc3b882cd84b9b60bb"
+      "bytes": 2738,
+      "sha256": "77c243403f694ca57fc04381ebb87522124f419e6797c79378fd397b9098208b"
     },
     {
       "path": "10_BASELINE_PREFLIGHT.json",
-      "bytes": 2525,
-      "sha256": "0f0545674ee2d307b4834eb0cc3ab1f5149f3f72237439fe077958f54f5665f1"
+      "bytes": 2461,
+      "sha256": "88c6ca25c060178ed637073338ac0e4e32ac8d0ccf3ddad7b1ed34fa63ec9032"
     },
     {
       "path": "12_COMPILER_RESULT.json",
-      "bytes": 3053,
-      "sha256": "cb70da529450f36b392820ae85273e6becb599865588d8126a73cde1aba59fd0"
+      "bytes": 2971,
+      "sha256": "254062f48c8119e4d21a5726d5516a07fcfa350fa9e8bc46f55e94ea25f214ce"
     },
     {
       "path": "13_GATE_CALIBRATION.md",
-      "bytes": 4225,
-      "sha256": "915dcc9d3c6d1e3a3b5a11744959ee71da1179722bca1d1b0326a4b9fb30c9fc"
+      "bytes": 4194,
+      "sha256": "9a102f02879ca4054100059a08099f45305e10302e8186ea75234c44fd23b03b"
     },
     {
       "path": "20_SOURCE_LEDGER.json",
-      "bytes": 10119,
-      "sha256": "8e7c0e598eb816aaab95b806290426b94473053e6d8462365fd380e682234751"
+      "bytes": 9916,
+      "sha256": "d691ba1b4eb55d29db81747483be852820932376ef6ff4bfb348585c1f4ff1bd"
     },
     {
       "path": "30_LANE_AND_REUSE.md",
-      "bytes": 4239,
-      "sha256": "6b04bab1b9a138c3d56c45d58e3059ad9010947c6f677e67c1a6f84b161d3b6b"
+      "bytes": 4172,
+      "sha256": "fc432774e6837b3fcf7d1345ae1ffdbfa8ced25d15860a7a4944f3fad3259c76"
     },
     {
       "path": "40_REQUIREMENT_LEDGER.json",
-      "bytes": 62061,
-      "sha256": "f26af1a491c3726486d0f58d947964c32f92a77eb7f6927ce65aa203c0dbd895"
+      "bytes": 60196,
+      "sha256": "5eb5a9528a5445a390e37d7ed19a8356add6635c205c5cb3c4eb8f46af5f888b"
     },
     {
       "path": "41_SURFACE_MATRIX.json",
-      "bytes": 24830,
-      "sha256": "a9235b1a7a32f98ebdebd15ac8b5bb6ac5687bcb1c18d295dfea9061b56e007d"
+      "bytes": 24092,
+      "sha256": "f7fd9594f47ac464e2311e22285673afa2b06c774266c6e6a09aa116d415b8fe"
     },
     {
       "path": "42_DONOR_LEDGER.json",
-      "bytes": 426925,
-      "sha256": "49d907ed4198101254642c84cb86468fc42399c880d7d0e3cdad85fc838eded2"
+      "bytes": 419554,
+      "sha256": "00003c9108244a250834c64da3dbd23d5a5875ef7ff5a4cec309afc0c41fdac6"
     },
     {
       "path": "50_SP_PACKAGES/SP_SET.json",
-      "bytes": 1627,
-      "sha256": "5eebbfb0e8e7a8b9e2ed70f0c08d08407f474a2f44aef38e4d1c1de43ae6da73"
+      "bytes": 1578,
+      "sha256": "00e5801bb304bc2c2e3bff4e8e39d57c722a9d561b316f30137d6726257f3a40"
     },
     {
       "path": "51_HOST_INSTALL_REQUEST.md",
-      "bytes": 3877,
-      "sha256": "20bd90133d749abc6c844ff5add6a060bce47dd31698c07f54c7235666942041"
+      "bytes": 3809,
+      "sha256": "fed191c44c7ca032afa89a24b5dd4c2fddbc1be528280ad34f08a34c09e7b717"
     },
     {
       "path": "60_R2_PREVIEW/AC_R2_RECEIPT.json",
-      "bytes": 22256,
-      "sha256": "0e6361f127f08c2d4cd02ae13e348472b577dce472b611e472e68e8ece51bdf8"
+      "bytes": 22009,
+      "sha256": "1a52a07cbf69ca102209c6fc7cbf404f68b43232547ff76e520aed4342fae0df"
     },
     {
       "path": "60_R2_PREVIEW/DISTRIBUTION_NOTE.md",
@@ -114,53 +114,59 @@
     },
     {
       "path": "60_R2_PREVIEW/run_r2.py",
-      "bytes": 10320,
-      "sha256": "8765e85e37c5260fd9fe82770cb29f84dbbb37aa1e0f8785efdba206c8ae3abe"
+      "bytes": 10129,
+      "sha256": "8a9a1987af9f5a00ed8c3c31c18f9c1bd0f2527f61161936beddae02c40e6c2e"
     },
     {
       "path": "61_C_TRACK/C_TRACK_RECEIPT.json",
-      "bytes": 2563,
-      "sha256": "f2bcacc45360be62767f3ec69e5fe1e8ee51555c50fd8017491aeafa840d95df"
+      "bytes": 2483,
+      "sha256": "2f0f0022f4ea1c89688d8d7f37f147630430d0580da36bfd52d4a3d128720aee"
     },
     {
       "path": "61_C_TRACK/gates_c3_stdout.txt",
-      "bytes": 826,
-      "sha256": "32ca371452b1b38d87d3ea901aea069daa63d620375fb138485ab2f2606a6aa1"
+      "bytes": 809,
+      "sha256": "0ed4bae6b32624f2ec9803bc8e2ebc8e34344f3ee2630d861cd65d332ec15b48"
     },
     {
       "path": "70_A_PR_PACKET.md",
-      "bytes": 4175,
-      "sha256": "638a2adfa3aab8bf556f6250da097f817c62faae8bfc21b5bbb57bdf79c1f9b6"
+      "bytes": 4086,
+      "sha256": "c1af107c8c43890193cacdf907c05192fac97d9ed97c6d5070d5cf27258ff7d9"
     },
     {
       "path": "80_REMOTE_READBACK.json",
-      "bytes": 2011,
-      "sha256": "2130d10517a5caef5dece70645195be3e315e6bdfba6ef0a7fc43fc01978fd8c"
+      "bytes": 1957,
+      "sha256": "272efc22f7625a269a0ebc9e47b97835dc4c54e8231e6e7c63491cbbbe796e54"
     },
     {
       "path": "90_EVIDENCE_RETURN_R3.json",
-      "bytes": 9834,
-      "sha256": "7743d286b693d6da40b64eb6c52b2e770cacea5c4a10e56764e7e7598336c245"
+      "bytes": 9544,
+      "sha256": "acde7b589ffcd4bf0fbca3609f9c33a6cc88ea8d29d89c3bf0f66eed5669a8dd"
     },
     {
       "path": "95_SWOF_W2_HANDOFF.md",
-      "bytes": 2564,
-      "sha256": "c6ddc82cee8051822f2539f24f6ac75e9c15bc7dd34a52c38f62524fd40a3e10"
+      "bytes": 2522,
+      "sha256": "4fbc232aaa9ce558442366fc8887b40e7de442cc35b4f026e8c9a20fba9dc487"
+    },
+    {
+      "path": "CORRECTIONS.md",
+      "bytes": 2792,
+      "sha256": "f712c6a2feb1543a4e329b5658d094ea75c74556f6c06f3209f304a5a0e1bda8"
     },
     {
       "path": "M4LITE/receipts/M4LITE_RAW.json",
-      "bytes": 15413,
-      "sha256": "b28337e2da2266a7a0f1c1e2b0f96fac56aa99f4c2abd540caf892d1f5974de3"
+      "bytes": 14993,
+      "sha256": "be2125a8a8d7aadf4422e8561ce27b34046a55f38abb294e294b7201372a9ff8"
     },
     {
       "path": "M4LITE/receipts/M4LITE_TRANSCRIPT.md",
-      "bytes": 4525,
-      "sha256": "139e091c155d3f48001806761eb80aae7d57afa83c67fe2716bb4aa8ef48adaa"
+      "bytes": 4488,
+      "sha256": "878319661b452d4b9c1eac25efe1c880f4737b07260304402d6abd334b4ae692"
     },
     {
       "path": "M4LITE/run_m4lite.py",
-      "bytes": 23877,
-      "sha256": "8ee0c5c1da84d6dc5ddcf97cb4d55d95712ff25e4d04a41f5b378be4b86a05f9"
+      "bytes": 23403,
+      "sha256": "0e2cffc85cce4d2a7b7f7a437d4cef015d38c398371e107c99bfcc4fd0a2b2bd"
     }
-  ]
+  ],
+  "known_corrections": "see CORRECTIONS.md: v1/v2 hashed the working tree; v3 hashes blobs"
 }
