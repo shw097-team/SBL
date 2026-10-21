@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,9 +12,16 @@ dependencies = []
 
 [project.scripts]
 sbl-todo = "sbl_cli.sbl_todo:main"
+sbl-stack = "sbl_stack.cli:main"
+sbl-harness = "sbl_harness.cli:main"
 
 [tool.setuptools]
-packages = ["sbl_core", "sbl_sp", "sbl_cli"]
+packages = ["sbl_core", "sbl_sp", "sbl_sp.plugins", "sbl_cli", "sbl_stack", "sbl_harness"]
+
+[tool.setuptools.package-data]
+"sbl_sp" = ["manifests/*.json"]
+"sbl_sp.plugins" = ["*/SKILL.md", "schema/*.json"]
+"sbl_stack" = ["SKILL.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

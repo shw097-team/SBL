@@ -43,6 +43,12 @@ jobs:
       - name: Run test suite
         run: python -m pytest -p no:cacheprovider
 
+      # An editable install resolves every data file straight from the source tree, so a missing
+      # package-data entry is invisible to the whole suite. Round 4 found the wheel shipping without
+      # sbl_sp/manifests/*.json. Build the real wheel and assert its members.
+      - name: Wheel carries its runtime data
+        run: python tools/check_wheel_contents.py
+
       # The frozen 14-book byte check needs the private corpus, which a hosted runner does not have.
       # CI verifies the published manifest's internal consistency instead; the byte-level check stays
       # a local gate. Do not fake a green source freeze on a runner that cannot see the source.
