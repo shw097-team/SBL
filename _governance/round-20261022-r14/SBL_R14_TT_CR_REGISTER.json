@@ -1,0 +1,119 @@
+{
+  "schema": "SBL-R14-TT-CR-REGISTER/1",
+  "round": "round-20261022-r14",
+  "entries": [
+    {
+      "id": "TT-R14-001",
+      "title": "PIPD local root does not match the order locator",
+      "first_broken_link": "order says PIPD-LS-SP; local dir is PIPD on branch rescue/r5p-uncommitted-20261016 while remote main is e95942ab",
+      "earliest_owner": "PIPD Source Owner",
+      "required_authority": "repo hygiene decision",
+      "repair_cone": "read-only: pin remote main e95942ab for any PI/PD source reference; do not use the local rescue tree as source",
+      "status": "OPEN",
+      "blocking": [
+        "TS13",
+        "TS14",
+        "TS18"
+      ]
+    },
+    {
+      "id": "CORR-R14-001",
+      "title": "O-R13-001 corrected: the nonce must be a literal line in the brief",
+      "first_broken_link": "R13 concluded the writer lane drops the nonce; the R14 probes put 'nonce <x>' in the prompt and all three lanes echo it",
+      "earliest_owner": "lane dispatcher + brief author",
+      "required_authority": "none",
+      "repair_cone": "brief template must contain the typed nonce literally; then --require-arm validates. Absent it, the runner reports ERR_NO_ARM_EMITTED_NONCE",
+      "evidence": [
+        "raw/lane_PLAN.json",
+        "raw/lane_EXECUTE.json",
+        "raw/lane_VERIFY_SECURITY.json"
+      ],
+      "status": "CORRECTED",
+      "supersedes": "O-R13-001"
+    },
+    {
+      "id": "R13_18_EXISTING_RED",
+      "title": "HGK conformance baseline stands at 18 red",
+      "first_broken_link": "13 lane-declaration, 4 projection, 1 dirty-working-tree cases fail on a clean fresh run",
+      "earliest_owner": "HGK Owner (lane registry) / doc projection owner / workspace owner",
+      "required_authority": "scoped HGK workorders",
+      "repair_cone": "one small WO per cluster; never rewrite assertions to hide them",
+      "status": "OPEN",
+      "evidence": [
+        "raw/hgk_conformance_r14.log",
+        "raw/failed_r14.txt"
+      ],
+      "blocking": [
+        "TS02",
+        "TS22"
+      ]
+    },
+    {
+      "id": "R13_LANE_ONLY",
+      "title": "SP identity still not invoked",
+      "first_broken_link": "PLAN/VERIFY run as lanes, not as Commander-SP / Challenge-SP invocations",
+      "earliest_owner": "SBL product owner",
+      "required_authority": "SP packaging + adapter",
+      "repair_cone": "thin adapter emitting commander_invocation_id / challenge_invocation_id bound to the same TaskSpec/WO",
+      "status": "OPEN",
+      "blocking": [
+        "TS06",
+        "TS07",
+        "TS22"
+      ]
+    },
+    {
+      "id": "R13_CHECKER_STATIC_ONLY",
+      "title": "Independent checker ran static review only",
+      "first_broken_link": "R13 VERIFY turn said 'Tests not run'",
+      "earliest_owner": "acceptance harness",
+      "required_authority": "isolated copy execution",
+      "repair_cone": "frozen candidate copied to checker scratch, tests executed there, raw stdout/exit captured",
+      "status": "OPEN",
+      "blocking": [
+        "TS04"
+      ]
+    },
+    {
+      "id": "D-17",
+      "title": "tpm-sp / commander-sp README point at a packaged skill path that does not exist",
+      "owner": "skill bundle owner",
+      "status": "OPEN"
+    },
+    {
+      "id": "D-18",
+      "title": "sbl-stack doctor live-source digest mismatch 13/14",
+      "owner": "sbl-stack owner",
+      "status": "OPEN"
+    },
+    {
+      "id": "D-19",
+      "title": "canonical compiler/challenge bundles lack a literal SKILL.md entry",
+      "owner": "bundle owner",
+      "status": "OPEN",
+      "evidence": "bundle root contains construction-acceptance-prompt-compiler_SKILL.md only"
+    },
+    {
+      "id": "CR-PLUGIN-SCHEMA-AUTHORITY",
+      "title": "ChatGPT private plugin packaging stays HOST_PENDING",
+      "owner": "product/host owner",
+      "status": "HOST_PENDING",
+      "note": "Agent Plugins 1.0 remains a prohibited draft; three plugins 0/3"
+    },
+    {
+      "id": "D-04",
+      "title": "semantic denominator UNKNOWN",
+      "owner": "PIPD source owner",
+      "status": "OPEN",
+      "note": "no completion percentage may be derived"
+    },
+    {
+      "id": "TT-R14-002",
+      "title": "Fabric and SWOF local branches are not main",
+      "first_broken_link": "Fabric local pub/far-minimax-mandate @d626356 vs remote main bcd91043; SWOF local evidence/swof-w2r5-closure-repair @417f115 vs remote acdbfaa",
+      "owner": "repo owners",
+      "status": "OPEN",
+      "repair_cone": "read-only comparisons must use remote main SHAs, not local branch tips"
+    }
+  ]
+}

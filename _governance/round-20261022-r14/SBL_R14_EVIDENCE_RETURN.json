@@ -1,0 +1,198 @@
+{
+  "schema": "SBL-R14-EVIDENCE-RETURN/1",
+  "round": "round-20261022-r14",
+  "order_id": "SBL-R14-FULL-DOC-POST-R13-20261022",
+  "captured_at": "2026-10-22T00:47:55+08:00",
+  "claim_ladder_reached": [
+    "SOURCE_PINNED",
+    "COMPILER_PASS",
+    "LANE_PROBED"
+  ],
+  "full_contract_verdict": "PARTIAL",
+  "repos": {
+    "SBL": {
+      "local_branch": "evidence/r7-20261021-c7",
+      "local_head": "2dde2d84a2a6",
+      "remote_main": "dc5428f23d15",
+      "note": "local tree is NOT on main; product work must branch from origin/main"
+    },
+    "HG-KSEOS": {
+      "local_branch": "codex/hgk-final-closure-002",
+      "local_head": "5119c971c875",
+      "dirty_modified": 7,
+      "untracked": 291,
+      "remote": "none"
+    },
+    "Fabric": {
+      "local_branch": "pub/far-minimax-mandate-20261021",
+      "local_head": "d62635626d5d",
+      "remote_main": "bcd91043b89b"
+    },
+    "SWOF": {
+      "local_branch": "evidence/swof-w2r5-closure-repair",
+      "local_head": "417f11576f9a",
+      "remote_main": "acdbfaadd19d"
+    },
+    "PIPD": {
+      "expected_dir": "PIPD-LS-SP",
+      "actual_local_dir": "PIPD",
+      "local_branch": "rescue/r5p-uncommitted-20261016",
+      "remote_main": "e95942abcb6a",
+      "note": "local dir name/branch differ from the order locator"
+    },
+    "SBL_R13_evidence": "ffd786c8deaa",
+    "HGK_R13_commits": [
+      "49f48ae",
+      "5119c97"
+    ]
+  },
+  "work_orders": [
+    {
+      "ts": "R14-TS00",
+      "requirement_ids": [
+        "DOC-00/R03"
+      ],
+      "state": "DONE_READONLY",
+      "raw": {
+        "file": "raw/TS01_source_identity.json",
+        "repo_readback": true
+      },
+      "checker": "NONE_REQUIRED_READONLY",
+      "note": "fresh dual SHA readback; foreign dirty inventoried, untouched"
+    },
+    {
+      "ts": "R14-TS01",
+      "requirement_ids": [
+        "DOC-00/C48",
+        "CAPC-C0..C9"
+      ],
+      "state": "DONE",
+      "raw": {
+        "manifest": "raw/CONTROL_PACKAGE_MANIFEST.json",
+        "identity": "raw/TS01_source_identity.json",
+        "compile_R9": {
+          "dir": "raw/compile_r14 (overwritten by R14)",
+          "contract_sha256": "dd200277ca1b9352d751a178fb51b8a5a5d857d0a472f11119fcc56f0471d55d",
+          "verdict": "PROMPT_COMPILE_PASS"
+        },
+        "compile_R14": {
+          "contract": "SBL_C0_C9_CONTRACT-R14.json",
+          "contract_sha256": "8643749732a323e9a942b26d9a3f8e1049aad5a0fe52fc42a3ad5bf2a55c4a89",
+          "task_id": "SBL-PIPDLS-20261022-R14-C1",
+          "verdict": "PROMPT_COMPILE_PASS",
+          "cmd_exits": {
+            "lint": 0,
+            "activation": 0,
+            "acceptance": 0,
+            "compile": 0
+          }
+        }
+      },
+      "source_identity": {
+        "docs_match": "14/14",
+        "rollup": "01b972c80341e1b87db4fa6f20f61723564c609f0ff12282f9205679a4f9cf9d",
+        "rollup_reproduced": true,
+        "bytes": 17473442,
+        "mirror_identical": true
+      },
+      "checker": "NONE_REQUIRED_SOURCE_IDENTITY",
+      "note": "local bytes reproduce the pinned manifest exactly"
+    },
+    {
+      "ts": "R14-TS02",
+      "requirement_ids": [
+        "DOC-04/C15"
+      ],
+      "state": "BASELINE_REPRODUCED_CLASSIFICATION_PARTIAL",
+      "raw": {
+        "full_sweep": "raw/hgk_conformance_r14.log",
+        "failed_ids": "raw/failed_r14.txt",
+        "reasons": "raw/failed18_reasons.log"
+      },
+      "denominator": {
+        "failed": 18,
+        "passed": 580,
+        "subtests": 90,
+        "seconds": 149.24,
+        "exit": 1
+      },
+      "vs_R13_final": "IDENTICAL_FAILURE_SET",
+      "new_failures": 0,
+      "checker": "NONE_YET",
+      "note": "env reproduction only; no case closed in R14"
+    },
+    {
+      "ts": "R14-TS05",
+      "requirement_ids": [
+        "DOC-04/C15"
+      ],
+      "state": "LANES_PROBED",
+      "raw": {
+        "PLAN": "raw/lane_PLAN.json",
+        "EXECUTE": "raw/lane_EXECUTE.json",
+        "VERIFY_SECURITY": "raw/lane_VERIFY_SECURITY.json"
+      },
+      "lanes": {
+        "PLAN": {
+          "required": "openai-codex/gpt-6.1-sol",
+          "served": "openai-codex/gpt-6.1-sol",
+          "rank": 2,
+          "ok": true
+        },
+        "EXECUTE": {
+          "required": "opencode-go/minimax-m3.1-flash-free",
+          "served": "opencode-go/minimax-m3.1-flash-free",
+          "rank": 2,
+          "ok": true
+        },
+        "VERIFY_SECURITY": {
+          "required": "openai-codex/gpt-6.1-sol",
+          "served": "openai-codex/gpt-6.1-sol",
+          "rank": 1,
+          "ok": true
+        }
+      },
+      "checker": "NONE_REQUIRED_PROBE",
+      "note": "all three echoed the typed nonce when the brief carries it literally -> corrects O-R13-001"
+    }
+  ],
+  "not_started": [
+    "TS03",
+    "TS04",
+    "TS06",
+    "TS07",
+    "TS08",
+    "TS09",
+    "TS10",
+    "TS11",
+    "TS12",
+    "TS13",
+    "TS14",
+    "TS15",
+    "TS16",
+    "TS17",
+    "TS18",
+    "TS19",
+    "TS20",
+    "TS21",
+    "TS22",
+    "TS23",
+    "TS24",
+    "TS25",
+    "TS26",
+    "TS27",
+    "TS28",
+    "TS29",
+    "TS30"
+  ],
+  "unproven_claims": [
+    "HGK conformance green (18 reds stand)",
+    "SP identity (LANE_ONLY)",
+    "dynamic independent checker (static only so far)",
+    "five-tool host lifecycle",
+    "three plugin host ids (0/3 HOST_PENDING)",
+    "SWOF W3 permit",
+    "semantic denominator (UNKNOWN)",
+    "SBL_FULL_PRODUCT"
+  ]
+}
