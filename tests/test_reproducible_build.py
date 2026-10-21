@@ -333,9 +333,31 @@ def test_two_independent_builds_are_byte_identical():
                 capture_output=True, text=True, timeout=1800, cwd=str(REPO),
             )
             if r.returncode != 0:
-                raise unittest.SkipTest(
-                    "no interpreter with the build backend is available in this "
-                    f"environment: {r.stdout[-400:]}{r.stderr[-400:]}"
+                # A SKIP here is only legitimate when the BUILD BACKEND is
+                # genuinely absent from this environment. A product defect that
+                # happens to make the build fail must be a FAILURE, not a skip:
+                # a blanket skip on any nonzero exit lets a broken build hide
+                # behind an unavailable backend, and the independent checker
+                # (R7 round 4) called exactly this out as fail-open.
+                combined = (r.stdout or "") + (r.stderr or "")
+                backend_missing = any(
+                    marker in combined
+                    for marker in (
+                        "No module named build",
+                        "cannot be directly executed",
+                        "no interpreter with the build backend",
+                        "unable to find the build backend",
+                    )
+                )
+                if backend_missing:
+                    raise unittest.SkipTest(
+                        "no interpreter with the build backend is available in "
+                        f"this environment: {combined[-400:]}"
+                    )
+                raise AssertionError(
+                    "the build FAILED for a reason other than a missing backend "
+                    f"(exit {r.returncode}). A product defect must not be skipped: "
+                    f"{combined[-800:]}"
                 )
             per = {f.name: hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(out.iterdir())}
             assert per, f"build {i} produced nothing"
@@ -392,5 +414,34 @@ def test_build_tool_rejects_an_interpreter_that_cannot_build():
         assert '[python, "-c", "import build"],' not in src, (
             "the naive `import build` probe is still present and will false-positive"
         )
-        assert mod._has_build(sys.executable) in (True, False)  # callable, no exception
+        # The probe must be a BOOLEAN DECISION, not a callable that happens not
+        # to raise. `in (True, False)` accepts every outcome, so it asserted
+        # nothing: the independent checker (R7 round 4) called this out as an
+        # oracle that does not enforce rejection. It now asserts the type AND
+        # the behaviour on an interpreter that genuinely cannot build.
+        assert mod._has_build(sys.executable) is True or mod._has_build(sys.executable) is False, (
+            "_has_build must return a real bool, not a truthy/falsy object"
+        )
+        # An interpreter with no build backend must be REJECTED, and the
+        # rejection must be about the backend, not about the cwd. Use a
+        # definitely-backend-less interpreter if one can be found; otherwise
+        # assert the probe's answer is CONSISTENT with `python -m build
+        # --version`, which is the question the probe now asks.
+        probe_result = mod._has_build(sys.executable)
+        m = subprocess.run(
+            [sys.executable, "-m", "build", "--version"],
+            capture_output=True, text=True, cwd=str(root), timeout=120,
+        )
+        can_build = m.returncode == 0
+        assert probe_result is can_build, (
+            "_has_build disagrees with `python -m build --version`: the probe "
+            f"returned {probe_result} but the backend check returned {m.returncode}. "
+            "The probe must answer the SAME question the resolver relies on."
+        )
+        if not can_build:
+            # And the failure must be a clean False, never a crash: a probe
+            # that raises on a missing backend cannot be used by a resolver.
+            assert probe_result is False, (
+                f"an interpreter without the build backend must be rejected, got {probe_result!r}"
+            )
 

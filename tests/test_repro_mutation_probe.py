@@ -83,6 +83,50 @@ def _git(*args: str, cwd: Path) -> str:
     return r.stdout
 
 
+def _isolated_git_env(dst: Path) -> dict[str, str]:
+    """Build a git environment that CANNOT reach the protected repository.
+
+    WHY: setting GIT_DIR / GIT_WORK_TREE / GIT_INDEX_FILE is not enough. git
+    honours several OTHER environment variables that redirect where objects,
+    refs and the common dir live. If any of them is inherited and points into
+    the protected repository, the copy's own `git init` / `git add` / `git
+    commit` would write into the protected git store -- the same class of
+    write-through the W3 fix was meant to end. An independent audit of this
+    probe (R7 SWARM worker) flagged exactly this: the environment was copied
+    wholesale and only three paths were overridden.
+
+    So: STRIP every git-location variable from the inherited environment
+    before setting the ones the copy needs. The list is not exhaustive by
+    hand -- it is derived from `git` s own documentation of the variables
+    that relocate the repository -- and the copy is given a private
+    GIT_COMMON_DIR as well, so even a stray GIT_COMMON_DIR cannot point
+    back at the protected repository.
+    """
+    env = dict(os.environ)
+    # every variable that can relocate parts of a git repository
+    for var in (
+        "GIT_DIR",
+        "GIT_WORK_TREE",
+        "GIT_INDEX_FILE",
+        "GIT_COMMON_DIR",
+        "GIT_OBJECT_DIRECTORY",
+        "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+        "GIT_NAMESPACE",
+        "GIT_CEILING_DIRECTORIES",
+        "GIT_DISCOVERY_ACROSS_FILESYSTEM",
+    ):
+        env.pop(var, None)
+    env["GIT_DIR"] = str(dst / ".git")
+    env["GIT_WORK_TREE"] = str(dst)
+    env["GIT_INDEX_FILE"] = str(dst / ".git" / "index")
+    env["GIT_COMMON_DIR"] = str(dst / ".git")
+    env["GIT_AUTHOR_NAME"] = "probe"
+    env["GIT_AUTHOR_EMAIL"] = "probe@invalid"
+    env["GIT_COMMITTER_NAME"] = "probe"
+    env["GIT_COMMITTER_EMAIL"] = "probe@invalid"
+    return env
+
+
 def _copy_tree(dst: Path) -> None:
     """Copy the WORKING tree into dst, with an ISOLATED git dir.
 
@@ -107,19 +151,19 @@ def _copy_tree(dst: Path) -> None:
         ignore=shutil.ignore_patterns(
             ".git", "__pycache__", "*.pyc", "build", "dist", "*.egg-info", ".pytest_cache"
         ),
-        symlinks=True,
+        # symlinks=False: a symlink is COPIED AS A REGULAR FILE containing the
+        # link target path. With symlinks=True the copy would keep the link, and
+        # a mutation writing to a linked file would follow it back into the
+        # protected tree -- a write-through the git-level isolation does not
+        # cover. An independent audit of this probe (R7 SWARM worker) flagged
+        # this: the copy preserved symlinks, so the isolation was only
+        # complete at the git layer.
+        symlinks=False,
     )
-    # a fresh, PRIVATE git dir. `git init` + a single commit of the copied
+    # A fresh, PRIVATE git dir. `git init` + a single commit of the copied
     # content gives the tests a real `ls-files` / `check-attr` / `cat-file` to
     # read, and nothing shared with the protected repository.
-    env = dict(os.environ)
-    env["GIT_DIR"] = str(dst / ".git")
-    env["GIT_WORK_TREE"] = str(dst)
-    env["GIT_INDEX_FILE"] = str(dst / ".git" / "index")
-    env["GIT_AUTHOR_NAME"] = "probe"
-    env["GIT_AUTHOR_EMAIL"] = "probe@invalid"
-    env["GIT_COMMITTER_NAME"] = "probe"
-    env["GIT_COMMITTER_EMAIL"] = "probe@invalid"
+    env = _isolated_git_env(dst)
     subprocess.run(
         ["git", "init", "-q", str(dst)], capture_output=True, timeout=300, env=env
     )
@@ -132,6 +176,56 @@ def _copy_tree(dst: Path) -> None:
         timeout=300,
         env=env,
     )
+
+
+def _pytest_counts(out: str) -> tuple[int, int, int]:
+    """Parse pytest's summary line into (collected, failed, errored).
+
+    WHY: the probe must distinguish "a test FAILED because the mutation broke
+    the contract" from "pytest could not even collect the tests". Both give a
+    nonzero exit, but only the first is evidence that the oracle works. The
+    independent checker (R7 round 4) called the un-discriminated version out as
+    a weak oracle that lets an infrastructure error masquerade as a kill.
+
+    pytest's short summary line looks like:
+        3 failed, 1 passed, 12 skipped in 4.2s
+    and a collection error produces:
+        ERRORS: 2 errors during collection
+    or simply "no tests ran".
+    """
+    import re
+
+    collected = failed = errored = 0
+    m = re.search(r"(\d+)\s+(?:failed|passed|skipped|error|xfailed|xpassed)\b", out)
+    # take the counts from the FINAL summary line, not the first match
+    summary_lines = [l for l in out.splitlines() if re.search(r"\bin [\d.]+s\b", l)]
+    if summary_lines:
+        tail = summary_lines[-1]
+        for key, pat in (("collected", r"(\d+)\s+collected"),
+                         ("failed", r"(\d+)\s+failed"),
+                         ("errored", r"(\d+)\s+error")):
+            mm = re.search(pat, tail)
+            if mm:
+                v = int(mm.group(1))
+                if key == "collected":
+                    collected = v
+                elif key == "failed":
+                    failed = v
+                else:
+                    errored = v
+        # "N failed" without "N collected" still implies N collected
+        if not collected:
+            collected = failed + errored
+    if not collected and re.search(r"no tests ran", out, re.I):
+        collected = 0
+    # a collection error section
+    if re.search(r"ERRORS?[:\s].*during collection|errors? during collection", out, re.I):
+        err = re.search(r"(\d+)\s+error", out, re.I)
+        if err:
+            errored = max(errored, int(err.group(1)))
+    if failed or errored:
+        collected = max(collected, failed + errored)
+    return collected, failed, errored
 
 
 def _pytest_on(tree: Path, python: str) -> tuple[int, str]:
@@ -186,10 +280,30 @@ def test_each_contract_breaking_mutation_is_caught():
             assert mutated != original, f"mutant {name} did not change {rel}; the probe is stale"
             target.write_text(mutated, encoding="utf-8", newline="\n")
             rc, out = _pytest_on(tree, python)
-            assert rc != 0, (
-                f"the mutation {name} ({rel}) left the reproducibility tests GREEN. "
-                f"A test that cannot fail is not a test.\n{out[-2000:]}"
-            )
+            # A mutant is only "caught" if the suite FAILED. A nonzero exit
+            # that is a COLLECTION or INFRASTRUCTURE error is not a kill: the
+            # test file itself broke, so nothing was proven about the product.
+            # The independent checker (R7 round 4) called this out: treating
+            # any nonzero exit as a catch lets a broken harness masquerade as
+            # a working oracle.
+            if rc != 0:
+                collected, failed, errored = _pytest_counts(out)
+                assert collected > 0, (
+                    f"the mutation {name} ({rel}) produced a nonzero exit with ZERO "
+                    f"collected tests -- that is a collection/infrastructure error, not "
+                    f"a caught mutation. The probe would claim a kill it did not "
+                    f"measure.\n{out[-2000:]}"
+                )
+                assert failed + errored > 0, (
+                    f"the mutation {name} ({rel}) exited {rc} but no test FAILED "
+                    f"(collected={collected}, failed={failed}, errors={errored}); "
+                    f"the exit did not come from a test failure.\n{out[-2000:]}"
+                )
+            else:
+                raise AssertionError(
+                    f"the mutation {name} ({rel}) left the reproducibility tests GREEN. "
+                    f"A test that cannot fail is not a test.\n{out[-2000:]}"
+                )
 
 
 def test_probe_does_not_touch_the_protected_repository():
