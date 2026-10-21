@@ -3,19 +3,25 @@
 SBL is a governed build loop: a request becomes a source-bound specification,
 routes to exactly one permitted build target, is applied through a bridge that
 can only write inside a declared writeset, is backed by raw evidence, and is
-repaired in a bounded cone or escalated. This repository is the **v0.1
-candidate build** of that product.
+repaired in a bounded cone or escalated.
+
+This repository hosts the released pre-release line of that product
+(`v0.1.0-foundation-preview`, then `v0.1.1rc1`).
 
 ## Status and claim ceiling
 
-**`CANDIDATE_ONLY`.**
+**Released pre-release: `v0.1.1rc1`** (tag `v0.1.1rc1`), after `v0.1.0-foundation-preview`.
 
-- Not released. No version is published, tagged, or promoted.
+- Released, as scoped engineering releases only: both tags exist and carry built
+  wheel/sdist assets with reproducible digests; see the Releases page.
 - Not production. No production claim is made or implied.
-- No independent acceptance is claimed. The maker lane cannot accept its own
-  work; an independent checker has not yet returned a verdict on this tree.
-- What does hold: the test suite runs green locally, and the packaging metadata
-  and CI definition are present and parse.
+- No independent acceptance of the full contract is claimed. The maker lane
+  cannot accept its own work, and a scoped engineering release is not a
+  full-contract pass: the control-package pin merged on top of this line is an
+  identity pin, not a native admission and not a host installation.
+- What does hold: the test suite runs green in CI on Linux and Windows, the
+  packaging metadata and CI definition are present and parse, and the control
+  package (DOC-00..DOC-13) is pinned by sha256 with negative controls.
 
 `LOCAL` evidence exists under `evidence/`; that is not the same as acceptance.
 
@@ -39,8 +45,12 @@ pulls no runtime dependencies.
 python -m pip install -e .
 ```
 
-The package name is `sbl-v01` and it installs one console script, `sbl-todo`.
-The CLI has no `--help` flag; it prints one JSON object per invocation and
+The package name is `sbl-v01` and it installs three console scripts: `sbl-todo`
+(the demo CLI below), `sbl-stack` (`install`/`doctor`/`selftest`/`status`/`uninstall`
+for one local `STANDALONE_ONLY` deployment), and `sbl-harness`
+(`probe`/`install`/`doctor`/`uninstall` against an HG-KSEOS root; its ceiling is
+`HOST_PENDING` with `native_effect=NOT_GRANTED`).
+`sbl-todo` has no `--help` flag; it prints one JSON object per invocation and
 refuses unknown subcommands with exit code 2.
 
 ```powershell
