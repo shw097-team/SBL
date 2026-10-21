@@ -199,9 +199,11 @@ def test_uninstall_refuses_an_absolute_manifest_key(tmp_path):
 def test_uninstall_refuses_a_key_outside_the_installer_allowlist(tmp_path):
     target = tmp_path / "adapter"
     install(target, _fake_root(tmp_path))
-    (target / "stray.txt").write_text("stray", encoding="utf-8")
+    payload = b"stray"
+    (target / "stray.txt").write_bytes(payload)
     manifest = _manifest(target)
-    manifest["files"]["stray.txt"] = "0" * 64
+    # A CORRECT digest for the stray file: only the allowlist check can refuse this manifest.
+    manifest["files"]["stray.txt"] = hashlib.sha256(payload).hexdigest()
     _write_manifest(target, manifest)
 
     with pytest.raises(SBLError) as caught:
