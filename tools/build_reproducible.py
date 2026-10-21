@@ -62,10 +62,29 @@ def run_bytes(cmd: list[str], **kw) -> subprocess.CompletedProcess:
 
 
 def _has_build(python: str) -> bool:
+    """Can this interpreter actually run the build backend?
+
+    NOT `import build`. A repository that contains a `build/` directory (this one
+    does: `build/bdist.win-amd64`, `build/lib`) makes `import build` succeed as a
+    NAMESPACE PACKAGE, so the naive probe returns True for an interpreter that
+    cannot build anything. The independent checker found this: the brief's own
+    command failed with "No module named build.__main__; 'build' is a package and
+    cannot be directly executed", while the resolver had reported success.
+
+    The probe must therefore ask the question that will actually be asked later:
+    can this interpreter RUN the build module?
+    """
     r = subprocess.run(
-        [python, "-c", "import build"], capture_output=True, timeout=120
+        [python, "-m", "build", "--version"], capture_output=True, timeout=180
     )
-    return r.returncode == 0
+    if r.returncode == 0:
+        return True
+    # `python -m build` needs a console entry point; fall back to importing the
+    # module's __main__, which is the thing the resolver actually invokes.
+    r2 = subprocess.run(
+        [python, "-c", "import build.__main__"], capture_output=True, timeout=120
+    )
+    return r2.returncode == 0
 
 
 def _builder_python() -> str:

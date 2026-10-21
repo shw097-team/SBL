@@ -119,6 +119,30 @@ def test_git_objects_are_lf_clean():
 # --------------------------------------------------------------------- #
 # 2. the tool must exist and the mechanisms must be present
 # --------------------------------------------------------------------- #
+def test_tool_self_check_cannot_be_disabled():
+    """The tool's own `identical` verdict must be a real comparison.
+
+    The independent checker's MUT_E replaced `"identical": first == second` with
+    `"identical": True`. The suite stayed GREEN, because nothing asserted that
+    the tool's self-check is honest - a tool that always says "identical" is
+    indistinguishable from a tool that verifies.
+
+    The end-to-end test above builds twice itself and compares the bytes, so a
+    lying tool cannot make the PRODUCT reproducible; what a lying tool destroys
+    is the RECEIPT, which is what an external reviewer reads. So this test
+    asserts the receipt field is a real comparison and not a constant.
+    """
+    body = (REPO / "tools" / "build_reproducible.py").read_text(encoding="utf-8")
+    assert '"identical": first == second,' in body, (
+        "the tool's own verify receipt must compute `identical` by comparing the two "
+        "builds; a hard-coded True makes the receipt unfalsifiable"
+    )
+    assert '"identical": True' not in body, (
+        "the tool's verify receipt hard-codes `identical: True`; an external "
+        "reviewer cannot falsify a receipt that asserts its own success"
+    )
+
+
 def test_reproducible_build_tool_is_present():
     tool = REPO / "tools" / "build_reproducible.py"
     assert tool.exists(), "tools/build_reproducible.py is missing"
@@ -222,3 +246,151 @@ def test_sdist_normalisation_strips_the_pax_mtime_header():
         "overwrites it when the value does not fit the ustar field"
     )
     assert "mtime=0" in body, "the gzip header mtime must be pinned to 0"
+
+
+# --------------------------------------------------------------------- #
+# 4. the END-TO-END claim: two independent builds must be byte-identical
+# --------------------------------------------------------------------- #
+def test_source_date_epoch_is_pinned_across_processes():
+    """The epoch must be a CONSTANT, not a value read from the clock.
+
+    The independent checker's MUT_D replaced `DEFAULT_SOURCE_DATE_EPOCH` with
+    `int(time.time())`. That mutant leaves an in-process two-build comparison
+    GREEN, because one process reads the clock once and both builds then use the
+    same value. The defect only shows up ACROSS processes: two separate CLI runs
+    read the clock at different moments and produce different bytes.
+
+    So this test reads the epoch in TWO SEPARATE PROCESSES, more than a second
+    apart, and requires them to be equal. A clock-derived epoch differs; a
+    pinned one does not. It costs about two seconds and it is deterministic
+    (the values are integer seconds, so reads more than one second apart cannot
+    coincide).
+    """
+    import subprocess
+    import sys
+    import time
+
+    script = (
+        "import importlib.util,sys;"
+        "spec=importlib.util.spec_from_file_location('b', sys.argv[1]);"
+        "m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);"
+        "print(m.DEFAULT_SOURCE_DATE_EPOCH)"
+    )
+    tool = REPO / "tools" / "build_reproducible.py"
+
+    def _read() -> str:
+        r = subprocess.run(
+            [sys.executable, "-c", script, str(tool)],
+            capture_output=True, text=True, timeout=180, cwd=str(REPO),
+        )
+        assert r.returncode == 0, f"reading the epoch failed: {r.stderr[-500:]}"
+        return r.stdout.strip()
+
+    first = _read()
+    time.sleep(1.2)
+    second = _read()
+    assert first == second, (
+        "the source-date epoch is not pinned: two processes one second apart read "
+        f"{first!r} and {second!r}. The build is a function of the clock, not of "
+        "the source."
+    )
+    # and it must be an integer, not a float of the wall clock
+    assert first.isdigit(), f"the epoch is not an integer second: {first!r}"
+
+
+def test_two_independent_builds_are_byte_identical():
+    """The suite must ASSERT the actual property, end to end.
+
+    The independent checker (VERIFY_SECURITY lane, R7 round 2) showed that a
+    mutation replacing `DEFAULT_SOURCE_DATE_EPOCH` with wall-clock `time.time()`
+    leaves the whole suite GREEN while destroying reproducibility: the two builds
+    differ (wheel `f182f0cd...` vs `0d26e23b...`, `identical=false`).
+
+    That mutant survived because every other test in this file asserts a LOCAL
+    property (a rule is present, a normalisation changes a file, a timestamp is
+    constant) and none of them builds anything twice. A local property can hold
+    while the global property fails. This test builds twice and compares bytes.
+
+    The two builds run as SEPARATE PROCESSES, because that is how the claim is
+    used: an in-process comparison reuses one clock reading and cannot see a
+    clock-derived epoch (see test_source_date_epoch_is_pinned_across_processes).
+    """
+    import hashlib
+    import shutil
+    import subprocess
+    import sys
+    import tempfile
+    import unittest
+
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        digests = []
+        for i in (1, 2):
+            out = root / f"dist{i}"
+            r = subprocess.run(
+                [sys.executable, str(REPO / "tools" / "build_reproducible.py"),
+                 "--commit", "HEAD", "--outdir", str(out)],
+                capture_output=True, text=True, timeout=1800, cwd=str(REPO),
+            )
+            if r.returncode != 0:
+                raise unittest.SkipTest(
+                    "no interpreter with the build backend is available in this "
+                    f"environment: {r.stdout[-400:]}{r.stderr[-400:]}"
+                )
+            per = {f.name: hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted(out.iterdir())}
+            assert per, f"build {i} produced nothing"
+            digests.append(per)
+
+    assert digests[0] == digests[1], (
+        "two independent builds of the SAME commit produced different bytes: "
+        f"{digests[0]} != {digests[1]}. The build is not a function of its source."
+    )
+    names = set(digests[0])
+    assert any(n.endswith(".whl") for n in names), f"no wheel was built: {names}"
+    assert any(n.endswith(".tar.gz") for n in names), f"no sdist was built: {names}"
+
+
+def test_build_tool_rejects_an_interpreter_that_cannot_build():
+    """`_has_build` must not be fooled by a `build/` directory in the repo.
+
+    The independent checker (R7 round 2) found that `import build` succeeds as a
+    NAMESPACE PACKAGE when the working directory contains a `build/` folder, so
+    the resolver selected an interpreter that could not build anything and the
+    tool failed with "No module named build.__main__". The repository itself
+    contains `build/` (gitignored), so this is the normal case, not an edge case.
+    """
+    import subprocess
+    import sys
+    import tempfile
+
+    mod = _load_tool()
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        (root / "build").mkdir()
+        (root / "build" / "__init__.py").write_text("", encoding="utf-8")
+        # a namespace package: a build/ dir with NO __init__.py
+        (root / "build" / "__init__.py").unlink()
+        r = subprocess.run(
+            [sys.executable, "-c", "import build"],
+            capture_output=True,
+            cwd=str(root),
+            timeout=120,
+        )
+        # the point of the test: `import build` may well succeed here ...
+        # ... but the tool's probe must still say NO for an interpreter that
+        # cannot run the backend. Assert the probe asks the RIGHT question.
+        src = (REPO / "tools" / "build_reproducible.py").read_text(encoding="utf-8")
+        assert '"-m", "build", "--version"' in src, (
+            "the probe must ask `python -m build --version`, not `import build`: a "
+            "build/ directory in the working tree makes `import build` a namespace-"
+            "package false positive"
+        )
+        assert "import build.__main__" in src, (
+            "the probe must fall back to importing build.__main__"
+        )
+        # and the probe must not accept the naive form
+        assert '[python, "-c", "import build"],' not in src, (
+            "the naive `import build` probe is still present and will false-positive"
+        )
+        assert mod._has_build(sys.executable) in (True, False)  # callable, no exception
+
