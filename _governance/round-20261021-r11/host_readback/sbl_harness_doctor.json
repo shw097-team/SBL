@@ -1,0 +1,82 @@
+{
+  "ok": true,
+  "problems": [],
+  "target": "C:\\Projects\\Agent_Workspace\\SBL-install\\hgk-adapter",
+  "probe": {
+    "status": "ROOT_READY",
+    "root": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+    "pin": {
+      "package": "hg_kseos",
+      "version": "0.1.0",
+      "version_range": ">=0.1.0,<0.2.0",
+      "root_env": "HGK_ROOT",
+      "default_root": "C:/Projects/Agent_Workspace/HG-KSEOS",
+      "source_subdir": "src/hg_kseos",
+      "spine_relpath": "var/shared-spine/hg-kseos.db",
+      "lane_registry_relpath": "config/lane-route-slots.candidate.json",
+      "dispatcher_relpath": "scripts/hgk-lane-dispatch.py"
+    },
+    "observed_version": "0.1.0",
+    "abi": {
+      "name": "hgk-harness-abi/1",
+      "provides": [
+        "plan",
+        "execute",
+        "verify"
+      ],
+      "requires_native": [
+        "WorkOrder",
+        "ExecutionBinding",
+        "Permit"
+      ],
+      "not_provided": [
+        "native_effect",
+        "permit_signing",
+        "workorder_admission"
+      ]
+    },
+    "checks": [
+      {
+        "check": "root_exists",
+        "ok": true,
+        "detail": "HGK root directory",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS"
+      },
+      {
+        "check": "package_present",
+        "ok": true,
+        "detail": "hg_kseos package directory",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\src\\hg_kseos"
+      },
+      {
+        "check": "spine_present",
+        "ok": true,
+        "detail": "shared spine database",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\shared-spine\\hg-kseos.db"
+      },
+      {
+        "check": "lane_registry_present",
+        "ok": true,
+        "detail": "lane route slots",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-route-slots.candidate.json"
+      },
+      {
+        "check": "dispatcher_present",
+        "ok": true,
+        "detail": "lane dispatcher entry point",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\hgk-lane-dispatch.py"
+      },
+      {
+        "check": "import",
+        "ok": true,
+        "detail": "imported hg_kseos from the root",
+        "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\src\\hg_kseos\\__init__.py"
+      }
+    ],
+    "claim_ceiling": "HOST_PENDING",
+    "native_effect": "NOT_GRANTED"
+  },
+  "abi": "hgk-harness-abi/1",
+  "claim_ceiling": "HOST_PENDING",
+  "native_effect": "NOT_GRANTED"
+}
