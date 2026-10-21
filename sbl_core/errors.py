@@ -26,6 +26,7 @@ ERROR_CODES = frozenset(
         "SBL_E_BAD_STATE",
         "SBL_E_UNKNOWN_MODE",
         "SBL_E_PLUGIN_SCHEMA",
+        "SBL_E_MANIFEST_UNTRUSTED",
     }
 )
 

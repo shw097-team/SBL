@@ -8,6 +8,10 @@ proves the probe logic — it is never evidence that the native control plane is
 from __future__ import annotations
 
 import json
+import os
+import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -133,6 +137,181 @@ def test_uninstall_refuses_a_directory_it_did_not_install(tmp_path):
     with pytest.raises(SBLError) as caught:
         uninstall(target)
     assert caught.value.code == "SBL_E_FOREIGN_FILES"
+
+
+def _manifest(target: Path) -> dict:
+    return json.loads((target / "MANIFEST.json").read_text(encoding="utf-8"))
+
+
+def _write_manifest(target: Path, payload: dict) -> None:
+    (target / "MANIFEST.json").write_text(json.dumps(payload), encoding="utf-8")
+
+
+def _sentinel(tmp_path: Path) -> tuple[Path, bytes]:
+    outside = tmp_path / "outside.txt"
+    payload = b"SENTINEL-CONTENT-MUST-SURVIVE\n"
+    outside.write_bytes(payload)
+    return outside, payload
+
+
+def test_uninstall_refuses_a_parent_escape_key_and_leaves_the_outside_file_untouched(tmp_path):
+    """F-R5-HARNESS-UNINSTALL-TRAVERSAL-001: the exact escape the R5 review constructed."""
+
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    outside, payload = _sentinel(tmp_path)
+    manifest = _manifest(target)
+    manifest["files"]["../outside.txt"] = "0" * 64
+    _write_manifest(target, manifest)
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert outside.read_bytes() == payload
+    assert (target / "plugin.json").is_file()
+    assert (target / "MANIFEST.json").is_file()
+
+
+def test_uninstall_refuses_an_absolute_manifest_key(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    outside, payload = _sentinel(tmp_path)
+    manifest = _manifest(target)
+    manifest["files"][str(outside)] = "0" * 64
+    _write_manifest(target, manifest)
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert outside.read_bytes() == payload
+
+
+def test_uninstall_refuses_a_key_outside_the_installer_allowlist(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    (target / "stray.txt").write_text("stray", encoding="utf-8")
+    manifest = _manifest(target)
+    manifest["files"]["stray.txt"] = "0" * 64
+    _write_manifest(target, manifest)
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert (target / "stray.txt").is_file()
+
+
+def test_uninstall_refuses_when_a_file_changed_since_install(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    plugin = target / "plugin.json"
+    plugin.write_text(plugin.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert plugin.is_file()
+
+
+def test_uninstall_refuses_a_malformed_files_object(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    _write_manifest(target, {"files": ["plugin.json"]})
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert (target / "plugin.json").is_file()
+
+
+def test_uninstall_refuses_a_symlinked_file_even_inside_the_allowlist(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    outside, payload = _sentinel(tmp_path)
+    plugin = target / "plugin.json"
+    plugin.unlink()
+    try:
+        plugin.symlink_to(outside)
+    except (OSError, NotImplementedError):
+        pytest.skip("this host cannot create symlinks without elevation")
+    manifest = _manifest(target)
+    manifest["files"]["plugin.json"] = "0" * 64
+    _write_manifest(target, manifest)
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert outside.read_bytes() == payload
+
+
+def test_uninstall_refuses_a_symlinked_manifest(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    elsewhere = tmp_path / "elsewhere" / "MANIFEST.json"
+    elsewhere.parent.mkdir()
+    elsewhere.write_bytes((target / "MANIFEST.json").read_bytes())
+    (target / "MANIFEST.json").unlink()
+    try:
+        (target / "MANIFEST.json").symlink_to(elsewhere)
+    except (OSError, NotImplementedError):
+        pytest.skip("this host cannot create symlinks without elevation")
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert elsewhere.is_file()
+
+
+def test_uninstall_removes_exactly_the_installed_paths(tmp_path):
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+
+    receipt = uninstall(target)
+
+    assert receipt["removed"] == [
+        "MANIFEST.json",
+        "adapter.json",
+        "plugin.json",
+        "skills/hgk-governed-runtime/SKILL.md",
+    ]
+    assert not target.exists()
+
+
+def test_uninstall_refuses_a_junction_parent_that_leaves_the_root(tmp_path):
+    """A directory junction needs no elevation on Windows, so this is the reversible link case."""
+
+    if os.name != "nt":
+        pytest.skip("junctions are a Windows reparse-point feature")
+
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    outside = tmp_path / "outside-skills"
+    (outside / "hgk-governed-runtime").mkdir(parents=True)
+    body = outside / "hgk-governed-runtime" / "SKILL.md"
+    body.write_bytes(b"OUTSIDE-SKILL-MUST-SURVIVE\n")
+    shutil.rmtree(target / "skills")
+    proc = subprocess.run(
+        ["cmd", "/c", "mklink", "/J", str(target / "skills"), str(outside)],
+        capture_output=True,
+        text=True,
+        errors="replace",
+    )
+    if proc.returncode != 0:
+        pytest.skip(f"mklink /J unavailable here: {proc.stdout or proc.stderr}".strip())
+    assert (target / "skills").exists()
+
+    with pytest.raises(SBLError) as caught:
+        uninstall(target)
+
+    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
+    assert body.read_bytes() == b"OUTSIDE-SKILL-MUST-SURVIVE\n"
+    assert (target / "plugin.json").is_file()
 
 
 def test_the_real_hgk_root_probes_ready_when_present():

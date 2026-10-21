@@ -22,6 +22,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -67,6 +68,64 @@ HARNESS_ABI: dict[str, Any] = {
 }
 
 _ADAPTER_FILE = "adapter.json"
+_MANIFEST_FILE = "MANIFEST.json"
+# The ONLY relative paths an uninstall may ever delete: exactly the files ``install`` writes.
+# A manifest is data, so a key it carries never widens the deletable set.
+_DELETABLE_RELPATHS = frozenset({_ADAPTER_FILE, "plugin.json", f"skills/{SKILL_NAME}/SKILL.md"})
+_ABS_DRIVE = re.compile(r"^[A-Za-z]:")
+
+
+def _resolve_deletable(root_dir: Path, root_resolved: Path, rel: object) -> Path:
+    """Map a manifest file key to a deletable path, or refuse with a typed error.
+
+    Four conditions, each independently necessary: the key must be a plain relative path (no NUL,
+    not absolute, no drive prefix), it must be one of the paths this adapter installs, resolving it
+    must stay inside the install root (which also catches a junction/reparse-point parent that
+    leaves the root), and the path itself must not be a link.
+    """
+
+    if not isinstance(rel, str) or not rel or "\x00" in rel:
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest file key is not a usable relative path",
+            {"key": repr(rel)},
+        )
+    normalized = rel.replace("\\", "/")
+    if normalized.startswith("/") or _ABS_DRIVE.match(normalized) or Path(normalized).is_absolute():
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest file key is absolute; an uninstall may only delete adapter-owned relative paths",
+            {"key": rel},
+        )
+    if normalized not in _DELETABLE_RELPATHS:
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest file key is outside this adapter's fixed file allowlist",
+            {"key": rel, "allowed": sorted(_DELETABLE_RELPATHS)},
+        )
+    path = root_dir / normalized
+    try:
+        resolved = path.resolve(strict=False)
+    except OSError as exc:  # unreachable parent, bad name, dangling junction
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest path cannot be resolved inside the install root",
+            {"key": rel, "error": type(exc).__name__},
+        ) from exc
+    if resolved != root_resolved and root_resolved not in resolved.parents:
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest path resolves outside the install root",
+            {"key": rel, "resolved": str(resolved), "root": str(root_resolved)},
+        )
+    is_junction = getattr(os.path, "isjunction", None)
+    if path.is_symlink() or (is_junction is not None and is_junction(path)):
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "manifest path is a link; an uninstall never follows a link out of the install root",
+            {"key": rel},
+        )
+    return path
 _SKILL_BODY = """---
 name: hgk-governed-runtime
 description: Route bounded plan/execute/verify work through the pinned HG-KSEOS native control plane; never mint Permits or claim native effect
@@ -327,40 +386,98 @@ def doctor(target: str | Path) -> dict[str, Any]:
 
 
 def uninstall(target: str | Path) -> dict[str, Any]:
-    """Remove exactly what ``install`` wrote. Refuses when the directory holds anything else."""
+    """Remove exactly what ``install`` wrote. Refuses when the directory holds anything else.
+
+    The manifest is treated as untrusted input: it can narrow what is deleted (a file that is gone
+    is simply skipped) but it can never widen it. Every key must be one of the paths ``install``
+    writes, resolve inside the install root, and still match the digest the manifest declares — so
+    a tampered manifest refuses the uninstall instead of deleting something outside the adapter.
+    """
 
     root_dir = Path(target)
     if not root_dir.is_dir():
         raise SBLError("SBL_E_BAD_STATE", "nothing to uninstall", {"target": str(root_dir)})
-    manifest_path = root_dir / "MANIFEST.json"
+    manifest_path = root_dir / _MANIFEST_FILE
+    if manifest_path.is_symlink():
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "MANIFEST.json is a link; refusing to uninstall from a manifest that lives elsewhere",
+            {"target": str(root_dir)},
+        )
     if not manifest_path.is_file():
         raise SBLError(
             "SBL_E_FOREIGN_FILES",
             "no MANIFEST.json: this adapter did not install here",
             {"target": str(root_dir)},
         )
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    owned = set(manifest.get("files", {})) | {"MANIFEST.json"}
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "MANIFEST.json is not readable JSON; refusing to delete anything",
+            {"target": str(root_dir), "error": type(exc).__name__},
+        ) from exc
+    if not isinstance(manifest, dict):
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "MANIFEST.json is not an object",
+            {"target": str(root_dir)},
+        )
+    files = manifest.get("files", {})
+    if not isinstance(files, dict):
+        raise SBLError(
+            "SBL_E_MANIFEST_UNTRUSTED",
+            "MANIFEST.json 'files' is not an object of path -> digest",
+            {"target": str(root_dir)},
+        )
+
+    root_resolved = root_dir.resolve(strict=True)
+    deletable: list[tuple[str, Path]] = []
+    for rel, expected in files.items():
+        path = _resolve_deletable(root_dir, root_resolved, rel)
+        if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+            raise SBLError(
+                "SBL_E_MANIFEST_UNTRUSTED",
+                "MANIFEST.json declares a digest that is not a sha256 hex string",
+                {"key": rel},
+            )
+        deletable.append((rel.replace("\\", "/"), path))
+
     present = {
         str(path.relative_to(root_dir)).replace("\\", "/")
         for path in root_dir.rglob("*")
         if path.is_file()
     }
-    foreign = sorted(present - owned)
+    foreign = sorted(present - {rel for rel, _ in deletable} - {_MANIFEST_FILE})
     if foreign:
         raise SBLError(
             "SBL_E_FOREIGN_FILES",
             "refusing to remove a directory containing files this adapter did not write",
             {"foreign": foreign},
         )
-    for rel in sorted(owned, reverse=True):
-        path = root_dir / rel
+
+    for rel, path in deletable:
+        if not path.is_file():
+            continue
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != files[rel]:
+            raise SBLError(
+                "SBL_E_MANIFEST_UNTRUSTED",
+                "a file changed since install; refusing to delete a file the manifest no longer describes",
+                {"key": rel, "declared": files[rel], "actual": actual},
+            )
+
+    removed = sorted([rel for rel, _ in deletable] + [_MANIFEST_FILE])
+    for _, path in sorted(deletable, key=lambda item: item[1], reverse=True):
         if path.is_file():
             path.unlink()
+    if manifest_path.is_file():
+        manifest_path.unlink()
     for path in sorted(root_dir.rglob("*"), reverse=True):
         if path.is_dir() and not any(path.iterdir()):
             path.rmdir()
     empty = not any(root_dir.iterdir())
     if empty:
         shutil.rmtree(root_dir, ignore_errors=False)
-    return {"ok": True, "target": str(root_dir), "removed": sorted(owned), "empty": empty}
+    return {"ok": True, "target": str(root_dir), "removed": removed, "empty": empty}
