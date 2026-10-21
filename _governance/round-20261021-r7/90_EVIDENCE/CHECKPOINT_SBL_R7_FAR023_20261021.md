@@ -22,9 +22,17 @@ Resume by reading this file, then the three "resume" blocks at the bottom.
 | Repo | Branch | HEAD | Remote | State |
 |---|---|---|---|---|
 | `C:\Projects\_sbl_r4\c3v2` (SBL product) | `candidate/r7-20261021-repro-build` | `26a289f` | `26a289f` ✔ | clean |
-| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | `9bb58cb` | `9bb58cb` ✔ | clean |
-| `C:\Projects\Agent_Workspace\Fabric` (FAR) | `pub/far-minimax-mandate-20261021` | `9b2ae5e` | `9b2ae5e` ✔ | clean |
-| `C:\Projects\Agent_Workspace\HG-KSEOS` (control plane) | `codex/hgk-final-closure-002` | `3a73b38` | **no remote** | local-only |
+| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | `7559406` | `7559406` ✔ | clean |
+| `C:\Projects\Agent_Workspace\Fabric` (FAR) | `pub/far-minimax-mandate-20261021` | `37509e6` | `37509e6` ✔ | clean |
+| `C:\Projects\Agent_Workspace\HG-KSEOS` (control plane) | `codex/hgk-final-closure-002` | `88666af` | **no remote** | local-only |
+
+FAR-023's 35 files are carried on **both** published Fabric branches
+(`pub/far-lane-remediation-20261021` and `pub/far-minimax-mandate-20261021`), so
+the path the self-check reads resolves on either.
+
+The five HG-KSEOS lane surfaces are committed at `88666af`:
+`lane-route-slots.candidate.json`, `lane-routing-registry.yaml`,
+`model-lane-assignment.json`, `hermes-codex-lane.json`, `hermes.json`.
 
 Remote = `https://github.com/shw097-team/SBL.git` and the Fabric repo. The GitHub credential
 source is `C:\Projects\Agent_Workspace\API KEY\GITHUB-REPO_SHW097-4.txt`; it is only ever
@@ -146,10 +154,11 @@ C5/C13/C15 with `FileNotFoundError`). All 35 are present again; the self-check r
 | id | item | why it is still open |
 |---|---|---|
 | **C6** | independent checker verdict for `26a289f` | attempt 3 was dispatched on the GPT arm and **stopped by this pause**. No verdict. Not a pass, not a failure. |
-| C7 | candidate/evidence published | **now satisfied** — both branches pushed, remote == local. Re-run self-check to confirm the check flips. |
-| C9 | reproducibility | **now satisfied** — receipt regenerated for `26a289f`. |
+| C7 | candidate/evidence published | **SATISFIED** — both branches pushed, remote == local. |
+| C9 | reproducibility | **SATISFIED** — receipt regenerated for `26a289f`. |
+| — | self-check | **15 / 16 PASS**. Only C6 is open. |
 | — | HGK workorder | still `ROLLED_BACK`; acceptance `NOT_RUN`. Do **not** record PASS before the C6 verdict lands. |
-| — | canonical Hermes formal binding receipt | still missing. The governed profile `profiles/hgk-governed/config.yaml` is correct (GPT 6.1 SOL / medium) and the pool/registry are correct, but there is **no explicit Runtime/Orchestration Plane binding, permit or rollback receipt**. Correct profile ≠ binding receipt. |
+| — | canonical Hermes formal binding receipt | still missing. The governed profile `profiles/hgk-governed/config.yaml` is correct (GPT 6.1 SOL / medium) and the pool/registry/assignment/`hermes-codex-lane.json`/`hermes.json` are all committed at `88666af`, but there is **no explicit Runtime/Orchestration Plane binding, permit or rollback receipt**. Correct configuration ≠ binding receipt. |
 | — | 4 contract capability bindings | 4 capabilities still point at `ACC-SBL_SHARED_CORE`; the compiler SSOT was not rebuilt. |
 | — | PR #2 merge | R6 candidate `a6bcdd0` is a clean fast-forward over `main`, but **no merge actually happened**. No merge receipt. |
 | — | R6-TS06-A | `0.1.1rc1`, experimental wheel/sdist, clean-venv lifecycle and release digest are not complete. |
@@ -232,27 +241,33 @@ the branches are pushed and the receipt is regenerated — verify they did.
    MiniMax and left `declared_by` claiming "unchanged" — self-contradictory. Both were caught by
    read-back, not by the write itself. **Every write to the canonical pool must be preceded by a
    pre-image digest guard and followed by a read-back.**
-2. **A stash variant silently disagreed with the owner.** One concurrent variant changed EXECUTE
+2. **A mixed working tree is not a candidate.** At the pause, `config/hermes.json` held my rebind's
+   `governed_hermes_home` binding **plus** a concurrent "Scheme B reinstall" rewrite of ten other
+   fields. It was committed at `88666af` with the concurrent fields recorded as found, not as
+   authored. Had the round continued without noticing, the next writer would have inherited a file
+   whose two halves came from two different intents. **After any concurrent writer touches a
+   governed surface, diff the working tree against HEAD field-by-field before committing.**
+3. **A stash variant silently disagreed with the owner.** One concurrent variant changed EXECUTE
    to MiniMax too, contradicting the owner's "only PLAN and VERIFY/CHECKER". The owner was asked
    and confirmed EXECUTE stays on DeepSeek. Do not re-litigate; the answer is recorded in
    `OWNER_DECISIONS.md`.
-3. **`_repo_head()` takes the CWD, not the project repo.** The first HGK admission returned an id
+4. **`_repo_head()` takes the CWD, not the project repo.** The first HGK admission returned an id
    but created no WorkOrder, because the API was called from the wrong working directory. An
    orphan DRAFT TaskSpec had to be removed and the admission redone through the typed API.
-4. **A half-admission is worse than none.** The typed API is not re-entrant — `admit_requirement`
+5. **A half-admission is worse than none.** The typed API is not re-entrant — `admit_requirement`
    on an existing requirement needs the missing TaskSpec/WorkOrder supplied, not a second call.
-5. **The `import build` trap generalises.** Any `import X` probe for a build tool is unsafe in a
+6. **The `import build` trap generalises.** Any `import X` probe for a build tool is unsafe in a
    repo that contains an `X/` directory. Probe with `python -m X --version`.
-6. **Local-property tests hide global-property failures.** The mutation probe existed to catch
+7. **Local-property tests hide global-property failures.** The mutation probe existed to catch
    exactly this and initially did not, because the mutation was applied to a tree that did not
    contain the new tests. A mutation probe must copy the **whole working tree**, not
    `git checkout --force HEAD`.
-7. **Raw index-file hashes are not an invariant.** git rewrites the stat cache on read.
-8. **`git commit -F -` hangs.** Write the message to a file and use `git commit -F <file>`.
-9. **A `build/` directory in the repo breaks `import build`.** Also: the checker's venv had no
+8. **Raw index-file hashes are not an invariant.** git rewrites the stat cache on read.
+9. **`git commit -F -` hangs.** Write the message to a file and use `git commit -F <file>`.
+10. **A `build/` directory in the repo breaks `import build`.** Also: the checker's venv had no
    `build` package, so the builder needs the `SBL_BUILD_PYTHON` fallback.
-10. **The dispatcher rejects a prompt containing "publish".** Reword, do not disable the guard.
-11. **A git remote write needs the `-c core.askPass=<wrapper.cmd>` form**; the `GIT_ASKPASS`
+11. **The dispatcher rejects a prompt containing "publish".** Reword, do not disable the guard.
+12. **A git remote write needs the `-c core.askPass=<wrapper.cmd>` form**; the `GIT_ASKPASS`
     environment variable alone is ignored by git on this host.
 
 ---
