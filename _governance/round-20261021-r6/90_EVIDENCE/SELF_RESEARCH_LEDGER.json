@@ -1,0 +1,55 @@
+{
+ "schema": "SBL_R6_SELF_RESEARCH_LEDGER/1",
+ "captured_at_utc": "2026-10-21T04:49:29.620934+00:00",
+ "round": "SBL-R6-DOC00-13-CONTINUATION",
+ "signals": {
+  "checker_rounds_total": 11,
+  "checker_rounds_maker_brief_defect": 2,
+  "checker_rounds_environment_limit": 6,
+  "checker_rounds_product_defect": 0,
+  "checker_final": "PASS_WITH_DISCLOSURES",
+  "self_check": "15/15 PASS",
+  "ledger_rows_authored": {
+   "parents": 50,
+   "children": 149,
+   "surfaces": 38,
+   "identities": 441
+  },
+  "fabricated_pass_count": 0,
+  "tt_open": 4,
+  "cr_open": 2,
+  "remote_push": "evidence/r6-20261021-c6 @ 599f8b0 verified by ls-remote"
+ },
+ "lessons": [
+  {
+   "lesson": "Never dispatch the independent checker before the maker's evidence artifacts are sealed on disk; a FAIL caused by sequencing is a maker defect, not a product defect, and it costs a full checker round.",
+   "rule": "seal evidence -> commit -> then dispatch the checker; the checker brief must name the canonical path of every artifact it will read."
+  },
+  {
+   "lesson": "A lane sandbox can silently invalidate a checker's runtime re-execution (git subprocess, site-packages read, --basetemp delete) and produce FAIL verdicts that look like product failures.",
+   "rule": "put the candidate worktree and a lane-owned venv inside a trusted root, use a fresh --basetemp path per run, and read the raw tool output before believing a FAIL."
+  },
+  {
+   "lesson": "The lane pool's transport_model vocabulary decides which model id the relay will actually serve; a qualified provider/model string can be rejected with HTTP 400 'Model is unavailable' even though the same model id works bare.",
+   "rule": "probe the arm with a nonce before relying on it, and record the served arm (provider/model/usage status) in the receipt; never assume the committed pool will serve the intended arm."
+  },
+  {
+   "lesson": "A verifier that reports PASS while noting it could not see the evidence text is a weak PASS; ask for the literal summary line to be captured into a file inside the checker's own scratch.",
+   "rule": "require the checker to write its raw command output to a file and quote the exact summary line; that closes the disclosure instead of leaving it open."
+  },
+  {
+   "lesson": "Wheels are not byte-reproducible across build directories, so a digest only binds to a specific artifact.",
+   "rule": "store the exact artifact in-repo next to the evidence and bind the digest to that path."
+  }
+ ],
+ "iteration_outcome": "the round closed on checker PASS_WITH_DISCLOSURES + 15/15 self-check with 0 fabricated PASS and 0 product defects surfaced by the independent principal",
+ "evolution_ceiling": "local, scoped, single-round evidence only; no SWOF W3 effect, no Host acceptance, no full-contract closure",
+ "next_iteration": {
+  "target": "R6-TS06-A (Owner merge + new C3 prerelease) then R6-TS15/16 real new-product E2E",
+  "preconditions": [
+   "Owner merge approval",
+   "canonical challenge bundle restored (TT-CHALLENGE-BUNDLE-MISSING)",
+   "lane pool transport vocabulary corrected (TT-R6-VERIFY-TRANSPORT-VOCAB-001)"
+  ]
+ }
+}
