@@ -1,7 +1,7 @@
 {
  "schema": "SBL_R7_EXECUTION_STATUS/1",
  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T06:16:52.393798+00:00",
+ "captured_at_utc": "2026-10-21T06:29:14.945196+00:00",
  "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
  "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
  "hgk_admission": {
@@ -33,7 +33,8 @@
    "applied_at": "HG-KSEOS config/lane-route-slots.candidate.json revision 11, commit 3f81b4b7d32da0f9eaae01c7ecd05728206f33d9",
    "published": false,
    "why_not_published": "HG-KSEOS has NO git remote; the rebind is local-only. The measurement receipts are carried in the SBL evidence branch (40_VERIFY/lane_rebind_minimax/).",
-   "recorded_conflict": "the planner and the checker are now the SAME identity. The dispatcher enforces no maker==checker REFUSE rule (D1), so this is a recorded overlap, not a blocked one, and the checker no longer provides model-axis independence from the planner."
+   "recorded_conflict": "the planner and the checker are now the SAME identity. The dispatcher enforces no maker==checker REFUSE rule (D1), so this is a recorded overlap, not a blocked one, and the checker no longer provides model-axis independence from the planner.",
+   "owner_clarification": "The owner order named PLAN and VERIFY/SECURITY only. A concurrent background process wrote a variant in which EXECUTE was also rebound to minimax (all three lanes), leaving the pool file merge-conflicted with a stash on the control-plane repository; the dispatcher then failed with ERR_SLOT_POOL_MALFORMED. The owner was asked and answered: EXECUTE stays DeepSeek V4.1 Flash. The working tree was restored to the committed owner-ruled revision 11 (HG-KSEOS 3f81b4b) over the concurrent variant, the stash was DROPPED rather than applied, and the working tree is now clean with an empty stash list. The conflict is recorded in 40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json, not cleaned up quietly."
   }
  },
  "planes_enabled": {
@@ -75,7 +76,8 @@
   "HG-KSEOS var/R7-LANES/ receipts (lane probes + the independent checker dispatch); no config/, no registry, no AGENTS.md change",
   "FAR run directory under Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/",
   "scratch build/venv trees under the Hermes scratch dir (isolated, outside the repos)",
-  "no merge, no release, no tag, no force push, no PR creation, no self-acceptance"
+  "no merge, no release, no tag, no force push, no PR creation, no self-acceptance",
+  "HG-KSEOS control-plane repository: a concurrent background process left a merge-conflicted config/lane-route-slots.candidate.json and a stash mid-round. Resolved by restoring the owner-ruled committed revision 11 over the working tree and DROPPING the stash (not applying it). The repository's working tree for that file is clean and the stash list is empty. No other file was touched by this round."
  ],
  "verification": {
   "self_check": {

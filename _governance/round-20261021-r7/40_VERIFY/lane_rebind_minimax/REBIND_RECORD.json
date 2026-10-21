@@ -1,6 +1,6 @@
 {
  "schema": "SBL_R7_LANE_REBIND/1",
- "recorded_at_utc": "2026-10-21T06:16:43.209356+00:00",
+ "recorded_at_utc": "2026-10-21T06:28:52.038555+00:00",
  "owner_order": "2026-10-21, mid-round: the Independent Acceptance Officer / VERIFY / SECURITY checker model and the PLAN execution model are both changed to minimax-m3.1-flash-free (opencode-go). EXECUTE unchanged.",
  "applied_to": {
   "repository": "C:/Projects/Agent_Workspace/HG-KSEOS",
@@ -47,5 +47,11 @@
  },
  "why_no_runtime_change_for_PLAN": "the PLAN lane runs on the hermes engine, and the canonical hermes default model is ALREADY minimax-m3.1-flash-free on opencode-go (verified: hermes config get model --json -> {default: minimax-m3.1-flash-free, provider: opencode-go}). The pool entry records the binding; the runtime needed no change.",
  "recorded_conflict": "The planner and the checker are now the SAME identity. The dispatcher does NOT enforce a maker==checker REFUSE rule (declared as D1 in the pool's authority_basis), so this is a RECORDED OVERLAP, not a blocked one. An independent reviewer must weigh that the checker no longer provides model-axis independence from the planner. This is the direct consequence of the owner order and is disclosed rather than smoothed over.",
- "what_did_NOT_change": "the openai-codex/gpt-6.1-sol arm is retained at rank 2 on both lanes; it is not removed, because the unattended-window identity requirement keeps the OAuth arm available."
+ "what_did_NOT_change": "the openai-codex/gpt-6.1-sol arm is retained at rank 2 on both lanes; it is not removed, because the unattended-window identity requirement keeps the OAuth arm available.",
+ "owner_clarification": {
+  "question_asked": "the mid-round owner order named the PLAN execution model and the VERIFY/SECURITY checker model. It did not name the EXECUTE lane. A concurrent background process had written a pool variant in which EXECUTE rank 1 was ALSO minimax-m3.1-flash-free (all three lanes minimax). The owner was asked which is intended.",
+  "owner_answer": "maintain DeepSeek V4.1 Flash for EXECUTE - per the original wording, only PLAN and VERIFY/CHECKER change to MiniMax M3.1 Flash.",
+  "resolution": "the working tree was restored to the committed revision 11 (HG-KSEOS commit 3f81b4b7d32da0f9eaae01c7ecd05728206f33d9), which is the owner-ruled variant: PLAN=minimax, VERIFY_SECURITY=minimax, EXECUTE=deepseek-v4.1-flash. The all-minimax variant was discarded, not merged. The working tree is now clean and the stash list is empty.",
+  "note": "a concurrent process had also left a merge-conflicted working-tree file and a stash on this repository while the round was in flight. The conflict was resolved by restoring the committed owner-ruled version; the stashed variant was dropped, not applied. Both facts are recorded here rather than left implicit."
+ }
 }

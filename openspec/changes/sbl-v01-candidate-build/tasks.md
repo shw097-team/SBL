@@ -90,11 +90,20 @@ commands below are the ones that actually exist and ran. The rename is disclosed
       DRAFT 且無 WorkOrder（`_repo_head()` 取呼叫端 CWD，repo 外回空字串，InvariantViolation 被 except 吞掉）；
       本回合以公開的 `create_workorder` API 補齊並三列回讀。
 - [ ] 7.6 獨立 VERIFY 車道對凍結後候選的原始裁決（maker ≠ checker）。
-      狀態：已 dispatch（lane `VERIFY_SECURITY`，arm `openai-codex/gpt-6.1-sol`，nonce
-      `R7CHK-NC-20261021-A1`，guard-subject 覆蓋候選與 R7 證據樹），待收據落地後回填。
+      ROUND 1（arm `openai-codex/gpt-6.1-sol`，nonce `R7CHK-NC-20261021-A1`）：已執行 392 秒，
+      產生 byte-exact 證據（`stdout_sha256=80397dbb…`、`usage_status=200`、`nonce_present=true`），
+      但在給出裁決前 provider 配額耗盡 → dispatcher 記為 `ERR_NO_ARM_EMITTED_NONCE`（ok=false）。
+      分類為 `INCOMPLETE_ROUND_PROVIDER_QUOTA`：**保留、不計為驗收、不上浮為 FAIL，也不當 PASS**。
+      收據：`40_VERIFY/checker_round1_receipt.json` + `40_VERIFY/checker_round1_receipt/`。
+      ROUND 1 提出的兩項實質發現已在候選 `59d2138` 修復並重測（202 passed / 2 skipped）：
+        F8 測試只斷言原始碼文字 → 2/3 的合約破壞變異仍全過（已改為行為斷言 + mutation probe）
+        F9 建置依賴 ambient interpreter 的 `build` 套件 → 已加入 `_builder_python()` 解析器
+      ROUND 2：arm 依回合中 owner 指示改為 `opencode-go/minimax-m3.1-flash-free`
+      （nonce `R7CHK-NC-20261021-A2`，guard-subject 覆蓋候選 worktree），執行中。
 - [x] 7.7 候選與證據推送 `shw097-team/SBL`，遠端 SHA 回讀一致；staged diff secret scan CLEAN。
-      Verify: `origin/candidate/r7-20261021-repro-build` = `00cf15f9de5808260b1af6a697d0e2fefaad5d1f`，
-      `origin/evidence/r7-20261021-c7` = `f6d71313f5b61a6bd888c30cfc70a1a5fc7e938b`（`git ls-remote` 回讀）。
+      Verify: `origin/candidate/r7-20261021-repro-build` = `59d2138750223b325159fab536f218a0d9aa4ab5`，
+      `origin/evidence/r7-20261021-c7` = `60f344631c4e299115bb016f22452ed3e268280a`（`git ls-remote` 回讀）。
+      FAR 產物另推送 `shw097-team/Fabric`：`origin/pub/far-lane-remediation-20261021` = `8fdb9f39124fdd47812a61dd54646a170549307b`。
 - [x] 7.8 受治理自研究／自學習／自迭代 ledger。
       Verify: `_governance/round-20261021-r7/90_EVIDENCE/SELF_RESEARCH_LEDGER.json`（9 條可遷移規則，
       每條附產生它的失敗與量測）；FAR `SELF_EVOLUTION_DELTA.json`（7 條，本回合全部採納）。
@@ -109,3 +118,16 @@ commands below are the ones that actually exist and ran. The rename is disclosed
       量測：兩次獨立建置得到**完全相同**的 wheel sha256 `a161162fa4173460ad9041a9bc83afc31a52b6fc0539f4655f74de3b1147ecf6`
       與 sdist sha256 `b147f674ffb2356123b63b6e95d6ad572a91f7364db56e859e562495fdd4a927`；
       測試分母 194 → 200（`200 passed, 2 skipped`），分支 `candidate/r7-20261021-repro-build` @ `00cf15f`。
+- [x] 7.9 回合中 owner 指示：PLAN 與 VERIFY/SECURITY 車道模型改為 `minimax-m3.1-flash-free`（opencode-go）。
+      套用於 canonical dispatch-time pool（`HG-KSEOS/config/lane-route-slots.candidate.json` revision 11，
+      commit `3f81b4b7d32da0f9eaae01c7ecd05728206f33d9`），並在 **canonical pool 上實測**兩條車道：
+      served_arm == required_arm、nonce_present=true、usage HTTP 200、exit=0。
+      `openai-codex/gpt-6.1-sol` 降為 rank-2 fallback（**未移除**，無人值守窗戶的 identity 需求仍需該 arm）。
+      EXECUTE 維持 `deepseek-v4.1-flash`，經 owner 明確確認。
+      已記錄衝突：planner 與 checker 現為**同一身分**，dispatcher 不執行 maker==checker REFUSE（D1），
+      故此為「已記錄的 重疊」而非「被阻擋」——checker 不再對 planner 提供模型軸上的獨立性。
+      Verify: `_governance/round-20261021-r7/40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json`
+      與 `.../lane_rebind_minimax/probe_canonical_*.json`。
+- [x] 7.10 spine 誠實性：曾於獨立裁決出現前把 PASS 寫入 HGK workorder，已用 typed rollback API
+      （`rollback_workorder`）撤回，spine 現為 `ROLLED_BACK` 並有 rollback_record 說明原因；
+      self-check C2 現會拒絕「無獨立裁決卻 VERIFIED」的狀態。
