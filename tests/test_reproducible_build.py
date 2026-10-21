@@ -340,12 +340,24 @@ def test_two_independent_builds_are_byte_identical():
                 # behind an unavailable backend, and the independent checker
                 # (R7 round 4) called exactly this out as fail-open.
                 combined = (r.stdout or "") + (r.stderr or "")
+                # The marker list must match what the builder ACTUALLY says
+                # when the backend is missing. The builder's resolver raises
+                # SystemExit("no interpreter with the 'build' package was
+                # found. Install it with 'pip install build', or point
+                # SBL_BUILD_PYTHON at an interpreter that has it. (Checked:
+                # ...)"), so a marker list that only knows the bare
+                # "No module named build" would turn an environment gap into a
+                # product failure -- which is exactly what the D1 repair was
+                # meant to prevent, and exactly what it did on CI, where the
+                # runner has no build backend installed. A marker that does not
+                # match reality is worse than no marker at all.
                 backend_missing = any(
                     marker in combined
                     for marker in (
+                        "no interpreter with the 'build' package was found",
+                        "no interpreter with the build backend",
                         "No module named build",
                         "cannot be directly executed",
-                        "no interpreter with the build backend",
                         "unable to find the build backend",
                     )
                 )

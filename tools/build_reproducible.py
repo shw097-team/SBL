@@ -73,17 +73,32 @@ def _has_build(python: str) -> bool:
 
     The probe must therefore ask the question that will actually be asked later:
     can this interpreter RUN the build module?
+
+    A candidate interpreter that does not exist at all must NOT raise. The
+    resolver deliberately probes several candidates, including an
+    `SBL_BUILD_PYTHON` override and every `python` on PATH, and any of them
+    may be a path that does not exist. An unhandled `FileNotFoundError` there
+    aborts the whole resolution with a traceback instead of moving on to the
+    next candidate -- and the resulting traceback does not say anything a
+    reader can act on. A missing interpreter simply does not have the build
+    backend.
     """
-    r = subprocess.run(
-        [python, "-m", "build", "--version"], capture_output=True, timeout=180
-    )
+    try:
+        r = subprocess.run(
+            [python, "-m", "build", "--version"], capture_output=True, timeout=180
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
     if r.returncode == 0:
         return True
     # `python -m build` needs a console entry point; fall back to importing the
     # module's __main__, which is the thing the resolver actually invokes.
-    r2 = subprocess.run(
-        [python, "-c", "import build.__main__"], capture_output=True, timeout=120
-    )
+    try:
+        r2 = subprocess.run(
+            [python, "-c", "import build.__main__"], capture_output=True, timeout=120
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
     return r2.returncode == 0
 
 
