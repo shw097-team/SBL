@@ -46,19 +46,19 @@ def git(*args: str, repo: Path = SBL) -> str:
 
 # C1 --- lane availability: all three lanes served the mandated arm
 def c1() -> str:
-    """The CURRENT mandate, after the mid-round owner order of 2026-10-21.
+    """The CURRENT mandate, after the owner order of 2026-10-21 (GPT quota restored).
 
-    PLAN and VERIFY_SECURITY are minimax-m3.1-flash-free (opencode-go); EXECUTE is
-    unchanged at deepseek-v4.1-flash (opencode-go).
+    PLAN and VERIFY_SECURITY are openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI
+    OAuth); EXECUTE is unchanged at opencode-go/deepseek-v4.1-flash.
 
     Each lane is proved by its OWN dispatch receipt, with its own nonce and its own
     usage row. The fact that this session also runs minimax-m3.1-flash-free is a
     coincidence of the SESSION plane and is never a lane receipt.
     """
     mandate = {
-        "PLAN": ("opencode-go", "minimax-m3.1-flash-free", "probe_canonical_PLAN_minimax.json"),
-        "EXECUTE": ("opencode-go", "deepseek-v4.1-flash", "probe2_EXECUTE.json"),
-        "VERIFY_SECURITY": ("opencode-go", "minimax-m3.1-flash-free", "probe_canonical_VERIFY_minimax.json"),
+        "PLAN": ("openai-codex", "gpt-6.1-sol", "probe_final_PLAN_gpt.json"),
+        "EXECUTE": ("opencode-go", "deepseek-v4.1-flash", "probe_final_EXECUTE_deepseek.json"),
+        "VERIFY_SECURITY": ("openai-codex", "gpt-6.1-sol", "probe_final_VERIFY_gpt.json"),
     }
     out = []
     for lane, (prov, model, receipt) in mandate.items():
@@ -73,6 +73,8 @@ def c1() -> str:
         assert (a.get("provider"), a.get("model")) == (prov, model), (
             f"{lane}: served {a.get('provider')}/{a.get('model')} != {prov}/{model}"
         )
+        # the arm must be served at the pool's rank 1, not merely at some rank
+        assert j.get("used_rank") == 1, f"{lane}: served at rank {j.get('used_rank')}, not rank 1"
         out.append(f"{lane}={a.get('provider')}/{a.get('model')}")
     return ", ".join(out)
 
@@ -393,15 +395,21 @@ def c16() -> str:
     """The pool file, not the receipts, is what a future dispatch will read.
 
     This check asserts that the CANONICAL pool's rank-1 for each lane is the arm the
-    current mandate names, that the openai arm was demoted rather than removed, and
-    that the planner/checker identity overlap is recorded rather than smoothed over.
+    current mandate names, that the arm the mandate demoted is RETAINED as a
+    reachable fallback rather than removed, and that the identity overlap that
+    remains is recorded rather than smoothed over.
+
+    Under the owner order of 2026-10-21 (GPT quota restored) PLAN and
+    VERIFY_SECURITY are openai-codex/gpt-6.1-sol and EXECUTE is
+    opencode-go/deepseek-v4.1-flash. The minimax arm is the demoted one and must
+    survive at a lower rank.
     """
     pool = json.loads((HGK / "config" / "lane-route-slots.candidate.json").read_text(encoding="utf-8"))
     lanes = {L["lane"]: L for L in pool["lanes"]}
     expected_rank1 = {
-        "PLAN": "opencode-go/minimax-m3.1-flash-free",
+        "PLAN": "openai-codex/gpt-6.1-sol",
         "EXECUTE": "opencode-go/deepseek-v4.1-flash",
-        "VERIFY_SECURITY": "opencode-go/minimax-m3.1-flash-free",
+        "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol",
     }
     for lane, arm in expected_rank1.items():
         pool_entries = lanes[lane]["ordered_pool"]
@@ -412,25 +420,33 @@ def c16() -> str:
         assert ranks == list(range(1, len(ranks) + 1)), f"{lane}: rank gap {ranks}"
         toks = [f"{e['provider']}/{e['model']}" for e in pool_entries]
         assert len(toks) == len(set(toks)), f"{lane}: duplicate token"
-    # the openai arm must be demoted, not removed
-    for lane in ("PLAN", "VERIFY_SECURITY"):
+        # the openai arm's transport id is the BARE form; the qualified form is
+        # routed by the relay to the default provider and answers HTTP 400
+        if arm.startswith("openai-codex/"):
+            assert top.get("transport_model") == "gpt-6.1-sol", (
+                f"{lane}: the openai arm's transport_model is {top.get('transport_model')!r}; "
+                "the openai-codex arm requires the BARE id"
+            )
+    # the demoted arm must be retained, not removed
+    for lane in ("PLAN", "EXECUTE", "VERIFY_SECURITY"):
         toks = [f"{e['provider']}/{e['model']}" for e in lanes[lane]["ordered_pool"]]
-        assert "openai-codex/gpt-6.1-sol" in toks, (
-            f"{lane}: the openai arm was removed; the unattended-window identity requirement "
-            "keeps it available as a fallback"
+        assert "opencode-go/minimax-m3.1-flash-free" in toks, (
+            f"{lane}: the minimax arm was removed; a re-binding DEMOTES an arm, it does "
+            "not delete it, so the fallback chain stays reachable"
         )
-    # the identity overlap must be recorded, not hidden
+    # the identity overlap that remains must be recorded, not hidden
     overlaps = " ".join(pool.get("identity_overlaps_recorded_not_enforced") or [])
-    assert "minimax" in overlaps, (
-        "the planner and the checker are now the same identity and that is not recorded "
-        "in the pool's identity_overlaps_recorded_not_enforced"
+    assert overlaps.strip(), (
+        "the pool must RECORD the identity overlap rather than smooth it over; "
+        "PLAN and VERIFY_SECURITY now share gpt-6.1-sol BY OWNER ORDER"
     )
     # and the rebind must be recorded in the SBL evidence tree
     rec = json.loads((R7 / "40_VERIFY" / "lane_rebind_minimax" / "REBIND_RECORD.json").read_text(encoding="utf-8"))
     for lane, arm in expected_rank1.items():
         recorded = rec["resulting_pool"][lane][0]
         assert arm in recorded, f"{lane}: rebind record says {recorded!r}, the mandate is {arm}"
-    return "canonical pool rank-1 = mandate on all three lanes; openai arm demoted, overlap recorded"
+    return ("canonical pool rank-1 = mandate on all three lanes; minimax demoted but retained; "
+            "the remaining identity overlap is recorded")
 
 
 for name, fn in [

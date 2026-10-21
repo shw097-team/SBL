@@ -1,0 +1,128 @@
+{
+  "schema": "HGK-OWNER-AUTHORIZED-CONFIG-CHANGE/1",
+  "artifact": "REGISTRY_FALLBACKS_REPAIR_RECEIPT",
+  "at_utc": "2026-10-21T07:37:50.639904+00:00",
+  "target": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-routing-registry.yaml",
+  "pre_image_sha256": "4081c6e232cba953aec86f059c12b59bc070514394cba64d8999d3dec9f95bee",
+  "post_image_sha256": "c6c86613c859d8593d83e3f9237de81296821824661d34e2bbe8f21e10e3cba9",
+  "defect": "the GPT-promotion apply derived `fallbacks` by matching the OLD fallback list, which did not contain the arm that was rank-1 (minimax). The demoted primary was therefore dropped from every route's fallback list, contradicting the route's own arms list and making 'the minimax arm is retained as a reachable fallback' false in the artifact.",
+  "fix": "fallbacks := arms[1:] in provider/model order, identity fields taken from the arms entry",
+  "changes": [
+    {
+      "lane": "PLAN",
+      "before": [
+        [
+          "opencode-go",
+          "glm-5.3-flash"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ],
+        [
+          "opencode-go",
+          "mimo-v2.6-pro"
+        ],
+        [
+          "nvidia",
+          "z-ai/glm-5.3-flash"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ],
+      "after": [
+        [
+          "opencode-go",
+          "minimax-m3.1-flash-free"
+        ],
+        [
+          "opencode-go",
+          "glm-5.3-flash"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ],
+        [
+          "opencode-go",
+          "mimo-v2.6-pro"
+        ],
+        [
+          "nvidia",
+          "z-ai/glm-5.3-flash"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ]
+    },
+    {
+      "lane": "EXECUTE",
+      "before": [
+        [
+          "openai-codex",
+          "gpt-6-luna"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ],
+      "after": [
+        [
+          "opencode-go",
+          "minimax-m3.1-flash-free"
+        ],
+        [
+          "openai-codex",
+          "gpt-6-luna"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ]
+    },
+    {
+      "lane": "VERIFY_SECURITY",
+      "before": [
+        [
+          "opencode-go",
+          "glm-5.3-flash"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ],
+      "after": [
+        [
+          "opencode-go",
+          "minimax-m3.1-flash-free"
+        ],
+        [
+          "opencode-go",
+          "glm-5.3-flash"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ]
+    }
+  ],
+  "drift_findings": [],
+  "applied": true,
+  "claim_ceiling": "a repair of the declaration's internal consistency, applied under the same owner order that produced it. CANDIDATE_ONLY: not a native issuer signature, not an acceptance of any subject, not a promotion of the pool to ACTIVE."
+}

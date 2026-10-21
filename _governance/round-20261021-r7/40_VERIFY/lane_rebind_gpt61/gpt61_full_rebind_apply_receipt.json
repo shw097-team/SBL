@@ -1,0 +1,170 @@
+{
+  "schema": "HGK-OWNER-AUTHORIZED-CONFIG-CHANGE/1",
+  "artifact": "LANE_REBIND_FULL_APPLY_RECEIPT",
+  "at_utc": "2026-10-21T07:37:17.845379+00:00",
+  "owner_order": "Owner order 2026-10-21 (owner messages, GPT quota restored): the PLAN execution model and the Independent Acceptance Officer / VERIFY / SECURITY checker model are BOTH GPT 6.1 SOL-MEDIUM (OpenAI OAuth) = openai-codex/gpt-6.1-sol (transport_model: gpt-6.1-sol, the BARE id). This SUPERSEDES the 2026-10-21 order that put minimax-m3.1-flash-free (opencode-go) on PLAN and VERIFY_SECURITY. The EXECUTE lane is NOT named by this order and stays deepseek-v4.1-flash (opencode-go) at rank 1, per the owner's standing clarification 「維持 DeepSeek V4.1 Flash（依您原話：只改 PLAN 與 VERIFY/CHECKER）」. The minimax arm is retained at a lower rank as a reachable fallback, not removed.",
+  "target_lanes": {
+    "PLAN": {
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "reasoning_effort": "medium"
+    },
+    "VERIFY_SECURITY": {
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "reasoning_effort": "medium"
+    },
+    "EXECUTE": {
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "auth": "env_ref:OPENCODE_GO_API_KEY",
+      "oauth": false,
+      "reasoning_effort": null
+    }
+  },
+  "pre_images": {
+    "config/lane-route-slots.candidate.json": "621a3881a5a342d914fb484cde9a053a8cdab3373b43efa59b01662dc6208df9",
+    "config/lane-routing-registry.yaml": "3b59cb9026e46c345ac7e19565f21f9bd8d7a269335100b474125ede7e67b3c0",
+    "config/model-lane-assignment.json": "12b09abd714b8a6da30974fcd87449ddbc38a4a3c7ffeb8a7b224e9c89775557",
+    "config/hermes-codex-lane.json": "c2aa55684cff091c849c40566b53f304970d23bbe2b52d1ab8967d073cf93478",
+    "config/hermes.json": "4e32dcc609d46fb6010b202455ef3de4eef873d3829049b21895fee1fbf119b6"
+  },
+  "backups": {
+    "config/lane-route-slots.candidate.json": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-LANES\\backups\\lane-route-slots.candidate.json.pre-gpt61full-20261021T073717Z",
+    "config/lane-routing-registry.yaml": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-LANES\\backups\\lane-routing-registry.yaml.pre-gpt61full-20261021T073717Z",
+    "config/model-lane-assignment.json": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\R7-LANES\\backups\\model-lane-assignment.json.pre-gpt61full-20261021T073717Z"
+  },
+  "rollback": "copy each backup over its target path to restore the pre-image bytes",
+  "planned_changes": {
+    "pool": [
+      {
+        "lane": "PLAN",
+        "before": [
+          "opencode-go/minimax-m3.1-flash-free",
+          "openai-codex/gpt-6.1-sol",
+          "opencode-go/glm-5.3-flash",
+          "opencode-go/deepseek-v4.1-flash",
+          "opencode-go/mimo-v2.6-pro",
+          "nvidia/z-ai/glm-5.3-flash",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "after": [
+          "openai-codex/gpt-6.1-sol",
+          "opencode-go/minimax-m3.1-flash-free",
+          "opencode-go/glm-5.3-flash",
+          "opencode-go/deepseek-v4.1-flash",
+          "opencode-go/mimo-v2.6-pro",
+          "nvidia/z-ai/glm-5.3-flash",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "rank1": "openai-codex/gpt-6.1-sol"
+      },
+      {
+        "lane": "EXECUTE",
+        "before": [
+          "opencode-go/minimax-m3.1-flash-free",
+          "opencode-go/deepseek-v4.1-flash",
+          "openai-codex/gpt-6-luna",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "after": [
+          "opencode-go/deepseek-v4.1-flash",
+          "opencode-go/minimax-m3.1-flash-free",
+          "openai-codex/gpt-6-luna",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "rank1": "opencode-go/deepseek-v4.1-flash"
+      },
+      {
+        "lane": "VERIFY_SECURITY",
+        "before": [
+          "opencode-go/minimax-m3.1-flash-free",
+          "openai-codex/gpt-6.1-sol",
+          "opencode-go/glm-5.3-flash",
+          "opencode-go/deepseek-v4.1-flash",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "after": [
+          "openai-codex/gpt-6.1-sol",
+          "opencode-go/minimax-m3.1-flash-free",
+          "opencode-go/glm-5.3-flash",
+          "opencode-go/deepseek-v4.1-flash",
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ],
+        "rank1": "openai-codex/gpt-6.1-sol"
+      }
+    ],
+    "registry": [
+      "registry route PLAN: primary -> openai-codex/gpt-6.1-sol",
+      "registry route EXECUTE: primary -> opencode-go/deepseek-v4.1-flash",
+      "registry route VERIFY_SECURITY: primary -> openai-codex/gpt-6.1-sol",
+      "registry source_of_routes: revision=26 sha256=7afbd4b7a3967ce0"
+    ],
+    "assignment": [
+      "model-lane-assignment lane_chains/PLAN: [0] -> openai-codex/gpt-6.1-sol",
+      "model-lane-assignment lane_chains/VERIFY_SECURITY: [0] -> openai-codex/gpt-6.1-sol",
+      "model-lane-assignment lane_chains/EXECUTE: [0] -> opencode-go/deepseek-v4.1-flash",
+      "model-lane-assignment assignment/PLAN: -> openai-codex/gpt-6.1-sol",
+      "model-lane-assignment assignment/EXECUTE: -> opencode-go/deepseek-v4.1-flash",
+      "model-lane-assignment assignment/VERIFY_SECURITY: -> openai-codex/gpt-6.1-sol"
+    ]
+  },
+  "post_write_checks": [
+    {
+      "lane": "PLAN",
+      "rank1": "openai-codex/gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "ok": true,
+      "ranks_contiguous": true
+    },
+    {
+      "lane": "EXECUTE",
+      "rank1": "opencode-go/deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "ok": true,
+      "ranks_contiguous": true
+    },
+    {
+      "lane": "VERIFY_SECURITY",
+      "rank1": "openai-codex/gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "ok": true,
+      "ranks_contiguous": true
+    },
+    {
+      "lane": "PLAN",
+      "registry_route": "openai-codex/gpt-6.1-sol",
+      "ok": true
+    },
+    {
+      "lane": "EXECUTE",
+      "registry_route": "opencode-go/deepseek-v4.1-flash",
+      "ok": true
+    },
+    {
+      "lane": "VERIFY_SECURITY",
+      "registry_route": "openai-codex/gpt-6.1-sol",
+      "ok": true
+    },
+    {
+      "surface": "model-lane-assignment/sod",
+      "ok": true
+    },
+    {
+      "surface": "drift_gate",
+      "findings": 0,
+      "fatal": false,
+      "ok": true
+    }
+  ],
+  "drift_findings": [],
+  "applied": true,
+  "claim_ceiling": "a candidate-pool and candidate-declaration re-order, applied under owner authority. It is CANDIDATE_ONLY: not a native issuer signature, not an acceptance of any subject, not a promotion of the pool to ACTIVE, and not a claim that any lane has executed under the new binding beyond the single measured probe cited in the pool's change_log."
+}

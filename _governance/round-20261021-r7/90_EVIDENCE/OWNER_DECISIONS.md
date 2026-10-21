@@ -125,3 +125,81 @@ plugin 條目的 DOC。`ACC-PLUGIN-SCHEMA-AUTHORITY` 的 source locator 應改�
 `TT-CHALLENGE-BUNDLE-MISSING`（缺簽署的 challenge bundle）、`R6-TS12`（缺 Native issuer 的
 WorkOrder/ONE ECP/Permit）、`R6-TS21`（3 個 ChatGPT 私人 Plugin，缺 Host 授權，0/3 不變）、
 `R6-TS22-23-24`（38 surfaces 的 Host 證據，NOT_ADMITTED 仍是 NOT_ADMITTED）。
+
+---
+
+## 已在本回合關閉的 Owner 項目（不再是待決）
+
+### CLOSED-OWNER-A — 車道模型綁定（回合中指示，2026-10-21）
+**指示**：PLAN 執行模型與 VERIFY/SECURITY checker 模型改為 `minimax-m3.1-flash-free`（opencode-go）；
+EXECUTE 未提及。
+
+**已執行**：
+- `HG-KSEOS/config/lane-route-slots.candidate.json` revision 11（commit `3f81b4b7d32da0f9eaae01c7ecd05728206f33d9`）
+  的 rank-1 改為 `opencode-go/minimax-m3.1-flash-free`（PLAN、VERIFY_SECURITY）；
+  `openai-codex/gpt-6.1-sol` 降為 rank-2 fallback（**未移除**）。
+- **在 canonical pool 上實測**（非 bounded probe pool）：兩條車道皆
+  `served_arm == required_arm`、`nonce_present=true`、`usage HTTP 200`、`exit=0`。
+
+**已釐清的歧義**：並行程序曾寫入另一版本（EXECUTE rank-1 也改為 minimax）並留下 merge 衝突與 stash。
+已向 Owner 確認 → **EXECUTE 維持 `deepseek-v4.1-flash`**；工作樹還原為受裁決的 revision 11，
+stash **丟棄而非套用**，工作樹乾淨、stash 清單為空。
+
+**已揭露的限制**：HG-KSEOS **沒有 git remote**，此綁定僅存在本機 commit，未發布到任何 GitHub repo。
+外部驗收官可由本 repo 的 `40_VERIFY/lane_rebind_minimax/` 查驗量測，但看不到該 commit 本身。
+
+**已記錄的衝突**：planner 與 checker 現為**同一身分**。dispatcher 不執行 maker==checker REFUSE（D1），
+故這是「已記錄的重疊」而非「被阻擋」——**checker 不再對 planner 提供模型軸上的獨立性**。
+這是該指示的直接後果，已寫入 pool 的 `identity_overlaps_recorded_not_enforced` 與 R7 status。
+
+---
+
+## OWNER-4 — 是否將 R7 的可重現建置修復併入 main（PR #3）
+
+**對象**：`candidate/r7-20261021-repro-build` @ `59d2138750223b325159fab536f218a0d9aa4ab5`，
+相對 `a6bcdd0`（PR #2 的 head）多 3 個 commit、4 個檔案：
+`.gitattributes`、`tools/build_reproducible.py`、`tests/test_reproducible_build.py`、
+`tests/test_repro_mutation_probe.py`。
+
+**依據**：本回合已關閉 `TT-R6-WHEEL-NONREPRODUCIBLE-001`。獨立 checker 第一輪實機找到**兩個真缺陷**
+（F8 測試只斷言原始碼文字，2/3 的合約破壞變異仍全過；F9 建置依賴 ambient interpreter 的 `build` 套件），
+兩者皆已在 `59d2138` 修復並以 mutation probe 保護。量測：`identical=true`、`single_member_timestamp=true`、
+202 passed / 2 skipped。
+
+**預設值**：**先合併 PR #2，再以 `a6bcdd0` 為 base 開 PR #3 併入此修復**，理由：
+PR #2 的 head 是 R6 報告引用的受審物件，直接改它會使報告引用的 SHA 失效。
+
+**機械步驟**：
+```bash
+# 0) 遠端新鮮度檢查
+git ls-remote origin refs/heads/main refs/heads/candidate/c3-20261021-v2 refs/heads/candidate/r7-20261021-repro-build
+# 1) 合併 PR #2（見 OWNER-1）後，main == a6bcdd0
+# 2) 以 main 為 base 開 PR #3，head = candidate/r7-20261021-repro-build
+# 3) CI 需在雙 OS 上重跑（新增的 mutation probe 會在 CI 上實際破壞機制並斷言測試變紅）
+```
+
+**不做會怎樣**：可重現建置能力只存在於候選分支；後續 C3 prerelease 的資產 digest 無法被第三方重現，
+OWNER-2 的發布前提（`receipt.verify.identical == true`）在 main 上無法成立。
+
+**前置條件**：本回合的獨立 VERIFY 第二輪（arm `opencode-go/minimax-m3.1-flash-free`，
+nonce `R7CHK-NC-20261021-A2`）必須先產出裁決。該裁決尚未產出時，PR #3 應等待而非先行。
+
+---
+
+## OWNER-5 — 決定 4 個 contract capability 的 binding 修復時機
+
+**對象**：`SBL/contracts/SBL_C0_C9_CONTRACT-R6.json` 中 4 個 capability，其 acceptance 指向
+`ACC-SBL_SHARED_CORE`，但各自另有專屬 acceptance ID。
+
+**依據**：本回合逐項交叉比對 34 條 acceptance edge 後確認為**真實 binding defect**，非命名慣例。
+compiler 位於知識庫唯讀 SSOT（`…/Semantic World OS Fabric/SBL`），本回合未修改。
+
+**預設值**：在**下一個 contract 回合**（R8）修復，並在該回合重建 contract receipt。
+不在本回合改，因為 R6/R7 的報告都引用了現有 contract 的編譯收據，改動會使那些引用失效。
+
+**機械步驟**：在 R8 回合內，改 compiler SSOT 中這 4 個 capability 的 acceptance 指向，
+重建 `SBL_C0_C9_CONTRACT-R7.json`，重跑 lint / activation / acceptance / compile 四道閘門，
+並保留新舊兩份 receipt 供比對。
+
+**不做會怎樣**：契約圖中 4 個 capability 實際驗證的是 shared core 的 acceptance，
+其專屬 acceptance 形同未被檢查——契約宣稱的覆蓋率高於實際覆蓋率。

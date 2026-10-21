@@ -1,0 +1,21 @@
+{
+  "schema": "HGK-OWNER-AUTHORIZED-CONFIG-CHANGE/1",
+  "artifact": "REGISTRY_SOD_DECLARATION_RECEIPT",
+  "at_utc": "2026-10-21T07:39:23.445334+00:00",
+  "target": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\config\\lane-routing-registry.yaml",
+  "pre_image_sha256": "c6c86613c859d8593d83e3f9237de81296821824661d34e2bbe8f21e10e3cba9",
+  "post_image_sha256": "1014d2c4285c13fe63f7588ec8f62e69d4b6dc37bd2c6a7d191fc50707e4278f",
+  "defect": "the EXECUTE~VERIFY_SECURITY SoD pair was still declared distinct_required=false from the round in which all three lanes ran minimax; after the GPT-6.1-SOL promotion the two lanes run DIFFERENT models, so the stale declaration fails the conformance gate.",
+  "fix": "distinct_required is recomputed from the owner-ordered model per lane: false where the models are the same (PLAN~VERIFY_SECURITY, both gpt-6.1-sol, declared OPEN_OWNER_ORDERED) and true where they differ (EXECUTE~VERIFY_SECURITY). The superseded same-model conflict is MARKED, not deleted.",
+  "changes": [
+    {
+      "pair": "EXECUTE~VERIFY_SECURITY",
+      "was": false,
+      "now": true,
+      "why": "EXECUTE is opencode-go/deepseek-v4.1-flash and VERIFY_SECURITY is openai-codex/gpt-6.1-sol; the models DIFFER, so the separation holds and must be asserted"
+    }
+  ],
+  "drift_findings": [],
+  "applied": true,
+  "claim_ceiling": "a declaration update under the owner order that produced the model assignment. CANDIDATE_ONLY: not a native issuer signature, not an acceptance of any subject."
+}

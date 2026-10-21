@@ -1,127 +1,142 @@
 {
- "schema": "SBL_R7_EXECUTION_STATUS/1",
- "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T06:29:14.945196+00:00",
- "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
- "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
- "hgk_admission": {
-  "project": "HGK-PRJ-SBL-PIPDLS",
-  "project_state": "WORKORDERS_ADMITTED",
-  "requirement": {
-   "id": "REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO",
-   "state": "FROZEN"
+  "schema": "SBL_R7_EXECUTION_STATUS/1",
+  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
+  "captured_at_utc": "2026-10-21T07:47:03.544128+00:00",
+  "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
+  "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
+  "hgk_admission": {
+    "project": "HGK-PRJ-SBL-PIPDLS",
+    "project_state": "WORKORDERS_ADMITTED",
+    "requirement": {
+      "id": "REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO",
+      "state": "FROZEN"
+    },
+    "taskspec": {
+      "id": "TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+      "state": "ADMITTED"
+    },
+    "workorder": {
+      "id": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+      "state": "CREATED",
+      "base_head": "3d06f3da83488219a3dcdf608c937b8c5285810c"
+    },
+    "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows)."
   },
-  "taskspec": {
-   "id": "TS-req-hgk-prj-sbl-pipdls-r7-farclo",
-   "state": "ADMITTED"
+  "lane_mandate_observed": {
+    "PLAN": "openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth) - owner order 2026-10-21 (GPT quota restored) - measured on the CANONICAL pool at rank 1: served_arm=openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage HTTP 200, ok=true, 4.66 s",
+    "EXECUTE": "opencode-go/deepseek-v4.1-flash (DeepSeek V4.1 Flash, OPENCODE GO) - UNCHANGED by the owner order - measured on the CANONICAL pool at rank 1: served_arm=opencode-go/deepseek-v4.1-flash, usage HTTP 200, ok=true, 3.41 s",
+    "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth) - owner order 2026-10-21 (GPT quota restored) - measured on the CANONICAL pool at rank 1: served_arm=openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage HTTP 200, ok=true, 3.45 s",
+    "session_plane_note": "this session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION interaction plane, NOT a lane binding. Each lane claim above is proved by its own dispatch receipt with its own nonce and usage row (40_VERIFY/lane_rebind_gpt61/probe_final_*.json).",
+    "transport_vocabulary": "the openai-codex arm requires the BARE transport id 'gpt-6.1-sol'; the qualified 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400. The opencode-go arm uses the qualified form 'opencode-go/deepseek-v4.1-flash'.",
+    "gpt61_rebind": {
+      "owner_order": "2026-10-21 (two messages, GPT quota restored): the PLAN execution model AND the Independent Acceptance Officer / VERIFY / SECURITY checker model -> GPT 6.1 SOL-MEDIUM (OpenAI OAuth). The Codex bounded writer / EXECUTE lane keeps DeepSeek V4.1 Flash (OpenCode Go).",
+      "applied_at": "HG-KSEOS config/lane-route-slots.candidate.json revision 12 + registry epoch 26 + model-lane-assignment revision 26, commit f4a2ec4025c7026de8367d0b662b7a928eaaa323",
+      "surfaces_moved_together": [
+        "config/lane-route-slots.candidate.json (the dispatch-time POOL)",
+        "config/lane-routing-registry.yaml (the DECLARATION)",
+        "config/model-lane-assignment.json (the registry's source_of_routes)",
+        "tests/test_lane_policy.py (the owner-chain conformance oracle)"
+      ],
+      "published": false,
+      "why_not_published": "HG-KSEOS has NO git remote; the rebind is local-only. The apply/repair scripts, the three receipts and the three live probe receipts are carried in the SBL evidence branch (40_VERIFY/lane_rebind_gpt61/) and in HG-KSEOS/evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/.",
+      "plan_runtime_surface": "the PLAN lane's runtime binding is the governed Hermes PROFILE (<HERMES_HOME>/profiles/hgk-governed/config.yaml), which already carried model.default=gpt-6.1-sol / model.provider=openai-codex / reasoning_effort=medium and was never changed by the minimax mandate; no runtime write was needed. The shared canonical config.yaml model.default is the SESSION plane and is NON_AUTHORITATIVE for governed HGK calls; it was deliberately NOT changed.",
+      "separation_restored": "EXECUTE (deepseek-v4.1-flash) and VERIFY (gpt-6.1-sol) are now on DIFFERENT models AND different providers, so the maker/checker separation HOLDS on the model axis. PLAN and VERIFY share gpt-6.1-sol BY OWNER ORDER (SOD006-C4, OPEN_OWNER_ORDERED): process separation only, model independence not claimed.",
+      "defects_found_and_fixed": [
+        "the routes' `fallbacks` list dropped the demoted primary (minimax); it is now exactly arms[1:]",
+        "the SoD pair EXECUTE~VERIFY_SECURITY was still declared distinct_required=false from the all-minimax round; the pair is now distinct and the declaration says so (SOD006-C3 marked SUPERSEDED, not deleted)",
+        "a concurrent commit (a1bd583) had moved all three lanes to minimax while reverting declared_by to a text saying 'EXECUTE unchanged' - the artifact contradicted itself; this change restores the owner's EXECUTE mandate and makes declared_by agree with the pool"
+      ],
+      "gates": "drift gate 0 findings (fatal=false); lane conformance 179 passed + 90 subtests passed"
+    }
   },
-  "workorder": {
-   "id": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
-   "state": "CREATED",
-   "base_head": "3d06f3da83488219a3dcdf608c937b8c5285810c"
+  "planes_enabled": {
+    "KANBAN": "7 work items created on board sbl-pipdls-20261020 (t_928f8743, t_ab996bd9, t_81e07da3, t_491b597c, t_ca9a0cc0, t_00b9aa1d, t_b3f3ed5a)",
+    "SWARM": "3 read-only research lanes + 1 independent VERIFY lane",
+    "GSTACK": "8 named methods CERTIFIED_ACTIVE and runtime-ready (gstack.plan-eng-review, review, qa, cso, ship, office-hours, retro)",
+    "OPENSPEC": "R7_DELTA.md added to the existing change sbl-v01-candidate-build, items 7.1-7.8"
   },
-  "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows)."
- },
- "lane_mandate_observed": {
-  "PLAN": "opencode-go/minimax-m3.1-flash-free (owner order 2026-10-21, mid-round) - measured on the CANONICAL pool: served_arm==required_arm, nonce_present=true, usage HTTP 200, exit 0",
-  "EXECUTE": "opencode-go/deepseek-v4.1-flash - UNCHANGED by the mid-round owner order - usage HTTP 200",
-  "VERIFY_SECURITY": "opencode-go/minimax-m3.1-flash-free (owner order 2026-10-21, mid-round) - measured on the CANONICAL pool: served_arm==required_arm, nonce_present=true, usage HTTP 200, exit 0",
-  "session_plane_note": "this session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION plane, NOT a lane binding. The coincidence that the session model now equals the lane models does NOT make the session a lane receipt: each lane claim is proved by its own dispatch receipt (var/R7-LANES/probe_canonical_*.json), with its own nonce and usage row.",
-  "transport_vocabulary": "the openai arm requires the BARE transport id 'gpt-6.1-sol'; the qualified 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400. The opencode-go arm uses the qualified form 'opencode-go/minimax-m3.1-flash-free'.",
-  "mid_round_rebind": {
-   "owner_order": "2026-10-21: PLAN and VERIFY/SECURITY checker models -> minimax-m3.1-flash-free (opencode-go)",
-   "applied_at": "HG-KSEOS config/lane-route-slots.candidate.json revision 11, commit 3f81b4b7d32da0f9eaae01c7ecd05728206f33d9",
-   "published": false,
-   "why_not_published": "HG-KSEOS has NO git remote; the rebind is local-only. The measurement receipts are carried in the SBL evidence branch (40_VERIFY/lane_rebind_minimax/).",
-   "recorded_conflict": "the planner and the checker are now the SAME identity. The dispatcher enforces no maker==checker REFUSE rule (D1), so this is a recorded overlap, not a blocked one, and the checker no longer provides model-axis independence from the planner.",
-   "owner_clarification": "The owner order named PLAN and VERIFY/SECURITY only. A concurrent background process wrote a variant in which EXECUTE was also rebound to minimax (all three lanes), leaving the pool file merge-conflicted with a stash on the control-plane repository; the dispatcher then failed with ERR_SLOT_POOL_MALFORMED. The owner was asked and answered: EXECUTE stays DeepSeek V4.1 Flash. The working tree was restored to the committed owner-ruled revision 11 (HG-KSEOS 3f81b4b) over the concurrent variant, the stash was DROPPED rather than applied, and the working tree is now clean with an empty stash list. The conflict is recorded in 40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json, not cleaned up quietly."
+  "what_this_round_did": {
+    "R7-01": "FAR residual inventory: 16 items (8 TT/CR markers + 8 open/not-performed TS work items), each in exactly one bucket (5 executable / 4 one-action-owner / 5 not-closable / 1 closed-by-lane-owner / 1 closed-by-isolation)",
+    "R7-02": "49-branch ruling with measured facts: MERGE_NOW 1 (SBL candidate/c3-20261021-v2 = PR #2), SUPERSEDED 26, EVIDENCE_ONLY 16, NOT_RECOMMENDED 3, DO_NOT_MERGE 3; 0 PIPD-LS-SP branches recommended; 8/8 official PIPD skills already on main",
+    "R7-03": "R6-TS06-A execution plan prepared: 9 steps, per-step gate + failure handling + rollback, red lines, and 6 owner open decisions with recommended defaults. Version strategy 0.1.1rc1, merge_method=merge, draft-first release",
+    "R7-04": "EXECUTED the one ruled item that needs no human act: TT-R6-WHEEL-NONREPRODUCIBLE-001 CLOSED. .gitattributes pins LF; tools/build_reproducible.py exports a named commit with autocrlf disabled, pins SOURCE_DATE_EPOCH, repacks the sdist (gzip header mtime 0, PAX mtime header stripped, member mtimes constant) and resolves its own build interpreter. MEASURED at 59d2138: two independent builds -> identical wheel sha256 4e78688d3ee1a1295a622253b8d1804fb3e05c935221eb7b3d0b6f0ff6ea5e19 and identical sdist sha256 06cc5840a96aae4c6114bbce3532e4abf4fc6b3f845a01a50f27570bb5ee7e90, single_member_timestamp=true. Candidate suite 194 -> 202 (202 passed, 2 skipped). Branch candidate/r7-20261021-repro-build @ 59d2138750223b325159fab536f218a0d9aa4ab5, pushed to origin",
+    "R7-05": "independent VERIFY_SECURITY re-check dispatched on the GPT 6.1 SOL arm (nonce R7CHK-NC-20261021-A1) with guard-subject. ROUND 1 ENDED WITHOUT A VERDICT: the provider quota was exhausted after 392s, so the dispatcher recorded ERR_NO_ARM_EMITTED_NONCE (ok=false) with a valid usage receipt (HTTP 200) and a byte-exact transcript (sha256 80397dbb...). It is classified INCOMPLETE_ROUND_PROVIDER_QUOTA and is NOT acceptance. ROUND 2 is scheduled after the quota window (14:59 local) on the same arm with nonce R7CHK-NC-20261021-A2 and a regenerated brief that names the round-1 findings.",
+    "R7-06": "candidate branch pushed to origin; the R7 evidence branch carries the FAR artifact set, the residual inventory and the execution status",
+    "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it",
+    "R7-08": "THE ROUND-1 FINDINGS WERE REAL AND WERE REPAIRED. F8: the reproducibility tests asserted source text, not behaviour, so 2 of 3 contract-breaking mutations still passed them (a CRLF .gitattributes and a no-op normalise_sdist). The tests are now behaviour assertions and tests/test_repro_mutation_probe.py breaks each mechanism on purpose in a throwaway copy and asserts the suite goes red. F9: the build required the 'build' package from the ambient interpreter, which the checker's venv does not have; the tool now resolves an interpreter that can run 'python -m build'. Both in commit 59d2138, re-measured 202 passed / 2 skipped.",
+    "R7-09": "SPINE HONESTY: an early PASS was recorded on the R7 workorder before checker round 2 existed. It was withdrawn with the typed rollback API (rollback_workorder), so the spine shows ROLLED_BACK rather than a premature acceptance. The workorder will be re-recorded with verdict=PASS only against a real checker verdict.",
+    "R7-10": "MID-ROUND OWNER ORDER APPLIED: the PLAN execution model and the VERIFY/SECURITY checker model were rebound to minimax-m3.1-flash-free (opencode-go). The canonical lane pool was edited (revision 11, HG-KSEOS commit 3f81b4b) and MEASURED on the canonical pool for both lanes: served_arm == required_arm, nonce_present=true, usage HTTP 200, exit 0. The openai-codex/gpt-6.1-sol arm is retained at rank 2 as a fallback and was not removed. The planner/checker identity overlap is recorded, not smoothed over."
+  },
+  "not_done_and_why": {
+    "PR #2 merge + C3 prerelease": "OWNER ACTION. The owner's pre-authorisation covers executing the FAR ruling, not bypassing the human authorisation boundary; the R6 report states the Reviewer recommended a scoped merge and did NOT press merge. The 9-step plan is written and every step before the merge is Owner-executable in one act.",
+    "CR-PLUGIN-SCHEMA-AUTHORITY": "one owner decision, recommended default DOC-12 (it owns the C-001..C-018 plugin rows the three SP_PLUGIN_PACKAGE_* capabilities cite)",
+    "CR-GPTB-KP-R04-POLARITY": "one owner decision, recommended default: record the ruling in the KnowledgePack corpus that owns R04",
+    "R6-TS12 (PIPD native writers)": "OPEN - needs a Native issuer (WorkOrder/ONE ECP/Permit) this session did not hold",
+    "R6-TS15 / TS16 / TS07-CLOSURE": "OPEN - need a new admitted WriteSet slice and a real new product surface; they are a separate build round, not a documentation task",
+    "R6-TS21 (3 ChatGPT private plugins)": "OPEN 0/3 - host-issued IDs cannot be fabricated and no host was authorised",
+    "R6-TS22-23-24 (38 surfaces host proof)": "OPEN - NOT_ADMITTED hosts remain NOT_ADMITTED",
+    "signed PASS_CHALLENGE": "NOT CLAIMED - the canonical challenge bundle is still missing (TT-CHALLENGE-BUNDLE-MISSING)",
+    "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round",
+    "independent_checker_round_2": "NOT DONE: the OpenAI OAuth quota was exhausted during round 1 and the provider's retry window opens at 14:59 local. Round 1's bytes are preserved and classified as incomplete, not as a FAIL and not as a PASS."
+  },
+  "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
+  "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
+  "north_star": "SBL_FULL_PRODUCT (not achieved; this round closed one residual for real, ruled on all 49 candidate branches with measurements, and prepared the TS06-A plan to the Owner button)",
+  "side_effects_disclosed": [
+    "local branch candidate/r7-20261021-repro-build in C:/Projects/_sbl_r4/c3v2, pushed to origin",
+    "new R7 evidence tree under SBL/_governance/round-20261021-r7/",
+    "HG-KSEOS var/R7-LANES/ receipts (lane probes + the independent checker dispatch); no config/, no registry, no AGENTS.md change",
+    "FAR run directory under Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/",
+    "scratch build/venv trees under the Hermes scratch dir (isolated, outside the repos)",
+    "no merge, no release, no tag, no force push, no PR creation, no self-acceptance",
+    "HG-KSEOS control-plane repository: a concurrent background process left a merge-conflicted config/lane-route-slots.candidate.json and a stash mid-round. Resolved by restoring the owner-ruled committed revision 11 over the working tree and DROPPING the stash (not applying it). The repository's working tree for that file is clean and the stash list is empty. No other file was touched by this round.",
+    "HG-KSEOS: config/lane-route-slots.candidate.json, config/lane-routing-registry.yaml, config/model-lane-assignment.json and tests/test_lane_policy.py were MODIFIED and committed locally (f4a2ec4) to apply the owner order 2026-10-21 (GPT 6.1 SOL for PLAN + VERIFY/SECURITY, DeepSeek V4.1 Flash kept for EXECUTE). The registry's 33 drift-pinned bindings were re-pinned to the new site values, and the registry's source_of_routes sha256 was re-read from the new assignment bytes. HG-KSEOS has NO git remote, so this commit is NOT published to any remote.",
+    "HG-KSEOS: evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/ was created with 10 files (3 apply/repair scripts, 3 receipts, 4 live probe receipts). The same 10 files were copied byte-identically into the SBL evidence branch at 40_VERIFY/lane_rebind_gpt61/.",
+    "SBL evidence: 40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json was REWRITTEN to the new mandate; the prior minimax record is preserved inside it under `supersedes` (not deleted) so the order history stays auditable."
+  ],
+  "verification": {
+    "self_check": {
+      "script": "_governance/round-20261021-r7/90_EVIDENCE/self_check_r7.py",
+      "result": "13/15 PASS at 2026-10-21T06:12Z",
+      "open": [
+        "C6 - no checker round has yet produced a verdict (round 2 pending)",
+        "C7 - resolved by the evidence branch push in 4439d64"
+      ]
+    },
+    "independent_checker": {
+      "lane": "VERIFY_SECURITY",
+      "arm": "openai-codex/gpt-6.1-sol (medium)",
+      "round1": {
+        "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
+        "is_a_verdict": false,
+        "seconds": 392.58,
+        "exit": 1,
+        "nonce_present": true,
+        "usage_status": 200,
+        "stdout_sha256": "80397dbb1c0f79124d9229ae406ee4eafb5d278762b7383944d6f76b8a17bf65",
+        "findings": [
+          "F8",
+          "F9"
+        ]
+      },
+      "round2": {
+        "status": "SCHEDULED",
+        "nonce": "R7CHK-NC-20261021-A2"
+      }
+    },
+    "hgk_spine": {
+      "workorder": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+      "state": "ROLLED_BACK",
+      "why": "a PASS was recorded before the independent verdict existed; it was withdrawn with the typed rollback API"
+    }
+  },
+  "publication": {
+    "repo": "github.com/shw097-team/SBL",
+    "branches": {
+      "candidate/r7-20261021-repro-build": "59d2138750223b325159fab536f218a0d9aa4ab5 (product change, pushed)",
+      "evidence/r7-20261021-c7": "4439d6441b669f6d497976810612caf66d185d56 (evidence, pushed)"
+    },
+    "remote_readback": "both remote SHAs equal the local heads (ls-remote verified)",
+    "credentials": "used only through a sealed askpass helper; no credential appears in any committed or pushed byte"
   }
- },
- "planes_enabled": {
-  "KANBAN": "7 work items created on board sbl-pipdls-20261020 (t_928f8743, t_ab996bd9, t_81e07da3, t_491b597c, t_ca9a0cc0, t_00b9aa1d, t_b3f3ed5a)",
-  "SWARM": "3 read-only research lanes + 1 independent VERIFY lane",
-  "GSTACK": "8 named methods CERTIFIED_ACTIVE and runtime-ready (gstack.plan-eng-review, review, qa, cso, ship, office-hours, retro)",
-  "OPENSPEC": "R7_DELTA.md added to the existing change sbl-v01-candidate-build, items 7.1-7.8"
- },
- "what_this_round_did": {
-  "R7-01": "FAR residual inventory: 16 items (8 TT/CR markers + 8 open/not-performed TS work items), each in exactly one bucket (5 executable / 4 one-action-owner / 5 not-closable / 1 closed-by-lane-owner / 1 closed-by-isolation)",
-  "R7-02": "49-branch ruling with measured facts: MERGE_NOW 1 (SBL candidate/c3-20261021-v2 = PR #2), SUPERSEDED 26, EVIDENCE_ONLY 16, NOT_RECOMMENDED 3, DO_NOT_MERGE 3; 0 PIPD-LS-SP branches recommended; 8/8 official PIPD skills already on main",
-  "R7-03": "R6-TS06-A execution plan prepared: 9 steps, per-step gate + failure handling + rollback, red lines, and 6 owner open decisions with recommended defaults. Version strategy 0.1.1rc1, merge_method=merge, draft-first release",
-  "R7-04": "EXECUTED the one ruled item that needs no human act: TT-R6-WHEEL-NONREPRODUCIBLE-001 CLOSED. .gitattributes pins LF; tools/build_reproducible.py exports a named commit with autocrlf disabled, pins SOURCE_DATE_EPOCH, repacks the sdist (gzip header mtime 0, PAX mtime header stripped, member mtimes constant) and resolves its own build interpreter. MEASURED at 59d2138: two independent builds -> identical wheel sha256 4e78688d3ee1a1295a622253b8d1804fb3e05c935221eb7b3d0b6f0ff6ea5e19 and identical sdist sha256 06cc5840a96aae4c6114bbce3532e4abf4fc6b3f845a01a50f27570bb5ee7e90, single_member_timestamp=true. Candidate suite 194 -> 202 (202 passed, 2 skipped). Branch candidate/r7-20261021-repro-build @ 59d2138750223b325159fab536f218a0d9aa4ab5, pushed to origin",
-  "R7-05": "independent VERIFY_SECURITY re-check dispatched on the GPT 6.1 SOL arm (nonce R7CHK-NC-20261021-A1) with guard-subject. ROUND 1 ENDED WITHOUT A VERDICT: the provider quota was exhausted after 392s, so the dispatcher recorded ERR_NO_ARM_EMITTED_NONCE (ok=false) with a valid usage receipt (HTTP 200) and a byte-exact transcript (sha256 80397dbb...). It is classified INCOMPLETE_ROUND_PROVIDER_QUOTA and is NOT acceptance. ROUND 2 is scheduled after the quota window (14:59 local) on the same arm with nonce R7CHK-NC-20261021-A2 and a regenerated brief that names the round-1 findings.",
-  "R7-06": "candidate branch pushed to origin; the R7 evidence branch carries the FAR artifact set, the residual inventory and the execution status",
-  "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it",
-  "R7-08": "THE ROUND-1 FINDINGS WERE REAL AND WERE REPAIRED. F8: the reproducibility tests asserted source text, not behaviour, so 2 of 3 contract-breaking mutations still passed them (a CRLF .gitattributes and a no-op normalise_sdist). The tests are now behaviour assertions and tests/test_repro_mutation_probe.py breaks each mechanism on purpose in a throwaway copy and asserts the suite goes red. F9: the build required the 'build' package from the ambient interpreter, which the checker's venv does not have; the tool now resolves an interpreter that can run 'python -m build'. Both in commit 59d2138, re-measured 202 passed / 2 skipped.",
-  "R7-09": "SPINE HONESTY: an early PASS was recorded on the R7 workorder before checker round 2 existed. It was withdrawn with the typed rollback API (rollback_workorder), so the spine shows ROLLED_BACK rather than a premature acceptance. The workorder will be re-recorded with verdict=PASS only against a real checker verdict.",
-  "R7-10": "MID-ROUND OWNER ORDER APPLIED: the PLAN execution model and the VERIFY/SECURITY checker model were rebound to minimax-m3.1-flash-free (opencode-go). The canonical lane pool was edited (revision 11, HG-KSEOS commit 3f81b4b) and MEASURED on the canonical pool for both lanes: served_arm == required_arm, nonce_present=true, usage HTTP 200, exit 0. The openai-codex/gpt-6.1-sol arm is retained at rank 2 as a fallback and was not removed. The planner/checker identity overlap is recorded, not smoothed over."
- },
- "not_done_and_why": {
-  "PR #2 merge + C3 prerelease": "OWNER ACTION. The owner's pre-authorisation covers executing the FAR ruling, not bypassing the human authorisation boundary; the R6 report states the Reviewer recommended a scoped merge and did NOT press merge. The 9-step plan is written and every step before the merge is Owner-executable in one act.",
-  "CR-PLUGIN-SCHEMA-AUTHORITY": "one owner decision, recommended default DOC-12 (it owns the C-001..C-018 plugin rows the three SP_PLUGIN_PACKAGE_* capabilities cite)",
-  "CR-GPTB-KP-R04-POLARITY": "one owner decision, recommended default: record the ruling in the KnowledgePack corpus that owns R04",
-  "R6-TS12 (PIPD native writers)": "OPEN - needs a Native issuer (WorkOrder/ONE ECP/Permit) this session did not hold",
-  "R6-TS15 / TS16 / TS07-CLOSURE": "OPEN - need a new admitted WriteSet slice and a real new product surface; they are a separate build round, not a documentation task",
-  "R6-TS21 (3 ChatGPT private plugins)": "OPEN 0/3 - host-issued IDs cannot be fabricated and no host was authorised",
-  "R6-TS22-23-24 (38 surfaces host proof)": "OPEN - NOT_ADMITTED hosts remain NOT_ADMITTED",
-  "signed PASS_CHALLENGE": "NOT CLAIMED - the canonical challenge bundle is still missing (TT-CHALLENGE-BUNDLE-MISSING)",
-  "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round",
-  "independent_checker_round_2": "NOT DONE: the OpenAI OAuth quota was exhausted during round 1 and the provider's retry window opens at 14:59 local. Round 1's bytes are preserved and classified as incomplete, not as a FAIL and not as a PASS."
- },
- "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
- "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
- "north_star": "SBL_FULL_PRODUCT (not achieved; this round closed one residual for real, ruled on all 49 candidate branches with measurements, and prepared the TS06-A plan to the Owner button)",
- "side_effects_disclosed": [
-  "local branch candidate/r7-20261021-repro-build in C:/Projects/_sbl_r4/c3v2, pushed to origin",
-  "new R7 evidence tree under SBL/_governance/round-20261021-r7/",
-  "HG-KSEOS var/R7-LANES/ receipts (lane probes + the independent checker dispatch); no config/, no registry, no AGENTS.md change",
-  "FAR run directory under Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/",
-  "scratch build/venv trees under the Hermes scratch dir (isolated, outside the repos)",
-  "no merge, no release, no tag, no force push, no PR creation, no self-acceptance",
-  "HG-KSEOS control-plane repository: a concurrent background process left a merge-conflicted config/lane-route-slots.candidate.json and a stash mid-round. Resolved by restoring the owner-ruled committed revision 11 over the working tree and DROPPING the stash (not applying it). The repository's working tree for that file is clean and the stash list is empty. No other file was touched by this round."
- ],
- "verification": {
-  "self_check": {
-   "script": "_governance/round-20261021-r7/90_EVIDENCE/self_check_r7.py",
-   "result": "13/15 PASS at 2026-10-21T06:12Z",
-   "open": [
-    "C6 - no checker round has yet produced a verdict (round 2 pending)",
-    "C7 - resolved by the evidence branch push in 4439d64"
-   ]
-  },
-  "independent_checker": {
-   "lane": "VERIFY_SECURITY",
-   "arm": "openai-codex/gpt-6.1-sol (medium)",
-   "round1": {
-    "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
-    "is_a_verdict": false,
-    "seconds": 392.58,
-    "exit": 1,
-    "nonce_present": true,
-    "usage_status": 200,
-    "stdout_sha256": "80397dbb1c0f79124d9229ae406ee4eafb5d278762b7383944d6f76b8a17bf65",
-    "findings": [
-     "F8",
-     "F9"
-    ]
-   },
-   "round2": {
-    "status": "SCHEDULED",
-    "nonce": "R7CHK-NC-20261021-A2"
-   }
-  },
-  "hgk_spine": {
-   "workorder": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
-   "state": "ROLLED_BACK",
-   "why": "a PASS was recorded before the independent verdict existed; it was withdrawn with the typed rollback API"
-  }
- },
- "publication": {
-  "repo": "github.com/shw097-team/SBL",
-  "branches": {
-   "candidate/r7-20261021-repro-build": "59d2138750223b325159fab536f218a0d9aa4ab5 (product change, pushed)",
-   "evidence/r7-20261021-c7": "4439d6441b669f6d497976810612caf66d185d56 (evidence, pushed)"
-  },
-  "remote_readback": "both remote SHAs equal the local heads (ls-remote verified)",
-  "credentials": "used only through a sealed askpass helper; no credential appears in any committed or pushed byte"
- }
 }

@@ -1,57 +1,84 @@
 {
- "schema": "SBL_R7_LANE_REBIND/1",
- "recorded_at_utc": "2026-10-21T06:28:52.038555+00:00",
- "owner_order": "2026-10-21, mid-round: the Independent Acceptance Officer / VERIFY / SECURITY checker model and the PLAN execution model are both changed to minimax-m3.1-flash-free (opencode-go). EXECUTE unchanged.",
- "applied_to": {
-  "repository": "C:/Projects/Agent_Workspace/HG-KSEOS",
-  "file": "config/lane-route-slots.candidate.json",
-  "revision": "11",
-  "rev": "r7-minimax-rebind-20261021",
-  "commit": "3f81b4b7d32da0f9eaae01c7ecd05728206f33d9",
-  "commit_is_pushed": false,
-  "push_status": "HG-KSEOS has NO git remote. The rebind is committed locally only. It is NOT published to any GitHub repository and no external reviewer can see it in a remote. The SBL evidence branch carries the measurement receipts so the rebind is at least independently checkable from the published repo."
- },
- "resulting_pool": {
-  "PLAN": [
-   "1: opencode-go/minimax-m3.1-flash-free",
-   "2: openai-codex/gpt-6.1-sol (fallback)"
-  ],
-  "EXECUTE": [
-   "1: opencode-go/deepseek-v4.1-flash (UNCHANGED)"
-  ],
-  "VERIFY_SECURITY": [
-   "1: opencode-go/minimax-m3.1-flash-free",
-   "2: openai-codex/gpt-6.1-sol (fallback)"
-  ]
- },
- "measured_on_the_CANONICAL_pool": {
-  "VERIFY_SECURITY": {
-   "served_arm": "opencode-go/minimax-m3.1-flash-free",
-   "ok": true,
-   "exit": 0,
-   "nonce_present": true,
-   "usage_status": 200,
-   "usage_model": "minimax-m3.1-flash-free",
-   "seconds": 2.89,
-   "receipt": "lane_rebind_minimax/probe_canonical_VERIFY_minimax.json"
+  "schema": "SBL_R7_LANE_REBIND/1",
+  "recorded_at_utc": "2026-10-21T07:46:44.108495+00:00",
+  "supersedes": {
+    "file": "40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json",
+    "owner_order": "2026-10-21, mid-round: the Independent Acceptance Officer / VERIFY / SECURITY checker model and the PLAN execution model are both changed to minimax-m3.1-flash-free (opencode-go). EXECUTE unchanged.",
+    "why": "the owner issued a NEW order on 2026-10-21 (GPT quota restored) that supersedes the minimax mandate this record describes. The prior record is retained as the audit trail of the order that was in force between the two owner messages, and is not deleted."
   },
-  "PLAN": {
-   "served_arm": "opencode-go/minimax-m3.1-flash-free",
-   "ok": true,
-   "exit": 0,
-   "nonce_present": true,
-   "usage_status": 200,
-   "usage_model": "minimax-m3.1-flash-free",
-   "receipt": "lane_rebind_minimax/probe_canonical_PLAN_minimax.json"
-  }
- },
- "why_no_runtime_change_for_PLAN": "the PLAN lane runs on the hermes engine, and the canonical hermes default model is ALREADY minimax-m3.1-flash-free on opencode-go (verified: hermes config get model --json -> {default: minimax-m3.1-flash-free, provider: opencode-go}). The pool entry records the binding; the runtime needed no change.",
- "recorded_conflict": "The planner and the checker are now the SAME identity. The dispatcher does NOT enforce a maker==checker REFUSE rule (declared as D1 in the pool's authority_basis), so this is a RECORDED OVERLAP, not a blocked one. An independent reviewer must weigh that the checker no longer provides model-axis independence from the planner. This is the direct consequence of the owner order and is disclosed rather than smoothed over.",
- "what_did_NOT_change": "the openai-codex/gpt-6.1-sol arm is retained at rank 2 on both lanes; it is not removed, because the unattended-window identity requirement keeps the OAuth arm available.",
- "owner_clarification": {
-  "question_asked": "the mid-round owner order named the PLAN execution model and the VERIFY/SECURITY checker model. It did not name the EXECUTE lane. A concurrent background process had written a pool variant in which EXECUTE rank 1 was ALSO minimax-m3.1-flash-free (all three lanes minimax). The owner was asked which is intended.",
-  "owner_answer": "maintain DeepSeek V4.1 Flash for EXECUTE - per the original wording, only PLAN and VERIFY/CHECKER change to MiniMax M3.1 Flash.",
-  "resolution": "the working tree was restored to the committed revision 11 (HG-KSEOS commit 3f81b4b7d32da0f9eaae01c7ecd05728206f33d9), which is the owner-ruled variant: PLAN=minimax, VERIFY_SECURITY=minimax, EXECUTE=deepseek-v4.1-flash. The all-minimax variant was discarded, not merged. The working tree is now clean and the stash list is empty.",
-  "note": "a concurrent process had also left a merge-conflicted working-tree file and a stash on this repository while the round was in flight. The conflict was resolved by restoring the committed owner-ruled version; the stashed variant was dropped, not applied. Both facts are recorded here rather than left implicit."
- }
+  "owner_order": "Owner order 2026-10-21 (two messages, GPT quota restored): the PLAN execution model AND the Independent Acceptance Officer / VERIFY / SECURITY checker model are BOTH openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth). The Codex bounded writer / EXECUTE lane, transferred to CODEX CLI, keeps opencode-go/deepseek-v4.1-flash (DeepSeek V4.1 Flash, OPENCODE GO).",
+  "applied_to": {
+    "repository": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "branch": "codex/hgk-final-closure-002",
+    "commit": "f4a2ec4025c7026de8367d0b662b7a928eaaa323",
+    "commit_is_pushed": false,
+    "push_status": "HG-KSEOS has NO git remote. The rebind is committed locally only and is NOT published to any GitHub repository, so no external reviewer can pull it. The apply/repair scripts, the three receipts and the three live probe receipts are carried on the SBL evidence branch so the change is independently checkable from the published repo.",
+    "surfaces_moved_together": [
+      "config/lane-route-slots.candidate.json  (the dispatch-time POOL, revision 12)",
+      "config/lane-routing-registry.yaml       (the DECLARATION, epoch 26)",
+      "config/model-lane-assignment.json       (the registry's source_of_routes, revision 26)",
+      "tests/test_lane_policy.py               (the owner-chain conformance oracle)"
+    ],
+    "evidence_copies": "HG-KSEOS/evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/"
+  },
+  "resulting_pool": {
+    "PLAN": [
+      "1: openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth, transport_model gpt-6.1-sol)",
+      "2: opencode-go/minimax-m3.1-flash-free (fallback, RETAINED not removed)"
+    ],
+    "EXECUTE": [
+      "1: opencode-go/deepseek-v4.1-flash (UNCHANGED per the owner)",
+      "2: opencode-go/minimax-m3.1-flash-free (fallback, RETAINED not removed)"
+    ],
+    "VERIFY_SECURITY": [
+      "1: openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth, transport_model gpt-6.1-sol)",
+      "2: opencode-go/minimax-m3.1-flash-free (fallback, RETAINED not removed)"
+    ]
+  },
+  "measured_on_the_CANONICAL_pool": {
+    "note": "live dispatch through scripts/hgk-lane-dispatch.py, each lane at its new rank 1",
+    "PLAN": {
+      "served_arm": "openai-codex/gpt-6.1-sol",
+      "used_rank": 1,
+      "used_transport_model": "gpt-6.1-sol",
+      "ok": true,
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "seconds": 4.66,
+      "receipt": "HG-KSEOS/evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/probe_final_PLAN_gpt.json"
+    },
+    "VERIFY_SECURITY": {
+      "served_arm": "openai-codex/gpt-6.1-sol",
+      "used_rank": 1,
+      "used_transport_model": "gpt-6.1-sol",
+      "ok": true,
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "seconds": 3.45,
+      "receipt": "HG-KSEOS/evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/probe_final_VERIFY_gpt.json"
+    },
+    "EXECUTE": {
+      "served_arm": "opencode-go/deepseek-v4.1-flash",
+      "used_rank": 1,
+      "used_transport_model": "opencode-go/deepseek-v4.1-flash",
+      "ok": true,
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "seconds": 3.41,
+      "receipt": "HG-KSEOS/evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/probe_final_EXECUTE_deepseek.json"
+    }
+  },
+  "transport_vocabulary": "the openai-codex arm requires the BARE model id `gpt-6.1-sol`; a qualified `openai-codex/gpt-6.1-sol` is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable' (measured 2026-10-21 on 127.0.0.1:10101; bare id -> 200). The governance identity provider=openai-codex / model=gpt-6.1-sol is unchanged.",
+  "why_no_runtime_change_for_PLAN": "the PLAN lane's RUNTIME binding surface is the governed Hermes PROFILE (<HERMES_HOME>/profiles/hgk-governed/config.yaml), which already carries model.default=gpt-6.1-sol / model.provider=openai-codex / reasoning_effort=medium. The minimax mandate never touched that profile, so the owner order needs NO runtime write for PLAN. The shared canonical config.yaml model.default is the SESSION interaction plane and is explicitly NON_AUTHORITATIVE for governed HGK calls (registry observation hermes-live-config-yaml); it is NOT the PLAN lane binding and was deliberately NOT changed.",
+  "separation_restored": "under this order the WRITER and the CHECKER are on DIFFERENT models AND different providers (EXECUTE=opencode-go/deepseek-v4.1-flash, VERIFY=openai-codex/gpt-6.1-sol), so the maker/checker separation HOLDS on the model axis. PLAN and VERIFY share gpt-6.1-sol BY OWNER ORDER and that collision is declared OPEN_OWNER_ORDERED (SOD006-C4); independence for that pair is PROCESS separation only and is not claimed.",
+  "defects_found_and_fixed_during_the_apply": [
+    "the routes' `fallbacks` list dropped the demoted primary (minimax), because it was derived by matching the OLD fallback list, which never contained the arm that was rank 1; `fallbacks` is now exactly `arms[1:]` (repair_registry_fallbacks.py, receipt gpt61_fallbacks_repair_receipt.json)",
+    "the SoD pair EXECUTE~VERIFY_SECURITY was still declared distinct_required=false, a leftover from the round in which all three lanes ran minimax; the pair is now distinct and the declaration says so, with SOD006-C3 marked SUPERSEDED rather than deleted (update_registry_sod.py, receipt gpt61_sod_declaration_receipt.json)",
+    "a concurrent commit (a1bd583, author 'Codex <codex@local.invalid>', 15:14) had moved all three lanes to minimax while reverting declared_by to a text saying 'EXECUTE unchanged' -- the artifact contradicted itself; this change restores the owner's stated EXECUTE mandate and makes declared_by agree with the pool it describes"
+  ],
+  "gates": {
+    "drift_gate": "0 findings, fatal=false (hg_kseos.lane_policy.check_drift)",
+    "lane_conformance": "179 passed, 90 subtests passed (test_lane_policy, test_lane_guard, test_lane_dispatch_ao_guard, test_role_binding_enforcement)"
+  },
+  "claim_ceiling": "a CANDIDATE pool + CANDIDATE declaration, applied under owner authority and measured by three live lane dispatches. It is NOT a native issuer signature, NOT an acceptance of any subject, and NOT a promotion of the pool to ACTIVE. HG-KSEOS has no git remote: the commit is local-only."
 }
