@@ -35,7 +35,7 @@
 | **D-06** Commander/Challenge 兩薄 adapter 未接 | PLAN/VERIFY 車道可服務，但無 SP `invocation_id` | DOC-04 C15；DOC-08 C40；DOC-10 | BLOCKER（需授權） | **DECIDE：編入同一 WO（與 D-05 合併）** | pre-handoff / pre-spawn 兩個接點 + `required==served` + SP 收據 | Commander/Challenge Owner | M |
 | **D-07** R9-02 獨立 Checker 無 scratch | 無 isolated writable scratch 授權 | DOC-08 C39–C42 | BLOCKER | **DECIDE：Owner 一次授權** | 授權一個 checker-only 可寫根（候選唯讀）→ 跑一次並留 raw | lane Owner | S |
 | **D-08** 他人 untracked 測試 9 模組 | HGK dirty tree：9 測試模組 + 2 `.bak` + `tests/w3_solution/` + 1 modified | DOC-07 C44；DOC-11 | DEBT | **DECIDE：二選一（建議收編）** | 由作者確認後以獨立 commit 收編，或在 `var/` 隔離；**禁止本回合名義 stage** | HGK Test Owner | S |
-| **D-09** `_repo_head()` CWD 缺陷 | `line 462` 的 `git rev-parse HEAD` **未帶 `cwd=`／`-C`**，繼承 launcher CWD；`line 463` 把非零 exit 轉成 `""`（靜默失敗）；函式本身不上拋 `InvariantViolation`。callers 在 `line 383/604` | DOC-05 C19 | GAP | **DECIDE：HGK 專項 WO 修（已備 26 行 diff + RED test，未套用）** | 先 RED（target≠CWD、例外上拋）→ 最小修 → 受影響 regression | HGK project Owner | S |
+| **D-09** `_repo_head()` CWD 缺陷 | `lifecycle.py:462` 的 `git rev-parse HEAD` **未帶 `cwd=`／`-C`**，繼承 launcher CWD；`line 463` 把非零 exit 轉成 `""`（靜默失敗）；`_repo_head()` 本身不吞例外，但 **caller `admit_requirement()` 在 `line 606–607` 把 `InvariantViolation` 吞掉**。callers 在 `line 383/604` | DOC-05 C19 | GAP | **DECIDE：HGK 專項 WO 修（26 行 diff + 2 個測試函式／6 cases 已於記憶體套用驗證 RED→GREEN，repo 未改）** | 先 RED（target≠CWD、例外上拋）→ 最小修 → 受影響 regression | HGK project Owner | S |
 | **D-10** conformance 指令不可照抄 | `--timeout=900` 不存在；`hg_kseos` 未安裝進 venv；18F/16F 分母不可互比 | DOC-00 R03（證據誠實） | DEBT | **DECIDE：文件化 + CI guard** | 在 repo 記下唯一可重跑指令與前置；CI 固定同一條 | HGK Docs Owner | XS |
 | **D-11** 車道宣告面互斥 | epoch 29 PLAN rank1=minimax vs mandate PLAN=gpt | DOC-04 C15（角色分離） | DEBT（已用 mandate chain 覆蓋） | **DECIDE：兩個選項交 Owner** | (a) epoch 30 rebind 同步 90 個 pin；或 (b) 書面承認逐輪 mandate chain | Owner + HGK issuer | S/M |
 | **D-12** 三 ChatGPT 私人 Plugin 0/3 | 無 Host-issued id | DOC-12 C-016..018 | BLOCKER（外部） | **DEFER（Host 權限）** | Host 授權後 3×create/install/@invoke/deny/uninstall | Host Owner | M |
@@ -44,8 +44,8 @@
 | **D-15** CR-GPTB-KP-R04 極性 | 多處 `MUST NOT` 與正向語義相衝 | KP01/KP04（support 層） | OBS | **DECIDE：承認 polarity，不改 DOC** | 開 CR 記錄，KP 不得覆寫 DOC | Knowledge Owner | XS |
 | **D-16** SWOF W3 未授予 | 無 ACK/permit | DOC-07；DOC-13 | OBS | **NO-ACTION（維持 shadow）** | PREW3_SHADOW 一律 NO_EFFECT | SWOF Owner | XS |
 | **D-17** TPM/Commander 候選包路徑壞 | 兩者 README 指向不存在的 packaged skill 路徑（`subagent/SKILLS_PRACTICALITY.md` 逐檔核對） | DOC-12 C-001/C-002 | DEBT | **DECIDE：先修 package layout 再談落地** | 選定 direct-skill 或 portable-plugin layout 之一並驗證；不得兩者混用 | SP Packaging Owner | S |
-| **D-18** `sbl-stack` doctor 顯示 live-source digest drift | 已部署 stack 的 pins 與 live source 不一致；operator 文件漏列必要參數 | DOC-12 C-033；DOC-13 | DEBT | **DECIDE：由 owner 對齊 pins 並補指令文件** | 重跑 doctor 到無 drift；補 `--root/--target` 必要參數 | Stack Owner | S |
-| **D-19** `challenge-review` 套件檔名缺陷 | 本機 bundle 有檔案命名與其 SKILL.md 引用不一致 | DOC-08 C39–C42 | DEBT | **DECIDE：owner 修最小命名，不 fork** | 由 bundle owner 修正並回報 digest；本 repo 不 vendoring | Checker Owner | XS |
+| **D-18** `sbl-stack` doctor 顯示 live-source digest drift | 已部署 stack 的 **14 個元件中 13 個 digest 不符**（子代理實跑 `doctor`）；operator 文件漏列必要參數 | DOC-12 C-033；DOC-13 | DEBT | **DECIDE：由 owner 對齊 pins 並補指令文件** | 重跑 doctor 到 0 mismatch；補 `--root/--target` 必要參數 | Stack Owner | S |
+| **D-19** 兩個 canonical bundle 缺 literal `SKILL.md` | `construction-acceptance-prompt-compiler` 與 `challenge-review` 都只有 `*-SKILL.md`，無 literal `SKILL.md` entry file → **challenge-review 過不了自身 qualification check**（compiler 的 lint + 5 唯讀測試含 18 golden fixtures 仍通過） | DOC-08 C39–C42 | DEBT | **DECIDE：owner 補 entry file，不 fork** | 由 bundle owner 最小修正並回報 digest；本 repo 不 vendoring | Checker Owner | XS |
 
 ---
 
@@ -72,8 +72,8 @@
 | Hermes `tpm-sp` skill | 會話層 demand 釐清可用；but 候選目錄 README 指向**不存在的 packaged skill 路徑**（D-17） | **NEEDS-WORK** | 先選定 direct-skill 或 portable-plugin layout 並驗證，再談落地 |
 | Hermes `commander-sp` skill | 讀取/凍結輸入可用；同樣 package path 壞（D-17） | **NEEDS-WORK** | 同上；prompt 可用 ≠ 可運行且受權的 build package |
 | Hermes `external-challenge-sp` skill | 唯讀、候選綁定的諮詢式審查；**不是**已簽的 canonical verdict | **KEEP-EXTERNAL** | 本機副本含 host-local research 增補，不得靜默升格為產品 canonical reviewer |
-| `construction-acceptance-prompt-compiler` bundle | 本機完整、四階段 rc0 | **KEEP_EXTERNAL + 記 digest** | 17MB 級參考物不得 vendoring；digest 已入 ledger |
-| `challenge-review` bundle | 本機完整（含 `verify_review_bundle.py`），但**檔名與自身 SKILL.md 引用不一致**（D-19） | **KEEP-EXTERNAL + 待 owner 修命名** | 留在 maker repo 之外才可能獨立；本 repo 只記 digest，不 fork |
+| `construction-acceptance-prompt-compiler` bundle | refs/schema/scripts 齊、四階段 rc0、lint + 5 唯讀測試（含 18 golden fixtures）通過；但缺 literal `SKILL.md`（D-19） | **KEEP-EXTERNAL + 待 owner 補 entry file** | 17MB 級參考物不得 vendoring；entry file 缺失由其 owner 修，本 repo 只記 digest |
+| `challenge-review` bundle | 含 `verify_review_bundle.py`；同樣缺 literal `SKILL.md`，**過不了自身 qualification check**（D-19） | **KEEP-EXTERNAL + 待 owner 補 entry file** | 留在 maker repo 之外才可能獨立；修好前不得作為 release-significant checker |
 | `openspec/changes/sbl-v01-candidate-build` | 既有 | **KEEP** | 歷史變更記錄，不回改 |
 | 新 OpenSpec change（本回合） | 未建 | **CREATE（窄）** | 只記錄 FAR 裁決與本次併入/修補，不重述 DOC |
 | 過期候選（D-03） | 7 個已是祖先 | **NO MERGE / 標註** | 合併無內容可併；刪除會破壞外部引用 |
