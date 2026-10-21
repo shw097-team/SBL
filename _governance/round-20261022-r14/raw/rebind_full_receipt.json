@@ -1,0 +1,79 @@
+{
+  "routes": {
+    "PLAN": {
+      "rank1": [
+        "openai-codex",
+        "gpt-6.1-sol"
+      ],
+      "fallback1": [
+        "opencode-go",
+        "minimax-m3.1-flash-free"
+      ],
+      "arms": [
+        [
+          "openai-codex",
+          "gpt-6.1-sol"
+        ],
+        [
+          "opencode-go",
+          "minimax-m3.1-flash-free"
+        ],
+        [
+          "opencode-go",
+          "glm-5.3-flash"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ]
+      ]
+    },
+    "EXECUTE": {
+      "rank1": [
+        "opencode-go",
+        "minimax-m3.1-flash-free"
+      ],
+      "fallback1": [
+        "opencode-go",
+        "deepseek-v4.1-flash"
+      ],
+      "arms": [
+        [
+          "opencode-go",
+          "minimax-m3.1-flash-free"
+        ],
+        [
+          "opencode-go",
+          "deepseek-v4.1-flash"
+        ],
+        [
+          "openai-codex",
+          "gpt-6-luna"
+        ],
+        [
+          "nvidia",
+          "deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ]
+    }
+  },
+  "projections": [
+    {
+      "path": "config/model-lane-assignment.json",
+      "bindings_reconciled": 64,
+      "bindings_total": 64
+    },
+    {
+      "path": "config/hermes-codex-lane.json",
+      "bindings_reconciled": 22,
+      "bindings_total": 22
+    },
+    {
+      "path": "config/hermes.json",
+      "bindings_reconciled": 1,
+      "bindings_total": 1
+    }
+  ],
+  "unresolved": [],
+  "assignment_revision": 30
+}

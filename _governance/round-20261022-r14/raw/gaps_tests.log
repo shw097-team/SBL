@@ -1,0 +1,38 @@
+..........F..F...................................                        [100%]
+================================== FAILURES ===================================
+E   hg_kseos.role_binding.BindingError: ERR_ROLE_BINDING_SUBJECT_OUT_OF_SCOPE:subject None is not inside the granted scope ['hgk/src/hg_kseos/role_binding.py', 'hgk/scripts/hgk-lane-dispatch.py']
+C:\Projects\Agent_Workspace\HG-KSEOS\src\hg_kseos\spine.py:373: hg_kseos.role_binding.BindingError: ERR_ROLE_BINDING_SUBJECT_OUT_OF_SCOPE:subject None is not inside the granted scope ['hgk/src/hg_kseos/role_binding.py', 'hgk/scripts/hgk-lane-dispatch.py']
+E   AssertionError: 4 != 0 : {
+      "schema": "HGK-LANE-RESOLUTION/1",
+      "ok": false,
+      "lane": "EXECUTE",
+      "code": "ERR_LANE_REQUIRED_ARM_ABSENT",
+      "detail": "opencode-go/minimax-m3.1-flash-free is not in the EXECUTE pool",
+      "generated_utc": "2026-10-21T17:20:29.016795+00:00",
+      "required_arm": "opencode-go/minimax-m3.1-flash-free",
+      "identity_gate": {
+        "state": "enforced",
+        "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+        "relay_home": "C:\\Projects\\Agent_Workspace\\TEST_RESULTS\\hgk-rb-e2e-ckwrn20g\\no-such-relay-home",
+        "arms": [
+          {
+            "rank": 1,
+            "provider": "opencode-go",
+            "model": "deepseek-v4.1-flash",
+            "requirement": "none",
+            "ok": true,
+            "detail": "key-auth arm: no human-attended identity"
+          }
+        ],
+        "degraded": false,
+        "required_arm": "opencode-go/minimax-m3.1-flash-free"
+      },
+      "say": "the required arm is not in this lane's pool",
+      "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+      "codex_home_is_declared_lane_home": true
+    }
+C:\Users\user\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\unittest\case.py:878: AssertionError: 4 != 0 : {
+=========================== short test summary info ===========================
+FAILED tests/test_role_binding_enforcement.py::SpineConsumer::test_positive_bound_wo_verified_with_exact_evidence
+FAILED tests/test_role_binding_enforcement.py::DispatcherPreSpawn::test_prespawn_require_arm_omission_derives_mandatory_arm
+2 failed, 47 passed in 8.77s

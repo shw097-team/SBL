@@ -35,14 +35,14 @@
       "note": "baseline reproduced 18F/580P/90, identical set; cases not closed"
     },
     "R14-TS03": {
-      "state": "PARTIAL",
-      "evidence": "raw/ts03_probe_matrix.json",
-      "note": "10 properties measured: 8 satisfied, 2 gaps (scope enforcement, revocation)"
+      "state": "PARTIAL_CLOSED_2_OF_2_GAPS",
+      "evidence": "raw/gap_fix_probe.json",
+      "note": "scope gate + release receipt landed in HGK spine; residual: no lease<->WO link"
     },
     "R14-TS04": {
-      "state": "BLOCKED_TYPED",
-      "evidence": "raw/checker_dynamic2.json",
-      "note": "lane sandbox cannot read the shared venv; three typed receipts captured"
+      "state": "BLOCKED_ROOT_CAUSED",
+      "evidence": "raw/lane_venv_read.json",
+      "note": "lane sandbox cannot read .venv site-packages (Errno 13); fix = non-dot runtime path"
     },
     "R14-TS05": {
       "state": "DONE_PROBE",
@@ -128,8 +128,8 @@
   "counts": {
     "done": 2,
     "partial": 3,
-    "blocked": 1,
-    "not_started": 25,
+    "blocked": 2,
+    "not_started": 24,
     "total": 31
   },
   "invariants_preserved": [

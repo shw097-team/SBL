@@ -141,23 +141,25 @@
       "earliest_owner": "HGK Owner",
       "required_authority": "minimal native upgrade under the same scoped workorder",
       "repair_cone": "add ERR_ROLE_BINDING_SUBJECT_OUT_OF_SCOPE; make release_lease return a typed receipt with revoked_at and rule revocation forward-only",
-      "status": "OPEN",
+      "status": "PARTIALLY_CLOSED",
       "blocking": [
         "R14-TS03"
       ],
       "evidence": [
         "raw/ts03_probe_matrix.json"
       ],
-      "measured": "8 SATISFIED / 2 GAP"
+      "measured": "8 SATISFIED / 2 GAP",
+      "closed_by": "HG-KSEOS spine.py (scope gate + release receipt)",
+      "residual": "lease<->workorder link still absent; revocation cannot be tied to a specific WO"
     },
     {
       "id": "TT-R14-005",
       "title": "A lane-sandboxed dynamic checker cannot run pytest against a shared interpreter",
-      "first_broken_link": "escalated checker is refused without --guard-subject; with it the lane reaches served_arm but pytest dies on PermissionError reading the shared venv (exit 1, 0 tests); the same command outside the lane passes 9 tests",
+      "first_broken_link": "inside the lane sandbox, python cannot read .venv/Lib/site-packages/sniffio/__init__.py (PermissionError Errno 13), so pytest dies during plugin loading regardless of cwd or guard-subject",
       "earliest_owner": "lane dispatcher owner",
       "required_authority": "dispatcher change or a self-contained checker runtime",
-      "repair_cone": "checker output root carries its own runtime (copied venv or venv --system-site-packages); keep the lane read-only with --guard-subject; never let the maker self-certify dynamic acceptance",
-      "status": "OPEN",
+      "repair_cone": "give the checker a runtime in a NON-dot path (e.g. var/checker-runtime/) or allowlist the interpreter root in the dispatcher; keep the candidate read-only and guard-subjected",
+      "status": "ROOT_CAUSE_FOUND",
       "blocking": [
         "R14-TS04",
         "R14-TS22"
@@ -166,6 +168,24 @@
         "raw/checker_escalation_refusal.json",
         "raw/checker_dynamic.json",
         "raw/checker_dynamic2.json"
+      ]
+    },
+    {
+      "id": "TT-R14-006",
+      "title": "Full lane rebind mapped but not landed in this turn",
+      "first_broken_link": "a dry run shows all 87 projection bindings currently agree with the config files, i.e. the registry and the three projection files are all still on revision-29 mandate; a rebind must therefore rewrite config/hermes-codex-lane.json and config/hermes.json lane declarations too, not just the registry",
+      "earliest_owner": "HGK Owner",
+      "required_authority": "HGK scoped workorder (WO-TS-REBIND-01 open, lease held)",
+      "repair_cone": "move routes rank1/fallbacks + arms + the three projection files + assignment revision in one change, then re-run test_lane_policy (both cases) plus the drift injection case",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS02",
+        "R14-TS22"
+      ],
+      "evidence": [
+        "raw/rebind_full_receipt.json",
+        "raw/registry.before2.yaml",
+        "raw/assignment.before2.json"
       ]
     }
   ]
