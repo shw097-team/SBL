@@ -1,7 +1,7 @@
 {
  "schema": "SBL_R7_EXECUTION_STATUS/1",
  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T05:46:21.097600+00:00",
+ "captured_at_utc": "2026-10-21T06:12:15.538273+00:00",
  "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
  "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
  "hgk_admission": {
@@ -39,10 +39,12 @@
   "R7-01": "FAR residual inventory: 16 items (8 TT/CR markers + 8 open/not-performed TS work items), each in exactly one bucket (5 executable / 4 one-action-owner / 5 not-closable / 1 closed-by-lane-owner / 1 closed-by-isolation)",
   "R7-02": "49-branch ruling with measured facts: MERGE_NOW 1 (SBL candidate/c3-20261021-v2 = PR #2), SUPERSEDED 26, EVIDENCE_ONLY 16, NOT_RECOMMENDED 3, DO_NOT_MERGE 3; 0 PIPD-LS-SP branches recommended; 8/8 official PIPD skills already on main",
   "R7-03": "R6-TS06-A execution plan prepared: 9 steps, per-step gate + failure handling + rollback, red lines, and 6 owner open decisions with recommended defaults. Version strategy 0.1.1rc1, merge_method=merge, draft-first release",
-  "R7-04": "EXECUTED the one ruled item that needs no human act: TT-R6-WHEEL-NONREPRODUCIBLE-001 CLOSED. .gitattributes pins LF; tools/build_reproducible.py exports a named commit with autocrlf disabled, pins SOURCE_DATE_EPOCH and repacks the sdist. MEASURED: two independent builds -> identical wheel sha256 a161162fa4173460ad9041a9bc83afc31a52b6fc0539f4655f74de3b1147ecf6 and identical sdist sha256 b147f674ffb2356123b63b6e95d6ad572a91f7364db56e859e562495fdd4a927. Candidate suite 194 -> 200 (200 passed, 2 skipped). Branch candidate/r7-20261021-repro-build @ 00cf15f9de5808260b1af6a697d0e2fefaad5d1f, pushed to origin",
-  "R7-05": "independent VERIFY_SECURITY re-check dispatched on the GPT 6.1 SOL arm (nonce R7CHK-NC-20261021-A1) with guard-subject over the candidate and the R7 evidence tree",
+  "R7-04": "EXECUTED the one ruled item that needs no human act: TT-R6-WHEEL-NONREPRODUCIBLE-001 CLOSED. .gitattributes pins LF; tools/build_reproducible.py exports a named commit with autocrlf disabled, pins SOURCE_DATE_EPOCH, repacks the sdist (gzip header mtime 0, PAX mtime header stripped, member mtimes constant) and resolves its own build interpreter. MEASURED at 59d2138: two independent builds -> identical wheel sha256 4e78688d3ee1a1295a622253b8d1804fb3e05c935221eb7b3d0b6f0ff6ea5e19 and identical sdist sha256 06cc5840a96aae4c6114bbce3532e4abf4fc6b3f845a01a50f27570bb5ee7e90, single_member_timestamp=true. Candidate suite 194 -> 202 (202 passed, 2 skipped). Branch candidate/r7-20261021-repro-build @ 59d2138750223b325159fab536f218a0d9aa4ab5, pushed to origin",
+  "R7-05": "independent VERIFY_SECURITY re-check dispatched on the GPT 6.1 SOL arm (nonce R7CHK-NC-20261021-A1) with guard-subject. ROUND 1 ENDED WITHOUT A VERDICT: the provider quota was exhausted after 392s, so the dispatcher recorded ERR_NO_ARM_EMITTED_NONCE (ok=false) with a valid usage receipt (HTTP 200) and a byte-exact transcript (sha256 80397dbb...). It is classified INCOMPLETE_ROUND_PROVIDER_QUOTA and is NOT acceptance. ROUND 2 is scheduled after the quota window (14:59 local) on the same arm with nonce R7CHK-NC-20261021-A2 and a regenerated brief that names the round-1 findings.",
   "R7-06": "candidate branch pushed to origin; the R7 evidence branch carries the FAR artifact set, the residual inventory and the execution status",
-  "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it"
+  "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it",
+  "R7-08": "THE ROUND-1 FINDINGS WERE REAL AND WERE REPAIRED. F8: the reproducibility tests asserted source text, not behaviour, so 2 of 3 contract-breaking mutations still passed them (a CRLF .gitattributes and a no-op normalise_sdist). The tests are now behaviour assertions and tests/test_repro_mutation_probe.py breaks each mechanism on purpose in a throwaway copy and asserts the suite goes red. F9: the build required the 'build' package from the ambient interpreter, which the checker's venv does not have; the tool now resolves an interpreter that can run 'python -m build'. Both in commit 59d2138, re-measured 202 passed / 2 skipped.",
+  "R7-09": "SPINE HONESTY: an early PASS was recorded on the R7 workorder before checker round 2 existed. It was withdrawn with the typed rollback API (rollback_workorder), so the spine shows ROLLED_BACK rather than a premature acceptance. The workorder will be re-recorded with verdict=PASS only against a real checker verdict."
  },
  "not_done_and_why": {
   "PR #2 merge + C3 prerelease": "OWNER ACTION. The owner's pre-authorisation covers executing the FAR ruling, not bypassing the human authorisation boundary; the R6 report states the Reviewer recommended a scoped merge and did NOT press merge. The 9-step plan is written and every step before the merge is Owner-executable in one act.",
@@ -53,7 +55,8 @@
   "R6-TS21 (3 ChatGPT private plugins)": "OPEN 0/3 - host-issued IDs cannot be fabricated and no host was authorised",
   "R6-TS22-23-24 (38 surfaces host proof)": "OPEN - NOT_ADMITTED hosts remain NOT_ADMITTED",
   "signed PASS_CHALLENGE": "NOT CLAIMED - the canonical challenge bundle is still missing (TT-CHALLENGE-BUNDLE-MISSING)",
-  "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round"
+  "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round",
+  "independent_checker_round_2": "NOT DONE: the OpenAI OAuth quota was exhausted during round 1 and the provider's retry window opens at 14:59 local. Round 1's bytes are preserved and classified as incomplete, not as a FAIL and not as a PASS."
  },
  "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
  "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
@@ -65,5 +68,50 @@
   "FAR run directory under Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/",
   "scratch build/venv trees under the Hermes scratch dir (isolated, outside the repos)",
   "no merge, no release, no tag, no force push, no PR creation, no self-acceptance"
- ]
+ ],
+ "verification": {
+  "self_check": {
+   "script": "_governance/round-20261021-r7/90_EVIDENCE/self_check_r7.py",
+   "result": "13/15 PASS at 2026-10-21T06:12Z",
+   "open": [
+    "C6 - no checker round has yet produced a verdict (round 2 pending)",
+    "C7 - resolved by the evidence branch push in 4439d64"
+   ]
+  },
+  "independent_checker": {
+   "lane": "VERIFY_SECURITY",
+   "arm": "openai-codex/gpt-6.1-sol (medium)",
+   "round1": {
+    "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
+    "is_a_verdict": false,
+    "seconds": 392.58,
+    "exit": 1,
+    "nonce_present": true,
+    "usage_status": 200,
+    "stdout_sha256": "80397dbb1c0f79124d9229ae406ee4eafb5d278762b7383944d6f76b8a17bf65",
+    "findings": [
+     "F8",
+     "F9"
+    ]
+   },
+   "round2": {
+    "status": "SCHEDULED",
+    "nonce": "R7CHK-NC-20261021-A2"
+   }
+  },
+  "hgk_spine": {
+   "workorder": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+   "state": "ROLLED_BACK",
+   "why": "a PASS was recorded before the independent verdict existed; it was withdrawn with the typed rollback API"
+  }
+ },
+ "publication": {
+  "repo": "github.com/shw097-team/SBL",
+  "branches": {
+   "candidate/r7-20261021-repro-build": "59d2138750223b325159fab536f218a0d9aa4ab5 (product change, pushed)",
+   "evidence/r7-20261021-c7": "4439d6441b669f6d497976810612caf66d185d56 (evidence, pushed)"
+  },
+  "remote_readback": "both remote SHAs equal the local heads (ls-remote verified)",
+  "credentials": "used only through a sealed askpass helper; no credential appears in any committed or pushed byte"
+ }
 }

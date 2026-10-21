@@ -1,7 +1,7 @@
 {
  "schema": "SBL_R7_SELF_RESEARCH_LEDGER/1",
  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T05:46:35.039853+00:00",
+ "captured_at_utc": "2026-10-21T06:12:30.263365+00:00",
  "principle": "every lesson is a transferable RULE with the measurement that produced it; no narration",
  "lessons": [
   {
@@ -66,6 +66,38 @@
    "rule": "A pre-authorisation of 'execute your recommendation' is not a grant of a Native effect.",
    "measurement": "the R6 report states the Reviewer recommended a scoped merge and did NOT press the button; merge, release, permission grants and Host plugin creation are separately gated",
    "failure_it_replaces": "reading a broad instruction as a grant of merge/release authority"
+  },
+  {
+   "id": "L10",
+   "trigger": "The maker's own reproducibility tests were green, and the independent VERIFY lane mutated the candidate three ways; two mutants still passed.",
+   "measurement": ".gitattributes rewritten to eol=crlf -> PASSED (the test only checked the file contained the literal 'eol=lf'); normalise_sdist(sdist, epoch) replaced by pass -> PASSED (the test checked the source for the CALL, so removing it was invisible); .gitattributes deleted -> FAILED, the only mutant that was caught.",
+   "rule": "Assert behaviour, not spelling. A source-text assertion survives exactly the mutation it was written to prevent. The durable fix is a mutation probe that breaks the mechanism on purpose in a throwaway copy and asserts the suite goes red. A green suite that cannot fail converts an unverified fix into a claimed verification.",
+   "transferable_to": "any candidate that adds a regression test for a mechanism, not just a value",
+   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+  },
+  {
+   "id": "L11",
+   "trigger": "The independent checker's venv has no 'build' package, so the candidate's build step failed with 'No module named build.__main__' - an error that reads like a broken artefact.",
+   "measurement": "'import build' succeeds in exactly one ambient interpreter on this machine; the dedicated checker venv does not have it. The artefact was never the problem.",
+   "rule": "A tool that produces the evidence must resolve its own dependencies and say what it checked. The resolution order must be explicit and overridable, and the failure message must name the interpreters it tried. When a reviewer hits a dependency error the first question is always 'is this the product or the environment?', and the answer must be mechanically checkable, not asserted.",
+   "transferable_to": "every evidence-producing tool an external acceptance officer will run in their own environment",
+   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+  },
+  {
+   "id": "L12",
+   "trigger": "The first independent VERIFY round ended exit=1 with the upstream message 'You've hit your usage limit' after 392s of real work.",
+   "measurement": "nonce_present=true, usage_status=200, usage_receipt_ok=true, stdout_sha256=80397dbb..., stdout_byte_exact=true. The failure is a provider-side turn.failed, not a candidate failure.",
+   "rule": "Classify the exit before classifying the candidate. A provider-side turn.failed after a successful usage receipt is an INCOMPLETE round, not a FAIL verdict and not a PASS: preserve it, do not count it, re-run it. Never round an incomplete round up to a verdict, and never let its incidental findings be lost because the round did not finish.",
+   "transferable_to": "every lane dispatch whose exit code can be set by the provider",
+   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+  },
+  {
+   "id": "L13",
+   "trigger": "A PASS was recorded on the R7 HGK workorder before the independent checker round 2 existed, because recording the result felt like bookkeeping.",
+   "measurement": "The workorder reached VERIFIED with checker='openai-codex/gpt-6.1-sol' while the only checker round on record was classified INCOMPLETE_ROUND_PROVIDER_QUOTA. The typed rollback API (rollback_workorder) returned the row to ROLLED_BACK with a rollback_record naming the reason.",
+   "rule": "The spine is the acceptance ledger; a premature PASS in it is a false acceptance claim that is indistinguishable from a real one unless withdrawn. Withdraw it with the typed rollback API rather than editing the row, and only re-record a PASS against an actual verdict. The self-check must assert the workorder state, not merely that an evidence list exists.",
+   "transferable_to": "every governed round that records a result before its checker has run",
+   "introduced_by": "R7 self-audit"
   }
  ],
  "residual_split": {
@@ -100,12 +132,18 @@
   "next_build_slices_note": "these four need a NEW admitted WriteSet slice and a real new product surface, or (for the sandbox item) an environment-hardening change to the lane runtime; they are not a documentation task and were NOT closed this round. TT-R6-CHECKER-SANDBOX-ENV-001 was PARTIALLY closed by the lane owner in HG-KSEOS 5d63e00 (G9: a Windows-usable TMPDIR/TEMP/TMP plus PYTHONDONTWRITEBYTECODE=1 and -p no:cacheprovider); the residual git-subprocess and site-packages limits remain environmental."
  },
  "self_iteration": {
-  "product_change": "candidate/r7-20261021-repro-build @ 00cf15f9de5808260b1af6a697d0e2fefaad5d1f (2 commits over a6bcdd0)",
-  "evidence_change": "the R7 evidence branch (candidate and evidence SHAs kept separate)",
-  "regression_check": "194 -> 200 (200 passed, 2 skipped); no test removed",
-  "second_pass_fixes": [
-   "normalise_sdist: the PAX mtime header survived the assignment (real defect found by the verify pass)"
-  ]
+  "cycle_1": "the maker's self-check caught 4 defects in its OWN reading (a row count that included a second table, a reversed ls-remote parse, a residual id with an annotation glued to it, and a missing checker receipt) - all fixed before the evidence was published",
+  "cycle_2": "the independent checker caught 2 defects in the maker's PRODUCT (F8 source-text tests, F9 ambient-interpreter coupling) - repaired in 59d2138 and re-measured",
+  "cycle_3": "the spine audit caught a premature PASS - withdrawn with the typed rollback API",
+  "total_cycles": 3,
+  "defects_found_by_maker_self_check": 4,
+  "defects_found_by_independent_checker": 2,
+  "defects_found_by_spine_audit": 1
  },
- "self_evolution": "7 rules recorded in the FAR SELF_EVOLUTION_DELTA.json; all adopted now"
+ "self_evolution": {
+  "delta_1": "LEARNING.md grew from 9 to 12 rules; L10-L12 came from an independent lane, not from the maker, which is the point of an independent lane",
+  "delta_2": "the self-check gained a behavioural requirement: C6 now demands a round that reached a VERDICT and recognises the difference between a failed round and an unrun one",
+  "delta_3": "the evidence tree now seals the build receipt and the artefacts it describes, and C9 re-derives the digest from the sealed bytes instead of from a scratch path",
+  "delta_4": "the product's own test suite now contains a mutation probe, so the next maker inherits a check that fails when the mechanism breaks"
+ }
 }
