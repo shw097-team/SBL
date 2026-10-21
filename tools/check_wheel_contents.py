@@ -15,6 +15,7 @@ Exit 0 only when the built wheel carries every required member.
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -45,15 +46,28 @@ REQUIRED_EXACT = (
 
 
 def build_wheel(out_dir: Path) -> Path:
-    import setuptools.build_meta as build_meta
+    """Build through the declared build-system requirements, not the ambient setuptools.
 
-    previous = Path.cwd()
-    os.chdir(ROOT)
-    try:
-        name = build_meta.build_wheel(str(out_dir))
-    finally:
-        os.chdir(previous)
-    return out_dir / name
+    ``import setuptools.build_meta`` silently uses whatever setuptools the interpreter happens to
+    have — on the hosted Windows runner that is older than PEP 639 needs, so the build failed on
+    ``project.license`` while a local build succeeded. ``pip wheel`` honours ``build-system.requires``
+    and therefore reproduces what a user actually gets.
+    """
+
+    proc = subprocess.run(
+        [sys.executable, "-m", "pip", "wheel", ".", "--no-deps", "--wheel-dir", str(out_dir)],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+    )
+    built = sorted(out_dir.glob("*.whl"))
+    if proc.returncode != 0 or not built:
+        raise SystemExit(
+            "wheel build failed; refusing to report on an artifact that was not produced\n"
+            + proc.stdout[-2000:]
+            + proc.stderr[-2000:]
+        )
+    return built[-1]
 
 
 def main() -> int:
