@@ -1,7 +1,7 @@
 {
   "schema": "SBL_R7_SELF_RESEARCH_LEDGER/1",
   "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
-  "captured_at_utc": "2026-10-21T10:50:06.040609+00:00",
+  "captured_at_utc": "2026-10-21T12:37:23.616576+00:00",
   "principle": "every lesson is a transferable RULE with the measurement that produced it; no narration",
   "lessons": [
     {
@@ -116,6 +116,50 @@
       "trigger": "The R7 self-check C6 hard-coded round 1's nonce token, so a later successful round could never satisfy it.",
       "measurement": "C6 asserted that the transcript contained 'R7CHK-NC-20261021-A1'. The nonce is per round. Even a fully successful, correctly-armed, correctly-nonced round 4 would have left C6 FAILING, and the round could never have reached 16/16. The check was validating the checker's ability to echo a token it was never given.",
       "rule": "An acceptance check that pins a value produced by an earlier run is a check of the past, not of the current state. Read the expected value from the artefact under test (the receipt, the transcript) rather than from a constant, and verify the fix against synthetic scenarios -- success, stale-arm, missing-token, wrong-arm -- before trusting it."
+    },
+    {
+      "id": "L17",
+      "trigger": "The hosted CI had been red for five consecutive runs on both ubuntu and windows while the maker's Windows suite was green, and the obvious reading -- 'the product is broken' -- was wrong.",
+      "measurement": "The CI workflow installs pytest and nothing else, so the `build` package is absent. `build()` still resolved a backend interpreter even when the build COMMAND was stubbed, so the resolution raised SystemExit, the environment gap was reported as a product failure, and the mutation probe went down with it because it requires the unmutated tree to pass. Reproduced locally by putting git on PATH and removing the backend: the failure was identical, and it disappeared the moment the backend was available. After the fix, hosted CI was 37/37 green.",
+      "rule": "When the maker's environment is green and CI is red, the difference between the environments is the subject. Enumerate what CI has that the maker does not and reproduce the gap exactly before touching the product. A fix that makes the suite green but leaves the difference unexplained is not a fix.",
+      "evidence": [
+        "PR #3 CI runs 27..33 (red) vs runs 34/35/37 (green)",
+        "candidate commits e299ea8, b6eee02",
+        "SBL _governance/round-20261021-r7/50_TS06/RELEASE_RECEIPT_0.1.1rc1.json"
+      ]
+    },
+    {
+      "id": "L18",
+      "trigger": "The Codex CLI was upgraded in place, which silently broke every governed lane: the declared toolchain pin pointed at a binary that no longer existed, so the dispatcher refused before spawning anything.",
+      "measurement": "All three lanes failed with ERR_LANE_PIN_IDENTITY_INVALID -> ERR_LANE_TOOLCHAIN_BINARY_MISSING. The pin, the binary and the registry's two expected values are three surfaces; refreshing only the active declaration left the registry stale and the drift gate reported findings. Refreshing both in one commit took the drift gate to 0 findings / 0 fatal / 90 sites.",
+      "rule": "A toolchain upgrade is a governance event, not an environment event. Pin, binary and every expected-value surface must move in the same commit, and the drift gate must read 0 findings before any lane is called recovered. Historical evidence keeps the old path, because the old path is a fact about what ran then.",
+      "evidence": [
+        "HG-KSEOS commit 8fa9d34",
+        "HG-KSEOS var/R7-LANES/refresh_codex_toolchain_pin.py",
+        "HG-KSEOS var/R7-LANES/repin_registry_codex_toolchain.py",
+        "drift gate: 0 findings / 0 fatal / 90 sites, epoch 26"
+      ]
+    },
+    {
+      "id": "L19",
+      "trigger": "The independent checker's formal verdict was INCONCLUSIVE -- NOT ACCEPTED, and the temptation was to record the round's own successful merges and release as a PASS anyway.",
+      "measurement": "The typed HGK acceptance API offers only PASS or FAIL from NOT_RUN. The checker's own words were INCONCLUSIVE. The workorder that had earlier recorded a PASS the checker never gave was retracted to ROLLED_BACK, and the correct move was a NEW requirement/taskspec/workorder/acceptance carrying FAIL, with the checker's own transcript as the evidence ref, leaving the rolled-back record intact.",
+      "rule": "When the only two available verdicts are PASS and FAIL and the truth is neither, choose the one that under-claims. An acceptance that says FAIL is actionable; an acceptance that says PASS and cannot be defended is a liability. Never rewrite a retracted record -- add a new one and let the history show both.",
+      "evidence": [
+        "HGK canonical events EVT-33cbc941cc1da656 (requirement FROZEN) and EVT-cfdd8d1dbc28066c (acceptance NOT_RUN->FAIL)",
+        "workorder WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo-2 state FAILED, 9 evidence refs",
+        "acceptance ACC-REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO-2 verdict FAIL"
+      ]
+    },
+    {
+      "id": "L20",
+      "trigger": "Three self-checks started failing after the release, and the quick fix -- loosening them until they pass -- was the wrong one.",
+      "measurement": "C6 read the guard verdict from a field the dispatcher does not write; C8 asserted 'no tag, main unmoved', which the legitimate release had invalidated; C10 compared the release commit to the merge commit, which are different commits by construction. Each was corrected to assert the property that actually matters: read the field the dispatcher writes, pin the published state, and compare the version commit's TREE with the merge commit's tree. The self-check then read 16/16 with every check still able to fail.",
+      "rule": "A check that breaks because the world legitimately moved must be re-derived, not relaxed. Before editing a failing check, ask which of three things happened: the product regressed, the check was wrong about the state, or the state was replaced. Correct the check only in the second case, and make the corrected check at least as strict as the old one -- a check that cannot fail is decoration.",
+      "evidence": [
+        "SBL _governance/round-20261021-r7/90_EVIDENCE/self_check_r7.py -- 16/16 PASS",
+        "checker_round4/verify_chk_r7_a4.json guard verdict field is subject_mutation.verdict"
+      ]
     }
   ],
   "residual_split": {
@@ -182,9 +226,19 @@
     ]
   },
   "self_evolution": {
-    "delta_1": "LEARNING.md grew from 9 to 12 rules; L10-L12 came from an independent lane, not from the maker, which is the point of an independent lane",
-    "delta_2": "the self-check gained a behavioural requirement: C6 now demands a round that reached a VERDICT and recognises the difference between a failed round and an unrun one",
-    "delta_3": "the evidence tree now seals the build receipt and the artefacts it describes, and C9 re-derives the digest from the sealed bytes instead of from a scratch path",
-    "delta_4": "the product's own test suite now contains a mutation probe, so the next maker inherits a check that fails when the mechanism breaks"
+    "r7_final": {
+      "lane_models_vs_session_models": "the canonical pool's rank-1 arms are PLAN openai-codex/gpt-6.1-sol, EXECUTE opencode-go/deepseek-v4.1-flash, VERIFY_SECURITY openai-codex/gpt-6.1-sol. The shared session plane runs a different model on purpose; a session pin is not a PLAN binding and is never used as one.",
+      "checker_outcome": "INCONCLUSIVE -- NOT ACCEPTED (round 4, nonce R7CHK-NC-20261021-A4)",
+      "hgk_acceptance_verdict": "FAIL",
+      "self_check": "16/16 PASS",
+      "delivered": [
+        "PR #2 -> 93d20699",
+        "PR #3 -> 590c2adf",
+        "PR #4 -> 345b9477",
+        "prerelease v0.1.1rc1 id 419526963"
+      ],
+      "claim_ceiling": "the R7 scoped deliverables are merged and published and the reproducibility claim is measured; the full DOC-00..13 contract stays OPEN/PARTIAL, the release is a prerelease, and no native issuer or host grant is claimed",
+      "next_evolution": "move every write-dependent check out of the read-only checker sandbox and into maker-side signed receipts the checker can verify byte-for-byte; that is the only route from FAIL to a defensible PASS"
+    }
   }
 }

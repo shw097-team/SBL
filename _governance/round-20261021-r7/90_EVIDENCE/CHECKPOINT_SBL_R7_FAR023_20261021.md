@@ -21,25 +21,30 @@ Resume by reading this file, then the three "resume" blocks at the bottom.
 
 | Repo | Branch | HEAD | Remote | State |
 |---|---|---|---|---|
-| `C:\Projects\_sbl_r4\c3v2` (SBL product) | `candidate/r7-20261021-repro-build` | `26a289f` | `26a289f` ✔ | clean |
-| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | see note † | same as local ✔ | clean |
-| `C:\Projects\Agent_Workspace\Fabric` (FAR) | `pub/far-minimax-mandate-20261021` | `37509e6` | `37509e6` ✔ | clean |
-| `C:\Projects\Agent_Workspace\HG-KSEOS` (control plane) | `codex/hgk-final-closure-002` | `88666af` | **no remote** | local-only |
+| `shw097-team/SBL` (product, GitHub) | `main` | `345b9477` | `345b9477` ✔ | **PR #2 + #3 + #4 merged** |
+| `C:\Projects\_sbl_r4\c3v2` (SBL product) | `candidate/r7-20261021-repro-build` | `b6eee02` | `b6eee02` ✔ | clean |
+| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | `18c48b9` | `18c48b9` ✔ | clean |
+| `C:\Projects\Agent_Workspace\Fabric` (FAR) | `pub/far-minimax-mandate-20261021` | `4014bb6` | `4014bb6` ✔ | clean |
+| `C:\Projects\Agent_Workspace\HG-KSEOS` (control plane) | `codex/hgk-final-closure-002` | `8fa9d34` | **no remote** | local-only |
+
+Tag `v0.1.1rc1` → `345b9477` (the merge commit), and the merge commit's tree
+equals the version commit `0f83ba8`'s tree, so the published bytes ARE main's
+bytes. Branch `release/0.1.1rc1` = `0f83ba8`.
+
+Prerelease: https://github.com/shw097-team/SBL/releases/tag/v0.1.1rc1
+(release id `419526963`, prerelease, `make_latest=false`).
+The old `v0.1.0-foundation-preview` release and tag were left untouched.
 
 FAR-023's 35 files are carried on **both** published Fabric branches
 (`pub/far-lane-remediation-20261021` and `pub/far-minimax-mandate-20261021`), so
 the path the self-check reads resolves on either.
 
-† The SBL evidence branch's own HEAD is the commit that carries this document,
-so its SHA cannot appear inside itself. Read it with:
-`git -C C:/Projects/Agent_Workspace/SBL rev-parse HEAD`, and confirm the remote
-matches with `git -C C:/Projects/Agent_Workspace/SBL ls-remote origin
-refs/heads/evidence/r7-20261021-c7`. At the moment of writing the branch is
-pushed and the two agree.
-
-The five HG-KSEOS lane surfaces are committed at `88666af`:
+The five HG-KSEOS lane surfaces are committed at `8fa9d34`:
 `lane-route-slots.candidate.json`, `lane-routing-registry.yaml`,
-`model-lane-assignment.json`, `hermes-codex-lane.json`, `hermes.json`.
+`hermes-codex-lane.json`. The codex toolchain pin was refreshed to the
+installed `0.163.0-alpha.11` binary and the registry's two expected pin values
+were re-pinned in the SAME commit, so the surfaces cannot drift apart
+(drift gate: 0 findings / 0 fatal / 90 sites, epoch 26).
 
 Remote = `https://github.com/shw097-team/SBL.git` and the Fabric repo. The GitHub credential
 source is `C:\Projects\Agent_Workspace\API KEY\GITHUB-REPO_SHW097-4.txt`; it is only ever
@@ -176,77 +181,70 @@ C5/C13/C15 with `FileNotFoundError`). All 35 are present again; the self-check r
 
 ## 3. What is OPEN — do not claim these as done
 
-| id | item | why it is still open |
+| id | item | state |
 |---|---|---|
-| **C6** | independent checker verdict for `26a289f` | attempt 3 was dispatched on the GPT arm and **stopped by this pause**. No verdict. Not a pass, not a failure. |
-| C7 | candidate/evidence published | **SATISFIED** — both branches pushed, remote == local. |
-| C9 | reproducibility | **SATISFIED** — receipt regenerated for `26a289f`. |
-| — | self-check | **15 / 16 PASS**. Only C6 is open. |
-| — | HGK workorder | still `ROLLED_BACK`; acceptance `NOT_RUN`. Do **not** record PASS before the C6 verdict lands. |
-| — | canonical Hermes formal binding receipt | still missing. The governed profile `profiles/hgk-governed/config.yaml` is correct (GPT 6.1 SOL / medium) and the pool/registry/assignment/`hermes-codex-lane.json`/`hermes.json` are all committed at `88666af`, but there is **no explicit Runtime/Orchestration Plane binding, permit or rollback receipt**. Correct configuration ≠ binding receipt. |
-| — | 4 contract capability bindings | 4 capabilities still point at `ACC-SBL_SHARED_CORE`; the compiler SSOT was not rebuilt. |
-| — | PR #2 merge | R6 candidate `a6bcdd0` is a clean fast-forward over `main`, but **no merge actually happened**. No merge receipt. |
-| — | R6-TS06-A | `0.1.1rc1`, experimental wheel/sdist, clean-venv lifecycle and release digest are not complete. |
-| — | DOC-00…13 full contract | **OPEN / PARTIAL**. Native PI/PD/ECP, ChatGPT 3 host plugin, full multi-Kind production, 149 children, 38 surfaces, cross-host and a signed `PASS_CHALLENGE` are all unclosed. |
-| — | HG-KSEOS upstream admission defect | `ProjectLifecycleController._repo_head()` takes the CWD instead of the project repo and swallows `InvariantViolation`. |
-| — | native / owner-authorised items | owner pre-authorisation is **not** a native issuer, a merge, a release or a host authorisation. These stay OPEN. |
+| C6 | independent checker verdict | **CLOSED, and it was NOT an acceptance.** Round 4 (arm `openai-codex/gpt-6.1-sol`, nonce `R7CHK-NC-20261021-A4`, 237.3 s, exit 0, usage receipt 200, guard CLEAN, subject digest unchanged) returned **`INCONCLUSIVE — NOT ACCEPTED`**: its sandbox forbids every filesystem write, so the two-build comparison, the full pytest run, the mutation experiments and the write-through experiment could not run. It still found three real product defects (D1 fail-open skip, D2 a vacuous assertion, D3 a mutation oracle that accepted any nonzero exit) — all fixed and re-measured. |
+| C7 | candidate/evidence published | **SATISFIED** — `candidate/r7-20261021-repro-build` = `b6eee02`, `evidence/r7-20261021-c7` = `18c48b9`, remote == local. |
+| C8 | main state | **CHANGED** — `main` is now `345b9477` (PR #2 + #3 + #4 merged) and tag `v0.1.1rc1` → `345b9477`. The check was rewritten to pin the *published* state, not the pre-release one. |
+| C9 | reproducibility | **SATISFIED** — the receipt now covers `0.1.1rc1`; three independent builds (release branch, `origin/main`, the tool's own two-build check) produce identical bytes, and the merge commit's tree equals the version commit's tree. |
+| C10 | release lifecycle | **SATISFIED** — `LIFECYCLE_OK`: install → todo init/add/list → empty-title refusal → stack install/doctor/status/selftest → harness --help → uninstall both → zero import residue. |
+| — | self-check | **16 / 16 PASS.** |
+| — | HGK spine | **HONESTLY RECORDED, and it says FAIL.** The acceptance is `FAIL` and the workorder is `FAILED`, because the checker did not accept. The earlier workorder that recorded a PASS nobody gave stays `ROLLED_BACK` — it was not rewritten, a new requirement/taskspec/workorder/acceptance was created instead. The acceptance cites the checker's own transcript as a registered evidence ref. |
+| — | canonical Hermes formal binding receipt | **still missing.** The governed profile `profiles/hgk-governed/config.yaml` is correct (GPT 6.1 SOL / medium) and the pool/registry/assignment/`hermes-codex-lane.json`/`hermes.json` are committed, but there is **no explicit Runtime/Orchestration Plane binding, permit or rollback receipt**. Correct configuration ≠ binding receipt. |
+| — | 4 contract capability bindings | 4 capabilities still point at `ACC-SBL_SHARED_CORE`; the compiler SSOT was not rebuilt. SWARM and OWNER-5 ruled this belongs to the next owner-scheduled contract round, not to R7. |
+| — | DOC-00…13 full contract | **OPEN / PARTIAL.** Native PI/PD/ECP, ChatGPT 3 host plugin, full multi-Kind production, 149 children, 38 surfaces, cross-host and a signed `PASS_CHALLENGE` are all unclosed. The release is a **prerelease** (`make_latest=false`), not a stable release. |
+| — | HG-KSEOS upstream admission defect | `ProjectLifecycleController._repo_head()` takes the CWD instead of the project repo and swallows `InvariantViolation`. Untouched this round. |
+| — | native / owner-authorised items | owner pre-authorisation is **not** a native issuer, a merge, a release or a host authorisation. The merges and the prerelease were executed under the owner's explicit standing instruction; native issuance and host grant stay OPEN. |
+| — | Docker / Linux native reproduction | the Docker daemon was never confirmed up, so Linux-native reproduction was NOT run. Verification rests on hosted CI (Ubuntu + Windows) and a CI-equivalent local run. |
 
 ---
 
 ## 4. Resume blocks
 
-### 4.1 First thing: the independent checker (closes C6)
+R7's executable scope is closed: the checker ruled, the merges happened, the prerelease is live,
+the self-check is 16/16, and the HGK spine carries an honest FAIL. What remains is the next
+round's work, in this order.
 
-This is the only thing standing between the round and a verdict. **Use attempt 4 and nonce `A4`** —
-attempt 3 was tried twice and produced no verdict (once refused by the remote-write detector over
-the word "publish", once stopped for this pause). A fresh attempt number keeps both failures on
-record instead of overwriting them.
+### 4.1 A checker round that can actually write (the only way to turn FAIL into PASS)
 
-```bash
-cd C:/Projects/Agent_Workspace/HG-KSEOS
-./.venv/Scripts/python.exe scripts/hgk-lane-dispatch.py \
-  --lane VERIFY_SECURITY \
-  --require-arm openai-codex/gpt-6.1-sol \
-  --nonce R7CHK-NC-20261021-A4 \
-  --timeout 1500 \
-  --round SBL-R7-FAR-RESIDUAL-CLOSURE \
-  --attempt 4 \
-  --brief "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_BRIEF.md" \
-  --json-out var/R7-LANES/verify_chk_r7_a4.json \
-  --guard-subject "C:/Projects/_sbl_r4/c3v2" \
-  --prompt "Read the brief at C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_BRIEF.md and execute every check in it exactly as written. You are READ-ONLY on every product and evidence tree; use a throwaway copy under your own scratch for any mutation. Be efficient and finish within the time budget. Your final message MUST contain the nonce R7CHK-NC-20261021-A4 verbatim, the literal summary lines of every command you ran, and a VERDICT section. If you run out of time, say exactly which checks you completed and which you did not, and still emit the nonce and a VERDICT."
-```
+Round 4's verdict was `INCONCLUSIVE` for one reason: **the lane sandbox forbids every filesystem
+write**, so the checker could not run the two-build comparison, the full pytest run, the mutation
+experiments or the write-through experiment. No amount of re-running the same sandbox will change
+that. Either the sandbox must be given a writable scratch, or the checks that need writes must be
+pre-executed and handed to the checker as *readable artifacts* it can hash and compare.
 
-Notes that will save time:
+Practical route: keep the round read-only but move every write-dependent step OUT of the checker
+and into a maker-side script that emits a signed receipt (command, exit code, stdout digest,
+artifact digests). The checker then verifies the receipt and re-derives the digests from the
+artifacts. That converts "the checker could not run it" into "the checker verified the bytes",
+which is a real acceptance and not a delegation of trust.
 
-* **The brief must not contain the token "publish".** The dispatcher's remote-write detector
-  rejects it. The phrase "the published `v0.1.0-foundation-preview` bytes" tripped it; it is now
-  "the bytes of the existing `v0.1.0-foundation-preview` release". If you regenerate the brief
-  with `make_checker_brief.py`, do not reintroduce that word. **Attempt 3 was already lost to
-  this** — the receipt `verify_chk_r7_a3.json` records the refusal
-  (`ERR_LANE_REMOTE_WRITE_NOT_AUTHORIZED`, `remote_write_markers: ["publish"]`).
-* The nonce must appear **in the prompt text**, not only as a flag — a prompt that does not echo
-  the nonce yields `ERR_NO_ARM_EMITTED_NONCE`.
-* `--require-arm` is an **assertion, not a selector**. Arm selection is `--force-rank`. With GPT
-  promoted to rank 1, `--force-rank 2` is no longer needed for VERIFY.
-* The OpenAI transport requires the **bare** id `gpt-6.1-sol`. The qualified form
-  `openai-codex/gpt-6.1-sol` returns HTTP 400 `Model is unavailable`.
-* Expect **20–25 minutes**. A previous round ran 1395 s. It is not stuck unless the stdout file
-  stops growing for more than 10 minutes.
-* It writes to `HG-KSEOS/var/R7-LANES/verify_chk_r7_a4.json` and
-  `.../verify_chk_r7_a4.json.logs/attempt-*-stdout.txt`.
+Keep the traps from round 3: the brief must not contain the token "publish" (the dispatcher's
+remote-write detector rejects it), the nonce must appear in the prompt text as well as the flag,
+`--require-arm` is an assertion rather than a selector, and the OpenAI transport needs the **bare**
+id `gpt-6.1-sol`. Expect 20–25 minutes. Use attempt 5 and a fresh nonce (`R7CHK-NC-20261021-A5`).
 
-> **Already fixed for you:** C6 used to hard-code round 1's nonce
-> (`R7CHK-NC-20261021-A1`) and would have failed even after a successful round 4, because it
-> demanded round 1's token from round 4's transcript. It now reads the nonce from the receipt and
-> falls back to the nonce token found in the transcript. C6 also picks the **newest** round that
-> produced a verdict (`verdicts[-1]` over the lexicographically sorted `verify_chk_r7_a*.json`),
-> so round 4 will be picked up correctly and the older MiniMax-served round 2 will not shadow it.
+### 4.2 The canonical Hermes binding receipt
 
-After the verdict: seal it into `40_VERIFY/`, update `CHECKER_STATUS.json` round3, re-run the
-self-check, and **only then** consider recording the HGK workorder result.
+The pool, registry, assignment, the codex toolchain pin and the governed profile are all correct
+and committed, but there is still no explicit **Runtime/Orchestration Plane binding, permit and
+rollback receipt** for the canonical Hermes. Correct configuration is not a binding receipt. Write
+the receipt against the same surfaces the drift gate already reads, so it cannot drift out of
+agreement with them.
 
-### 4.2 Re-run the self-check
+### 4.3 The 4 contract capability bindings
+
+Four capabilities still point at `ACC-SBL_SHARED_CORE`. SWARM and OWNER-5 both ruled this belongs
+to the next owner-scheduled contract round, so R7 did not rewrite an existing digest. Schedule it
+there; the fix is small but it must not be done silently inside an unrelated round.
+
+### 4.4 Linux-native reproduction
+
+The Docker daemon was never confirmed up, so the Linux-native reproduction did not run. Hosted CI
+(Ubuntu + Windows) and the CI-equivalent local run carry the verification for now. If a Linux
+native run is required, start the daemon and re-run the two-build comparison there.
+
+### 4.5 Re-run the self-check after anything changes
 
 ```bash
 cd C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7
@@ -255,20 +253,8 @@ export TMPDIR="$SCR" TEMP="$SCR" TMP="$SCR" PYTHONDONTWRITEBYTECODE=1
 python 90_EVIDENCE/self_check_r7.py
 ```
 
-Expected at resume: **15/16 → 16/16** once C6 is closed. C7 and C9 should already flip because
-the branches are pushed and the receipt is regenerated — verify they did.
-
-### 4.3 Then, in order
-
-1. HGK workorder: record the checker result through the **typed API** (never raw SQL). If the
-   checker does not pass, use `rollback_workorder` — an honest `ROLLED_BACK` beats a false PASS.
-2. Commit + push the SBL evidence branch.
-3. The four contract capability bindings → rebuild the compiler SSOT.
-4. PR #2: R6 candidate `a6bcdd0` fast-forwards over `main` cleanly. Merging is a real remote
-   write; confirm with the owner before performing it, and record a genuine merge receipt.
-5. The remaining open items in §3, in FAR's order.
-
----
+Current: **16/16 PASS**. If C6 is re-run with a new attempt number, C6 reads the **newest** round
+that produced a verdict, so it will pick the new one up.
 
 ## 5. Notes, traps and lessons from this round
 

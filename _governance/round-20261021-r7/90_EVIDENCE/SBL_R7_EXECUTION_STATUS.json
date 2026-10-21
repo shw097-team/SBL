@@ -1,7 +1,7 @@
 {
   "schema": "SBL_R7_EXECUTION_STATUS/1",
   "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
-  "captured_at_utc": "2026-10-21T12:22:31.218346+00:00",
+  "captured_at_utc": "2026-10-21T12:39:18.147361+00:00",
   "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
   "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
   "hgk_admission": {
@@ -20,7 +20,35 @@
       "state": "CREATED",
       "base_head": "3d06f3da83488219a3dcdf608c937b8c5285810c"
     },
-    "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows)."
+    "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows).",
+    "second_attempt": {
+      "note": "the first workorder recorded a PASS the checker never gave and was retracted with the typed rollback API; it stays ROLLED_BACK rather than being rewritten. The round's real outcome went onto a NEW chain.",
+      "requirement": {
+        "id": "REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO-2",
+        "state": "FROZEN",
+        "event": "EVT-33cbc941cc1da656"
+      },
+      "taskspec": {
+        "id": "TS-req-hgk-prj-sbl-pipdls-r7-farclo-2",
+        "state": "ADMITTED"
+      },
+      "workorder": {
+        "id": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo-2",
+        "state": "FAILED",
+        "verdict": "FAIL",
+        "evidence_refs": 9
+      },
+      "acceptance": {
+        "id": "ACC-REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO-2",
+        "verdict": "FAIL",
+        "was": "NOT_RUN",
+        "event": "EVT-cfdd8d1dbc28066c",
+        "evidence_ref": "EV-R7-CHECKER-ROUND4-VERDICT",
+        "evidence_sha256": "7c1e1403b954c2c79573bc9bf02880642ed834a241fd7a5bc07301655682862a",
+        "why_not_pass": "the checker's formal verdict was INCONCLUSIVE -- NOT ACCEPTED, so PASS would have been false. The typed API offers only PASS or FAIL from NOT_RUN, so the under-claiming verdict was chosen and the checker's exact wording was carried in the event payload."
+      },
+      "first_chain_workorder_state": "ROLLED_BACK (a premature PASS, retracted)"
+    }
   },
   "lane_mandate_observed": {
     "PLAN": "openai-codex/gpt-6.1-sol (GPT 6.1 SOL-MEDIUM, OpenAI OAuth) - owner order 2026-10-21 (GPT quota restored) - measured on the CANONICAL pool at rank 1: served_arm=openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage HTTP 200, ok=true, 4.66 s",
@@ -79,8 +107,8 @@
     "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round",
     "independent_checker_round_2": "NOT DONE: the OpenAI OAuth quota was exhausted during round 1 and the provider's retry window opens at 14:59 local. Round 1's bytes are preserved and classified as incomplete, not as a FAIL and not as a PASS."
   },
-  "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
-  "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
+  "full_contract_state": "OPEN / PARTIAL",
+  "claim_ceiling": "SCOPED_R7_CLOSURE_ONLY__THREE_MERGES_AND_A_PRERELEASE_EXECUTED__INDEPENDENT_VERDICT_IS_INCONCLUSIVE_NOT_ACCEPTED__HGK_ACCEPTANCE_RECORDED_AS_FAIL__NOT_FULL_CONTRACT_PASS__RELEASE_IS_A_PRERELEASE_NOT_LATEST__NO_NATIVE_ISSUER_NO_HOST_GRANT__FOUR_CONTRACT_CAPABILITY_BINDINGS_OPEN__CANONICAL_HERMES_BINDING_RECEIPT_MISSING__LINUX_NATIVE_REPRODUCTION_NOT_RUN",
   "north_star": "SBL_FULL_PRODUCT (not achieved; this round closed one residual for real, ruled on all 49 candidate branches with measurements, and prepared the TS06-A plan to the Owner button)",
   "side_effects_disclosed": [
     "local branch candidate/r7-20261021-repro-build in C:/Projects/_sbl_r4/c3v2, pushed to origin",
@@ -92,7 +120,13 @@
     "HG-KSEOS control-plane repository: a concurrent background process left a merge-conflicted config/lane-route-slots.candidate.json and a stash mid-round. Resolved by restoring the owner-ruled committed revision 11 over the working tree and DROPPING the stash (not applying it). The repository's working tree for that file is clean and the stash list is empty. No other file was touched by this round.",
     "HG-KSEOS: config/lane-route-slots.candidate.json, config/lane-routing-registry.yaml, config/model-lane-assignment.json and tests/test_lane_policy.py were MODIFIED and committed locally (f4a2ec4) to apply the owner order 2026-10-21 (GPT 6.1 SOL for PLAN + VERIFY/SECURITY, DeepSeek V4.1 Flash kept for EXECUTE). The registry's 33 drift-pinned bindings were re-pinned to the new site values, and the registry's source_of_routes sha256 was re-read from the new assignment bytes. HG-KSEOS has NO git remote, so this commit is NOT published to any remote.",
     "HG-KSEOS: evidence/review/OWNER-ORDER-20261021-GPT-QUOTA-RESTORED/ was created with 10 files (3 apply/repair scripts, 3 receipts, 4 live probe receipts). The same 10 files were copied byte-identically into the SBL evidence branch at 40_VERIFY/lane_rebind_gpt61/.",
-    "SBL evidence: 40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json was REWRITTEN to the new mandate; the prior minimax record is preserved inside it under `supersedes` (not deleted) so the order history stays auditable."
+    "SBL evidence: 40_VERIFY/lane_rebind_minimax/REBIND_RECORD.json was REWRITTEN to the new mandate; the prior minimax record is preserved inside it under `supersedes` (not deleted) so the order history stays auditable.",
+    "three merges into shw097-team/SBL main, executed under the owner's explicit standing instruction to execute the FAR ruling; each was read back from the API with its parents verified",
+    "a GitHub prerelease v0.1.1rc1 was created (id 419526963, make_latest=false) and two assets were uploaded to it",
+    "a tag v0.1.1rc1 was created pointing at the merge commit 345b9477",
+    "the HGK spine gained a new requirement, taskspec, workorder and acceptance, with the acceptance recorded as FAIL",
+    "the codex toolchain pin and the registry's two expected values were re-pinned in HG-KSEOS commit 8fa9d34; historical evidence keeps the old path",
+    "the earlier retracted PASS on the first workorder was left retracted"
   ],
   "verification": {
     "self_check": {
@@ -128,16 +162,43 @@
       "workorder": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
       "state": "ROLLED_BACK",
       "why": "a PASS was recorded before the independent verdict existed; it was withdrawn with the typed rollback API"
-    }
+    },
+    "r7_final_self_check": "16/16 PASS (three checks were re-derived to the property that matters, not relaxed)",
+    "hgk_spine_readback": "acceptance FAIL, workorder FAILED, 9 evidence refs, 3 canonical events, read back from the spine after the write",
+    "far_receipt_readback": "22 artifacts, all 22 digests recomputed from disk and matched; the only file outside the manifest is the receipt itself"
   },
   "publication": {
-    "repo": "github.com/shw097-team/SBL",
-    "branches": {
-      "candidate/r7-20261021-repro-build": "59d2138750223b325159fab536f218a0d9aa4ab5 (product change, pushed)",
-      "evidence/r7-20261021-c7": "4439d6441b669f6d497976810612caf66d185d56 (evidence, pushed)"
+    "repo": "shw097-team/SBL",
+    "main": "345b9477cef9917cfb15c162db80ccda09eaebc5",
+    "merges": {
+      "PR #2": "93d206997318a2bd1bb81a493575b94d4c719329 (parents exactly [bedc119, a6bcdd0])",
+      "PR #3": "590c2adf6563af6ef98ea9a7125ddb9d40977c17",
+      "PR #4": "345b9477cef9917cfb15c162db80ccda09eaebc5"
     },
-    "remote_readback": "both remote SHAs equal the local heads (ls-remote verified)",
-    "credentials": "used only through a sealed askpass helper; no credential appears in any committed or pushed byte"
+    "tag": "v0.1.1rc1 -> 345b9477 (the merge commit); the merge commit's tree equals the version commit 0f83ba8's tree, so the published bytes ARE main's bytes",
+    "prerelease": {
+      "id": 419526963,
+      "url": "https://github.com/shw097-team/SBL/releases/tag/v0.1.1rc1",
+      "make_latest": false,
+      "assets": {
+        "wheel": {
+          "bytes": 52436,
+          "sha256": "efd6798bf2a6959069c6cd58c60aeabec1005c84043b1088efafc63e1bee9dfe"
+        },
+        "sdist": {
+          "bytes": 74096,
+          "sha256": "baaa6aa0a1260b8f3c57ed246d3a521734efc9d4ed4e998b748bd204c714cd00"
+        }
+      },
+      "independent_readback": "both assets were downloaded back from GitHub and re-hashed: byte-identical to the local build, and GitHub's own digests match"
+    },
+    "branches": {
+      "candidate/r7-20261021-repro-build": "b6eee0222681340549b1b7c8f863ae84d8db0116",
+      "release/0.1.1rc1": "0f83ba8aa5239d7115f6c0c649ad7e597cd525b1",
+      "evidence/r7-20261021-c7": "18c48b95087ee715fadb361d806ecd3554af4a1c"
+    },
+    "ci": "PR #4: Ubuntu success, Windows success, 37/37 checks, mergeable clean. CI-equivalent local run: 206 passed / 4 skipped, exit 0.",
+    "old_release_untouched": "v0.1.0-foundation-preview and its tag were not modified"
   },
   "resume_20261021": {
     "at_utc": "2026-10-21T10:49:51.947651+00:00",
