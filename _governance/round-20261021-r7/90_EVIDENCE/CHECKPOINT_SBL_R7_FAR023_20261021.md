@@ -22,13 +22,20 @@ Resume by reading this file, then the three "resume" blocks at the bottom.
 | Repo | Branch | HEAD | Remote | State |
 |---|---|---|---|---|
 | `C:\Projects\_sbl_r4\c3v2` (SBL product) | `candidate/r7-20261021-repro-build` | `26a289f` | `26a289f` ✔ | clean |
-| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | `7559406` | `7559406` ✔ | clean |
+| `C:\Projects\Agent_Workspace\SBL` (SBL evidence) | `evidence/r7-20261021-c7` | see note † | same as local ✔ | clean |
 | `C:\Projects\Agent_Workspace\Fabric` (FAR) | `pub/far-minimax-mandate-20261021` | `37509e6` | `37509e6` ✔ | clean |
 | `C:\Projects\Agent_Workspace\HG-KSEOS` (control plane) | `codex/hgk-final-closure-002` | `88666af` | **no remote** | local-only |
 
 FAR-023's 35 files are carried on **both** published Fabric branches
 (`pub/far-lane-remediation-20261021` and `pub/far-minimax-mandate-20261021`), so
 the path the self-check reads resolves on either.
+
+† The SBL evidence branch's own HEAD is the commit that carries this document,
+so its SHA cannot appear inside itself. Read it with:
+`git -C C:/Projects/Agent_Workspace/SBL rev-parse HEAD`, and confirm the remote
+matches with `git -C C:/Projects/Agent_Workspace/SBL ls-remote origin
+refs/heads/evidence/r7-20261021-c7`. At the moment of writing the branch is
+pushed and the two agree.
 
 The five HG-KSEOS lane surfaces are committed at `88666af`:
 `lane-route-slots.candidate.json`, `lane-routing-registry.yaml`,
@@ -39,6 +46,24 @@ source is `C:\Projects\Agent_Workspace\API KEY\GITHUB-REPO_SHW097-4.txt`; it is 
 consumed through the sealed askpass helper
 `C:\Projects\Agent_Workspace\_handover\R5R3-20261016-preview4-closeout\_askpass_r5r3.cmd`.
 **Do not print it, do not commit it.**
+
+### Working trees that are NOT clean, and why that is correct
+
+`C:\Projects\Agent_Workspace\HG-KSEOS` still shows 7 modified tracked files and ~290 untracked
+paths. **None of them are this round's work** and none were committed by it:
+
+* the 5 lane surfaces this round changed (`lane-route-slots.candidate.json`,
+  `lane-routing-registry.yaml`, `model-lane-assignment.json`, `hermes-codex-lane.json`,
+  `hermes.json`) are **clean** — they are committed at `88666af`;
+* the 7 modified files are `config/project.json`, `docs/HG-KSEOS使用手冊.md`,
+  `scripts/hermes-core.ps1`, `source-freeze/TT_LEDGER.csv`, `src/hg_kseos/knowledge.py`,
+  `src/hg_kseos/spine.py`, `tests/test_task014_named_method_closure.py` — a **concurrent
+  writer's** in-flight work (source changes, plus a `TT_LEDGER.csv` ledger edit);
+* the untracked paths are mostly `*.bak-*` pre-image backups from that writer's own rebinds.
+
+**Do not commit them.** They are another agent's work in progress, not this round's, and staging
+them would put unreviewed source changes under this round's claim. If you need them, ask the
+owner or check whether that writer has since committed them.
 
 The proven push invocation on this host (GIT_ASKPASS alone is ignored by git here — the
 `-c core.askPass=` form is what works):
