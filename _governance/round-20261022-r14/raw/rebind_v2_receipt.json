@@ -1,0 +1,68 @@
+{
+  "routes": {
+    "PLAN": {
+      "rank1": [
+        "openai-codex",
+        "gpt-6.1-sol"
+      ],
+      "fallback1": [
+        "opencode-go",
+        "minimax-m3.1-flash-free"
+      ]
+    },
+    "EXECUTE": {
+      "rank1": [
+        "opencode-go",
+        "minimax-m3.1-flash-free"
+      ],
+      "fallback1": [
+        "opencode-go",
+        "deepseek-v4.1-flash"
+      ]
+    }
+  },
+  "projections": [
+    {
+      "path": "config/model-lane-assignment.json",
+      "bindings": 64
+    },
+    {
+      "path": "config/hermes-codex-lane.json",
+      "bindings": 22
+    },
+    {
+      "path": "config/hermes.json",
+      "bindings": 1
+    }
+  ],
+  "files": {
+    "model-lane-assignment.json": {
+      "revision": 30,
+      "lane_chains": {
+        "PLAN": [
+          "gpt-6.1-sol",
+          "gpt-6.1-sol"
+        ],
+        "EXECUTE": [
+          "minimax-m3.1-flash-free",
+          "deepseek-v4.1-flash"
+        ],
+        "VERIFY_SECURITY": [
+          "gpt-6.1-sol",
+          "minimax-m3.1-flash-free"
+        ]
+      }
+    },
+    "hermes-codex-lane.json": {
+      "model": "minimax-m3.1-flash-free",
+      "model_fallbacks": [
+        "deepseek-v4.1-flash"
+      ],
+      "execute_lane_child_models": [
+        "minimax-m3.1-flash-free"
+      ]
+    }
+  },
+  "bindings_changed": 15,
+  "yaml_roundtrip": "safe_dump_comments_lost:ModuleNotFoundError"
+}

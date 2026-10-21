@@ -122,7 +122,7 @@
       "earliest_owner": "HGK Owner",
       "required_authority": "HGK-scoped workorder (WO-TS-REBIND-01 opened)",
       "repair_cone": "a rebind must move route rank1+fallbacks, arms[], every projections[].bindings file, and the assignment revision together; a partial edit is fatal drift (measured)",
-      "status": "OPEN",
+      "status": "CLOSED",
       "blocking": [
         "R14-TS02",
         "R14-TS22"
@@ -132,7 +132,8 @@
         "raw/assignment.before.json",
         "raw/after_rebind_failed.txt",
         "raw/after_revert_failed.txt"
-      ]
+      ],
+      "closed_by": "HG-KSEOS 924af95 (four-group rebind, epoch 30, revision 30)"
     },
     {
       "id": "TT-R14-004",
@@ -159,7 +160,7 @@
       "earliest_owner": "lane dispatcher owner",
       "required_authority": "dispatcher change or a self-contained checker runtime",
       "repair_cone": "give the checker a runtime in a NON-dot path (e.g. var/checker-runtime/) or allowlist the interpreter root in the dispatcher; keep the candidate read-only and guard-subjected",
-      "status": "ROOT_CAUSE_FOUND",
+      "status": "RESOLVED_BY_RUNTIME_COPY",
       "blocking": [
         "R14-TS04",
         "R14-TS22"
@@ -168,7 +169,8 @@
         "raw/checker_escalation_refusal.json",
         "raw/checker_dynamic.json",
         "raw/checker_dynamic2.json"
-      ]
+      ],
+      "closed_by": "var/checker-runtime (non-dot, pyvenv.cfg + Lib + Scripts) executes pytest inside the lane; checker now really runs"
     },
     {
       "id": "TT-R14-006",
@@ -177,7 +179,7 @@
       "earliest_owner": "HGK Owner",
       "required_authority": "HGK scoped workorder (WO-TS-REBIND-01 open, lease held)",
       "repair_cone": "move routes rank1/fallbacks + arms + the three projection files + assignment revision in one change, then re-run test_lane_policy (both cases) plus the drift injection case",
-      "status": "OPEN",
+      "status": "CLOSED",
       "blocking": [
         "R14-TS02",
         "R14-TS22"
@@ -186,6 +188,35 @@
         "raw/rebind_full_receipt.json",
         "raw/registry.before2.yaml",
         "raw/assignment.before2.json"
+      ],
+      "closed_by": "924af95"
+    },
+    {
+      "id": "TT-R14-007",
+      "title": "Independent dynamic checker disagrees with the maker on the frozen R13 candidate",
+      "first_broken_link": "checker (openai-codex/gpt-6.1-sol, isolated copy + own runtime) reports 8 passed / 1 failed: test_admission_fails_closed_when_target_is_not_a_repo DID NOT RAISE; the same copy run by the maker passed 9",
+      "earliest_owner": "acceptance harness owner",
+      "required_authority": "none (reproduce and adjudicate)",
+      "repair_cone": "re-run the failing case under the checker runtime with -x --tb=long; if the import resolves to HG-KSEOS/src instead of the copy, pin PYTHONPATH/rootdir; until resolved the R13 static PASS is NOT dynamically confirmed",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS04",
+        "R14-TS22"
+      ],
+      "evidence": [
+        "raw/checker_final2.json"
+      ]
+    },
+    {
+      "id": "TT-R14-008",
+      "title": "5 far_lane_fix pin assertions + matrix_d M07/M08 still encode the pre-rebind mandate digest",
+      "first_broken_link": "TestP0PinAssert pins a registry/assignment digest that the R14 rebind necessarily changes; matrix_d M07/M08 pin require-arm semantics",
+      "earliest_owner": "HGK Owner",
+      "required_authority": "owner decision to re-pin or to keep the old pin as a historical oracle",
+      "repair_cone": "decide whether the pin oracle moves with the mandate; if it does, update pin + evidence in one change, never silently",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS02"
       ]
     }
   ]

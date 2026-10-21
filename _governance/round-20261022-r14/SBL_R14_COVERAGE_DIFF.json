@@ -30,9 +30,9 @@
       "note": "14/14 DOC pinned + CAPC 4/4 PASS on the R14 contract"
     },
     "R14-TS02": {
-      "state": "PARTIAL",
-      "evidence": "raw/hgk_conformance_r14.log",
-      "note": "baseline reproduced 18F/580P/90, identical set; cases not closed"
+      "state": "PARTIAL_3_FIXED_15_REMAIN",
+      "evidence": "raw/final_r14_full.log",
+      "note": "18F/580P -> 15F/583P/90 subtests, 3 fixed, 0 new; the 12 remaining are owner-oracle cases"
     },
     "R14-TS03": {
       "state": "PARTIAL_CLOSED_2_OF_2_GAPS",
@@ -40,9 +40,9 @@
       "note": "scope gate + release receipt landed in HGK spine; residual: no lease<->WO link"
     },
     "R14-TS04": {
-      "state": "BLOCKED_ROOT_CAUSED",
-      "evidence": "raw/lane_venv_read.json",
-      "note": "lane sandbox cannot read .venv site-packages (Errno 13); fix = non-dot runtime path"
+      "state": "OPERATIONAL_FAIL_VERDICT",
+      "evidence": "raw/checker_final2.json",
+      "note": "independent checker really executed tests in an isolated copy with its own runtime; it FAILED 1 of 9, so the R13 static PASS is not dynamically confirmed (TT-R14-007)"
     },
     "R14-TS05": {
       "state": "DONE_PROBE",
@@ -50,10 +50,14 @@
       "note": "re-probed; PLAN/EXECUTE/VERIFY served==required"
     },
     "R14-TS06": {
-      "state": "NOT_STARTED"
+      "state": "DONE_THIN_ADAPTER",
+      "evidence": "raw/sp_invocations/commander_invocation.json",
+      "note": "SPINV-COMMANDER-1828cce392c5, arm openai-codex/gpt-6.1-sol, invocation id echoed, no permit issued"
     },
     "R14-TS07": {
-      "state": "NOT_STARTED"
+      "state": "DONE_THIN_ADAPTER",
+      "evidence": "raw/sp_invocations/challenge_invocation.json",
+      "note": "SPINV-CHALLENGE-e4e7b99ff4fb, arm openai-codex/gpt-6.1-sol, invocation id echoed, no acceptance signed"
     },
     "R14-TS08": {
       "state": "NOT_STARTED"
@@ -126,10 +130,10 @@
     }
   },
   "counts": {
-    "done": 2,
+    "done": 5,
     "partial": 3,
-    "blocked": 2,
-    "not_started": 24,
+    "blocked": 1,
+    "not_started": 22,
     "total": 31
   },
   "invariants_preserved": [
