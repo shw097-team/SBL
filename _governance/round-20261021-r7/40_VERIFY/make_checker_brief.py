@@ -141,8 +141,9 @@ includes RE-VERIFYING that repair, and it is the substance of this round:
    `tests/test_repro_mutation_probe.py` must fail if the `.gitattributes` LF rule or the sdist
    normalisation is removed. The strongest evidence is a mutation you performed yourself on a
    THROWAWAY COPY (never the protected tree); if you cannot mutate, say so explicitly.
-5. **No scope creep.** The change must not touch product behaviour, must not alter the published
-   `v0.1.0-foundation-preview` bytes, and must not add a version bump. Verify with `git diff --stat`.
+5. **No scope creep.** The change must not touch product behaviour, must not alter the bytes of the
+   existing `v0.1.0-foundation-preview` release, and must not add a version bump. Verify with
+   `git diff --stat`.
 
 ## Raw inputs (all under C:/Projects/Agent_Workspace/SBL)
 - _governance/round-20261021-r7/00_NORTH_STAR_AND_SPEC.md                  (round spec + lane/session plane separation)
