@@ -1,0 +1,468 @@
+diff --git a/sbl_core/errors.py b/sbl_core/errors.py
+index 25cde8a..27a0496 100644
+--- a/sbl_core/errors.py
++++ b/sbl_core/errors.py
+@@ -26,6 +26,7 @@ ERROR_CODES = frozenset(
+         "SBL_E_BAD_STATE",
+         "SBL_E_UNKNOWN_MODE",
+         "SBL_E_PLUGIN_SCHEMA",
++        "SBL_E_MANIFEST_UNTRUSTED",
+     }
+ )
+ 
+diff --git a/sbl_harness/__init__.py b/sbl_harness/__init__.py
+index 404a464..bfe685c 100644
+--- a/sbl_harness/__init__.py
++++ b/sbl_harness/__init__.py
+@@ -22,6 +22,7 @@ import hashlib
+ import json
+ import os
+ import platform
++import re
+ import shutil
+ import sys
+ from pathlib import Path
+@@ -67,6 +68,64 @@ HARNESS_ABI: dict[str, Any] = {
+ }
+ 
+ _ADAPTER_FILE = "adapter.json"
++_MANIFEST_FILE = "MANIFEST.json"
++# The ONLY relative paths an uninstall may ever delete: exactly the files ``install`` writes.
++# A manifest is data, so a key it carries never widens the deletable set.
++_DELETABLE_RELPATHS = frozenset({_ADAPTER_FILE, "plugin.json", f"skills/{SKILL_NAME}/SKILL.md"})
++_ABS_DRIVE = re.compile(r"^[A-Za-z]:")
++
++
++def _resolve_deletable(root_dir: Path, root_resolved: Path, rel: object) -> Path:
++    """Map a manifest file key to a deletable path, or refuse with a typed error.
++
++    Four conditions, each independently necessary: the key must be a plain relative path (no NUL,
++    not absolute, no drive prefix), it must be one of the paths this adapter installs, resolving it
++    must stay inside the install root (which also catches a junction/reparse-point parent that
++    leaves the root), and the path itself must not be a link.
++    """
++
++    if not isinstance(rel, str) or not rel or "\x00" in rel:
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest file key is not a usable relative path",
++            {"key": repr(rel)},
++        )
++    normalized = rel.replace("\\", "/")
++    if normalized.startswith("/") or _ABS_DRIVE.match(normalized) or Path(normalized).is_absolute():
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest file key is absolute; an uninstall may only delete adapter-owned relative paths",
++            {"key": rel},
++        )
++    if normalized not in _DELETABLE_RELPATHS:
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest file key is outside this adapter's fixed file allowlist",
++            {"key": rel, "allowed": sorted(_DELETABLE_RELPATHS)},
++        )
++    path = root_dir / normalized
++    try:
++        resolved = path.resolve(strict=False)
++    except OSError as exc:  # unreachable parent, bad name, dangling junction
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest path cannot be resolved inside the install root",
++            {"key": rel, "error": type(exc).__name__},
++        ) from exc
++    if resolved != root_resolved and root_resolved not in resolved.parents:
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest path resolves outside the install root",
++            {"key": rel, "resolved": str(resolved), "root": str(root_resolved)},
++        )
++    is_junction = getattr(os.path, "isjunction", None)
++    if path.is_symlink() or (is_junction is not None and is_junction(path)):
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "manifest path is a link; an uninstall never follows a link out of the install root",
++            {"key": rel},
++        )
++    return path
+ _SKILL_BODY = """---
+ name: hgk-governed-runtime
+ description: Route bounded plan/execute/verify work through the pinned HG-KSEOS native control plane; never mint Permits or claim native effect
+@@ -327,40 +386,115 @@ def doctor(target: str | Path) -> dict[str, Any]:
+ 
+ 
+ def uninstall(target: str | Path) -> dict[str, Any]:
+-    """Remove exactly what ``install`` wrote. Refuses when the directory holds anything else."""
++    """Remove exactly what ``install`` wrote. Refuses when the directory holds anything else.
++
++    The manifest is treated as untrusted input: it can narrow what is deleted (a file that is gone
++    is simply skipped) but it can never widen it. Every key must be one of the paths ``install``
++    writes, resolve inside the install root, and still match the digest the manifest declares — so
++    a tampered manifest refuses the uninstall instead of deleting something outside the adapter.
++    """
+ 
+     root_dir = Path(target)
+     if not root_dir.is_dir():
+         raise SBLError("SBL_E_BAD_STATE", "nothing to uninstall", {"target": str(root_dir)})
+-    manifest_path = root_dir / "MANIFEST.json"
++    manifest_path = root_dir / _MANIFEST_FILE
++    if manifest_path.is_symlink():
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "MANIFEST.json is a link; refusing to uninstall from a manifest that lives elsewhere",
++            {"target": str(root_dir)},
++        )
+     if not manifest_path.is_file():
+         raise SBLError(
+             "SBL_E_FOREIGN_FILES",
+             "no MANIFEST.json: this adapter did not install here",
+             {"target": str(root_dir)},
+         )
+-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+-    owned = set(manifest.get("files", {})) | {"MANIFEST.json"}
++    try:
++        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
++    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "MANIFEST.json is not readable JSON; refusing to delete anything",
++            {"target": str(root_dir), "error": type(exc).__name__},
++        ) from exc
++    if not isinstance(manifest, dict):
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "MANIFEST.json is not an object",
++            {"target": str(root_dir)},
++        )
++    files = manifest.get("files", {})
++    if not isinstance(files, dict):
++        raise SBLError(
++            "SBL_E_MANIFEST_UNTRUSTED",
++            "MANIFEST.json 'files' is not an object of path -> digest",
++            {"target": str(root_dir)},
++        )
++
++    root_resolved = root_dir.resolve(strict=True)
++    deletable: list[tuple[str, str, Path]] = []
++    for key, expected in files.items():
++        path = _resolve_deletable(root_dir, root_resolved, key)
++        if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
++            raise SBLError(
++                "SBL_E_MANIFEST_UNTRUSTED",
++                "MANIFEST.json declares a digest that is not a sha256 hex string",
++                {"key": key},
++            )
++        deletable.append((key, key.replace("\\", "/"), path))
++
+     present = {
+         str(path.relative_to(root_dir)).replace("\\", "/")
+         for path in root_dir.rglob("*")
+         if path.is_file()
+     }
+-    foreign = sorted(present - owned)
++    foreign = sorted(present - {norm for _, norm, _ in deletable} - {_MANIFEST_FILE})
+     if foreign:
+         raise SBLError(
+             "SBL_E_FOREIGN_FILES",
+             "refusing to remove a directory containing files this adapter did not write",
+             {"foreign": foreign},
+         )
+-    for rel in sorted(owned, reverse=True):
+-        path = root_dir / rel
++
++    for key, _, path in deletable:
++        if not path.is_file():
++            continue
++        actual = hashlib.sha256(path.read_bytes()).hexdigest()
++        if actual != files[key]:
++            raise SBLError(
++                "SBL_E_MANIFEST_UNTRUSTED",
++                "a file changed since install; refusing to delete a file the manifest no longer describes",
++                {"key": key, "declared": files[key], "actual": actual},
++            )
++
++    removed: list[str] = []
++    for key, norm, path in sorted(deletable, key=lambda item: item[2], reverse=True):
+         if path.is_file():
+             path.unlink()
+-    for path in sorted(root_dir.rglob("*"), reverse=True):
+-        if path.is_dir() and not any(path.iterdir()):
+-            path.rmdir()
++            removed.append(norm)
++    if manifest_path.is_file():
++        manifest_path.unlink()
++        removed.append(_MANIFEST_FILE)
++    removed.sort()
++
++    # Directory cleanup is bounded to the directories install() creates. It never walks the tree:
++    # an rglob-based sweep follows a junction out of the root (found by the R5 VERIFY lane, which
++    # constructed exactly that escape), so the sweep is replaced by an explicit, contained list.
++    is_junction = getattr(os.path, "isjunction", None)
++    for rel_dir in (f"skills/{SKILL_NAME}", "skills"):
++        directory = root_dir / rel_dir
++        if directory.is_symlink() or (is_junction is not None and is_junction(directory)):
++            continue
++        try:
++            resolved = directory.resolve(strict=True)
++        except OSError:
++            continue
++        if resolved != root_resolved and root_resolved not in resolved.parents:
++            continue
++        if directory.is_dir() and not any(directory.iterdir()):
++            directory.rmdir()
+     empty = not any(root_dir.iterdir())
+     if empty:
+         shutil.rmtree(root_dir, ignore_errors=False)
+-    return {"ok": True, "target": str(root_dir), "removed": sorted(owned), "empty": empty}
++    return {"ok": True, "target": str(root_dir), "removed": removed, "empty": empty}
+diff --git a/tests/test_sbl_harness.py b/tests/test_sbl_harness.py
+index 6276130..ceaac9c 100644
+--- a/tests/test_sbl_harness.py
++++ b/tests/test_sbl_harness.py
+@@ -7,7 +7,12 @@ proves the probe logic — it is never evidence that the native control plane is
+ 
+ from __future__ import annotations
+ 
++import hashlib
+ import json
++import os
++import shutil
++import subprocess
++import sys
+ from pathlib import Path
+ 
+ import pytest
+@@ -135,6 +140,234 @@ def test_uninstall_refuses_a_directory_it_did_not_install(tmp_path):
+     assert caught.value.code == "SBL_E_FOREIGN_FILES"
+ 
+ 
++def _manifest(target: Path) -> dict:
++    return json.loads((target / "MANIFEST.json").read_text(encoding="utf-8"))
++
++
++def _write_manifest(target: Path, payload: dict) -> None:
++    (target / "MANIFEST.json").write_text(json.dumps(payload), encoding="utf-8")
++
++
++def _sentinel(tmp_path: Path) -> tuple[Path, bytes, str]:
++    """Create the outside file AND the digest a hostile manifest must declare for it.
++
++    The digest is deliberately CORRECT: if the escape tests declared a wrong digest, the digest
++    check could refuse and the path guard would never be exercised (the R5 VERIFY lane caught
++    exactly this non-discrimination in the first pass).
++    """
++
++    outside = tmp_path / "outside.txt"
++    payload = b"SENTINEL-CONTENT-MUST-SURVIVE\n"
++    outside.write_bytes(payload)
++    return outside, payload, hashlib.sha256(payload).hexdigest()
++
++
++def test_uninstall_refuses_a_parent_escape_key_and_leaves_the_outside_file_untouched(tmp_path):
++    """F-R5-HARNESS-UNINSTALL-TRAVERSAL-001: the exact escape the R5 review constructed."""
++
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    outside, payload, digest = _sentinel(tmp_path)
++    manifest = _manifest(target)
++    manifest["files"]["../outside.txt"] = digest
++    _write_manifest(target, manifest)
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert outside.read_bytes() == payload
++    assert (target / "plugin.json").is_file()
++    assert (target / "MANIFEST.json").is_file()
++
++
++def test_uninstall_refuses_an_absolute_manifest_key(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    outside, payload, digest = _sentinel(tmp_path)
++    manifest = _manifest(target)
++    manifest["files"][str(outside)] = digest
++    _write_manifest(target, manifest)
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert outside.read_bytes() == payload
++
++
++def test_uninstall_refuses_a_key_outside_the_installer_allowlist(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    payload = b"stray"
++    (target / "stray.txt").write_bytes(payload)
++    manifest = _manifest(target)
++    # A CORRECT digest for the stray file: only the allowlist check can refuse this manifest.
++    manifest["files"]["stray.txt"] = hashlib.sha256(payload).hexdigest()
++    _write_manifest(target, manifest)
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert (target / "stray.txt").is_file()
++
++
++def test_uninstall_refuses_when_a_file_changed_since_install(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    plugin = target / "plugin.json"
++    plugin.write_text(plugin.read_text(encoding="utf-8") + "\n", encoding="utf-8")
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert plugin.is_file()
++
++
++def test_uninstall_refuses_a_malformed_files_object(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    _write_manifest(target, {"files": ["plugin.json"]})
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert (target / "plugin.json").is_file()
++
++
++def test_uninstall_refuses_a_symlinked_file_even_inside_the_allowlist(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    outside, payload, digest = _sentinel(tmp_path)
++    plugin = target / "plugin.json"
++    plugin.unlink()
++    try:
++        plugin.symlink_to(outside)
++    except (OSError, NotImplementedError):
++        pytest.skip("this host cannot create symlinks without elevation")
++    manifest = _manifest(target)
++    manifest["files"]["plugin.json"] = digest
++    _write_manifest(target, manifest)
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert outside.read_bytes() == payload
++
++
++def test_uninstall_refuses_a_symlinked_manifest(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    elsewhere = tmp_path / "elsewhere" / "MANIFEST.json"
++    elsewhere.parent.mkdir()
++    elsewhere.write_bytes((target / "MANIFEST.json").read_bytes())
++    (target / "MANIFEST.json").unlink()
++    try:
++        (target / "MANIFEST.json").symlink_to(elsewhere)
++    except (OSError, NotImplementedError):
++        pytest.skip("this host cannot create symlinks without elevation")
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert elsewhere.is_file()
++
++
++def test_uninstall_removes_exactly_the_installed_paths(tmp_path):
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++
++    receipt = uninstall(target)
++
++    assert receipt["removed"] == [
++        "MANIFEST.json",
++        "adapter.json",
++        "plugin.json",
++        "skills/hgk-governed-runtime/SKILL.md",
++    ]
++    assert not target.exists()
++
++
++def test_uninstall_refuses_a_junction_parent_that_leaves_the_root(tmp_path):
++    """A directory junction needs no elevation on Windows, so this is the reversible link case."""
++
++    if os.name != "nt":
++        pytest.skip("junctions are a Windows reparse-point feature")
++
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    installed = (target / "skills" / "hgk-governed-runtime" / "SKILL.md").read_bytes()
++    outside = tmp_path / "outside-skills"
++    (outside / "hgk-governed-runtime").mkdir(parents=True)
++    body = outside / "hgk-governed-runtime" / "SKILL.md"
++    body.write_bytes(installed)  # same bytes => same digest, so only the link guard can refuse
++    shutil.rmtree(target / "skills")
++    proc = subprocess.run(
++        ["cmd", "/c", "mklink", "/J", str(target / "skills"), str(outside)],
++        capture_output=True,
++        text=True,
++        errors="replace",
++    )
++    if proc.returncode != 0:
++        pytest.skip(f"mklink /J unavailable here: {proc.stdout or proc.stderr}".strip())
++    assert (target / "skills").exists()
++
++    with pytest.raises(SBLError) as caught:
++        uninstall(target)
++
++    assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
++    assert body.read_bytes() == installed
++    assert (target / "plugin.json").is_file()
++
++
++def test_uninstall_never_prunes_empty_directories_outside_the_root(tmp_path):
++    """The R5 VERIFY lane's second counterexample: an rglob cleanup sweep follows a junction out."""
++
++    if os.name != "nt":
++        pytest.skip("junctions are a Windows reparse-point feature")
++
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    outside = tmp_path / "outside-dir"
++    (outside / "empty-child").mkdir(parents=True)
++    proc = subprocess.run(
++        ["cmd", "/c", "mklink", "/J", str(target / "extra"), str(outside)],
++        capture_output=True,
++        text=True,
++        errors="replace",
++    )
++    if proc.returncode != 0:
++        pytest.skip(f"mklink /J unavailable here: {proc.stdout or proc.stderr}".strip())
++
++    receipt = uninstall(target)
++
++    assert receipt["ok"] is True
++    assert (outside / "empty-child").is_dir(), "an empty directory outside the root was pruned"
++    assert outside.is_dir()
++
++
++def test_uninstall_accepts_a_backslash_manifest_key(tmp_path):
++    """Normalising for the allowlist must not desynchronise the digest lookup (KeyError)."""
++
++    target = tmp_path / "adapter"
++    install(target, _fake_root(tmp_path))
++    manifest = _manifest(target)
++    digest = manifest["files"].pop("skills/hgk-governed-runtime/SKILL.md")
++    manifest["files"]["skills\\hgk-governed-runtime\\SKILL.md"] = digest
++    _write_manifest(target, manifest)
++
++    receipt = uninstall(target)
++
++    assert receipt["ok"] is True
++    assert "skills/hgk-governed-runtime/SKILL.md" in receipt["removed"]
++    assert not target.exists()
++
++
+ def test_the_real_hgk_root_probes_ready_when_present():
+     root = Path(HGK_PIN["default_root"])
+     if not root.is_dir():

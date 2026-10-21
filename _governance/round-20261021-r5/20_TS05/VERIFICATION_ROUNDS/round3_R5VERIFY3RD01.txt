@@ -1,0 +1,25 @@
+NONCE: R5VERIFY3RD01
+VERDICT: PASS_WITH_DISCLOSURES
+ITEMS:
+1. PASS — With filesystem topology held stable, normalization plus exact allowlist membership rejects `..`, absolute paths, drive-relative paths, UNC/device paths, trailing-dot/space aliases, 8.3 aliases, alternate data streams, and noncanonical casing before resolution; accepted paths must then resolve inside the resolved root.
+2. PASS — Manifest keys cannot expand `_DELETABLE_RELPATHS` beyond the three installer-written files, while removal of `MANIFEST.json` and the two cleanup directories is separately hard-coded.
+3. PASS — All declared paths and digests are validated, foreign files checked, and all present declared files hashed before the first deletion, so a digest mismatch itself cannot cause partial deletion.
+4. PASS — Under stable topology, leaf symlinks/junctions are rejected explicitly, and ancestor links/junctions resolving outside the root are rejected by the resolved-containment check; ancestor links remaining inside the root are permitted.
+5. PASS — A symlink at `MANIFEST.json` is rejected before reading, although this check is not atomic with subsequent reading or removal.
+6. PASS — The last reported test defect is closed because the stray-file test supplies its real digest, while the traversal/link tests use matching outside content and require typed refusal plus sentinel preservation; these assertions are meaningful on inspection, not an execution result.
+7. PASS — Acceptance requires explicit disclosure of filesystem races, mutable-manifest digest trust, platform-dependent skipped coverage, and the absence of atomic rollback after deletion begins.
+
+COUNTEREXAMPLES:
+- Rejected by inspection: `../outside.txt`, `..\outside.txt`, `/outside.txt`, `C:\outside.txt`, `C:x`, `\\server\share\outside.txt`, `\\?\C:\outside.txt`, `\\.\C:\outside.txt`, `plugin.json.`, `plugin.json `, `PLUGIN~1.JSO`, `plugin.json:stream`, and `PLUGIN.JSON`.
+- Accepted intentionally: `skills\hgk-governed-runtime\SKILL.md`, normalized to the fixed allowlisted path while retaining the original manifest key for digest lookup.
+- Stable-state link attempt: replacing `skills` with a junction to an outside directory containing identical `SKILL.md` bytes fails containment before deletion.
+- Residual race counterexample: after validation and hashing, replace `skills` with a junction to an outside directory containing `hgk-governed-runtime/SKILL.md`; the subsequent pathname-based `is_file()`/`unlink()` can delete that outside file.
+- Mutable-digest boundary: replace `plugin.json` and update its manifest digest to match; uninstall accepts this, demonstrating current manifest consistency, not authenticated installation provenance.
+
+DISCLOSURES:
+- Containment is not race-safe: no directory-handle binding or equivalent prevents ancestor replacement between validation, hashing, deletion, and cleanup.
+- The mutable manifest is not an authenticated installation record; “changed since install” is stronger than what its digest comparison establishes.
+- Digest failure precedes deletion, but later I/O failures or concurrent changes can leave a partially completed uninstall without rollback.
+- Symlink/junction tests can skip; the supplied tests do not exhaust the Windows/POSIX path matrix or assert preservation of every installed file on every refusal.
+- The remaining `rglob()` inventory is not a bounded cleanup sweep, but may traverse junctions and inspect outside entries; root containment is defined relative to `target.resolve()`, not an independently authenticated target.
+- Review is limited to the supplied diff and contract; no commands or tests were executed, and no canonical acceptance transition is claimed.

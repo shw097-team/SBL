@@ -1,0 +1,140 @@
+{
+  "round": "SBL-R5-20261021-C5",
+  "task": "TS05",
+  "finding": "F-R5-HARNESS-UNINSTALL-TRAVERSAL-001",
+  "candidate_worktree": "C:\\Projects\\_sbl_r4\\c3v2",
+  "pre_repair_sha": "68c276d354dae2b1bc2baef290f89e539fb34751",
+  "positive_and_negative": [
+    {
+      "case": "parent_escape_dotdot",
+      "test": "test_uninstall_refuses_a_parent_escape_key",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "absolute_path_key",
+      "test": "test_uninstall_refuses_an_absolute_manifest_key",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "key_outside_allowlist",
+      "test": "test_uninstall_refuses_a_key_outside_the_installer_allowlist",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "digest_changed_since_install",
+      "test": "test_uninstall_refuses_when_a_file_changed_since_install",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "malformed_files_object",
+      "test": "test_uninstall_refuses_a_malformed_files_object",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "symlinked_file_in_allowlist",
+      "test": "test_uninstall_refuses_a_symlinked_file",
+      "rc": 0,
+      "summary": "SKIPPED [1] tests\\test_sbl_harness.py:250: this host cannot create symlinks without elevation",
+      "skipped": true
+    },
+    {
+      "case": "symlinked_manifest",
+      "test": "test_uninstall_refuses_a_symlinked_manifest",
+      "rc": 0,
+      "summary": "SKIPPED [1] tests\\test_sbl_harness.py:272: this host cannot create symlinks without elevation",
+      "skipped": true
+    },
+    {
+      "case": "junction_parent_escape",
+      "test": "test_uninstall_refuses_a_junction_parent",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "junction_cleanup_escape",
+      "test": "test_uninstall_never_prunes_empty_directories",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "backslash_key_normalisation",
+      "test": "test_uninstall_accepts_a_backslash_manifest_key",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "legit_roundtrip_removes_exactly",
+      "test": "test_uninstall_removes_exactly_the_installed_paths",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "legit_roundtrip_install_doctor_uninstall",
+      "test": "test_install_doctor_and_uninstall_round_trip",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    },
+    {
+      "case": "foreign_files_still_refused",
+      "test": "test_uninstall_refuses_a_directory_with_foreign_files",
+      "rc": 0,
+      "summary": ".                                                                        [100%]",
+      "skipped": false
+    }
+  ],
+  "injection_control": [
+    {
+      "case": "parent_escape_dotdot",
+      "test": "test_uninstall_refuses_a_parent_escape_key",
+      "rc": 1,
+      "summary": "tests\\test_sbl_harness.py:175: Failed",
+      "skipped": false
+    },
+    {
+      "case": "absolute_path_key",
+      "test": "test_uninstall_refuses_an_absolute_manifest_key",
+      "rc": 1,
+      "summary": "tests\\test_sbl_harness.py:192: Failed",
+      "skipped": false
+    },
+    {
+      "case": "junction_cleanup_escape",
+      "test": "test_uninstall_never_prunes_empty_directories",
+      "rc": 1,
+      "summary": "tests\\test_sbl_harness.py:350: AssertionError",
+      "skipped": false
+    },
+    {
+      "case": "key_outside_allowlist",
+      "test": "test_uninstall_refuses_a_key_outside_the_installer_allowlist",
+      "rc": 1,
+      "summary": "tests\\test_sbl_harness.py:209: Failed",
+      "skipped": false
+    }
+  ],
+  "verdict": {
+    "all_cases_green": true,
+    "skipped_on_this_host": [
+      "symlinked_file_in_allowlist",
+      "symlinked_manifest"
+    ],
+    "pre_repair_bytes_fail_the_escapes": true,
+    "finding_closed_locally": true,
+    "note": "a skipped case is not a PASS: the two symlink cases cannot run on a Windows host without Developer Mode and are expected to run on the ubuntu CI leg"
+  }
+}

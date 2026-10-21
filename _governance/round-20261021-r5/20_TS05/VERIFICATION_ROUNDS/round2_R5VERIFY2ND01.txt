@@ -1,0 +1,26 @@
+NONCE: R5VERIFY2ND01
+VERDICT: FAIL
+ITEMS:
+1. PASS — With a stable filesystem, exact allowlist membership after separator normalization rejects traversal, absolute, drive-relative, UNC/device, trailing-dot/space, short-name, ADS, and case-variant spellings; resolved containment additionally rejects allowed paths redirected outside the root.
+2. PASS — Manifest keys cannot enlarge `_DELETABLE_RELPATHS`, which matches the three installer-written payload paths; manifest removal and directory cleanup are separately hard-coded.
+3. PASS — All existing payload files undergo digest comparison before any deletion, so a digest mismatch causes no partial deletion, although subsequent deletion-time errors can leave a partial uninstall.
+4. PASS — Leaf symlinks/junctions are rejected, while resolution detects ancestor links/junctions escaping the resolved root; ancestor links remaining inside that root are not categorically rejected.
+5. PASS — A symlinked `MANIFEST.json` is rejected before reading it, subject to the filesystem-race limitation disclosed below.
+6. FAIL — The repaired escape tests use correct sentinel digests, but `test_uninstall_refuses_a_key_outside_the_installer_allowlist` still uses a zero digest, allowing a missing allowlist check to be masked by the same expected digest-mismatch error.
+7. PASS — Acceptance evidence must explicitly disclose filesystem races, non-transactional deletion, platform-dependent link-test skips, and the remaining non-discriminating allowlist test.
+
+COUNTEREXAMPLES:
+- Previous finding (a): CLOSED — The recursive directory-deletion sweep is replaced by two explicit cleanup paths with link and resolved-containment checks; the remaining `rglob` enumerates files but does not delete directories.
+- Previous finding (b): CLOSED for the escape tests — Parent traversal, absolute-path, leaf-link, and ancestor-junction cases now supply matching outside-file digests.
+- Previous finding (c): CLOSED — Digest lookup uses the original manifest key, while deletion and foreign-file comparison use the normalized path.
+- NEW test-discrimination failure: `files["stray.txt"] = "0" * 64` with contents `"stray"`; if allowlist membership enforcement were removed, digest validation would still raise `SBL_E_MANIFEST_UNTRUSTED`, satisfying the test without proving the allowlist.
+- Path forms inspected statically include `../outside.txt`, `..\outside.txt`, `/outside.txt`, `C:x`, `C:\outside.txt`, `\\server\share\x`, `\\?\C:\x`, `plugin.json.`, `plugin.json `, `PLUGIN~1.JSO`, `plugin.json:stream`, and `PLUGIN.JSON`; no stable-filesystem outside-deletion bypass found.
+- Race counterexample: after validation, replace `skills` with a junction to an outside directory containing `hgk-governed-runtime/SKILL.md`; subsequent path-based `unlink()` can delete that outside file.
+
+DISCLOSURES:
+- This is static review only; no commands or tests were executed.
+- Containment is relative to `root_dir.resolve()`, not an independently authenticated installation location.
+- Resolve, link checks, digest reads, and unlink operations are not atomic; concurrent filesystem mutation is outside the demonstrated protection.
+- Deletion is not transactional; an unlink or cleanup error can occur after earlier removals.
+- Symlink/junction tests may skip; supplied test code does not establish successful execution on either platform.
+- The new allowlist-test defect requires correction and independent recheck; it is not itself evidence of a working runtime allowlist bypass.

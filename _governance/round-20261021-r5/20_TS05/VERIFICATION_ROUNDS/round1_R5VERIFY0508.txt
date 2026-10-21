@@ -1,0 +1,26 @@
+NONCE: R5VERIFY0508
+VERDICT: FAIL
+ITEMS:
+1. PASS — For a stable filesystem, no accepted `files` key escapes through path spelling: slash normalization followed by exact allowlist membership excludes traversal, absolute paths, drive-relative paths, UNC/device paths, trailing-dot/space aliases, 8.3 aliases, alternate data streams, and case variants, while resolution checks containment.
+2. PASS — `_DELETABLE_RELPATHS` fixes the manifest-controlled deletion set to the three installer-written paths, with `MANIFEST.json` separately designated for removal.
+3. PASS — All digest comparisons precede every deletion, so a digest mismatch causes no partial deletion in that invocation, although subsequent filesystem changes or deletion errors are not transactional.
+4. FAIL — Listed file links and escaping ancestors of listed files are checked, but the subsequent unrestricted directory cleanup can traverse an unrelated Windows junction and remove empty directories outside the root without validating their containment.
+5. PASS — A static symlink at `MANIFEST.json` is explicitly rejected before reading or deletion, although replacement after that check remains possible.
+6. FAIL — Sentinel assertions demonstrate preservation in those scenarios, but several boundary tests can pass for the wrong reason because their outside-file digests deliberately mismatch, allowing digest rejection to conceal a broken path/link boundary check.
+7. PASS — The required disclosures are identified below; disclosing the static cleanup escape does not make that defect acceptable.
+
+COUNTEREXAMPLES:
+- Static cleanup escape, constructed by inspection: retain the normal installation and manifest; add `adapter/extra` as a Windows directory junction to an outside directory containing only an empty child directory `empty-child`; Windows junction traversal by `rglob("*")` exposes `adapter/extra/empty-child`, which the cleanup loop can remove with `rmdir()` outside the resolved install root, while the foreign-file scan sees no additional files.
+- Non-discriminating refusal tests: `../outside.txt` and an absolute outside-file key both use `"0" * 64` rather than the sentinel’s actual digest; even if the relevant path guards were ineffective, the digest comparison could produce the expected error and preserve the sentinel.
+- The file-symlink test similarly uses an incorrect digest, and the junction-parent test substitutes content without updating the original manifest digest; these do not independently isolate link-containment enforcement.
+- Accepted backslash spelling `skills\hgk-governed-runtime\SKILL.md`: validation normalizes it, but the digest loop subsequently indexes `files["skills/hgk-governed-runtime/SKILL.md"]`, producing `KeyError` when only the backslash key exists.
+- TOCTOU state: replace a validated `skills` directory with a junction to an outside directory after validation and hashing but before unlink; the stored lexical path can then delete the outside `hgk-governed-runtime/SKILL.md`.
+
+DISCLOSURES:
+- This is a static review of the supplied diff; no commands or tests were executed.
+- Containment and link checks are not race-safe; concurrent filesystem replacement can invalidate validation before reading, unlinking, or cleanup.
+- The unvalidated recursive directory cleanup requires repair and a deterministic outside-directory preservation test.
+- Boundary tests must use matching sentinel digests and otherwise-valid inputs so unrelated digest rejection cannot mask missing guards; skipped link tests are not passing evidence.
+- Backslash-key normalization is inconsistent between validation and digest lookup.
+- Manifest digests provide consistency, not authenticity: an attacker able to rewrite both an allowed file and its manifest digest can authorize its deletion.
+- Deletion-time failures can leave a partially uninstalled tree, and `removed` includes declared paths that were already absent.
