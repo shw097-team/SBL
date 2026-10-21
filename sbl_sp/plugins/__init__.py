@@ -35,7 +35,7 @@ from . import portable
 PLUGIN_SCHEMA = "SBL-AGENT-PLUGIN/1"
 PLUGIN_SCHEMA_URI = portable.CANONICAL_SCHEMA_URI
 EXTENSION_NAMESPACE = "org.sbl.principal"
-VERSION = "0.1.0"
+VERSION = "0.1.1rc1"
 CLAIM_CEILING = "HOST_PENDING"
 PLUGIN_ROOT = Path(__file__).parent
 SP_IDS: tuple[str, ...] = ("tpm_sp", "commander_sp", "external_challenge_sp")
