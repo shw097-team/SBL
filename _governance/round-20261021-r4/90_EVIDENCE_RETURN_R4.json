@@ -1,0 +1,111 @@
+{
+  "schema": "SBL-ROUND4-EVIDENCE-RETURN/1",
+  "subject": {
+    "repo": "shw097-team/SBL",
+    "task_id": "SBL-R4-20261020-C3-FIVE-TOOLS-SWOF-W12",
+    "base_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "candidate_sha": "68c276d354dae2b1bc2baef290f89e539fb34751",
+    "candidate_branch": "candidate/c3-20261021-v2",
+    "evidence_branch": "evidence/r4-20261021-c4",
+    "evidence_commit_sha": "PENDING_THIS_COMMIT (filled by the commit that adds this file; not a valid identity until pushed — read it back with git ls-remote)"
+  },
+  "evidence": {
+    "contract": "contracts/SBL_C0_C9_CONTRACT-R4.json + contracts/compiled-r4/COMPILER_RECEIPT.json",
+    "compiler": "PROMPT_COMPILE_PASS (lint/activation/acceptance/compile all rc=0, 30 acceptance edges)",
+    "tools_matrix": "20_TOOLS5_HARNESS_MATRIX.json",
+    "packages": "40_SP_PACKAGES (3 ZIPs + SP_SET.json)",
+    "sandbox": "60_DOCKER_SANDBOX (in_container.sh + SANDBOX_RESULT.json)",
+    "rollback": "90_HERMES_ROLLBACK/ROLLBACK_MANIFEST.json",
+    "install": "91_HERMES_INSTALL (install_local.py + INSTALL_RECEIPT.json)",
+    "handoff": "95_SWOF_W2_SHADOW_HANDOFF.json",
+    "cr": "CR_PLUGIN_SCHEMA_AUTHORITY.md",
+    "corrections": "CORRECTIONS.md"
+  },
+  "testing": {
+    "local_suite": {
+      "command": "python -m pytest -q",
+      "result": "183 passed",
+      "denominator": 183
+    },
+    "gates": {
+      "command": "python tools/run_gates.py",
+      "result": "11/11 exit=0",
+      "suite": "G-SUITE-FULL 183 passed"
+    },
+    "ci_win_job": {
+      "sha": "68c276d354dae2b1bc2baef290f89e539fb34751",
+      "conclusion": "success"
+    },
+    "ci_ubuntu_job": {
+      "sha": "68c276d354dae2b1bc2baef290f89e539fb34751",
+      "conclusion": "success"
+    },
+    "sandbox": {
+      "image": "python:3.11-slim",
+      "passed": null,
+      "total": null,
+      "verdict": null,
+      "failed": []
+    },
+    "security": "evidence/security/SECRET_SCAN.json — CLEAN over 235 files after the round's changes",
+    "failures": 0,
+    "failed_steps_in_local_install": []
+  },
+  "activation": {
+    "capability_id": "SBL-C3-PORTABLE-PLUGINS + SBL-STACK + HGK-HARNESS-ADAPTER",
+    "source_disposition": "sbl_sp/plugins previously emitted a non-portable manifest (F-R4-C3-PLUGIN-SCHEMA-001)",
+    "current_execution_disposition": "portable manifest validated against a vendored copy of the published schema; three packages rebuilt",
+    "selected_profile": "one harness (Hermes), one journey per tool, five tools",
+    "stage_rows": "see 20_TOOLS5_HARNESS_MATRIX.json rows[].claim_ceiling"
+  },
+  "host": {
+    "tool_id": [
+      "TPM-SP",
+      "Commander-SP",
+      "Acceptance-Challenge-SP",
+      "HGK-Upgrade",
+      "SBL-Stack"
+    ],
+    "host": "Hermes Agent desktop (this machine)",
+    "artifact_sha256": {
+      "TPM-SP": "c1987c3eefa92b33b8294679718e646d4641f2828d0b7717058df536743bcbf0",
+      "Commander-SP": "2c408822c54202fea8900459a96b5602a210aec6d87feb31af1467255af93a25",
+      "Acceptance-Challenge-SP": "cb917f83c7addce632b3d6568260d769d4627f0a58842f3113cdab99e6564891",
+      "HGK-Upgrade": null,
+      "SBL-Stack": "e5767bf8a8ba309553f5b979f3ddb2e9f883ab9a378b0766ad444efbb26ade36"
+    },
+    "installed_id": "HOLD for all five: no host-issued identity exists on this host",
+    "effective_load": "PROVEN for all five via the host loader (5/5 skill_view available + skills list enabled)",
+    "negative": "PROVEN: unknown skill name refused",
+    "uninstall": "SANDBOX_PROVEN; NOT_RUN on this host by owner decision (kept installed)"
+  },
+  "review": {
+    "checker_principal": "NONE — no independent checker signed this round",
+    "subject_mutation": "CLEAN (the HGK/m4 subject was not read or written this round; the candidate was built in a detached worktree)",
+    "oracle": "the product's own suite plus the official prompt-contract compiler; both are maker-side",
+    "reviewer_limitations": "no external reviewer ran; the R4 report is the input, not a verdict on this round's output",
+    "verdict": "PARTIAL"
+  },
+  "claim": {
+    "foundation": "PASS_SCOPED_RELEASED (unchanged, not re-opened)",
+    "c3": "PACKAGED_HOST_PENDING after repair; merge is an owner act",
+    "five_tools": "PER_ROW: three at EFFECTIVE_LOAD (local), HGK at ADAPTER_INSTALLED, SBL-Stack at LOCAL_STANDALONE_INSTALL; none INDEPENDENT_CASE_PASS",
+    "swof": "W2_SHADOW_ONLY; W3 NOT_GRANTED",
+    "full_design": "PARTIAL_FULL_DESIGN"
+  },
+  "resume": {
+    "tt_cr_open": [
+      "CR-PLUGIN-SCHEMA-AUTHORITY (B1/B2/B3)",
+      "TT-LEDGER-STALE-09/020",
+      "TT-R3-HOST-INSTALL (ChatGPT triple install)"
+    ],
+    "checkpoint": "this round's commit on evidence/r4-20261021-c4",
+    "next_authorized_action": "owner merges candidate/c3-20261021-v2, then the ChatGPT private-plugin route becomes the next slice",
+    "owner_human_gate": "70_OWNER_ACTION_PACKET.md"
+  },
+  "sp_set_digests": {
+    "tpm_sp": "c1987c3eefa92b33b8294679718e646d4641f2828d0b7717058df536743bcbf0",
+    "commander_sp": "2c408822c54202fea8900459a96b5602a210aec6d87feb31af1467255af93a25",
+    "external_challenge_sp": "cb917f83c7addce632b3d6568260d769d4627f0a58842f3113cdab99e6564891"
+  }
+}

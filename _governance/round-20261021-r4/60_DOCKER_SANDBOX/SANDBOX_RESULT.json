@@ -1,0 +1,315 @@
+{
+  "ok": true,
+  "exit": 0,
+  "denominator": "26/26",
+  "image": "python:3.11-slim",
+  "host_stage": "SIMULATED",
+  "steps": [
+    {
+      "step": "sbl-todo.init",
+      "argv": [
+        "/venv/bin/sbl-todo",
+        "--data-dir",
+        "/tmp/todo",
+        "init"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\"ok\": true, \"data_dir\": \"/tmp/todo\"}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-todo.add",
+      "argv": [
+        "/venv/bin/sbl-todo",
+        "--data-dir",
+        "/tmp/todo",
+        "add",
+        "--title",
+        "sandbox item"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\"ok\": true, \"item\": {\"id\": \"T-3126142c92\", \"title\": \"sandbox item\", \"status\": \"open\", \"created\": \"2026-10-21T00:53:51Z\"}, \"status\": \"open\"}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-todo.list",
+      "argv": [
+        "/venv/bin/sbl-todo",
+        "--data-dir",
+        "/tmp/todo",
+        "list",
+        "--json"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\"ok\": true, \"items\": [{\"id\": \"T-3126142c92\", \"title\": \"sandbox item\", \"status\": \"open\", \"created\": \"2026-10-21T00:53:51Z\"}], \"count\": 1}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-stack.describe",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "describe"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"schema\": \"SBL-STACK/1\",\n  \"modules\": [\n    \"SBLM01\",\n    \"SBLM02\",\n    \"SBLM03\",\n    \"SBLM04\",\n    \"SBLM05\",\n    \"SBLM06\"\n  ],\n  \"components\": [\n    \"sbl_core.core\",\n    \"sbl_core.dto\",\n    \"sbl_core.errors\",\n    \"sbl_core.modes\",\n    \"sbl_core.gknow\",\n    \"sbl_core.m01_intake\",\n    \"sbl_core.m02_spec\",\n    \"sbl_core.m03_routing\",\n    \"sbl_core.m04_bridge\",\n    \"sbl_core.m05_verify\",\n    \"sbl_core.m06_repair\",\n    \"sbl_sp.sp\",\n    \"sbl_sp.plugins\",\n    \"sbl_sp.plugins.portable\"\n  ],\n  \"principals\": [\n    \"tpm_sp\",\n    \"commander_sp\",\n    \"external_challenge_sp\"\n  ],\n  \"claim_ceiling\": \"ST",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-stack.install",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "install",
+        "--root",
+        "/tmp/stack"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"/tmp/stack\",\n  \"manifest\": \"/tmp/stack/stack.json\",\n  \"manifest_sha256\": \"2b125bfd405e8f07bdc04ba3e62f8653ce669255cf08bd5cad3b7615f995c4fc\",\n  \"components\": 14,\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-stack.doctor",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "doctor",
+        "--root",
+        "/tmp/stack"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"problems\": [],\n  \"target\": \"/tmp/stack\",\n  \"components\": 14,\n  \"mode_gate_cells\": 39,\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-stack.selftest",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "selftest",
+        "--workdir",
+        "/tmp"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"steps\": [\n    {\n      \"step\": \"core.doctor\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m01.intake\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m02.derive\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m03.route.CLI_TOOL\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"NEG.unlocated-clause\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"NEG.prohibited-kind\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"sp.manifests\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"modes.matrix\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"plugins.build\",\n      \"ok\": true\n    }\n  ],\n  \"denomin",
+      "stderr_head": ""
+    },
+    {
+      "step": "sbl-stack.status",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "status",
+        "--root",
+        "/tmp/stack"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"installed\": true,\n  \"target\": \"/tmp/stack\",\n  \"schema\": \"SBL-STACK/1\",\n  \"version\": \"0.1.0\",\n  \"components\": 14,\n  \"principals\": [\n    \"commander_sp\",\n    \"external_challenge_sp\",\n    \"tpm_sp\"\n  ],\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "NEG.stack.double-install",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "install",
+        "--root",
+        "/tmp/stack"
+      ],
+      "rc": 2,
+      "expected_rc": 2,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": false,\n  \"code\": \"SBL_E_FOREIGN_FILES\",\n  \"message\": \"refusing to install the stack into a non-empty directory it does not own\",\n  \"detail\": {\n    \"target\": \"/tmp/stack\"\n  }\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "NEG.harness.probe-missing",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "probe",
+        "--root",
+        "/tmp/no-hgk"
+      ],
+      "rc": 2,
+      "expected_rc": 2,
+      "ok": true,
+      "stdout_head": "{\n  \"status\": \"REFUSED_ROOT_UNUSABLE\",\n  \"root\": \"/tmp/no-hgk\",\n  \"pin\": {\n    \"package\": \"hg_kseos\",\n    \"version\": \"0.1.0\",\n    \"version_range\": \">=0.1.0,<0.2.0\",\n    \"root_env\": \"HGK_ROOT\",\n    \"default_root\": \"C:/Projects/Agent_Workspace/HG-KSEOS\",\n    \"source_subdir\": \"src/hg_kseos\",\n    \"spine_relpath\": \"var/shared-spine/hg-kseos.db\",\n    \"lane_registry_relpath\": \"config/lane-route-slots.candidate.json\",\n    \"dispatcher_relpath\": \"scripts/hgk-lane-dispatch.py\"\n  },\n  \"observed_version\": null,\n  \"abi\": {\n    \"name\": \"hgk-harness-abi/1\",\n    \"provides\": [\n      \"plan\",\n      \"execute\",\n   ",
+      "stderr_head": ""
+    },
+    {
+      "step": "NEG.harness.install-missing-root",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "install",
+        "--target",
+        "/tmp/adapter",
+        "--hgk-root",
+        "/tmp/no-hgk"
+      ],
+      "rc": 2,
+      "expected_rc": 2,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": false,\n  \"code\": \"SBL_E_BAD_STATE\",\n  \"message\": \"the pinned HGK root is not usable; nothing was installed\",\n  \"detail\": {\n    \"status\": \"REFUSED_ROOT_UNUSABLE\",\n    \"checks\": [\n      {\n        \"check\": \"root_exists\",\n        \"ok\": false,\n        \"detail\": \"HGK root directory\",\n        \"path\": \"/tmp/no-hgk\"\n      },\n      {\n        \"check\": \"package_present\",\n        \"ok\": false,\n        \"detail\": \"hg_kseos package directory\",\n        \"path\": \"/tmp/no-hgk/src/hg_kseos\"\n      },\n      {\n        \"check\": \"spine_present\",\n        \"ok\": false,\n        \"detail\": \"shared spine database\",\n ",
+      "stderr_head": ""
+    },
+    {
+      "step": "NEG.harness.install-wrote-nothing",
+      "ok": true,
+      "detail": "target must not exist after a refused install"
+    },
+    {
+      "step": "harness.probe-synthetic",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "probe",
+        "--root",
+        "/tmp/fake-hgk"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"status\": \"ROOT_READY\",\n  \"root\": \"/tmp/fake-hgk\",\n  \"pin\": {\n    \"package\": \"hg_kseos\",\n    \"version\": \"0.1.0\",\n    \"version_range\": \">=0.1.0,<0.2.0\",\n    \"root_env\": \"HGK_ROOT\",\n    \"default_root\": \"C:/Projects/Agent_Workspace/HG-KSEOS\",\n    \"source_subdir\": \"src/hg_kseos\",\n    \"spine_relpath\": \"var/shared-spine/hg-kseos.db\",\n    \"lane_registry_relpath\": \"config/lane-route-slots.candidate.json\",\n    \"dispatcher_relpath\": \"scripts/hgk-lane-dispatch.py\"\n  },\n  \"observed_version\": \"0.1.0\",\n  \"abi\": {\n    \"name\": \"hgk-harness-abi/1\",\n    \"provides\": [\n      \"plan\",\n      \"execute\",\n      \"ve",
+      "stderr_head": ""
+    },
+    {
+      "step": "harness.install",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "install",
+        "--target",
+        "/tmp/adapter",
+        "--hgk-root",
+        "/tmp/fake-hgk"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"/tmp/adapter\",\n  \"files\": [\n    \"adapter.json\",\n    \"plugin.json\",\n    \"skills/hgk-governed-runtime/SKILL.md\"\n  ],\n  \"digests\": {\n    \"plugin.json\": \"f952fd4190405f493e45fbaf7358c105ecfdf6db1cc6516aaa767f4eb482df92\",\n    \"skills/hgk-governed-runtime/SKILL.md\": \"67b961dbc86a0601d4c18d57602293d9bf6b7967616a74aeb8fb78483645919e\",\n    \"adapter.json\": \"1206257966e75d73affd572e4c8f8fb7745577e1305b79fb6b9d28d54f9d2fb9\"\n  },\n  \"probe_status\": \"ROOT_READY\",\n  \"claim_ceiling\": \"HOST_PENDING\",\n  \"native_effect\": \"NOT_GRANTED\"\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "harness.doctor",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "doctor",
+        "--target",
+        "/tmp/adapter"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"problems\": [],\n  \"target\": \"/tmp/adapter\",\n  \"probe\": {\n    \"status\": \"ROOT_READY\",\n    \"root\": \"/tmp/fake-hgk\",\n    \"pin\": {\n      \"package\": \"hg_kseos\",\n      \"version\": \"0.1.0\",\n      \"version_range\": \">=0.1.0,<0.2.0\",\n      \"root_env\": \"HGK_ROOT\",\n      \"default_root\": \"C:/Projects/Agent_Workspace/HG-KSEOS\",\n      \"source_subdir\": \"src/hg_kseos\",\n      \"spine_relpath\": \"var/shared-spine/hg-kseos.db\",\n      \"lane_registry_relpath\": \"config/lane-route-slots.candidate.json\",\n      \"dispatcher_relpath\": \"scripts/hgk-lane-dispatch.py\"\n    },\n    \"observed_version\": \"0.1.0\",\n ",
+      "stderr_head": ""
+    },
+    {
+      "step": "harness.uninstall",
+      "argv": [
+        "/venv/bin/sbl-harness",
+        "uninstall",
+        "--target",
+        "/tmp/adapter"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"/tmp/adapter\",\n  \"removed\": [\n    \"MANIFEST.json\",\n    \"adapter.json\",\n    \"plugin.json\",\n    \"skills/hgk-governed-runtime/SKILL.md\"\n  ],\n  \"empty\": true\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "harness.uninstalled-cleanly",
+      "ok": true
+    },
+    {
+      "step": "host.simulate.sbl-commander-sp",
+      "ok": true,
+      "sha256": "2c408822c54202fea8900459a96b5602a210aec6d87feb31af1467255af93a25",
+      "entries": [
+        "README.md",
+        "plugin.json",
+        "skills/commander-sp/SKILL.md"
+      ],
+      "schema_violations": [],
+      "skill_violations": [],
+      "note": "SIMULATED host: unpack + validate only, no host loader exists in this container"
+    },
+    {
+      "step": "host.simulate.sbl-external-challenge-sp",
+      "ok": true,
+      "sha256": "cb917f83c7addce632b3d6568260d769d4627f0a58842f3113cdab99e6564891",
+      "entries": [
+        "README.md",
+        "plugin.json",
+        "skills/external-challenge-sp/SKILL.md"
+      ],
+      "schema_violations": [],
+      "skill_violations": [],
+      "note": "SIMULATED host: unpack + validate only, no host loader exists in this container"
+    },
+    {
+      "step": "host.simulate.sbl-tpm-sp",
+      "ok": true,
+      "sha256": "c1987c3eefa92b33b8294679718e646d4641f2828d0b7717058df536743bcbf0",
+      "entries": [
+        "README.md",
+        "plugin.json",
+        "skills/tpm-sp/SKILL.md"
+      ],
+      "schema_violations": [],
+      "skill_violations": [],
+      "note": "SIMULATED host: unpack + validate only, no host loader exists in this container"
+    },
+    {
+      "step": "host.simulate.discovery",
+      "ok": true,
+      "found": [
+        "commander-sp",
+        "external-challenge-sp",
+        "tpm-sp"
+      ]
+    },
+    {
+      "step": "stack.uninstall",
+      "argv": [
+        "/venv/bin/sbl-stack",
+        "uninstall",
+        "--root",
+        "/tmp/stack"
+      ],
+      "rc": 0,
+      "expected_rc": 0,
+      "ok": true,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"/tmp/stack\",\n  \"removed\": [\n    \"stack.json\"\n  ],\n  \"empty\": true\n}\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "stack.uninstalled-cleanly",
+      "ok": true
+    },
+    {
+      "step": "pip.uninstall",
+      "ok": true,
+      "stdout_head": "Found existing installation: sbl-v01 0.1.0\nUninstalling sbl-v01-0.1.0:\n  Successfully uninstalled sbl-v01-0.1.0\n",
+      "stderr_head": ""
+    },
+    {
+      "step": "residue.site-packages",
+      "ok": true,
+      "found": []
+    },
+    {
+      "step": "residue.console-scripts",
+      "ok": true,
+      "found": []
+    }
+  ]
+}

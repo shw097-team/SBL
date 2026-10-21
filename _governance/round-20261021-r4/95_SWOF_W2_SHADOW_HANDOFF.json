@@ -1,0 +1,60 @@
+{
+  "schema": "SBL_TO_SWOF_W2_SHADOW_HANDOFF/1",
+  "handoff_id": "SBL-TO-SWOF-W2-SHADOW-20261021",
+  "issued_by_product": "SBL",
+  "issued_at_utc": "2026-10-21T01:10:00Z",
+  "source_product": "SBL",
+  "source_main_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+  "source_release": "v0.1.0-foundation-preview",
+  "source_release_prerelease": true,
+  "source_wheel_sha256": "95e57c44614d9480673ebd7834293beda0dab3bb5e0c8851d5a6dd4460cd7c50",
+  "source_sdist_sha256": "5babefeb0aee7eaeade692ef8bdeee85ab2e0021ed044c31819fdde3215bf15d",
+  "c3_plugin_source_sha": "68c276d354dae2b1bc2baef290f89e539fb34751",
+  "c3_plugin_status": "CANDIDATE_UNMERGED_PACKAGED_HOST_PENDING",
+  "c3_plugin_note": "supersedes 39c604d52570922fdf84b6df9c9359765643b450, whose manifests lacked the portable $schema and whose wheel shipped without sbl_sp/manifests; the SHAs in the R4 report for the three ZIPs are therefore obsolete",
+  "c3_ci": {"run_id": 39525131900, "head_sha": "68c276d354dae2b1bc2baef290f89e539fb34751", "jobs": 2, "conclusion": "success"},
+  "receiver_product": "SWOF",
+  "receiver_main_sha": "acdbfaadd19d12927eb5bd542b09ed230bbc481e",
+  "receiver_w2_source_candidate_sha": "c333e47141393b4f6c39a13f70c96b31190f3c3d",
+  "receiver_w2_pr": 7,
+  "receiver_r9e_evidence_branch_sha": "963cadeae3e50873c6a3c7ef000ffbfcaa73f78c",
+  "receiver_readback_note": "all four SWOF identities were re-read from git ls-remote during this round's preflight and matched the R4 snapshot exactly; no SWOF byte was written by SBL",
+  "allowed_scope": [
+    "W1_W2_READ_ONLY_REVIEW",
+    "NO_EFFECT_SHADOW",
+    "ISSUE_TASK_PR_PLANNING",
+    "AFFECTED_ONLY_REPAIR_WITH_SEPARATE_SWOF_AUTHORITY"
+  ],
+  "forbidden_scope": [
+    "WORLD_EFFECT",
+    "W3_AUTO_ADMISSION",
+    "SWOF_NATIVE_ACK_SELF_ISSUE",
+    "SWOF_VERDICT_WRITE_BY_SBL",
+    "PRODUCTION_OR_RELEASE_BY_SBL"
+  ],
+  "return_required": [
+    "source_candidate_sha",
+    "evidence_commit_sha",
+    "host_or_runtime_identity",
+    "SWOF_TQAEP_OR_ORACLE_RECEIPT",
+    "new_issues_and_TT_CR",
+    "OWNER_GATE_IF_EFFECT_REQUESTED"
+  ],
+  "what_sbl_actually_did": [
+    "read the four SWOF identities and confirmed they are current",
+    "published this handoff into the SBL evidence branch",
+    "wrote nothing into the SWOF repository, its branches, its PRs or its evidence"
+  ],
+  "what_sbl_did_not_do": [
+    "did not merge, approve or comment on SWOF PR #7",
+    "did not treat the R9E evidence-only checker PASS as an external acceptance of W2",
+    "did not generate a receiver acknowledgement, Permit or ExecutionBinding",
+    "did not claim any W3 effect"
+  ],
+  "claim_ceiling": {
+    "w1_w2": "SHADOW_HANDOFF_ONLY",
+    "swof_w2_merge": "HOLD_SWOF_OWN_GATES",
+    "swof_w3": "NOT_GRANTED"
+  },
+  "owner_gate_for_effect": "SWOF Owner plus HGK native issuer; neither is held by SBL"
+}

@@ -1,0 +1,199 @@
+{
+  "schema": "SBL-ROUND-R4-LOCAL-INSTALL/1",
+  "steps": [
+    {
+      "argv": [
+        "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "venv",
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv"
+      ],
+      "rc": 0,
+      "stdout_head": "",
+      "stderr_head": ""
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--no-index",
+        "--no-deps",
+        "C:\\Projects\\_sbl_r4\\dist\\sbl_v01-0.1.0-py3-none-any.whl"
+      ],
+      "rc": 0,
+      "stdout_head": "Processing c:\\projects\\_sbl_r4\\dist\\sbl_v01-0.1.0-py3-none-any.whl\nInstalling collected packages: sbl-v01\nSuccessfully installed sbl-v01-0.1.0\n",
+      "stderr_head": "",
+      "step": "pip.install"
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\sbl-stack.exe",
+        "install",
+        "--root",
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\stack"
+      ],
+      "rc": 0,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL-install\\\\stack\",\n  \"manifest\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL-install\\\\stack\\\\stack.json\",\n  \"manifest_sha256\": \"30b0ffce048e9de5719576bf2f48a1dc1bc1826709e455344bc78e3e4f06e230\",\n  \"components\": 14,\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": "",
+      "step": "stack.install"
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\sbl-stack.exe",
+        "doctor",
+        "--root",
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\stack"
+      ],
+      "rc": 0,
+      "stdout_head": "{\n  \"ok\": true,\n  \"problems\": [],\n  \"target\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL-install\\\\stack\",\n  \"components\": 14,\n  \"mode_gate_cells\": 39,\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": "",
+      "step": "stack.doctor"
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\sbl-stack.exe",
+        "selftest",
+        "--workdir",
+        "C:\\Projects\\Agent_Workspace\\SBL-install"
+      ],
+      "rc": 0,
+      "stdout_head": "{\n  \"ok\": true,\n  \"steps\": [\n    {\n      \"step\": \"core.doctor\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m01.intake\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m02.derive\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"m03.route.CLI_TOOL\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"NEG.unlocated-clause\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"NEG.prohibited-kind\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"sp.manifests\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"modes.matrix\",\n      \"ok\": true\n    },\n    {\n      \"step\": \"plugins.build\",\n      \"ok\": true\n    }\n  ],\n  \"denominator\": \"9/9\",\n  \"claim_ceiling\": \"STANDALONE_ONLY\",\n  \"host_install_state\": \"NOT_INSTALLED\"\n}\n",
+      "stderr_head": "",
+      "step": "stack.selftest"
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\sbl-harness.exe",
+        "install",
+        "--target",
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\hgk-adapter",
+        "--hgk-root",
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS"
+      ],
+      "rc": 0,
+      "stdout_head": "{\n  \"ok\": true,\n  \"target\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL-install\\\\hgk-adapter\",\n  \"files\": [\n    \"adapter.json\",\n    \"plugin.json\",\n    \"skills/hgk-governed-runtime/SKILL.md\"\n  ],\n  \"digests\": {\n    \"plugin.json\": \"ab52f55730bd7c33a9512554a5d5a830c353dfe03ff24351440a090136ff9fbe\",\n    \"skills/hgk-governed-runtime/SKILL.md\": \"67b961dbc86a0601d4c18d57602293d9bf6b7967616a74aeb8fb78483645919e\",\n    \"adapter.json\": \"b17f0608b8e0c5b999de7fce43e0e6a3634bb8d21a59126835758b65195c5b62\"\n  },\n  \"probe_status\": \"ROOT_READY\",\n  \"claim_ceiling\": \"HOST_PENDING\",\n  \"native_effect\": \"NOT_GRANTED\"\n}\n",
+      "stderr_head": "",
+      "step": "harness.install"
+    },
+    {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\.venv\\Scripts\\sbl-harness.exe",
+        "doctor",
+        "--target",
+        "C:\\Projects\\Agent_Workspace\\SBL-install\\hgk-adapter"
+      ],
+      "rc": 0,
+      "stdout_head": "{\n  \"ok\": true,\n  \"problems\": [],\n  \"target\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL-install\\\\hgk-adapter\",\n  \"probe\": {\n    \"status\": \"ROOT_READY\",\n    \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\",\n    \"pin\": {\n      \"package\": \"hg_kseos\",\n      \"version\": \"0.1.0\",\n      \"version_range\": \">=0.1.0,<0.2.0\",\n      \"root_env\": \"HGK_ROOT\",\n      \"default_root\": \"C:/Projects/Agent_Workspace/HG-KSEOS\",\n      \"source_subdir\": \"src/hg_kseos\",\n      \"spine_relpath\": \"var/shared-spine/hg-kseos.db\",\n      \"lane_registry_relpath\": \"config/lane-route-slots.candidate.json\",\n      \"dispatcher_relpath\": \"scripts/hgk-lane-dispatch.py\"\n    },\n    \"observed_version\": \"0.1.0\",\n    \"abi\": {\n      \"name\": \"hgk-harness-abi/1\",\n      \"provides\": [\n        \"plan\",\n        \"execute\",\n        \"verify\"\n      ],\n   ",
+      "stderr_head": "",
+      "step": "harness.doctor"
+    }
+  ],
+  "rollback_point": {
+    "path": "skills-preinstall.tar.gz",
+    "bytes": 12927561,
+    "sha256": "602b4f476b2b55408a36730c1fb691f8a060f481579b4902f55736659325d204"
+  },
+  "wheel": {
+    "path": "sbl_v01-0.1.0-py3-none-any.whl",
+    "bytes": 51073,
+    "sha256": "e5767bf8a8ba309553f5b979f3ddb2e9f883ab9a378b0766ad444efbb26ade36"
+  },
+  "installed": [
+    {
+      "tool": "sbl-commander-sp",
+      "kind": "agent-skill",
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\commander-sp",
+      "source_zip": "sbl-commander-sp-0.1.0.zip",
+      "source_zip_sha256": "2c408822c54202fea8900459a96b5602a210aec6d87feb31af1467255af93a25",
+      "files": [
+        {
+          "file": "SKILL.md",
+          "sha256": "0cade2597f2c0fc54d8a8d4dde39c6b96e359a4b6f3bb072e7ac9a4b4c5ba6d1"
+        },
+        {
+          "file": "plugin.json",
+          "sha256": "b67cb1d040d615a7d806465d7f3362eaede85f818933f76acfaac64ed99c170b"
+        },
+        {
+          "file": "README.md",
+          "sha256": "4bb59b8f5891cbab3ac8f9047e3abef41a2a6ae53cf8adc5866f67b2aaf37ece"
+        }
+      ]
+    },
+    {
+      "tool": "sbl-external-challenge-sp",
+      "kind": "agent-skill",
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\external-challenge-sp",
+      "source_zip": "sbl-external-challenge-sp-0.1.0.zip",
+      "source_zip_sha256": "cb917f83c7addce632b3d6568260d769d4627f0a58842f3113cdab99e6564891",
+      "files": [
+        {
+          "file": "SKILL.md",
+          "sha256": "4c31739d4bc261e68b8fb28e1518dd6b198af28841bbea36b850df22e98408be"
+        },
+        {
+          "file": "plugin.json",
+          "sha256": "af720db26b5f66fb044ac75994c8de1f5c33c72cb2c7523876645b2afbe418c3"
+        },
+        {
+          "file": "README.md",
+          "sha256": "eb9fe50409bfe6d6451da95b291b21462d0700d752cf6b3e91b0654c138471f7"
+        }
+      ]
+    },
+    {
+      "tool": "sbl-tpm-sp",
+      "kind": "agent-skill",
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\tpm-sp",
+      "source_zip": "sbl-tpm-sp-0.1.0.zip",
+      "source_zip_sha256": "c1987c3eefa92b33b8294679718e646d4641f2828d0b7717058df536743bcbf0",
+      "files": [
+        {
+          "file": "SKILL.md",
+          "sha256": "e944c44d3494243c627968b29a190de05fd676948e61e07013288d39d7898cb9"
+        },
+        {
+          "file": "plugin.json",
+          "sha256": "259e7fa232e9d4a414856f8fdeb4f7cad2a05790a84aacd15ee0d782fa2f036e"
+        },
+        {
+          "file": "README.md",
+          "sha256": "47cfa5982607dbd6760d240d6f958bc17c22014627a77d252fb2b62f0badbf62"
+        }
+      ]
+    },
+    {
+      "tool": "sbl-hgk-harness",
+      "kind": "agent-skill",
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\hgk-governed-runtime",
+      "source_zip": null,
+      "files": [
+        {
+          "file": "SKILL.md",
+          "sha256": "67b961dbc86a0601d4c18d57602293d9bf6b7967616a74aeb8fb78483645919e"
+        }
+      ]
+    },
+    {
+      "tool": "sbl-stack",
+      "kind": "agent-skill",
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\sbl-stack",
+      "source_zip": null,
+      "files": [
+        {
+          "file": "SKILL.md",
+          "sha256": "28dd8a2a30a2597cbd2d032f3151eab7a730475bebcb7baa8740e88981d45b82"
+        }
+      ]
+    }
+  ],
+  "install_root": "C:\\Projects\\Agent_Workspace\\SBL-install",
+  "hermes_skills_category": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl",
+  "claim_ceiling": "LOCAL_STANDALONE_INSTALL",
+  "effective_load": "SEE EFFECTIVE_LOAD STEP",
+  "local_install_state": "INSTALLED_ON_THIS_MACHINE",
+  "host_acceptance": "NOT_HOST_ACCEPTED",
+  "correction": "The first run wrote host_install_state=INSTALLED_ON_THIS_HOST, which contradicts the stack manifest it had just produced (host_install_state NOT_INSTALLED). Split into local_install_state and host_acceptance so the two facts cannot be read as one. See CORRECTIONS.md #3."
+}

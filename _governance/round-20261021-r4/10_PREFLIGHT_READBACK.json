@@ -1,0 +1,71 @@
+{
+  "schema": "SBL-ROUND4-PREFLIGHT/1",
+  "when_utc": "2026-10-21T00:40:00Z",
+  "permission": "READ_ONLY_PREFLIGHT (order R4 §0)",
+  "product": {
+    "main": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "release_branch": "evidence/r4-20261021-c4",
+    "candidate_previous": {
+      "branch": "candidate/c3-20261020-v1",
+      "sha": "39c604d52570922fdf84b6df9c9359765643b450"
+    },
+    "candidate_this_round": {
+      "branch": "candidate/c3-20261021-v2",
+      "sha": "68c276d354dae2b1bc2baef290f89e539fb34751"
+    },
+    "foundation_release": {
+      "tag": "v0.1.0-foundation-preview",
+      "tag_sha": "bedc11957d4fc2474b249b69d200829272c118ef"
+    }
+  },
+  "control_planes": {
+    "hg_kseos": {
+      "root": "C:/Projects/Agent_Workspace/HG-KSEOS",
+      "package_version": "0.1.0",
+      "import": "OK with PYTHONPATH=src"
+    },
+    "fabric_local": {
+      "head": "4695e0c",
+      "note": "local Fabric checkout; the R4 snapshot cites shw097-team/Fabric main bcd91043 — different repository identity, recorded as drift, not reconciled"
+    },
+    "pipd_local": {
+      "head": "e95942abcb6aa07e69304607ab8afc22a74fc67d",
+      "matches_r4_snapshot": true
+    }
+  },
+  "swof_remote": {
+    "main": "acdbfaadd19d12927eb5bd542b09ed230bbc481e",
+    "w2_source": "c333e47141393b4f6c39a13f70c96b31190f3c3d",
+    "r9e_evidence": "963cadeae3e50873c6a3c7ef000ffbfcaa73f78c",
+    "matches_r4_snapshot": true
+  },
+  "lanes": {
+    "10100": "no response",
+    "10101": "healthz 200, websocket 426 (unchanged from R3)",
+    "10102": "healthz 200, websocket 426 (unchanged from R3)",
+    "10103": "no response",
+    "10105": "no response",
+    "reading": "the codex VERIFY carrier remains unavailable; this round did not attempt an 18th checker run, per the R4 stop rule"
+  },
+  "model_planes": {
+    "PLAN_mandate": "gpt-6.1-sol (OpenAI OAuth) inside Hermes",
+    "PLAN_observed": "deepseek-v4.1-flash via opencode-go (this session)",
+    "EXECUTE_mandate": "deepseek-v4.1-flash via the codex CLI bounded writer",
+    "VERIFY_mandate": "gpt-6.1-sol via the codex CLI checker",
+    "deviation": "DISCLOSED_DEVIATION, authorised by the owner before any write in this round",
+    "registry_drift": "HG-KSEOS/config/lane-route-slots.candidate.json still declares PLAN=glm-5.3-flash, VERIFY=deepseek-v4.1-flash (rev 10). Not edited: it is the native owner's file. The role mandate chain overrides it per round and the drift is recorded rather than silently repaired.",
+    "lane_vs_session": "the lane model is pinned by the dispatcher into the child process; it is not the interactive session model, and neither is evidence for the other"
+  },
+  "environment": {
+    "os": "Windows 11",
+    "python311": "3.11.9",
+    "hgk_venv_python": "3.12.x trampoline",
+    "docker": "29.8.2",
+    "docker_image": "python:3.11-slim"
+  },
+  "defect_confirmed": {
+    "id": "F-R4-C3-PLUGIN-SCHEMA-001",
+    "how": "read plugin_manifest() at 39c604d: 'schema': 'SBL-AGENT-PLUGIN/1', no $schema, non-portable keys at top level; agent-plugins.org/schemas/1.0.0/plugin.schema.json fetched (1805 B) and read: additionalProperties=false, required [$schema,name]",
+    "verdict": "CONFIRMED_DEFECT"
+  }
+}
