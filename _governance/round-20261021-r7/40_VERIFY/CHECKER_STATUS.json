@@ -1,30 +1,53 @@
 {
- "schema": "SBL_R7_CHECKER_STATUS/1",
- "captured_at_utc": "2026-10-21T07:50:46.929477+00:00",
- "candidate_branch": "candidate/r7-20261021-repro-build",
- "candidate_head": "26a289ff1d9c9dddddc1a5eb413121d8980d9031",
- "base_sha": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
- "changed_files": [
-  ".gitattributes",
-  "tests/test_repro_mutation_probe.py",
-  "tests/test_reproducible_build.py",
-  "tools/build_reproducible.py"
- ],
- "brief_bytes": 9744,
- "brief_sha256": "f6befaf6f5b1c1cffa307c9b0949d0369683b45a0db2962c1331db0c240a2798",
- "maker_repro_receipt": {
-  "wheel_sha256": "4e78688d3ee1a1295a622253b8d1804fb3e05c935221eb7b3d0b6f0ff6ea5e19",
-  "sdist_sha256": "06cc5840a96aae4c6114bbce3532e4abf4fc6b3f845a01a50f27570bb5ee7e90",
-  "verify_identical": true
- },
- "round1": {
-  "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
-  "is_a_verdict": false,
-  "substantive_findings": [
-   "F8",
-   "F9"
+  "schema": "SBL_R7_CHECKER_STATUS/1",
+  "captured_at_utc": "2026-10-21T07:58:21.360584+00:00",
+  "candidate_branch": "candidate/r7-20261021-repro-build",
+  "candidate_head": "26a289ff1d9c9dddddc1a5eb413121d8980d9031",
+  "base_sha": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+  "changed_files": [
+    ".gitattributes",
+    "tests/test_repro_mutation_probe.py",
+    "tests/test_reproducible_build.py",
+    "tools/build_reproducible.py"
   ],
-  "repaired_in_commit": "26a289ff1d9c"
- },
- "note": "the maker receipt is an INPUT to the checker, not evidence; the checker re-derives it"
+  "brief_bytes": 9744,
+  "brief_sha256": "f6befaf6f5b1c1cffa307c9b0949d0369683b45a0db2962c1331db0c240a2798",
+  "maker_repro_receipt": {
+    "wheel_sha256": "4e78688d3ee1a1295a622253b8d1804fb3e05c935221eb7b3d0b6f0ff6ea5e19",
+    "sdist_sha256": "7c974cf772013736a3df8d6e6813bbceb237ccb7b351f2c27db4ec9cea55d8b2",
+    "verify_identical": true,
+    "measured_on_commit": "26a289ff1d9c9dddddc1a5eb413121d8980d9031"
+  },
+  "round1": {
+    "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
+    "is_a_verdict": false,
+    "substantive_findings": [
+      "F8",
+      "F9"
+    ],
+    "repaired_in_commit": "26a289ff1d9c"
+  },
+  "note": "the maker receipt is an INPUT to the checker, not evidence; the checker re-derives it",
+  "round2": {
+    "classification": "COMPLETE_ROUND_WITH_BLOCKERS",
+    "is_a_verdict": true,
+    "served_arm": "openai-codex/gpt-6.1-sol",
+    "substantive_findings": [
+      "W1",
+      "W2",
+      "W3"
+    ],
+    "repaired_in_commit": "26a289ff1d9c9dddddc1a5eb413121d8980d9031",
+    "note": "round 2 was served by the GPT arm but the state it reviewed was the MiniMax-era pool; its three product findings (W1 import-build namespace-package false positive, W2 no end-to-end two-build assertion, W3 mutation probe writing through into the protected worktree) are product findings and were repaired independently of the lane change"
+  },
+  "round3": {
+    "classification": "INTERRUPTED_BY_OWNER_PAUSE",
+    "is_a_verdict": false,
+    "dispatched_arm": "openai-codex/gpt-6.1-sol",
+    "dispatched_lane": "VERIFY_SECURITY",
+    "nonce": "R7CHK-NC-20261021-A3",
+    "brief_sha256": "f6befaf6f5b1c1cffa307c9b0949d0369683b45a0db2962c1331db0c240a2798",
+    "outcome": "DISPATCHED and then STOPPED at the owner's instruction to pause all tasks for shutdown. No verdict was produced. This is NOT a pass and NOT a failure: the round simply did not finish.",
+    "resume": "re-dispatch the identical command: hgk-lane-dispatch.py --lane VERIFY_SECURITY --require-arm openai-codex/gpt-6.1-sol --nonce R7CHK-NC-20261021-A3 --timeout 1500 --brief .../40_VERIFY/CHECKER_BRIEF.md --json-out .../verify_chk_r7_a3.json --guard-subject C:/Projects/_sbl_r4/c3v2 --prompt '<same prompt>'"
+  }
 }
