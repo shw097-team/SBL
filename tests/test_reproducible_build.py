@@ -26,8 +26,14 @@ is a test nobody keeps.
 from __future__ import annotations
 
 import importlib.util
+import os
+import shutil
 import subprocess
+import sys
 import tarfile
+import tempfile
+import unittest
+import unittest.mock
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -222,7 +228,11 @@ def test_build_applies_the_sdist_normalisation():
         real_run = mod.run
         try:
             setattr(mod, "run", lambda cmd, **kw: _R())
-            mod.build(root, outdir, 1700000000)
+            # The builder interpreter is passed explicitly: the build COMMAND is
+            # stubbed, so this test does not need a real `build` backend, and
+            # requiring one would make it fail on any machine that has only
+            # pytest -- which is exactly the hosted CI runner.
+            mod.build(root, outdir, 1700000000, builder=sys.executable)
         finally:
             setattr(mod, "run", real_run)
 
@@ -457,3 +467,73 @@ def test_build_tool_rejects_an_interpreter_that_cannot_build():
                 f"an interpreter without the build backend must be rejected, got {probe_result!r}"
             )
 
+
+def test_the_stubbed_build_path_does_not_require_a_real_backend():
+    """A test that stubs the build COMMAND must not need the build BACKEND.
+
+    MEASURED (R7 round 4, hosted CI run 32/33): the CI workflow installs pytest
+    and nothing else, so the `build` package is absent on the runner. The
+    sdist-normalisation test stubs the build command but still let `build()`
+    resolve a backend interpreter, so it raised SystemExit there -- an
+    environmental gap reported as a product failure. That took the whole
+    mutation probe down as well, because the probe requires the unmutated
+    tree to pass, and the hosted CI has been red ever since.
+
+    This test pins the fix: with the build backend deliberately unreachable,
+    the stubbed build path must still work, and the resolver must still
+    report the gap honestly rather than pretending the backend is present.
+    """
+    mod = _load_tool()
+
+    # 1. the resolver must NOT claim a backend exists when none does
+    real_which = shutil.which
+    real_exists = Path.exists
+    try:
+        # every candidate the resolver would try is either missing or
+        # interpreter-without-the-backend
+        def _no_build(path, *args, **kwargs):
+            return None
+
+        Path.exists = lambda self: False
+        shutil.which = _no_build
+        with unittest.mock.patch.dict(os.environ, {"SBL_BUILD_PYTHON": ""}, clear=False):
+            # the resolver either raises SystemExit (the honest report) or
+            # returns an interpreter that genuinely has the backend. It must
+            # NEVER return a path that does not exist.
+            try:
+                chosen = mod._builder_python()
+            except SystemExit as exc:
+                assert "build" in str(exc), (
+                    f"the resolver must say the build backend is missing, got: {exc}"
+                )
+            else:
+                assert real_exists(Path(chosen)), (
+                    f"the resolver returned {chosen!r}, which does not exist"
+                )
+    finally:
+        shutil.which = real_which
+        Path.exists = real_exists
+
+    # 2. build() with an explicit builder must not consult the resolver at all
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        outdir = root / "dist"
+        outdir.mkdir()
+
+        class _R:
+            returncode = 0
+            stdout = ""
+            stderr = ""
+
+        def _explode():
+            raise AssertionError("the resolver was consulted even though a builder was given")
+
+        real_run = mod.run
+        real_resolver = mod._builder_python
+        try:
+            setattr(mod, "run", lambda cmd, **kw: _R())
+            setattr(mod, "_builder_python", _explode)
+            mod.build(root, outdir, 1700000000, builder=sys.executable)
+        finally:
+            setattr(mod, "run", real_run)
+            setattr(mod, "_builder_python", real_resolver)

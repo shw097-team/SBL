@@ -172,12 +172,29 @@ def export_tree(repo: Path, commit: str, dest: Path) -> None:
     tar_path.unlink()
 
 
-def build(src: Path, outdir: Path, epoch: int) -> list[Path]:
+def build(src: Path, outdir: Path, epoch: int, builder: str | None = None) -> list[Path]:
+    """Build the project and normalise the sdist.
+
+    `builder` is the interpreter that will run `python -m build`. It is
+    resolved HERE, at the point of use, rather than at import time, so a
+    caller that stubs the actual build command does not need a real build
+    backend to be installed. The tests that assert the sdist normalisation
+    replaces the build command with a stub and must still be able to run on a
+    machine -- or a CI runner -- that has no `build` package at all.
+
+    WHY this matters: the hosted CI runner installs pytest and nothing else,
+    so `build` is absent there. A test that required the backend to RESOLVE,
+    while stubbing the build COMMAND, would fail on CI for an environmental
+    reason that has nothing to do with the artefact -- and, worse, it would
+    take the whole mutation probe down with it, because that probe requires
+    the unmutated tree to pass.
+    """
     env = dict(os.environ)
     env["SOURCE_DATE_EPOCH"] = str(epoch)
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     outdir.mkdir(parents=True, exist_ok=True)
-    r = run([_builder_python(), "-m", "build", "--outdir", str(outdir), str(src)], env=env)
+    python = builder if builder is not None else _builder_python()
+    r = run([python, "-m", "build", "--outdir", str(outdir), str(src)], env=env)
     if r.returncode != 0:
         raise SystemExit(f"build failed:\n{r.stdout[-4000:]}\n{r.stderr[-4000:]}")
     wheels = sorted(outdir.glob("*.whl"))

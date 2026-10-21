@@ -329,6 +329,20 @@ def test_probe_does_not_touch_the_protected_repository():
         assert r.returncode == 0, f"write-tree failed: {r.stderr[-300:]}"
         return r.stdout.strip()
 
+    # The invariant can only be measured with git present. Without it the
+    # test must SKIP, not fail: "git is not installed" is an environment gap,
+    # and reporting it as a product defect would be the same fail-open mistake
+    # the D1 repair was about. Measured on a machine whose PATH had no git:
+    # the helper raised FileNotFoundError and the test FAILED.
+    if shutil.which("git") is None:
+        import pytest
+
+        pytest.skip("git is not on PATH; the write-through invariant cannot be measured")
+    if not (REPO / ".git").exists():
+        import pytest
+
+        pytest.skip("the candidate is not a git repository; the invariant cannot be measured")
+
     def _head() -> str:
         r = subprocess.run(
             ["git", "-C", str(REPO), "rev-parse", "HEAD"],
