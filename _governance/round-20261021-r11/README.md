@@ -19,6 +19,9 @@
 | `host_readback/` | `sbl-stack status`、`sbl-harness doctor` 的原始 JSON |
 | `verify_r11_packet.py` | 可重跑驗證器：自行重算 14 DOC/rollup/mirror/KP 並與 ledger 比對 |
 | `verifier_output.txt` | 上列驗證器的實際輸出（PASS, rc=0） |
+| `70_KANBAN_BOARD.md` | Kanban board `sbl-r11-20261021` 的實體 readback（card ids、狀態、graph-repair 說明） |
+| `80_ORCHESTRATION_SURFACES.md` | KANBAN / SWARM / GSTACK / OPENSPEC 四面的**實際**啟用狀態（含 NOT USED / NOT AUDITED 的誠實標示） |
+| `POST_PUSH_READBACK.md` | push 後的遠端 SHA readback 與本 packet 逐檔 digest custody manifest |
 
 ## 外部驗收官如何重算（不需要信任本 packet 的敘述）
 
