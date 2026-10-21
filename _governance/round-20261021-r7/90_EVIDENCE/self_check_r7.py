@@ -7,6 +7,7 @@ artifact FAILS (it does not skip), because a missing receipt is not a pass.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -233,10 +234,18 @@ def c6() -> str:
     stdout = a.get("stdout_path")
     assert stdout and Path(stdout).exists(), "the checker transcript is missing"
     body = Path(stdout).read_text(encoding="utf-8", errors="ignore")
-    assert "R7CHK-NC-20261021-A1" in body, "the checker did not echo the nonce"
+    # The nonce is PER ROUND, so it is read from the receipt, not hard-coded. A
+    # hard-coded nonce silently invalidates every later round: the check would
+    # keep demanding round 1's token from round 3's transcript.
+    nonce = a.get("nonce") or j.get("nonce")
+    if not nonce:
+        m = re.search(r"\bR7CHK-NC-\d{8}-[A-Z0-9]+\b", body)
+        assert m, "the transcript contains no nonce token; the checker did not echo it"
+        nonce = m.group(0)
+    assert nonce in body, f"the checker transcript does not contain its own nonce {nonce}"
     return (
         f"verdict round={p.name} exit=0 arm={a.get('provider')}/{a.get('model')} "
-        f"guard={guard.get('state', 'n/a')}"
+        f"nonce={nonce} guard={guard.get('state', 'n/a')}"
     )
 
 

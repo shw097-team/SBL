@@ -197,29 +197,34 @@ C5/C13/C15 with `FileNotFoundError`). All 35 are present again; the self-check r
 
 ### 4.1 First thing: the independent checker (closes C6)
 
-This is the only thing standing between the round and a verdict. Re-dispatch **identically**:
+This is the only thing standing between the round and a verdict. **Use attempt 4 and nonce `A4`** —
+attempt 3 was tried twice and produced no verdict (once refused by the remote-write detector over
+the word "publish", once stopped for this pause). A fresh attempt number keeps both failures on
+record instead of overwriting them.
 
 ```bash
 cd C:/Projects/Agent_Workspace/HG-KSEOS
 ./.venv/Scripts/python.exe scripts/hgk-lane-dispatch.py \
   --lane VERIFY_SECURITY \
   --require-arm openai-codex/gpt-6.1-sol \
-  --nonce R7CHK-NC-20261021-A3 \
+  --nonce R7CHK-NC-20261021-A4 \
   --timeout 1500 \
   --round SBL-R7-FAR-RESIDUAL-CLOSURE \
-  --attempt 3 \
+  --attempt 4 \
   --brief "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_BRIEF.md" \
-  --json-out var/R7-LANES/verify_chk_r7_a3.json \
+  --json-out var/R7-LANES/verify_chk_r7_a4.json \
   --guard-subject "C:/Projects/_sbl_r4/c3v2" \
-  --prompt "Read the brief at C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_BRIEF.md and execute every check in it exactly as written. You are READ-ONLY on every product and evidence tree; use a throwaway copy under your own scratch for any mutation. Be efficient and finish within the time budget. Your final message MUST contain the nonce R7CHK-NC-20261021-A3 verbatim, the literal summary lines of every command you ran, and a VERDICT section. If you run out of time, say exactly which checks you completed and which you did not, and still emit the nonce and a VERDICT."
+  --prompt "Read the brief at C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_BRIEF.md and execute every check in it exactly as written. You are READ-ONLY on every product and evidence tree; use a throwaway copy under your own scratch for any mutation. Be efficient and finish within the time budget. Your final message MUST contain the nonce R7CHK-NC-20261021-A4 verbatim, the literal summary lines of every command you ran, and a VERDICT section. If you run out of time, say exactly which checks you completed and which you did not, and still emit the nonce and a VERDICT."
 ```
 
 Notes that will save time:
 
-* The **brief must not contain the token "publish"** — the dispatcher's remote-write detector
+* **The brief must not contain the token "publish".** The dispatcher's remote-write detector
   rejects it. The phrase "the published `v0.1.0-foundation-preview` bytes" tripped it; it is now
   "the bytes of the existing `v0.1.0-foundation-preview` release". If you regenerate the brief
-  with `make_checker_brief.py`, do not reintroduce that word.
+  with `make_checker_brief.py`, do not reintroduce that word. **Attempt 3 was already lost to
+  this** — the receipt `verify_chk_r7_a3.json` records the refusal
+  (`ERR_LANE_REMOTE_WRITE_NOT_AUTHORIZED`, `remote_write_markers: ["publish"]`).
 * The nonce must appear **in the prompt text**, not only as a flag — a prompt that does not echo
   the nonce yields `ERR_NO_ARM_EMITTED_NONCE`.
 * `--require-arm` is an **assertion, not a selector**. Arm selection is `--force-rank`. With GPT
@@ -228,8 +233,15 @@ Notes that will save time:
   `openai-codex/gpt-6.1-sol` returns HTTP 400 `Model is unavailable`.
 * Expect **20–25 minutes**. A previous round ran 1395 s. It is not stuck unless the stdout file
   stops growing for more than 10 minutes.
-* It writes to `HG-KSEOS/var/R7-LANES/verify_chk_r7_a3.json` and
-  `.../verify_chk_r7_a3.json.logs/attempt-*-stdout.txt`.
+* It writes to `HG-KSEOS/var/R7-LANES/verify_chk_r7_a4.json` and
+  `.../verify_chk_r7_a4.json.logs/attempt-*-stdout.txt`.
+
+> **Already fixed for you:** C6 used to hard-code round 1's nonce
+> (`R7CHK-NC-20261021-A1`) and would have failed even after a successful round 4, because it
+> demanded round 1's token from round 4's transcript. It now reads the nonce from the receipt and
+> falls back to the nonce token found in the transcript. C6 also picks the **newest** round that
+> produced a verdict (`verdicts[-1]` over the lexicographically sorted `verify_chk_r7_a*.json`),
+> so round 4 will be picked up correctly and the older MiniMax-served round 2 will not shadow it.
 
 After the verdict: seal it into `40_VERIFY/`, update `CHECKER_STATUS.json` round3, re-run the
 self-check, and **only then** consider recording the HGK workorder result.

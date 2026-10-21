@@ -1,6 +1,6 @@
 {
   "schema": "SBL_R7_CHECKER_STATUS/1",
-  "captured_at_utc": "2026-10-21T07:58:21.360584+00:00",
+  "captured_at_utc": "2026-10-21T10:35:53.341845+00:00",
   "candidate_branch": "candidate/r7-20261021-repro-build",
   "candidate_head": "26a289ff1d9c9dddddc1a5eb413121d8980d9031",
   "base_sha": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
@@ -47,7 +47,15 @@
     "dispatched_lane": "VERIFY_SECURITY",
     "nonce": "R7CHK-NC-20261021-A3",
     "brief_sha256": "f6befaf6f5b1c1cffa307c9b0949d0369683b45a0db2962c1331db0c240a2798",
-    "outcome": "DISPATCHED and then STOPPED at the owner's instruction to pause all tasks for shutdown. No verdict was produced. This is NOT a pass and NOT a failure: the round simply did not finish.",
-    "resume": "re-dispatch the identical command: hgk-lane-dispatch.py --lane VERIFY_SECURITY --require-arm openai-codex/gpt-6.1-sol --nonce R7CHK-NC-20261021-A3 --timeout 1500 --brief .../40_VERIFY/CHECKER_BRIEF.md --json-out .../verify_chk_r7_a3.json --guard-subject C:/Projects/_sbl_r4/c3v2 --prompt '<same prompt>'"
+    "outcome": "TWO dispatches were attempted on this round and NEITHER produced a verdict. The first was refused by the dispatcher's remote-write detector because the brief contained the token 'publish' (a false positive: the phrase was 'the published v0.1.0-foundation-preview bytes'); the brief was reworded to 'the bytes of the existing v0.1.0-foundation-preview release' and the token is gone. The second was stopped at the owner's instruction to pause for shutdown. Neither is a pass and neither is a failure: the round did not finish.",
+    "remote_write_detector_incident": {
+      "receipt": "HG-KSEOS/var/R7-LANES/verify_chk_r7_a3.json",
+      "code": "ERR_LANE_REMOTE_WRITE_NOT_AUTHORIZED",
+      "marker": "publish",
+      "root_cause": "the brief's phrase 'the published v0.1.0-foundation-preview bytes' tripped a guard that looks for remote-write intent; the intent was to describe an EXISTING release, not to perform a write",
+      "fix": "reworded the brief; the generator make_checker_brief.py now avoids the token",
+      "lesson": "a guard that fires on a substring needs the message reworded, not the guard weakened"
+    },
+    "resume": "re-dispatch on attempt 4 so this round's two failed dispatches are preserved: hgk-lane-dispatch.py --lane VERIFY_SECURITY --require-arm openai-codex/gpt-6.1-sol --nonce R7CHK-NC-20261021-A4 --timeout 1500 --round SBL-R7-FAR-RESIDUAL-CLOSURE --attempt 4 --brief .../40_VERIFY/CHECKER_BRIEF.md --json-out .../verify_chk_r7_a4.json --guard-subject C:/Projects/_sbl_r4/c3v2 --prompt '<same prompt, nonce A4>'"
   }
 }
