@@ -4,4 +4,4 @@ from .core import SharedCore
 from .errors import SBLError
 
 __all__ = ["SBLError", "SharedCore"]
-__version__ = "0.1.0"
+__version__ = "0.1.1rc1"

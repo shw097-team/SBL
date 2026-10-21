@@ -31,7 +31,7 @@ from typing import Any
 from sbl_core.errors import SBLError
 from sbl_sp.plugins import portable
 
-ADAPTER_VERSION = "0.1.0"
+ADAPTER_VERSION = "0.1.1rc1"
 CLAIM_CEILING = "HOST_PENDING"
 PLUGIN_NAME = "sbl-hgk-harness"
 SKILL_NAME = "hgk-governed-runtime"

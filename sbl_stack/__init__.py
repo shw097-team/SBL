@@ -115,7 +115,7 @@ def install(target: str | Path) -> dict[str, Any]:
 
     manifest = {
         "schema": STACK_SCHEMA,
-        "version": "0.1.0",
+        "version": "0.1.1rc1",
         "root": str(root.resolve()),
         "python": platform.python_version(),
         "components": digests,
