@@ -1,0 +1,715 @@
+{
+  "items": [
+    {
+      "id": "R8-RES-01",
+      "title": "Independent acceptance remains ungranted",
+      "severity": "blocker",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_STATUS.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/SBL_R7_EXECUTION_STATUS.json"
+      ],
+      "current_state_verbatim": "INCONCLUSIVE - NOT ACCEPTED",
+      "why_it_is_open": "R7 obtained a verdict, not an acceptance. The checker could inspect selected properties but could not run two independent builds, full pytest, mutation experiments or the isolation experiment because its sandbox prohibited even scratch writes. R8 expressly preserves that non-acceptance. HGK FAIL/FAILED is the honest mapping; 16/16 maker self-checks and successful installation do not supersede it.",
+      "closure_options": [
+        {
+          "option": "A: Independently re-execute the missing checks against a frozen candidate using expressly admitted writable scratch and a read-only subject.",
+          "effort": "M",
+          "risk": "Scratch permissions must not become permission to modify the candidate or canonical stores.",
+          "engineering_necessity": "Essential for acceptance.",
+          "aligned_with_control_package": true,
+          "why": "Uses existing checker and execution surfaces rather than a new verification subsystem."
+        },
+        {
+          "option": "B: Let the checker independently inspect maker-produced execution artifacts, retaining explicit limits on execution provenance.",
+          "effort": "S",
+          "risk": "Matching hashes establishes artifact integrity, not independent execution or completeness of the producer's tests.",
+          "engineering_necessity": "Useful partial evidence; insufficient by itself for the presently missing behavioral verification.",
+          "aligned_with_control_package": true,
+          "why": "Can reduce uncertainty without falsely converting a signed maker receipt into independent acceptance."
+        }
+      ],
+      "recommended_option": "A. If the required scratch authority cannot be obtained, retain NOT ACCEPTED; do not promise that receipt inspection alone will produce PASS.",
+      "close_condition": "A fresh, separate checker session produces an explicit acceptance verdict bound to the frozen subject digest and registered oracle, with raw results for the previously unverified checks, nonempty test counts, meaningful mutant failures and unchanged protected-subject state. Any canonical acceptance transition is performed separately through the authorized typed API; historical FAIL and ROLLED_BACK records remain intact."
+    },
+    {
+      "id": "R8-RES-02",
+      "title": "Formal Hermes Runtime/Orchestration Plane binding and permit remain absent",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/_handover/CHECKPOINT_SBL_R7_FAR023_20261021.md",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/exec_minimax_runtime_decl_receipt.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/LANE_MANDATE_R8.json"
+      ],
+      "current_state_verbatim": "no explicit Runtime/Orchestration Plane binding, permit or rollback receipt",
+      "why_it_is_open": "R8 does contain a configuration-change receipt with pre-images, backup paths and rollback instructions. Therefore the blanket statement that no receipt of any kind exists would be false. What remains missing is the formal authority-bearing plane binding and permit, with verified rollback, not another copy of the lane configuration. The R8 receipt explicitly remains CANDIDATE_ONLY and disclaims native issuance and activation.",
+      "closure_options": [
+        {
+          "option": "A: Complete the existing binding record with authorized permit references, exact runtime/profile identity, subject digests and a tested rollback receipt.",
+          "effort": "S",
+          "risk": "An agent-authored description must not impersonate an issuer grant.",
+          "engineering_necessity": "High; separates operational configuration from authorized governance binding.",
+          "aligned_with_control_package": true,
+          "why": "Reuses the R8 pre-image and configuration-change evidence rather than inventing another registry."
+        },
+        {
+          "option": "B: Retain the existing configuration receipt and explicitly defer formal activation.",
+          "effort": "S",
+          "risk": "The formal binding remains open.",
+          "engineering_necessity": "Necessary fallback when issuer authority is unavailable.",
+          "aligned_with_control_package": true,
+          "why": "Preserves the candidate-only ceiling without fabricating authority."
+        }
+      ],
+      "recommended_option": "A, conditional on the actual HGK binding/permit authority supplying or approving the missing references; otherwise B.",
+      "close_condition": "An authorized binding identifies the canonical Hermes runtime and governed profile, binds the exact applicable surfaces and digests, references a valid scoped permit, and carries independently checked effective-load and rollback evidence. Configuration coherence alone must not satisfy this predicate."
+    },
+    {
+      "id": "R8-RES-03",
+      "title": "Four plugin capability bindings still select shared-core acceptance",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/contracts/SBL_C0_C9_CONTRACT-R6.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/OWNER_DECISIONS.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md"
+      ],
+      "current_state_verbatim": "4 capabilities still point at `ACC-SBL_SHARED_CORE`; the compiler SSOT was not rebuilt.",
+      "why_it_is_open": "Direct parsing confirms SP_PLUGIN_PACKAGE_TPM, SP_PLUGIN_PACKAGE_COMMANDER, SP_PLUGIN_PACKAGE_CHALLENGE and SP_HOST_INSTALL_REQUEST all reference ACC-SBL_SHARED_CORE although dedicated acceptance entries exist. Their work_required text also names shared core, and the dedicated acceptance recovery fixtures repeat shared-core wording. R8 was a lane-rebinding/install round, not the owner-scheduled contract repair. Merely reaching round number R8 did not close OWNER-5.",
+      "closure_options": [
+        {
+          "option": "A: Repair the authorized compiler source and regenerate a successor contract with subject-correct bindings and affected copied fixture text.",
+          "effort": "S",
+          "risk": "Requires permission to modify the read-only SSOT; historical receipts must remain unchanged.",
+          "engineering_necessity": "High; prevents unrelated acceptance from satisfying plugin readiness.",
+          "aligned_with_control_package": true,
+          "why": "The dedicated acceptance IDs already exist, so no new schema or subsystem is necessary."
+        },
+        {
+          "option": "B: Patch only the generated R6 JSON.",
+          "effort": "S",
+          "risk": "The compiler can regenerate the defect, and existing receipt citations become misleading.",
+          "engineering_necessity": "Does not durably close the defect.",
+          "aligned_with_control_package": false,
+          "why": "Changes a derived artifact instead of the source and reproducible compilation path."
+        }
+      ],
+      "recommended_option": "A. Map each capability to ACC- followed by its exact capability identifier; do not change the valid SBL_SHARED_CORE binding.",
+      "close_condition": "An admitted successor contract is rebuilt from the authorized compiler source; lint, activation, acceptance and compile gates pass; the four capability-to-acceptance subject joins are correct; wrong-subject acceptance is rejected by a negative test; and old/new receipts remain separately identifiable."
+    },
+    {
+      "id": "R8-RES-04",
+      "title": "Full host installation/bootstrap remains incomplete despite real R8 standalone progress",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/INSTALL_BOOTSTRAP_R8.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json"
+      ],
+      "current_state_verbatim": "STANDALONE_ONLY / HOST_PENDING / native_effect NOT_GRANTED / NOT_AN_ACCEPTANCE",
+      "why_it_is_open": "R8 records a genuine Hermes-venv package install, stack bootstrap and HGK adapter installation. Those portions are not missing. The remaining gap is host registration, effective load, trigger/deny behavior, uninstall/readback and admitted cross-host evidence, including the outstanding 38-surface requirement. Fabric is recorded as NO_SBL_INSTALL_TARGET; forcing a package installation there would manufacture a target rather than close a requirement.",
+      "closure_options": [
+        {
+          "option": "A: Complete one admitted host lifecycle at a time using the existing adapter and surface ledger, recording Fabric's actual consumer role.",
+          "effort": "M",
+          "risk": "Host access and authorization may be unavailable; local doctor success cannot substitute for host behavior.",
+          "engineering_necessity": "High for host-integration claims.",
+          "aligned_with_control_package": true,
+          "why": "Finishes the required lifecycle on real targets without adding a deployment subsystem."
+        },
+        {
+          "option": "B: Limit the deliverable to the measured standalone installation and retain host obligations as open.",
+          "effort": "S",
+          "risk": "Does not close the full install/bootstrap requirement.",
+          "engineering_necessity": "Appropriate immediate claim control.",
+          "aligned_with_control_package": true,
+          "why": "Preserves actual R8 progress without implying HERMES/FABRIC/HGK native integration."
+        }
+      ],
+      "recommended_option": "A only for explicitly admitted hosts; use B elsewhere. Obtain a contract-owner applicability ruling for Fabric rather than inventing an install target.",
+      "close_condition": "Each required host/surface has authorized installation, registration, effective-load, positive trigger, unauthorized-trigger refusal, rollback/uninstall and readback evidence bound to its identity and candidate digest. Any not-applicable surface has an authority-backed applicability disposition, not an agent waiver."
+    },
+    {
+      "id": "R8-RES-05",
+      "title": "Full DOC-00..13 acceptance remains OPEN/PARTIAL",
+      "severity": "blocker",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md",
+        "C:/Projects/Agent_Workspace/SBL/contracts/compiled-r6/thin-prompt.md",
+        "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-00.md"
+      ],
+      "current_state_verbatim": "Full contract still OPEN / PARTIAL.",
+      "why_it_is_open": "This is an umbrella acceptance state, not an additional implementation task to count independently from its children. Native PI/PD/ECP, new product-kind execution, child evidence, host integration and signed challenge remain unclosed. The control source itself also declares source_freeze HOLD, owner_ratification UNBOUND and CR-ORACLE-001 open. A prerelease, package inventory or scoped checker result cannot close these predicates.",
+      "closure_options": [
+        {
+          "option": "A: Close the existing contract predicates incrementally, maintaining an explicit residual projection and source-bound claim ceilings.",
+          "effort": "L",
+          "risk": "External authority and host dependencies prevent a guaranteed programme completion date.",
+          "engineering_necessity": "Essential for any full-contract claim.",
+          "aligned_with_control_package": true,
+          "why": "Keeps PIPD-LS-PKG as the engineering contract and avoids a second acceptance framework."
+        },
+        {
+          "option": "B: Seek an owner-approved narrower delivery scope while leaving the original full-contract state open.",
+          "effort": "S",
+          "risk": "A scoped delivery can be mistaken for cancellation of the original obligations.",
+          "engineering_necessity": "Useful for delivering value before full closure.",
+          "aligned_with_control_package": true,
+          "why": "Scope reduction is legitimate only when explicit and authority-backed; it is not retroactive full acceptance."
+        }
+      ],
+      "recommended_option": "A in small product-facing slices; B only as an explicit delivery decision. Do not build a new programme-governance subsystem.",
+      "close_condition": "Every active predicate in the applicable, authority-approved DOC-00..13 contract has valid subject-bound evidence and the required independent acceptance; all blocking source/oracle conflicts and external grants are resolved. No excluded child may disappear from the denominator without an authorized scope change."
+    },
+    {
+      "id": "R8-RES-06",
+      "title": "Bounded-writer execution provenance is not established by lane probes",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/00_NORTH_STAR/NORTH_STAR_AND_SPEC.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/40_VERIFY/CHECKER_STATUS.json",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/final_probe_EXECUTE.json",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/AGENTS.md"
+      ],
+      "current_state_verbatim": "those are the orchestrator's OWN concurrent edits to the two test files",
+      "why_it_is_open": "The plan calls for an EXECUTE lane and HGK requires a tracked Codex writer. The opened evidence attributes product-test edits to the orchestrator. R8's EXECUTE receipt establishes model serviceability, not authorship of the product fixes; it reports authorization.checked=false and subject_mutation.state=not_guarded for that probe. No formal implementation dispatch receipt for those fixes was established in the reviewed R7/R8 evidence. This is a bounded provenance conclusion, not proof that no receipt exists anywhere.",
+      "closure_options": [
+        {
+          "option": "A: Preserve the historical deviation and perform the next genuinely necessary repair through an admitted bounded writer, with raw dispatch and diff receipts.",
+          "effort": "S",
+          "risk": "A future compliant execution does not retroactively prove historical writer authorship.",
+          "engineering_necessity": "High for trustworthy execution provenance.",
+          "aligned_with_control_package": true,
+          "why": "Uses the mandated writer path without manufacturing a no-op rebuild or invented historical receipt."
+        },
+        {
+          "option": "B: Obtain an explicit owner disposition accepting the historical provenance deviation, while retaining independent product verification.",
+          "effort": "S",
+          "risk": "A deviation disposition is not evidence that the bounded writer performed the edits.",
+          "engineering_necessity": "Necessary if historical procedural closure is required.",
+          "aligned_with_control_package": true,
+          "why": "Only the appropriate authority can dispose of an irreparable historical process deviation."
+        }
+      ],
+      "recommended_option": "A prospectively, with B if the programme requires closing the historical deviation. Do not recreate or backdate a writer receipt.",
+      "close_condition": "Either authentic contemporaneous implementation evidence is located and independently validated, or the historical deviation receives an explicit authority-backed disposition. Separately, a subsequent admitted implementation shows WorkOrder, scoped writable root, required/served arm, raw stream, resulting diff, rollback and independent check; an availability probe alone fails this condition."
+    },
+    {
+      "id": "R8-RES-07",
+      "title": "HGK admission can bind the wrong repository or report a nonexistent WorkOrder",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/HG-KSEOS/src/hg_kseos/lifecycle.py",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/SBL_R7_EXECUTION_STATUS.json",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/LEARNING.md"
+      ],
+      "current_state_verbatim": "except InvariantViolation:\n            pass  # idempotent resume",
+      "why_it_is_open": "The live source still runs git rev-parse HEAD without a project-specific cwd and returns an empty string on failure. admit_requirement catches InvariantViolation around TaskSpec/WorkOrder creation and then returns a WorkOrder identifier regardless. The R7 chain was repaired manually through the public API; that workaround did not repair the upstream mechanism. A foreign repository cwd can also supply a valid but incorrect HEAD.",
+      "closure_options": [
+        {
+          "option": "A: Resolve HEAD from the admitted project repository and distinguish verified idempotent replay from failed creation.",
+          "effort": "M",
+          "risk": "Must preserve legitimate resume behavior and avoid changing unrelated lifecycle semantics.",
+          "engineering_necessity": "High; admission integrity is foundational.",
+          "aligned_with_control_package": true,
+          "why": "A small upstream controller/API repair addresses both wrong-subject binding and false success."
+        },
+        {
+          "option": "B: Continue requiring callers to chdir and read back all chain rows.",
+          "effort": "S",
+          "risk": "Caller discipline does not prevent a foreign-repository binding or swallowed failure.",
+          "engineering_necessity": "Temporary containment only.",
+          "aligned_with_control_package": true,
+          "why": "Reduces immediate risk but must not be recorded as mechanism closure."
+        }
+      ],
+      "recommended_option": "A in a separately admitted HGK candidate change; retain B until independently checked.",
+      "close_condition": "Tests invoke admission from the intended repo, a foreign repo and a non-repo directory and obtain the same intended project HEAD or an explicit refusal. Missing/invalid HEAD and injected create_workorder InvariantViolation cannot return success. Legitimate replay verifies the existing rows and bindings, and an independent checker confirms the candidate repair."
+    },
+    {
+      "id": "R8-RES-08",
+      "title": "Three untracked HGK tests prevent clean-checkout reproduction",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/LANE_MANDATE_R8.json"
+      ],
+      "current_state_verbatim": "a clean checkout cannot reproduce the 580 / 16 figure",
+      "why_it_is_open": "Read-only git status and ls-files confirm that tests/test_matrix_d_full.py, tests/test_role_binding_enforcement.py and tests/test_execute_luna_route.py remain untracked. R8 deliberately did not claim another party's test authorship. Its measurement is consequently a working-tree result, not a reproducible committed-tree result.",
+      "closure_options": [
+        {
+          "option": "A: Have the test owner review and land the three files with truthful authorship, then rerun from a clean checkout.",
+          "effort": "S",
+          "risk": "Blindly staging another writer's files can import unreviewed changes and misattribute authorship.",
+          "engineering_necessity": "High; directly repairs reproducibility of the conformance claim.",
+          "aligned_with_control_package": true,
+          "why": "Requires ordinary review and repository hygiene, not new infrastructure."
+        },
+        {
+          "option": "B: Publish a digest-bound supplemental test bundle and explicitly separate committed-suite and working-tree measurements.",
+          "effort": "S",
+          "risk": "The repository alone still does not reproduce the larger suite.",
+          "engineering_necessity": "Useful temporary evidence preservation.",
+          "aligned_with_control_package": true,
+          "why": "Makes the measurement inspectable without silently claiming ownership or clean-checkout reproducibility."
+        }
+      ],
+      "recommended_option": "A after test-owner review; B only as interim containment.",
+      "close_condition": "All three exact test files are present in the reviewed commit and a clean checkout runs the declared suite using recorded dependencies and invocation. Its measured results are recorded without assuming they must remain exactly 580/16 after subsequent legitimate changes."
+    },
+    {
+      "id": "R8-RES-09",
+      "title": "HGK conformance still has sixteen reported failures",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/LANE_MANDATE_R8.json"
+      ],
+      "current_state_verbatim": "The 16 remaining are pre-existing and unrelated to the mandate",
+      "why_it_is_open": "R8 claims zero new failures, not a green suite. The reported residual classes are a stale executable-path fixture, stale HEAD expectation, w3_solution stub-banner cases and M08 foreign-surface usage-receipt completion. This audit read the recorded comparison but did not rerun the suite; the M08 class must not be dismissed as harmless fixture drift without behavioral investigation.",
+      "closure_options": [
+        {
+          "option": "A: Establish a committed reproducible baseline, classify each failure, and repair only the failing mechanism or demonstrably stale oracle.",
+          "effort": "M",
+          "risk": "Changing expected values merely to obtain green could conceal a real admission or evidence-binding defect.",
+          "engineering_necessity": "High, especially for foreign-surface receipt acceptance.",
+          "aligned_with_control_package": true,
+          "why": "Uses existing tests and isolates defects instead of broadening the governance framework."
+        },
+        {
+          "option": "B: Retain the baseline comparison as scoped non-regression evidence.",
+          "effort": "S",
+          "risk": "Pre-existing failures remain and full conformance cannot be claimed.",
+          "engineering_necessity": "Acceptable reporting containment, not closure.",
+          "aligned_with_control_package": true,
+          "why": "Zero new failures is a valid narrower claim when explicitly bounded."
+        }
+      ],
+      "recommended_option": "A, with explicit priority on the M08 foreign-subject case after establishing the committed baseline.",
+      "close_condition": "The declared clean-checkout suite has no unresolved required failures; each corrected fixture is justified against its authority, and the foreign-surface negative case rejects inappropriate receipt completion. Tests must not be deleted, weakened or silently excluded."
+    },
+    {
+      "id": "CR-PLUGIN-SCHEMA-AUTHORITY",
+      "title": "Plugin-schema authority still requires an owner ruling",
+      "severity": "medium",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/OWNER_DECISIONS.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json"
+      ],
+      "current_state_verbatim": "the product owner states which document is the plugin-schema authority (DOC section reference)",
+      "why_it_is_open": "DOC-12 is the recorded recommendation, not a demonstrated owner ratification. The acceptance source locator cannot become authoritative merely because the recommendation is plausible.",
+      "closure_options": [
+        {
+          "option": "A: Obtain the product owner's exact DOC/section ruling and apply it in the same admitted contract repair as the four bindings.",
+          "effort": "S",
+          "risk": "The owner may select a different authoritative locator.",
+          "engineering_necessity": "Necessary for unambiguous plugin acceptance.",
+          "aligned_with_control_package": true,
+          "why": "Bundles related small contract changes without bypassing ownership."
+        },
+        {
+          "option": "B: Retain the recommended DOC-12 default as a non-authoritative proposal.",
+          "effort": "S",
+          "risk": "The conflict stays open.",
+          "engineering_necessity": "Safe interim posture.",
+          "aligned_with_control_package": true,
+          "why": "Avoids an agent granting document authority."
+        }
+      ],
+      "recommended_option": "A; request a single explicit DOC/section decision, with DOC-12 as the proposed default.",
+      "close_condition": "A traceable owner ruling names the authoritative plugin-schema locator; the successor contract binds it and compiles successfully; independent review verifies that no conflicting locator still governs the affected acceptance."
+    },
+    {
+      "id": "CR-GPTB-KP-R04-POLARITY",
+      "title": "KnowledgePack R04 polarity is unresolved",
+      "severity": "medium",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/OWNER_DECISIONS.md",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/OpenQuestionLedger.tsv"
+      ],
+      "current_state_verbatim": "a KnowledgePack R04 polarity ruling recorded in the KP corpus",
+      "why_it_is_open": "The missing artifact is a substantive polarity ruling by the KnowledgePack authority, recorded in the owning corpus. A round-evidence note or crosswalk row without that ruling cannot supply it.",
+      "closure_options": [
+        {
+          "option": "A: Obtain and record the authorized R04 polarity ruling and its source locator, then update the existing crosswalk.",
+          "effort": "S",
+          "risk": "The actual polarity cannot be inferred from the closure recommendation.",
+          "engineering_necessity": "Necessary for requirements that depend on R04.",
+          "aligned_with_control_package": true,
+          "why": "Places the decision in its existing owning corpus."
+        },
+        {
+          "option": "B: Keep R04-dependent claims blocked and continue unrelated work.",
+          "effort": "S",
+          "risk": "Dependent capabilities remain unclosed.",
+          "engineering_necessity": "Appropriate containment when the decision is unavailable.",
+          "aligned_with_control_package": true,
+          "why": "Avoids inventing semantic authority."
+        }
+      ],
+      "recommended_option": "A when the KnowledgePack owner supplies the ruling; otherwise B.",
+      "close_condition": "The owning KnowledgePack contains the authorized polarity and rationale with a resolvable locator, the crosswalk references it, and affected acceptance can distinguish the permitted and prohibited interpretations."
+    },
+    {
+      "id": "R6-TS12",
+      "title": "Native PIPD PI/PD/ECP writer integration remains unauthorized",
+      "severity": "blocker",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/SBL_R7_EXECUTION_STATUS.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/INSTALL_BOOTSTRAP_R8.json",
+        "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-00.md"
+      ],
+      "current_state_verbatim": "OPEN - needs a Native issuer (WorkOrder/ONE ECP/Permit) this session did not hold",
+      "why_it_is_open": "The R8 adapter explicitly does not provide native_effect, permit_signing or workorder_admission. Repository merge authority and package installation do not grant native issuance. The DOC-00 OracleCrosswalk prerequisite also remains a named owner-controlled HOLD; its mapping cannot be invented by SBL.",
+      "closure_options": [
+        {
+          "option": "A: Obtain the native issuer's scoped WorkOrder, ONE ECP and Permit, plus any affected authoritative OracleBinding/Crosswalk, then execute a minimal native slice.",
+          "effort": "M",
+          "risk": "External issuer and PIPD-owner artifacts are absent from the reviewed evidence.",
+          "engineering_necessity": "Essential for native integration claims.",
+          "aligned_with_control_package": true,
+          "why": "Uses the designated formal writers and sole native control plane."
+        },
+        {
+          "option": "B: Continue proposal-only/NoEffect behavior.",
+          "effort": "S",
+          "risk": "Does not close native writer delivery.",
+          "engineering_necessity": "Mandatory safe behavior without grants.",
+          "aligned_with_control_package": true,
+          "why": "Preserves source and authority boundaries."
+        }
+      ],
+      "recommended_option": "A only after receiving the named external grants; B until then.",
+      "close_condition": "A real authorized native invocation consumes valid subject-bound PI/PD, ONE ECP, issuer permit and applicable oracle authority, produces verifiable issuer/receiver evidence and rollback, and rejects missing, stale or foreign permits. Agent-authored stand-ins fail the condition."
+    },
+    {
+      "id": "R6-TS15",
+      "title": "A genuinely new user-defined CLI_TOOL journey is not delivered",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/SBL_R7_EXECUTION_STATUS.json"
+      ],
+      "current_state_verbatim": "a real new user-defined CLI_TOOL end-to-end (not the sbl-todo fixture)",
+      "why_it_is_open": "The shipped sbl-todo lifecycle is useful evidence but was expressly not counted as a newly generated user product. The missing work is a bounded product build slice, not a documentation update or another installation of the same fixture.",
+      "closure_options": [
+        {
+          "option": "A: Admit and implement one minimal new user-defined CLI_TOOL through the existing build path.",
+          "effort": "M",
+          "risk": "Must not expand into a general product-generation platform.",
+          "engineering_necessity": "High; demonstrates actual user-facing output.",
+          "aligned_with_control_package": true,
+          "why": "Smallest product slice that can satisfy this distinct requirement."
+        },
+        {
+          "option": "B: Count sbl-todo as the new product.",
+          "effort": "S",
+          "risk": "Contradicts the explicitly preserved acceptance distinction.",
+          "engineering_necessity": "No genuine closure.",
+          "aligned_with_control_package": false,
+          "why": "Re-labels existing fixture evidence instead of delivering the missing surface."
+        }
+      ],
+      "recommended_option": "A under a new admitted WriteSet and bounded-writer dispatch.",
+      "close_condition": "A source-bound user request produces a distinct CLI product that installs and performs its declared useful operation in a clean environment, rejects invalid input, survives the required restart path and uninstalls without residue; independent verification binds those results to the resulting artifact."
+    },
+    {
+      "id": "R6-TS16",
+      "title": "New Skill/Minimal Agent and remaining ProductKind execution are incomplete",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md"
+      ],
+      "current_state_verbatim": "new Skill / Minimal Agent and other ProductKinds",
+      "why_it_is_open": "Existing official skills and installable manifests do not demonstrate a new SBL-produced Skill/Minimal Agent or full multi-Kind production. The outstanding obligation requires new admitted product slices and runtime outcomes.",
+      "closure_options": [
+        {
+          "option": "A: Implement one minimal new Skill/Minimal Agent slice, then close other required ProductKinds separately.",
+          "effort": "M",
+          "risk": "A first successful slice can be overclaimed as full multi-Kind completion.",
+          "engineering_necessity": "High for product coverage, after foundational acceptance/provenance repairs.",
+          "aligned_with_control_package": true,
+          "why": "Avoids an all-Kinds rewrite and keeps each claim falsifiable."
+        },
+        {
+          "option": "B: Defer unimplemented Kinds with explicit per-Kind ceilings.",
+          "effort": "S",
+          "risk": "Full contract remains open.",
+          "engineering_necessity": "Useful scope containment.",
+          "aligned_with_control_package": true,
+          "why": "Preserves the contract denominator without fabricating capability."
+        }
+      ],
+      "recommended_option": "A incrementally; retain B for each not-yet-built Kind.",
+      "close_condition": "Each claimed Kind has an admitted source-to-artifact execution, actual loader/runtime use, negative/security behavior and rollback evidence independently checked. One Skill/Minimal Agent closes only its declared sub-slice, not all ProductKinds."
+    },
+    {
+      "id": "R6-TS07-CLOSURE",
+      "title": "The 149-child trace skeleton is not execution evidence",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/SBL/contracts/compiled-r6/thin-prompt.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md"
+      ],
+      "current_state_verbatim": "149 Child raw evidence closure (the R6 ledger is a trace skeleton, not raw receipts)",
+      "why_it_is_open": "The ledger establishes traceability, not execution. R8 still lists 149 children as unclosed. No claim is made here that all children lack every artifact; the supported conclusion is that full child-level closure has not been established.",
+      "closure_options": [
+        {
+          "option": "A: Execute required children in bounded groups and attach existing raw receipt formats to the existing ledger.",
+          "effort": "L",
+          "risk": "Repeated paperwork can replace product execution if the ledger becomes the objective.",
+          "engineering_necessity": "Necessary for full coverage, but not the first low-friction repair.",
+          "aligned_with_control_package": true,
+          "why": "Reuses the trace structure and measures actual contract coverage."
+        },
+        {
+          "option": "B: Close a named subset and leave the remaining denominator visible.",
+          "effort": "M",
+          "risk": "Subset acceptance must not be presented as 149/149.",
+          "engineering_necessity": "Best immediate delivery strategy.",
+          "aligned_with_control_package": true,
+          "why": "Permits useful incremental progress without a new evidence-management subsystem."
+        }
+      ],
+      "recommended_option": "B as the execution strategy toward A.",
+      "close_condition": "The exact required child set is enumerated from the applicable contract and every child has qualifying raw evidence plus independent disposition. Partial batches explicitly name their subset and do not alter or hide the remaining denominator."
+    },
+    {
+      "id": "R6-TS21",
+      "title": "Three ChatGPT private plugins lack host acceptance",
+      "severity": "blocker",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/OWNER_DECISIONS.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md"
+      ],
+      "current_state_verbatim": "host-issued IDs cannot be fabricated and no host was authorised; 0/3 stands",
+      "why_it_is_open": "Packaging and plugin build self-tests do not provide host-issued identities, installation permission, loader acknowledgement or host acceptance. This is an external authority/access dependency, not something the agent can close by writing manifests.",
+      "closure_options": [
+        {
+          "option": "A: Obtain authorized host/account access and create/install/verify each plugin through the host's real interfaces.",
+          "effort": "M",
+          "risk": "The host may not provide the required current capability; availability must be established before implementation promises.",
+          "engineering_necessity": "Essential for this exact host claim.",
+          "aligned_with_control_package": true,
+          "why": "Only the actual host can issue its IDs and installation acknowledgement."
+        },
+        {
+          "option": "B: Retain package-only artifacts and the 0/3 host-acceptance ceiling.",
+          "effort": "S",
+          "risk": "Host delivery remains blocked.",
+          "engineering_necessity": "Required honest fallback.",
+          "aligned_with_control_package": true,
+          "why": "Does not counterfeit host artifacts."
+        }
+      ],
+      "recommended_option": "A conditional on explicit host authorization and demonstrated host support; otherwise B.",
+      "close_condition": "All three plugins have real host-issued identities, authorized installation and effective-load evidence, declared positive behavior, unauthorized-action refusal and uninstall/readback, with independent acceptance bound to the actual host and plugin versions."
+    },
+    {
+      "id": "TT-CHALLENGE-BUNDLE-MISSING",
+      "title": "Canonical challenge bundle and signed PASS_CHALLENGE remain missing",
+      "severity": "blocker",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/OpenQuestionLedger.tsv",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/R8_ROUND_REPORT.md"
+      ],
+      "current_state_verbatim": "a signed external challenge bundle from the acceptance authority",
+      "why_it_is_open": "The acceptance authority's canonical bundle and signing authority are absent from the reviewed evidence. A locally generated challenge, model vote or unsigned report cannot replace them.",
+      "closure_options": [
+        {
+          "option": "A: Obtain the canonical bundle and authorized challenge execution/signature.",
+          "effort": "M",
+          "risk": "External authority controls delivery and may return a non-passing result.",
+          "engineering_necessity": "Essential for PASS_CHALLENGE and full-contract acceptance.",
+          "aligned_with_control_package": true,
+          "why": "Preserves independent challenge ownership."
+        },
+        {
+          "option": "B: Run local preparatory checks with an explicitly unsigned advisory ceiling.",
+          "effort": "S",
+          "risk": "Preparation does not close the signed challenge requirement.",
+          "engineering_necessity": "Optional readiness work only.",
+          "aligned_with_control_package": true,
+          "why": "Can find defects without impersonating the acceptance authority."
+        }
+      ],
+      "recommended_option": "A; avoid investing in a substitute challenge subsystem.",
+      "close_condition": "The canonical challenge bundle is available with verifiable identity/version, is executed against the exact candidate, and the recognized external authority issues a verifiable subject-bound PASS_CHALLENGE. Failure or unsigned output leaves the item open."
+    },
+    {
+      "id": "TT-METHOD09-LEDGER-DRIFT",
+      "title": "METHOD-09 frozen/current delta remains intentionally open",
+      "severity": "low",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/30_RESIDUAL/RESIDUAL_INVENTORY.json",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/OpenQuestionLedger.tsv"
+      ],
+      "current_state_verbatim": "nothing; a frozen-vs-current delta is the correct end state unless the DOC changes",
+      "why_it_is_open": "This is a preserved authority delta, not evidence that the current implementation must be rewritten. Editing a frozen oracle to match the implementation would destroy the historical baseline.",
+      "closure_options": [
+        {
+          "option": "A: Preserve the delta and its scope as non-blocking recorded debt.",
+          "effort": "S",
+          "risk": "Readers must understand that recorded delta does not mean equivalence.",
+          "engineering_necessity": "Low implementation necessity; high record-integrity necessity.",
+          "aligned_with_control_package": true,
+          "why": "Matches the explicit FAR ruling."
+        },
+        {
+          "option": "B: If closure becomes necessary, obtain an authorized successor DOC/oracle disposition and re-evaluate the affected implementation.",
+          "effort": "M",
+          "risk": "Unnecessary source revision would create avoidable governance work.",
+          "engineering_necessity": "Conditional only.",
+          "aligned_with_control_package": true,
+          "why": "Changes the governing basis legitimately rather than rewriting history."
+        }
+      ],
+      "recommended_option": "A. Do not prioritize this as a repair merely to reduce the open-item count.",
+      "close_condition": "A legitimate source-owner successor disposition resolves or formally accepts the specific delta, with old frozen evidence preserved and affected checks rerun; absent that, the correct state remains OPEN_STILL_BY_DESIGN."
+    },
+    {
+      "id": "R8-RES-10",
+      "title": "Linux-native reproduction has not been performed",
+      "severity": "low",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/_handover/CHECKPOINT_SBL_R7_FAR023_20261021.md",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/DEVIATIONS.tsv"
+      ],
+      "current_state_verbatim": "the Docker daemon was never confirmed up and the start attempt timed out",
+      "why_it_is_open": "Hosted Ubuntu/Windows CI and a local CI-equivalent run provide meaningful coverage, but they are not the unperformed local Linux-native two-build experiment. The evidence does not establish that this extra experiment is required for every scoped delivery.",
+      "closure_options": [
+        {
+          "option": "A: Run the existing two-build comparison in an approved Linux environment when that environment is available.",
+          "effort": "S",
+          "risk": "Docker availability may remain an external operational dependency.",
+          "engineering_necessity": "Conditional; lower than repairing acceptance and admission integrity.",
+          "aligned_with_control_package": true,
+          "why": "Uses the existing build tool rather than adding another build system."
+        },
+        {
+          "option": "B: Retain the exact coverage limitation and rely only on the already recorded hosted/local evidence for scoped claims.",
+          "effort": "S",
+          "risk": "Cannot claim the missing Linux-native experiment.",
+          "engineering_necessity": "Adequate where the applicable contract does not require it.",
+          "aligned_with_control_package": true,
+          "why": "Avoids turning optional coverage into a new platform project."
+        }
+      ],
+      "recommended_option": "B unless the contract or acceptance officer explicitly requires A.",
+      "close_condition": "An approved Linux environment executes two independent builds of the same pinned source and records matching wheel/sdist digests, environment identity, commands and raw results; otherwise an authorized applicability decision may remove only this experiment's requirement, not fabricate its execution."
+    },
+    {
+      "id": "R8-RES-11",
+      "title": "R8 repaired lane declarations but left reproducible rebind-generator defects",
+      "severity": "high",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/LANE_MANDATE_R8.json",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R7-LANES/apply_execute_minimax_rebind.py",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/apply_execute_minimax_runtime_decl.py"
+      ],
+      "current_state_verbatim": "when the same defect recurs after a targeted repair, the repair fixed the artifact and left the code path that produced it; fix the generator.",
+      "why_it_is_open": "R8-D1/D2/D3 current-instance repairs are recorded, but the opened generators retain the mechanisms: policy output omits runtime declarations; the fallback builder copies only arms already present in the old fallback map, so a demoted primary can disappear; the runtime-declaration script increments registry epoch without producing the matching assignment update. A post-hoc alignment is not durable prevention. This finding concerns the opened generators, not a claim that current lane configuration is still wrong.",
+      "closure_options": [
+        {
+          "option": "A: Repair or explicitly retire these scripts and use one small existing-path builder/check that derives fallbacks and validates all joint invariants before apply.",
+          "effort": "M",
+          "risk": "A broad routing-system rewrite would exceed the necessity of the defect.",
+          "engineering_necessity": "High; these defects have already recurred.",
+          "aligned_with_control_package": true,
+          "why": "Small changes to the existing producers and tests can prevent repeat incidents."
+        },
+        {
+          "option": "B: Keep patching each generated configuration after future rebinds.",
+          "effort": "S",
+          "risk": "The same incoherence and dropped-fallback class can recur while pins remain internally green.",
+          "engineering_necessity": "Insufficient durable repair.",
+          "aligned_with_control_package": false,
+          "why": "Fixes instances rather than the demonstrated producing mechanisms."
+        }
+      ],
+      "recommended_option": "A, limited to existing scripts and deterministic in-memory regression tests; do not build a new routing subsystem.",
+      "close_condition": "Candidate tests promote an arm absent from the old fallback list and preserve every other arm in the correct order; policy/runtime mismatch and one-sided epoch changes are rejected before apply. The authorized generator produces mutually coherent outputs or is marked retired with a verified successor. Independent verification distinguishes current-state repair from mechanism closure."
+    },
+    {
+      "id": "R8-RES-12",
+      "title": "Current-state projections still contradict completed R7/R8 events",
+      "severity": "medium",
+      "evidence_paths": [
+        "C:/Projects/Agent_Workspace/HG-KSEOS/AGENTS.md",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/90_EVIDENCE/SBL_R7_EXECUTION_STATUS.json",
+        "C:/Projects/Agent_Workspace/Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/VERDICT.json",
+        "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/LANE_MANDATE_R8.json"
+      ],
+      "current_state_verbatim": "## Lane-chain contract (current, epoch 25)",
+      "why_it_is_open": "HGK AGENTS presents an obsolete lane-chain block as current, including all-model overlap language contradicted by R8's recorded PLAN/VERIFY GPT and EXECUTE MiniMax binding. R7 execution status also retains not_done entries for merges/releases and a checker scheduled state alongside later completion blocks; FAR VERDICT retains obsolete not_executed entries. Dated historical measurements should remain, but ambiguous current summaries need an explicit successor projection.",
+      "closure_options": [
+        {
+          "option": "A: Add a narrow current-state/supersession projection and reconcile only active routing guidance and active status fields.",
+          "effort": "S",
+          "risk": "Rewriting dated evidence would falsify history.",
+          "engineering_necessity": "Medium; prevents the next worker from following obsolete instructions or reopening completed work.",
+          "aligned_with_control_package": true,
+          "why": "Small additive/current-section edits are sufficient; no broad documentation rewrite is justified."
+        },
+        {
+          "option": "B: Leave all contradictory summaries and rely on readers to discover the latest appended block.",
+          "effort": "S",
+          "risk": "Obsolete guidance remains operationally misleading.",
+          "engineering_necessity": "Does not close the currentness defect.",
+          "aligned_with_control_package": false,
+          "why": "The documents explicitly label some superseded material as current."
+        }
+      ],
+      "recommended_option": "A through the authorized documentation scope, preserving all historical verdicts, measurements and superseded owner orders.",
+      "close_condition": "A reader following the declared current-state pointer reaches one unambiguous as-of-R8 projection; active lane guidance agrees with the R8 authority, completed merge/release/checker events are not simultaneously presented as current missing work, and dated history remains unchanged."
+    }
+  ],
+  "top5_ordering": [
+    {
+      "rank": 1,
+      "id": "R8-RES-08",
+      "why_ahead_of_others": "Small, ordinary repository-hygiene work unlocks reproducible conformance diagnosis and review. Obtain the test owner's review rather than blindly staging. This is a lower-friction foundation than interpreting an unreproducible 580/16 working-tree result."
+    },
+    {
+      "rank": 2,
+      "id": "R8-RES-03",
+      "why_ahead_of_others": "A small, precisely identified contract correction removes false acceptance edges before further plugin/host verification. Bundle the plugin-schema owner decision if available. Scheduling/SSOT authority is a real prerequisite, not permission inferred from the round number."
+    },
+    {
+      "rank": 3,
+      "id": "R8-RES-07",
+      "why_ahead_of_others": "The upstream admission defect can silently bind the wrong repository or invent apparent completion of a missing WorkOrder. A bounded controller repair has higher engineering necessity than additional product breadth and prevents subsequent rounds from inheriting unreliable admission."
+    },
+    {
+      "rank": 4,
+      "id": "R8-RES-02",
+      "why_ahead_of_others": "R8 already supplies configuration pre-images and rollback pointers, making completion of a truthful binding record comparatively small. It should precede native/host expansion, but cannot close without the actual authorized permit/binding decision."
+    },
+    {
+      "rank": 5,
+      "id": "R8-RES-01",
+      "why_ahead_of_others": "Independent acceptance is the decisive remaining scoped-delivery gate. It follows subject/provenance/binding stabilization so another expensive checker round does not inspect a moving or inadequately admitted target. Use actual admitted scratch execution, not another attempt to turn maker receipts into independent proof."
+    }
+  ],
+  "owner_or_external_blockers": [
+    "Scope and ceiling: this adjudication concerns the reviewed as-of-R8 evidence, not a claim of an exhaustive semantic audit of every DOC clause. It made no requested product/control-plane changes and created no files. Tests were not rerun; the R8 580/16 result is attributed to the opened receipt/report, while the three untracked-test paths were independently confirmed using read-only git queries.",
+    "Independent acceptance: an authorized checker execution environment with writable isolated scratch is missing for the write-dependent behavioral checks. A signed maker receipt alone does not supply independent execution.",
+    "Formal Hermes binding: the actual HGK-authorized Runtime/Orchestration Plane binding/permit and verified rollback evidence are missing. R8 configuration-change and backup receipts exist but explicitly disclaim native issuance and activation.",
+    "Contract repair: OWNER-5 requires an owner-scheduled, admitted contract change with authority to alter the compiler SSOT. The lane-rebinding R8 round did not establish that authority or regenerate a corrected contract.",
+    "Plugin schema: the SBL Product Owner must explicitly designate the authoritative DOC and section. DOC-12 is the recorded recommendation, not a ratification established by this audit.",
+    "KnowledgePack: the owning authority must supply the actual R04 polarity ruling in the owning corpus, with its crosswalk reference. The polarity itself is not derivable from the reviewed closure notes.",
+    "Historical writer provenance: authentic contemporaneous bounded-writer implementation receipts were not established. They cannot be manufactured after the event; an owner disposition may be needed for the historical deviation, separately from future compliant execution.",
+    "Test ownership: review/landing authority for the three other-party untracked HGK test files is required before publishing them as a reproducible baseline.",
+    "Native integration: the Native issuer's subject-bound WorkOrder, ONE ECP and Permit are missing. For affected oracle-dependent work, DOC-00 also requires the PIPD owner's authoritative OracleBinding/OracleCrosswalk and authority receipt; an agent cannot resolve CR-ORACLE-001 by aliasing document names.",
+    "Host integration: explicit host admissions and usable authorized host/account access are missing for the private plugins and outstanding 38-surface/cross-host lifecycle proof. Host-issued IDs and ACKs cannot be fabricated.",
+    "Fabric applicability: R8 records NO_SBL_INSTALL_TARGET. If the requirement is interpreted as installation into Fabric, the contract owner must identify a real target or issue an applicability disposition; the agent should not invent one.",
+    "External challenge: the canonical challenge bundle, recognized signing authority and subject-bound signed PASS_CHALLENGE are missing.",
+    "New product slices and child closure: new admitted WriteSets and actual executions remain necessary for the new CLI_TOOL, new Skill/Minimal Agent, remaining required Kinds and 149-child coverage. These are engineering work, not automatically human blockers; their admission/native/host dependencies must be handled individually.",
+    "Source-authority ceiling: the opened DOC-00 source declares source_freeze HOLD, owner_ratification UNBOUND, independent_checker NOT_EXECUTED and native_effect DENY. The full-contract closure cannot be inferred from the local compiled contract or prerelease; affected authority gaps require their owning parties.",
+    "Linux-native reproduction: an available approved Linux execution environment is missing from the recorded experiment. This is lower priority unless the applicable acceptance contract expressly requires it.",
+    "No reopening of completed scoped work: the later R7 records establish the three merges and prerelease publication, and R8 preserves their narrower ceiling. They are not remaining merge/release blockers merely because older inventory and status fields still say otherwise."
+  ]
+}

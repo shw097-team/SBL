@@ -1,0 +1,199 @@
+{
+  "definition_under_control_package": "Complete SBL installation is a scoped, owner-authorized, evidence-qualified deployment, not pip success or a directory containing manifests. Five distinct achievements must remain separate: (a) Python package installation, (b) standalone stack bootstrap, (c) installation of the SBL-side HGK adapter files, (d) effective installation into each named Host, and (e) native integration using externally issued WorkOrder/ExecutionBinding/ECP/Permit and actual-world readback. Bootstrap establishes pinned sources, native owners, scope, versions, separate SP boundaries and compatible consumer interfaces. Detect means live Host discovery and actual trigger/nontrigger/permission/uninstall observations, plus source/Repo freshness and native ABI checks—not merely path existence. Accept requires same-subject raw evidence, applicable native gate decisions, an independent checker and required owner approvals; the maker cannot self-accept. Deliver means pinned artifacts, traceable evidence and claim ceiling, consumer ACK, and a demonstrated rollback/uninstall route. Connected delivery additionally requires SWOF's own W2/W3 decisions; transport delivery, wave admission and independent verification are separate truths. DOC-11 defines four transport edges E01–E04 and five trust gates H0–H4, not five transport hops. The installation scope must state applicable journeys, modes, Host distributions and versions; it does not authorize indiscriminately installing every named technology. Current code achieves package installation, standalone bootstrap and adapter-file installation. It does not itself achieve effective Host installation or native issuance. R8's package, standalone and adapter results were independently reproduced or read back, but they do not establish full installation, native acceptance, release or production qualification.",
+  "doc_citations": [
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-04.md:207–247 — separate SP authority, typed owner-issued objects and required Host EffectiveLoadReceipt.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-04.md:334–348,450–457 — six logical flow slots, ownership seams and independent discover/bind/trigger/nontrigger/uninstall checks.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-04.md:905–910,1077–1100 — admission/install sequence and distinction between installable packages, instructions, donors, native readers and quarantine.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-05.md:139–156,704–715,770–834 — native P4 routing, observed RepoContext, PD-01 through PD-10 and separate admission decision writer.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-05.md:1047–1100 — eight formal claim rungs and prohibition on promoting self-tests or file existence into qualification.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-05.md:1172–1185 — AuthRequest/AuthDecision/TokenRef/PermitDecision and ONE_ECP_PER_GOVERNED_EFFECT_STAGE.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-10.md:665–717 — per-distribution Host identity, HostInstall FSM, ten UAT steps, Hermes-specific discovery and Codex Desktop/CLI scope.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-10.md:874–917 — G-KNOW freshness hard gate, derived HLPE/OROCHI caches, citation readback and provider-off retrieval limitations.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-11.md:121–144,146–267 — native schema/owner binding, four edges/five gates, independent transport/wave/checker decisions, replay protection and actual-world reconciliation.",
+    "C:/Projects/Agent_Workspace/_sbl_src_mirror/SBL_PIPD-LS-PKG/SBL_PIPD-LS-PKG_DOC-13.md:189–220,224–235,261–274,986–1002 — journey-specific outcomes, measurement/stop-loss, reuse-first constraints and installation/uninstallation readback.",
+    "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r8/INSTALL_BOOTSTRAP_R8.json:5–131 — historical R8 installation claims and explicit non-claims.",
+    "C:/Projects/Agent_Workspace/_sbl_release_011rc1/sbl_stack/__init__.py and sbl_harness/__init__.py — actual install/doctor/selftest/probe logic; all four stack/harness Python files match the installed wheel bytes.",
+    "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cache/scratch/r9_workerB/recheck.json — independent current readback; SHA256 4f402437665b60a7446653a12aef2c1c63cc7bcedc76d16d964ba3fc34967ee7."
+  ],
+  "gaps": [
+    {
+      "id": "INSTALL-01",
+      "target": "HERMES canonical runtime",
+      "gap": "Python installation is verified; effective Hermes Host installation remains unqualified.",
+      "what_the_contract_requires": "Pinned runtime/distribution and install scope, native discovery in a fresh session, actual load/trigger, nontrigger, denied-tool tests, uninstall and second-session residue readback under the Host owner.",
+      "what_evidence_shows": "Canonical venv currently contains sbl-v01 0.1.1rc1, no runtime dependencies, the three declared console entry points and 141 distributions. R8 stack status still reports STANDALONE_ONLY and host_install_state=NOT_INSTALLED. The historical pre-install count of 140 is recorded in R8, not independently reconstructable from the current environment. Package imports and skill text availability do not supply the required Host UAT receipts.",
+      "severity": "HIGH",
+      "recommended_action": "Qualify the actual canonical Hermes skill/plugin loader in an owner-approved isolated scope, preserving existing configuration. Collect all ten Host UAT observations before claiming effective Host installation."
+    },
+    {
+      "id": "INSTALL-02",
+      "target": "Standalone stack bootstrap and detect",
+      "gap": "The green bootstrap checks cover integrity and a narrow local journey, not the entire governed lifecycle.",
+      "what_the_contract_requires": "Behavioral evidence for applicable logical modules, journeys and ownership seams, with same-subject POS/NEG/EDGE/SEC results and real outcomes rather than counts or manifest presence.",
+      "what_evidence_shows": "The original R8 stack manifest digest matches 9d458910f6602cf1a7ff9041fcca03b7d49538a91094e9db4c623fd528ea5936. Doctor again reports 14 components and 39 mode-gate cells; status lists three principal identifiers. Selftest was rerun successfully at 9/9, including both named refusals. However, SharedCore.doctor returns a static healthy/module report; selftest behavior primarily exercises M01 intake, M02 derivation and M03 routing, then manifests/matrix/plugin construction. It does not execute the native PI/PD/ECP/Permit/readback/checker chain. Fourteen components are not fourteen independently qualified capabilities.",
+      "severity": "HIGH",
+      "recommended_action": "Retain these results as standalone smoke/integrity evidence. Add bounded contract-to-behavior coverage for the selected journey and map implementation modules to DOC-04's logical slots without assuming matching module counts prove semantic coverage."
+    },
+    {
+      "id": "INSTALL-03",
+      "target": "HGK adapter versus native integration",
+      "gap": "Installed adapter declarations do not implement or demonstrate native dispatch and Permit issuance.",
+      "what_the_contract_requires": "Owner-approved native schema/version/digest bindings and authentic WorkOrder, ExecutionBinding, staged ECP and Permit references, followed by receiver ACK/NACK and authorized native execution.",
+      "what_evidence_shows": "Probe again returns ROOT_READY on six checks: root, package, spine file, lane-registry file, dispatcher file and package import/version. Adapter doctor is clean and all three payload digests match R8 exactly; MANIFEST.json is the additional integrity index. The implementation's ABI advertises plan/execute/verify but contains no corresponding native execution client. Its CLI only exposes probe/install/doctor/uninstall. The ABI explicitly excludes native_effect, permit_signing and workorder_admission; claim_ceiling remains HOST_PENDING and native_effect remains NOT_GRANTED.",
+      "severity": "BLOCKER",
+      "recommended_action": "Obtain HGK-owner-approved native interfaces and authorization, then implement or reuse a thin consumer adapter under a separate admitted change. Do not add an SBL issuer or reinterpret ROOT_READY as native admission."
+    },
+    {
+      "id": "INSTALL-04",
+      "target": "PIPD/CAPC bootstrap and HGK Repo binding",
+      "gap": "R8 does not establish native source freeze, PI compilation, PD ten-item closure, C0–C9 compilation or fresh admission.",
+      "what_the_contract_requires": "Native P4 routing; real Repo identity/HEAD/tracked/worktree/scope/source observations; PD-01–PD-10 with distinct admission authority; CAPC C0–C9; same-subject typed cross-domain bindings.",
+      "what_evidence_shows": "R8 installation evidence records package/stack/adapter health, not these native receipts. The inspected local build bridge reads HEAD, tracked-file count and a dirty boolean; this is not the complete RepoContext freshness/identity protocol specified in DOC-05. Its BuildOrder/write-set operations are local implementation behavior, not proof of native WorkOrder/ECP/Permit admission.",
+      "severity": "BLOCKER",
+      "recommended_action": "Bind the existing native PIPD/CAPC services and actual RepoContext observations. Preserve namespace distinctions and resolve affected Oracle ownership holds before requesting native admission. Do not fabricate missing refs or replace native compilers."
+    },
+    {
+      "id": "INSTALL-05",
+      "target": "FABRIC",
+      "gap": "No SBL-specific Fabric target or owner-approved native observation seam is established by R8.",
+      "what_the_contract_requires": "Identify the actual Fabric/HGK native consumer and owner, pin its interface and policy consumption, and obtain H3 ObservedWorld, expected/actual comparison, residue classification and compensation references where effects are authorized. A separate Python package installation into Fabric is not inherently required.",
+      "what_evidence_shows": "R8 explicitly records NO_SBL_INSTALL_TARGET and no attempted Fabric install. C:/Projects/Agent_Workspace/Fabric exists, but directory existence does not identify an SBL install transaction or prove an H3 integration. DOC-11 treats Fabric as a native observer/assurance seam; describing it solely as an autonomous-research harness does not discharge that requirement.",
+      "severity": "BLOCKER_FOR_NATIVE_DELIVERY",
+      "recommended_action": "Have the Fabric/HGK owner identify the canonical consumer, policy source and actual-world readback API. Reuse that seam; if no separate install is applicable, record NOT_APPLICABLE with rationale while keeping unproven native integration OPEN."
+    },
+    {
+      "id": "INSTALL-06",
+      "target": "CODEX and CODEX CLI",
+      "gap": "Neither surface has SBL-specific effective-load qualification in the R8 installation evidence.",
+      "what_the_contract_requires": "Distinguish distributions and versions, pin workspace and AGENTS.md precedence, exercise native skill discovery and fresh-session trigger/nontrigger, enforce Tool ACL/scope, and demonstrate transaction-scoped uninstall and residue absence.",
+      "what_evidence_shows": "R8's installation receipt contains no Codex Host UAT. Its separate lane receipt reports Codex-CLI model-serving probes, but serving a bounded lane does not demonstrate that SBL's three SP packages were discovered, loaded or safely uninstalled. DOC-10 groups Codex Desktop/CLI as a Host family but forbids sharing qualification merely by brand name.",
+      "severity": "HIGH",
+      "recommended_action": "Identify whether CODEX means the desktop application, another distribution or the same CLI. Qualify each distinct distribution/version/scope separately; do not invent a second target if both names resolve to one executable and loader."
+    },
+    {
+      "id": "INSTALL-07",
+      "target": "Three SP deployment boundaries",
+      "gap": "Three manifest identifiers do not demonstrate three effectively isolated principals.",
+      "what_the_contract_requires": "Separate manifests, entrypoints, permissions, release/rollback and consumer ACK; no shared full-authority token, private mutable session state or maker/checker authority collapse.",
+      "what_evidence_shows": "Stack status independently confirms commander_sp, external_challenge_sp and tpm_sp. Plugin construction succeeds locally. Neither result exercises Host token scopes, runtime session isolation or independent challenge execution. The nine-step selftest does not establish those properties.",
+      "severity": "HIGH",
+      "recommended_action": "Measure SP permission and session boundaries on the selected Host, including a boundary-collapse negative case and a separate read-only challenger. Treat identity strings as declarations until authenticated by the relevant owner."
+    },
+    {
+      "id": "INSTALL-08",
+      "target": "Accept and deliver",
+      "gap": "No installation result establishes a formal acceptance rung or a native end-to-end delivery verdict.",
+      "what_the_contract_requires": "Same-subject fresh raw receipts and native owners for each formal rung: PROMPT_COMPILE_PASS, HGK_ADMITTED, RUNTIME_READY, LOCAL_QUALIFIED, INDEPENDENT_PASS, PUBLICATION_APPROVED, RELEASED and PRODUCTION_VERIFIED. Connected scope additionally separates transport ACK, SWOF admission and independent verification.",
+      "what_evidence_shows": "The measured results establish local installation/integrity and root readiness. R8 explicitly disclaims acceptance. Installed EvidenceVerification uses a local claim vocabulary capped at LOCAL and compares maker/checker strings; it is not authentication of an independent native checker or a replacement for the upstream eight-rung lifecycle. No formal rung follows automatically from the successful rechecks.",
+      "severity": "BLOCKER",
+      "recommended_action": "Freeze the selected subject and oracle, obtain a separate checker receipt and native acceptance decision, then package artifacts/evidence/rollback with the exact achieved ceiling and receiver ACK. Keep SWOF W2/W3 work conditional on explicitly selected connected scope."
+    },
+    {
+      "id": "INSTALL-09",
+      "target": "G-KNOW / HLPE / OROCHI / RAG",
+      "gap": "A local retrieval component is present, but the native pre-effect freshness and resume-control seam is not established by installation health.",
+      "what_the_contract_requires": "SourceRegistrySnapshot, reversible source locators, FreshnessGate, citation readback and resume/rebind invalidation; derived caches cannot become canonical source or permission truth.",
+      "what_evidence_shows": "sbl_core.gknow is included in the fourteen hashed components. Its implementation offers local chunk indexing and token-overlap retrieval with NON_AUTHORITATIVE_LOCATOR results and coverage-gap refusals. The stack/harness installation checks do not establish a native freshness gate before writes, owner ACK, or HLPE/OROCHI checkpoint/rebind qualification.",
+      "severity": "HIGH_FOR_GOVERNED_EFFECTS",
+      "recommended_action": "Reuse the existing native knowledge/freshness gate and bind its readback into the selected execution path. Keep local retrieval explicitly non-authoritative; do not respond by building another knowledge control plane."
+    },
+    {
+      "id": "INSTALL-10",
+      "target": "Reproducibility, quality and installation scope",
+      "gap": "The supplied source path is stale, and the installation proof does not include complete Host rollback or journey-quality qualification.",
+      "what_the_contract_requires": "Resolvable source pins, reproducible artifact identity, transaction-bounded uninstall/residue evidence, applicable journey outcomes, and owner-approved measurement/stop-loss decisions without unnecessary subsystem expansion.",
+      "what_evidence_shows": "C:/Projects/Agent_Workspace/SBL/src does not exist on this machine. The actual release sources were found at C:/Projects/Agent_Workspace/_sbl_release_011rc1/sbl_stack and sbl_harness; their four Python files match the installed wheel exactly. The wheel SHA matches R8. R8 does not record the ten-step Host lifecycle or comparative quality/cost baselines. This worker created only isolated selftest plugin artifacts, a fresh standalone stack manifest and recheck.json under r9_workerB; no repository edits, Host changes or native effects were performed.",
+      "severity": "MEDIUM",
+      "recommended_action": "Correct future evidence locators to the actual pinned source/artifact. Select one bounded journey and Host first, measure real outcomes and reversible deployment, and leave unknown cost/threshold values explicit rather than widening the installation or inventing ROI."
+    }
+  ],
+  "execution_plan": [
+    {
+      "step": 1,
+      "command_or_change": "Owner freezes an installation scope naming package version/digest, selected journey/mode, canonical Hermes distribution, HGK/Fabric consumers and the exact meaning of CODEX versus CODEX CLI.",
+      "verification": "Every target has an owner, identity/version, install scope, applicable requirements and explicit unqualified/not-applicable dispositions. Missing Fabric consumer identification remains OPEN."
+    },
+    {
+      "step": 2,
+      "command_or_change": "Preserve the verified R8 standalone/package/adapter results and bind them to actual release sources. Use the canonical venv's sbl-stack doctor/status against the original r8_sbl_install/stack and sbl-harness doctor against HG-KSEOS/_sbl_harness_adapter.",
+      "verification": "Already rechecked: package 0.1.1rc1, zero runtime dependencies, 141 current distributions, fourteen component hashes, three SP IDs, selftest 9/9 with two refusals, ROOT_READY 6/6 and all three R8 adapter payload digests. Historical count 140 remains attributed to the R8 record."
+    },
+    {
+      "step": 3,
+      "command_or_change": "Host owner admits a reversible isolated loader transaction for the first selected Host; stage the three SP assets through that Host's supported installation surface, not by changing stack claim flags.",
+      "verification": "Collect identity/preflight/backup/install-intent/discovery/load/nontrigger/permission-denial/uninstall/residue observations. Repeat in fresh sessions and retain actual raw logs, candidate hashes and rollback readback."
+    },
+    {
+      "step": 4,
+      "command_or_change": "Native owners provide approved PIPD/CAPC/HGK/Fabric schema locators, digests, authority bindings and receiver ACK/NACK contracts; adapt only the necessary typed consumer seam.",
+      "verification": "Reject unknown schema/enum/cardinality, stale source and unapproved owner bindings before dispatch. Distinguish a declaration of plan/execute/verify from a callable, authorized implementation."
+    },
+    {
+      "step": 5,
+      "command_or_change": "Run one authorized vertical slice: native source/PI, actual RepoContext and PD binding, C0–C9 compilation, native WorkOrder/ExecutionBinding and one ECP per authorized effect stage, with externally issued Permit.",
+      "verification": "Record H0–H2 same-subject receipts; test expired/revoked/forged Permit, scope escape, changed Repo state and replay. Each pre-effect refusal must cause zero new dispatches. OPS requires its own stage authorization rather than reusing DEV permission."
+    },
+    {
+      "step": 6,
+      "command_or_change": "Native runner and Fabric/HGK observer execute and read back only the admitted effect; reuse native G-KNOW freshness and checkpoint/rebind controls.",
+      "verification": "H3 compares actual bytes/state with expected results and scans residue. Timeout-after-success queries historical receipts without replay. Partial effects produce reconciliation HOLD, not a retroactive zero-effect claim."
+    },
+    {
+      "step": 7,
+      "command_or_change": "Separate qualified checker evaluates the frozen subject and registered oracle; native acceptance owner consumes its result through the sanctioned acceptance path.",
+      "verification": "Maker cannot issue final acceptance. Authenticate checker identity and bind its raw evidence to the same subject. Keep transport ACK, independent verification and any SWOF W3 admission as separate records."
+    },
+    {
+      "step": 8,
+      "command_or_change": "Deliver the pinned artifacts, source/evidence manifest, achieved claim projection, consumer ACK and tested rollback/uninstall instructions. Expand to remaining distinct Hosts only through separate qualification.",
+      "verification": "Read back delivery at the exact receiver; verify evidence locators resolve and no formal rung exceeds its native receipts. Measure the selected journey's actual outcome and owner-approved stop-loss inputs; do not claim release, production or four-Host parity from the first qualified slice."
+    }
+  ],
+  "claim_ceilings": [
+    {
+      "ceiling": "PACKAGE_INSTALLED — operational fact, not an upstream formal lifecycle rung",
+      "achieved_on_this_machine": true,
+      "what_it_would_take": "Already verified in the canonical Hermes venv: sbl-v01 0.1.1rc1, matching wheel identity, imports, zero runtime dependencies and three console entry points. This does not prove Host effective loading."
+    },
+    {
+      "ceiling": "STANDALONE_ONLY",
+      "achieved_on_this_machine": true,
+      "what_it_would_take": "Already verified against the original R8 manifest and independently rerun in isolated scratch: fourteen component hashes, three SP identifiers, doctor clean and selftest 9/9 including two refusals. Host state remains NOT_INSTALLED."
+    },
+    {
+      "ceiling": "ADAPTER_FILES_INSTALLED / ROOT_READY / HOST_PENDING",
+      "achieved_on_this_machine": true,
+      "what_it_would_take": "Already verified at the specified HGK adapter target with three matching payload digests, its integrity manifest and six root-readiness checks. This is an adapter-file/readiness achievement, not native admission."
+    },
+    {
+      "ceiling": "HOST_EFFECTIVE_INSTALLATION / TRIGGER_QUALIFIED",
+      "achieved_on_this_machine": false,
+      "what_it_would_take": "Per-distribution owner-authorized installation plus fresh-session discovery, actual trigger/nontrigger, permissions, isolation and uninstall/residue UAT. Not established for Hermes, CODEX or CODEX CLI by R8."
+    },
+    {
+      "ceiling": "NATIVE_WIRING_WITH_PERMIT / HGK_ADMITTED",
+      "achieved_on_this_machine": false,
+      "what_it_would_take": "Approved native interfaces, native PIPD/CAPC prerequisites, actual Repo binding and authentic owner-issued WorkOrder/ExecutionBinding/ECP/Permit with receiver admission. Current ABI explicitly does not provide issuance."
+    },
+    {
+      "ceiling": "PROMPT_COMPILE_PASS through PRODUCTION_VERIFIED — upstream eight-rung lifecycle",
+      "achieved_on_this_machine": false,
+      "what_it_would_take": "Each requested rung requires its own native-owner decision and current same-subject raw evidence, including predecessor requirements, independent verification and human approvals where applicable. No formal rung is established merely by the R8 installation measurements."
+    },
+    {
+      "ceiling": "SWOF_CONNECTED_DELIVERY",
+      "achieved_on_this_machine": false,
+      "what_it_would_take": "Only if connected mode is selected: lawful H0–H4 readbacks, current frozen W2 readset, signed matching W3 admission and separate transport/checker receipts with no unknown residue. It is not necessary to relabel a standalone installation as connected."
+    }
+  ],
+  "owner_decisions_needed": [
+    "Define whether completion means standalone usability, effective installation on specified Hosts, native governed delivery, or SWOF-connected delivery; these have different acceptance obligations.",
+    "Identify the canonical Fabric consumer/observer and its owner-approved interface. Decide whether any separate Fabric installation transaction is applicable rather than treating the absence of a Python target as proof that the integration requirement disappears.",
+    "Disambiguate CODEX and CODEX CLI by executable/distribution/version/workspace. Require separate qualification only where they are genuinely distinct deployment surfaces.",
+    "Authorize the exact Host configuration changes, backup/merge scope, permissions, uninstall test and rollback window; do not overwrite pre-existing user configuration.",
+    "Obtain native PIPD/CAPC/HGK schema and authority decisions, including affected Oracle ownership holds and the authorized Permit issuer; SBL cannot decide these for the native owners.",
+    "Name the independent checker and acceptance authority, and register the subject/oracle before execution. This audit and the local selftest are evidence, not acceptance.",
+    "Approve the selected journey's quality floor, measurement scope and budget/stop-loss rules. Prefer the existing native capability and thin adapter over new schedulers, databases or parallel control planes.",
+    "Use the actual release-source locator or restore an authorized reproducible source layout; do not cite the nonexistent C:/Projects/Agent_Workspace/SBL/src as inspected implementation."
+  ]
+}

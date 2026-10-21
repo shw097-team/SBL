@@ -1,0 +1,237 @@
+{
+  "schema": "SBL-FAR-RULING/1",
+  "round_id": "SBL-R9-CTRLPKG-CLOSURE",
+  "captured_at_utc": "2026-10-21T14:11:29.274535+00:00",
+  "hgk_requirement": {
+    "id": "REQ-HGK-PRJ-SBL-PIPDLS-R9-CTRLPKG",
+    "state": "FROZEN",
+    "taskspec_state": "ADMITTED",
+    "workorder_id": "WO-req-hgk-prj-sbl-pipdls-r9-ctrlpkg",
+    "workorder_state": "CREATED",
+    "acceptance_verdict": "NOT_RUN"
+  },
+  "mandate_gate": {
+    "verdict": "MANDATE_AVAILABLE__NOT_PAUSED",
+    "probes": [
+      {
+        "lane": "PLAN",
+        "served": "gpt-6.1-sol",
+        "rank": 1,
+        "usage_ok": true,
+        "sec": 2.95
+      },
+      {
+        "lane": "EXECUTE",
+        "served": "opencode-go/minimax-m3.1-flash-free",
+        "rank": 1,
+        "usage_ok": true,
+        "sec": 6.52
+      },
+      {
+        "lane": "VERIFY_SECURITY",
+        "served": "gpt-6.1-sol",
+        "rank": 1,
+        "usage_ok": true,
+        "sec": 2.59
+      }
+    ],
+    "plane_separation": "the session interaction model is recorded as the SESSION plane only and is never cited as a lane binding"
+  },
+  "research": {
+    "workers": 4,
+    "model": "gpt-6.1-sol",
+    "provider": "openai-codex",
+    "durations_s": [
+      443.95,
+      367.64,
+      306.84,
+      581.19
+    ],
+    "raw_outputs": [
+      {
+        "file": "subagent-summary-0-20261021_213940_898000.txt",
+        "bytes": 56834,
+        "sha256": "58f28dcb4c2bb7c32d567bf12ca73554de167fe8ecf9a6a9b611e0378d3a0f8d"
+      },
+      {
+        "file": "subagent-summary-1-20261021_213940_900010.txt",
+        "bytes": 25860,
+        "sha256": "42a5df3663e07121fa66c41136ef27c3142e6d985729f2e7938fde5d9c4bda7e"
+      },
+      {
+        "file": "subagent-summary-3-20261021_213940_901017.txt",
+        "bytes": 28946,
+        "sha256": "b195bdf3aad2de612e3b5605630867d7c46d6758b08730c855177244684a1437"
+      }
+    ],
+    "raw_outputs_gap": "3 of 4 worker outputs are persisted here. The 4th (SP integration, task index 2) was delivered inline in the delegation completion message and the harness did not write a summary file for it, so it is not on disk. Its findings are carried in this ruling (section sp_integration) but the raw text is not archived; that is a gap, not a claim of completeness."
+  },
+  "headline_finding": {
+    "statement": "Every gate this programme relied on certified PRESENCE, not CORRESPONDENCE.",
+    "instances": [
+      {
+        "gate": "drift gate",
+        "measures": "each pin matches the file it points at",
+        "was_read_as": "the governed surfaces agree"
+      },
+      {
+        "gate": "registry epoch",
+        "measures": "the pin matches the assignment",
+        "was_read_as": "registry and assignment agree"
+      },
+      {
+        "gate": "compiler lint/compile",
+        "measures": "ids and locators present and legal",
+        "was_read_as": "the acceptance belongs to the capability"
+      },
+      {
+        "gate": "lane probe",
+        "measures": "a model served the request",
+        "was_read_as": "the SP was invoked and handed off"
+      },
+      {
+        "gate": "selftest 9/9",
+        "measures": "M01/M02/M03 local journey",
+        "was_read_as": "the governed native chain works"
+      },
+      {
+        "gate": "ROOT_READY 6/6",
+        "measures": "paths exist, package imports",
+        "was_read_as": "native admission / Permit issuance"
+      },
+      {
+        "gate": "14 components",
+        "measures": "14 hashes present",
+        "was_read_as": "14 independently qualified capabilities"
+      },
+      {
+        "gate": "208 passed",
+        "measures": "tests pass",
+        "was_read_as": "the contract is satisfied"
+      }
+    ],
+    "adopted_rule": "A gate may only be cited for the property it directly measures. Any claim of correspondence needs a check that compares the two things to each other, not each one to its own pin."
+  },
+  "denominator": {
+    "document_qualified_records": 4738,
+    "distinct_requirement_ids": 4589,
+    "linked_acceptance_ids": 1341,
+    "total_bytes": 17473442,
+    "total_lines": 75630,
+    "semantic_denominator": "UNKNOWN",
+    "control_package_self_declarations": [
+      "DOC-02 L128 D_clause_semantic=UNRESOLVED",
+      "DOC-04 L99 semantic_source_clauses_total=NOT_ESTABLISHED",
+      "DOC-12 L7829 global requirement denominator=UNKNOWN"
+    ],
+    "consequence": "no completion percentage is claimable; any number would be our counting choice presented as the contract's"
+  },
+  "executed_this_round": [
+    {
+      "id": "R9-03",
+      "state": "CLOSED",
+      "what": "four runtime_readiness capabilities now cite their own acceptance",
+      "measure": {
+        "mismatches_before": 4,
+        "mismatches_after": 0,
+        "edges_before": 34,
+        "edges_after": 34,
+        "compiler_stages": "lint/activation/acceptance/compile all PROMPT_COMPILE_PASS 0 errors",
+        "contract_sha256": "dd200277ca1b9352d751a178fb51b8a5a5d857d0a472f11119fcc56f0471d55d"
+      },
+      "locators_not_invented": "reused each capability's own /execution_scope source_locators; every anchor verified to resolve",
+      "test": "tests/test_contract_binding.py shown failing on the prior state (2 failed) before passing",
+      "claim_ceiling": "a mis-binding correction; all four rows remain current_verdict NOT_READY with 16 OPEN lifecycle cells"
+    },
+    {
+      "id": "R9-07",
+      "state": "CLOSED",
+      "what": "control package pinned inside the repository",
+      "manifest": "contracts/CONTROL_PACKAGE_MANIFEST.json",
+      "rollup_sha256": "01b972c80341e1b87db4fa6f20f61723564c609f0ff12282f9205679a4f9cf9d",
+      "negative_controls": {
+        "wrong_size": "ERR_SIZE_DRIFT",
+        "same_length_1byte": "ERR_SHA256_DRIFT",
+        "absent_doc": "ERR_DOC_ABSENT"
+      },
+      "not_vendored_reason": "a duplicate becomes a second authority that drifts from the first",
+      "tests": 6
+    },
+    {
+      "id": "R9-01",
+      "state": "DONE",
+      "what": "HGK admission through the typed API under lease; acceptance left NOT_RUN with no result pre-recorded"
+    }
+  ],
+  "not_executed": [
+    {
+      "id": "R9-06",
+      "state": "NOT_DONE",
+      "why": "HG-KSEOS carries 16 pre-existing test failures and concurrent writers; a tail-end lifecycle.py change would attribute someone else's breakage to this round"
+    },
+    {
+      "id": "R9-05",
+      "state": "OWNER_DECISION_REQUIRED",
+      "why": "staging ~800 lines of another party's uncommitted test code would misattribute authorship; consequence stays visible: a clean checkout cannot reproduce 580/16"
+    },
+    {
+      "id": "R9-02",
+      "state": "OPEN",
+      "why": "needs an authorised writable scratch root; a rerun without it would produce a second INCONCLUSIVE and prove nothing"
+    },
+    {
+      "id": "R9-04",
+      "state": "PARTIAL",
+      "why": "a truthful binding record is producible; a permit is not and must not be impersonated"
+    },
+    {
+      "id": "SP-INTEGRATION",
+      "state": "DESIGN_SET",
+      "why": "two thin adapters plus boundary checks must land under their own admitted change"
+    }
+  ],
+  "installation": {
+    "five_way_split_adopted": true,
+    "achieved": [
+      "package installation (141 dists, zero deps, 3 entry points)",
+      "standalone stack bootstrap (14 components, 3 principals, selftest 9/9 incl. 2 refusals)",
+      "HGK adapter files (3 digest-pinned, ROOT_READY 6/6)"
+    ],
+    "not_achieved": [
+      "effective Host installation (host_install_state=NOT_INSTALLED)",
+      "native integration (ABI declares native_effect/permit_signing/workorder_admission not_provided)"
+    ],
+    "fabric": "NO_SBL_INSTALL_TARGET - do not manufacture a target; needs an owner applicability disposition",
+    "codex": "no SBL-specific effective-load qualification; serving a lane is not SP discovery/load/uninstall",
+    "correction_of_own_error": "the brief told workers the source lived at SBL/src; that path does not exist. Real pinned sources are under _sbl_release_011rc1/ and match the installed wheel byte-for-byte."
+  },
+  "sp_integration": {
+    "verdict": "NOT_INTEGRATED",
+    "finding": "the dispatcher binds models, not SPs; no inspected path invokes commander_sp, external_challenge_sp or sign_verdict",
+    "minimal_design": "two thin typed adapters at existing seams (PLAN handoff, VERIFY pre-spawn) plus mandatory boundary checks; no new service, no second registry, no fourth SP; PREW3_SHADOW returns NOT_DISPATCHED",
+    "disclosed_not_fixed": "PLAN and VERIFY both serve gpt-6.1-sol, so there is no model diversity reviewing planning artefacts; and model-level SoD is not principal-level SoD"
+  },
+  "pre_authorisation_boundary": {
+    "covered": [
+      "contract correction",
+      "contract pinning",
+      "admission",
+      "candidate branch",
+      "evidence"
+    ],
+    "not_covered_and_not_manufactured": [
+      "an HGK Permit or native WorkOrder issuance",
+      "a Host admission or host-issued ID",
+      "a signed PASS_CHALLENGE",
+      "an acceptance verdict on the R7/R9 subject",
+      "an owner disposition of the historical writer-provenance deviation",
+      "approval to track another party's test files"
+    ]
+  },
+  "conformance": {
+    "baseline": "208 passed / 2 skipped",
+    "after": "218 passed / 2 skipped",
+    "delta": "+10 (4 contract-binding + 6 control-package)"
+  },
+  "claim_ceiling": "CANDIDATE_ONLY. Not an acceptance: R7's independent verdict remains INCONCLUSIVE / NOT ACCEPTED, mapped to HGK FAIL. Not native integration. Not host installation. Not a full-contract closure and not a completion percentage. Is two verified corrections."
+}
