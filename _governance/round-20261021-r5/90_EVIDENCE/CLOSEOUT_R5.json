@@ -1,0 +1,61 @@
+{
+  "checkpoint_id": "SBL-R5-20261021-C5-CLOSEOUT",
+  "closed_at_utc": "2026-10-21T03:15:00Z",
+  "round": "SBL-R5-20261021-C5",
+  "task_id": "SBL-FULL-DOC00-13-R5-20261021",
+  "session_closeout": true,
+  "model_plane": {
+    "lane_plane": {
+      "PLAN": "openai-codex/gpt-6.1-sol (pinned, receipts required_arm==served_arm)",
+      "EXECUTE": "opencode-go/deepseek-v4.1-flash (pinned)",
+      "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol (pinned, served all three review rounds)"
+    },
+    "session_plane": {
+      "observed_early_round": "mimo-v2.6-pro (opencode-go)",
+      "observed_sequence": "mimo-v2.6-pro -> user restore -> deepseek-v4.1-flash -> flip again mid-closeout -> user restore -> glm-5.3-flash (current)",
+      "observed_at_closeout": "glm-5.3-flash (opencode-go), user-directed for closeout/handover",
+      "authorization": "user directed: continue on DeepSeek V4.1 Flash, then after a second unrequested flip, finish closeout/handover on glm-5.3-flash; neither mimo episode was authorized",
+      "deviation_record": "DISCLOSED_DEVIATION: mandate PLAN/VERIFY=GPT 6.1 SOL-MEDIUM, EXECUTE=DeepSeek V4.1 Flash; observed orchestrator (session plane): mimo-v2.6-pro (unauthorized) -> user restored deepseek-v4.1-flash -> second unauthorized flip -> user restored glm-5.3-flash for closeout/handover. Lane receipts show no lane-plane deviation."
+    }
+  },
+  "live_state": {
+    "main": "bedc11957d4fc2474b249b69d200829272c118ef (untouched)",
+    "candidate_branch": "candidate/c3-20261021-v2 @ a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+    "evidence_branch": "evidence/r5-20261021-c5 (this closeout lands here)",
+    "pr2": "open, head a6bcdd0, base bedc119, mergeable true - OWNER MERGE PENDING",
+    "ci_last_green": "runs 39532993091 / 39532986228 on a6bcdd0 (ubuntu 189 passed 5 skipped; windows 191 passed 3 skipped)",
+    "working_trees": "SBL clean; c3v2 clean"
+  },
+  "claim_ceiling": [
+    "SOURCE_VERIFIED",
+    "PROMPT_COMPILE_PASS",
+    "CODE_READY",
+    "PACKAGED_HOST_PENDING",
+    "LOCAL_TESTED_POS_NEG_INJECTION",
+    "CI_GREEN_SAME_SHA_UBUNTU_WINDOWS",
+    "MODEL_AXIS_INDEPENDENT_READONLY_REVIEW_PASS_WITH_DISCLOSURES",
+    "REMOTE_READBACK_CONFIRMED"
+  ],
+  "non_claims": [
+    "INDEPENDENT_CASE_PASS",
+    "MERGED",
+    "OWNER_RELEASE_APPROVED",
+    "SBL_FULL_DOC_CONTRACT_PASS",
+    "HOST_EFFECTIVE_LOAD",
+    "NATIVE_EFFECT_AUDITED",
+    "FIVE_TOOLS_QUALIFIED_SCOPED",
+    "SWOF_W3"
+  ],
+  "next_unclosed_requirement_ids": ["TS04", "TS07", "TS08", "TS09", "TS13", "TS14", "TS16", "TS17", "TS20", "TS22", "TS25"],
+  "smallest_workorder": "TS07: 149 Child trace skeleton (ChildOutcome empty table + source locator only; no fabricated PASS)",
+  "earliest_owner": [
+    "MERGE_DECISION for PR #2 (head a6bcdd0) - F-R5-HARNESS-UNINSTALL-TRAVERSAL-001 is closed locally with three verifier rounds; merge is an owner act",
+    "CR-PLUGIN-SCHEMA-AUTHORITY B1/B2/B3 verdicts",
+    "ChatGPT host write path for the three private plugins (0/3 host-issued ids)",
+    "HGK Native Owner: WorkOrder/Permit for native effect"
+  ],
+  "blocked_gate": "SBL_FULL_DOC_CONTRACT_PASS (149/441/38 open) + host/native evidence gaps; not decidable by this session",
+  "resume_command": "cd C:/Projects/Agent_Workspace/SBL && python tools/run_gates.py && python scripts/prompt_contract_compiler.py lint contracts/SBL_C0_C9_CONTRACT-R5.json",
+  "resume_from": "_governance/round-20261021-r5/02_TASK_LIST.md TS07",
+  "checkpoint_file": "C:/Projects/Agent_Workspace/_handover/CHECKPOINT_SBL_R5_CLOSEOUT_20261021.md"
+}
