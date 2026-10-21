@@ -1,0 +1,190 @@
+{
+  "schema": "SBL-HANDOVER-STATE/1",
+  "captured_at_utc": "2026-10-21T14:35:26.484284+00:00",
+  "mandate": {
+    "PLAN": "opencode-go/minimax-m3.1-flash-free",
+    "EXECUTE": "opencode-go/deepseek-v4.1-flash",
+    "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol@medium",
+    "verified_rank1": true,
+    "verified_at": "R10 post-rebind, var/R10-GATE/final_summary.json"
+  },
+  "planes": {
+    "hgk": {
+      "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+      "branch": "codex/hgk-final-closure-002",
+      "head": "b22706e",
+      "git_remote": false,
+      "registry_epoch": 29,
+      "drift_findings": 0,
+      "drift_fatal": false
+    },
+    "sbl_product": {
+      "repo": "shw097-team/SBL",
+      "main": "345b9477",
+      "candidate": {
+        "ref": "candidate/r9-20261021-ctrlpkg",
+        "commit": "32d971d",
+        "suite": "218 passed / 2 skipped"
+      },
+      "evidence": {
+        "ref": "evidence/r7-20261021-c7",
+        "commit": "fccad0f"
+      },
+      "release": {
+        "tag": "v0.1.1rc1",
+        "id": 419526963,
+        "target": "345b9477",
+        "kind": "prerelease"
+      }
+    },
+    "install": {
+      "package": "sbl-v01 0.1.1rc1",
+      "dists": 141,
+      "stack_components": 14,
+      "principals": 3,
+      "selftest": "9/9",
+      "adapter": "ROOT_READY 6/6",
+      "claim": "STANDALONE_ONLY",
+      "host_install_state": "NOT_INSTALLED",
+      "native_effect": "NOT_GRANTED"
+    },
+    "fabric": {
+      "state": "NO_SBL_INSTALL_TARGET",
+      "attempted": false
+    }
+  },
+  "hgk_r9": {
+    "requirement": {
+      "state": "FROZEN",
+      "version": 1
+    },
+    "taskspec": {
+      "state": "ADMITTED"
+    },
+    "workorder": {
+      "state": "FAILED"
+    },
+    "acceptance": {
+      "verdict": "FAIL",
+      "evidence_ref": "EVID-R9-SELF-CHECK"
+    }
+  },
+  "closed": [
+    {
+      "id": "R9-03",
+      "what": "4 capability bindings now cite their own acceptance",
+      "measure": {
+        "mismatches": "4 -> 0",
+        "edges": 34,
+        "contract_sha256": "dd200277ca1b9352d751a178fb51b8a5a5d857d0a472f11119fcc56f0471d55d"
+      }
+    },
+    {
+      "id": "R9-07",
+      "what": "control package pinned in-repo",
+      "measure": {
+        "docs": 14,
+        "bytes": 17473442,
+        "rollup_sha256": "01b972c80341e1b87db4fa6f20f61723564c609f0ff12282f9205679a4f9cf9d",
+        "negative_controls": [
+          "ERR_SIZE_DRIFT",
+          "ERR_SHA256_DRIFT",
+          "ERR_DOC_ABSENT"
+        ]
+      }
+    },
+    {
+      "id": "R10-LANES",
+      "what": "PLAN/EXECUTE swap under handover mandate",
+      "measure": {
+        "epoch": 29,
+        "drift": 0
+      }
+    }
+  ],
+  "open": [
+    {
+      "id": "R9-02",
+      "severity": "blocker",
+      "title": "independent acceptance",
+      "blocker": "authorised writable isolated scratch root",
+      "owner": "lane owner"
+    },
+    {
+      "id": "R9-04",
+      "severity": "high",
+      "title": "Runtime/Orchestration Plane permit",
+      "blocker": "issuer authority",
+      "owner": "HGK binding/permit authority"
+    },
+    {
+      "id": "R9-05",
+      "severity": "high",
+      "title": "repo reproducibility (3 untracked tests)",
+      "blocker": "another party's uncommitted code",
+      "owner": "test owner"
+    },
+    {
+      "id": "R9-06",
+      "severity": "high",
+      "title": "_repo_head() reads CWD, swallows InvariantViolation",
+      "blocker": "needs clean-baseline round",
+      "owner": "next round"
+    },
+    {
+      "id": "SP-INT",
+      "severity": "high",
+      "title": "PLAN/VERIFY to SP integration",
+      "blocker": "needs its own admitted change; dispatcher binds models not SPs",
+      "owner": "next round"
+    },
+    {
+      "id": "DOC-00..13",
+      "severity": "high",
+      "title": "full contract execution",
+      "blocker": "semantic denominator UNKNOWN by the package's own declaration",
+      "owner": "phased programme"
+    },
+    {
+      "id": "CONFORM",
+      "severity": "medium",
+      "title": "HG-KSEOS conformance not re-measured after b22706e",
+      "blocker": "not yet run",
+      "owner": "next session, first action"
+    }
+  ],
+  "next_actions": [
+    {
+      "rank": 1,
+      "id": "CONFORM",
+      "action": "re-measure pytest on HG-KSEOS at b22706e and report absolute + baseline"
+    },
+    {
+      "rank": 2,
+      "id": "R9-02",
+      "action": "obtain an authorised writable scratch root, then one independent VERIFY round"
+    },
+    {
+      "rank": 3,
+      "id": "R9-06",
+      "action": "fix _repo_head() in a clean-baseline round"
+    },
+    {
+      "rank": 4,
+      "id": "R9-05",
+      "action": "owner decision on the 3 untracked test files"
+    },
+    {
+      "rank": 5,
+      "id": "SP-INT",
+      "action": "implement the two thin adapters at existing seams"
+    }
+  ],
+  "claim_ceiling": "CANDIDATE_ONLY. Not an acceptance; R7 remains INCONCLUSIVE / NOT ACCEPTED mapped to HGK FAIL. Not native integration, not host installation, not a full-contract closure, and no completion percentage is claimable.",
+  "disclosures": [
+    "HG-KSEOS var/ is gitignored (.gitignore:9) so this round's tools, backups and receipts are not in the repository - same reproducibility defect as R9-05.",
+    "6 files modified by concurrent writers were deliberately not staged: config/project.json, docs/..., scripts/hermes-core.ps1, source-freeze/TT_LEDGER.csv, src/hg_kseos/{knowledge,spine}.py, tests/test_task014_named_method_closure.py.",
+    "The R10 FAR run was renumbered 024 -> 025 because a concurrent writer created FAR-...-024-fallback-chain-reorder; their run was not touched.",
+    "The governed PLAN profile change takes effect on the next launch of that plane and has not been launched under it."
+  ]
+}

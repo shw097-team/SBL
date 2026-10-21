@@ -1,0 +1,53 @@
+{
+  "schema": "SBL-R10-SELF-CHECK/1",
+  "verdict": "R10_SELF_CHECK_PASS",
+  "passed": 9,
+  "total": 9,
+  "checks": [
+    {
+      "label": "C1  mandate: three lanes served at rank 1 with the ordered models",
+      "ok": true,
+      "detail": "all three lanes ok at rank 1: PLAN=opencode-go/minimax-m3.1-flash-free 3.75s, EXECUTE=opencode-go/deepseek-v4.1-flash 3.57s, VERIFY_SECURITY=gpt-6.1-sol 3.05s"
+    },
+    {
+      "label": "C2  registry epoch is a joint invariant on both sides",
+      "ok": true,
+      "detail": "epoch 29 agrees on both sides"
+    },
+    {
+      "label": "C3  drift gate clean",
+      "ok": true,
+      "detail": "0 findings, fatal=False"
+    },
+    {
+      "label": "C4  runtime surfaces agree WITH EACH OTHER and the pool",
+      "ok": true,
+      "detail": "PLAN surface=opencode-go/minimax-m3.1-flash-free == pool; EXECUTE lane=opencode-go/deepseek-v4.1-flash and provider_route=opencode-go/deepseek-v4.1-flash == pool; codex pin intact"
+    },
+    {
+      "label": "C5  handover document carries every section and open item",
+      "ok": true,
+      "detail": "13750 chars, all 10 sections, all 5 open items named"
+    },
+    {
+      "label": "C6  handover state JSON is honest",
+      "ok": true,
+      "detail": "7 open items, fabric NO_SBL_INSTALL_TARGET, R9 acceptance=FAIL"
+    },
+    {
+      "label": "C7  no acceptance PASS was fabricated anywhere",
+      "ok": true,
+      "detail": "12 SBL-subject row(s), none PASS; 5 pre-existing PASS row(s) belong to other rounds: ['ACC-AO-INDEP-012', 'ACC-REF-001', 'ACC-REQ-FAR-EXEC-IDENTITY-002', 'ACC-REQ-FAR-LANE-SOD-010-CONVERGE-PLAN', 'ACC-REQ-FAR-LANE-SOD-011-ROUTER-WINDOW-PLAN']"
+    },
+    {
+      "label": "C8  candidate branch pushed and read back",
+      "ok": true,
+      "detail": "candidate/r9-20261021-ctrlpkg @ 32d971d9 matches origin"
+    },
+    {
+      "label": "C9  control package still pins after this round's changes",
+      "ok": true,
+      "detail": "14 docs verify, rollup 01b972c80341e1b8"
+    }
+  ]
+}
