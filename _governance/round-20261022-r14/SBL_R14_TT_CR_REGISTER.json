@@ -198,14 +198,16 @@
       "earliest_owner": "acceptance harness owner",
       "required_authority": "none (reproduce and adjudicate)",
       "repair_cone": "re-run the failing case under the checker runtime with -x --tb=long; if the import resolves to HG-KSEOS/src instead of the copy, pin PYTHONPATH/rootdir; until resolved the R13 static PASS is NOT dynamically confirmed",
-      "status": "OPEN",
+      "status": "ADJUDICATED_CHECKER_WAS_RIGHT",
       "blocking": [
         "R14-TS04",
         "R14-TS22"
       ],
       "evidence": [
         "raw/checker_final2.json"
-      ]
+      ],
+      "closed_by": "HGK 81a037e + 8920f9a + fab3265",
+      "resolution": "The checker's FAIL was valid signal: the negative control was environment-dependent (under the lane sandbox TMPDIR sits inside the workspace, so the 'plain directory' target was itself inside a repository and rev-parse HEAD succeeded). Its first remedy - a hard refusal - was rejected by the oracle: 9 lifecycle tests use repo-relative targets, and the suite went 15F -> 24F. The check was reverted and the contract is now pinned by an environment-independent test that asserts a nested project records the TARGET repo's base_head and never the CWD's. Verified both ways."
     },
     {
       "id": "TT-R14-008",
@@ -218,6 +220,23 @@
       "blocking": [
         "R14-TS02"
       ]
+    },
+    {
+      "id": "TT-R14-009",
+      "title": "The lane oracle tests are not under version control in HG-KSEOS",
+      "first_broken_link": "tests/test_lane_guard.py, tests/test_execute_luna_route.py and tests/test_far_lane_fix_20261015.py are untracked, so 'git archive <sha>' - the frozen-candidate mechanism the checker uses - silently omits the very files that define the lane oracle",
+      "earliest_owner": "HG-KSEOS Owner",
+      "required_authority": "owner decision to track them (or to define the freeze as an explicit manifest)",
+      "repair_cone": "either commit the oracle tests or freeze with a manifest of the files actually exercised; never let a checker adjudicate against a candidate that is missing its oracle",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS04",
+        "R14-TS02"
+      ],
+      "evidence": [
+        "raw/checker_final5.json"
+      ],
+      "observed": "git ls-files tests/test_lane_guard.py -> 0; the checker reported 'Available 3 files ... test_lane_guard.py missing'"
     }
   ]
 }

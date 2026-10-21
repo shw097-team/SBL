@@ -31,8 +31,8 @@
     },
     "R14-TS02": {
       "state": "PARTIAL_3_FIXED_15_REMAIN",
-      "evidence": "raw/final_r14_full.log",
-      "note": "18F/580P -> 15F/583P/90 subtests, 3 fixed, 0 new; the 12 remaining are owner-oracle cases"
+      "evidence": "raw/final_r14_full4.log",
+      "note": "18F/580P -> 15F/584P/90 subtests: 3 fixed, 0 new, 0 previously-fixed regressed"
     },
     "R14-TS03": {
       "state": "PARTIAL_CLOSED_2_OF_2_GAPS",
@@ -40,9 +40,9 @@
       "note": "scope gate + release receipt landed in HGK spine; residual: no lease<->WO link"
     },
     "R14-TS04": {
-      "state": "OPERATIONAL_FAIL_VERDICT",
-      "evidence": "raw/checker_final2.json",
-      "note": "independent checker really executed tests in an isolated copy with its own runtime; it FAILED 1 of 9, so the R13 static PASS is not dynamically confirmed (TT-R14-007)"
+      "state": "OPERATIONAL_TWO_VERDICTS",
+      "evidence": "raw/checker_final2.json, raw/checker_final4.json, raw/checker_final5.json",
+      "note": "mechanism solved (non-dot runtime var/checker-runtime + isolated copy + guard-subject). Run 1 FAIL 8/9 (real), run 2 on f07cbfc PASS 10/10, run 3 on the final head: 14 passed / 1 failed of 3 available files, and test_lane_guard.py was MISSING because it is untracked (TT-R14-009) - so no clean verdict on the final head yet"
     },
     "R14-TS05": {
       "state": "DONE_PROBE",
