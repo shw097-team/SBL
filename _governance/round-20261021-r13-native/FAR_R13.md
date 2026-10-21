@@ -118,3 +118,17 @@
 
 可宣稱：`_repo_head` 缺陷已在原生 admission 路徑上重現並修復，WO 由 HGK spine 建、lease 由 spine 取、結果由 spine 記，writer 與 checker 為不同 arm 的真實車道執行。
 **不可**宣稱：SP 身份整合完成（`LANE_ONLY`）、ChatGPT Plugin 已安裝（`HOST_PENDING`）、`SBL_FULL_PRODUCT` 通過（仍 OPEN）、DOC 語義分母已建立（仍 `UNKNOWN`）。
+
+---
+
+## 9. 執行後修正（裁決不變，事實補正）
+
+E6 之後先只跑了新測試就落帳 `WO-TS-WO-01`；**全量掃描**才暴露 5 個 G0 控制測試依賴「無 `target_root` 就繼承 CWD」的舊行為。
+這是本裁決在落地時自己造成的回歸，處置如下（不修改裁決本身）：
+
+1. 切第二個 WO `WO-TS-WO-02`，主體限定 `tests/test_g0_wave3_controls.py`；只新增 `_target_repo()` 並傳入 `target_root`，斷言零變動。
+2. VERIFY 車道第二次獨立複核，明言「no tests weakened, skipped or deleted」→ PASS → 落帳 VERIFIED（`d53b2238`）。
+3. 全量分母：回合前 18F/578P/90 subtests → 兩切片後 **18F/580P/90 subtests**，失敗集合**完全相同**（無新增失敗、+2 通過）。
+4. 教訓寫入 skill：**先寫測試不等於先跑分母**；任何 `fail-closed` 收緊都必須在落帳前跑全量，否則「已驗證」只是在窄分母上成立。
+
+因此本裁決的工程結論不變：不建 Permit/ECP 子系統、以既有四元組對映並真的跑通；checker 維持唯讀 + 隔離輸出根；Plugin 停在 `HOST_PENDING`。
