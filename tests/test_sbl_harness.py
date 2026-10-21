@@ -7,6 +7,7 @@ proves the probe logic — it is never evidence that the native control plane is
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -147,11 +148,18 @@ def _write_manifest(target: Path, payload: dict) -> None:
     (target / "MANIFEST.json").write_text(json.dumps(payload), encoding="utf-8")
 
 
-def _sentinel(tmp_path: Path) -> tuple[Path, bytes]:
+def _sentinel(tmp_path: Path) -> tuple[Path, bytes, str]:
+    """Create the outside file AND the digest a hostile manifest must declare for it.
+
+    The digest is deliberately CORRECT: if the escape tests declared a wrong digest, the digest
+    check could refuse and the path guard would never be exercised (the R5 VERIFY lane caught
+    exactly this non-discrimination in the first pass).
+    """
+
     outside = tmp_path / "outside.txt"
     payload = b"SENTINEL-CONTENT-MUST-SURVIVE\n"
     outside.write_bytes(payload)
-    return outside, payload
+    return outside, payload, hashlib.sha256(payload).hexdigest()
 
 
 def test_uninstall_refuses_a_parent_escape_key_and_leaves_the_outside_file_untouched(tmp_path):
@@ -159,9 +167,9 @@ def test_uninstall_refuses_a_parent_escape_key_and_leaves_the_outside_file_untou
 
     target = tmp_path / "adapter"
     install(target, _fake_root(tmp_path))
-    outside, payload = _sentinel(tmp_path)
+    outside, payload, digest = _sentinel(tmp_path)
     manifest = _manifest(target)
-    manifest["files"]["../outside.txt"] = "0" * 64
+    manifest["files"]["../outside.txt"] = digest
     _write_manifest(target, manifest)
 
     with pytest.raises(SBLError) as caught:
@@ -176,9 +184,9 @@ def test_uninstall_refuses_a_parent_escape_key_and_leaves_the_outside_file_untou
 def test_uninstall_refuses_an_absolute_manifest_key(tmp_path):
     target = tmp_path / "adapter"
     install(target, _fake_root(tmp_path))
-    outside, payload = _sentinel(tmp_path)
+    outside, payload, digest = _sentinel(tmp_path)
     manifest = _manifest(target)
-    manifest["files"][str(outside)] = "0" * 64
+    manifest["files"][str(outside)] = digest
     _write_manifest(target, manifest)
 
     with pytest.raises(SBLError) as caught:
@@ -231,7 +239,7 @@ def test_uninstall_refuses_a_malformed_files_object(tmp_path):
 def test_uninstall_refuses_a_symlinked_file_even_inside_the_allowlist(tmp_path):
     target = tmp_path / "adapter"
     install(target, _fake_root(tmp_path))
-    outside, payload = _sentinel(tmp_path)
+    outside, payload, digest = _sentinel(tmp_path)
     plugin = target / "plugin.json"
     plugin.unlink()
     try:
@@ -239,7 +247,7 @@ def test_uninstall_refuses_a_symlinked_file_even_inside_the_allowlist(tmp_path):
     except (OSError, NotImplementedError):
         pytest.skip("this host cannot create symlinks without elevation")
     manifest = _manifest(target)
-    manifest["files"]["plugin.json"] = "0" * 64
+    manifest["files"]["plugin.json"] = digest
     _write_manifest(target, manifest)
 
     with pytest.raises(SBLError) as caught:
@@ -291,10 +299,11 @@ def test_uninstall_refuses_a_junction_parent_that_leaves_the_root(tmp_path):
 
     target = tmp_path / "adapter"
     install(target, _fake_root(tmp_path))
+    installed = (target / "skills" / "hgk-governed-runtime" / "SKILL.md").read_bytes()
     outside = tmp_path / "outside-skills"
     (outside / "hgk-governed-runtime").mkdir(parents=True)
     body = outside / "hgk-governed-runtime" / "SKILL.md"
-    body.write_bytes(b"OUTSIDE-SKILL-MUST-SURVIVE\n")
+    body.write_bytes(installed)  # same bytes => same digest, so only the link guard can refuse
     shutil.rmtree(target / "skills")
     proc = subprocess.run(
         ["cmd", "/c", "mklink", "/J", str(target / "skills"), str(outside)],
@@ -310,8 +319,51 @@ def test_uninstall_refuses_a_junction_parent_that_leaves_the_root(tmp_path):
         uninstall(target)
 
     assert caught.value.code == "SBL_E_MANIFEST_UNTRUSTED"
-    assert body.read_bytes() == b"OUTSIDE-SKILL-MUST-SURVIVE\n"
+    assert body.read_bytes() == installed
     assert (target / "plugin.json").is_file()
+
+
+def test_uninstall_never_prunes_empty_directories_outside_the_root(tmp_path):
+    """The R5 VERIFY lane's second counterexample: an rglob cleanup sweep follows a junction out."""
+
+    if os.name != "nt":
+        pytest.skip("junctions are a Windows reparse-point feature")
+
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    outside = tmp_path / "outside-dir"
+    (outside / "empty-child").mkdir(parents=True)
+    proc = subprocess.run(
+        ["cmd", "/c", "mklink", "/J", str(target / "extra"), str(outside)],
+        capture_output=True,
+        text=True,
+        errors="replace",
+    )
+    if proc.returncode != 0:
+        pytest.skip(f"mklink /J unavailable here: {proc.stdout or proc.stderr}".strip())
+
+    receipt = uninstall(target)
+
+    assert receipt["ok"] is True
+    assert (outside / "empty-child").is_dir(), "an empty directory outside the root was pruned"
+    assert outside.is_dir()
+
+
+def test_uninstall_accepts_a_backslash_manifest_key(tmp_path):
+    """Normalising for the allowlist must not desynchronise the digest lookup (KeyError)."""
+
+    target = tmp_path / "adapter"
+    install(target, _fake_root(tmp_path))
+    manifest = _manifest(target)
+    digest = manifest["files"].pop("skills/hgk-governed-runtime/SKILL.md")
+    manifest["files"]["skills\\hgk-governed-runtime\\SKILL.md"] = digest
+    _write_manifest(target, manifest)
+
+    receipt = uninstall(target)
+
+    assert receipt["ok"] is True
+    assert "skills/hgk-governed-runtime/SKILL.md" in receipt["removed"]
+    assert not target.exists()
 
 
 def test_the_real_hgk_root_probes_ready_when_present():

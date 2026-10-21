@@ -433,23 +433,23 @@ def uninstall(target: str | Path) -> dict[str, Any]:
         )
 
     root_resolved = root_dir.resolve(strict=True)
-    deletable: list[tuple[str, Path]] = []
-    for rel, expected in files.items():
-        path = _resolve_deletable(root_dir, root_resolved, rel)
+    deletable: list[tuple[str, str, Path]] = []
+    for key, expected in files.items():
+        path = _resolve_deletable(root_dir, root_resolved, key)
         if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
             raise SBLError(
                 "SBL_E_MANIFEST_UNTRUSTED",
                 "MANIFEST.json declares a digest that is not a sha256 hex string",
-                {"key": rel},
+                {"key": key},
             )
-        deletable.append((rel.replace("\\", "/"), path))
+        deletable.append((key, key.replace("\\", "/"), path))
 
     present = {
         str(path.relative_to(root_dir)).replace("\\", "/")
         for path in root_dir.rglob("*")
         if path.is_file()
     }
-    foreign = sorted(present - {rel for rel, _ in deletable} - {_MANIFEST_FILE})
+    foreign = sorted(present - {norm for _, norm, _ in deletable} - {_MANIFEST_FILE})
     if foreign:
         raise SBLError(
             "SBL_E_FOREIGN_FILES",
@@ -457,26 +457,43 @@ def uninstall(target: str | Path) -> dict[str, Any]:
             {"foreign": foreign},
         )
 
-    for rel, path in deletable:
+    for key, _, path in deletable:
         if not path.is_file():
             continue
         actual = hashlib.sha256(path.read_bytes()).hexdigest()
-        if actual != files[rel]:
+        if actual != files[key]:
             raise SBLError(
                 "SBL_E_MANIFEST_UNTRUSTED",
                 "a file changed since install; refusing to delete a file the manifest no longer describes",
-                {"key": rel, "declared": files[rel], "actual": actual},
+                {"key": key, "declared": files[key], "actual": actual},
             )
 
-    removed = sorted([rel for rel, _ in deletable] + [_MANIFEST_FILE])
-    for _, path in sorted(deletable, key=lambda item: item[1], reverse=True):
+    removed: list[str] = []
+    for key, norm, path in sorted(deletable, key=lambda item: item[2], reverse=True):
         if path.is_file():
             path.unlink()
+            removed.append(norm)
     if manifest_path.is_file():
         manifest_path.unlink()
-    for path in sorted(root_dir.rglob("*"), reverse=True):
-        if path.is_dir() and not any(path.iterdir()):
-            path.rmdir()
+        removed.append(_MANIFEST_FILE)
+    removed.sort()
+
+    # Directory cleanup is bounded to the directories install() creates. It never walks the tree:
+    # an rglob-based sweep follows a junction out of the root (found by the R5 VERIFY lane, which
+    # constructed exactly that escape), so the sweep is replaced by an explicit, contained list.
+    is_junction = getattr(os.path, "isjunction", None)
+    for rel_dir in (f"skills/{SKILL_NAME}", "skills"):
+        directory = root_dir / rel_dir
+        if directory.is_symlink() or (is_junction is not None and is_junction(directory)):
+            continue
+        try:
+            resolved = directory.resolve(strict=True)
+        except OSError:
+            continue
+        if resolved != root_resolved and root_resolved not in resolved.parents:
+            continue
+        if directory.is_dir() and not any(directory.iterdir()):
+            directory.rmdir()
     empty = not any(root_dir.iterdir())
     if empty:
         shutil.rmtree(root_dir, ignore_errors=False)
