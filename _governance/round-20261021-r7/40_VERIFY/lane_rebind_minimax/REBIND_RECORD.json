@@ -1,0 +1,51 @@
+{
+ "schema": "SBL_R7_LANE_REBIND/1",
+ "recorded_at_utc": "2026-10-21T06:16:43.209356+00:00",
+ "owner_order": "2026-10-21, mid-round: the Independent Acceptance Officer / VERIFY / SECURITY checker model and the PLAN execution model are both changed to minimax-m3.1-flash-free (opencode-go). EXECUTE unchanged.",
+ "applied_to": {
+  "repository": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "file": "config/lane-route-slots.candidate.json",
+  "revision": "11",
+  "rev": "r7-minimax-rebind-20261021",
+  "commit": "3f81b4b7d32da0f9eaae01c7ecd05728206f33d9",
+  "commit_is_pushed": false,
+  "push_status": "HG-KSEOS has NO git remote. The rebind is committed locally only. It is NOT published to any GitHub repository and no external reviewer can see it in a remote. The SBL evidence branch carries the measurement receipts so the rebind is at least independently checkable from the published repo."
+ },
+ "resulting_pool": {
+  "PLAN": [
+   "1: opencode-go/minimax-m3.1-flash-free",
+   "2: openai-codex/gpt-6.1-sol (fallback)"
+  ],
+  "EXECUTE": [
+   "1: opencode-go/deepseek-v4.1-flash (UNCHANGED)"
+  ],
+  "VERIFY_SECURITY": [
+   "1: opencode-go/minimax-m3.1-flash-free",
+   "2: openai-codex/gpt-6.1-sol (fallback)"
+  ]
+ },
+ "measured_on_the_CANONICAL_pool": {
+  "VERIFY_SECURITY": {
+   "served_arm": "opencode-go/minimax-m3.1-flash-free",
+   "ok": true,
+   "exit": 0,
+   "nonce_present": true,
+   "usage_status": 200,
+   "usage_model": "minimax-m3.1-flash-free",
+   "seconds": 2.89,
+   "receipt": "lane_rebind_minimax/probe_canonical_VERIFY_minimax.json"
+  },
+  "PLAN": {
+   "served_arm": "opencode-go/minimax-m3.1-flash-free",
+   "ok": true,
+   "exit": 0,
+   "nonce_present": true,
+   "usage_status": 200,
+   "usage_model": "minimax-m3.1-flash-free",
+   "receipt": "lane_rebind_minimax/probe_canonical_PLAN_minimax.json"
+  }
+ },
+ "why_no_runtime_change_for_PLAN": "the PLAN lane runs on the hermes engine, and the canonical hermes default model is ALREADY minimax-m3.1-flash-free on opencode-go (verified: hermes config get model --json -> {default: minimax-m3.1-flash-free, provider: opencode-go}). The pool entry records the binding; the runtime needed no change.",
+ "recorded_conflict": "The planner and the checker are now the SAME identity. The dispatcher does NOT enforce a maker==checker REFUSE rule (declared as D1 in the pool's authority_basis), so this is a RECORDED OVERLAP, not a blocked one. An independent reviewer must weigh that the checker no longer provides model-axis independence from the planner. This is the direct consequence of the owner order and is disclosed rather than smoothed over.",
+ "what_did_NOT_change": "the openai-codex/gpt-6.1-sol arm is retained at rank 2 on both lanes; it is not removed, because the unattended-window identity requirement keeps the OAuth arm available."
+}

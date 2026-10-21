@@ -46,14 +46,24 @@ def git(*args: str, repo: Path = SBL) -> str:
 
 # C1 --- lane availability: all three lanes served the mandated arm
 def c1() -> str:
+    """The CURRENT mandate, after the mid-round owner order of 2026-10-21.
+
+    PLAN and VERIFY_SECURITY are minimax-m3.1-flash-free (opencode-go); EXECUTE is
+    unchanged at deepseek-v4.1-flash (opencode-go).
+
+    Each lane is proved by its OWN dispatch receipt, with its own nonce and its own
+    usage row. The fact that this session also runs minimax-m3.1-flash-free is a
+    coincidence of the SESSION plane and is never a lane receipt.
+    """
     mandate = {
-        "PLAN": ("openai-codex", "gpt-6.1-sol"),
-        "EXECUTE": ("opencode-go", "deepseek-v4.1-flash"),
-        "VERIFY_SECURITY": ("openai-codex", "gpt-6.1-sol"),
+        "PLAN": ("opencode-go", "minimax-m3.1-flash-free", "probe_canonical_PLAN_minimax.json"),
+        "EXECUTE": ("opencode-go", "deepseek-v4.1-flash", "probe2_EXECUTE.json"),
+        "VERIFY_SECURITY": ("opencode-go", "minimax-m3.1-flash-free", "probe_canonical_VERIFY_minimax.json"),
     }
     out = []
-    for lane, (prov, model) in mandate.items():
-        p = HGK / "var" / "R7-LANES" / f"probe2_{lane}.json"
+    for lane, (prov, model, receipt) in mandate.items():
+        p = HGK / "var" / "R7-LANES" / receipt
+        assert p.exists(), f"{lane}: receipt {receipt} is missing"
         j = json.loads(p.read_text(encoding="utf-8"))
         a = (j.get("attempts") or [{}])[0]
         assert j.get("ok") is True, f"{lane}: ok != True ({j.get('code')})"
@@ -69,6 +79,18 @@ def c1() -> str:
 
 # C2 --- HGK admission chain, read back from the spine
 def c2() -> str:
+    """The admission chain must be real, and the result state must be HONEST.
+
+    The requirement is FROZEN, the TaskSpec is ADMITTED, the WorkOrder exists with
+    the R6 evidence SHA as its base_head.
+
+    The WorkOrder's result state is NOT asserted to be VERIFIED: an early PASS was
+    recorded before an independent verdict existed and was withdrawn with the typed
+    rollback API, so the spine now says ROLLED_BACK. This check accepts CREATED
+    (no result yet) or ROLLED_BACK (a result that was withdrawn), and REJECTS
+    VERIFIED while no checker verdict is on record. It is the check that would catch
+    a premature acceptance.
+    """
     import sqlite3
 
     db = HGK / "var" / "shared-spine" / "hg-kseos.db"
@@ -86,12 +108,23 @@ def c2() -> str:
             "SELECT state,base_head FROM workorders WHERE workorder_id=?",
             ("WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",),
         ).fetchone()
+        rb = con.execute(
+            "SELECT COUNT(*) FROM rollback_records WHERE target_id=?",
+            ("WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",),
+        ).fetchone()
     finally:
         con.close()
     assert req and req[0] == "FROZEN", f"requirement {req}"
     assert ts and ts[0] == "ADMITTED", f"taskspec {ts}"
-    assert wo and wo[0] == "CREATED", f"workorder {wo}"
+    assert wo, "the workorder row does not exist"
     assert wo[1] == "3d06f3da83488219a3dcdf608c937b8c5285810c", f"base_head {wo[1]}"
+    assert wo[0] in ("CREATED", "ROLLED_BACK"), (
+        f"workorder state {wo[0]!r}: a VERIFIED state with no independent checker "
+        "verdict on record would be a premature acceptance"
+    )
+    if wo[0] == "ROLLED_BACK":
+        assert rb and rb[0] >= 1, "the workorder is ROLLED_BACK but no rollback record exists"
+        return f"REQ={req[0]} TS={ts[0]} WO={wo[0]} (withdrawn, {rb[0]} rollback record) base_head={wo[1][:12]}"
     return f"REQ={req[0]} TS={ts[0]} WO={wo[0]} base_head={wo[1][:12]}"
 
 
@@ -355,6 +388,51 @@ def c15() -> str:
     return "route NATIVE_WITH_SELECTED_ARIS; challenger + abstentions present"
 
 
+# C16 --- the canonical lane pool carries the CURRENT mandate, and the rebind is recorded
+def c16() -> str:
+    """The pool file, not the receipts, is what a future dispatch will read.
+
+    This check asserts that the CANONICAL pool's rank-1 for each lane is the arm the
+    current mandate names, that the openai arm was demoted rather than removed, and
+    that the planner/checker identity overlap is recorded rather than smoothed over.
+    """
+    pool = json.loads((HGK / "config" / "lane-route-slots.candidate.json").read_text(encoding="utf-8"))
+    lanes = {L["lane"]: L for L in pool["lanes"]}
+    expected_rank1 = {
+        "PLAN": "opencode-go/minimax-m3.1-flash-free",
+        "EXECUTE": "opencode-go/deepseek-v4.1-flash",
+        "VERIFY_SECURITY": "opencode-go/minimax-m3.1-flash-free",
+    }
+    for lane, arm in expected_rank1.items():
+        pool_entries = lanes[lane]["ordered_pool"]
+        top = pool_entries[0]
+        got = f"{top['provider']}/{top['model']}"
+        assert got == arm, f"{lane}: canonical pool rank 1 is {got}, the mandate is {arm}"
+        ranks = [e["rank"] for e in pool_entries]
+        assert ranks == list(range(1, len(ranks) + 1)), f"{lane}: rank gap {ranks}"
+        toks = [f"{e['provider']}/{e['model']}" for e in pool_entries]
+        assert len(toks) == len(set(toks)), f"{lane}: duplicate token"
+    # the openai arm must be demoted, not removed
+    for lane in ("PLAN", "VERIFY_SECURITY"):
+        toks = [f"{e['provider']}/{e['model']}" for e in lanes[lane]["ordered_pool"]]
+        assert "openai-codex/gpt-6.1-sol" in toks, (
+            f"{lane}: the openai arm was removed; the unattended-window identity requirement "
+            "keeps it available as a fallback"
+        )
+    # the identity overlap must be recorded, not hidden
+    overlaps = " ".join(pool.get("identity_overlaps_recorded_not_enforced") or [])
+    assert "minimax" in overlaps, (
+        "the planner and the checker are now the same identity and that is not recorded "
+        "in the pool's identity_overlaps_recorded_not_enforced"
+    )
+    # and the rebind must be recorded in the SBL evidence tree
+    rec = json.loads((R7 / "40_VERIFY" / "lane_rebind_minimax" / "REBIND_RECORD.json").read_text(encoding="utf-8"))
+    for lane, arm in expected_rank1.items():
+        recorded = rec["resulting_pool"][lane][0]
+        assert arm in recorded, f"{lane}: rebind record says {recorded!r}, the mandate is {arm}"
+    return "canonical pool rank-1 = mandate on all three lanes; openai arm demoted, overlap recorded"
+
+
 for name, fn in [
     ("C1  lane availability (3 lanes, mandated arm, nonce, usage 200)", c1),
     ("C2  HGK admission chain read back from the spine", c2),
@@ -371,6 +449,7 @@ for name, fn in [
     ("C13 the residual set and the FAR verdict agree", c13),
     ("C14 the self-research ledger partitions every residual once", c14),
     ("C15 the FAR route and the challenger requirements hold", c15),
+    ("C16 the canonical lane pool carries the current mandate", c16),
 ]:
     check(name, fn)
 

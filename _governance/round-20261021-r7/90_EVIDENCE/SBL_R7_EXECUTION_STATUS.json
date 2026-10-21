@@ -1,7 +1,7 @@
 {
  "schema": "SBL_R7_EXECUTION_STATUS/1",
  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T06:12:15.538273+00:00",
+ "captured_at_utc": "2026-10-21T06:16:52.393798+00:00",
  "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
  "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
  "hgk_admission": {
@@ -23,11 +23,18 @@
   "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows)."
  },
  "lane_mandate_observed": {
-  "PLAN": "openai-codex/gpt-6.1-sol (medium, OpenAI OAuth) - usage HTTP 200",
-  "EXECUTE": "opencode-go/deepseek-v4.1-flash - usage HTTP 200",
-  "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol (medium, OpenAI OAuth) - usage HTTP 200",
-  "session_plane_note": "this session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION plane, NOT a lane binding. The lane arms are proved by each dispatch receipt.",
-  "transport_vocabulary": "the openai arm requires the BARE transport id 'gpt-6.1-sol'; the qualified 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400. The lane owner fixed this in HG-KSEOS 5d63e00 (registry epoch 24)."
+  "PLAN": "opencode-go/minimax-m3.1-flash-free (owner order 2026-10-21, mid-round) - measured on the CANONICAL pool: served_arm==required_arm, nonce_present=true, usage HTTP 200, exit 0",
+  "EXECUTE": "opencode-go/deepseek-v4.1-flash - UNCHANGED by the mid-round owner order - usage HTTP 200",
+  "VERIFY_SECURITY": "opencode-go/minimax-m3.1-flash-free (owner order 2026-10-21, mid-round) - measured on the CANONICAL pool: served_arm==required_arm, nonce_present=true, usage HTTP 200, exit 0",
+  "session_plane_note": "this session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION plane, NOT a lane binding. The coincidence that the session model now equals the lane models does NOT make the session a lane receipt: each lane claim is proved by its own dispatch receipt (var/R7-LANES/probe_canonical_*.json), with its own nonce and usage row.",
+  "transport_vocabulary": "the openai arm requires the BARE transport id 'gpt-6.1-sol'; the qualified 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400. The opencode-go arm uses the qualified form 'opencode-go/minimax-m3.1-flash-free'.",
+  "mid_round_rebind": {
+   "owner_order": "2026-10-21: PLAN and VERIFY/SECURITY checker models -> minimax-m3.1-flash-free (opencode-go)",
+   "applied_at": "HG-KSEOS config/lane-route-slots.candidate.json revision 11, commit 3f81b4b7d32da0f9eaae01c7ecd05728206f33d9",
+   "published": false,
+   "why_not_published": "HG-KSEOS has NO git remote; the rebind is local-only. The measurement receipts are carried in the SBL evidence branch (40_VERIFY/lane_rebind_minimax/).",
+   "recorded_conflict": "the planner and the checker are now the SAME identity. The dispatcher enforces no maker==checker REFUSE rule (D1), so this is a recorded overlap, not a blocked one, and the checker no longer provides model-axis independence from the planner."
+  }
  },
  "planes_enabled": {
   "KANBAN": "7 work items created on board sbl-pipdls-20261020 (t_928f8743, t_ab996bd9, t_81e07da3, t_491b597c, t_ca9a0cc0, t_00b9aa1d, t_b3f3ed5a)",
@@ -44,7 +51,8 @@
   "R7-06": "candidate branch pushed to origin; the R7 evidence branch carries the FAR artifact set, the residual inventory and the execution status",
   "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it",
   "R7-08": "THE ROUND-1 FINDINGS WERE REAL AND WERE REPAIRED. F8: the reproducibility tests asserted source text, not behaviour, so 2 of 3 contract-breaking mutations still passed them (a CRLF .gitattributes and a no-op normalise_sdist). The tests are now behaviour assertions and tests/test_repro_mutation_probe.py breaks each mechanism on purpose in a throwaway copy and asserts the suite goes red. F9: the build required the 'build' package from the ambient interpreter, which the checker's venv does not have; the tool now resolves an interpreter that can run 'python -m build'. Both in commit 59d2138, re-measured 202 passed / 2 skipped.",
-  "R7-09": "SPINE HONESTY: an early PASS was recorded on the R7 workorder before checker round 2 existed. It was withdrawn with the typed rollback API (rollback_workorder), so the spine shows ROLLED_BACK rather than a premature acceptance. The workorder will be re-recorded with verdict=PASS only against a real checker verdict."
+  "R7-09": "SPINE HONESTY: an early PASS was recorded on the R7 workorder before checker round 2 existed. It was withdrawn with the typed rollback API (rollback_workorder), so the spine shows ROLLED_BACK rather than a premature acceptance. The workorder will be re-recorded with verdict=PASS only against a real checker verdict.",
+  "R7-10": "MID-ROUND OWNER ORDER APPLIED: the PLAN execution model and the VERIFY/SECURITY checker model were rebound to minimax-m3.1-flash-free (opencode-go). The canonical lane pool was edited (revision 11, HG-KSEOS commit 3f81b4b) and MEASURED on the canonical pool for both lanes: served_arm == required_arm, nonce_present=true, usage HTTP 200, exit 0. The openai-codex/gpt-6.1-sol arm is retained at rank 2 as a fallback and was not removed. The planner/checker identity overlap is recorded, not smoothed over."
  },
  "not_done_and_why": {
   "PR #2 merge + C3 prerelease": "OWNER ACTION. The owner's pre-authorisation covers executing the FAR ruling, not bypassing the human authorisation boundary; the R6 report states the Reviewer recommended a scoped merge and did NOT press merge. The 9-step plan is written and every step before the merge is Owner-executable in one act.",
