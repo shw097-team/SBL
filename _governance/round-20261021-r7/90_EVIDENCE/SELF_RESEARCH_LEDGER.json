@@ -1,149 +1,190 @@
 {
- "schema": "SBL_R7_SELF_RESEARCH_LEDGER/1",
- "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
- "captured_at_utc": "2026-10-21T06:12:30.263365+00:00",
- "principle": "every lesson is a transferable RULE with the measurement that produced it; no narration",
- "lessons": [
-  {
-   "id": "L1",
-   "area": "build",
-   "rule": "A build that is not a function of its source cannot be a release artifact. Export from the object store, never from the disk.",
-   "measurement": "git cat-file: objects CRLF=0 while the working tree was CRLF; core.autocrlf=true; no .gitattributes; 7 differing wheel members (all equal after LF normalisation) and 39 differing member timestamps",
-   "failure_it_replaces": "filing our own build-input defect as a permanent platform limitation"
+  "schema": "SBL_R7_SELF_RESEARCH_LEDGER/1",
+  "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
+  "captured_at_utc": "2026-10-21T10:50:06.040609+00:00",
+  "principle": "every lesson is a transferable RULE with the measurement that produced it; no narration",
+  "lessons": [
+    {
+      "id": "L1",
+      "area": "build",
+      "rule": "A build that is not a function of its source cannot be a release artifact. Export from the object store, never from the disk.",
+      "measurement": "git cat-file: objects CRLF=0 while the working tree was CRLF; core.autocrlf=true; no .gitattributes; 7 differing wheel members (all equal after LF normalisation) and 39 differing member timestamps",
+      "failure_it_replaces": "filing our own build-input defect as a permanent platform limitation"
+    },
+    {
+      "id": "L2",
+      "area": "packaging",
+      "rule": "Verify reproducibility per ARTIFACT, not per build system. A wheel that is reproducible says nothing about the sdist next to it.",
+      "measurement": "the wheel became reproducible while the sdist still carried 21 member mtimes and a wall-clock gzip header",
+      "failure_it_replaces": "stopping at the first artifact that worked"
+    },
+    {
+      "id": "L3",
+      "area": "tarfile",
+      "rule": "When normalising an archive, strip the extended header, do not just overwrite the field.",
+      "measurement": "PAX_FORMAT keeps pax_headers['mtime']; create_pax_header only overwrites it when the value does not fit the ustar field, so an integer epoch survived and 20 mtimes stayed non-constant",
+      "failure_it_replaces": "a partial fix whose output still looked plausible"
+    },
+    {
+      "id": "L4",
+      "area": "residual triage",
+      "rule": "Before deferring a residual, ask WHO is missing: a person, a host, a build slice, or us. 'Us' is not a deferral reason.",
+      "measurement": "TT-R6-WHEEL-NONREPRODUCIBLE-001 sat in the same list as the host-dependent items, but its missing thing was our own build input; it closed in one round",
+      "failure_it_replaces": "a fixable item being re-declared as a known limitation"
+    },
+    {
+      "id": "L5",
+      "area": "lane evidence",
+      "rule": "A nonce proves the model answered only if the model was asked to say it. The prompt carries the nonce, not just the --nonce flag.",
+      "measurement": "the first probe returned ERR_NO_ARM_EMITTED_NONCE with exit=0 and a good usage row; after adding the token to the prompt, 3/3 lanes ok",
+      "failure_it_replaces": "concluding that a healthy lane is broken"
+    },
+    {
+      "id": "L6",
+      "area": "control plane",
+      "rule": "An admission that returns an id is not an admission. Read the requirement, taskspec and workorder rows back.",
+      "measurement": "admit_requirement returned a workorder id while the TaskSpec was DRAFT and no WorkOrder existed; _repo_head() reads the CALLER's cwd, returned '' outside a repo, and the raised InvariantViolation was swallowed",
+      "failure_it_replaces": "trusting an API return value that hides a swallowed exception"
+    },
+    {
+      "id": "L7",
+      "area": "branch triage",
+      "rule": "A branch review that is not a measurement is an opinion. merge-tree exit code is the conflict answer; ancestry is the supersede answer.",
+      "measurement": "49 branches measured mechanically collapse to exactly 1 MERGE_NOW",
+      "failure_it_replaces": "reviewing branches one at a time by reading diffs"
+    },
+    {
+      "id": "L8",
+      "area": "capability sourcing",
+      "rule": "Before merging a branch to obtain a capability, check whether main already has it.",
+      "measurement": "all 8 official PIPD skills are on main with full contracts, typed IO and POS/NEG/EDGE/SEC cases",
+      "failure_it_replaces": "merging a branch that only restates main and brings back conflicts"
+    },
+    {
+      "id": "L9",
+      "area": "authorisation",
+      "rule": "A pre-authorisation of 'execute your recommendation' is not a grant of a Native effect.",
+      "measurement": "the R6 report states the Reviewer recommended a scoped merge and did NOT press the button; merge, release, permission grants and Host plugin creation are separately gated",
+      "failure_it_replaces": "reading a broad instruction as a grant of merge/release authority"
+    },
+    {
+      "id": "L10",
+      "trigger": "The maker's own reproducibility tests were green, and the independent VERIFY lane mutated the candidate three ways; two mutants still passed.",
+      "measurement": ".gitattributes rewritten to eol=crlf -> PASSED (the test only checked the file contained the literal 'eol=lf'); normalise_sdist(sdist, epoch) replaced by pass -> PASSED (the test checked the source for the CALL, so removing it was invisible); .gitattributes deleted -> FAILED, the only mutant that was caught.",
+      "rule": "Assert behaviour, not spelling. A source-text assertion survives exactly the mutation it was written to prevent. The durable fix is a mutation probe that breaks the mechanism on purpose in a throwaway copy and asserts the suite goes red. A green suite that cannot fail converts an unverified fix into a claimed verification.",
+      "transferable_to": "any candidate that adds a regression test for a mechanism, not just a value",
+      "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+    },
+    {
+      "id": "L11",
+      "trigger": "The independent checker's venv has no 'build' package, so the candidate's build step failed with 'No module named build.__main__' - an error that reads like a broken artefact.",
+      "measurement": "'import build' succeeds in exactly one ambient interpreter on this machine; the dedicated checker venv does not have it. The artefact was never the problem.",
+      "rule": "A tool that produces the evidence must resolve its own dependencies and say what it checked. The resolution order must be explicit and overridable, and the failure message must name the interpreters it tried. When a reviewer hits a dependency error the first question is always 'is this the product or the environment?', and the answer must be mechanically checkable, not asserted.",
+      "transferable_to": "every evidence-producing tool an external acceptance officer will run in their own environment",
+      "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+    },
+    {
+      "id": "L12",
+      "trigger": "The first independent VERIFY round ended exit=1 with the upstream message 'You've hit your usage limit' after 392s of real work.",
+      "measurement": "nonce_present=true, usage_status=200, usage_receipt_ok=true, stdout_sha256=80397dbb..., stdout_byte_exact=true. The failure is a provider-side turn.failed, not a candidate failure.",
+      "rule": "Classify the exit before classifying the candidate. A provider-side turn.failed after a successful usage receipt is an INCOMPLETE round, not a FAIL verdict and not a PASS: preserve it, do not count it, re-run it. Never round an incomplete round up to a verdict, and never let its incidental findings be lost because the round did not finish.",
+      "transferable_to": "every lane dispatch whose exit code can be set by the provider",
+      "introduced_by": "independent VERIFY_SECURITY round 1, R7"
+    },
+    {
+      "id": "L13",
+      "trigger": "A PASS was recorded on the R7 HGK workorder before the independent checker round 2 existed, because recording the result felt like bookkeeping.",
+      "measurement": "The workorder reached VERIFIED with checker='openai-codex/gpt-6.1-sol' while the only checker round on record was classified INCOMPLETE_ROUND_PROVIDER_QUOTA. The typed rollback API (rollback_workorder) returned the row to ROLLED_BACK with a rollback_record naming the reason.",
+      "rule": "The spine is the acceptance ledger; a premature PASS in it is a false acceptance claim that is indistinguishable from a real one unless withdrawn. Withdraw it with the typed rollback API rather than editing the row, and only re-record a PASS against an actual verdict. The self-check must assert the workorder state, not merely that an evidence list exists.",
+      "transferable_to": "every governed round that records a result before its checker has run",
+      "introduced_by": "R7 self-audit"
+    },
+    {
+      "id": "L14",
+      "trigger": "The machine was rebooted between rounds and the Codex CLI had been upgraded in place, so the declared toolchain pin named a binary that no longer existed.",
+      "measurement": "Every lane dispatch failed BEFORE SPAWNING with ERR_LANE_PIN_IDENTITY_INVALID / ERR_LANE_TOOLCHAIN_BINARY_MISSING -- the SBL EXECUTE and VERIFY lanes could not run at all, including the independent acceptance officer. The fix required TWO surfaces to move together: the live declaration and the registry's /codex_version and /codex_sha256 expected values.",
+      "rule": "A lane binding is only real if the lanes can actually RUN on it. A pin that names a stale binary turns the whole lane chain into a fail-closed refusal, and a test suite that only inspects the config would not have caught it. After any host toolchain upgrade, re-derive the pin from the INSTALLED binary (discover the path, ask the binary its version, hash the file) and re-pin every expected value in the same change -- the drift gate exists precisely to catch the two surfaces disagreeing, so let it tell you."
+    },
+    {
+      "id": "L15",
+      "trigger": "The pool's per-lane selection_note still said 'minimax-m3.1-flash-free is rank 1' on all three lanes after the owner order promoted GPT 6.1 SOL to rank 1 on PLAN and VERIFY_SECURITY.",
+      "measurement": "The note contradicted the same file's declared_by, its change_log, and its own ordered_pool[0]. A reviewer reading the note would have concluded MiniMax was the PLAN binding -- the exact lane-vs-session confusion the owner had ordered to be eliminated. The drift gate did NOT catch it: the gate compares machine-checked values, and prose is not one.",
+      "rule": "Never hand-write a declaration of what a machine-checked file already says. Generate the note from ordered_pool[0] so it cannot drift, and treat a stale prose field as a real defect even when every automated gate is green -- a green gate only means the gate's own fields agree, not that the document tells the truth."
+    },
+    {
+      "id": "L16",
+      "trigger": "The R7 self-check C6 hard-coded round 1's nonce token, so a later successful round could never satisfy it.",
+      "measurement": "C6 asserted that the transcript contained 'R7CHK-NC-20261021-A1'. The nonce is per round. Even a fully successful, correctly-armed, correctly-nonced round 4 would have left C6 FAILING, and the round could never have reached 16/16. The check was validating the checker's ability to echo a token it was never given.",
+      "rule": "An acceptance check that pins a value produced by an earlier run is a check of the past, not of the current state. Read the expected value from the artefact under test (the receipt, the transcript) rather than from a constant, and verify the fix against synthetic scenarios -- success, stale-arm, missing-token, wrong-arm -- before trusting it."
+    }
+  ],
+  "residual_split": {
+    "closed_this_round": [
+      "TT-R6-WHEEL-NONREPRODUCIBLE-001"
+    ],
+    "closed_by_lane_owner_this_round": [
+      "TT-R6-VERIFY-TRANSPORT-VOCAB-001"
+    ],
+    "closed_by_isolation": [
+      "TT-R6-APPENDIX-STALE-MERGE-001"
+    ],
+    "owner_one_action": [
+      "CR-PLUGIN-SCHEMA-AUTHORITY",
+      "CR-GPTB-KP-R04-POLARITY",
+      "R6-TS06",
+      "R6-TS06-A"
+    ],
+    "not_closable_this_round": [
+      "TT-CHALLENGE-BUNDLE-MISSING",
+      "TT-METHOD09-LEDGER-DRIFT",
+      "R6-TS12",
+      "R6-TS21",
+      "R6-TS22-23-24"
+    ],
+    "next_build_slices": [
+      "R6-TS15",
+      "R6-TS16",
+      "R6-TS07-CLOSURE",
+      "TT-R6-CHECKER-SANDBOX-ENV-001"
+    ],
+    "next_build_slices_note": "these four need a NEW admitted WriteSet slice and a real new product surface, or (for the sandbox item) an environment-hardening change to the lane runtime; they are not a documentation task and were NOT closed this round. TT-R6-CHECKER-SANDBOX-ENV-001 was PARTIALLY closed by the lane owner in HG-KSEOS 5d63e00 (G9: a Windows-usable TMPDIR/TEMP/TMP plus PYTHONDONTWRITEBYTECODE=1 and -p no:cacheprovider); the residual git-subprocess and site-packages limits remain environmental."
   },
-  {
-   "id": "L2",
-   "area": "packaging",
-   "rule": "Verify reproducibility per ARTIFACT, not per build system. A wheel that is reproducible says nothing about the sdist next to it.",
-   "measurement": "the wheel became reproducible while the sdist still carried 21 member mtimes and a wall-clock gzip header",
-   "failure_it_replaces": "stopping at the first artifact that worked"
+  "self_iteration": {
+    "cycle_1": "the maker's self-check caught 4 defects in its OWN reading (a row count that included a second table, a reversed ls-remote parse, a residual id with an annotation glued to it, and a missing checker receipt) - all fixed before the evidence was published",
+    "cycle_2": "the independent checker caught 2 defects in the maker's PRODUCT (F8 source-text tests, F9 ambient-interpreter coupling) - repaired in 59d2138 and re-measured",
+    "cycle_3": "the spine audit caught a premature PASS - withdrawn with the typed rollback API",
+    "total_cycles": 3,
+    "defects_found_by_maker_self_check": 4,
+    "defects_found_by_independent_checker": 2,
+    "defects_found_by_spine_audit": 1,
+    "iterations": [
+      {
+        "iteration": 1,
+        "at_utc": "2026-10-21T10:50:06.040609+00:00",
+        "trigger": "resume after reboot",
+        "changes": [
+          "refreshed the codex toolchain pin FROM THE INSTALLED BINARY and re-pinned the registry's two expected values in the same commit",
+          "regenerated the pool's per-lane selection_note from ordered_pool[0] (pool revision 12 -> 13)",
+          "fixed the C6 nonce check to read the nonce from the receipt and verified it against four synthetic scenarios"
+        ],
+        "measured": {
+          "drift_gate": "0 findings, 0 fatal, 90 checked sites, epoch 26",
+          "conformance": "5 passed, 90 subtests passed",
+          "toolchain_gate": "ok: true",
+          "live_lane_probes": "PLAN / EXECUTE / VERIFY_SECURITY all ok at rank 1 with nonce and usage receipt"
+        },
+        "closed_defects": [
+          "R7R-TOOLCHAIN-PIN",
+          "R7R-POOL-NOTE-STALE",
+          "R7R-C6-NONCE-HARDCODED"
+        ]
+      }
+    ]
   },
-  {
-   "id": "L3",
-   "area": "tarfile",
-   "rule": "When normalising an archive, strip the extended header, do not just overwrite the field.",
-   "measurement": "PAX_FORMAT keeps pax_headers['mtime']; create_pax_header only overwrites it when the value does not fit the ustar field, so an integer epoch survived and 20 mtimes stayed non-constant",
-   "failure_it_replaces": "a partial fix whose output still looked plausible"
-  },
-  {
-   "id": "L4",
-   "area": "residual triage",
-   "rule": "Before deferring a residual, ask WHO is missing: a person, a host, a build slice, or us. 'Us' is not a deferral reason.",
-   "measurement": "TT-R6-WHEEL-NONREPRODUCIBLE-001 sat in the same list as the host-dependent items, but its missing thing was our own build input; it closed in one round",
-   "failure_it_replaces": "a fixable item being re-declared as a known limitation"
-  },
-  {
-   "id": "L5",
-   "area": "lane evidence",
-   "rule": "A nonce proves the model answered only if the model was asked to say it. The prompt carries the nonce, not just the --nonce flag.",
-   "measurement": "the first probe returned ERR_NO_ARM_EMITTED_NONCE with exit=0 and a good usage row; after adding the token to the prompt, 3/3 lanes ok",
-   "failure_it_replaces": "concluding that a healthy lane is broken"
-  },
-  {
-   "id": "L6",
-   "area": "control plane",
-   "rule": "An admission that returns an id is not an admission. Read the requirement, taskspec and workorder rows back.",
-   "measurement": "admit_requirement returned a workorder id while the TaskSpec was DRAFT and no WorkOrder existed; _repo_head() reads the CALLER's cwd, returned '' outside a repo, and the raised InvariantViolation was swallowed",
-   "failure_it_replaces": "trusting an API return value that hides a swallowed exception"
-  },
-  {
-   "id": "L7",
-   "area": "branch triage",
-   "rule": "A branch review that is not a measurement is an opinion. merge-tree exit code is the conflict answer; ancestry is the supersede answer.",
-   "measurement": "49 branches measured mechanically collapse to exactly 1 MERGE_NOW",
-   "failure_it_replaces": "reviewing branches one at a time by reading diffs"
-  },
-  {
-   "id": "L8",
-   "area": "capability sourcing",
-   "rule": "Before merging a branch to obtain a capability, check whether main already has it.",
-   "measurement": "all 8 official PIPD skills are on main with full contracts, typed IO and POS/NEG/EDGE/SEC cases",
-   "failure_it_replaces": "merging a branch that only restates main and brings back conflicts"
-  },
-  {
-   "id": "L9",
-   "area": "authorisation",
-   "rule": "A pre-authorisation of 'execute your recommendation' is not a grant of a Native effect.",
-   "measurement": "the R6 report states the Reviewer recommended a scoped merge and did NOT press the button; merge, release, permission grants and Host plugin creation are separately gated",
-   "failure_it_replaces": "reading a broad instruction as a grant of merge/release authority"
-  },
-  {
-   "id": "L10",
-   "trigger": "The maker's own reproducibility tests were green, and the independent VERIFY lane mutated the candidate three ways; two mutants still passed.",
-   "measurement": ".gitattributes rewritten to eol=crlf -> PASSED (the test only checked the file contained the literal 'eol=lf'); normalise_sdist(sdist, epoch) replaced by pass -> PASSED (the test checked the source for the CALL, so removing it was invisible); .gitattributes deleted -> FAILED, the only mutant that was caught.",
-   "rule": "Assert behaviour, not spelling. A source-text assertion survives exactly the mutation it was written to prevent. The durable fix is a mutation probe that breaks the mechanism on purpose in a throwaway copy and asserts the suite goes red. A green suite that cannot fail converts an unverified fix into a claimed verification.",
-   "transferable_to": "any candidate that adds a regression test for a mechanism, not just a value",
-   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
-  },
-  {
-   "id": "L11",
-   "trigger": "The independent checker's venv has no 'build' package, so the candidate's build step failed with 'No module named build.__main__' - an error that reads like a broken artefact.",
-   "measurement": "'import build' succeeds in exactly one ambient interpreter on this machine; the dedicated checker venv does not have it. The artefact was never the problem.",
-   "rule": "A tool that produces the evidence must resolve its own dependencies and say what it checked. The resolution order must be explicit and overridable, and the failure message must name the interpreters it tried. When a reviewer hits a dependency error the first question is always 'is this the product or the environment?', and the answer must be mechanically checkable, not asserted.",
-   "transferable_to": "every evidence-producing tool an external acceptance officer will run in their own environment",
-   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
-  },
-  {
-   "id": "L12",
-   "trigger": "The first independent VERIFY round ended exit=1 with the upstream message 'You've hit your usage limit' after 392s of real work.",
-   "measurement": "nonce_present=true, usage_status=200, usage_receipt_ok=true, stdout_sha256=80397dbb..., stdout_byte_exact=true. The failure is a provider-side turn.failed, not a candidate failure.",
-   "rule": "Classify the exit before classifying the candidate. A provider-side turn.failed after a successful usage receipt is an INCOMPLETE round, not a FAIL verdict and not a PASS: preserve it, do not count it, re-run it. Never round an incomplete round up to a verdict, and never let its incidental findings be lost because the round did not finish.",
-   "transferable_to": "every lane dispatch whose exit code can be set by the provider",
-   "introduced_by": "independent VERIFY_SECURITY round 1, R7"
-  },
-  {
-   "id": "L13",
-   "trigger": "A PASS was recorded on the R7 HGK workorder before the independent checker round 2 existed, because recording the result felt like bookkeeping.",
-   "measurement": "The workorder reached VERIFIED with checker='openai-codex/gpt-6.1-sol' while the only checker round on record was classified INCOMPLETE_ROUND_PROVIDER_QUOTA. The typed rollback API (rollback_workorder) returned the row to ROLLED_BACK with a rollback_record naming the reason.",
-   "rule": "The spine is the acceptance ledger; a premature PASS in it is a false acceptance claim that is indistinguishable from a real one unless withdrawn. Withdraw it with the typed rollback API rather than editing the row, and only re-record a PASS against an actual verdict. The self-check must assert the workorder state, not merely that an evidence list exists.",
-   "transferable_to": "every governed round that records a result before its checker has run",
-   "introduced_by": "R7 self-audit"
+  "self_evolution": {
+    "delta_1": "LEARNING.md grew from 9 to 12 rules; L10-L12 came from an independent lane, not from the maker, which is the point of an independent lane",
+    "delta_2": "the self-check gained a behavioural requirement: C6 now demands a round that reached a VERDICT and recognises the difference between a failed round and an unrun one",
+    "delta_3": "the evidence tree now seals the build receipt and the artefacts it describes, and C9 re-derives the digest from the sealed bytes instead of from a scratch path",
+    "delta_4": "the product's own test suite now contains a mutation probe, so the next maker inherits a check that fails when the mechanism breaks"
   }
- ],
- "residual_split": {
-  "closed_this_round": [
-   "TT-R6-WHEEL-NONREPRODUCIBLE-001"
-  ],
-  "closed_by_lane_owner_this_round": [
-   "TT-R6-VERIFY-TRANSPORT-VOCAB-001"
-  ],
-  "closed_by_isolation": [
-   "TT-R6-APPENDIX-STALE-MERGE-001"
-  ],
-  "owner_one_action": [
-   "CR-PLUGIN-SCHEMA-AUTHORITY",
-   "CR-GPTB-KP-R04-POLARITY",
-   "R6-TS06",
-   "R6-TS06-A"
-  ],
-  "not_closable_this_round": [
-   "TT-CHALLENGE-BUNDLE-MISSING",
-   "TT-METHOD09-LEDGER-DRIFT",
-   "R6-TS12",
-   "R6-TS21",
-   "R6-TS22-23-24"
-  ],
-  "next_build_slices": [
-   "R6-TS15",
-   "R6-TS16",
-   "R6-TS07-CLOSURE",
-   "TT-R6-CHECKER-SANDBOX-ENV-001"
-  ],
-  "next_build_slices_note": "these four need a NEW admitted WriteSet slice and a real new product surface, or (for the sandbox item) an environment-hardening change to the lane runtime; they are not a documentation task and were NOT closed this round. TT-R6-CHECKER-SANDBOX-ENV-001 was PARTIALLY closed by the lane owner in HG-KSEOS 5d63e00 (G9: a Windows-usable TMPDIR/TEMP/TMP plus PYTHONDONTWRITEBYTECODE=1 and -p no:cacheprovider); the residual git-subprocess and site-packages limits remain environmental."
- },
- "self_iteration": {
-  "cycle_1": "the maker's self-check caught 4 defects in its OWN reading (a row count that included a second table, a reversed ls-remote parse, a residual id with an annotation glued to it, and a missing checker receipt) - all fixed before the evidence was published",
-  "cycle_2": "the independent checker caught 2 defects in the maker's PRODUCT (F8 source-text tests, F9 ambient-interpreter coupling) - repaired in 59d2138 and re-measured",
-  "cycle_3": "the spine audit caught a premature PASS - withdrawn with the typed rollback API",
-  "total_cycles": 3,
-  "defects_found_by_maker_self_check": 4,
-  "defects_found_by_independent_checker": 2,
-  "defects_found_by_spine_audit": 1
- },
- "self_evolution": {
-  "delta_1": "LEARNING.md grew from 9 to 12 rules; L10-L12 came from an independent lane, not from the maker, which is the point of an independent lane",
-  "delta_2": "the self-check gained a behavioural requirement: C6 now demands a round that reached a VERDICT and recognises the difference between a failed round and an unrun one",
-  "delta_3": "the evidence tree now seals the build receipt and the artefacts it describes, and C9 re-derives the digest from the sealed bytes instead of from a scratch path",
-  "delta_4": "the product's own test suite now contains a mutation probe, so the next maker inherits a check that fails when the mechanism breaks"
- }
 }

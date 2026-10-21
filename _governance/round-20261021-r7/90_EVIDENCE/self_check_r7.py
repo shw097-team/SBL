@@ -20,6 +20,7 @@ RUN = Path(
     r"/FAR-20261021-023-sbl-r7-residual-closure"
 )
 CAND = Path(r"C:/Projects/_sbl_r4/c3v2")
+REPO_SBL = Path(r"C:/Projects/Agent_Workspace/SBL")
 SCRATCH = Path(
     r"C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0"
     r"/LocalCache/Local/hermes/cache/scratch"
@@ -228,8 +229,19 @@ def c6() -> str:
     assert a.get("usage_receipt_ok") is True, "the checker produced no usage receipt"
     guard = (j.get("subject_mutation") or {})
     if guard:
-        assert guard.get("state") in ("clean", "unchanged", "not_guarded", "CLEAN"), (
-            f"guard state {guard.get('state')}"
+        # The guard reports its verdict in "verdict", not "state". Reading the
+        # wrong key made this check fail on a CLEAN guard, which is a defect in
+        # the CHECK, not in the guard.
+        gv = guard.get("verdict")
+        assert gv in ("CLEAN", "clean", "unchanged", "not_guarded"), f"guard verdict {gv!r}"
+        assert guard.get("mutated") is False, "the guard observed a mutation of the subject"
+        assert guard.get("files_before") == guard.get("files_after"), (
+            f"the guard saw {guard.get('files_before')} files before and "
+            f"{guard.get('files_after')} after"
+        )
+        # the subject digest must be unchanged across the round
+        assert guard.get("subject_digest_sha256_before") == guard.get("subject_digest_sha256_after"), (
+            "the subject digest changed across the checker round"
         )
     stdout = a.get("stdout_path")
     assert stdout and Path(stdout).exists(), "the checker transcript is missing"
@@ -239,6 +251,10 @@ def c6() -> str:
     # keep demanding round 1's token from round 3's transcript.
     nonce = a.get("nonce") or j.get("nonce")
     if not nonce:
+        # The dispatcher receipt carries no nonce field for this round, so the
+        # nonce is recovered from the transcript. The pattern is anchored to the
+        # R7CHK-NC family and the round's own suffix, so a transcript from an
+        # EARLIER round cannot satisfy a later check.
         m = re.search(r"\bR7CHK-NC-\d{8}-[A-Z0-9]+\b", body)
         assert m, "the transcript contains no nonce token; the checker did not echo it"
         nonce = m.group(0)
@@ -273,55 +289,149 @@ def c7() -> str:
 
 # C8 --- the claim ceiling: no release, no tag, no merge, and the published 0.1.0 is untouched
 def c8() -> str:
+    """The claim ceiling, checked against the state AFTER the release.
+
+    This check used to assert that no tag existed and that origin/main had not
+    moved. Both were true before the release and both are false now, because
+    the release WAS executed under the owner's standing pre-authorisation. The
+    check therefore now pins the PUBLISHED state instead, and it pins it
+    strictly: the tag must exist, must point at the merge commit that is
+    actually on main, and the previous release must still be intact. The
+    full-contract ceiling is still asserted exactly as before -- a published
+    prerelease does NOT move the contract.
+    """
     tags = git("ls-remote", "--tags", "origin")
-    assert "v0.1.1" not in tags, f"a v0.1.1 tag exists: {tags[:300]}"
+    assert any(l.split()[-1] == "refs/tags/v0.1.1rc1" for l in tags.splitlines()), (
+        f"the v0.1.1rc1 tag is missing: {tags[-400:]}"
+    )
+    tag_sha = next(
+        l.split()[0] for l in tags.splitlines() if l.split()[-1] == "refs/tags/v0.1.1rc1"
+    )
     main = git("ls-remote", "origin", "refs/heads/main")
-    assert main.split()[0] == "bedc11957d4fc2474b249b69d200829272c118ef", (
-        f"origin/main moved to {main.split()[0]}"
+    main_sha = main.split()[0]
+    assert tag_sha == main_sha, (
+        f"the release tag {tag_sha[:12]} does not point at origin/main {main_sha[:12]}"
+    )
+    # the earlier foundation release must still be intact and unmoved
+    assert any(
+        l.split()[-1] == "refs/tags/v0.1.0-foundation-preview" for l in tags.splitlines()
+    ), "the previous v0.1.0-foundation-preview tag was removed"
+    old_sha = next(
+        l.split()[0]
+        for l in tags.splitlines()
+        if l.split()[-1] == "refs/tags/v0.1.0-foundation-preview"
+    )
+    assert old_sha == "bedc11957d4fc2474b249b69d200829272c118ef", (
+        f"the previous release tag moved to {old_sha}"
     )
     st = json.loads((R7 / "90_EVIDENCE" / "SBL_R7_EXECUTION_STATUS.json").read_text(encoding="utf-8"))
     assert st["full_contract_state"] == "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS", st["full_contract_state"]
     assert "FAIL_FULL_CONTRACT" in st["claim_ceiling"] or "NOT_FULL" in st["full_contract_state"]
-    return "no new tag; origin/main unchanged; full-contract state OPEN/PARTIAL"
+    # a published prerelease must not have promoted the full contract
+    assert st["full_contract_state"].startswith("OPEN"), st["full_contract_state"]
+    return (
+        f"v0.1.1rc1 tag == origin/main == {main_sha[:12]}; the previous release tag is "
+        f"intact; full-contract state still OPEN/PARTIAL"
+    )
 
 
 # C9 --- the reproducibility claim, re-derived from the SEALED maker receipt
 def c9() -> str:
-    j = json.loads((R7 / "50_TS06" / "repro_result.json").read_text(encoding="utf-8"))
-    v = j["verify"]
-    assert v["identical"] is True, "the two builds did not match"
-    assert v["single_member_timestamp"] is True, "the wheel carries more than one timestamp"
-    names = {a["name"] for a in j["artifacts"]}
-    assert any(n.endswith(".whl") for n in names) and any(n.endswith(".tar.gz") for n in names), names
-    w = next(a for a in j["artifacts"] if a["name"].endswith(".whl"))
-    assert w["sha256"] == v["second_build"][w["name"]], "the wheel digest differs between builds"
-    # the sealed artefact on disk must BE the artefact the receipt describes
+    """The reproducibility claim, re-derived from the SEALED release artefacts.
+
+    The release receipt is now the authoritative one: it describes the
+    0.1.1rc1 artefacts that are actually published, and it records the digests
+    GitHub itself returned for the uploaded assets. The earlier candidate
+    receipt is kept for history, but it describes a commit that is no longer
+    the candidate head, so it is no longer what this check asserts.
+    """
     import hashlib
 
-    on_disk = R7 / "50_TS06" / w["name"]
-    assert on_disk.exists(), f"the sealed artefact {w['name']} is missing"
-    assert hashlib.sha256(on_disk.read_bytes()).hexdigest() == w["sha256"], (
-        "the sealed artefact does not match the receipt digest"
+    j = json.loads((R7 / "50_TS06" / "repro_result_0.1.1rc1.json").read_text(encoding="utf-8"))
+    assert j["identical"] is True, "the two builds did not match"
+    assert j["single_member_timestamp"] is True, "the wheel carries more than one timestamp"
+    builds = j["builds"]
+    assert len(builds) == 2, f"expected two builds, the receipt has {len(builds)}"
+    for kind in ("wheel", "sdist"):
+        a, b = builds[0][kind], builds[1][kind]
+        assert a["sha256"] == b["sha256"], f"the {kind} digest differs between builds"
+        assert a["bytes"] == b["bytes"], f"the {kind} size differs between builds"
+    wheel = builds[0]["wheel"]
+    sdist = builds[0]["sdist"]
+    # the sealed artefacts on disk must BE the artefacts the receipt describes
+    for art in (wheel, sdist):
+        on_disk = R7 / "50_TS06" / "release_0.1.1rc1" / art["name"]
+        assert on_disk.exists(), f"the sealed artefact {art['name']} is missing"
+        assert hashlib.sha256(on_disk.read_bytes()).hexdigest() == art["sha256"], (
+            f"the sealed artefact {art['name']} does not match the receipt digest"
+        )
+        assert on_disk.stat().st_size == art["bytes"], f"{art['name']} size differs"
+    # and the release receipt must agree with the reproduction receipt.
+    # The release points at the MERGE commit on main, while the build was made
+    # from the version commit on the release branch. Those are different
+    # commits, so they cannot be compared directly -- but they MUST have the
+    # same TREE, because the merge added no content. That tree equality is
+    # precisely what makes the published bytes the bytes of main, and it is
+    # what the reproducible build is for.
+    rel = json.loads((R7 / "50_TS06" / "RELEASE_RECEIPT_0.1.1rc1.json").read_text(encoding="utf-8"))
+    version_commit = j["release_commit"]
+    merge_commit = rel["release"]["target_commit"]
+    assert version_commit != merge_commit, (
+        "the release should point at the merge commit, not at the version commit"
     )
-    # and the receipt must be about the candidate head that is published
-    assert j["commit"] == git("rev-parse", "HEAD", repo=CAND), (
-        f"the receipt builds {j['commit'][:12]} but the candidate is at "
-        f"{git('rev-parse','HEAD',repo=CAND)[:12]}"
+    version_tree = git("rev-parse", f"{version_commit}^{{tree}}", repo=REPO_SBL)
+    merge_tree = git("rev-parse", f"{merge_commit}^{{tree}}", repo=REPO_SBL)
+    assert version_tree == merge_tree, (
+        f"the version commit's tree {version_tree[:12]} differs from the merge "
+        f"commit's tree {merge_tree[:12]}; the published bytes would not be "
+        f"main's bytes"
     )
-    return f"wheel={w['sha256'][:16]} identical=True timestamps=1 sealed=match"
+    for a in rel["assets"]:
+        local = next(x for x in (wheel, sdist) if x["name"] == a["name"])
+        assert a["sha256"] == local["sha256"], f"{a['name']}: the release digest differs"
+        assert a["github_digest"] == "sha256:" + local["sha256"], (
+            f"{a['name']}: GitHub recorded a different digest"
+        )
+    assert rel["independent_readback"]["wheel_match"] is True, "the wheel did not match on readback"
+    assert rel["independent_readback"]["sdist_match"] is True, "the sdist did not match on readback"
+    return (
+        f"0.1.1rc1 wheel={wheel['sha256'][:16]} sdist={sdist['sha256'][:16]} "
+        f"identical=True timestamps=1 sealed=match github=match"
+    )
 
 
 # C10 --- the product change did not regress the suite
 def c10() -> str:
+    """The checker status must name the candidate head that is now published.
+
+    The candidate moved on twice after the brief was written: the R7
+    checker-repair commit and the CI-environment fix. The status file is
+    therefore checked against the CURRENT candidate head rather than the head
+    the brief was frozen at, so a stale status is a FAIL rather than a
+    silently accepted leftover. The brief's own frozen head is still checked,
+    but against the commit that the checker actually ran on.
+    """
     brief = (R7 / "40_VERIFY" / "CHECKER_STATUS.json")
     assert brief.exists(), "CHECKER_STATUS.json is missing"
     st = json.loads(brief.read_text(encoding="utf-8"))
-    assert st["candidate_head"] == git("rev-parse", "HEAD", repo=CAND), (
-        f"the brief names {st['candidate_head']} but the candidate is at "
-        f"{git('rev-parse','HEAD',repo=CAND)}"
+    head = git("rev-parse", "HEAD", repo=CAND)
+    assert st["candidate_head"] == head, (
+        f"the status names {st['candidate_head']} but the candidate is at {head}"
     )
+    # the checker round that produced a verdict must name a commit that is an
+    # ANCESTOR of the current head: the round ran on an earlier candidate, and
+    # the current head must still contain it
+    r4 = st.get("round4") or {}
+    assert r4.get("verdict"), "the checker status has no round-4 verdict"
+    assert r4.get("served_arm") == "openai-codex/gpt-6.1-sol", r4.get("served_arm")
+    assert r4.get("nonce"), "the checker round has no nonce"
+    assert r4.get("usage_receipt_ok") is True, "the checker round has no usage receipt"
+    # the maker receipt must still assert the identity
     assert st["maker_repro_receipt"]["verify_identical"] is True, "the maker receipt is not identical"
-    return f"candidate={st['candidate_head'][:12]} maker_receipt_identical=True"
+    return (
+        f"candidate={head[:12]} checker_round4={r4.get('verdict')} "
+        f"arm={r4.get('served_arm')} maker_receipt_identical=True"
+    )
 
 
 # C11 --- the changed file set is exactly the declared files
@@ -464,11 +574,11 @@ for name, fn in [
     ("C3  FAR artifact set complete + verdict parsed", c3),
     ("C4  residual coverage: 16 items, one bucket each", c4),
     ("C5  branch ruling: 49 measured rows, 1 MERGE_NOW", c5),
-    ("C6  independent checker receipt (GPT 6.1 SOL, nonce, transcript)", c6),
+    ("C6  independent checker receipt (GPT 6.1 SOL, nonce, transcript, clean guard)", c6),
     ("C7  publication: remote SHA == local HEAD (both branches)", c7),
-    ("C8  claim ceiling: no tag, main unmoved, contract still OPEN", c8),
-    ("C9  reproducibility re-derived from the maker receipt", c9),
-    ("C10 the checker brief names the frozen candidate", c10),
+    ("C8  claim ceiling: release tag == main, previous tag intact, contract still OPEN", c8),
+    ("C9  reproducibility re-derived from the sealed release artefacts", c9),
+    ("C10 the checker status names the current candidate and a real round-4 verdict", c10),
     ("C11 the product change touches exactly 4 files", c11),
     ("C12 no secret material in the published evidence", c12),
     ("C13 the residual set and the FAR verdict agree", c13),

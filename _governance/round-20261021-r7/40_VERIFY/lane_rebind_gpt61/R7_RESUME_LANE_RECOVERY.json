@@ -1,0 +1,84 @@
+{
+  "schema": "SBL_R7_RESUME_LANE_RECOVERY/1",
+  "at_utc": "2026-10-21T10:49:43.626023+00:00",
+  "round": "R7-RESUME-20261021",
+  "why": "the machine was rebooted between rounds. The Codex CLI had been upgraded in place, so the declared toolchain pin named a binary that no longer existed, and every lane dispatch failed BEFORE SPAWNING with ERR_LANE_PIN_IDENTITY_INVALID / ERR_LANE_TOOLCHAIN_BINARY_MISSING. The SBL EXECUTE and VERIFY lanes could not run at all -- including the independent acceptance officer.",
+  "defect_1_toolchain_pin": {
+    "was": {
+      "path": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\896a0166b774037a\\codex.exe",
+      "version": "0.163.0-alpha.10.2",
+      "sha256": "f6dbf48cb70f62649c645f26c87dc9bf84cc36986202dfad8e12fb5b8ca70312"
+    },
+    "now": {
+      "path": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\6257d9e8f63c0f2b\\codex.exe",
+      "version": "0.163.0-alpha.11",
+      "sha256": "00c0f1e4099246fddcd67ec620ca8ed50827c7d70e113b7224f7a2933cf2d67c"
+    },
+    "method": "path DISCOVERED under %LOCALAPPDATA%/OpenAI/Codex/bin; version from `codex.exe --version`; digest computed over the installed file. The registry's /codex_version and /codex_sha256 expected values were re-pinned in the SAME commit; the pointer POSITIONS were not moved.",
+    "verified_by": "hgk-lane-toolchain.py -> ok: true (path, version and digest all match)",
+    "evidence_not_rewritten": "the probe receipts under evidence/ still record what the lane served on 2026-10-21 with the OLD build; they are history and remain true"
+  },
+  "defect_2_stale_selection_note": {
+    "what": "all three lanes' selection_note still read 'minimax-m3.1-flash-free (opencode-go) is rank 1', contradicting the same file's declared_by, change_log and ordered_pool[0]",
+    "why_it_mattered": "a reviewer reading the note would conclude MiniMax was the PLAN binding -- exactly the lane-vs-session confusion the owner ordered to be avoided",
+    "fix": "the note is now GENERATED from ordered_pool[0], so it cannot drift again",
+    "pool_revision": "12 -> 13"
+  },
+  "lane_planes_are_separate": {
+    "session_interaction_plane": {
+      "file": "hermes/config.yaml (shared)",
+      "model": "opencode-go/minimax-m3.1-flash-free",
+      "role": "the interactive session; NOT the PLAN lane binding"
+    },
+    "plan_lane_binding": {
+      "file": "hermes/profiles/hgk-governed/config.yaml (governed profile)",
+      "model": "openai-codex/gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "role": "the governed PLAN / Orchestration plane"
+    },
+    "note": "the two are separate planes; the session pin is never used as the PLAN binding, and the pool's rank-1 arms are the lane bindings"
+  },
+  "live_lane_probes_after_recovery": {
+    "PLAN": {
+      "ok": true,
+      "rank": 1,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "nonce_present": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 3.84,
+      "receipt_sha256": "b6b35b5bed0ac07fd6ed71bfc69affeab0988a6b27510130593d33c3ccfd59af"
+    },
+    "EXECUTE": {
+      "ok": true,
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "nonce_present": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 2.49,
+      "receipt_sha256": "e81d9a07afc596589f7f755c98916987c1b626eecf5c91caa22a4b5f1b072435"
+    },
+    "VERIFY_SECURITY": {
+      "ok": true,
+      "rank": 1,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "nonce_present": true,
+      "usage_receipt_ok": true,
+      "used_seconds": 3.07,
+      "receipt_sha256": "3073396f81551e07b246566f35b5a326f8f1fa6a0963d526975e98f6d82172f1"
+    }
+  },
+  "gates": {
+    "hgk-lane-policy.py validate": "0 findings, 0 fatal, 90 checked sites, epoch 26",
+    "hgk-lane-policy.py diff-live": "no changes",
+    "pytest tests/test_lane_policy.py": "5 passed, 90 subtests passed",
+    "hgk-lane-toolchain.py": "ok: true"
+  },
+  "hg_kseos_commit": "8fa9d345d34a0f81ace467874f5c06488a4710c9",
+  "claim_ceiling": "these are MAKER-side measurements of the maker's own lane configuration, taken by running the lanes. The independent acceptance of the SBL product candidate is a SEPARATE verdict and is not claimed here."
+}

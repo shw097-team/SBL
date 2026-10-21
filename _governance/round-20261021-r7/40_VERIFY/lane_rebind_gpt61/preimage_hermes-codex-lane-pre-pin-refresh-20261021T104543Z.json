@@ -1,0 +1,159 @@
+{
+  "schema": "HGK-HERMES-CODEX-LANE/1",
+  "task_id": "HGK_CODEX_DESKTOP_HERMES_CLI_PROVIDER_LANE_ISOLATION_ONLY",
+  "status": "ACTIVE_FAIL_CLOSED",
+  "human_codex_home": "C:\\Users\\user\\.codex",
+  "human_codex_config": "C:\\Users\\user\\.codex\\config.toml",
+  "hermes_codex_home": "%LOCALAPPDATA%\\HG-KSEOS\\codex-hermes",
+  "hermes_opencodex_home": "%LOCALAPPDATA%\\HG-KSEOS\\opencodex-hermes",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\896a0166b774037a\\codex.exe",
+  "codex_version": "0.163.0-alpha.10.2",
+  "codex_sha256": "f6dbf48cb70f62649c645f26c87dc9bf84cc36986202dfad8e12fb5b8ca70312",
+  "opencodex_root": "%LOCALAPPDATA%\\HG-KSEOS\\runtime\\opencodex-2.11.0",
+  "opencodex_version": "2.11.0",
+  "opencodex_port": 10101,
+  "execute_frontdoor_port": 10100,
+  "execute_frontdoor_host": "127.0.0.1",
+  "execute_frontdoor_python": "C:\\projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+  "execute_frontdoor": {
+    "declared_by": "FAR-EXEC-IDENTITY-002 (WO-EXEC-ID002-BUILD, writer=codex)",
+    "purpose": "Dedicated loopback-only protocol proxy for the sealed EXECUTE lane only. The shared relay on 10101 is left unchanged (other roles use it); no global relay model blacklist.",
+    "script": "scripts/hgk-exec-model-frontdoor.py",
+    "helper": "scripts/start-hgk-exec-frontdoor.ps1",
+    "url": "http://127.0.0.1:10100",
+    "openai_base_url": "http://127.0.0.1:10100/v1",
+    "upstream": "http://127.0.0.1:10101",
+    "sanctioned_pair": "opencode-go/deepseek-v4.1-flash",
+    "allowed_routes": [
+      "POST /v1/chat/completions",
+      "POST /v1/responses",
+      "POST /v1/responses/compact",
+      "GET /v1/responses (websocket upgrade)",
+      "GET /healthz",
+      "GET /v1/models"
+    ],
+    "route_semantics": "Exact raw-path/method allowlist; any other method/path or any nonempty POST query is a typed 403 before the body is read. message.content that merely mentions deepseek-flash is ordinary text and is allowed (model-routing policy, not censorship).",
+    "health": "GET /healthz returns the sanctioned provider/model and the upstream URL (no secrets); the launcher asserts provider+model+upstream and the script digest (ERR_EXEC_FRONTDOOR_HEALTH_* / ERR_EXEC_FRONTDOOR_SCRIPT_MISSING) before any Codex spawn.",
+    "residual_risk": "LOCAL_RUNTIME_CONTROL_NOT_OS_BOUNDARY - raw http://127.0.0.1:10101 remains directly reachable and is explicitly out of scope; the front door does not sandbox the OS or block a caller who bypasses the launcher.",
+    "enforcement_honesty": "The front door enforces the model FIELD (top-level model authoritative; nested request.model/response.model also checked). It is not a byte-level content filter."
+  },
+  "hermes_executable": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\hermes.exe",
+  "hermes_python": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+  "hermes_source": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent",
+  "hermes_home": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes",
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "model_fallbacks": [
+    "deepseek-v4.1-flash"
+  ],
+  "credential_env": "OPENCODE_GO_API_KEY",
+  "credential_source_file": "%LOCALAPPDATA%\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\.env",
+  "credential_resolution": "existing-process-env-then-canonical-hermes-root-env",
+  "openai_fallback": false,
+  "scope": "launcher-process-tree-only",
+  "model_routing_change": {
+    "changed_by": "user instruction (2026-10-02)",
+    "previous_model": "deepseek-v4-flash",
+    "new_model": "deepseek-v4.1-flash",
+    "provider": "opencode-go",
+    "permanence": "PERMANENT",
+    "note": "Primary Codex-lane route is now opencode-go/deepseek-v4.1-flash. Fallbacks are retained as fail-closed safety only; they never override the primary."
+  },
+  "opencode_go_session_header": {
+    "required_header": "x-opencode-session",
+    "why": "opencode-go rejects any request without it (HTTP 400 MissingSessionID) on both /chat/completions and /responses. Verified: identical request without the header -> 400; with a stable session id -> 200.",
+    "injected_via": "ocx provider edit opencode-go --headers {\"x-opencode-session\":..., \"user-agent\":...}",
+    "stable_session_id": "188634c0-27ac-4af2-b9ab-d8544f65c710",
+    "session_id_file": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes\\opencode-session-id.txt",
+    "upstream_doc": "https://opencode.ai/docs/go/ - 'Codex ... Some versions and proxy setups still omit it; preserve the session header when forwarding requests.'",
+    "discovered_by": "this run (direct provider probe: 400 without header, 200 with header, real deepseek-v4.1-flash completion)"
+  },
+  "relay_service_note": "The isolated opencodex relay must be running for the Codex lane to work: `ocx start --port 10101` (or install it as a service with `ocx service install`). Relay state lives in %LOCALAPPDATA%\\HG-KSEOS\\opencodex-hermes; the human C:\\Users\\user\\.codex home is not used by this lane.",
+  "default_execute_route": "CODEX_CLI_SEALED_LANE",
+  "execute_lane_child_models": [
+    "deepseek-v4.1-flash"
+  ],
+  "execute_route_contract": {
+    "declared_by": "user instruction (canonical Hermes session 2026-10-07), REQ-LANE-ROUTE-001",
+    "dispatch_path": "scripts/start-hgk-hermes.ps1 -Action Write (sealed lane) - the ONLY sanctioned Codex dispatch",
+    "chain_must_be_pinned": "invoke with -ModelChain deepseek-v4.1-flash so the chain cannot advance to another model; assert write_model_used in the receipt",
+    "hermes_side": "model.codex_bin is set in the canonical Hermes config so every codex spawn uses this pinned, hash-verified binary. model.openai_runtime is deliberately NOT set: it is a no-op for provider=opencode-go and would break SoD if the provider were switched to openai-codex (finding F8).",
+    "precondition": "CODEX_HOME must be the isolated lane home at launch; only this launcher may set it (user/machine-level CODEX_HOME is refused).",
+    "relay_dependency": "http://127.0.0.1:10101/v1 must be healthy; start it with -Action StartOpenCodex (a -Action Probe stops its own relay in finally).",
+    "child_model_enforcement": {
+      "config_surface": "subagentModels/models/selectedModels = pinned to deepseek-v4.1-flash",
+      "enforcement_status": "UNPROVEN_AS_ENFORCEMENT - finding F7: de-listed models were still served on the relay's direct completion path (opencode-go/glm-5.2 returned 200 after de-listing). The chain pin above is the compensating control."
+    },
+    "verification_receipts": [
+      "var/lane-route-001/receipts/codex_lane_probe_2.json",
+      "var/lane-route-001/receipts/codex_chain_pin.json",
+      "var/lane-route-001/receipts/step5_ocx_child_model_pin.json",
+      "var/lane-route-001/receipts/step5b_isolated_codex_runtime_smoke.json"
+    ]
+  },
+  "sod_note": "EXECUTE runs on deepseek-v4.1-flash via this lane; PLAN (now opencode-go/deepseek-v4.1-flash after the W1 rebinding, round HGK-SOLUTION-APPLY-20261012) and VERIFY (glm-5.3-flash on the mandated arm A) never share this lane's model.",
+  "model_fallbacks_previous": [
+    "gpt-5.6-luna",
+    "glm-5.2"
+  ],
+  "model_fallbacks_rationale": "Kept as the single sanctioned lane model. The launcher defers to binding.model + model_fallbacks when -ModelChain is omitted, so a stale two-model list is a live escape hatch (F4).",
+  "execute_additional_routes": [
+    {
+      "id": "execute-openai-oauth-luna",
+      "provider": "openai-codex",
+      "model": "gpt-6-luna",
+      "canonical_identity": "gpt-6-luna",
+      "auth": "openai_oauth",
+      "oauth": true,
+      "engine": "codex-cli",
+      "transport": "codex-native-oauth",
+      "codex_home": "%USERPROFILE%\\.codex",
+      "automatic_selection": false,
+      "default": false,
+      "admission_status": "UNPROVEN",
+      "backend_probe_status": "HTTP_400_UNSUPPORTED_ON_CURRENT_CLI_ACCOUNT",
+      "authorization_basis": "WO-PIPD-R5-EXECUTE-LUNA-ROUTE-20261009"
+    }
+  ],
+  "execute_fallbacks_out_of_lane": [
+    {
+      "order": 1,
+      "model": "deepseek-ai/deepseek-v4.1-flash",
+      "provider": "nvidia",
+      "engine": "hermes_provider_client",
+      "usable_now": "LIVE"
+    },
+    {
+      "order": 2,
+      "model": "gpt-6-luna",
+      "provider": "openai-codex",
+      "engine": "hermes_provider_client",
+      "usable_now": "LIVE"
+    }
+  ],
+  "execute_fallbacks_out_of_lane_reason": "Historical Hermes-side fallback declarations are preserved separately. The primary relay still exposes only opencode-go. The new execute_additional_routes entry permits explicit Codex-native OAuth routing of gpt-6-luna, not relay routing or automatic fallback; bounded-writer admission and backend usability remain unproven.",
+  "far_exec_identity_002": {
+    "route": "sealed EXECUTE lane dispatches through the dedicated front door on 127.0.0.1:10100/v1; the shared relay on 10101 is untouched and NOT globally blacklisted.",
+    "preserved_out_of_lane_fallbacks": "execute_fallbacks_out_of_lane above is preserved verbatim; this case covers SEALED CODEX EXECUTE only and does not modify those declarations.",
+    "health_check": "launcher verifies http://127.0.0.1:10100/healthz (provider+model+upstream+status) and the front-door script SHA256 before spawn.",
+    "residual_notes": [
+      "runtime/local control, not an OS security boundary; raw 10101 remains reachable and is out of scope",
+      "PLAN (now opencode-go/deepseek-v4.1-flash) and VERIFY/SECURITY (opencode-go/glm-5.3-flash) are unaffected; the front door is EXECUTE-only",
+      "the front door is not in the request path until the owner-gated APPLY wires this candidate config + launcher; this file alone enforces nothing"
+    ]
+  },
+  "codex_distribution_layout": {
+    "files": [
+      "codex.exe",
+      "codex-code-mode-host.exe",
+      "codex-command-runner.exe",
+      "codex-windows-sandbox-setup.exe"
+    ],
+    "why": "0.147.0-alpha.6.5 ships codex.exe ALONE; a code-mode agent needs codex-code-mode-host.exe (os error 2). Measured: that build's AO attempt died with 'failed to load models cache' and exited 0 with zero artifacts.",
+    "changed_by": "owner instruction 2026-10-10 (achieve the 3-lane pool goal) / FAR ruling"
+  },
+  "lane_dispatch_script": "scripts/hgk-lane-dispatch.py",
+  "lane_dispatch_note": "Codex-CLI dispatch for EXECUTE and VERIFY_SECURITY is lane-parameterised and pool-driven. The single-model 10100 front door is retired from the pool path (it 403s every model except one -> incompatible with an ordered pool). PLAN stays on the harness engine (hermes_provider_client).",
+  "round_rebinding_note": "Round HGK-SOLUTION-APPLY-20261012 (owner adjudication 1): the PLAN lane is rebound from openai-codex/gpt-6.1-sol to opencode-go/deepseek-v4.1-flash. This sealed EXECUTE-lane binding is otherwise unchanged: provider/model, additional route, codex_version and codex_sha256 are preserved exactly. Producing this candidate mutated no live file.",
+  "toolchain_pin_note": "Round FAR-REMEDIATION-20261021 (epoch 23): the pin now names the INSTALLED build and its measured sha256 (f6dbf48cb70f6264…), replacing the dead e78bad9887fa50cf path that had been recorded as a KNOWN STALE POINTER since 2026-10-15. Version verified with `codex --version`."
+}

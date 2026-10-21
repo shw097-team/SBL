@@ -1,8 +1,8 @@
 {
   "schema": "SBL_R7_CHECKER_STATUS/1",
-  "captured_at_utc": "2026-10-21T10:35:53.341845+00:00",
+  "captured_at_utc": "2026-10-21T10:56:55.451871+00:00",
   "candidate_branch": "candidate/r7-20261021-repro-build",
-  "candidate_head": "26a289ff1d9c9dddddc1a5eb413121d8980d9031",
+  "candidate_head": "b6eee0222681340549b1b7c8f863ae84d8db0116",
   "base_sha": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
   "changed_files": [
     ".gitattributes",
@@ -57,5 +57,68 @@
       "lesson": "a guard that fires on a substring needs the message reworded, not the guard weakened"
     },
     "resume": "re-dispatch on attempt 4 so this round's two failed dispatches are preserved: hgk-lane-dispatch.py --lane VERIFY_SECURITY --require-arm openai-codex/gpt-6.1-sol --nonce R7CHK-NC-20261021-A4 --timeout 1500 --round SBL-R7-FAR-RESIDUAL-CLOSURE --attempt 4 --brief .../40_VERIFY/CHECKER_BRIEF.md --json-out .../verify_chk_r7_a4.json --guard-subject C:/Projects/_sbl_r4/c3v2 --prompt '<same prompt, nonce A4>'"
+  },
+  "round4": {
+    "classification": "COMPLETE_ROUND_INCONCLUSIVE",
+    "is_a_verdict": true,
+    "verdict": "INCONCLUSIVE - NOT ACCEPTED",
+    "served_arm": "openai-codex/gpt-6.1-sol",
+    "served_rank": 1,
+    "transport_model": "gpt-6.1-sol",
+    "nonce": "R7CHK-NC-20261021-A4",
+    "exit": 0,
+    "usage_receipt_ok": true,
+    "guard": "CLEAN (files_before=298, files_after=298, added=[], removed=[], changed=[], mutated=false)",
+    "used_seconds": 237.3,
+    "receipt": "HG-KSEOS/var/R7-LANES/verify_chk_r7_a4.json",
+    "transcript": "HG-KSEOS/var/SBL-R7-FAR-RESIDUAL-CLOSURE/VERIFY_SECURITY/attempt-4-20261021T104640Z/attempt-18000-1792579600-1-stdout.txt",
+    "what_the_checker_verified": [
+      "candidate HEAD and branch match the brief; the diff is exactly four added files; pyproject.toml unchanged",
+      "independently inspected git blobs: baseline 186 text files and candidate 189 text files, ZERO CRLF offenders; baseline lacks .gitattributes and core.autocrlf=true; all 189 candidate text paths resolve to eol: lf",
+      "W1 REPRODUCED and the repair CONFIRMED: the checker interpreter fails `-m build --version` with exit 1 and `_has_build` correctly returns False; the resolver selects another interpreter",
+      "eight selected read-only test functions pass, including the cross-process pinned-epoch check (the checker states this is NOT a full pytest result)"
+    ],
+    "what_the_checker_could_not_verify": [
+      "two independent builds and digest/timestamp comparisons",
+      "the full pytest run and the '207 passed, 2 skipped' figure",
+      "the mutation experiments, including a surviving-mutant search",
+      "the W3 unstaged-edit / isolation experiment (its guard invokes `git write-tree`, which can write objects and is inappropriate for a strictly read-only run)",
+      "the historical release-byte comparison (the Markdown spec and the release tag were unavailable locally)"
+    ],
+    "reason_for_inconclusive": "the execution sandbox forbids ALL filesystem writes, including scratch. The checker did not attempt prohibited mutations and did not claim the maker's receipt as independent evidence. The INCONCLUSIVE is therefore a SANDBOX LIMITATION, not a product failure -- but the checker ALSO found three real product defects, which are real regardless of the sandbox.",
+    "product_defects_found": [
+      {
+        "id": "D1",
+        "severity": "MAJOR",
+        "what": "tests/test_reproducible_build.py:335 converted ANY failed build into a SkipTest, including product defects -- not merely a verified missing backend. A blanket skip on any nonzero exit lets a broken build hide behind an unavailable backend.",
+        "fixed_in": "the skip is now conditional on a missing-backend marker; any other build failure raises AssertionError, so a product defect FAILS instead of skipping"
+      },
+      {
+        "id": "D2",
+        "severity": "MAJOR",
+        "what": "the W1 regression test accepted either boolean result (`_has_build(...) in (True, False)`), so it asserted nothing: the checker verified the interpreter independently, but the assertion did not enforce rejection.",
+        "fixed_in": "the test now asserts the probe returns a real bool AND agrees with `python -m build --version`, and that a backend-less interpreter is rejected with a clean False"
+      },
+      {
+        "id": "D3",
+        "severity": "MAJOR",
+        "what": "the mutation probe treated ANY nonzero pytest exit as a caught mutation, so a collection or infrastructure error could masquerade as a meaningful kill.",
+        "fixed_in": "_pytest_counts() parses the summary line; a nonzero exit with zero collected tests, or with no failed/errored test, is now a probe FAILURE, not a claimed kill"
+      }
+    ],
+    "swarm_audit_findings": [
+      {
+        "id": "S1",
+        "what": "the probe's git environment was inherited wholesale with only GIT_DIR / GIT_WORK_TREE / GIT_INDEX_FILE overridden; GIT_COMMON_DIR, GIT_OBJECT_DIRECTORY and other relocation variables could still point into the protected repository",
+        "fixed_in": "_isolated_git_env() strips every git-location variable from the inherited environment and gives the copy a private GIT_COMMON_DIR"
+      },
+      {
+        "id": "S2",
+        "what": "copytree(symlinks=True) preserved symlinks, so a mutation writing to a linked file could follow it back into the protected tree -- the isolation was complete only at the git layer",
+        "fixed_in": "symlinks=False, so a link is copied as a regular file and a mutation cannot traverse it"
+      }
+    ],
+    "swarm_audit_false_positive": "the auditor reported that two files in the protected tree changed during the probe run. Verified independently: those are the orchestrator's OWN concurrent edits to the two test files; the protected repository's staged tree, HEAD and cached diff were unchanged throughout. The write-through did NOT occur, and the git-level isolation holds.",
+    "claim_ceiling": "this is a real, complete, independently-produced verdict, and it says INCONCLUSIVE / NOT ACCEPTED. It is NOT an acceptance. The three product defects it found were fixed in this round and re-measured on the maker side; a further independent round is required before the candidate can be accepted."
   }
 }

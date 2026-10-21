@@ -89,7 +89,7 @@ commands below are the ones that actually exist and ran. The rename is disclosed
       NOTE: 記錄一個控制平面缺陷 —— `admit_requirement` 回傳 workorder id 但 spine 內 TaskSpec 仍為
       DRAFT 且無 WorkOrder（`_repo_head()` 取呼叫端 CWD，repo 外回空字串，InvariantViolation 被 except 吞掉）；
       本回合以公開的 `create_workorder` API 補齊並三列回讀。
-- [ ] 7.6 獨立 VERIFY 車道對凍結後候選的原始裁決（maker ≠ checker）。
+- [x] 7.6 獨立 VERIFY 車道對凍結後候選的原始裁決（maker ≠ checker）。
       ROUND 1（arm `openai-codex/gpt-6.1-sol`，nonce `R7CHK-NC-20261021-A1`）：已執行 392 秒，
       產生 byte-exact 證據（`stdout_sha256=80397dbb…`、`usage_status=200`、`nonce_present=true`），
       但在給出裁決前 provider 配額耗盡 → dispatcher 記為 `ERR_NO_ARM_EMITTED_NONCE`（ok=false）。
@@ -98,12 +98,66 @@ commands below are the ones that actually exist and ran. The rename is disclosed
       ROUND 1 提出的兩項實質發現已在候選 `59d2138` 修復並重測（202 passed / 2 skipped）：
         F8 測試只斷言原始碼文字 → 2/3 的合約破壞變異仍全過（已改為行為斷言 + mutation probe）
         F9 建置依賴 ambient interpreter 的 `build` 套件 → 已加入 `_builder_python()` 解析器
-      ROUND 2：arm 依回合中 owner 指示改為 `opencode-go/minimax-m3.1-flash-free`
-      （nonce `R7CHK-NC-20261021-A2`，guard-subject 覆蓋候選 worktree），執行中。
+      ROUND 2（arm `opencode-go/minimax-m3.1-flash-free`，nonce `R7CHK-NC-20261021-A2`）完成：
+      dispatch ok=true、exit 0、nonce 與 usage 正常、guard CLEAN，裁決找出 W1/W2/W3，已修復。
+      ROUND 3 兩次嘗試被 dispatcher 的 remote-write 偵測器拒絕（brief 內含該字面 token），
+      改寫 brief 後重跑；隨後暫停。
+      ROUND 4（arm `openai-codex/gpt-6.1-sol`，nonce `R7CHK-NC-20261021-A4`，237.3 秒，
+      `used_rank=1`、`transport_model=gpt-6.1-sol`、`exit=0`、`usage_receipt_ok=true`、
+      guard CLEAN、subject digest 前後相同）**產出正式裁決**：
+      **`INCONCLUSIVE — NOT ACCEPTED`**。
+      理由是其 sandbox 禁止一切檔案寫入，因此無法執行雙 build 比對、完整 pytest、
+      mutation 實驗與 W3 write-through 實驗；它沒有嘗試被禁止的變異，也沒有把 maker 的
+      收據當作獨立證據。
+      **但 INCONCLUSIVE 不是空裁決**：同一份裁決重現 W1，並指出三個真實產品缺陷，已全部修復：
+        D1 任何非零 exit 都變成 SkipTest（可讓壞掉的建置藏在缺少後端之後）→ 改為只在
+            後端確實不存在時 skip，其餘 raise。
+        D2 W1 回歸測試接受 `in (True, False)`，等於沒有斷言 → 改為要求真 bool 且與
+            `python -m build --version` 一致。
+        D3 mutation probe 把任何非零 pytest exit 都算成「抓到突變」→ 改為解析 summary 行，
+            無 failed/errored test 的非零 exit 視為 probe 失敗。
+      SWARM 稽核另找出兩條隔離逃逸路徑並修復（繼承的 git 環境變數、保留的 symlink）；
+      稽核回報的「主 tree 兩個檔案變動」經獨立查證為 orchestrator 自己的並行編輯
+      （staged tree／HEAD／cached diff 全程未變），非寫穿。
+      收據：`40_VERIFY/checker_round4/`（transcript 283730 bytes，
+      sha256 `7c1e1403b954c2c79573bc9bf02880642ed834a241fd7a5bc07301655682862a`）+ `40_VERIFY/CHECKER_STATUS.json`。
 - [x] 7.7 候選與證據推送 `shw097-team/SBL`，遠端 SHA 回讀一致；staged diff secret scan CLEAN。
-      Verify: `origin/candidate/r7-20261021-repro-build` = `59d2138750223b325159fab536f218a0d9aa4ab5`，
-      `origin/evidence/r7-20261021-c7` = `60f344631c4e299115bb016f22452ed3e268280a`（`git ls-remote` 回讀）。
-      FAR 產物另推送 `shw097-team/Fabric`：`origin/pub/far-lane-remediation-20261021` = `8fdb9f39124fdd47812a61dd54646a170549307b`。
+      Verify: `origin/candidate/r7-20261021-repro-build` = `b6eee0222681340549b1b7c8f863ae84d8db0116`，
+      `origin/release/0.1.1rc1` = `0f83ba8aa5239d7115f6c0c649ad7e597cd525b1`，
+      `origin/main` = `345b9477cef9917cfb15c162db80ccda09eaebc5`（`git ls-remote` 回讀）。
+      FAR 產物另推送 `shw097-team/Fabric`：`origin/pub/far-minimax-mandate-20261021` = `4014bb63803633aa63817cb2cf0c458ed77f21ab`，
+      `origin/pub/far-lane-remediation-20261021` = `8fdb9f39124fdd47812a61dd54646a170549307b`。
+- [x] 7.10 合併與發布（依 owner 對 FAR 裁決的預授權）。
+      車道工具鏈恢復：Codex CLI 就地升級（0.163.0-alpha.11）使宣告的 pin 指向不存在的 binary，
+      所有車道 dispatch 在 spawn 前即被拒（`ERR_LANE_PIN_IDENTITY_INVALID`）。活體宣告
+      `config/hermes-codex-lane.json` 重新釘選到實際安裝的 binary，registry 的兩個 expected 值
+      在同一 commit 一併重釘，drift gate 維持 0 findings；歷史證據不改寫。
+      合併：`PR #2` → `93d206997318a2bd1bb81a493575b94d4c719329`（parents 精確為
+      `[bedc119, a6bcdd0]`）；`PR #3` → `590c2adf6563af6ef98ea9a7125ddb9d40977c17`；
+      `PR #4` → `345b9477cef9917cfb15c162db80ccda09eaebc5`。每次合併前都重跑 preflight，
+      合併後都從 API 回讀 parents 與 main 驗證。
+      **CI 紅燈根因（實測，非推測）**：hosted CI 連續五輪（27..33）在 ubuntu 與 windows 同時紅，
+      而 maker 的 Windows 套件是綠的。CI workflow 只裝 pytest，沒有 `build` 套件；
+      `build()` 在呼叫端已 stub build 指令的情況下仍解析 backend interpreter，於是拋 SystemExit，
+      環境落差被當成產品缺陷，並連帶拖垮 mutation probe（它要求未突變的 tree 必須通過）。
+      以「git 在 PATH、無 build 後端」重現後失敗完全一致、後端可用即消失。
+      修復：`build()` 改為接受 builder interpreter 參數、僅在呼叫端未提供時才解析；
+      `_has_build()` 不再因不存在的 interpreter 拋例外；D1 的 skip marker 改為符合 builder
+      實際輸出；git 缺席時 write-through 不變量改為 skip；新增回歸測試釘住「stub 路徑不得
+      呼叫解析器」。量測：CI 等價環境本地 `206 passed, 4 skipped` exit 0；hosted CI run 34/35/37 全綠。
+      發布：`v0.1.1rc1` prerelease（release id 419526963），
+      https://github.com/shw097-team/SBL/releases/tag/v0.1.1rc1
+      產物 wheel 52436 bytes sha256 `efd6798bf2a6959069c6cd58c60aeabec1005c84043b1088efafc63e1bee9dfe`、
+      sdist 74096 bytes sha256 `baaa6aa0a1260b8f3c57ed246d3a521734efc9d4ed4e998b748bd204c714cd00`；
+      **從 GitHub 下載後重新雜湊，與本地建置 byte-identical**。三個獨立 build
+      （release branch、origin/main、工具內建雙 build 驗證）產出相同 bytes。
+      版本常數：`sbl_core.__version__`、`sbl_harness.ADAPTER_VERSION`、
+      `sbl_sp.plugins.VERSION`、`sbl_stack` manifest version、pyproject version。
+      `HGK_PIN['version']` **刻意不動** —— 那是被依賴方 `hg_kseos` 的版本，不是本套件版本，
+      動它會讓 harness 報出假的 `REFUSED_VERSION_MISMATCH`。
+      舊的 `v0.1.0-foundation-preview` release 與 tag 未受影響。
+      收據：`50_TS06/PR2_MERGE_RECEIPT.json`、`50_TS06/repro_result_0.1.1rc1.json`、
+      `50_TS06/RELEASE_RECEIPT_0.1.1rc1.json`。
 - [x] 7.8 受治理自研究／自學習／自迭代 ledger。
       Verify: `_governance/round-20261021-r7/90_EVIDENCE/SELF_RESEARCH_LEDGER.json`（9 條可遷移規則，
       每條附產生它的失敗與量測）；FAR `SELF_EVOLUTION_DELTA.json`（7 條，本回合全部採納）。

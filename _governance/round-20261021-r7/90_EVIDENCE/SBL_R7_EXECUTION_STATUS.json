@@ -1,7 +1,7 @@
 {
   "schema": "SBL_R7_EXECUTION_STATUS/1",
   "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
-  "captured_at_utc": "2026-10-21T07:47:03.544128+00:00",
+  "captured_at_utc": "2026-10-21T12:22:31.218346+00:00",
   "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
   "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
   "hgk_admission": {
@@ -138,5 +138,147 @@
     },
     "remote_readback": "both remote SHAs equal the local heads (ls-remote verified)",
     "credentials": "used only through a sealed askpass helper; no credential appears in any committed or pushed byte"
+  },
+  "resume_20261021": {
+    "at_utc": "2026-10-21T10:49:51.947651+00:00",
+    "why": "the machine was rebooted between rounds. Two lane-side defects had to be fixed before ANY lane could run: the Codex toolchain pin pointed at a binary that the in-place upgrade removed, and the pool's per-lane selection_note still claimed MiniMax was rank 1 on all three lanes.",
+    "defects_fixed": [
+      {
+        "id": "R7R-TOOLCHAIN-PIN",
+        "severity": "BLOCKER",
+        "detail": "declared codex binary did not exist after the in-place upgrade; every lane dispatch failed BEFORE SPAWNING with ERR_LANE_PIN_IDENTITY_INVALID / ERR_LANE_TOOLCHAIN_BINARY_MISSING, stopping the SBL EXECUTE and VERIFY lanes",
+        "fix": "pin refreshed FROM THE INSTALLED BINARY (path discovered, version from `codex.exe --version`, digest computed over the file); the registry's two expected values re-pinned in the same commit, pointer positions unmoved",
+        "verified": "hgk-lane-toolchain.py -> ok: true; three live lane probes all ok"
+      },
+      {
+        "id": "R7R-POOL-NOTE-STALE",
+        "severity": "MAJOR",
+        "detail": "all three lanes' selection_note read 'minimax-m3.1-flash-free (opencode-go) is rank 1', contradicting the same file's declared_by, change_log and ordered_pool[0]; a reviewer would have concluded MiniMax was the PLAN binding",
+        "fix": "the note is now GENERATED from ordered_pool[0]; pool revision 12 -> 13",
+        "verified": "read-back asserts each note names its own lane's actual rank-1 arm"
+      }
+    ],
+    "lane_planes_kept_separate": {
+      "session_interaction_plane": "opencode-go/minimax-m3.1-flash-free (shared hermes/config.yaml)",
+      "plan_lane_binding": "openai-codex/gpt-6.1-sol, reasoning_effort=medium (governed profile)"
+    },
+    "live_lane_probes": {
+      "PLAN": "openai-codex/gpt-6.1-sol @ rank 1, transport gpt-6.1-sol, nonce, usage 200",
+      "EXECUTE": "opencode-go/deepseek-v4.1-flash @ rank 1, nonce, usage 200",
+      "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol @ rank 1, transport gpt-6.1-sol, nonce, usage 200"
+    },
+    "gates": {
+      "drift": "0 findings, 0 fatal, 90 checked sites, epoch 26",
+      "conformance": "5 passed, 90 subtests passed",
+      "toolchain": "ok: true"
+    },
+    "evidence": "40_VERIFY/lane_rebind_gpt61/R7_RESUME_LANE_RECOVERY.json",
+    "hg_kseos_commit": "8fa9d345d34a0f81ace467874f5c06488a4710c9",
+    "claim_ceiling": "maker-side lane measurements. The independent acceptance of the SBL product candidate is a separate verdict and is not claimed here."
+  },
+  "checker_round4": {
+    "status": "DISPATCHED",
+    "lane": "VERIFY_SECURITY",
+    "required_arm": "openai-codex/gpt-6.1-sol",
+    "nonce": "R7CHK-NC-20261021-A4",
+    "attempt": 4,
+    "note": "re-dispatched after the toolchain pin was repaired; the earlier attempt 3 was refused by the remote-write detector (token 'publish' in the brief) and then stopped for the shutdown pause. Neither produced a verdict."
+  },
+  "resume_20261021_2": {
+    "at_utc": "2026-10-21T12:22:31.218346+00:00",
+    "lane_recovery": {
+      "problem": "the Codex CLI was upgraded in place (0.163.0-alpha.11); the declared toolchain pin still named 896a0166b774037a, so every lane dispatch was refused BEFORE SPAWNING with ERR_LANE_PIN_IDENTITY_INVALID / ERR_LANE_TOOLCHAIN_BINARY_MISSING",
+      "fix": "the active declaration config/hermes-codex-lane.json was re-pinned to the installed binary 6257d9e8f63c0f2b/codex.exe, and the registry's two expected values were re-pinned in the same commit so the drift gate stayed at 0 findings",
+      "history_untouched": "the old path still appears in 115 evidence files and in the SBL evidence tree; none of it was rewritten",
+      "hg_kseos_commit": "8fa9d34",
+      "after": "PLAN, EXECUTE and VERIFY_SECURITY all served rank 1 on the canonical pool with the owner's mandate; the drift gate reports 0 findings / 0 fatal / 90 sites checked, epoch 26"
+    },
+    "merges_executed": [
+      {
+        "pr": 2,
+        "branch": "candidate/c3-20261021-v2",
+        "head": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+        "base": "bedc11957d4fc2474b249b69d200829272c118ef",
+        "merge_commit": "93d206997318a2bd1bb81a493575b94d4c719329",
+        "method": "merge (non-force)",
+        "preflight": "head/base pinned, mergeable clean, 4 check-runs success, 0 reviews, 0 requested reviewers, no branch rules, main unmoved",
+        "readback": "parents == [bedc119, a6bcdd0]; main == merge commit; local fetch of origin/main equal; a6bcdd0 is an ancestor of origin/main",
+        "ruling": "RECOMMEND_MERGE_SCOPED_NOW (R6 independent acceptance report)",
+        "receipt": "_governance/round-20261021-r7/50_TS06/PR2_MERGE_RECEIPT.json"
+      },
+      {
+        "pr": 3,
+        "branch": "candidate/r7-20261021-repro-build",
+        "head": "b6eee0222681340549b1b7c8f863ae84d8db0116",
+        "base": "93d206997318a2bd1bb81a493575b94d4c719329",
+        "merge_commit": "590c2adf6563af6ef98ea9a7125ddb9d40977c17",
+        "method": "merge (non-force)",
+        "readback": "parents == [93d2069, b6eee02]; main == merge commit",
+        "content": "the reproducible-build work: .gitattributes, tools/build_reproducible.py, and the two behaviour-test files"
+      }
+    ],
+    "ci_investigation": {
+      "symptom": "hosted CI red for five consecutive runs (27..33) on BOTH ubuntu and windows, while the maker's Windows suite was green",
+      "root_cause": "the CI workflow installs pytest and nothing else, so the `build` package is absent on the runner. build() resolved a backend interpreter inline, so the sdist-normalisation test -- which stubs the build COMMAND -- still needed a real backend and raised SystemExit. An environment gap was reported as a product failure, and because the mutation probe requires the unmutated tree to pass, the whole probe went red with it.",
+      "how_found": "reproduced locally by building a CI-equivalent environment (git on PATH, no build backend); the failure reappeared exactly and vanished when the backend was reachable",
+      "fixes": [
+        "build() takes the builder interpreter as an argument and resolves it only when the caller did not supply one",
+        "_has_build() no longer raises on a candidate interpreter that does not exist",
+        "the D1 repair's skip markers now match the wording the builder actually prints",
+        "the write-through invariant test skips when git is absent instead of raising",
+        "a new regression test pins that the stubbed build path never consults the resolver"
+      ],
+      "verification": {
+        "local_ci_equivalent": "206 passed, 4 skipped, exit 0 (git present, no build backend)",
+        "hosted_ci_runs_34_35": "all four checks success on ubuntu and windows",
+        "product_commit": "b6eee0222681340549b1b7c8f863ae84d8db0116"
+      }
+    },
+    "checker_round4": {
+      "arm": "openai-codex/gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "nonce": "R7CHK-NC-20261021-A4",
+      "used_seconds": 237.3,
+      "exit": 0,
+      "usage_receipt_ok": true,
+      "guard": "CLEAN",
+      "verdict": "INCONCLUSIVE - NOT ACCEPTED",
+      "why_inconclusive": "the execution sandbox forbids ALL filesystem writes, so the two-build comparison, the full pytest run, the mutation experiments and the W3 write-through experiment could not be run; the checker did not attempt prohibited mutations and did not adopt the maker's receipt as independent evidence",
+      "real_defects_found_and_fixed": [
+        "D1 blanket skip on any nonzero build exit",
+        "D2 the W1 oracle accepted either boolean result",
+        "D3 any nonzero pytest exit counted as a caught mutation"
+      ],
+      "swarm_audit": "two residual escape routes found and fixed (the inherited git environment; the preserved symlinks). Its report that two protected files changed during the run was independently verified to be the orchestrator's own concurrent edits: the staged tree, HEAD and cached diff were unchanged throughout."
+    },
+    "release_0_1_1rc1": {
+      "branch": "release/0.1.1rc1",
+      "commit": "0f83ba8aa5239d7115f6c0c649ad7e597cd525b1",
+      "version_constants_bumped": [
+        "sbl_core.__version__",
+        "sbl_harness.ADAPTER_VERSION",
+        "sbl_sp.plugins.VERSION",
+        "sbl_stack manifest version",
+        "pyproject version"
+      ],
+      "deliberately_unchanged": "HGK_PIN['version'] stays 0.1.0: it is the pinned DEPENDENCY (hg_kseos), not this package's version. Bumping it would make the harness report a false REFUSED_VERSION_MISMATCH.",
+      "reproducible_build": {
+        "identical": true,
+        "wheel": {
+          "name": "sbl_v01-0.1.1rc1-py3-none-any.whl",
+          "bytes": 52436,
+          "sha256": "efd6798bf2a6959069c6cd58c60aeabec1005c84043b1088efafc63e1bee9dfe",
+          "members": 39,
+          "distinct_timestamps": 1
+        },
+        "sdist": {
+          "name": "sbl_v01-0.1.1rc1.tar.gz",
+          "bytes": 74096,
+          "sha256": "baaa6aa0a1260b8f3c57ed246d3a521734efc9d4ed4e998b748bd204c714cd00"
+        }
+      },
+      "lifecycle": "LIFECYCLE_OK: install, sbl-todo init/add/list/empty-title refusal, sbl-stack install/doctor/status/selftest, sbl-harness --help, uninstall of both, zero import residue",
+      "receipt": "_governance/round-20261021-r7/50_TS06/repro_result_0.1.1rc1.json"
+    }
   }
 }

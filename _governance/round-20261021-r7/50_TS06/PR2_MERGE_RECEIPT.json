@@ -1,0 +1,83 @@
+{
+  "schema": "SBL_R7_TS06_PR2_MERGE_RECEIPT",
+  "captured_at_utc": "2026-10-21T11:07:12.368792+00:00",
+  "work_item": "R6-TS06-A",
+  "action": "merged PR #2 (candidate/c3-20261021-v2) into main via a normal non-force merge",
+  "authorisation": {
+    "ruling": "RECOMMEND_MERGE_SCOPED_NOW",
+    "ruling_source": "R6 independent acceptance report, final-decision table",
+    "ruling_quote_zh": "可授權 Owner 依現有 PR 做正常 non-force merge；本 Reviewer 未實際按下 merge",
+    "owner_preauthorisation": "the owner pre-authorised executing the FAR adjudicated findings, including engineering repairs and the release steps in scope",
+    "boundary": "a normal non-force merge of the EXISTING PR only; no force push, no branch deletion, no tag rewriting, no release created in this step"
+  },
+  "preflight": {
+    "preflight_ok": true,
+    "pr_state": "open",
+    "pr_merged": false,
+    "pr_draft": false,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "head_sha": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+    "base_sha": "bedc11957d4fc2474b249b69d200829272c118ef",
+    "reviews": 0,
+    "requested_reviewers": [],
+    "requested_teams": [],
+    "branch_rules": "none (GET /rules/branches/main returned empty)",
+    "check_runs": [
+      {
+        "name": "test (ubuntu-latest, py3.11)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (windows-latest, py3.11)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (windows-latest, py3.11)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (ubuntu-latest, py3.11)",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "combined_status": "all success",
+    "main_before": "bedc11957d4fc2474b249b69d200829272c118ef"
+  },
+  "merge": {
+    "method": "merge",
+    "sha_specified": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+    "api_response_merged": true,
+    "api_response_message": "Pull Request successfully merged",
+    "merge_commit_sha": "93d206997318a2bd1bb81a493575b94d4c719329"
+  },
+  "post_merge_readback": {
+    "pr_state": "closed",
+    "pr_merged": true,
+    "merge_commit_sha": "93d206997318a2bd1bb81a493575b94d4c719329",
+    "merge_commit_parents": [
+      "bedc11957d4fc2474b249b69d200829272c118ef",
+      "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2"
+    ],
+    "expected_parents": [
+      "bedc11957d4fc2474b249b69d200829272c118ef",
+      "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2"
+    ],
+    "parents_match": true,
+    "main_after": "93d206997318a2bd1bb81a493575b94d4c719329",
+    "main_equals_merge_commit": true,
+    "local_fetch_origin_main": "93d206997318a2bd1bb81a493575b94d4c719329",
+    "candidate_is_ancestor_of_main": true,
+    "ancestor_check_command": "git merge-base --is-ancestor a6bcdd0 origin/main"
+  },
+  "what_is_NOT_implied": [
+    "the full DOC-00..13 contract is NOT complete; it stays OPEN / PARTIAL",
+    "this merge does NOT publish a release; the v0.1.1rc1 C3 experimental prerelease is a separate step that is not yet done",
+    "the existing v0.1.0-foundation-preview release and its tag are untouched and still point at bedc1195",
+    "the standalone scope of the package is unchanged; no Native / Host capability is implied"
+  ]
+}
