@@ -61,6 +61,59 @@ def run_bytes(cmd: list[str], **kw) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, **kw)
 
 
+def _has_build(python: str) -> bool:
+    r = subprocess.run(
+        [python, "-c", "import build"], capture_output=True, timeout=120
+    )
+    return r.returncode == 0
+
+
+def _builder_python() -> str:
+    """Find an interpreter that can actually run `python -m build`.
+
+    The build backend must not depend on whatever `sys.executable` happens to be:
+    the independent checker runs this tool from a venv that does NOT have
+    `build` installed, and the build then fails for an environmental reason that
+    has nothing to do with the artefact. Resolution order:
+
+      1. the interpreter running this script, if it has `build`;
+      2. `$SBL_BUILD_PYTHON`, if it has `build`;
+      3. any interpreter on PATH that has `build` (checked in order);
+      4. any venv interpreter next to the repository.
+
+    If none has it, the failure says exactly that instead of a bare
+    "No module named build".
+    """
+    override = os.environ.get("SBL_BUILD_PYTHON")
+    candidates: list[str] = []
+    if override:
+        candidates.append(override)
+    candidates.append(sys.executable)
+    for name in ("python", "python3", "py"):
+        found = shutil.which(name)
+        if found:
+            candidates.append(found)
+    repo = Path(__file__).resolve().parent.parent
+    for venv in (repo / ".venv" / "Scripts" / "python.exe",
+                 repo.parent / ".venv" / "Scripts" / "python.exe"):
+        if venv.exists():
+            candidates.append(str(venv))
+    seen: set[str] = set()
+    for cand in candidates:
+        if cand in seen:
+            continue
+        seen.add(cand)
+        if _has_build(cand):
+            return cand
+    raise SystemExit(
+        "no interpreter with the 'build' package was found. Install it with "
+        "'pip install build', or point SBL_BUILD_PYTHON at an interpreter that "
+        "has it. (Checked: "
+        + ", ".join(sorted(seen))
+        + ")"
+    )
+
+
 def git(repo: Path, *args: str) -> str:
     r = run(["git", "-C", str(repo), *args])
     if r.returncode != 0:
@@ -90,7 +143,7 @@ def build(src: Path, outdir: Path, epoch: int) -> list[Path]:
     env["SOURCE_DATE_EPOCH"] = str(epoch)
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     outdir.mkdir(parents=True, exist_ok=True)
-    r = run([sys.executable, "-m", "build", "--outdir", str(outdir), str(src)], env=env)
+    r = run([_builder_python(), "-m", "build", "--outdir", str(outdir), str(src)], env=env)
     if r.returncode != 0:
         raise SystemExit(f"build failed:\n{r.stdout[-4000:]}\n{r.stderr[-4000:]}")
     wheels = sorted(outdir.glob("*.whl"))
