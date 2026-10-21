@@ -1,0 +1,68 @@
+{
+  "schema": "SBL-R14-TS03-PROBE/1",
+  "measured_against": "var/shared-spine/hg-kseos.db",
+  "satisfied": 8,
+  "gaps": 2,
+  "rows": [
+    {
+      "property": "issuer_identity",
+      "measure": "workorders.writer + result.checker differ",
+      "verdict": "SATISFIED",
+      "detail": "('codex', 'openai-codex/gpt-6.1-sol')"
+    },
+    {
+      "property": "one_ecp_singleton",
+      "measure": "one '-PLAN' requirement per project",
+      "verdict": "SATISFIED",
+      "detail": "no project has two plan requirements"
+    },
+    {
+      "property": "before_after_receipt",
+      "measure": "workorders.base_head (before) + result artifact digest (after)",
+      "verdict": "SATISFIED",
+      "detail": "{'base_head': 'b22706ebbdff', 'artifact': 'sha256:035969370cae0dede6f5107f7480dec8581c0e8f974431d431e4af80888aa4d3'}"
+    },
+    {
+      "property": "rollback_pointer",
+      "measure": "workorders.rollback_pointer present",
+      "verdict": "SATISFIED",
+      "detail": "RB-WO-TS-WO-01"
+    },
+    {
+      "property": "scope_path_enforcement",
+      "measure": "a binding whose scope excludes the subject must be refused",
+      "verdict": "GAP",
+      "detail": "validate_binding accepted a scope that does not contain the subject -> scope is declarative, not enforced"
+    },
+    {
+      "property": "expiry_enforced",
+      "measure": "expired binding refused",
+      "verdict": "SATISFIED",
+      "detail": "ERR_ROLE_BINDING_EXPIRED:2026-10-21T17:12:14.769238+00:00"
+    },
+    {
+      "property": "anti_replay",
+      "measure": "a VERIFIED workorder cannot be re-judged",
+      "verdict": "SATISFIED",
+      "detail": "ERR_WORKORDER_RESULT_STATE"
+    },
+    {
+      "property": "maker_checker_separation",
+      "measure": "writer == checker refused",
+      "verdict": "SATISFIED",
+      "detail": "ERR_WORKORDER_SELF_REVIEW"
+    },
+    {
+      "property": "lease_exclusion",
+      "measure": "a second holder cannot take a live lease",
+      "verdict": "SATISFIED",
+      "detail": "ERR_DUAL_WRITER:file:var/R14-REBIND-20261022/probe.lock:holder-a"
+    },
+    {
+      "property": "revocation_semantics",
+      "measure": "release_lease reported and the recorded verdict survived",
+      "verdict": "GAP",
+      "detail": "{'release': None, 'verdict_after_release': 'VERIFIED'}"
+    }
+  ]
+}

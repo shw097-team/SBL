@@ -35,15 +35,19 @@
       "note": "baseline reproduced 18F/580P/90, identical set; cases not closed"
     },
     "R14-TS03": {
-      "state": "NOT_STARTED"
+      "state": "PARTIAL",
+      "evidence": "raw/ts03_probe_matrix.json",
+      "note": "10 properties measured: 8 satisfied, 2 gaps (scope enforcement, revocation)"
     },
     "R14-TS04": {
-      "state": "NOT_STARTED"
+      "state": "BLOCKED_TYPED",
+      "evidence": "raw/checker_dynamic2.json",
+      "note": "lane sandbox cannot read the shared venv; three typed receipts captured"
     },
     "R14-TS05": {
       "state": "DONE_PROBE",
-      "evidence": "raw/lane_*.json",
-      "note": "three lanes served==required with typed nonce"
+      "evidence": "raw/lane2_*.json",
+      "note": "re-probed; PLAN/EXECUTE/VERIFY served==required"
     },
     "R14-TS06": {
       "state": "NOT_STARTED"
@@ -123,8 +127,9 @@
   },
   "counts": {
     "done": 2,
-    "partial": 2,
-    "not_started": 27,
+    "partial": 3,
+    "blocked": 1,
+    "not_started": 25,
     "total": 31
   },
   "invariants_preserved": [

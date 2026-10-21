@@ -114,6 +114,59 @@
       "owner": "repo owners",
       "status": "OPEN",
       "repair_cone": "read-only comparisons must use remote main SHAs, not local branch tips"
+    },
+    {
+      "id": "TT-R14-003",
+      "title": "The live lane routing carries a superseded owner mandate (revision 29)",
+      "first_broken_link": "registry rank1 and model-lane-assignment rev.29 encode PLAN=minimax/EXECUTE=deepseek while the R12+ order mandates the opposite; lane tests encode the current order and fail",
+      "earliest_owner": "HGK Owner",
+      "required_authority": "HGK-scoped workorder (WO-TS-REBIND-01 opened)",
+      "repair_cone": "a rebind must move route rank1+fallbacks, arms[], every projections[].bindings file, and the assignment revision together; a partial edit is fatal drift (measured)",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS02",
+        "R14-TS22"
+      ],
+      "evidence": [
+        "raw/registry.before.yaml",
+        "raw/assignment.before.json",
+        "raw/after_rebind_failed.txt",
+        "raw/after_revert_failed.txt"
+      ]
+    },
+    {
+      "id": "TT-R14-004",
+      "title": "Two precise gaps in the native quadruple (scope not path-enforced; no revocation semantics)",
+      "first_broken_link": "validate_binding accepts a subject outside role_binding.scope; release_lease returns None and a recorded verdict is unaffected",
+      "earliest_owner": "HGK Owner",
+      "required_authority": "minimal native upgrade under the same scoped workorder",
+      "repair_cone": "add ERR_ROLE_BINDING_SUBJECT_OUT_OF_SCOPE; make release_lease return a typed receipt with revoked_at and rule revocation forward-only",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS03"
+      ],
+      "evidence": [
+        "raw/ts03_probe_matrix.json"
+      ],
+      "measured": "8 SATISFIED / 2 GAP"
+    },
+    {
+      "id": "TT-R14-005",
+      "title": "A lane-sandboxed dynamic checker cannot run pytest against a shared interpreter",
+      "first_broken_link": "escalated checker is refused without --guard-subject; with it the lane reaches served_arm but pytest dies on PermissionError reading the shared venv (exit 1, 0 tests); the same command outside the lane passes 9 tests",
+      "earliest_owner": "lane dispatcher owner",
+      "required_authority": "dispatcher change or a self-contained checker runtime",
+      "repair_cone": "checker output root carries its own runtime (copied venv or venv --system-site-packages); keep the lane read-only with --guard-subject; never let the maker self-certify dynamic acceptance",
+      "status": "OPEN",
+      "blocking": [
+        "R14-TS04",
+        "R14-TS22"
+      ],
+      "evidence": [
+        "raw/checker_escalation_refusal.json",
+        "raw/checker_dynamic.json",
+        "raw/checker_dynamic2.json"
+      ]
     }
   ]
 }

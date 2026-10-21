@@ -1,0 +1,86 @@
+{
+  "project": "HGKR14-REBIND",
+  "admitted": {
+    "project_id": "HGKR14-REBIND",
+    "workorders": [
+      "WO-TS-REBIND-01"
+    ],
+    "count": 1
+  },
+  "workorder": {
+    "workorder_id": "WO-TS-REBIND-01",
+    "taskspec_id": "TS-REBIND-01",
+    "base_head": "5119c971c87598d12da06218ac4ffc0b007baa0e",
+    "state": "CREATED"
+  },
+  "binding": {
+    "schema": "HGK-ROLE-BINDING/1",
+    "round": "round-20261022-r14",
+    "session": "sbl-r14-rebind",
+    "workorder": "WO-TS-REBIND-01",
+    "base_head": "5119c971c87598d12da06218ac4ffc0b007baa0e",
+    "subject": "config/model-lane-assignment.json",
+    "scope": [
+      "config/model-lane-assignment.json",
+      "config/lane-routing-registry.yaml"
+    ],
+    "mandate_digest": "sha256:756dc82db02cf68a9b4080718a17d6b5807dd92550f01f1dfd95e3257ba3aaa0",
+    "expiry": "2026-10-21T23:04:45.369654+00:00",
+    "roles": {
+      "EXECUTE": {
+        "provider": "opencode-go",
+        "model": "minimax-m3.1-flash-free",
+        "surface": "codex-cli",
+        "rank": 2,
+        "reasoning_effort": "medium"
+      },
+      "VERIFY_SECURITY": {
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "surface": "codex-cli",
+        "rank": 1,
+        "reasoning_effort": "medium"
+      }
+    }
+  },
+  "lease": null,
+  "after": {
+    "PLAN": {
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "primary": "gpt-6.1-sol",
+      "arms": [
+        "gpt-6.1-sol",
+        "minimax-m3.1-flash-free",
+        "glm-5.3-flash",
+        "deepseek-v4.1-flash",
+        "mimo-v2.6-pro",
+        "z-ai/glm-5.3-flash",
+        "deepseek-ai/deepseek-v4.1-flash"
+      ]
+    },
+    "EXECUTE": {
+      "provider": "opencode-go",
+      "model": "minimax-m3.1-flash-free",
+      "primary": "minimax-m3.1-flash-free",
+      "arms": [
+        "minimax-m3.1-flash-free",
+        "deepseek-v4.1-flash",
+        "gpt-6-luna",
+        "deepseek-ai/deepseek-v4.1-flash"
+      ]
+    },
+    "VERIFY_SECURITY": {
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "primary": "gpt-6.1-sol",
+      "arms": [
+        "gpt-6.1-sol",
+        "minimax-m3.1-flash-free",
+        "glm-5.3-flash",
+        "deepseek-v4.1-flash",
+        "deepseek-ai/deepseek-v4.1-flash"
+      ]
+    }
+  }
+}
