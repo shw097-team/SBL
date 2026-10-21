@@ -1,0 +1,37 @@
+{
+  "round": "SBL-R5-20261021-C5",
+  "task": "TS24 remote readback",
+  "read_at_utc": "2026-10-21T02:40:00Z",
+  "reads": [
+    {
+      "ref": "refs/heads/main",
+      "local_expect": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "remote_observed": "bedc11957d4fc2474b249b69d200829272c118ef",
+      "match": true,
+      "note": "main untouched this round"
+    },
+    {
+      "ref": "refs/heads/candidate/c3-20261021-v2",
+      "local_expect": "a6bcdd0f8f0d",
+      "remote_observed": "a6bcdd0f8f0d",
+      "match": true,
+      "note": "PR #2 head; three TS05 commits 50e4852 -> ab9a354 -> a6bcdd0 pushed and re-read"
+    },
+    {
+      "ref": "refs/heads/evidence/r5-20261021-c5",
+      "local_expect": "c14881ec559eba2231bc2e86283eb8b75b217326",
+      "remote_observed": "c14881ec559eba2231bc2e86283eb8b75b217326",
+      "match": true,
+      "note": "evidence commit, separate SHA from every candidate SHA"
+    }
+  ],
+  "ci_runs_observed": {
+    "50e4852": [39531831134, 39531827059],
+    "ab9a354": [39532711875, 39532706528],
+    "a6bcdd0": [39532993091, 39532986228],
+    "jobs_per_run": "2/2 success (ubuntu-latest, windows-latest)",
+    "raw_counts_a6bcdd0": {"ubuntu": "189 passed, 5 skipped", "windows": "191 passed, 3 skipped"}
+  },
+  "claim_ceiling": "REMOTE_READBACK_CONFIRMED",
+  "non_claims": ["INDEPENDENT_CASE_PASS", "OWNER_RELEASE_APPROVED", "MERGED", "SBL_FULL_DOC_CONTRACT_PASS"]
+}
