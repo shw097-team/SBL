@@ -1,0 +1,144 @@
+{
+  "schema": "SBL-R8-LANE-MANDATE/1",
+  "round_id": "SBL-R8-EXECUTE-MINIMAX",
+  "captured_at_utc": "2026-10-21T13:13:07.617220+00:00",
+  "owner_mandate": {
+    "PLAN": "GPT 6.1 SOL-MEDIUM (OPEN AI OAuth)",
+    "EXECUTE": "MiniMax M3.1 Flash (OPENCODE GO), Codex-CLI bounded writer",
+    "VERIFY_SECURITY": "GPT 6.1 SOL-MEDIUM (OPEN AI OAuth), Codex-CLI checker",
+    "verbatim_clause": "若無法使用以上模型方案，你必須直接暫停任務，並告知用戶！",
+    "gate_verdict": "MANDATE_AVAILABLE__NOT_PAUSED"
+  },
+  "gate_proof": {
+    "why": "the mandate was PROVEN serviceable BEFORE any governed surface was touched; the pause clause would have fired if any arm had failed",
+    "pre_rebind_execute_probe": "var/R8-GATE/probe_execute_minimax.json (EXECUTE at its then-rank 2): ok=true, served opencode-go/minimax-m3.1-flash-free, nonce echoed, usage 200, 3.71 s",
+    "pre_rebind_plan_verify": "var/R8-GATE/probe_PLAN.json + probe_VERIFY_SECURITY.json: both ok=true on openai-codex/gpt-6.1-sol"
+  },
+  "lane_plane_separation": {
+    "principle": "the LANE model and the SESSION interaction model are two planes; a session pin is never cited as a PLAN or EXECUTE binding",
+    "session_plane": "this chat runs deepseek-v4.1-flash via opencode-go -- recorded as the SESSION plane only, and NOT used as evidence for any lane",
+    "lane_plane_evidence": "each lane claim below is backed by its OWN dispatch receipt with its own nonce and usage row, read from the canonical pool"
+  },
+  "rebind": {
+    "hgk_commit": "fa1ac06305e4f9ee45400049193482b5c7964441",
+    "hgk_commit_subject": "lane(r8): EXECUTE -> MiniMax M3.1 Flash, and the runtime declarations finally agree",
+    "surfaces_moved": [
+      "config/lane-route-slots.candidate.json",
+      "config/lane-routing-registry.yaml",
+      "config/model-lane-assignment.json",
+      "config/hermes-codex-lane.json",
+      "config/hermes.json"
+    ],
+    "change": "EXECUTE rank-1 deepseek-v4.1-flash -> minimax-m3.1-flash-free; deepseek demoted to fallback 1 and KEPT; PLAN and VERIFY_SECURITY unchanged",
+    "registry_epoch": 28,
+    "assignment_revision": 28,
+    "tools": [
+      "var/R7-LANES/apply_execute_minimax_rebind.py",
+      "var/R8-GATE/apply_execute_minimax_runtime_decl.py"
+    ]
+  },
+  "post_rebind_readback": {
+    "pool_rank1": {
+      "PLAN": "openai-codex/gpt-6.1-sol",
+      "EXECUTE": "opencode-go/minimax-m3.1-flash-free",
+      "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol"
+    },
+    "sealed_lane_decl": "opencode-go/minimax-m3.1-flash-free",
+    "runtime_decl": "opencode-go/minimax-m3.1-flash-free",
+    "historical_record_intact": "deepseek-v4.1-flash",
+    "all_three_agree_on_execute": true
+  },
+  "live_probes_after_rebind": {
+    "PLAN": {
+      "receipt": "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/final_probe_PLAN.json",
+      "receipt_sha256": "a663da5dfbfef4de7bd014acaad553a4a7980d6ca3369328720e3bd587436a61",
+      "ok": true,
+      "used_rank": 1,
+      "used_transport_model": "gpt-6.1-sol",
+      "usage_receipt_ok": true,
+      "used_seconds": 3.74
+    },
+    "EXECUTE": {
+      "receipt": "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/final_probe_EXECUTE.json",
+      "receipt_sha256": "c5725f6181ff194ef5e93c70414da4bbc076df5069b79171345ea3755ecee0c8",
+      "ok": true,
+      "used_rank": 1,
+      "used_transport_model": "opencode-go/minimax-m3.1-flash-free",
+      "usage_receipt_ok": true,
+      "used_seconds": 3.46
+    },
+    "VERIFY_SECURITY": {
+      "receipt": "C:/Projects/Agent_Workspace/HG-KSEOS/var/R8-GATE/final_probe_VERIFY_SECURITY.json",
+      "receipt_sha256": "cc0c130a417e553c954e1e315ec74b724499ebf614357cabb0ec13cefb8f9e87",
+      "ok": true,
+      "used_rank": 1,
+      "used_transport_model": "gpt-6.1-sol",
+      "usage_receipt_ok": true,
+      "used_seconds": 3.71
+    }
+  },
+  "drift_gate": {
+    "findings": 0,
+    "debt": 0,
+    "fatal": false,
+    "checked_sites": 89,
+    "epoch": 28
+  },
+  "defects_found_while_doing_it": [
+    {
+      "id": "R8-D1",
+      "severity": "high",
+      "finding": "the drift gate read ZERO findings while the two RUNTIME declarations contradicted the policy surfaces: each projection's pin still matched the file it pointed at, and those files still said deepseek, so the gate was satisfied and the system was incoherent.",
+      "rule": "a clean drift gate is evidence that PINS MATCH FILES, not that the surfaces agree; a surface can only be called coherent when the documents are compared to each other, not to their own pins.",
+      "disposition": "the two declaration files were moved in the same commit"
+    },
+    {
+      "id": "R8-D2",
+      "severity": "high",
+      "finding": "resolving the hermes-binding /provider_route/model DEBT entry bumped the registry epoch 27->28 while the assignment still declared registry_epoch 27; the drift gate did not catch it because its /registry_epoch pin still matched the assignment. The dispatcher's ERR_LANE_STALE_EPOCH did.",
+      "rule": "an epoch is a JOINT invariant; it must be compared registry-vs-assignment and pinned on both sides, or a bump on one side is invisible.",
+      "disposition": "assignment aligned to 28 and /registry_epoch, /revision and source_of_routes re-hashed"
+    },
+    {
+      "id": "R8-D3",
+      "severity": "medium",
+      "finding": "the registry's EXECUTE `fallbacks` list DROPPED the demoted primary instead of demoting it to first fallback -- the same class as a defect found in an earlier round, which means the repair was applied to the instance and not to the generator.",
+      "rule": "when the same defect recurs after a targeted repair, the repair fixed the artifact and left the code path that produced it; fix the generator.",
+      "disposition": "registry arms == pool ordered_pool on all three lanes"
+    }
+  ],
+  "conformance": {
+    "method": "measured against a checkout-of-HEAD baseline, NOT asserted",
+    "baseline": {
+      "passed": 575,
+      "failed": 21,
+      "subtests": 90
+    },
+    "after": {
+      "passed": 580,
+      "failed": 16,
+      "subtests": 90
+    },
+    "new_failures": 0,
+    "baseline_failures_now_passing": 5,
+    "remaining_failures_are_preexisting": true,
+    "remaining_not_claimed_fixed": [
+      "a stale codex path inside one fixture (declared binary .../9614f1d9b40d9c4f/codex.exe does not exist)",
+      "a stale HEAD pin (test asserts 22e21f03, repo HEAD is 8fa9d34 at baseline)",
+      "the w3_solution stub-banner cases",
+      "M08 foreign-surface usage receipt completing"
+    ]
+  },
+  "disclosure_untracked_tests": {
+    "files": [
+      "tests/test_matrix_d_full.py",
+      "tests/test_role_binding_enforcement.py",
+      "tests/test_execute_luna_route.py"
+    ],
+    "state": "UNTRACKED in HG-KSEOS",
+    "what_was_done": "the mandate update was applied to them on disk so the suite reflects the new order, but they were NOT staged: adding ~800 lines of another party's uncommitted test code under this commit would misattribute authorship",
+    "consequence": "a clean checkout cannot reproduce the 580/16 figure until those three files are tracked -- this is a REPO HYGIENE defect, disclosed rather than silently papered over by an add",
+    "committed_test_oracle": "tests/test_lane_policy.py (tracked)"
+  },
+  "claim_ceiling": "CANDIDATE_ONLY lane re-order under owner authority. Not a native issuer signature, not an acceptance of any subject, not a promotion of the pool to ACTIVE. The lane arm is measured available and serving; that is availability, not acceptance."
+}

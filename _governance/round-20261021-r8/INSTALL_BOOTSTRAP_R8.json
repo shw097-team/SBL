@@ -1,0 +1,132 @@
+{
+  "schema": "SBL-R8-INSTALL-BOOTSTRAP/1",
+  "round_id": "SBL-R8-EXECUTE-MINIMAX",
+  "captured_at_utc": "2026-10-21T13:13:16.284858+00:00",
+  "artifact_installed": {
+    "wheel": "C:/Projects/Agent_Workspace/SBL/_governance/round-20261021-r7/50_TS06/release_0.1.1rc1/sbl_v01-0.1.1rc1-py3-none-any.whl",
+    "wheel_sha256": "efd6798bf2a6959069c6cd58c60aeabec1005c84043b1088efafc63e1bee9dfe",
+    "name": "sbl-v01",
+    "version": "0.1.1rc1",
+    "requires_dist": "NONE (zero runtime dependencies)",
+    "console_scripts": [
+      "sbl-harness",
+      "sbl-stack",
+      "sbl-todo"
+    ]
+  },
+  "target_host": {
+    "plane": "canonical Hermes runtime (HERMES_HOME MSIX LocalCache)",
+    "venv_python": "C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python.exe",
+    "packages_before": 140,
+    "packages_after": 141,
+    "install_command": "python -m pip install --no-deps <wheel>",
+    "uninstall_command": "python -m pip uninstall -y sbl-v01",
+    "pip_show": [
+      "Name: sbl-v01",
+      "Version: 0.1.1rc1",
+      "Location: C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages",
+      "Requires: "
+    ],
+    "import_probe": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\sbl_core\\__init__.py",
+    "import_probe_rc": 0
+  },
+  "stack_bootstrap": {
+    "install": {
+      "ok": true,
+      "components": 14,
+      "manifest_sha256": "9d458910f6602cf1a7ff9041fcca03b7d49538a91094e9db4c623fd528ea5936"
+    },
+    "doctor": {
+      "ok": true,
+      "problems": [],
+      "components": 14,
+      "mode_gate_cells": 39
+    },
+    "status": {
+      "installed": true,
+      "version": "0.1.1rc1",
+      "components": 14,
+      "principals": [
+        "commander_sp",
+        "external_challenge_sp",
+        "tpm_sp"
+      ]
+    },
+    "describe": {
+      "modules": [
+        "SBLM01",
+        "SBLM02",
+        "SBLM03",
+        "SBLM04",
+        "SBLM05",
+        "SBLM06"
+      ],
+      "components": 14
+    },
+    "selftest": {
+      "ok": true,
+      "denominator": "9/9",
+      "steps": [
+        "core.doctor",
+        "m01.intake",
+        "m02.derive",
+        "m03.route.CLI_TOOL",
+        "NEG.unlocated-clause",
+        "NEG.prohibited-kind",
+        "sp.manifests",
+        "modes.matrix",
+        "plugins.build"
+      ],
+      "note": "the denominator includes TWO negative cases, so the self-test cannot pass by only exercising the happy path"
+    }
+  },
+  "hgk_binding": {
+    "probe": {
+      "status": "ROOT_READY",
+      "observed_version": "0.1.0",
+      "pin_version_range": ">=0.1.0,<0.2.0",
+      "checks_passed": 6,
+      "checks_total": 6
+    },
+    "adapter_install": {
+      "target": "C:/Projects/Agent_Workspace/HG-KSEOS/_sbl_harness_adapter",
+      "ok": true,
+      "files": [
+        "adapter.json",
+        "plugin.json",
+        "skills/hgk-governed-runtime/SKILL.md"
+      ],
+      "digests": {
+        "adapter.json": "357dc0f8dc0fcb88bf8b093288c7fb7524e9deb187bf85d1484ab57f11f41b2f",
+        "plugin.json": "24feeeb05e5cb40dc67169730789b8f4e3cf4ec0f506075d9f8be2ae33d2550e",
+        "skills/hgk-governed-runtime/SKILL.md": "67b961dbc86a0601d4c18d57602293d9bf6b7967616a74aeb8fb78483645919e"
+      }
+    },
+    "doctor": {
+      "ok": true,
+      "probe_status": "ROOT_READY",
+      "abi": "hgk-harness-abi/1"
+    },
+    "abi_declares_not_provided": [
+      "native_effect",
+      "permit_signing",
+      "workorder_admission"
+    ]
+  },
+  "fabric_plane": {
+    "state": "NO_SBL_INSTALL_TARGET",
+    "why": "Fabric is the autonomous-research harness; it consumes research runs and does not host the SBL package. No install was attempted there, and none is claimed."
+  },
+  "what_this_proves": [
+    "the released 0.1.1rc1 wheel installs into the CANONICAL Hermes runtime with zero dependencies and imports cleanly",
+    "the installable stack bootstraps to 14 components, doctors clean, and its own self-test is 9/9 including two negative cases",
+    "the HGK harness adapter probes the real HG-KSEOS root ROOT_READY on 6/6 checks and installs with digest-pinned files"
+  ],
+  "what_this_does_NOT_prove": [
+    "HOST install: the stack reports host_install_state=NOT_INSTALLED and the adapter reports claim_ceiling=HOST_PENDING. A standalone install is not a host install.",
+    "native effect: the ABI itself declares native_effect, permit_signing and workorder_admission as NOT PROVIDED, and the probe reports native_effect=NOT_GRANTED. No HGK native issuance is claimed.",
+    "acceptance of any subject: exit 0 from an install or a doctor is not an acceptance verdict.",
+    "the full DOC-00..13 contract: still OPEN/PARTIAL -- native PI/PD/ECP, the ChatGPT 3 host plugin, 149 children, 38 surfaces, cross-host and a signed PASS_CHALLENGE remain unclosed."
+  ],
+  "claim_ceiling": "STANDALONE_ONLY / HOST_PENDING / native_effect NOT_GRANTED / NOT_AN_ACCEPTANCE"
+}
