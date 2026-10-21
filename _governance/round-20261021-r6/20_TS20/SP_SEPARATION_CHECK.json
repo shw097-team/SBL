@@ -1,0 +1,114 @@
+{
+ "schema": "SBL_R6_TS20_SP_SEPARATION/1",
+ "captured_at_utc": "2026-10-21T04:13:37.992849+00:00",
+ "subject": {
+  "candidate_branch": "candidate/c3-20261021-v2",
+  "candidate_commit": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+  "manifests": [
+   "sbl_sp/manifests/tpm_sp.json",
+   "sbl_sp/manifests/commander_sp.json",
+   "sbl_sp/manifests/external_challenge_sp.json"
+  ]
+ },
+ "raw_exit_code": 0,
+ "raw_stdout_sha256": "5db4ed6499ca6486552de2fe57214e8fb95e9f01e4ff691cd83e98b20466decf",
+ "raw_stderr": "",
+ "cases": [
+  {
+   "id": "NEG-COMMANDER-CHALLENGE-SIGN",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "NEG-COMMANDER-VERDICT-SIGN",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "NEG-CHALLENGE-PRODUCT-WRITE",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "NEG-CHALLENGE-GOAL-WRITE",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "NEG-TPM-CHALLENGE-SIGN",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "NEG-TPM-PRODUCT-WRITE",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: specialised principal is not permitted to perform this action"
+  },
+  {
+   "id": "POS-TPM-SPEC-WRITE",
+   "expect_refuse": false,
+   "refused": false,
+   "match": true,
+   "detail": "PERMITTED"
+  },
+  {
+   "id": "POS-COMMANDER-PRODUCT-WRITE",
+   "expect_refuse": false,
+   "refused": false,
+   "match": true,
+   "detail": "PERMITTED"
+  },
+  {
+   "id": "NEG-UNKNOWN-SP-PATH",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_UNKNOWN_SP: specialised principal is not registered"
+  },
+  {
+   "id": "POS-CHECKER-SIGNED-VERDICT",
+   "expect_refuse": false,
+   "refused": false,
+   "match": true,
+   "detail": "SBL-CHALLENGE-VERDICT/1 maker=tpm_sp"
+  },
+  {
+   "id": "NEG-TAMPERED-CREDENTIAL",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_PERMISSION_DENIED: signing requires the principal credential"
+  },
+  {
+   "id": "NEG-PROXY-STATUS-SIGN",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_BAD_STATE: verdict status cannot back a signature"
+  },
+  {
+   "id": "NEG-SELF-SIGN",
+   "expect_refuse": true,
+   "refused": true,
+   "match": true,
+   "detail": "SBL_E_SELF_CHECK_FORBIDDEN: a maker may not sign the verdict on its own work"
+  }
+ ],
+ "summary": {
+  "total": 13,
+  "pass": 13,
+  "fail": 0
+ }
+}

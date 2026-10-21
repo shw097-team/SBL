@@ -1,0 +1,86 @@
+[
+ {
+  "cmd": [
+   "init"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"data_dir\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r6gj01\"}\n"
+ },
+ {
+  "cmd": [
+   "add",
+   "--title",
+   "write R6 closeout"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"item\": {\"id\": \"T-a0e9477a16\", \"title\": \"write R6 closeout\", \"status\": \"open\", \"created\": \"2026-10-21T04:23:02Z\"}, \"status\": \"open\"}\n"
+ },
+ {
+  "cmd": [
+   "list"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"items\": [{\"id\": \"T-a0e9477a16\", \"title\": \"write R6 closeout\", \"status\": \"open\", \"created\": \"2026-10-21T04:23:02Z\"}], \"count\": 1}\n"
+ },
+ {
+  "cmd": [
+   "add",
+   "--title",
+   "second item"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"item\": {\"id\": \"T-e0414f5b36\", \"title\": \"second item\", \"status\": \"open\", \"created\": \"2026-10-21T04:23:02Z\"}, \"status\": \"open\"}\n"
+ },
+ {
+  "cmd": [
+   "remove",
+   "--id",
+   "1"
+  ],
+  "rc": 4,
+  "out": "{\"ok\": false, \"code\": \"SBL_E_BAD_STATE\", \"message\": \"no item with this id\", \"detail\": {\"id\": \"1\"}}\n"
+ },
+ {
+  "cmd": [
+   "uninstall",
+   "--yes"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"uninstalled\": true}\n"
+ },
+ {
+  "cmd": [
+   "add",
+   "--title",
+   "dupX"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"item\": {\"id\": \"T-30b8195cc0\", \"title\": \"dupX\", \"status\": \"open\", \"created\": \"2026-10-21T04:23:02Z\"}, \"status\": \"open\"}\n"
+ },
+ {
+  "cmd": [
+   "add",
+   "--title",
+   "dupX"
+  ],
+  "rc": 3,
+  "out": "{\"ok\": false, \"code\": \"SBL_E_DUPLICATE_TITLE\", \"message\": \"an item with this title already exists\", \"detail\": {\"id\": \"T-30b8195cc0\", \"title\": \"dupX\"}}\n"
+ },
+ {
+  "cmd": [
+   "add",
+   "--title",
+   ""
+  ],
+  "rc": 2,
+  "out": "{\"ok\": false, \"code\": \"SBL_E_EMPTY_TITLE\", \"message\": \"title must not be empty\", \"detail\": {\"title\": \"\"}}\n"
+ },
+ {
+  "cmd": [
+   "uninstall",
+   "--yes"
+  ],
+  "rc": 0,
+  "out": "{\"ok\": true, \"uninstalled\": true}\n"
+ }
+]

@@ -1,0 +1,52 @@
+{
+ "schema": "SBL_R6_TS05_READBACK/1",
+ "captured_at_utc": "2026-10-21T04:24:07.107853+00:00",
+ "subject": {
+  "branch": "candidate/c3-20261021-v2",
+  "commit": "a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2",
+  "worktree": "C:/Projects/_sbl_r4/c3v2",
+  "clean": true
+ },
+ "pytest_local": {
+  "command": "python -m pytest tests/",
+  "result": "192 passed, 2 skipped in 11.19s",
+  "exit_code": 0,
+  "ci_crosscheck": {
+   "ubuntu": "189 passed/5 skipped",
+   "windows": "191 passed/3 skipped",
+   "run": 39532993091
+  }
+ },
+ "wheel": {
+  "sha256": "8bb9dfb918a37a3c1ef440bd4ebdb64ef26fe47bb6a2b4a4036c8c0e173fb293",
+  "members": {
+   "manifests": [
+    "sbl_sp/manifests/commander_sp.json",
+    "sbl_sp/manifests/external_challenge_sp.json",
+    "sbl_sp/manifests/tpm_sp.json"
+   ],
+   "schema": [
+    "sbl_sp/plugins/schema/plugin.schema.json"
+   ],
+   "sp_skills": [
+    "sbl_sp/plugins/commander_sp/SKILL.md",
+    "sbl_sp/plugins/external_challenge_sp/SKILL.md",
+    "sbl_sp/plugins/tpm_sp/SKILL.md"
+   ],
+   "stack_skill": [
+    "sbl_stack/SKILL.md"
+   ],
+   "total_members": 39
+  },
+  "package_data_note": "3 SP manifests + plugin schema + 3 SP SKILL.md + stack SKILL.md present (F-R4-WHEEL-PACKAGEDATA-001 patched, verified at a6bcdd0)"
+ },
+ "stack_lifecycle": {
+  "install": "ok:true components=14 manifest_sha256=9386ab193627e577b736ef8ed92db6d89c896132ae6fc75c4a5dd0b7c2f03932",
+  "doctor_after_install": "ok:true",
+  "uninstall": "removed [stack.json], empty=true",
+  "doctor_after_uninstall_NEG": "rc=2 (not installed) — correct refusal",
+  "residue": "CLEAN"
+ },
+ "harness_allowlist": "_resolve_deletable present in sbl_harness/__init__.py @ a6bcdd0 (R5 repair bytes in place)",
+ "claim_ceiling": "LOCAL scoped readback at the exact candidate SHA + fresh clean-install lifecycle; not a release, not a host UAT"
+}

@@ -1,0 +1,24 @@
+{
+ "schema": "SBL_R6_TS15_GJ01_FUO/1",
+ "captured_at_utc": "2026-10-21T04:23:50.050664+00:00",
+ "subject": "sbl-todo CLI served from a clean venv install of the wheel built at candidate a6bcdd0 (not editable, not a fixture repo checkout)",
+ "provenance": {
+  "wheel": "sbl_v01-0.1.0-py3-none-any.whl sha256=8bb9dfb918a37a3c1ef440bd4ebdb64ef26fe47bb6a2b4a4036c8c0e173fb293",
+  "venv": "scratch/r6cleanenv (fresh venv, pip install --no-deps)"
+ },
+ "positive_steps": [
+  "init",
+  "add --title",
+  "list(count=1)",
+  "cross-process persistence (separate python process re-reads the same data dir)",
+  "remove --id <real id> -> count 0",
+  "uninstall --yes"
+ ],
+ "negative_steps": [
+  "NEG-duplicate-title -> SBL_E_DUPLICATE_TITLE rc=3",
+  "NEG-empty-title -> SBL_E_EMPTY_TITLE rc=2",
+  "NEG-remove-unknown-id -> SBL_E_BAD_STATE rc=4"
+ ],
+ "residue": "data dir removed on uninstall; no leftover files",
+ "claim_ceiling": "FUO for the Foundation fixture CLI only; the R6-TS15 full scope (a NEW exotic CLI_TOOL factory journey) stays OPEN"
+}
