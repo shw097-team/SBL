@@ -460,7 +460,7 @@ for name, fn in [
     ("C8  claim ceiling: no tag, main unmoved, contract still OPEN", c8),
     ("C9  reproducibility re-derived from the maker receipt", c9),
     ("C10 the checker brief names the frozen candidate", c10),
-    ("C11 the product change touches exactly 3 files", c11),
+    ("C11 the product change touches exactly 4 files", c11),
     ("C12 no secret material in the published evidence", c12),
     ("C13 the residual set and the FAR verdict agree", c13),
     ("C14 the self-research ledger partitions every residual once", c14),
