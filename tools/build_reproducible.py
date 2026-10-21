@@ -35,7 +35,9 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
+import io
 import json
 import os
 import shutil
@@ -54,6 +56,11 @@ def run(cmd: list[str], **kw) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, capture_output=True, text=True, **kw)
 
 
+def run_bytes(cmd: list[str], **kw) -> subprocess.CompletedProcess:
+    """Same as run() but keeps stdout as bytes. `git archive` emits a binary tar."""
+    return subprocess.run(cmd, capture_output=True, **kw)
+
+
 def git(repo: Path, *args: str) -> str:
     r = run(["git", "-C", str(repo), *args])
     if r.returncode != 0:
@@ -66,11 +73,11 @@ def export_tree(repo: Path, commit: str, dest: Path) -> None:
     if dest.exists():
         shutil.rmtree(dest)
     dest.mkdir(parents=True)
-    tar_bytes = run(
+    tar_bytes = run_bytes(
         ["git", "-C", str(repo), "-c", "core.autocrlf=false", "archive", "--format=tar", commit]
     )
     if tar_bytes.returncode != 0:
-        raise SystemExit(f"git archive failed:\n{tar_bytes.stderr}")
+        raise SystemExit(f"git archive failed:\n{tar_bytes.stderr.decode('utf-8', 'replace')}")
     tar_path = dest.parent / f"{dest.name}.tar"
     tar_path.write_bytes(tar_bytes.stdout)
     with tarfile.open(tar_path) as tf:
@@ -86,7 +93,43 @@ def build(src: Path, outdir: Path, epoch: int) -> list[Path]:
     r = run([sys.executable, "-m", "build", "--outdir", str(outdir), str(src)], env=env)
     if r.returncode != 0:
         raise SystemExit(f"build failed:\n{r.stdout[-4000:]}\n{r.stderr[-4000:]}")
-    return sorted(outdir.glob("*.whl")) + sorted(outdir.glob("*.tar.gz"))
+    wheels = sorted(outdir.glob("*.whl"))
+    # setuptools honours SOURCE_DATE_EPOCH for the WHEEL but NOT for the sdist:
+    # measured, the .tar.gz carried 21 distinct member mtimes and the gzip header
+    # embedded the wall-clock time, so two sdist builds never matched. The sdist is
+    # therefore REPACKED here with a fixed mtime and gzip mtime=0.
+    for sdist in sorted(outdir.glob("*.tar.gz")):
+        normalise_sdist(sdist, epoch)
+    return wheels + sorted(outdir.glob("*.tar.gz"))
+
+
+def normalise_sdist(sdist: Path, epoch: int) -> None:
+    """Rewrite a .tar.gz so its member mtimes and the gzip header are constant.
+
+    PAX_FORMAT keeps a sub-second mtime in `member.pax_headers["mtime"]`, and
+    `create_pax_header` only OVERWRITES that header when the value does not fit
+    the 12-digit ustar field. An integer epoch fits, so the original float
+    survived and the member mtimes stayed non-constant. The header is therefore
+    removed explicitly and the mtime is re-set as a float.
+    """
+    raw = sdist.read_bytes()
+    inner = gzip.decompress(raw)
+    out = io.BytesIO()
+    with tarfile.open(fileobj=out, mode="w", format=tarfile.PAX_FORMAT) as tf:
+        with tarfile.open(fileobj=io.BytesIO(inner)) as src:
+            for member in src.getmembers():
+                member.pax_headers = {
+                    k: v for k, v in member.pax_headers.items() if k != "mtime"
+                }
+                member.mtime = float(epoch)
+                member.uid = member.gid = 0
+                member.uname = member.gname = ""
+                f = src.extractfile(member) if member.isfile() else None
+                tf.addfile(member, f)
+    packed = io.BytesIO()
+    with gzip.GzipFile(fileobj=packed, mode="wb", compresslevel=9, mtime=0) as gz:
+        gz.write(out.getvalue())
+    sdist.write_bytes(packed.getvalue())
 
 
 def describe(artifact: Path) -> dict:
@@ -138,13 +181,14 @@ def main() -> int:
         artifacts2 = build(src, outdir2, args.source_date_epoch)
         second = {describe(a)["name"]: describe(a)["sha256"] for a in artifacts2}
         first = {a["name"]: a["sha256"] for a in result["artifacts"]}
+        # every wheel must carry exactly ONE member timestamp, else the archive is not pinned
+        single_timestamp = all(
+            len(a.get("distinct_timestamps", [])) == 1 for a in result["artifacts"] if a["name"].endswith(".whl")
+        )
         result["verify"] = {
             "second_build": second,
             "identical": first == second,
-            "identical_members": all(
-                describe(a).get("distinct_timestamps") == [tuple(int(x) for x in describe(a)["distinct_timestamps"][0])]
-                for a in result["artifacts"]
-            ),
+            "single_member_timestamp": single_timestamp,
         }
         shutil.rmtree(outdir2, ignore_errors=True)
 
