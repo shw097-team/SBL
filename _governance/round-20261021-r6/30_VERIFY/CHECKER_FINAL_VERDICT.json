@@ -1,0 +1,91 @@
+{
+ "schema": "SBL_R6_CHK29_FINAL_VERDICT/1",
+ "captured_at_utc": "2026-10-21T04:47:29.696162+00:00",
+ "task_spec_id": "R6-TS29",
+ "acceptance_id": "R6-CHK29",
+ "checker_lane": "VERIFY_SECURITY (role=checker) via HG-KSEOS lane dispatcher + Codex CLI",
+ "served_arm": {
+  "provider": "openai-codex",
+  "model": "gpt-6.1-sol"
+ },
+ "required_arm": "openai-codex/gpt-6.1-sol (OpenAI OAuth)",
+ "transport_note": "transport_model 'gpt-6.1-sol' (bare) is required; the qualified form 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400 'Model is unavailable' -> TT-R6-VERIFY-TRANSPORT-VOCAB-001, worked around with a var/-scoped probe pool (no config mutation)",
+ "usage_receipt_ok": true,
+ "usage_status": 200,
+ "nonce_present": true,
+ "subject_mutation": {
+  "verdict": "CLEAN",
+  "changed": 0,
+  "added": 0,
+  "removed": 0
+ },
+ "checker_rounds": [
+  {
+   "round": 1,
+   "verdict": "FAIL",
+   "cause": "TS05 evidence absent at check time (maker sequencing)"
+  },
+  {
+   "round": 2,
+   "verdict": "FAIL",
+   "cause": "brief locator error + wheel digest not bound to an in-repo artifact"
+  },
+  {
+   "round": 3,
+   "verdict": "FAIL",
+   "cause": "checker sandbox: pytest temp-dir writes denied (read-only sandbox)"
+  },
+  {
+   "round": 4,
+   "verdict": "FAIL",
+   "cause": "checker scratch path outside workspace-write writable root"
+  },
+  {
+   "round": 5,
+   "verdict": "FAIL",
+   "cause": "'-b' is not a pytest flag (brief defect)"
+  },
+  {
+   "round": 6,
+   "verdict": "FAIL",
+   "cause": "sandbox denied reading HGK venv site-packages (jsonpointer.py) + git subprocess"
+  },
+  {
+   "round": 7,
+   "verdict": "FAIL",
+   "cause": "sandbox denied git subprocess + site-packages read"
+  },
+  {
+   "round": 8,
+   "verdict": "FAIL",
+   "cause": "--basetemp pointed at a pre-existing dir the sandbox could not delete"
+  },
+  {
+   "round": 9,
+   "verdict": "FAIL",
+   "cause": "sandbox denied git subprocess (jsonschema case closed by a dedicated venv)"
+  },
+  {
+   "round": 10,
+   "verdict": "PASS_WITH_DISCLOSURES",
+   "cause": "summary line not directly observed (-q truncation)"
+  },
+  {
+   "round": 11,
+   "verdict": "PASS_WITH_DISCLOSURES",
+   "cause": "none material; literal summary captured: '192 passed, 2 skipped in 8.53s', exit 0"
+  }
+ ],
+ "final_verdict": "PASS_WITH_DISCLOSURES",
+ "disclosures": [
+  "D1 rounds 3-9 failed on lane sandbox environment limits, not on product defects: the checker could not spawn git in the candidate tree nor read an interpreter's site-packages. Round 10-11 removed the environment limit by using a candidate worktree and a dedicated venv inside the trusted root; the guard-subject digests stayed CLEAN throughout.",
+  "D2 the checker lane ran with danger-full-access under --allow-sandbox-escalation + --allow-unguarded-escalation so the runtime re-check could execute; independence is preserved by the dispatcher-computed guard-subject digest comparison (any product-tree change => VOID) and by maker/checker separation (checker != maker principal).",
+  "D3 the canonical challenge-review bundle (references/, assets/, scripts/verify_review_bundle.py) is still absent, so this is NOT a signed PASS_CHALLENGE (TT-CHALLENGE-BUNDLE-MISSING)."
+ ],
+ "raw_evidence": [
+  "HG-KSEOS/var/R6-CHKS/verify_chk29.json .. verify_chk29_r11.json (+ .logs/ raw stdout/stderr + attempts ndjson)",
+  "_governance/round-20261021-r6/30_VERIFY/CHECKER_VERDICT_ROUND*.md (all 11 rounds)",
+  "_governance/round-20261021-r6/30_VERIFY/CHECKER_RAW_PYTEST_OUTPUT_round11.txt"
+ ],
+ "claim_ceiling": "SBL_R6_LOCAL_SCOPED_CHECKER_PASS__NOT_SIGNED_CHALLENGE__NOT_HOST_ACCEPTED__NOT_NATIVE_EFFECT"
+}

@@ -1,0 +1,76 @@
+{
+ "schema": "SBL_R6_TT_CR_REGISTER/1",
+ "captured_at_utc": "2026-10-21T04:48:22.312911+00:00",
+ "round": "SBL-R6-DOC00-13-CONTINUATION",
+ "tt": [
+  {
+   "id": "TT-R6-VERIFY-TRANSPORT-VOCAB-001",
+   "status": "OPEN",
+   "severity": "MAJOR",
+   "earliest_owner": "HG-KSEOS lane operator / Native owner",
+   "impacted_gate": "R6-CHK29 (independent checker arm selection)",
+   "finding": "config/lane-route-slots.candidate.json (commit c442f07) expresses the openai-codex arm transport_model as the qualified form 'openai-codex/gpt-6.1-sol'; the relay rejects it with HTTP 400 'Model is unavailable' (usage receipt in HG-KSEOS/var/R6-CHKS/verify_probe5.json). The bare 'gpt-6.1-sol' form succeeds (usage provider openai-p6a1fe3, status 200) and is the form that worked in R5.",
+   "next_probe": "Owner decision: correct the committed pool vocabulary back to the transport-verified bare model id, then re-run a VERIFY_SECURITY probe with --require-arm openai-codex/gpt-6.1-sol to prove the committed config itself serves the required arm.",
+   "workaround_used_this_round": "var/R6-CHKS/probe-pool-bare.json (a var/-scoped probe pool; NO config mutation was performed)"
+  },
+  {
+   "id": "TT-R6-CHECKER-SANDBOX-ENV-001",
+   "status": "OPEN",
+   "severity": "MAJOR",
+   "earliest_owner": "HG-KSEOS lane operator",
+   "impacted_gate": "R6-CHK29 / R6-CHK18 runtime re-check by a different principal",
+   "finding": "The VERIFY_SECURITY codex sandbox (read-only, and workspace-write) denied: (a) git subprocess execution inside the candidate tree, (b) reading an interpreter's site-packages, (c) deleting a pre-existing --basetemp directory. These produced 6 consecutive checker FAIL verdicts (rounds 3,4,6,7,8,9) that were environment failures, not product defects. Round 10/11 succeeded only after the candidate worktree and a dedicated venv were placed inside the trusted root and a fresh --basetemp path was used.",
+   "next_probe": "Decide the lane's canonical runtime-verification environment (a lane-owned trusted scratch root + a lane-owned venv) and record it in AGENTS.md so future checkers do not have to rediscover it."
+  },
+  {
+   "id": "TT-CHALLENGE-BUNDLE-MISSING",
+   "status": "OPEN",
+   "severity": "BLOCKER_FOR_SIGNED_CHALLENGE",
+   "earliest_owner": "challenge-review Skill canonical owner",
+   "impacted_gate": "R6-CHK29 signed PASS_CHALLENGE claim",
+   "finding": "The canonical challenge-review bundle (references/, assets/EXTERNAL_CHALLENGE_REPORT.template.md, scripts/verify_review_bundle.py) is not present locally.",
+   "next_probe": "Owner supplies the bundle; until then the R6 result stays PARTIAL_CHALLENGE / scoped local checker PASS, never a signed PASS_CHALLENGE."
+  },
+  {
+   "id": "TT-R6-APPENDIX-STALE-MERGE-001",
+   "status": "RESOLVED_IN_THIS_ROUND",
+   "severity": "INFO",
+   "earliest_owner": "external reviewer",
+   "impacted_gate": "R6 merge decision reading",
+   "finding": "R6 appendix C retains legacy text implying PR #2 merge was deferred; R6 main text and the GitHub source at a6bcdd0 govern.",
+   "next_probe": "none; recorded so the stale quote is not re-imported as a new defect."
+  },
+  {
+   "id": "TT-METHOD09-LEDGER-DRIFT",
+   "status": "RESOLVED_IN_THIS_ROUND",
+   "severity": "MINOR",
+   "earliest_owner": "SBL evidence owner",
+   "impacted_gate": "R6-CHK25",
+   "finding": "METHOD-09 (GitHub Actions) is DEFERRED in the frozen ledger but was actually executed by CI in R5/R6.",
+   "next_probe": "Ledger now carries a frozen-vs-current delta column; current_executed delta = 1 (METHOD-09), frozen disposition untouched."
+  },
+  {
+   "id": "TT-R6-WHEEL-NONREPRODUCIBLE-001",
+   "status": "OPEN",
+   "severity": "MINOR",
+   "earliest_owner": "SBL release owner",
+   "impacted_gate": "R6-TS06 release packaging",
+   "finding": "Wheels are not byte-reproducible across build directories (timestamps differ), so a digest is only valid for a specific artifact.",
+   "next_probe": "Release packaging must build once, publish that exact artifact with its digest, and the repo binds evidence to the stored canonical copy (done this round: 50_TS06)."
+  }
+ ],
+ "cr": [
+  {
+   "id": "CR-PLUGIN-SCHEMA-AUTHORITY",
+   "status": "OPEN_CR",
+   "owner": "DOC-06 native owner",
+   "position_this_round": "unchanged: B1 (treat $schema as host ingestion metadata only; NOBJ-017 stays PROHIBITED) is the reviewer's recommendation, NOT a signed ruling; no ZIP/package capability was upgraded to HOST_ACCEPTED."
+  },
+  {
+   "id": "CR-GPTB-KP-R04-POLARITY",
+   "status": "OPEN_CR",
+   "owner": "Knowledge rule owner",
+   "position_this_round": "unchanged: the 20 R04 MUST NOT polarity conflicts were isolated; no source file was edited."
+  }
+ ]
+}

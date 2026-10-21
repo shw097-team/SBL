@@ -1,0 +1,49 @@
+{
+ "schema": "SBL_R6_EXECUTION_STATUS/1",
+ "round_id": "SBL-R6-DOC00-13-CONTINUATION",
+ "captured_at_utc": "2026-10-21T04:48:42.357923+00:00",
+ "evidence_branch": "evidence/r6-20261021-c6",
+ "evidence_head_at_write": "2b9719bdd52f51ee1bdb0a515c42facf9e1d6179",
+ "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
+ "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
+ "north_star": "SBL_FULL_PRODUCT (not achieved; this round closed the R6 evidence/trace skeleton and the scoped C3 verification chain)",
+ "what_this_round_did": {
+  "R6-TS00": "machine + remote fresh state readback (origin main/PR2/evidence SHAs == R6 baseline, zero drift); HGK spine doctor (592 workorders / 893 acceptances / FTS5 ok / HLPE qualified)",
+  "R6-TS01": "46/46 source intake MATCH; hashes parsed programmatically from the R6 report (no hand-typed digest); R6 report self-hash verified ac2db3cb...",
+  "R6-TS02": "C0-C9 contract R6 built from the R5 shape (34 acceptance edges) -> lint/activation/acceptance/compile all rc=0 -> PROMPT_COMPILE_PASS (compiler 2c282ad6..., contract f27bc4f7..., prompt 2b20ad73...)",
+  "R6-TS05": "candidate a6bcdd0 readback: 192 passed/2 skipped (denominator 194) on both the maker env and a lane-owned venv; wheel contains 3 SP manifests + plugin schema + 3 SP SKILL.md + stack SKILL.md; clean venv install->doctor->uninstall lifecycle with 0 residue; NEG doctor rc=2",
+  "R6-TS07/24/25": "trace skeleton ledgers generated programmatically from the R6 appendices: 50 parents, 149 children, 38 surfaces, 441 identities (6+24+25+386); coverage 0 duplicate / 0 orphan / 0 fabricated PASS; 5 NOT_ADMITTED surfaces relabelled; METHOD-09 frozen-vs-current delta recorded",
+  "R6-TS15 (partial)": "GJ01-style clean-venv FUO on the shipped sbl-todo CLI: init/add/list/cross-process persistence/remove/uninstall + 3 negative cases (duplicate title rc=3, empty title rc=2, unknown id rc=4) + 0 residue. SCOPE LIMIT: the CLI is the Foundation fixture, not a new user-defined CLI_TOOL product, so R6-TS15 stays OPEN.",
+  "R6-TS20": "SP separation 13/13 POS+NEG: three distinct principals/manifests/permissions; product.write denial, self-sign denial, proxy-status refusal, tampered credential rejection, legitimate checker signature accepted",
+  "R6-TS29": "independent checker (VERIFY_SECURITY lane, Codex CLI, served openai-codex/gpt-6.1-sol) 11 rounds; final PASS_WITH_DISCLOSURES with the literal runtime summary '192 passed, 2 skipped in 8.53s' (exit 0) and guard-subject verdict CLEAN",
+  "R6-TS30": "15/15 self-checks PASS; TT/CR register written"
+ },
+ "checker_rounds_summary": "11 rounds: 1-2 maker/brief defects, 3-9 lane sandbox environment limits, 10 PASS_WITH_DISCLOSURES, 11 PASS_WITH_DISCLOSURES with literal summary captured",
+ "not_done_and_why": {
+  "R6-TS06 (PR #2 merge + new C3 prerelease)": "NOT PERFORMED - Owner merge is a HUMAN/NATIVE gate. No merge button pressed, no release published, no force push. This round only prepared and verified the candidate.",
+  "R6-TS12 (PIPD native writers)": "OPEN - requires Native issuer (WorkOrder/ONE ECP/Permit) that this session did not hold.",
+  "R6-TS16/17 (new Skill/Minimal Agent + other ProductKinds)": "OPEN - needs a real build slice under an admitted WriteSet.",
+  "R6-TS21 (3 ChatGPT private plugins)": "OPEN / 0-3 - host-issued IDs cannot be fabricated; no host was authorised.",
+  "R6-TS22/23/24 (harness, full stack, 38 surfaces host proof)": "OPEN - local install claims only; NOT_ADMITTED hosts remain NOT_ADMITTED.",
+  "signed PASS_CHALLENGE": "NOT CLAIMED - canonical challenge bundle still missing (TT-CHALLENGE-BUNDLE-MISSING)."
+ },
+ "next_legal_workorder": {
+  "id": "R6-TS06-A",
+  "objective": "Owner-authorised non-force merge of PR #2 (candidate a6bcdd0) into main, then build ONE new-version C3 wheel+sdist, clean-venv install/invoke/uninstall/no-residue, publish as a C3 experimental prerelease with a NEW version and NEW digests (0.1.0 foundation bytes must not be replaced)",
+  "requires": "Human Owner merge approval + GitHub release authority (explicitly NOT granted by this round)",
+  "then": "R6-TS15 (real new user-defined CLI_TOOL end-to-end), R6-TS16 (new Skill/Minimal Agent), R6-TS07 closure (149 children raw evidence), R6-TS21 (host UAT), R6-TS29 canonical signed challenge once the bundle is restored"
+ },
+ "residuals": [
+  "TT-R6-VERIFY-TRANSPORT-VOCAB-001 (committed lane pool vocabulary rejects the required arm; worked around with a var/-scoped probe pool, no config mutation)",
+  "TT-R6-CHECKER-SANDBOX-ENV-001 (lane checker environment cannot run git/site-packages/basetemp by default)",
+  "TT-CHALLENGE-BUNDLE-MISSING",
+  "TT-R6-WHEEL-NONREPRODUCIBLE-001",
+  "CR-PLUGIN-SCHEMA-AUTHORITY (OPEN), CR-GPTB-KP-R04-POLARITY (OPEN)"
+ ],
+ "side_effects_disclosed": [
+  "local commits on branch evidence/r6-20261021-c6 in C:/Projects/Agent_Workspace/SBL",
+  "new local worktree C:/Projects/Agent_Workspace/_sbl_candidate_check (detached at a6bcdd0) and venv C:/Projects/Agent_Workspace/_sbl_checker_env, both created for the checker runtime re-check",
+  "HG-KSEOS var/ probe pool + probe/verifier receipts (no config/, no registry, no AGENTS.md change)",
+  "no merge, no release, no tag, no force push, no PR creation/merge by this round"
+ ]
+}
