@@ -1,0 +1,6 @@
+contradiction_id	subject	claim_a	claim_b	why_it_matters	resolution	status
+X1	R6 報告主文 vs 附錄 C	附錄 C 帶有過時的 merge 文字，主文裁決為準	附錄舊文字若被當作裁決，會導致未經授權的 merge 動作	以 TT-R6-APPENDIX-STALE-MERGE-001 隔離；主文支配	RESOLVED_BY_ISOLATION
+X2	R6 status 的 OPEN 清單 vs R7 實測	R6 把 wheel 不可重現記為待處理缺陷；實測顯示那是 build-input 問題，可修	若沿用 R6 的分類，會把可修項誤列為不可修項	R7 以 build contract 修復並量測雙次相同 sha256	RESOLVED_BY_MEASUREMENT
+X3	canonical lane pool 的 transport_model 語彙	config 使用限定式 openai-codex/gpt-6.1-sol；relay 對限定式回 HTTP 400 Model is unavailable	限定式會讓 GPT arm 無法服務，導致無法取得獨立 checker 收據	HG-KSEOS 5d63e00 (G8) 改回 bare id；R7 實測三車道 usage status 200	RESOLVED_BY_LANE_OWNER
+X4	R6 checker 失敗 vs 產品缺陷	R6 數輪 checker FAIL 來自 sandbox 環境（git 子行程、site-packages、basetemp）	若誤判為產品缺陷會要求無意義的產品修改	同候選同命令在 maker 環境 192 passed；升級 sandbox 後 checker 通過	RESOLVED_BY_REPRODUCTION
+X5	contract acceptance binding	4 個 capability 指向 ACC-SBL_SHARED_CORE，但其自身已有 ACC-SP_PLUGIN_PACKAGE_* 等 34 個 own acceptance	binding 錯配會讓 runtime_readiness 的 cell 對到錯誤的驗收邊	R7 量測 4 筆 mismatch（每個 acceptance 都有自己的 id）	RECORDED_AS_CONTRACT_DEFECT

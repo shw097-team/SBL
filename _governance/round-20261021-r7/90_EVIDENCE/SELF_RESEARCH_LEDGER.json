@@ -1,0 +1,110 @@
+{
+ "schema": "SBL_R7_SELF_RESEARCH_LEDGER/1",
+ "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
+ "captured_at_utc": "2026-10-21T05:46:35.039853+00:00",
+ "principle": "every lesson is a transferable RULE with the measurement that produced it; no narration",
+ "lessons": [
+  {
+   "id": "L1",
+   "area": "build",
+   "rule": "A build that is not a function of its source cannot be a release artifact. Export from the object store, never from the disk.",
+   "measurement": "git cat-file: objects CRLF=0 while the working tree was CRLF; core.autocrlf=true; no .gitattributes; 7 differing wheel members (all equal after LF normalisation) and 39 differing member timestamps",
+   "failure_it_replaces": "filing our own build-input defect as a permanent platform limitation"
+  },
+  {
+   "id": "L2",
+   "area": "packaging",
+   "rule": "Verify reproducibility per ARTIFACT, not per build system. A wheel that is reproducible says nothing about the sdist next to it.",
+   "measurement": "the wheel became reproducible while the sdist still carried 21 member mtimes and a wall-clock gzip header",
+   "failure_it_replaces": "stopping at the first artifact that worked"
+  },
+  {
+   "id": "L3",
+   "area": "tarfile",
+   "rule": "When normalising an archive, strip the extended header, do not just overwrite the field.",
+   "measurement": "PAX_FORMAT keeps pax_headers['mtime']; create_pax_header only overwrites it when the value does not fit the ustar field, so an integer epoch survived and 20 mtimes stayed non-constant",
+   "failure_it_replaces": "a partial fix whose output still looked plausible"
+  },
+  {
+   "id": "L4",
+   "area": "residual triage",
+   "rule": "Before deferring a residual, ask WHO is missing: a person, a host, a build slice, or us. 'Us' is not a deferral reason.",
+   "measurement": "TT-R6-WHEEL-NONREPRODUCIBLE-001 sat in the same list as the host-dependent items, but its missing thing was our own build input; it closed in one round",
+   "failure_it_replaces": "a fixable item being re-declared as a known limitation"
+  },
+  {
+   "id": "L5",
+   "area": "lane evidence",
+   "rule": "A nonce proves the model answered only if the model was asked to say it. The prompt carries the nonce, not just the --nonce flag.",
+   "measurement": "the first probe returned ERR_NO_ARM_EMITTED_NONCE with exit=0 and a good usage row; after adding the token to the prompt, 3/3 lanes ok",
+   "failure_it_replaces": "concluding that a healthy lane is broken"
+  },
+  {
+   "id": "L6",
+   "area": "control plane",
+   "rule": "An admission that returns an id is not an admission. Read the requirement, taskspec and workorder rows back.",
+   "measurement": "admit_requirement returned a workorder id while the TaskSpec was DRAFT and no WorkOrder existed; _repo_head() reads the CALLER's cwd, returned '' outside a repo, and the raised InvariantViolation was swallowed",
+   "failure_it_replaces": "trusting an API return value that hides a swallowed exception"
+  },
+  {
+   "id": "L7",
+   "area": "branch triage",
+   "rule": "A branch review that is not a measurement is an opinion. merge-tree exit code is the conflict answer; ancestry is the supersede answer.",
+   "measurement": "49 branches measured mechanically collapse to exactly 1 MERGE_NOW",
+   "failure_it_replaces": "reviewing branches one at a time by reading diffs"
+  },
+  {
+   "id": "L8",
+   "area": "capability sourcing",
+   "rule": "Before merging a branch to obtain a capability, check whether main already has it.",
+   "measurement": "all 8 official PIPD skills are on main with full contracts, typed IO and POS/NEG/EDGE/SEC cases",
+   "failure_it_replaces": "merging a branch that only restates main and brings back conflicts"
+  },
+  {
+   "id": "L9",
+   "area": "authorisation",
+   "rule": "A pre-authorisation of 'execute your recommendation' is not a grant of a Native effect.",
+   "measurement": "the R6 report states the Reviewer recommended a scoped merge and did NOT press the button; merge, release, permission grants and Host plugin creation are separately gated",
+   "failure_it_replaces": "reading a broad instruction as a grant of merge/release authority"
+  }
+ ],
+ "residual_split": {
+  "closed_this_round": [
+   "TT-R6-WHEEL-NONREPRODUCIBLE-001"
+  ],
+  "closed_by_lane_owner_this_round": [
+   "TT-R6-VERIFY-TRANSPORT-VOCAB-001"
+  ],
+  "closed_by_isolation": [
+   "TT-R6-APPENDIX-STALE-MERGE-001"
+  ],
+  "owner_one_action": [
+   "CR-PLUGIN-SCHEMA-AUTHORITY",
+   "CR-GPTB-KP-R04-POLARITY",
+   "R6-TS06",
+   "R6-TS06-A"
+  ],
+  "not_closable_this_round": [
+   "TT-CHALLENGE-BUNDLE-MISSING",
+   "TT-METHOD09-LEDGER-DRIFT",
+   "R6-TS12",
+   "R6-TS21",
+   "R6-TS22-23-24"
+  ],
+  "next_build_slices": [
+   "R6-TS15",
+   "R6-TS16",
+   "R6-TS07-CLOSURE",
+   "TT-R6-CHECKER-SANDBOX-ENV-001 (environment hardening, not a product change)"
+  ]
+ },
+ "self_iteration": {
+  "product_change": "candidate/r7-20261021-repro-build @ 00cf15f9de5808260b1af6a697d0e2fefaad5d1f (2 commits over a6bcdd0)",
+  "evidence_change": "the R7 evidence branch (candidate and evidence SHAs kept separate)",
+  "regression_check": "194 -> 200 (200 passed, 2 skipped); no test removed",
+  "second_pass_fixes": [
+   "normalise_sdist: the PAX mtime header survived the assignment (real defect found by the verify pass)"
+  ]
+ },
+ "self_evolution": "7 rules recorded in the FAR SELF_EVOLUTION_DELTA.json; all adopted now"
+}

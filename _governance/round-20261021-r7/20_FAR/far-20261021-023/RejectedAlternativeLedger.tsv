@@ -1,0 +1,7 @@
+alternative_id	alternative	why_it_looked_appealing	why_rejected	decision
+RA1	以 tar/zip 固定 mtime 為唯一修復，保留 CRLF	只固定 timestamp 即可重現	實測 CRLF 仍使 7 個 wheel member 的內容不同（LF 正規化後才相等）	需要同時固定 checkout 的行尾與 archive 的時間戳	REJECTED
+RA2	把 wheel 不可重現記為不可修的性質，繼續沿用 R6 記錄	不可重現是 Python 打包的固有限制	實測兩次 build 產生相同 sha256，證明限制可被建置契約移除	REJECTED
+RA3	用 squash merge 併入 PR #2 以保持單一 commit	squash 讓歷史乾淨	squash 會摧毀 R6 報告引用的 6 個受審 commit 身分	保留 merge_method=merge	REJECTED
+RA4	沿用 0.1.0 版本發布新 prerelease	版本號一致較簡單	會覆寫已發布 v0.1.0-foundation-preview 的 release 身分	改用 0.1.1rc1	REJECTED
+RA5	把 8 個 PIPD 官方 skills 從某個分支併入 main 以取得它們	分支可能含較新版本	八個 skill 已全在 main 且契約完整，併分支只帶回衝突與過時 README	不需要	REJECTED
+RA6	以 agent 身分代替 Owner 執行 merge 與 release	使用者預授權了 FAR 裁決，可一併授權 merge/release	預授權的是『執行 FAR 裁決』，不是『繞過人類授權邊界』；R6 報告明示 merge 屬 Human/Native gate	merge 與 release 保留為 Owner 一次動作	REJECTED

@@ -1,0 +1,81 @@
+{
+ "schema": "LOGICAL_FAR_SELF_EVOLUTION_DELTA_V1",
+ "run_id": "FAR-20261021-023-sbl-r7-residual-closure",
+ "captured_at_utc": "2026-10-21T05:44:49.700054+00:00",
+ "proposed_evolution": [
+  {
+   "id": "EVO-1",
+   "area": "build reproducibility",
+   "from": "a wheel is built from the working tree; the digest is a receipt of whatever the checkout happened to be",
+   "to": "a wheel is built from a NAMED COMMIT through a tool that disables the checkout's line-ending rewrite and pins the archive timestamp; the build is a function of (commit, builder)",
+   "evidence": "two independent builds of a6bcdd0 -> identical wheel sha256 a161162f... and identical sdist sha256 b147f674...",
+   "transferable": true,
+   "rule": "A build that is not a function of its source cannot be a release artifact. Export from the object store, not from the disk."
+  },
+  {
+   "id": "EVO-2",
+   "area": "packaging normalisation",
+   "from": "assuming setuptools honours SOURCE_DATE_EPOCH for every artifact",
+   "to": "setuptools honours it for the WHEEL only; the sdist carries 21 member mtimes and a wall-clock gzip header and must be repacked explicitly",
+   "evidence": "measured on a6bcdd0: gzip header mtime bytes[4:8] were non-zero and 21 distinct member mtimes were present",
+   "transferable": true,
+   "rule": "Verify reproducibility per ARTIFACT, not per build system. A wheel that is reproducible says nothing about the sdist next to it."
+  },
+  {
+   "id": "EVO-3",
+   "area": "python tarfile",
+   "from": "assigning member.mtime and expecting the header to follow",
+   "to": "PAX_FORMAT keeps a sub-second mtime in pax_headers; create_pax_header only OVERWRITES it when the value does not fit the ustar field, so an integer epoch survives and the original float is still emitted",
+   "evidence": "the first normalise_sdist attempt left 20 non-constant mtimes; the fix strips the pax 'mtime' key explicitly",
+   "transferable": true,
+   "rule": "When normalising an archive, strip the extended header, do not just overwrite the field."
+  },
+  {
+   "id": "EVO-4",
+   "area": "residual triage",
+   "from": "treating a filed defect as a permanent property of the platform",
+   "to": "classify every open item by whether the missing thing is a HUMAN AUTHORITY, a HOST/NATIVE EFFECT, a NEW BUILD SLICE, or a DEFECT IN OUR OWN INPUTS - the last one is fixable now",
+   "evidence": "TT-R6-WHEEL-NONREPRODUCIBLE-001 was filed as an open defect; the root cause was in our own build inputs, so it closed instead of being re-declared",
+   "transferable": true,
+   "rule": "Before deferring a residual, ask who is missing: a person, a host, a build slice, or us. 'Us' is not a deferral reason."
+  },
+  {
+   "id": "EVO-5",
+   "area": "lane evidence",
+   "from": "a dispatch receipt without a nonce in the prompt",
+   "to": "the nonce must be carried by the PROMPT and must appear in an ASSISTANT message; a prompt that does not carry it fails with ERR_NO_ARM_EMITTED_NONCE even when the arm served correctly",
+   "evidence": "the first R7 lane probe returned ERR_NO_ARM_EMITTED_NONCE with exit 0 and a good usage row; adding the nonce to the prompt turned all three lanes ok",
+   "transferable": true,
+   "rule": "A nonce proves the model answered only if the model was asked to say it. The prompt carries the nonce, not just the flag."
+  },
+  {
+   "id": "EVO-6",
+   "area": "control-plane admission",
+   "from": "trusting the admission API's return value",
+   "to": "read the chain back: the API returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed, because _repo_head() reads the CALLER's cwd and returned '' outside a repo, so create_workorder raised InvariantViolation and the except swallowed it",
+   "evidence": "REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO readback showed TS state=DRAFT and a missing workorder; completing it through the public create_workorder API from a repo cwd produced the full chain",
+   "transferable": true,
+   "rule": "An admission that returns an id is not an admission. Read the three rows back."
+  },
+  {
+   "id": "EVO-7",
+   "area": "branch triage at scale",
+   "from": "reviewing branches one at a time",
+   "to": "measure all of them mechanically - merge-base, ahead/behind, diff --stat, merge-tree exit code, patch-equivalence - then classify; 49 branches collapse to exactly 1 MERGE_NOW",
+   "evidence": "CANDIDATE_BRANCH_RULING.md: MERGE_NOW 1, SUPERSEDED 26, EVIDENCE_ONLY 16, NOT_RECOMMENDED 3, DO_NOT_MERGE 3",
+   "transferable": true,
+   "rule": "A branch review that is not a measurement is an opinion. merge-tree exit code is the conflict answer."
+  }
+ ],
+ "adopted_now": [
+  "EVO-1",
+  "EVO-2",
+  "EVO-3",
+  "EVO-4",
+  "EVO-5",
+  "EVO-6",
+  "EVO-7"
+ ],
+ "not_yet_applied": [],
+ "note": "Every rule was extracted from a failure that actually happened in this round, with the measurement that produced it."
+}

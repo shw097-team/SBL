@@ -1,0 +1,13 @@
+{
+  "SBL": {
+    "heads_unchanged": true,
+    "pytest": {
+      "exit": 1,
+      "stdout": ".................................F...................................... [ 37%]\n.................................................ss..................... [ 74%]\n..........................................s.......                       [100%]\n================================== FAILURES ===================================\n_______________ test_bind_repo_context_positive_reads_real_repo _______________\n\n    def test_bind_repo_context_positive_reads_real_repo():\n>       ctx = bind_repo_context(REPO_ROOT)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests\\test_core_modules.py:135: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\nsbl_core\\m04_bridge.py:54: in bind_repo_context\n    head = _head_of(resolved)\n           ^^^^^^^^^^^^^^^^^^\nsbl_core\\m04_bridge.py:41: in _head_of\n    return _run_git(root, \"rev-parse\", \"HEAD\").strip()\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nroot = 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\r7-branch-audit\\\\sbl-v2-test'\nargs = ('rev-parse', 'HEAD')\n\n    def _run_git(root: str, *args: str) -> str:\n        try:\n            completed = subprocess.run(\n                [\"git\", \"-C\", root, *args],\n                capture_output=True,\n                text=True,\n                encoding=\"utf-8\",\n                errors=\"replace\",\n                timeout=30,\n                check=False,\n            )\n        except (OSError, subprocess.SubprocessError) as exc:\n            raise SBLError(\n                \"SBL_E_BAD_STATE\", \"git is unavailable\", {\"root\": root, \"error\": str(exc)}\n            ) from exc\n        if completed.returncode != 0:\n>           raise SBLError(\n                \"SBL_E_BAD_STATE\",\n                f\"git {' '.join(args)} failed\",\n                {\n                    \"root\": root,\n                    \"exit\": completed.returncode,\n                    \"stderr\": completed.stderr.strip(),\n                },\n            )\nE           sbl_core.errors.SBLError: SBL_E_BAD_STATE: git rev-parse HEAD failed\n\nsbl_core\\m04_bridge.py:28: SBLError\n=========================== short test summary info ===========================\nFAILED tests/test_core_modules.py::test_bind_repo_context_positive_reads_real_repo\n1 failed, 190 passed, 3 skipped in 10.00s\n",
+      "stderr": ""
+    }
+  },
+  "PIPD-LS-SP": {
+    "heads_unchanged": true
+  }
+}

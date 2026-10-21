@@ -1,0 +1,180 @@
+schema: LOGICAL_FAR_RESEARCH_HANDOFF_V1
+run_id: FAR-20261021-023-sbl-r7-residual-closure
+captured_at_utc: "2026-10-21T05:40:00+00:00"
+decision: NATIVE_WITH_SELECTED_ARIS
+reason_code: FAR_ROUTE_NATIVE_ARIS
+claim_ceiling: local/candidate-only; not an acceptance; not a Gate PASS; not authority
+
+ruling:
+  RULING-1: >-
+    The wheel/sdist non-reproducibility was a BUILD-INPUT defect, not a product defect. Fixing the build
+    contract (.gitattributes + a tool that exports a named commit with autocrlf disabled and pins
+    SOURCE_DATE_EPOCH, plus an sdist repack) closes TT-R6-WHEEL-NONREPRODUCIBLE-001 outright.
+    Executed this round on candidate/r7-20261021-repro-build.
+  RULING-2: >-
+    Of 49 measured non-main branches, exactly one (SBL candidate/c3-20261021-v2 = PR #2) is MERGE_NOW,
+    scoped: merge-tree exit 0, main is an ancestor, 6/0, 27 files, +2576/-63, both CI runs success on
+    that head SHA. No PIPD-LS-SP branch is recommended; its eight official skills are already on main.
+  RULING-3: >-
+    R6-TS06-A is one Owner action, not a build task. Everything mechanical is prepared; the two
+    remaining human acts are pressing merge on PR #2 and authorising the release. Version = 0.1.1rc1.
+
+execution_plan:
+  - step: 0
+    name: fresh-state precheck
+    actor: owner
+    command: >-
+      git ls-remote origin refs/heads/main refs/heads/candidate/c3-20261021-v2 && python -c "import
+      urllib.request,json;print(json.load(urllib.request.urlopen(
+      'https://api.github.com/repos/shw097-team/SBL/pulls/2'))['mergeable_state'])"
+    precondition: none
+    success_criterion: main == bedc11957d4fc2474b249b69d200829272c118ef AND head == a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2 AND mergeable_state == 'clean'
+    on_failure: stop; re-read the PR; do not merge a moved head
+    rollback: none required (read-only)
+  - step: 1
+    name: non-force merge of PR #2
+    actor: owner
+    command: >-
+      python -c "import urllib.request,json,os;u='https://api.github.com/repos/shw097-team/SBL/pulls/2/merge';
+      d=json.dumps({'merge_method':'merge','sha':'a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2'}).encode();
+      r=urllib.request.Request(u,d,{'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Content-Type':'application/json'});
+      print(urllib.request.urlopen(r).read().decode())"
+    precondition: step 0 passed
+    success_criterion: API returns merged==true and sha==a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2
+    why_merge_not_squash: >-
+      A squash merge would destroy the six reviewed commit identities (including the three harness
+      uninstall-boundary fixes) and change the SHAs the R6 report cites. merge_method=merge keeps the
+      reviewed object graph intact, and the branch is not deleted.
+    on_failure: leave the PR open; report the API error verbatim; do not retry with a different method
+    rollback: >-
+      A merge commit can be reverted (not force-pushed) with a new revert commit on main. Never
+      force-push main, never delete the branch.
+  - step: 2
+    name: post-merge remote readback
+    actor: owner
+    command: git ls-remote origin refs/heads/main
+    precondition: step 1 merged
+    success_criterion: remote main == a6bcdd0f8f0d12ebb413679ce5c43edd763fd3a2
+    on_failure: stop before any release step
+    rollback: none (read-only)
+  - step: 3
+    name: bump the distribution version
+    actor: owner
+    command: >-
+      set version = 0.1.1rc1 in pyproject.toml on a new branch cut from the merged main
+    precondition: step 2 passed
+    success_criterion: pyproject version == 0.1.1rc1
+    why_not_0_1_0: >-
+      v0.1.0-foundation-preview is already published with its own digests. Reusing 0.1.0 would make the
+      new bytes indistinguishable from the published ones and would overwrite the release identity. A
+      prerelease suffix also keeps it visibly experimental, which is what the R6 report granted
+      (CONDITIONAL_PREVIEW).
+    on_failure: stop; do not publish
+    rollback: revert the version commit
+  - step: 4
+    name: reproducible build of the new version
+    actor: owner
+    command: >-
+      python tools/build_reproducible.py --commit <new-sha> --outdir dist --verify --json-out receipt.json
+    precondition: step 3 committed
+    success_criterion: receipt.verify.identical == true AND receipt.verify.single_member_timestamp == true
+    on_failure: do not publish; the build is not reproducible, which is exactly the defect this tool exists to prevent
+    rollback: discard the branch
+  - step: 5
+    name: clean-venv lifecycle
+    actor: owner
+    command: >-
+      create a fresh venv, pip install the built wheel, run each entry point, pip uninstall, then assert
+      zero residue
+    precondition: step 4 passed
+    success_criterion: install ok AND all entry points respond AND uninstall ok AND residue == []
+    scope_ceiling: STANDALONE_ONLY; no native install, no Host install, no full-engine claim
+    on_failure: do not publish
+    rollback: discard the venv; it is isolated
+  - step: 6
+    name: record the digests
+    actor: owner
+    command: write the wheel sha256, sdist sha256, source commit and the lifecycle result into the release receipt
+    precondition: steps 4 and 5 passed
+    success_criterion: every digest in the receipt equals the artifact on disk
+    on_failure: stop
+    rollback: n/a
+  - step: 7
+    name: draft release, upload assets, read back
+    actor: owner
+    command: >-
+      create the release as a DRAFT with tag v0.1.1rc1, upload the wheel and sdist, then GET the assets
+      and compare each digest
+    precondition: steps 1-6 passed AND the owner has approved tag, version, scope and public prerelease
+    success_criterion: both assets present AND each asset digest equals the locally computed digest
+    on_failure: >-
+      leave the release as a draft; GET the assets to see which uploads landed. Never overwrite an asset
+      of the same name without comparing digests first.
+    rollback: the release is still a draft and can be deleted before publication
+  - step: 8
+    name: publish
+    actor: owner
+    command: PATCH the draft release with draft=false
+    precondition: step 7 verified AND the owner explicitly approved publication
+    success_criterion: GET the release returns draft==false and both assets are present
+    on_failure: leave it as a draft
+    rollback: >-
+      After publication a defect is handled by an explicit withdrawal or defect notice, or by reverting the
+      release to a draft and reading it back; the tag and asset history is preserved. A fixed version is
+      a NEW version, never a replacement of the published bytes.
+
+red_lines:
+  - no force push to any branch, ever
+  - no deletion of a remote branch
+  - no overwrite of the published v0.1.0-foundation-preview assets
+  - no tag or release created without the owner approving tag, version, scope and public prerelease
+  - no squash merge of PR #2 (it would destroy the reviewed commit identities)
+  - no description of a merged PR as full-product closure; the DOC-00..13 contract state stays FAIL_FULL_CONTRACT / PARTIAL_CHALLENGE
+  - no signed PASS_CHALLENGE claim while the canonical challenge bundle is missing
+  - no Host-accepted claim for any surface or plugin; 0/3 ChatGPT private plugins stands
+  - no self-acceptance: the independent re-check must come from the VERIFY_SECURITY lane, not the maker lane
+
+open_decisions_for_owner:
+  - item: PR #2 merge method
+    recommended_default: merge_method=merge
+    reason: preserves the six reviewed commit identities and the SHAs the R6 report cites
+  - item: distribution version
+    recommended_default: 0.1.1rc1
+    reason: 0.1.0 bytes are published; a prerelease suffix marks the C3 experimental scope honestly
+  - item: tag name
+    recommended_default: v0.1.1rc1
+    reason: matches the version and the prerelease scope
+  - item: release title
+    recommended_default: "SBL v0.1.1rc1 — C3 experimental (SP plugins + harness uninstall boundary)"
+    reason: names the scope instead of implying full-engine
+  - item: public prerelease or draft
+    recommended_default: draft first, publish only after step 7 digest readback
+    reason: a draft can be deleted without consequence
+  - item: CR-PLUGIN-SCHEMA-AUTHORITY
+    recommended_default: DOC-12 is the plugin-schema authority
+    reason: >-
+      The DOC-12 surface ledger already carries the C-001..C-018 plugin rows that the three
+      SP_PLUGIN_PACKAGE_* capabilities cite, so DOC-12 is the only DOC that owns those locators.
+  - item: CR-GPTB-KP-R04-POLARITY
+    recommended_default: record the R04 polarity ruling in the KnowledgePack corpus
+    reason: >-
+      A polarity ruling belongs to the KnowledgePack that owns R04; a ruling written only in the round
+      evidence would not survive the next round.
+
+independent_verification:
+  lane: VERIFY_SECURITY
+  arm: openai-codex/gpt-6.1-sol (medium, OpenAI OAuth)
+  transport_model: gpt-6.1-sol   # the BARE id; the qualified id is rejected by the relay with HTTP 400
+  mechanism: >-
+    HG-KSEOS scripts/hgk-lane-dispatch.py with a non-empty --nonce, --require-arm, and --guard-subject
+    over the product trees. The nonce must appear in an ASSISTANT message; a prompt that does not
+    carry it fails with ERR_NO_ARM_EMITTED_NONCE even when the arm served fine.
+  pass_criteria:
+    - the dispatch receipt shows ok=true, nonce_present=true, usage status 200
+    - the checker transcript contains the literal pytest summary
+    - the guard subject digest is CLEAN (the candidate was not mutated during the check)
+  known_environment_limits: >-
+    The default lane sandbox cannot run git, read site-packages or delete a pre-existing basetemp.
+    Those are environment limits, not product defects: the same command on the same candidate in the
+    maker environment passes. The working configuration is a trusted-root candidate worktree plus a
+    dedicated venv, escalated with --allow-sandbox-escalation while keeping the guard subject in place.

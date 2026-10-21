@@ -1,0 +1,42 @@
+schema: LOGICAL_FAR_RESEARCH_PLAN_V1
+run_id: FAR-20261021-023-sbl-r7-residual-closure
+subquestions:
+  - SQ1 what is the complete, honest residual set left by R6 (every TT/CR/open/blocked item, with its source path)
+  - SQ2 which unmerged candidate branches may enter MAIN, with measured merge-base/diff/conflict evidence
+  - SQ3 what is the legal, mechanically executable path for R6-TS06-A, and where the Owner gate still sits
+  - SQ4 which residual items can be closed automatically this round, which need one Owner action, which cannot close
+  - SQ5 which candidate SKILL/suggestion from R6 is actually usable and lands as real capability
+  - SQ6 what the current lane routing actually serves for PLAN/EXECUTE/VERIFY, and does it match the owner mandate
+claim_classes: [GOVERNANCE, DEFECT, ROUTING, ATTRIBUTION, CONFORMANCE, RELEASE, CONTENT_INTEGRITY, TOOLING]
+source_classes: [OFFICIAL_DOC, LOCAL_GOVERNED_CORPUS, GIT_REPOSITORY, DATASET, EXPERIMENT_INPUT]
+query_strategy:
+  - programmatic extraction of the R6 residual set from the round artifacts and the three evidence ledgers
+  - git merge-base / diff --stat / merge-tree measurement for every candidate branch against its remote main
+  - GitHub API read of PR #2, its check-runs, and the existing release assets
+  - lane-pool identity and transport-vocabulary readback against the live dispatcher receipts
+  - independent VERIFY-lane re-execution of the frozen post-execution candidate
+candidate_methods_providers: [fabric-autoresearch-native]
+challenger: aris
+challenger_method: research-review
+challenge_trigger: required=true for this task_class
+experiment_trigger: required=true (wheel build + clean-venv lifecycle re-executed, not assumed)
+stop_criteria: [every residual has a decision, every executed claim re-derived by the orchestrator, every owner item written as one action, independent VERIFY verdict recorded]
+abstain_criteria: [a claim cannot be re-derived from artifacts, or a gate requires a human authority]
+budget_allocation: {research_workers: 3, orchestrator_remeasurements: all decisive, independent_verify_lane: 1, wall_clock: bounded by the round}
+route:
+  reason_code: FAR_ROUTE_NATIVE_ARIS
+  primary: fabric-autoresearch-native
+  challenger: aris
+  challenger_method: research-review
+  router_source: governance/FAR_CAPABILITY_MATRIX.yaml (task_class RESEARCH_LITERATURE_REPO -> NATIVE_WITH_SELECTED_ARIS)
+swarm:
+  mode: DEFAULT_ON
+  split: SOURCE_FAMILY / HYPOTHESIS / EXPERIMENT
+  lanes: 3 read-only workers
+  canonical_parallel_writers: 0
+  worker_write_roots: none (workers return markdown; the orchestrator writes the run artifacts)
+lane_mandate:
+  PLAN: openai-codex/gpt-6.1-sol (medium, OpenAI OAuth)
+  EXECUTE: opencode-go/deepseek-v4.1-flash
+  VERIFY_SECURITY: openai-codex/gpt-6.1-sol (medium, OpenAI OAuth)
+  source: HG-KSEOS/config/lane-route-slots.candidate.json (registry epoch 24)

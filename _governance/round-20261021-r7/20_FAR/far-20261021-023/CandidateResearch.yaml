@@ -1,0 +1,159 @@
+schema: LOGICAL_FAR_CANDIDATE_RESEARCH_V1
+run_id: FAR-20261021-023-sbl-r7-residual-closure
+captured_at_utc: 2026-10-21T05:36:46.903760+00:00
+candidates:
+  - candidate_id: TT-R6-VERIFY-TRANSPORT-VOCAB-001
+    kind: TT
+    source_locator: _governance/round-20261021-r6/30_VERIFY/CHECKER_FINAL_VERDICT.json
+    claim: committed lane pool transport_model used the qualified id, which the relay rejects with HTTP 400
+    status: CLOSED_BY_LANE_OWNER
+    bucket: closed_by_lane_owner
+    requires: none
+    owner_action: none
+    evidence: HG-KSEOS commit 5d63e00 (registry epoch 24, root cause G8) sets the openai arm transport_model back to the bare id; re-measured this round: bare -> usage status 200 for PLAN and VERIFY_SECURITY
+  - candidate_id: TT-R6-CHECKER-SANDBOX-ENV-001
+    kind: TT
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: lane checker sandbox cannot run git, read site-packages, or delete a pre-existing basetemp by default
+    status: PARTIALLY_CLOSED_BY_LANE_OWNER
+    bucket: executable_this_round
+    requires: trusted-root worktree + dedicated venv + guard-subject escalation, as R6 rounds 10-11 did
+    owner_action: none
+    evidence: HG-KSEOS 5d63e00 (G9) passes a Windows-usable TMPDIR/TEMP/TMP + PYTHONDONTWRITEBYTECODE=1 + -p no:cacheprovider to the child; the remaining git-subprocess and site-packages limits are environmental and must be handled by placing the candidate and the venv under a trusted root plus --allow-sandbox-escalation with guard-subject
+  - candidate_id: TT-CHALLENGE-BUNDLE-MISSING
+    kind: TT
+    source_locator: _governance/round-20261021-r6/00_NORTH_STAR_AND_SPEC.md
+    claim: the canonical challenge bundle is missing, so a signed PASS_CHALLENGE is not claimed
+    status: OPEN_STILL
+    bucket: not_closable_this_round
+    requires: a signed external challenge bundle from the acceptance authority
+    owner_action: obtain the canonical challenge bundle / sign authority
+    evidence: R6 not_done_and_why records the bundle as missing; a signed challenge cannot be produced by an agent that did not sign it
+  - candidate_id: TT-R6-WHEEL-NONREPRODUCIBLE-001
+    kind: TT
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: wheel bytes are not bit-reproducible, so a digest cannot be compared across build directories
+    status: OPEN_STILL
+    bucket: executable_this_round
+    requires: build the wheel once into the canonical evidence path, record its digest, and state non-reproducibility as a permanent property rather than a defect to fix
+    owner_action: none
+    evidence: R6 round-2 checker failure was exactly this: two builds of the same tree produced different digests; the mitigation is a single canonical build artifact under 50_TS06/ with a recorded digest, not a claim of reproducibility
+  - candidate_id: TT-METHOD09-LEDGER-DRIFT
+    kind: TT
+    source_locator: _governance/round-20261021-r6/00_NORTH_STAR_AND_SPEC.md
+    claim: METHOD-09 frozen-vs-current delta is recorded rather than reconciled
+    status: OPEN_STILL_BY_DESIGN
+    bucket: not_closable_this_round
+    requires: nothing; a frozen-vs-current delta is the correct end state unless the DOC changes
+    owner_action: none
+    evidence: R6 recorded the delta explicitly; a frozen Oracle must not be edited to match a current implementation, so the honest state is a recorded delta, not a closed item
+  - candidate_id: TT-R6-APPENDIX-STALE-MERGE-001
+    kind: TT
+    source_locator: _governance/round-20261021-r6/00_NORTH_STAR_AND_SPEC.md
+    claim: the R6 report appendix C carries stale merge wording; the main body governs
+    status: ISOLATED_BY_DESIGN
+    bucket: closed_by_isolation
+    requires: none
+    owner_action: none
+    evidence: R6 isolated it by tag; the main body already governs, so the item is closed as an isolation rule rather than an open defect
+  - candidate_id: CR-PLUGIN-SCHEMA-AUTHORITY
+    kind: CR
+    source_locator: _governance/round-20261021-r6/00_NORTH_STAR_AND_SPEC.md
+    claim: the plugin schema authority question is open
+    status: OPEN_STILL
+    bucket: one_action_owner
+    requires: the product owner states which document is the plugin-schema authority (DOC section reference)
+    owner_action: name the authoritative DOC section for plugin schema
+    evidence: R6 left it OPEN; it is a DOC-level authority decision, not a code fix
+  - candidate_id: CR-GPTB-KP-R04-POLARITY
+    kind: CR
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: the GPTB KP R04 polarity question is open
+    status: OPEN_STILL
+    bucket: one_action_owner
+    requires: a KnowledgePack R04 polarity ruling recorded in the KP corpus
+    owner_action: record the R04 polarity ruling in the KnowledgePack
+    evidence: R6 left it OPEN; it needs a KnowledgePack polarity ruling that this session cannot author unilaterally
+  - candidate_id: R6-TS06
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: PR #2 merge plus the new C3 prerelease
+    status: OWNER_GATE
+    bucket: one_action_owner
+    requires: Human Owner merge approval on PR #2 plus GitHub release authority
+    owner_action: merge PR #2 (non-force) and authorise the C3 experimental prerelease
+    evidence: R6 recorded the merge as a HUMAN/NATIVE gate; the R6 report says RECOMMEND_MERGE_SCOPED_NOW but the Reviewer did not press merge, and merge/release authority is not delegated to an agent
+  - candidate_id: R6-TS06-A
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: Owner-authorised non-force merge, then a new-version C3 wheel+sdist, clean-venv lifecycle, new digests, public prerelease
+    status: PLAN_READY
+    bucket: one_action_owner
+    requires: Owner presses merge / creates the release
+    owner_action: execute the FAR step list up to and including the merge and the release
+    evidence: FAR run FAR-20261021-023 produces the mechanically executable step list; every step before the merge button is Owner-executable in one action
+  - candidate_id: R6-TS12
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: PIPD native writers
+    status: OPEN_STILL
+    bucket: not_closable_this_round
+    requires: a Native issuer grant
+    owner_action: issue the WorkOrder/ONE ECP/Permit for the native writer
+    evidence: R6 recorded it needs a Native issuer (WorkOrder/ONE ECP/Permit) that the session did not hold; a native effect cannot be simulated
+  - candidate_id: R6-TS15
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: a real new user-defined CLI_TOOL end-to-end (not the sbl-todo fixture)
+    status: EXECUTABLE_IN_PART
+    bucket: executable_this_round
+    requires: an admitted WriteSet slice that defines and implements one new user-defined CLI_TOOL plus its E2E proof
+    owner_action: none
+    evidence: R6 ran a GJ01 clean-venv FUO on the shipped sbl-todo CLI and correctly refused to count it as a new product CLI_TOOL; the real slice needs a new product surface, which is a build slice under an admitted WriteSet
+  - candidate_id: R6-TS16
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: new Skill / Minimal Agent and other ProductKinds
+    status: OPEN_STILL
+    bucket: executable_this_round
+    requires: an admitted WriteSet slice implementing one new Skill/Minimal Agent
+    owner_action: none
+    evidence: R6 recorded it needs a real build slice under an admitted WriteSet; PIPD-LS-SP carries the official 8 skills whose usability is the FAR SQ5 subject
+  - candidate_id: R6-TS21
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: 3 ChatGPT private plugins accepted by the host
+    status: NOT_CLOSABLE
+    bucket: not_closable_this_round
+    requires: authorisation for a ChatGPT private-plugin create/install on the host
+    owner_action: authorise the host plugin create/install and issue the host account
+    evidence: host-issued IDs cannot be fabricated and no host was authorised; 0/3 stands
+  - candidate_id: R6-TS22-23-24
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: harness, full stack, 38 surfaces host proof
+    status: OPEN_STILL
+    bucket: not_closable_this_round
+    requires: host admissions for the remaining surfaces
+    owner_action: admit the remaining hosts or accept the local-only claim ceiling
+    evidence: R6 recorded local install claims only; NOT_ADMITTED hosts remain NOT_ADMITTED
+  - candidate_id: R6-TS07-CLOSURE
+    kind: TS
+    source_locator: _governance/round-20261021-r6/90_EVIDENCE/SBL_R6_EXECUTION_STATUS.json
+    claim: 149 Child raw evidence closure (the R6 ledger is a trace skeleton, not raw receipts)
+    status: OPEN_STILL
+    bucket: executable_this_round
+    requires: 149 child executions or a scoped sub-closure that does not claim the full 149
+    owner_action: none
+    evidence: R6 recorded the ledger as a skeleton with 0 fabricated PASS; closing it needs 149 real child executions
+candidates_considered: 16
+candidates_selected: 1  # TT-R6-WHEEL-NONREPRODUCIBLE-001 -> the reproducible-build change
+selection_rationale: >-
+  Only one residual has a defect that is fixable without a human act AND whose fix is
+  a product-side change that improves the delivered artifact rather than the paperwork.
+  The reproducibility item qualifies; the other four executable items are either
+  environment properties (the sandbox item) or slices that need a new admitted WriteSet
+  and a new product surface (TS15/TS16/TS07-closure), which is a separate build round.
+  A binding defect found in the R6 contract (four capabilities pointing at
+  ACC-SBL_SHARED_CORE instead of their own acceptance) was measured and is recorded as a
+  contract-level item, not as a product change.

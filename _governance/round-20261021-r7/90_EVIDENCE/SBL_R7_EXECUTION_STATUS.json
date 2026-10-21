@@ -1,0 +1,69 @@
+{
+ "schema": "SBL_R7_EXECUTION_STATUS/1",
+ "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
+ "captured_at_utc": "2026-10-21T05:46:21.097600+00:00",
+ "far_run": "FAR-20261021-023-sbl-r7-residual-closure",
+ "far_route": "NATIVE_WITH_SELECTED_ARIS (challenge_trigger required, experiment_trigger required)",
+ "hgk_admission": {
+  "project": "HGK-PRJ-SBL-PIPDLS",
+  "project_state": "WORKORDERS_ADMITTED",
+  "requirement": {
+   "id": "REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO",
+   "state": "FROZEN"
+  },
+  "taskspec": {
+   "id": "TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+   "state": "ADMITTED"
+  },
+  "workorder": {
+   "id": "WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo",
+   "state": "CREATED",
+   "base_head": "3d06f3da83488219a3dcdf608c937b8c5285810c"
+  },
+  "defect_found": "admit_requirement returned a workorder id while the TaskSpec was still DRAFT and no WorkOrder existed: _repo_head() reads the CALLER's cwd, returned '' outside a repo, create_workorder raised InvariantViolation and the except swallowed it. The chain was completed through the public create_workorder API and then READ BACK (3 rows)."
+ },
+ "lane_mandate_observed": {
+  "PLAN": "openai-codex/gpt-6.1-sol (medium, OpenAI OAuth) - usage HTTP 200",
+  "EXECUTE": "opencode-go/deepseek-v4.1-flash - usage HTTP 200",
+  "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol (medium, OpenAI OAuth) - usage HTTP 200",
+  "session_plane_note": "this session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION plane, NOT a lane binding. The lane arms are proved by each dispatch receipt.",
+  "transport_vocabulary": "the openai arm requires the BARE transport id 'gpt-6.1-sol'; the qualified 'openai-codex/gpt-6.1-sol' is rejected by the relay with HTTP 400. The lane owner fixed this in HG-KSEOS 5d63e00 (registry epoch 24)."
+ },
+ "planes_enabled": {
+  "KANBAN": "7 work items created on board sbl-pipdls-20261020 (t_928f8743, t_ab996bd9, t_81e07da3, t_491b597c, t_ca9a0cc0, t_00b9aa1d, t_b3f3ed5a)",
+  "SWARM": "3 read-only research lanes + 1 independent VERIFY lane",
+  "GSTACK": "8 named methods CERTIFIED_ACTIVE and runtime-ready (gstack.plan-eng-review, review, qa, cso, ship, office-hours, retro)",
+  "OPENSPEC": "R7_DELTA.md added to the existing change sbl-v01-candidate-build, items 7.1-7.8"
+ },
+ "what_this_round_did": {
+  "R7-01": "FAR residual inventory: 16 items (8 TT/CR markers + 8 open/not-performed TS work items), each in exactly one bucket (5 executable / 4 one-action-owner / 5 not-closable / 1 closed-by-lane-owner / 1 closed-by-isolation)",
+  "R7-02": "49-branch ruling with measured facts: MERGE_NOW 1 (SBL candidate/c3-20261021-v2 = PR #2), SUPERSEDED 26, EVIDENCE_ONLY 16, NOT_RECOMMENDED 3, DO_NOT_MERGE 3; 0 PIPD-LS-SP branches recommended; 8/8 official PIPD skills already on main",
+  "R7-03": "R6-TS06-A execution plan prepared: 9 steps, per-step gate + failure handling + rollback, red lines, and 6 owner open decisions with recommended defaults. Version strategy 0.1.1rc1, merge_method=merge, draft-first release",
+  "R7-04": "EXECUTED the one ruled item that needs no human act: TT-R6-WHEEL-NONREPRODUCIBLE-001 CLOSED. .gitattributes pins LF; tools/build_reproducible.py exports a named commit with autocrlf disabled, pins SOURCE_DATE_EPOCH and repacks the sdist. MEASURED: two independent builds -> identical wheel sha256 a161162fa4173460ad9041a9bc83afc31a52b6fc0539f4655f74de3b1147ecf6 and identical sdist sha256 b147f674ffb2356123b63b6e95d6ad572a91f7364db56e859e562495fdd4a927. Candidate suite 194 -> 200 (200 passed, 2 skipped). Branch candidate/r7-20261021-repro-build @ 00cf15f9de5808260b1af6a697d0e2fefaad5d1f, pushed to origin",
+  "R7-05": "independent VERIFY_SECURITY re-check dispatched on the GPT 6.1 SOL arm (nonce R7CHK-NC-20261021-A1) with guard-subject over the candidate and the R7 evidence tree",
+  "R7-06": "candidate branch pushed to origin; the R7 evidence branch carries the FAR artifact set, the residual inventory and the execution status",
+  "R7-07": "self-research ledger: 7 transferable rules, each extracted from a failure that actually happened, with the measurement that produced it"
+ },
+ "not_done_and_why": {
+  "PR #2 merge + C3 prerelease": "OWNER ACTION. The owner's pre-authorisation covers executing the FAR ruling, not bypassing the human authorisation boundary; the R6 report states the Reviewer recommended a scoped merge and did NOT press merge. The 9-step plan is written and every step before the merge is Owner-executable in one act.",
+  "CR-PLUGIN-SCHEMA-AUTHORITY": "one owner decision, recommended default DOC-12 (it owns the C-001..C-018 plugin rows the three SP_PLUGIN_PACKAGE_* capabilities cite)",
+  "CR-GPTB-KP-R04-POLARITY": "one owner decision, recommended default: record the ruling in the KnowledgePack corpus that owns R04",
+  "R6-TS12 (PIPD native writers)": "OPEN - needs a Native issuer (WorkOrder/ONE ECP/Permit) this session did not hold",
+  "R6-TS15 / TS16 / TS07-CLOSURE": "OPEN - need a new admitted WriteSet slice and a real new product surface; they are a separate build round, not a documentation task",
+  "R6-TS21 (3 ChatGPT private plugins)": "OPEN 0/3 - host-issued IDs cannot be fabricated and no host was authorised",
+  "R6-TS22-23-24 (38 surfaces host proof)": "OPEN - NOT_ADMITTED hosts remain NOT_ADMITTED",
+  "signed PASS_CHALLENGE": "NOT CLAIMED - the canonical challenge bundle is still missing (TT-CHALLENGE-BUNDLE-MISSING)",
+  "contract acceptance binding": "MEASURED and RECORDED, not silently patched: 4 runtime_readiness capabilities point at ACC-SBL_SHARED_CORE although each has its own acceptance id among the 34; fixing it belongs to the next contract round"
+ },
+ "full_contract_state": "OPEN__PARTIAL__NOT_FULL_CONTRACT_PASS",
+ "claim_ceiling": "EXACT_SCOPE_RAW_RECEIPT_AND_OWNER_ONLY",
+ "north_star": "SBL_FULL_PRODUCT (not achieved; this round closed one residual for real, ruled on all 49 candidate branches with measurements, and prepared the TS06-A plan to the Owner button)",
+ "side_effects_disclosed": [
+  "local branch candidate/r7-20261021-repro-build in C:/Projects/_sbl_r4/c3v2, pushed to origin",
+  "new R7 evidence tree under SBL/_governance/round-20261021-r7/",
+  "HG-KSEOS var/R7-LANES/ receipts (lane probes + the independent checker dispatch); no config/, no registry, no AGENTS.md change",
+  "FAR run directory under Fabric/fabric-autonomous-research/runs/FAR-20261021-023-sbl-r7-residual-closure/",
+  "scratch build/venv trees under the Hermes scratch dir (isolated, outside the repos)",
+  "no merge, no release, no tag, no force push, no PR creation, no self-acceptance"
+ ]
+}

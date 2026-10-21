@@ -1,0 +1,25 @@
+schema: LOGICAL_FAR_RESEARCH_REQUEST_V1
+run_id: FAR-20261021-023-sbl-r7-residual-closure
+workorder_ref:
+  id: SBL-R7-FAR-RESIDUAL-CLOSURE
+  hgk_project: HGK-PRJ-SBL-PIPDLS
+  workorders: [WO-TS-req-hgk-prj-sbl-pipdls-r7-farclo]
+  requirement: REQ-HGK-PRJ-SBL-PIPDLS-R7-FARCLO
+  base_head: 3d06f3da83488219a3dcdf608c937b8c5285810c
+decision_question: >-
+  Under the current Fabric governance contract with HG-KSEOS as the only control plane and the current canonical
+  Hermes as its governed Runtime/Orchestration plane: for every R6 residual item, gap, blocker and open item of
+  mission SBL-R6-DOC00-13-CONTINUATION, and for the unmerged candidate branches of shw097-team/SBL and
+  shw097-team/PIPD-LS-SP, and for R6-TS06-A (PR #2 merge plus a new C3 prerelease): what is the best engineering
+  decision (low friction, high feasibility, high engineering necessity, aligned with the upstream
+  SBL_PIPD-LS-PKG control package and the R6 acceptance report), which parts are EXECUTED now under HGK
+  admission, which are one-action owner items, and how is the executed part independently re-checkable.
+owner: human owner (shw097-team)
+task_class: RESEARCH_LITERATURE_REPO
+source_requirements: [upstream_pipd_ls_pkg_docs, r6_acceptance_report, r6_command_prompt, r6_round_artifacts, product_repo, control_plane_repo, fabric_capability_matrix, far_prior_runs, external_review]
+source_classes: [OFFICIAL_DOC, LOCAL_GOVERNED_CORPUS, GIT_REPOSITORY, DATASET, EXPERIMENT_INPUT]
+freshness_requirement: as-of 2026-10-21 (Asia/Taipei)
+budget_ref: local only; no external spend; 3 read-only research workers + 1 independent VERIFY lane
+security_boundary_ref: read-only research workers; no credential material read into any output; no network fetch; no git write by workers
+expected_decision_output: a per-residual decision with an executed/proposed/owner split, a candidate-branch ruling, an R6-TS06-A execution plan, CandidateResearch, ProposedEvolution
+claim_ceiling: local/candidate-only; not an acceptance; not a Gate PASS; not authority; full DOC-00..13 contract closure NOT claimed

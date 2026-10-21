@@ -1,0 +1,54 @@
+{
+ "schema": "SBL_R7_NORTH_STAR_SPEC/1",
+ "captured_at_utc": "2026-10-21T05:15:58.328992+00:00",
+ "round_id": "SBL-R7-FAR-RESIDUAL-CLOSURE",
+ "owner_control_plane": "HG-KSEOS_Native (only control plane)",
+ "runtime_plane": "current canonical Hermes (bounded Runtime/Orchestration Plane)",
+ "governance_contract": "current Fabric contract (fabric-autonomous-research + AGENTS.md)",
+ "model_mandate_lane_plane": {
+  "PLAN": "openai-codex/gpt-6.1-sol (reasoning_effort=medium, OpenAI OAuth) -- lane rank 1",
+  "EXECUTE": "opencode-go/deepseek-v4.1-flash -- lane rank 1",
+  "VERIFY_SECURITY": "openai-codex/gpt-6.1-sol (reasoning_effort=medium, OpenAI OAuth) -- lane rank 1",
+  "source": "config/lane-route-slots.candidate.json (registry epoch 24, commit 5d63e00)",
+  "session_plane_note": "this Hermes session runs minimax-m3.1-flash-free/opencode-go; that is the SESSION plane, NOT the lane plane. Lane models are pinned per child dispatch and are proved by the dispatch receipt's served provider/model/usage rows, never by the session pin."
+ },
+ "planes_separated": {
+  "session_plane": "the interactive Hermes conversation model; changes here do NOT rebind any lane",
+  "lane_plane": "the dispatcher pool per lane; each dispatch re-proves the served arm in its receipt"
+ },
+ "north_star": "Close every R6 residual / gap / blocker / open item that is honestly closeable this round, deliver the FAR engineering ruling, execute it under HGK admission, and push candidate + evidence to shw097-team/SBL. Full DOC-00..13 contract closure remains NOT CLAIMED.",
+ "primary_question": "Given the R6 residual set, what is the lowest-friction, highest-feasibility, highest-necessity engineering ruling that (a) closes what can be closed, (b) routes owner-decision items to a one-action owner-ready record, (c) lands the candidate/SKILL suggestions that are actually usable, (d) rules on which unmerged candidates may enter MAIN, and (e) executes R6-TS06-A legally?",
+ "far_route": {
+  "task_class": "RESEARCH_LITERATURE_REPO",
+  "decision": "NATIVE_WITH_SELECTED_ARIS",
+  "reason_code": "FAR_ROUTE_NATIVE_ARIS",
+  "methods": [
+   "research-lit",
+   "novelty-check",
+   "research-review"
+  ],
+  "swarm": "DEFAULT_ON",
+  "source": "Fabric/FABRIC/fabric-autonomous-research/governance/FAR_CAPABILITY_MATRIX.yaml"
+ },
+ "execution_constraints": [
+  "candidate-only: never self-accept, never claim Native effect",
+  "no force push, no tag/release without owner act",
+  "checker != maker principal; VERIFY lane re-proves the frozen candidate",
+  "every claim bound to (subject_sha, evidence_sha, raw receipt)",
+  "no fabricated PASS in any ledger"
+ ],
+ "admission": {
+  "project_id": "HGK-PRJ-SBL-PIPDLS",
+  "state": "WORKORDERS_ADMITTED",
+  "route": "admit_requirement (late-bound obligation) -> TaskSpec -> WorkOrder -> checkpoint -> completion_sweep",
+  "note": "new scope must expand the existing denominator; a re-plan is forbidden"
+ },
+ "deliverables": [
+  "D1 FAR run artifacts in Fabric/fabric-autonomous-research/runs/FAR-20261021-023-* (ResearchRequest/Plan/Synthesis/CandidateResearch/Handoff + ledgers + receipt)",
+  "D2 FAR verdict: residual closure ruling + owner-ready one-action records + unmerged-candidate ruling + R6-TS06-A execution plan",
+  "D3 executed R6-TS06-A under HGK admission (merge scope as ruled, new C3 artefact, clean-venv lifecycle)",
+  "D4 independent VERIFY-lane verdict on the frozen post-execution candidate",
+  "D5 candidate + evidence pushed to shw097-team/SBL with remote readback",
+  "D6 governed self-research/learning/iteration ledger"
+ ]
+}
