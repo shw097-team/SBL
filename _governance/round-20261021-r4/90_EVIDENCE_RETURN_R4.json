@@ -8,7 +8,8 @@
     "candidate_branch": "candidate/c3-20261021-v2",
     "evidence_branch": "evidence/r4-20261021-c4",
     "evidence_commit_sha": "41389517e54f9119e274dfc65d5b9d0e3f24507f",
-    "evidence_anchor_note": "this sha is the commit that carries ROUND_MANIFEST.json, read back from git ls-remote after push. The commit containing this receipt is its child and changes only this field."
+    "evidence_anchor_note": "this sha is the commit that carries ROUND_MANIFEST.json, read back from git ls-remote after push. The commit containing this receipt is its child and changes only this field.",
+    "evidence_head_readback": "44a31c0bc1a6e7dedee4faf6a01f9abc24c0d37f"
   },
   "evidence": {
     "contract": "contracts/SBL_C0_C9_CONTRACT-R4.json + contracts/compiled-r4/COMPILER_RECEIPT.json",
@@ -43,10 +44,12 @@
     },
     "sandbox": {
       "image": "python:3.11-slim",
-      "passed": null,
-      "total": null,
-      "verdict": null,
-      "failed": []
+      "denominator": "26/26",
+      "ok": true,
+      "exit": 0,
+      "host_stage": "SIMULATED",
+      "failed": [],
+      "note": "generated from SANDBOX_RESULT.json; the earlier version of this field read keys the file does not have and wrote nulls, which is corrected here"
     },
     "security": "evidence/security/SECRET_SCAN.json — CLEAN over 235 files after the round's changes",
     "failures": 0,
