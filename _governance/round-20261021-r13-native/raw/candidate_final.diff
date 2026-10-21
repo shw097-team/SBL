@@ -1,0 +1,41 @@
+diff --git a/tests/test_g0_wave3_controls.py b/tests/test_g0_wave3_controls.py
+index 0a20966..2f1a7eb 100644
+--- a/tests/test_g0_wave3_controls.py
++++ b/tests/test_g0_wave3_controls.py
+@@ -13,6 +13,7 @@ TDD RED phase: capture the four confirmed control defects:
+ from __future__ import annotations
+ 
+ import sqlite3
++import subprocess
+ import tempfile
+ import unittest
+ from pathlib import Path
+@@ -26,9 +27,26 @@ def boot(spine: SharedSpine) -> ProjectLifecycle:
+ 
+ 
+ 
+-def boot_project(lc, pid, goal):
++def _target_repo() -> str:
++    """An explicit project target.
++
++    Admission now resolves base_head from the project target_root (never from the process CWD),
++    so every fixture must name a real repository instead of inheriting the launcher's.
++    """
++    path = Path(tempfile.mkdtemp(prefix="hgk-g0-target-"))
++    subprocess.run(["git", "init", "-q", str(path)], check=True)
++    subprocess.run(
++        ["git", "-C", str(path), "-c", "user.email=t@example.invalid", "-c", "user.name=t",
++         "commit", "-q", "--allow-empty", "-m", "seed"],
++        check=True,
++    )
++    return str(path)
++
++
++def boot_project(lc, pid, goal, target_root: str | None = None):
+     """Drive a fresh project to PLAN_READY (workorders admitted)."""
+-    req = ProjectRequest(goal=goal, constraints=["local-first"], non_goals=["no cloud"])
++    req = ProjectRequest(goal=goal, constraints=["local-first"], non_goals=["no cloud"],
++                         target_root=target_root or _target_repo())
+     lc.start(req, project_id=pid)
+     lc.intake(pid, req)
+     lc.transition(pid, "INTENT_BOUND", trigger="INTENT_ROUNDTRIP")

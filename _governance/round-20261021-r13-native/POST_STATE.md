@@ -54,3 +54,20 @@
 ## 6. 新觀察 `O-R13-001`
 
 writer 車道再次以 `ERR_NO_ARM_EMITTED_NONCE` 收尾（`usage` 仍 200、patch 已套用）——與 R12 的 `O-R12-001` 同一模式，第二次獨立重現。**`--require-arm` 不能作為 writer 回合的唯一寫入憑證**；寫入必須以 `git diff` + digest 驗收。此為車道設計缺陷，建議 dispatcher 對 writer 回合改以 diff digest 為 gate。
+
+## 7. 第二切片（自修補）與完整分母
+
+第一個候選用 patch 後只跑了新測試（2 passed），**未跑全量**；全量後發現 5 個 G0 控制測試由
+`target_root` 空值的舊行為繼承 CWD，fail-closed 後全數失敗 —— 這是本回合自己造成的回歸，如實記在此。
+
+處理：切出第二個 WO（`WO-TS-WO-02`，主體 `tests/test_g0_wave3_controls.py`），只讓 fixture 明確宣告
+target，不動任何斷言；由 VERIFY 車道第二次獨立複核（`a/b/c=true`，明言「no tests weakened, skipped or deleted」）
+後才落帳 VERIFIED（`role_binding_digest d53b2238`）。
+
+| 指標 | 回合前 | 兩切片後 |
+|---|---|---|
+| HGK 全量 | 18 failed / 578 passed / 90 subtests / 143.58s | **18 failed / 580 passed / 90 subtests / 146.94s** |
+| 新增失敗 | — | **0**（`raw/before_failed.txt` vs `raw/final_failed.txt` 集合相同） |
+| 新增通過 | — | +2（`tests/test_r13_repo_head_cwd.py`） |
+
+HGK commits：`49f48ae`（slice 1）、`5119c97`（slice 2）。工作樹中其他作者的 7 個 modified 仍未 stage。
