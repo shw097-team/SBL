@@ -1,0 +1,16 @@
+{
+ "schema": "SBL_R6_CHK29_ROUND1/1",
+ "captured_at_utc": "2026-10-21T04:25:55.019136+00:00",
+ "checker_lane": "VERIFY_SECURITY via Codex CLI, served openai-codex/gpt-6.1-sol (OAuth), transport bare 'gpt-6.1-sol' via var/ probe pool (TT-R6-VERIFY-TRANSPORT-VOCAB-001)",
+ "receipt": "HG-KSEOS/var/R6-CHKS/verify_chk29.json + attempts ndjson + raw stdout/stderr logs",
+ "verdict": "FAIL",
+ "root_cause": "checker dispatched BEFORE _governance/round-20261021-r6/40_TS05/TS05_READBACK.json landed (maker sequencing defect, rr-1)",
+ "legitimate_findings_accepted": [
+  "R6CHK29-01 BLOCKER: TS05 evidence absent at check time (rr-1)",
+  "R6CHK29-02 MAJOR: 5 NOT_ADMITTED surfaces mislabeled PARTIAL_LOCAL_SCOPED -> fixed to NOT_ADMITTED_NO_DISPATCH (rr-2)",
+  "R6CHK29-03 MINOR: METHOD-09 current_executed delta 0 vs 1 -> fixed summary to 1 with note (rr-3)",
+  "R6CHK29-04 MINOR: wording 'every row OPEN' false -> summary now reports 37 OPEN + 13 PARTIAL_EVIDENCE_ONLY parents (rr-4)"
+ ],
+ "upheld_by_checker": "ledger counts 50/149/38/441 correct; 0 duplicate/orphan/fabricated PASS; compiler gate re-run PASS; 13/13 SP probes reproduced; 46/46 intake hashes independently re-verified",
+ "action": "fixes rr-1..rr-4 applied; round-2 checker re-dispatch against corrected artifacts"
+}

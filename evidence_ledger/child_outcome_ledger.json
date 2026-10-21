@@ -3,7 +3,7 @@
  "meta": {
   "generated_by": "R6-TS07/24/25 gen script",
   "source_report_sha256": "ac2db3cb5a4b377fd7fb2bc75a8148eb8ea872e136fee1370cf9be5f96842cde",
-  "honesty_rule": "OPEN rows require raw receipts before any PASS; frozen dispositions are history, not current execution"
+  "honesty_rule": "no PASS without raw evidence; PARTIAL_EVIDENCE_ONLY cites R6-frozen partial proofs and stays OPEN for full closure"
  },
  "parents": [
   {
@@ -2401,6 +2401,14 @@
   "parents": 50,
   "children": 149,
   "open": 186,
-  "pass_claimed": 0
+  "pass_claimed": 0,
+  "parents_by_status": {
+   "PARTIAL_EVIDENCE_ONLY": 13,
+   "OPEN": 37
+  },
+  "children_by_status": {
+   "OPEN": 149
+  },
+  "wording_fix": "no parent is claimed fully OPEN; 13 parents carry R6-scoped partial evidence (frozen source/code proof) and are NOT closed; 149 children remain OPEN with zero PASS"
  }
 }
