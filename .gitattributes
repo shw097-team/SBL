@@ -1,0 +1,27 @@
+# Normalise line endings in the repository so a build is a function of the
+# git objects, not of whoever checked the tree out.
+#
+# MEASURED (candidate a6bcdd0, TT-R6-WHEEL-NONREPRODUCIBLE-001): with
+# core.autocrlf=true and no .gitattributes, a Windows checkout rewrote every
+# text file to CRLF, so two builds of the same commit shipped different bytes
+# for 7 wheel members. The git objects were already LF-clean, so the only fix
+# is to stop the checkout from rewriting them.
+#
+# This repo ships no .cmd/.bat/.ps1/.sh files (verified: `git ls-files`), so
+# requiring LF for every text type cannot break a Windows-only script.
+* text=auto eol=lf
+
+*.py   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.txt  text eol=lf
+*.ndjson text eol=lf
+*.sha256 text eol=lf
+
+*.png  binary
+*.jpg  binary
+*.whl  binary
+*.gz   binary
