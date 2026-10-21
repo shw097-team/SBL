@@ -1,0 +1,52 @@
+{
+  "schema": "SBL_R7_CHECKER_ROUND/1",
+  "round": 1,
+  "lane": "VERIFY_SECURITY",
+  "arm": {
+    "provider": "openai-codex",
+    "model": "gpt-6.1-sol",
+    "transport_model": "gpt-6.1-sol",
+    "reasoning_effort": "medium"
+  },
+  "dispatcher_result": {
+    "code": "ERR_NO_ARM_EMITTED_NONCE",
+    "ok": false,
+    "exit": 1,
+    "seconds": 392.58,
+    "nonce_present": true,
+    "nonce_present_raw_stdout": true,
+    "nonce_source": "item.completed/agent_message",
+    "usage_provider": "openai-p6a1fe3",
+    "usage_model": "gpt-6.1-sol",
+    "usage_status": 200,
+    "usage_receipt_ok": true,
+    "stdout_bytes": 184643,
+    "stdout_sha256": "80397dbb1c0f79124d9229ae406ee4eafb5d278762b7383944d6f76b8a17bf65",
+    "stdout_byte_exact": true
+  },
+  "classification": "INCOMPLETE_ROUND_PROVIDER_QUOTA",
+  "classification_evidence": "upstream turn.failed: 'You've hit your usage limit. Upgrade to Pro ... try again at 2:59 PM.' after a successful HTTP 200 usage receipt",
+  "is_a_verdict": false,
+  "substantive_findings_before_the_limit": [
+    {
+      "id": "F8",
+      "finding": "2 of 3 contract-breaking mutations still passed the reproducibility tests",
+      "mutants": {
+        "gitattributes_crlf": "PASSED (unexpected)",
+        "sdist_normalisation_disabled": "PASSED (unexpected)",
+        "gitattributes_deleted": "FAILED (expected)"
+      },
+      "maker_repair": "commit 59d2138 - tests rewritten to assert behaviour; tests/test_repro_mutation_probe.py breaks each mechanism on purpose and asserts the tests notice",
+      "re_measured": "202 passed, 2 skipped; mutation probe green"
+    },
+    {
+      "id": "F9",
+      "finding": "the build required the 'build' package from the ambient interpreter; the checker's venv has none",
+      "maker_repair": "commit 59d2138 - _builder_python() resolves an interpreter that can run 'python -m build'",
+      "re_measured": "build from the checker venv with SBL_BUILD_PYTHON: identical=true, single_member_timestamp=true"
+    }
+  ],
+  "verdict": null,
+  "re_run_planned": true,
+  "recorded_at": "2026-10-21T06:09:36.983966+00:00"
+}
