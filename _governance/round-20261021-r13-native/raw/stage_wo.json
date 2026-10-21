@@ -1,0 +1,90 @@
+{
+  "stage": "wo",
+  "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+  "hgk_head": null,
+  "state_after_intake": "DESIGN_READY",
+  "plan": 2,
+  "admitted": {
+    "project_id": "HGKR13-WO",
+    "workorders": [
+      "WO-TS-WO-01",
+      "WO-TS-WO-02"
+    ],
+    "count": 2
+  },
+  "binding": {
+    "schema": "HGK-ROLE-BINDING/1",
+    "round": "round-20261021-r13",
+    "session": "r13-native-20261021",
+    "workorder": "WO-TS-WO-01",
+    "base_head": "b22706ebbdff9248f851767c010befc8e807d463",
+    "subject": "src/hg_kseos/lifecycle.py",
+    "scope": [
+      "src/hg_kseos/lifecycle.py",
+      "tests/test_r13_repo_head_cwd.py"
+    ],
+    "expiry": "2026-10-21T22:09:10.740908+00:00",
+    "mandate_digest": "sha256:cfecb6ce05ec97efbdd604724669d3f40b6edacf2b431de0f6edfd012b5b6965",
+    "roles": {
+      "EXECUTE": {
+        "provider": "opencode-go",
+        "model": "minimax-m3.1-flash-free",
+        "surface": "codex-cli",
+        "rank": 2,
+        "reasoning_effort": "medium"
+      },
+      "VERIFY_SECURITY": {
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "surface": "codex-cli",
+        "rank": 1,
+        "reasoning_effort": "medium"
+      }
+    }
+  },
+  "lease": {
+    "resource": "file:src/hg_kseos/lifecycle.py",
+    "holder": "hermes-r13-writer",
+    "ttl": 7200
+  },
+  "workorders": [
+    {
+      "workorder_id": "WO-TS-WO-02",
+      "state": "CREATED",
+      "base_head": "b22706ebbdff9248f851767c010befc8e807d463",
+      "worktree": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\worktrees\\ts-wo-02"
+    },
+    {
+      "workorder_id": "WO-TS-WO-01",
+      "state": "CREATED",
+      "base_head": "b22706ebbdff9248f851767c010befc8e807d463",
+      "worktree": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\worktrees\\ts-wo-01"
+    },
+    {
+      "workorder_id": "WO-req-hgk-prj-sbl-pipdls-r10-handover",
+      "state": "FAILED",
+      "base_head": "b22706e",
+      "worktree": "C:\\Projects\\Agent_Workspace\\SBL"
+    }
+  ],
+  "project": {
+    "project_id": "HGKR13-WO",
+    "state": "WORKORDERS_ADMITTED",
+    "intent_json": {
+      "goal": "Repair the HGK lifecycle repo-head resolution (R9-06): base_head must come from the project target_root, not the process CWD, and a failed git call must raise instead of returning empty.",
+      "constraints": [
+        "bounded write: src/hg_kseos/lifecycle.py"
+      ],
+      "non_goals": [
+        "no change to lane routing",
+        "no change to the readiness contract"
+      ],
+      "target_root": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+      "source_paths": [
+        "C:/Projects/Agent_Workspace/_r12_far/subagent/R9-06_repo_head_report.md",
+        "C:/Projects/Agent_Workspace/_r12_docs/_governance/round-20261021-r12-far/FAR_DEVIATION_STUDY.md"
+      ]
+    }
+  },
+  "head_now": "b22706ebbdff9248f851767c010befc8e807d463"
+}

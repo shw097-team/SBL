@@ -1,0 +1,22 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_______________ test_admission_uses_target_head_not_process_cwd _______________
+C:\Projects\Agent_Workspace\HG-KSEOS\tests\test_r13_repo_head_cwd.py:62: in test_admission_uses_target_head_not_process_cwd
+    assert heads == {target_head}, f"base_head must be the target repo HEAD, got {heads}"
+E   AssertionError: base_head must be the target repo HEAD, got {'f411b0e21da44da79f5d9f94edf8ce4b802b65ca'}
+E   assert {'f411b0e21da...ce4b802b65ca'} == {'fe1a7b096e6...b64cf6548afe'}
+E     
+E     Extra items in the left set:
+E     'f411b0e21da44da79f5d9f94edf8ce4b802b65ca'
+E     Extra items in the right set:
+E     'fe1a7b096e64b0ebedb3796c791db64cf6548afe'
+E     Use -v to get more diff
+____________ test_admission_fails_closed_when_target_is_not_a_repo ____________
+C:\Projects\Agent_Workspace\HG-KSEOS\tests\test_r13_repo_head_cwd.py:74: in test_admission_fails_closed_when_target_is_not_a_repo
+    with pytest.raises(InvariantViolation) as excinfo:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE InvariantViolation
+=========================== short test summary info ===========================
+FAILED tests/test_r13_repo_head_cwd.py::test_admission_uses_target_head_not_process_cwd
+FAILED tests/test_r13_repo_head_cwd.py::test_admission_fails_closed_when_target_is_not_a_repo
+2 failed in 1.44s

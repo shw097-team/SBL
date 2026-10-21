@@ -1,0 +1,52 @@
+diff --git a/src/hg_kseos/lifecycle.py b/src/hg_kseos/lifecycle.py
+index 1e6b1b6..358b847 100644
+--- a/src/hg_kseos/lifecycle.py
++++ b/src/hg_kseos/lifecycle.py
+@@ -380,7 +380,7 @@ class ProjectLifecycleController:
+             self.spine.create_workorder(
+                 wo_id, spec["taskspec_id"], writer="codex",
+                 worktree=Path("worktrees") / spec["taskspec_id"].lower(),
+-                base_head=self._repo_head(),
++                base_head=self._repo_head(project_id),
+             )
+             admitted.append(wo_id)
+         self.transition(project_id, "WORKORDERS_ADMITTED", trigger="WORKORDER_AUTO_ADMISSION",
+@@ -456,11 +456,17 @@ class ProjectLifecycleController:
+         return self.transition(project_id, "REPAIRING", trigger="AUTOMATIC_REPAIR",
+                                evidence_refs=evidence_refs or [])
+ 
+-    @staticmethod
+-    def _repo_head() -> str:
++    def _repo_head(self, project_id: str) -> str:
+         import subprocess
+-        r = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True)
+-        return r.stdout.strip() if r.returncode == 0 else ""
++        with self.spine.connect() as conn:
++            row = conn.execute("SELECT intent_json FROM project_lifecycles WHERE project_id=?", (project_id,)).fetchone()
++        target = json.loads(row[0]).get("target_root", "")
++        if not target:
++            raise InvariantViolation("ERR_REPO_HEAD_TARGET_REQUIRED")
++        r = subprocess.run(["git", "-C", target, "rev-parse", "HEAD"], capture_output=True, text=True)
++        if r.returncode != 0:
++            raise InvariantViolation(f"ERR_REPO_HEAD:{target}:{r.stderr.strip()}")
++        return r.stdout.strip()
+ 
+     # ---------- status ----------
+     def status(self, project_id: str) -> dict[str, Any]:
+@@ -587,6 +593,7 @@ class ProjectLifecycleController:
+         finally:
+             self.spine.release_lease(requirement_id, "lifecycle-planner", f"TK-{requirement_id}")
+         ts_id = f"TS-{requirement_id.lower()}"
++        base_head = self._repo_head(project_id)
+         try:
+             self.spine.create_taskspec(
+                 taskspec_id=ts_id,
+@@ -601,7 +608,7 @@ class ProjectLifecycleController:
+             self.spine.create_workorder(
+                 f"WO-{ts_id}", ts_id, writer="codex",
+                 worktree=Path("worktrees") / ts_id.lower(),
+-                base_head=self._repo_head(),
++                base_head=base_head,
+             )
+         except InvariantViolation:
+             pass  # idempotent resume

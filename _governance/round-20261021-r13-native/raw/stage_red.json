@@ -1,0 +1,49 @@
+{
+  "stage": "red",
+  "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+  "hgk_head": null,
+  "state_after_intake": "DESIGN_READY",
+  "plan": 2,
+  "admit_error": "InvariantViolation: ERR_WORKORDER_CRITICAL_FIELD_MISSING",
+  "state_final": "PLAN_READY",
+  "workorders": [
+    {
+      "workorder_id": "WO-req-hgk-prj-sbl-pipdls-r10-handover",
+      "state": "FAILED",
+      "base_head": "b22706e",
+      "worktree": "C:\\Projects\\Agent_Workspace\\SBL"
+    },
+    {
+      "workorder_id": "WO-req-hgk-prj-sbl-pipdls-r9-ctrlpkg",
+      "state": "FAILED",
+      "base_head": "fa1ac06305e4f9ee45400049193482b5c7964441",
+      "worktree": "C:\\Projects\\Agent_Workspace\\SBL\\_governance\\round-20261021-r9"
+    },
+    {
+      "workorder_id": "WO-TS-req-hgk-prj-sbl-pipdls-r8-lanerebind",
+      "state": "CREATED",
+      "base_head": "fa1ac06305e4f9ee45400049193482b5c7964441",
+      "worktree": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\worktrees\\ts-req-hgk-prj-sbl-pipdls-r8-lanerebind"
+    }
+  ],
+  "project": {
+    "project_id": "HGKR13-RED",
+    "state": "PLAN_READY",
+    "intent_json": {
+      "goal": "Repair the HGK lifecycle repo-head resolution (R9-06): base_head must come from the project target_root, not the process CWD, and a failed git call must raise instead of returning empty.",
+      "constraints": [
+        "bounded write: src/hg_kseos/lifecycle.py"
+      ],
+      "non_goals": [
+        "no change to lane routing",
+        "no change to the readiness contract"
+      ],
+      "target_root": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+      "source_paths": [
+        "C:/Projects/Agent_Workspace/_r12_far/subagent/R9-06_repo_head_report.md",
+        "C:/Projects/Agent_Workspace/_r12_docs/_governance/round-20261021-r12-far/FAR_DEVIATION_STUDY.md"
+      ]
+    }
+  },
+  "head_now": "b22706ebbdff9248f851767c010befc8e807d463"
+}
