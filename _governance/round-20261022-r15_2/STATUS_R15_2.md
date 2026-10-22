@@ -635,3 +635,50 @@ ending, instead of issuing the request that unblocks it.** That is the root caus
 *No agent-actionable work remains, every open item is an issued request naming its principal, and the artefact each
 principal needs already exists.* That is `QUEUE_EXHAUSTED` with `r15_2_complete: false` — not "done", and no longer
 "stopped".
+
+---
+
+## 12. Continuation session — 2026-10-23 03:24 台北標準時間 (measured this session only)
+
+Entry state: `continuation_guard` exit 2 (blockers `LANE_BYPASSED_DISCLOSED`, `SATISFIABILITY_UNKNOWN`),
+`mandate_gate audit` COLD-CLEAN at 21 items. Entry claim: `ROUTEOUT_CANDIDATE + LOCAL_RAW_ONLY`.
+
+| # | What was executed | Lane / model actually served | Verdict and raw evidence |
+|---|---|---|---|
+1 | W15 DELIVERY_READY gate diff re-emitted and proved behaviourally | EXECUTE `opencode-go/deepseek-v4.1-flash` rank 1, ok=true, 896.78s | 4/4 tests PASS; unpatched control fails **only** T1; replay diff reproduces the patched bytes; live `HG-KSEOS/src/hg_kseos/lifecycle.py` unchanged at `28c0fa40…` — `workers/w15_gate_lane/RESULT.json` |
+2 | Q7 checker qualification | PLAN `openai-codex/gpt-6.1-sol` rank 2, medium, ok=true, 245.76s | `SEPARATION_ABSENT` → `ACCEPT_AS_CEILING`; M1 = `LOCAL_REVIEW_ONLY` — `workers/plan_brief/PLAN_ANSWER_Q7_CHECKER.md` |
+3 | Q2 M4 semantic denominator | orchestrator measurement (exempt) | 1,274 units, 858 normative (12,744 sentences), **35 cited by the build tree**, **829 unresolved**, 143 duplicate clause IDs; total `NOT_ESTABLISHED` — `workers/q2_semantic/DENOMINATOR_PROPOSAL.json`, `Q2_SEMANTIC_DENOMINATOR.md` |
+4 | Q5 local half: eight lifecycle verbs, three ZIPs, doctor, loader probes | orchestrator measurement + EXECUTE repair (receipt RED 900s) | install/doctor/load/invoke/uninstall PASS; deny typed rc2; upgrade NOOP rc2; rollback no-preimage rc2; **three ZIPs built twice → identical digests**; `doctor` PASS on 3.12.13; negative control found a **crash**, repaired to typed `SBL_E_COMPONENT_UNRESOLVED` — `workers/q5_tools/LIFECYCLE_RECEIPT.json` + `raw/` |
+5 | Q1 eight-kind routing candidate applied | EXECUTE `deepseek-v4.1-flash`, ok=true, 184.2s | apply rc0; 25 kind tests pass; SUPPORTED=[CLI_TOOL, AGENT_SKILL], DEFERRED=[SIMPLE_AGENT, PLUGIN, PROFILE], UNSUPPORTED=[AGENT_OS, AI_SYSTEM, GENIE/GENIE.md] with typed refusals and no target — `workers/candidate_proposals/w06_kinds2/APPLIED.json` |
+6 | **Own regression, found and repaired** | EXECUTE alias change (receipt pending) | applying the candidate dropped `SKILL`, so `test_core_modules.py::test_routing_positive_default_policy` went red (0F→1F). Repaired additively: `SKILL` is a deprecated alias of `AGENT_SKILL`; the old test was **not** edited (byte-identical to HEAD); 47 core + 25 kind tests pass; full suite **rc=0** |
+7 | Q3 / M2 isolated E2E chain | EXECUTE `deepseek-v4.1-flash` (lane receipt **RED**, 1500s TIMEOUT, no nonce) | pipeline SBLM01→M04 wrote `generated/owner_load.py` (sha256 `e10217d2…`) inside the writeset; baseline 3 passed; controlled mutation (`reverse=True`) fails `test_duplicate_id_newest_file_wins`; bounded repair restores baseline bytes; repaired 3 passed; cleanup uninstall rc0 + doctor rc2 readback — `workers/q3_e2e/Q3_RESULT.json` (composed by the orchestrator, labelled as such) |
+8 | Independent challenge (pass 1) | VERIFY_SECURITY `openai-codex/gpt-6.1-sol` rank 2, medium, ok=true, 174.02s | **FAIL — local review only**: C2-load (no typed code on `load`), C6-raw-evidence (bounded observations then), MANDATE-AUDIT (receipts unbound then) — `workers/verify/VERDICT_PASS1.md` |
+
+### 12.1 Denominator movement (this session)
+
+| Metric | Before | After |
+|---|---|---|
+Check runs | 3 DONE / 13 PARTIAL / 9 NOT_RUN | **4 DONE / 13 PARTIAL / 8 NOT_RUN** |
+Milestones | 0 PASSED / 1 PARTIAL / 3 NOT_RUN | **0 PASSED / 3 PARTIAL / 1 NOT_RUN** (M3 untouched) |
+Queue items | 21 (15 DONE / 6 PARKED) | **26 (21 DONE / 5 PARKED / 0 READY)** |
+Product suite | 227 passed / 4 skipped, 2 red (both from a tracked `.sh`) | **rc=0, 0 failed** (`push_pat.sh` untracked and ported to `.py`) |
+
+### 12.2 Claim ceiling after this session (unchanged in kind)
+
+`PROMPT_COMPILE_PASS ≠ RUNTIME_READY ≠ INDEPENDENT_PASS ≠ HOST_INSTALLED ≠ RELEASED`.
+M1 is `LOCAL_REVIEW_ONLY; independent acceptance not established.` No native WorkOrder/Permit/Effect was issued or
+claimed. Release stays **BLOCKED** on three owner-issued items (Fabric active policy designation, SWOF W3 admission,
+three private host ids). M4 is a measured proposal, not a closure.
+
+### 12.3 Side effects disclosed
+
+- Cron job `12eff9cba53c` (SBL R15.2 autonomy tick) was **paused** at 03:2x because it dispatches the same queue and
+  had started a second Q3 lane concurrently; it must be resumed (`hermes cron resume 12eff9cba53c`) once the round is
+  picked up again.
+- Two EXECUTE receipts are red (timeout/no nonce) while their artefacts are usable: `workers/q5_repair/`,
+  `workers/q3_e2e/`. They are recorded as red, not laundered into DONE.
+- Lane receipt filename collision: `run_lane` names the receipt after the brief basename, so two briefs both called
+  `BRIEF.md` overwrote one receipt. Fixed by unique brief names (`BRIEF_<ID>.md`); the W15 receipt was preserved as
+  `EXECUTE__W15GATE.json`.
+- The kanban dispatcher is spending `mimo-v2.6-flash` on two stale boards (`hgk-plan-rebind-20261015`, `sbl-r12-far`);
+  disclosed in `TT-R15.2-MIMO-TOKEN-ATTRIBUTION`, not killed.

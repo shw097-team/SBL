@@ -71,9 +71,15 @@ def test_git_applies_lf_to_the_shipped_text_files():
     assert attrs.exists(), ".gitattributes is missing: a Windows checkout rewrites the tree to CRLF"
     tracked = [f for f in _git("ls-files").splitlines() if Path(f).suffix.lower() in SHIPPED_TEXT]
     assert tracked, "no shipped text files were found to check"
-    out = _git("check-attr", "eol", "--", *tracked)
+    out_lines: list[str] = []
+    # Windows caps a process command line at 32,767 characters, so a single
+    # `git check-attr eol -- <every tracked file>` call fails with WinError 206 on
+    # this repo and the assertion then errors instead of checking anything. Batch
+    # the paths; the assertion itself is unchanged.
+    for i in range(0, len(tracked), 60):
+        out_lines.extend(_git("check-attr", "eol", "--", *tracked[i : i + 60]).splitlines())
     wrong = []
-    for line in out.splitlines():
+    for line in out_lines:
         path, _, value = line.rpartition(": ")
         if value.strip() != "lf":
             wrong.append((path, value.strip()))

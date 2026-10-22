@@ -1,0 +1,21 @@
+{
+  "plan": {
+    "plan_id": "R-a413f42c899f",
+    "first_fail": "AssertionError: assert {'bob': 1} == {'alice': 1}",
+    "scope": "NARROW",
+    "max_attempts": 3,
+    "rollback_pointer": "logs/04_mutant_pytest.txt",
+    "action": "NARROW_REPAIR"
+  },
+  "repair_line": "for path in sorted(paths, key=os.path.getmtime):",
+  "run": {
+    "exit_code": 0,
+    "log": "logs/06_repaired_pytest.txt",
+    "passed": true,
+    "tail": [
+      "...                                                                      [100%]",
+      "3 passed in 0.05s"
+    ]
+  },
+  "restored_to_baseline_bytes": true
+}

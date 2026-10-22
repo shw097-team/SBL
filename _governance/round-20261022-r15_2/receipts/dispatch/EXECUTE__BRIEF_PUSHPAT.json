@@ -1,0 +1,129 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "EXECUTE",
+  "role": "writer",
+  "role_binding_source": null,
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\6257d9e8f63c0f2b\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "danger-full-access",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "config/lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "opencode-go/deepseek-v4.1-flash"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF_PUSHPAT.json.logs",
+  "output_dir_policy": {
+    "mode": "explicit-path",
+    "derived": null,
+    "existing": false
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": "TIMEOUT",
+      "timed_out": true,
+      "seconds": 600.03,
+      "nonce_present": false,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 42,
+      "usage_offset": 32128917,
+      "usage_provider": "opencode-go",
+      "usage_model": "deepseek-v4.1-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF_PUSHPAT.json.logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF_PUSHPAT.json.logs\\attempt-2964-1792693611-1-stdout.txt",
+      "stdout_bytes": 261502,
+      "stdout_sha256": "37618da3d0b4ad65ad5d24615750d9a1f54a557ef2b780a83c38cb6d7a6561f7",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF_PUSHPAT.json.logs\\attempt-2964-1792693611-1-stderr.txt",
+      "stderr_bytes": 2787,
+      "stderr_sha256": "e192c7b6985f2bfe84765819b2f3cc9fae3b0e6f8134e1e07afc26599d4e9211",
+      "stdout_tail": "::test_each_contract_breaking_mutation_is_caught; \\\"RC=$LASTEXITCODE\\\"'\",\"aggregated_output\":\"\",\"exit_code\":null,\"status\":\"in_progress\"}}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_36\",\"type\":\"agent_message\",\"text\":\"The mutation probe is still working through its seven throwaway-tree runs. It builds a clean copy plus six mutants, running the reproducibility suite in each, so it takes a while.\"}}\n",
+      "stderr_tail": "pendencies\\\\\\\\\\\\\\\\native\\\\\\\\\\\\\\\\powershell\\\\\\\\\\\\\\\\pwsh.exe\\\\\\\" -Command \\\\\\\"Remove-Item -LiteralPath \\\\\\\\\\\\\\\"C:\\\\\\\\\\\\\\\\Projects\\\\\\\\\\\\\\\\Agent_Workspace\\\\\\\\\\\\\\\\_r152_ev\\\\\\\\\\\\\\\\_governance\\\\\\\\\\\\\\\\round-20261022-r15_2\\\\\\\\\\\\\\\\tools\\\\\\\\\\\\\\\\push_pat.sh\\\\\\\\\\\\\\\" -Force\\\\\\\"` rejected: blocked by policy\\\")\" }\n"
+    }
+  ],
+  "used_rank": null,
+  "used_transport_model": null,
+  "used_seconds": null,
+  "generated_utc": "2026-10-22T18:36:53.670738+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "completion_evidence": {
+    "checked": false
+  },
+  "usage_receipt_ok": false,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+  "timed_out_arms": [
+    "opencode-go/deepseek-v4.1-flash"
+  ]
+}

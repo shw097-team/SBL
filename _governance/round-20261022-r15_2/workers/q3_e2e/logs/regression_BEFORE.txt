@@ -1,0 +1,45 @@
+......F....F............................................................ [ 91%]
+.......                                                                  [100%]
+================================== FAILURES ===================================
+____________________ test_routing_positive_default_policy _____________________
+
+    def test_routing_positive_default_policy():
+        atom = SpecAtom(atom_id_for("t"), "t", "x.md#L1")
+        routing = GovernedRouting()
+        assert routing.policy == DEFAULT_POLICY
+        decision = routing.route(atom, "CLI_TOOL")
+        assert decision.permitted is True
+        assert decision.target == "SBLM04_GOVERNED_BUILD_BRIDGE"
+        assert decision.atom_id == atom.atom_id
+>       assert routing.route(atom, "SKILL").target == "GJ03_SKILL_AGENT_BRIDGE"
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_core_modules.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <sbl_core.m03_routing.GovernedRouting object at 0x000001E58D01C650>
+atom = SpecAtom(atom_id='A-e3b98a4da31a', text='t', locator='x.md#L1')
+kind = 'SKILL'
+
+    def route(self, atom: SpecAtom, kind: str) -> RouteDecision:
+        if kind not in self.policy:
+>           raise SBLError(
+                "SBL_E_UNKNOWN_KIND",
+                f"unknown requirement kind: {kind!r}",
+                {"kind": kind, "atom_id": getattr(atom, "atom_id", None)},
+            )
+E           sbl_core.errors.SBLError: SBL_E_UNKNOWN_KIND: unknown requirement kind: 'SKILL'
+
+sbl_core\m03_routing.py:142: SBLError
+_________________ test_bind_repo_context_negative_not_a_repo __________________
+
+    def test_bind_repo_context_negative_not_a_repo():
+        outside = tempfile.mkdtemp(prefix="sbl-not-a-repo-")
+        try:
+>           with pytest.raises(SBLError) as caught:
+E           Failed: DID NOT RAISE SBLError
+
+tests\test_core_modules.py:145: Failed
+=========================== short test summary info ===========================
+FAILED tests/test_core_modules.py::test_routing_positive_default_policy - sbl...
+FAILED tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo

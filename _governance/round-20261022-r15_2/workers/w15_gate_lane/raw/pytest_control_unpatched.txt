@@ -1,0 +1,20 @@
+F...                                                                     [100%]
+================================== FAILURES ===================================
+_____________ test_t1_delivery_ready_refused_with_open_workorder ______________
+
+spine = <hg_kseos.spine.SharedSpine object at 0x0000023998070530>
+
+    def test_t1_delivery_ready_refused_with_open_workorder(spine):
+        """T1: open required work order + -> DELIVERY_READY must be refused."""
+        lc, admitted = boot_to_release_reducing(spine)
+        pid = "HGK-PRJ-W15"
+        assert admitted["count"] >= 1
+        assert open_workorder_ids(spine, pid), "precondition: work orders must be open"
+    
+>       with pytest.raises(LifecycleError) as exc:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE LifecycleError
+
+workers\w15_gate_lane\test_delivery_ready_guard.py:91: Failed
+=========================== short test summary info ===========================
+FAILED workers\w15_gate_lane\test_delivery_ready_guard.py::test_t1_delivery_ready_refused_with_open_workorder

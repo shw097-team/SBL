@@ -266,3 +266,69 @@ failure to produce a request was.
    like laziness each time.
 3. **A refusal to sign is only honest if it is accompanied by a request to the entity that can.**
 4. **Prove your refusals fire.** The negative control for the guard immediately found a blind scope in the guard itself.
+
+## 13. Eighth iteration — 2026-10-23 continuation: the instruments were the defect
+
+This session started from the handover, ran the three gates (`continuation_guard` exit 2, `mandate_gate` AUDIT_CLEAN),
+and worked the three engineer-actionable gaps plus the two guard blockers. What it learned was almost entirely about
+measurement, not about the product.
+
+### 13.1 `rc != 0` is not a refusal, and my own instrument said it was
+
+The Q5 lifecycle probe tampered an installed manifest and asserted "the negative control refuses". It printed
+`negative_control_refused: {doctor: true, load: true}`. The doctor row was true because it **crashed**:
+`ModuleNotFoundError: No module named '0'` with a raw traceback, exit 1. A crash and a typed refusal share the exit
+code and share nothing else. The instrument was fixed to report `doctor_crashed` and `doctor_typed_refusal`
+separately, and the defect became a repair item (`TT-R15.2-DOCTOR-UNHANDLED-COMPONENT`) instead of a green tick.
+
+**Rule:** a negative control must assert the *shape* of the refusal (typed code, no traceback), not its sign.
+
+### 13.2 A grep instrument manufactured a gap that did not exist
+
+`BENCH_AND_TOOLS_R15_2.json` reported `lifecycle_verbs_present: []` — 0 of 8 verbs — for all five tools. Measured by
+invoking them, `sbl-stack` implements install, doctor, load, invoke, upgrade, uninstall and rollback as subcommands,
+and `deny` is the mode-gate refusal (`SBL_E_PROHIBITED_KIND`, rc=2). The verbs were there the whole time; the
+instrument looked at filenames. That is the same class of defect the previous session recorded for an uncalibrated
+path list, one layer up.
+
+**Rule:** qualify a capability by executing it; a filename census is a hypothesis.
+
+### 13.3 Two planes disagreed and both looked authoritative
+
+`config/model-lane-assignment.json` revision 32 binds VERIFY_SECURITY to `opencode-go/deepseek-v4.1-flash` and says
+no alternative checker identity is implied. This round's owner order binds it to `openai-codex/gpt-6.1-sol`. The
+receipts settle it: `used_transport_model = gpt-6.1-sol`, rank 2, `nonce_present = true`. The deployed plane served
+the mandated arm; the declaration lags (`TT-R15.2-VERIFY-ARM-TWO-PLANES`). Editing the registry to match would have
+been a control-plane change under nobody's authority, so it was not done.
+
+**Rule:** the served arm in a receipt is the machine truth; a declaration that disagrees is a ticket, not a veto.
+
+### 13.4 The denominator's own keys collide
+
+Counting the corpus produced 1,274 addressable clause units, and 143 clause IDs that appear in more than one DOC
+(`C01.2`, `C02`, `C05.3`, `R08.4`, …). Any mapping keyed on the clause ID alone silently merges distinct obligations.
+The proposal therefore keys on `(doc, clause_id, locator)` and publishes the duplicate set for the authoritative pass.
+
+**Rule:** before counting units, check that the identifier is unique across the corpus; if not, key on the address.
+
+### 13.5 The measurement is the finding, not the formality
+
+Of 858 units that carry normative sentences, the SBL build tree cites 35. The remaining 829 are cited nowhere —
+no test, no ledger, no contract, no source file. M4's earlier numbers (20 units, 1,743 packets) cannot be reconciled
+with 1,274 addressable clauses, so none of them was the denominator. The honest output is a bounded proposal with an
+unresolved index, and `FULL_SEMANTIC_PASS: false`.
+
+**Rule:** when a denominator has been "known" for rounds without a counting command behind it, the first measurement
+usually reframes the milestone rather than closing it.
+
+### 13.6 Bounded evolution candidates from this session (candidate only, nothing promoted)
+
+| id | candidate | promotion requires | rollback |
+|---|---|---|---|
+EV-152-1 | refusal-shape assertions (`typed_refusal`, `crashed`) in every negative-control receipt | owner promotion of the changed probe template | revert the template |
+EV-152-2 | "qualify by invocation" rule in tool-lifecycle receipts, retiring filename censuses | owner promotion into the qualification template | revert |
+EV-152-3 | collision-aware clause keys `(doc, id, locator)` in any semantic denominator | owner ratification with the 143-ID list attached | revert |
+EV-152-4 | one bounded checker-qualification decision template (from Q7) | owner signature | withdraw the request |
+
+None of these changes a policy, an oracle, or a score. They are procedural candidates recorded with their evidence,
+which is the only kind of self-evolution this round is allowed to perform.

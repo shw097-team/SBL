@@ -1,0 +1,71 @@
+{
+  "schema": "Q3-PIPELINE-TRACE/1",
+  "goal_id": "G-d46b84b802cb",
+  "atom_ids": [
+    "A-93824880de46",
+    "A-ec43a58e22d7",
+    "A-b09fda4b655e",
+    "A-eb2f65411669"
+  ],
+  "kind": "CLI_TOOL",
+  "target_repo": "C:\\Users\\user\\AppData\\Local\\Temp\\q3_e2e\\target",
+  "repo_head": "7bcfb8f9c6c46083eebacb2bb5bde0a25d69b2e1",
+  "writeset": [
+    "generated"
+  ],
+  "written_path": "generated/owner_load.py",
+  "tool_sha256": "e10217d2fd6de980a294d98fdd0cb4452398faf455ec9baec24ab0c37830adef",
+  "baseline": {
+    "exit_code": 0,
+    "log": "logs/03_baseline_pytest.txt",
+    "passed": true,
+    "tail": [
+      "...                                                                      [100%]",
+      "3 passed in 0.08s"
+    ]
+  },
+  "rows": [
+    {
+      "module": "SBLM01",
+      "input": "<plain-language request>",
+      "output": "G-d46b84b802cb",
+      "decision": "goal accepted",
+      "code_ref": "sbl_core/m01_intake.py:GoalIntake.intake"
+    },
+    {
+      "module": "SBLM02",
+      "input": "G-d46b84b802cb",
+      "output": [
+        "A-93824880de46",
+        "A-ec43a58e22d7",
+        "A-b09fda4b655e",
+        "A-eb2f65411669"
+      ],
+      "decision": "4 source-bound atoms derived",
+      "code_ref": "sbl_core/m02_spec.py:GuidedSpecification.derive"
+    },
+    {
+      "module": "SBLM03",
+      "input": "A-93824880de46",
+      "output": "SBLM04_GOVERNED_BUILD_BRIDGE",
+      "decision": "permitted=True (CLI_TOOL_ROUTED)",
+      "code_ref": "sbl_core/m03_routing.py:GovernedRouting.route"
+    },
+    {
+      "module": "SBLM04",
+      "input": "7bcfb8f9c6c46083eebacb2bb5bde0a25d69b2e1",
+      "output": "O-5402f555cf4c",
+      "decision": "wrote generated/owner_load.py inside writeset ['generated', 'generated/owner_load.py'] (2850 bytes, sha256 e10217d2fd6de980...)",
+      "code_ref": "sbl_core/m04_bridge.py:GovernedBuildBridge.prepare/apply",
+      "honest_note": "M04 governs WHERE the bytes land (repo context, HEAD, writeset, link escape). The bytes themselves were authored by the bounded writer: this tree has no product code-generation module, so this is not presented as generated code."
+    },
+    {
+      "module": "SBLM05",
+      "input": "Q3-BASELINE",
+      "output": "PASS",
+      "decision": "verdict PASS at claim level LOCAL (denominator 3, exit 0)",
+      "code_ref": "sbl_core/m05_verify.py:EvidenceVerification.record/verdict"
+    }
+  ],
+  "claim_ceiling": "one tool on one host through the real modules; local claim only"
+}

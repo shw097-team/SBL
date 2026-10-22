@@ -1,0 +1,50 @@
+captured_at=2026-10-23T02:11:26.2871024+08:00
+$ python tools/mandate_gate.py check --role EXECUTE
+{
+  "verdict": "ALLOWED",
+  "role": "EXECUTE",
+  "lane": "EXECUTE",
+  "latest_receipt": {
+    "file": "EXECUTE__BRIEF6_Q1b.json",
+    "ok": true,
+    "nonce": true,
+    "model": "opencode-go/deepseek-v4.1-flash",
+    "secs": 556.99
+  }
+}
+
+check_rc=0
+$ python tools/mandate_gate.py audit
+{
+  "verdict": "AUDIT_FAILED",
+  "unbound_or_missing": [
+    {
+      "id": "W15.gate_proposal",
+      "lane": "EXECUTE",
+      "reason": "receipt exists for the lane but none is bound to this item"
+    },
+    {
+      "id": "Q7.checker_qualification",
+      "lane": "PLAN",
+      "reason": "receipt exists for the lane but none is bound to this item"
+    }
+  ]
+}
+
+audit_rc=1
+$ python tools/continuation_guard.py
+{
+  "verdict": "NOT_TERMINAL",
+  "blockers": [
+    {
+      "code": "READY_AGENT_ITEMS",
+      "ids": [
+        "Q5.tools_local",
+        "Q3.m2_e2e",
+        "Q1.apply_candidate"
+      ]
+    }
+  ]
+}
+
+continuation_guard_rc=2

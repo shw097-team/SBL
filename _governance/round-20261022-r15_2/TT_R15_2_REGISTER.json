@@ -689,13 +689,227 @@
         "receipts/dispatch/EXECUTE__BRIEF4.json",
         "receipts/dispatch/EXECUTE__BRIEF5_Q1.json"
       ]
+    },
+    {
+      "tt_id": "TT-R15.2-Q7-CHECKER-SEPARATION-ABSENT",
+      "kind": "SOD",
+      "severity": "ACCEPTED_CEILING",
+      "subject": "No enforceably distinct checker principal exists, so M1 cannot claim independent acceptance",
+      "observed": {
+        "lane": "PLAN gpt-6.1-sol rank 2, receipt PLAN__Q7_CHECKER.json ok=true 245.76s",
+        "verdict": "SEPARATION_ABSENT",
+        "citations": [
+          "Fabric/FABRIC/control/SOD_POLICY.yaml:8",
+          "Fabric/FABRIC/assurance/ACCEPTANCE_SCHEMA.yaml:6",
+          "HG-KSEOS/AGENTS.md:153 (checker adapter is advisory, never an OracleReceipt)",
+          "HG-KSEOS/config/verify-acceptance-matrix.json:255 (actual_hgk_consumer: null)",
+          "HG-KSEOS/.hgk/checker-upgrade-20261009/tools/lane_preflight.sh:94 (preflight treats file creation as PASS, i.e. no write-denial)"
+        ]
+      },
+      "decision": "ACCEPT_AS_CEILING",
+      "resolution": "M1 carried as LOCAL_REVIEW_ONLY; independent acceptance not established. Owner step: sign one bounded checker-qualification decision naming an authenticated non-maker reviewer and the frozen subject.",
+      "owner_action": "sign the checker-qualification decision or accept the ceiling",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-VERIFY-ARM-TWO-PLANES",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "The mandated VERIFY arm and the registry's assigned VERIFY arm disagree (declared vs deployed plane)",
+      "observed": {
+        "mandate": "MANDATE_R15_2.json + this round's owner order: VERIFY/SECURITY = openai-codex/gpt-6.1-sol (OpenAI OAuth)",
+        "registry": "HG-KSEOS/config/model-lane-assignment.json revision 32: VERIFY_SECURITY = opencode-go/deepseek-v4.1-flash, and it states no alternate checker identity or diversity is implied",
+        "measured": "the PLAN and VERIFY lanes served openai-codex/gpt-6.1-sol (used_transport_model) at rank 2, so the deployed plane does serve the mandated arm; the declaration lags"
+      },
+      "conflict": "a reader of the registry would conclude the mandated checker is not configured; a reader of the mandate would conclude it is. Both cannot be the machine truth.",
+      "decision": "USE_THE_OWNER_ORDER_AND_RECORD_THE_LAG",
+      "resolution": "executed on gpt-6.1-sol per the owner order; registry revision 32 left untouched because editing it is a control-plane change requiring an HGK owner",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-Q2-CLAUSE-ID-COLLISION",
+      "kind": "FINDING",
+      "severity": "MEDIUM",
+      "subject": "143 clause IDs appear in more than one SBL DOC, so a clause ID alone is not a unique key",
+      "observed": {
+        "units": 1274,
+        "duplicate_ids": 143,
+        "examples": [
+          "C01.2",
+          "C02",
+          "C05.3",
+          "R08.4"
+        ]
+      },
+      "conflict": "the R14 denominator work keyed on clause IDs; with collisions that key silently merges distinct obligations",
+      "decision": "KEY_ON_DOC_PLUS_ID",
+      "resolution": "DENOMINATOR_PROPOSAL.json keys every unit on (doc, clause_id, locator); the duplicate set is listed for the authoritative pass to reconcile",
+      "status": "OPEN_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-Q2-TRACE-THIN",
+      "kind": "FINDING",
+      "severity": "HIGH",
+      "subject": "The product barely traces into the governing corpus: 829 of 858 normative units are cited nowhere in the build tree",
+      "observed": {
+        "units": 1274,
+        "normative_units": 858,
+        "cited_units": 35,
+        "uncited_normative_units": 829
+      },
+      "conflict": "M4 asks for semantic closure; a trace ratio of 35/1274 is not a gap that can be described as 'mostly done'",
+      "decision": "REPORT_AS_PARTIAL_CEILING",
+      "resolution": "M4 stays PARTIAL with a measured proposal; no FULL_SEMANTIC_PASS; the 829-unit unresolved index is the work queue for any future semantic pass",
+      "status": "OPEN_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-DOCTOR-UNHANDLED-COMPONENT",
+      "kind": "DEFECT",
+      "severity": "MEDIUM",
+      "subject": "sbl-stack doctor raises ModuleNotFoundError instead of a typed refusal when the manifest names a component that does not exist",
+      "observed": {
+        "repro": "install, set stack.json components[0]=TAMPERED_COMPONENT, run doctor",
+        "observed": "ModuleNotFoundError: No module named '0', raw traceback, rc=1",
+        "expected": "{ok:false, code:SBL_E_COMPONENT_UNRESOLVED}, rc=2",
+        "contrast": "sbl-stack invoke --mode NOT_A_CANONICAL_MODE already refuses correctly with SBL_E_PROHIBITED_KIND rc=2"
+      },
+      "conflict": "a crash and a refusal are not the same evidence; the negative control only passes because rc!=0",
+      "decision": "BOUNDED_REPAIR",
+      "resolution": "dispatched to the EXECUTE lane (workers/q5_repair/BRIEF.md) with a regression test; state recorded from the lane receipt when it lands",
+      "status": "REPAIR_IN_FLIGHT"
+    },
+    {
+      "tt_id": "TT-R15.2-MIMO-TOKEN-ATTRIBUTION",
+      "kind": "FINDING",
+      "severity": "HIGH",
+      "subject": "mimo-v2.6-flash token consumption is unattended Kanban worker sessions from two older boards, not this round's lanes",
+      "observed": {
+        "state_db": "session_model_usage: mimo-v2.6-flash | opencode-go | 2118 api calls | 8,935,607 tokens | last_seen 2026-10-23T02:32:43",
+        "all_rows_have_source": "source=kanban; this session is 20261023_015118_7bc0ef, source=desktop, model deepseek-v4.1-flash",
+        "boards": [
+          "hgk-plan-rebind-20261015 / t_56c9fbe7 running, worker pid 22248, session 20261023_000554_3fb777, title 'Repair 4 pool-rev21 stale fixture pins (minimax) in test_matrix_d_full.py'",
+          "sbl-r12-far / t_d5596d34 running, worker pid 5696, session 20261023_015748_776c1b, title 'Repair pool rev21 rebind: automatic_selection still on deprecated minimax'",
+          "additional source=kanban sessions titled 'Verify swarm outputs #5/#6/#7', 'Synthesize swarm outputs #5', 'Wire Challenge-SP identity into the VERIFY pre-spawn (D-06)'"
+        ],
+        "lane_ledger": "opencodex-hermes/usage.jsonl: no mimo row after 2026-10-21; today's rows are gpt-6.1-sol (PLAN/VERIFY) and deepseek-v4.1-flash / minimax-m3.1-flash-free (EXECUTE)",
+        "dispatcher": "kanban.db-wal written 02:36 and per-board .dispatcher.lock present: the dispatcher is live"
+      },
+      "conflict": "an unattended board dispatcher spends the opencode-go quota on old cards while the governed round runs, and its writes are indistinguishable from the round's writes by timestamp alone",
+      "decision": "DISCLOSE_DO_NOT_KILL",
+      "resolution": "not killed (a previous session killed two sibling workers and lost two codex runs); every lane dispatch snapshots `git -C HG-KSEOS status --porcelain` before/after so any control-plane write is attributed, and this register carries the attribution",
+      "owner_action": "pause or clear the two stale boards (hgk-plan-rebind-20261015, sbl-r12-far) if the spend must stop",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-EXECUTE-ARM-NONTERMINATION-RECUR",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "The EXECUTE arm completes the work but fails to terminate, so three lane receipts are red while their artefacts are usable",
+      "observed": {
+        "dispatches": [
+          {
+            "brief": "W15 gate re-emit",
+            "secs": 896.78,
+            "ok": true,
+            "nonce": true
+          },
+          {
+            "brief": "q5_repair (doctor typed refusal)",
+            "secs": 900.03,
+            "ok": false,
+            "nonce": false,
+            "artefacts": "sbl_stack/__init__.py + tests/test_stack_verbs.py edited; tests verified by the orchestrator"
+          },
+          {
+            "brief": "q6_pushpat (remove shipped .sh)",
+            "secs": 600.03,
+            "ok": false,
+            "nonce": false,
+            "artefacts": "push_pat.py created, push_pat.sh untracked+deleted; tests/test_reproducible_build.py now 14 passed"
+          }
+        ],
+        "shape": "broad multi-step briefs run past the cap; the one narrow four-file brief finished in 896.78s with a nonce"
+      },
+      "conflict": "the mandate gate needs an ok receipt, so honest work is recorded as LANE_RECEIPT_RED rather than DONE, and the audit will name it",
+      "decision": "NARROW_EVERY_BRIEF_AND_RECORD_RED",
+      "resolution": "red receipts kept red; the artefacts they produced are marked 'verified by orchestrator, not by lane receipt' and sent to the VERIFY lane; brief breadth is now capped at one artefact group per turn",
+      "status": "OPEN_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-KIND-CANDIDATE-DROPPED-SKILL",
+      "kind": "DEFECT",
+      "severity": "HIGH",
+      "subject": "Applying the eight-kind routing candidate dropped the SKILL kind and broke an existing contract test",
+      "observed": {
+        "detected_by": "full-suite run after the lane's kind tests were green (the lane ran only tests/test_kind_matrix.py by instruction)",
+        "failure": "tests/test_core_modules.py::test_routing_positive_default_policy -> SBL_E_UNKNOWN_KIND: 'SKILL'",
+        "repair": "additive alias SKILL -> GJ03_SKILL_AGENT_BRIDGE (deprecated), canonical kind remains AGENT_SKILL; the old test was not edited",
+        "verified": "47 core tests + 25 kind tests pass; full suite rc=0"
+      },
+      "conflict": "a lane asked to run only the tests for its own file will always report green while breaking the contract of the file it edited",
+      "decision": "ADDITIVE_ALIAS_AND_FULL_SUITE_OWNERSHIP",
+      "resolution": "orchestrator owns the full-suite run for every product write; briefs that scope tests must say so explicitly",
+      "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-RECEIPT-NAME-COLLISION",
+      "kind": "DEFECT",
+      "severity": "MEDIUM",
+      "subject": "run_lane names receipts after the brief basename, so two BRIEF.md dispatches overwrote one receipt",
+      "observed": {
+        "cases": [
+          "workers/w15_gate_lane/BRIEF.md",
+          "workers/q5_repair/BRIEF.md",
+          "workers/q3_e2e/BRIEF.md"
+        ],
+        "effect": "the W15 green receipt was overwritten by the repair lane's red one until it was copied aside as EXECUTE__W15GATE.json",
+        "fix": "unique brief filenames BRIEF_<ID>.md going forward"
+      },
+      "conflict": "the mandate gate's evidence is a receipt path; a colliding path makes the evidence refer to a different subject",
+      "decision": "UNIQUE_BRIEF_NAMES",
+      "resolution": "adopted this session; a tool change (receipt name = brief relative path hash) is an HGK owner change and was not made",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-DUPLICATE-DISPATCH-CRON-VS-SESSION",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "The round's own autonomy cron dispatches the same queue the session dispatches, producing two Q3 lanes at once",
+      "observed": {
+        "cron": "12eff9cba53c every 20m, no_agent, script sbl_r152_tick.py -> advance_queue --max-steps 3",
+        "evidence": "receipts/queue_runner.log shows 02:25:25 start of Q3.m2_e2e and 03:01:25 start of Q1.apply_candidate while the session had already dispatched both",
+        "consequence": "two writers on the same output directory; the session's duplicate Q3 dispatch was killed by the session itself (proc id recorded), the cron's continued"
+      },
+      "conflict": "two schedulers for one queue is two authorities for the same work",
+      "decision": "PAUSE_CRON_WHILE_SESSION_DRIVES",
+      "resolution": "cron paused at 03:2x; resume command `hermes cron resume 12eff9cba53c` recorded in STATUS §12.3",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-LANE-TEMP-INSIDE-REPO",
+      "kind": "FINDING",
+      "severity": "MEDIUM",
+      "subject": "A lane environment pointed TEMP/TMP/TMPDIR inside the HG-KSEOS git work tree, making a temp-dir test fail spuriously",
+      "observed": {
+        "vars": "TMPDIR=TEMP=TMP=C:/Projects/Agent_Workspace/HG-KSEOS/var/far-lane-sod-003/scratch",
+        "failure": "tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo fails because tempfile.mkdtemp() lands inside a repo and bind_repo_context correctly succeeds",
+        "reproduced_on": "pristine m03_routing.py (not caused by the change)"
+      },
+      "conflict": "a test whose premise is 'outside any repo' cannot hold when the scratch dir is inside one",
+      "decision": "POINT_TEMP_OUTSIDE_ANY_REPO",
+      "resolution": "recorded; the orchestrator's own runs use the Hermes scratch dir, which is outside every repo",
+      "status": "OPEN_MEASURED"
     }
   ],
   "counts": {
-    "total": 25,
-    "hard_blocker": 0,
-    "resolved_measured": 6,
-    "contained": 2
+    "total": 36,
+    "by_status": {
+      "null": 25,
+      "OPEN_OWNER_STEP": 5,
+      "OPEN_MEASURED": 4,
+      "REPAIR_IN_FLIGHT": 1,
+      "RESOLVED_MEASURED": 1
+    }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
   "stop_reason": null,

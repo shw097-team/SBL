@@ -149,14 +149,28 @@ def doctor(target: str | Path) -> dict[str, Any]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     problems: list[str] = []
     recorded = manifest.get("components", {})
-    for name, expected in recorded.items():
-        try:
-            actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
-        except SBLError as exc:
-            problems.append(f"{name}: {exc.message}")
-            continue
-        if actual != expected:
-            problems.append(f"{name}: digest changed since install")
+    unresolved: list[str] = []
+    if not isinstance(recorded, dict):
+        problems.append(
+            "components: the manifest records a "
+            f"{type(recorded).__name__}, not a name-to-digest mapping"
+        )
+        unresolved.append("<manifest>")
+        recorded = {}
+    else:
+        for name, expected in recorded.items():
+            try:
+                actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
+            except SBLError as exc:
+                problems.append(f"{name}: {exc.message}")
+                unresolved.append(name)
+                continue
+            except Exception as exc:  # noqa: BLE001 - an unresolvable component is an outcome, not a crash
+                problems.append(f"{name}: unresolvable component: {type(exc).__name__}")
+                unresolved.append(name)
+                continue
+            if actual != expected:
+                problems.append(f"{name}: digest changed since install")
     missing = sorted(set(COMPONENT_MODULES) - set(recorded))
     if missing:
         problems.append("manifest does not cover: " + ", ".join(missing))
@@ -165,7 +179,7 @@ def doctor(target: str | Path) -> dict[str, Any]:
     if not composed.get("ok"):
         problems.append("composed core is not healthy")
 
-    return {
+    report: dict[str, Any] = {
         "ok": not problems,
         "problems": problems,
         "target": str(root),
@@ -174,6 +188,9 @@ def doctor(target: str | Path) -> dict[str, Any]:
         "claim_ceiling": CLAIM_CEILING,
         "host_install_state": "NOT_INSTALLED",
     }
+    if unresolved:
+        report["code"] = "SBL_E_COMPONENT_UNRESOLVED"
+    return report
 
 
 def status(target: str | Path) -> dict[str, Any]:

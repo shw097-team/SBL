@@ -300,7 +300,8 @@
     {
       "id": "C12",
       "title": "真 FirstFail→最小 Repair→回歸",
-      "status": "NOT_RUN"
+      "status": "DONE",
+      "evidence": "Q3 six-predicate chain executed: baseline/mutant/FirstFail/bounded repair/affected regression/cleanup, all measured; workers/q3_e2e/Q3_RESULT.json"
     },
     {
       "id": "C13",
@@ -326,13 +327,15 @@
       "id": "C17",
       "title": "非預製三 Kind 真 Host 生命週期/NoFit",
       "status": "PARTIAL",
-      "note": "three kinds exercised, five of eight implemented"
+      "note": "three kinds exercised, five of eight implemented",
+      "evidence": "eight canonical kinds now carry dispositions in sbl_core/m03_routing.py (2 SUPPORTED, 3 DEFERRED, 3 UNSUPPORTED) with typed refusals and no target for refused kinds; 25 kind tests + 47 core tests green; full create/install/use/uninstall lifecycle for each supported kind not executed"
     },
     {
       "id": "C18",
       "title": "50/149/441/38/39/3 GJ 各自適用性實質閉合",
       "status": "PARTIAL",
-      "note": "39 mode gates arithmetically closed, 8 kinds not"
+      "note": "39 mode gates arithmetically closed, 8 kinds not",
+      "evidence": "50/149, 441, 38, 39 and the 8-kind denominator are measured; semantic denominator proposal adds 1274 units / 829 unresolved; per-item applicability still open"
     },
     {
       "id": "C19",
@@ -343,12 +346,14 @@
       "id": "C20",
       "title": "五工具及三 ZIP 雙建/doctor/effective-load",
       "status": "PARTIAL",
-      "note": "3/5 tool bundles, 0 lifecycle verbs"
+      "note": "3/5 tool bundles, 0 lifecycle verbs",
+      "evidence": "local half measured: 8 verbs invoked on sbl-stack (5 PASS, deny typed rc2, upgrade NOOP rc2, rollback no-preimage rc2), three ZIPs built twice with equal digests, hgk doctor PASS on 3.12.13, uninstall readback clean; no host-issued plugin id"
     },
     {
       "id": "C21",
       "title": "三 ChatGPT Private Plugins 官方三個不同 Host ID",
-      "status": "NOT_RUN"
+      "status": "NOT_RUN",
+      "evidence": "three distinct official private-host ids still absent (HOST_PENDING)"
     },
     {
       "id": "C22",
@@ -434,8 +439,8 @@
     {
       "id": "M2",
       "title": "全新需求隔離 E2E、完整 mutation / repair",
-      "status": "NOT_RUN",
-      "why": "no fresh-requirement isolated E2E, no full mutation/repair"
+      "status": "PARTIAL",
+      "why": "one non-prebuilt task ran the real six modules with mutation->FirstFail->bounded repair->regression->cleanup, but the checker separation needed for acceptance is absent (Q7)"
     },
     {
       "id": "M3",
@@ -446,8 +451,8 @@
     {
       "id": "M4",
       "title": "DOC 全語義、五工具、三 ZIP、三私人 Host、38 Surfaces/39 Gates、供應鏈、安全、Release 獨立真驗收",
-      "status": "NOT_RUN",
-      "why": "host IDs, ZIPs, supply chain, release all open",
+      "status": "PARTIAL",
+      "why": "measured semantic proposal only (1274 units, 829 unresolved, 35 cited); five tools local half measured; three private hosts absent; no FULL_SEMANTIC_PASS",
       "blocking_fact": "R14 TS27 records semantic_total_state=UNMEASURED with 20 units and 1,743 structural packets, so 'DOC full semantics' cannot be claimed by anyone yet — the denominator itself is missing"
     }
   ],
@@ -563,10 +568,10 @@
       "PARTIAL": 12
     },
     "checkruns": {
-      "total": 25,
-      "DONE": 3,
-      "NOT_RUN": 9,
-      "PARTIAL": 13
+      "DONE": 4,
+      "NOT_RUN": 8,
+      "PARTIAL": 13,
+      "total": 25
     },
     "eseries": {
       "total": 9,
@@ -574,12 +579,12 @@
       "NOT_RUN": 4
     },
     "milestones": {
-      "total": 4,
-      "PARTIAL": 1,
-      "NOT_RUN": 3
+      "PARTIAL": 3,
+      "NOT_RUN": 1,
+      "total": 4
     }
   },
-  "verdict": "PARTIAL. Work packages: 4 DONE, 7 PARTIAL, 7 NOT_RUN. E-series: 0 DONE, 5 PARTIAL, 4 NOT_RUN. Milestones: 0 PASSED, 1 PARTIAL, 3 NOT_RUN. The six VERIFIED work orders are a subset of this denominator and do not constitute R15.2 completion.",
+  "verdict": "PARTIAL. Checks: DONE 4, NOT_RUN 8, PARTIAL 13, total 25. Milestones: NOT_RUN 1, PARTIAL 3, total 4. M1 stays LOCAL_REVIEW_ONLY: no enforceably distinct checker principal exists (Q7). Release remains BLOCKED on owner-issued policy designation, SWOF W3 admission and host ids.",
   "generated_note": "statuses are measured against artefacts in this round; NOT_RUN means no attempt was made",
   "checkruns_status_update": {
     "C01": [
@@ -598,5 +603,6 @@
       "PARTIAL",
       "denominator partially closed; semantic total UNMEASURED"
     ]
-  }
+  },
+  "session_note": "2026-10-23 continuation: Q2 denominator measured, Q3 M2 chain executed, Q1 kinds applied + alias repair, Q5 local half measured, Q7 answered by the PLAN lane."
 }

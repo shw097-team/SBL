@@ -1,0 +1,30 @@
+{
+  "alias": "SKILL -> AGENT_SKILL",
+  "target": "GJ03_SKILL_AGENT_BRIDGE",
+  "tests": {
+    "core_modules": {
+      "passed": 47
+    },
+    "kind_matrix": {
+      "passed": 25
+    }
+  },
+  "old_test_edited": false,
+  "before_sha256": "680888656a01d4d9a1ac2d29783716b31d99b79039bd05eba0b89563845e8dad",
+  "after_sha256": "5a11a9858f5c9e0e9eb006ff6374e10f5491f551a1c344962fc90505c1813e76",
+  "claim_ceiling": "compatibility alias on the evidence branch; canonical kind unchanged",
+  "alias_line": "\"SKILL\": \"GJ03_SKILL_AGENT_BRIDGE\",",
+  "files_changed": [
+    "sbl_core/m03_routing.py",
+    "tests/test_kind_matrix.py"
+  ],
+  "old_test_edited_detail": "tests/test_core_modules.py is byte-identical to HEAD; git status is clean for it",
+  "test_replaced_in_kind_matrix": "tests/test_kind_matrix.py::test_retired_alias_is_not_routed (asserted SBL_E_UNKNOWN_KIND for SKILL, i.e. the regression) was replaced by test_skill_is_a_deprecated_alias_of_agent_skill",
+  "environment_finding": {
+    "what": "tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo fails in the ambient lane environment",
+    "why": "TMPDIR/TEMP/TMP are all set to C:/Projects/Agent_Workspace/HG-KSEOS/var/far-lane-sod-003/scratch, which sits inside the HG-KSEOS git work tree, so tempfile.mkdtemp() creates a 'outside' dir where git rev-parse HEAD still resolves and bind_repo_context correctly succeeds",
+    "not_caused_by_this_change": "reproduced with sbl_core/m03_routing.py stashed to HEAD; failure is identical on the pristine module",
+    "unblocks_by": "pointing TEMP/TMP/TMPDIR at a non-repo directory before running the suite; then 47/47 and 25/25 pass (72 passed)",
+    "owned_by": "orchestrator / environment, not this bounded writer"
+  }
+}

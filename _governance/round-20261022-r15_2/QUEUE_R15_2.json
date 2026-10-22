@@ -242,20 +242,20 @@
     {
       "id": "W15.gate_proposal",
       "owner_class": "AGENT",
-      "status": "PARKED",
+      "status": "DONE",
       "denominator_ref": "W15/C23",
-      "next_action": "re-emit the DELIVERY_READY guard diff and run its four behavioural tests",
+      "next_action": "closed: re-emitted diff + four behavioural tests executed in an isolated copy",
       "resume_cmd": "python \"_governance/round-20261022-r15_2/tools/build_gate_proposal.py\" && set \"UV_CACHE_DIR=C:/Users/user/AppData/Local/Temp/r152/uvcache\" && uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider workers/candidate_proposals/w15_gate/test_gate_candidate.py",
       "expect": "100%",
       "timeout_s": 420,
       "attempts": 1,
-      "last_result": "rc=0 secs=2.42 expect=hit\n    {\"diff_lines\": 27, \"dir\": \"C:/Projects/Agent_Workspace/_r152_ev/workers/candidate_proposals/w15_gate\"}\n    GATE_PROPOSAL_OK\n    ....                                                                     [100%]\n    Installed 6 packages in 200ms",
-      "last_run_utc": "2026-10-22T15:53:10Z",
+      "last_result": "EXECUTE lane ok=true; 4/4 tests PASS; negative control on unpatched source fails T1 only; replay diff reproduces the patched bytes; HG-KSEOS lifecycle.py sha unchanged 28c0fa40…",
+      "last_run_utc": "2026-10-22T18:08:06Z",
       "satisfiable_by": "AGENT",
       "required_field": null,
       "required_lane": "EXECUTE",
-      "lane_bypassed": true,
-      "parked_reason": "LANE_RECEIPT_RED",
+      "lane_bypassed": false,
+      "parked_reason": null,
       "owner_action": "HGK owner: apply workers/candidate_proposals/w15_gate/proposal.diff (git apply --check returns 0) and approve the DELIVERY_READY guard",
       "artefact_verified_by_orchestrator": true,
       "lane_attempts": {
@@ -272,7 +272,17 @@
         ]
       },
       "note": "the bounded writer produced a valid diff (apply --check rc=0) and a VERDICT.json whose before/after matches the live file, then tried to dispatch the lane again, polled, and hit the 540s timeout. Artefact verified independently; receipt stays red and the item stays PARKED.",
-      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md"
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md",
+      "lane_bypassed_history": "the 00:55 first pass was authored in-session; the 02:0x re-run under the EXECUTE lane supersedes it and carries the receipt",
+      "evidence": [
+        "receipts/dispatch/EXECUTE__W15GATE.json",
+        "workers/w15_gate_lane/RESULT.json",
+        "workers/w15_gate_lane/proposal.reapplied.diff",
+        "workers/w15_gate_lane/raw/pytest_run1.txt",
+        "workers/w15_gate_lane/raw/pytest_control_unpatched.txt"
+      ],
+      "claim_ceiling": "candidate diff validated in an isolated copy; not applied to the live control plane",
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__W15GATE.json"
     },
     {
       "id": "W13.tools",
@@ -383,7 +393,139 @@
         }
       },
       "claim_ceiling": "candidate proposal only: matrix + diff + 25 tests. Nothing applied to sbl_core. Lifecycle qualification (create/install/use/uninstall with consumer readback) is NOT done, so W06 stays PARTIAL.",
-      "note": "two prior dispatches timed out (600.04s, 540.05s) on the same arm; this one finished at 1200s budget with a four-file brief"
+      "note": "two prior dispatches timed out (600.04s, 540.05s) on the same arm; this one finished at 1200s budget with a four-file brief",
+      "satisfiable_by": "AGENT",
+      "required_lane": "EXECUTE",
+      "satisfiability_note": "the measured proposal is DONE; what remains is applying the verified diff to the product, which the mandate classifies as product-write -> EXECUTE lane. Null was an omission, not an unanswerable question.",
+      "evidence": [
+        "workers/candidate_proposals/w06_kinds2/kind_matrix.json"
+      ]
+    },
+    {
+      "id": "Q2.semantic_denominator",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "M4/W14/C18",
+      "required_lane": "AGENT",
+      "satisfiable_by": "AGENT",
+      "next_action": "closed: mechanical clause census with locators + citation trace + explicit unresolved remainder",
+      "resume_cmd": "python \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/tools/measure_semantic_denominator.py\"",
+      "expect": "Measured proposal only",
+      "timeout_s": 420,
+      "attempts": 1,
+      "last_result": "1274 identified units; 858 carry normative sentences (12744); 35 cited by the build tree; 829 unresolved; 143 duplicate clause IDs across DOCs; authoritative total NOT_ESTABLISHED",
+      "last_run_utc": "2026-10-22T18:08:06Z",
+      "parked_reason": null,
+      "evidence": [
+        "Q2_SEMANTIC_DENOMINATOR.md",
+        "workers/q2_semantic/DENOMINATOR_PROPOSAL.json",
+        "workers/q2_semantic/UNIT_INDEX.json"
+      ],
+      "claim_ceiling": "measured proposal only; no FULL_SEMANTIC_PASS",
+      "cwd": "C:/Projects/Agent_Workspace/_r152_ev"
+    },
+    {
+      "id": "Q5.tools_local",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W13/C20/C21",
+      "required_lane": "AGENT",
+      "satisfiable_by": "AGENT",
+      "next_action": "finish the local half: repair the doctor crash, re-run the eight verbs, record the receipt",
+      "resume_cmd": "python \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/tools/q5_lifecycle_probe.py\"",
+      "expect": "\"zip_pairs_equal\": true",
+      "timeout_s": 420,
+      "attempts": 3,
+      "last_result": "verbs measured by invoking: install/doctor/load/invoke/uninstall PASS; deny rc=2 typed (SBL_E_PROHIBITED_KIND); upgrade NOOP rc=2; rollback no-preimage rc=2; three SP ZIPs built twice => identical digests; hgk doctor PASS on 3.12.13; uninstall readback clean; negative control: doctor now typed SBL_E_COMPONENT_UNRESOLVED rc=2 (repair lane receipt RED at 900s, tests re-run by orchestrator: 8 passed), load refuses rc=2 with ok:false but no typed code (open finding, C2-load in VERIFY pass1)",
+      "last_run_utc": "2026-10-22T19:01:31Z",
+      "parked_reason": null,
+      "evidence": [
+        "workers/q5_tools/LIFECYCLE_RECEIPT.json",
+        "workers/q5_tools/raw/",
+        "workers/q5_tools/probe_stdout.txt",
+        "receipts/dispatch/EXECUTE__BRIEF.json",
+        "workers/q5_repair/"
+      ],
+      "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
+      "lane_receipt_file": null,
+      "lane_receipt_red": true,
+      "lane_receipt_red_note": "the doctor repair inside this item was authored by an EXECUTE lane whose receipt is RED (900.03s timeout, no nonce). It is NOT claimed as a lane PASS: the repair is tracked as TT-R15.2-DOCTOR-UNHANDLED-COMPONENT and the product change was re-checked by orchestrator tests plus the independent VERIFY pass.",
+      "claim_ceiling": "local lifecycle measurement; one product change inside it carries a red lane receipt and is disclosed, not laundered"
+    },
+    {
+      "id": "Q3.m2_e2e",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "M2/C12",
+      "required_lane": "EXECUTE",
+      "satisfiable_by": "AGENT",
+      "next_action": "one non-prebuilt CLI_TOOL through the six real modules, mutation -> FirstFail -> bounded repair -> regression -> cleanup",
+      "resume_cmd": "cd C:/Projects/Agent_Workspace/_r152_ev && python \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/tools/run_lane.py\" --role EXECUTE --brief workers/q3_e2e/BRIEF.md --timeout 1500",
+      "expect": "\"ok\": true",
+      "timeout_s": 1700,
+      "attempts": 0,
+      "last_result": "six-predicate chain holds: baseline 3 passed; mutant fails test_duplicate_id_newest_file_wins; repair restores baseline bytes; repaired 3 passed; affected regression full suite rc=0; cleanup uninstall rc0 + doctor rc2 readback",
+      "last_run_utc": "2026-10-22T19:23:54Z",
+      "parked_reason": null,
+      "evidence": [
+        "workers/q3_e2e/Q3_RESULT.json",
+        "workers/q3_e2e/PIPELINE_TRACE.json",
+        "workers/q3_e2e/MUTATION.diff",
+        "workers/q3_e2e/logs/",
+        "C:/Users/user/AppData/Local/Temp/r152_full3.txt"
+      ],
+      "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__BRIEF.json",
+      "claim_ceiling": "locally verified single task; not independently accepted"
+    },
+    {
+      "id": "Q1.apply_candidate",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W06/C17",
+      "required_lane": "EXECUTE",
+      "satisfiable_by": "AGENT",
+      "next_action": "apply the verified eight-kind routing diff to the product and re-run the kind tests + full suite",
+      "resume_cmd": "cd C:/Projects/Agent_Workspace/_r152_ev && python \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/tools/run_lane.py\" --role EXECUTE --brief workers/q1_apply/BRIEF.md --timeout 900",
+      "expect": "\"ok\": true",
+      "timeout_s": 1000,
+      "attempts": 0,
+      "last_result": "EXECUTE lane ok=true 184.2s nonce=true; apply rc0; 25 kind tests pass; SUPPORTED=[CLI_TOOL,AGENT_SKILL], DEFERRED=[SIMPLE_AGENT,PLUGIN,PROFILE], UNSUPPORTED=[AGENT_OS,AI_SYSTEM,GENIE/GENIE.md]; no target for refused kinds; regression found and repaired: SKILL kind restored as a deprecated alias (47 core + 25 kind tests); full suite rc=0",
+      "last_run_utc": "2026-10-22T19:05:02Z",
+      "parked_reason": null,
+      "evidence": [
+        "workers/candidate_proposals/w06_kinds2/APPLIED.json",
+        "tests/test_kind_matrix.py",
+        "sbl_core/m03_routing.py",
+        "receipts/dispatch/EXECUTE__BRIEF_Q1_APPLY.json",
+        "workers/q1_apply/ALIAS.json"
+      ],
+      "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__BRIEF_Q1_APPLY.json",
+      "claim_ceiling": "candidate applied on the evidence branch; not promoted, not accepted"
+    },
+    {
+      "id": "Q7.checker_qualification",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "M1/SOD006-C6",
+      "required_lane": "PLAN",
+      "satisfiable_by": "AGENT",
+      "next_action": "closed as ACCEPT_AS_CEILING: no enforceably distinct checker principal is established by existing authority",
+      "resume_cmd": "python -c \"print(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/plan_brief/PLAN_ANSWER_Q7_CHECKER.md',encoding='utf-8').read()[:80])\"",
+      "expect": "transcribed verbatim",
+      "timeout_s": 60,
+      "attempts": 1,
+      "last_result": "PLAN lane gpt-6.1-sol rank2 ok=true 245.76s: SEPARATION_ABSENT -> ACCEPT_AS_CEILING; M1 stays LOCAL_REVIEW_ONLY",
+      "last_run_utc": "2026-10-22T18:08:06Z",
+      "parked_reason": null,
+      "evidence": [
+        "workers/plan_brief/PLAN_ANSWER_Q7_CHECKER.md",
+        "receipts/dispatch/PLAN__Q7_CHECKER.json"
+      ],
+      "claim_ceiling": "M1 = LOCAL_REVIEW_ONLY; independent acceptance not established",
+      "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
+      "lane_receipt_file": "receipts/dispatch/PLAN__Q7_CHECKER.json"
     }
   ],
   "runs": [
@@ -526,6 +668,15 @@
       "at": "2026-10-22T17:43:25Z",
       "steps": 0,
       "done": 14,
+      "parked": 6,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T18:04:24Z",
+      "steps": 0,
+      "done": 15,
       "parked": 6,
       "owner": 4,
       "host": 1,

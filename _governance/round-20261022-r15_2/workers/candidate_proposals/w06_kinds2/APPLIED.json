@@ -1,0 +1,79 @@
+{
+  "apply_rc": 0,
+  "apply_check_rc": 0,
+  "method": "git apply",
+  "kind_tests": {
+    "passed": 25,
+    "failed": 0,
+    "command": "python -m pytest -q -p no:cacheprovider tests/test_kind_matrix.py",
+    "scope_note": "kind test file only; full suite deliberately not run, orchestrator owns it"
+  },
+  "dispositions": {
+    "SUPPORTED": [
+      "CLI_TOOL",
+      "AGENT_SKILL"
+    ],
+    "DEFERRED": [
+      "SIMPLE_AGENT",
+      "PLUGIN",
+      "PROFILE"
+    ],
+    "UNSUPPORTED": [
+      "AGENT_OS",
+      "AI_SYSTEM",
+      "GENIE/GENIE.md"
+    ]
+  },
+  "supported_targets": {
+    "CLI_TOOL": "SBLM04_GOVERNED_BUILD_BRIDGE",
+    "AGENT_SKILL": "GJ03_SKILL_AGENT_BRIDGE"
+  },
+  "refused_kind_codes": {
+    "SIMPLE_AGENT": "SBL_E_DEFERRED_KIND",
+    "PLUGIN": "SBL_E_DEFERRED_KIND",
+    "PROFILE": "SBL_E_DEFERRED_KIND",
+    "AGENT_OS": "SBL_E_PROHIBITED_KIND",
+    "AI_SYSTEM": "SBL_E_PROHIBITED_KIND",
+    "GENIE/GENIE.md": "SBL_E_PROHIBITED_KIND"
+  },
+  "no_target_for_deferred_or_unsupported": true,
+  "no_target_evidence": "GovernedRouting.route() raises before constructing RouteDecision for DEFERRED and UNSUPPORTED; policy values for all six are None; asserted by test_only_supported_kinds_have_a_target and test_refused_kinds_produce_no_route_decision",
+  "before_sha256": "FDB62AFADAF00FD2B09A29998A8071EA0F3B20730A529AC2C1037D6A205F8673",
+  "after_sha256": "680888656A01D4D9A1AC2D29783716B31D99B79039BD05EBA0B89563845E8DAD",
+  "applied_file_equals_candidate": true,
+  "applied_file_matches_candidate_note": "git diff --no-index between m03_routing.candidate.py and sbl_core/m03_routing.py produced no output",
+  "test_file": {
+    "path": "tests/test_kind_matrix.py",
+    "sha256": "7CEBA8EFEBCE484B9C0B23A7F6CAABB204D45899E864179444A299D8EF151AD8",
+    "adjustment": "import path only: the copied file resolved m03_routing.candidate.py and kind_matrix.json relative to its own directory, which is the proposal dir and not tests/. _load_candidate() now imports the applied sbl_core.m03_routing and MATRIX_PATH points at the proposal dir's kind_matrix.json. No assertion, kind or expected value was changed."
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "high",
+      "summary": "tests/test_core_modules.py:112 still routes \"SKILL\"",
+      "detail": "test_routing_positive_default_policy asserts routing.route(atom, \"SKILL\").target == \"GJ03_SKILL_AGENT_BRIDGE\". The applied candidate removes the SKILL alias and spells the kind AGENT_SKILL, so this existing test now fails on mainline. It is outside this brief's write scope (sbl_core/m03_routing.py and tests/test_kind_matrix.py only), so it is recorded rather than edited.",
+      "owner_action": "update that assertion to AGENT_SKILL, or restore an alias deliberately"
+    },
+    {
+      "id": "F2",
+      "severity": "medium",
+      "summary": "SBL_E_DEFERRED_KIND is raised but absent from sbl_core/errors.py ERROR_CODES",
+      "detail": "The candidate raises SBLError(\"SBL_E_DEFERRED_KIND\", ...) but ERROR_CODES in sbl_core/errors.py does not contain that code, and errors.py was not in this brief's write scope. A caller validating codes against ERROR_CODES would treat a real refusal as unregistered. Not invented here: recorded, no API added.",
+      "owner_action": "add SBL_E_DEFERRED_KIND to ERROR_CODES in a scoped change"
+    },
+    {
+      "id": "F3",
+      "severity": "low",
+      "summary": "stale non-editable sbl_core copy in site-packages",
+      "detail": "venv site-packages holds sbl_core/m03_routing.py with sha256 FDB62AF... (the pre-apply file), so the installed distribution does not see this change. The pytest run is unaffected because rootdir precedes site-packages on sys.path, but any run from a directory outside the repo root would import the stale module. A probe launched from a temp dir did exactly that.",
+      "owner_action": "reinstall the package (editable) before running any out-of-tree entry point"
+    }
+  ],
+  "not_done": {
+    "full_test_suite": "skipped by instruction; orchestrator runs it",
+    "commit": "none; not committed by instruction",
+    "dispatch_or_spawn": "none; not permitted by this brief"
+  },
+  "claim_ceiling": "candidate applied on the evidence branch; not promoted, not accepted"
+}

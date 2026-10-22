@@ -47,6 +47,27 @@ class StackVerbTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertTrue(any("digest changed" in p for p in result["problems"]), result["problems"])
 
+    def test_doctor_refuses_a_manifest_naming_a_nonexistent_component(self) -> None:
+        """NEG: a component that cannot be resolved is a typed refusal, not a traceback."""
+
+        from sbl_stack.cli import main
+
+        target = self.installed()
+        manifest_path = target / "stack.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first = sorted(manifest["components"])[0]
+        manifest["components"]["TAMPERED_COMPONENT"] = manifest["components"].pop(first)
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+        report = sbl_stack.doctor(target)
+        self.assertIs(report["ok"], False)
+        self.assertEqual(report["code"], "SBL_E_COMPONENT_UNRESOLVED")
+        self.assertTrue(
+            any("TAMPERED_COMPONENT" in problem for problem in report["problems"]),
+            report["problems"],
+        )
+        self.assertEqual(main(["doctor", "--root", str(target)]), 2)
+
     def test_invoke_returns_the_mode_gate_cells_and_refuses_an_unknown_mode(self) -> None:
         target = self.installed()
         result = sbl_stack.invoke(target)

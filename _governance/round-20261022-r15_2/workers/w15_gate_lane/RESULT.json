@@ -1,0 +1,133 @@
+{
+  "schema": "W15_GATE_LANE_RESULT/1",
+  "round_id": "round-20261022-r15_2",
+  "lane": "EXECUTE",
+  "nonce": "EXECUTE-R152-W15GATE-NONCE-50c968bd",
+  "applied": true,
+  "diff_sha256": "54cd8478ef0961ea4a566bf0631170e1d4fc7f06d027a9d7af1a87f371a0b9b4",
+  "lifecycle_sha256_before": "28c0fa40b87dcf158bf8a05a331ee503c8dc71c84bf5a71373b58a419dc9d344",
+  "lifecycle_sha256_after": "a58f68fe2f8059910ffbe8a4eb9228306bd4f23dc7409d23318b56d9871ab803",
+  "live_control_plane_lifecycle_sha256": "28c0fa40b87dcf158bf8a05a331ee503c8dc71c84bf5a71373b58a419dc9d344",
+  "live_control_plane_mtime": "2026-10-22T10:32:58.7279101+08:00",
+  "apply": {
+    "command_attempted_per_brief": "git apply -p1 --directory=isolated workers/candidate_proposals/w15_gate/proposal.diff  (from round-tree root)",
+    "command_attempted_rc": 1,
+    "command_attempted_error": "error: _governance/round-20261022-r15_2/isolated/src/hg_kseos/lifecycle.py: No such file or directory",
+    "command_that_worked": "git apply -p1 --verbose ../../candidate_proposals/w15_gate/proposal.diff  (cwd = workers/w15_gate_lane/isolated)",
+    "command_that_worked_rc": 0,
+    "note": "git apply anchors paths at the git repo root (C:/Projects/Agent_Workspace/_r152_ev), not the cwd or the round-tree root; --directory is appended to the repo-root-relative path."
+  },
+  "line_ending_finding": {
+    "source_file_crlf_lines": 691,
+    "source_file_lf_only_lines": 0,
+    "source_file_bytes": 37724,
+    "patched_file_crlf_lines": 0,
+    "patched_file_lf_only_lines": 691,
+    "patched_file_bytes": 37077,
+    "observation": "git apply rewrote the whole isolated copy from CRLF to LF (-647 bytes). The 37077-byte drop is line endings, not deleted content: a textual diff of source vs patched copy shows exactly the 2 intended hunks.",
+    "consequence": "proposal.reapplied.diff was generated with core.autocrlf=false over LF-normalised inputs so it contains no whole-file churn and replays byte-for-byte."
+  },
+  "tests": [
+    {
+      "id": "T1",
+      "case": "open required work order + -> DELIVERY_READY is refused",
+      "cmd": "PYTHONPATH=<isolated/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py::test_t1_delivery_ready_refused_with_open_workorder",
+      "rc": 0,
+      "verdict": "PASS",
+      "observed": "1 passed. ERR_PENDING_WORK_CANNOT_DELIVER raised; state stayed RELEASE_REDUCING after refusal."
+    },
+    {
+      "id": "T2",
+      "case": "open required work order + -> DELIVERED is refused (pre-existing guard intact)",
+      "cmd": "PYTHONPATH=<isolated/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py::test_t2_delivered_refused_with_open_workorder",
+      "rc": 0,
+      "verdict": "PASS",
+      "observed": "1 passed. ERR_PENDING_WORK_CANNOT_DELIVER raised; state stayed DELIVERY_READY after refusal."
+    },
+    {
+      "id": "T3",
+      "case": "all required work orders VERIFIED + -> DELIVERY_READY is allowed and persisted",
+      "cmd": "PYTHONPATH=<isolated/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py::test_t3_delivery_ready_allowed_when_all_terminal",
+      "rc": 0,
+      "verdict": "PASS",
+      "observed": "1 passed. open workorders == []; project_lifecycles.state and last project_transitions.to_state both DELIVERY_READY in the spine."
+    },
+    {
+      "id": "T4",
+      "case": "illegal transition still refused; guard did not widen the transition set",
+      "cmd": "PYTHONPATH=<isolated/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py::test_t4_illegal_transition_still_refused",
+      "rc": 0,
+      "verdict": "PASS",
+      "observed": "1 passed. PROJECT_CREATED -> DELIVERED raised ERR_ILLEGAL_TRANSITION (not the pending-work error); state stayed PROJECT_CREATED."
+    }
+  ],
+  "suite_run": {
+    "cmd": "PYTHONPATH=<isolated/src> \"C:/Users/user/AppData/Roaming/uv/python/cpython-3.12-windows-x86_64-none/python.exe\" -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py",
+    "rc": 0,
+    "result": "4 passed",
+    "raw": "workers/w15_gate_lane/raw/pytest_run1.txt"
+  },
+  "negative_control": {
+    "purpose": "prove the four tests are not vacuous: they must fail on the unpatched source",
+    "tree": "workers/w15_gate_lane/baseline_unpatched/src (plain copy of HG-KSEOS/src, no patch)",
+    "cmd": "PYTHONPATH=<baseline_unpatched/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py",
+    "rc": 1,
+    "result": "1 failed, 3 passed",
+    "failed_case": "T1 - DID NOT RAISE LifecycleError (DELIVERY_READY was allowed with work orders open under the old guard)",
+    "raw": "workers/w15_gate_lane/raw/pytest_control_unpatched.txt",
+    "reading": "Only T1 changes verdict between patched and unpatched, which is exactly the one behaviour the diff claims to change; T2/T3/T4 are regression anchors that hold on both."
+  },
+  "replay": {
+    "diff_path": "workers/w15_gate_lane/proposal.reapplied.diff",
+    "diff_sha256": "3b342a3fe24a8a7614e9c5c76b97d45a610039c106401db6c47b675089d48072",
+    "cmd": "git apply -p1 --directory=_governance/round-20261022-r15_2/workers/w15_gate_lane/replay workers/w15_gate_lane/proposal.reapplied.diff  (from round-tree root)",
+    "rc": 0,
+    "sha256_before": "28c0fa40b87dcf158bf8a05a331ee503c8dc71c84bf5a71373b58a419dc9d344",
+    "sha256_after": "a58f68fe2f8059910ffbe8a4eb9228306bd4f23dc7409d23318b56d9871ab803",
+    "matches_isolated_after": true,
+    "replay_tests": {"cmd": "PYTHONPATH=<replay/src> python -m pytest -q -p no:cacheprovider workers/w15_gate_lane/test_delivery_ready_guard.py", "rc": 0, "result": "4 passed"},
+    "reading": "Replaying the emitted patch on a fresh unpatched copy reproduces the isolated patched file bit-for-bit (same sha256), and the four cases pass on the replay tree too."
+  },
+  "control_plane_untouched": true,
+  "control_plane_evidence": "HG-KSEOS/src/hg_kseos/lifecycle.py sha256 is 28c0fa40... before and after the whole turn, mtime unchanged at 2026-10-22T10:32:58, and `git status --short -- src/hg_kseos/lifecycle.py` in HG-KSEOS is empty. No git commit was run. No lane or sub-agent was dispatched.",
+  "fixture_provenance": "test_delivery_ready_guard.py copies the tempfile.mkdtemp + SharedSpine(path/'spine.db').initialize() fixture style from HG-KSEOS/tests/test_cs_a_gate_repair.py (D4PendingWorkCannotDeliverTests); no ORM or alternative persistence layer was invented.",
+  "claim_ceiling": "candidate diff validated in an isolated copy; not applied to the live control plane",
+  "gates": {
+    "captured_at": "2026-10-23T02:11:26+08:00",
+    "raw": "workers/w15_gate_lane/raw/gates_final.txt",
+    "preflight": {
+      "cmd": "python tools/mandate_gate.py check --role EXECUTE",
+      "rc": 0,
+      "verdict": "ALLOWED",
+      "bound_receipt": "receipts/dispatch/EXECUTE__BRIEF6_Q1b.json",
+      "model": "opencode-go/deepseek-v4.1-flash"
+    },
+    "audit": {
+      "cmd": "python tools/mandate_gate.py audit",
+      "rc": 1,
+      "verdict": "AUDIT_FAILED",
+      "unbound_or_missing": [
+        "W15.gate_proposal (EXECUTE): receipt exists for the lane but none is bound to this item",
+        "Q7.checker_qualification (PLAN): receipt exists for the lane but none is bound to this item"
+      ],
+      "reading": "RED, and reported rather than repaired. Both items are DONE under a mandated lane while carrying `lane_receipt_file: null`. The EXECUTE lane receipt does exist (EXECUTE__BRIEF6_Q1b.json, ok+nonce, consumed by the preflight above), so the defect is the item-to-receipt binding, not a missing lane run. Binding it means editing the orchestrator's queue, which is outside this lane's write boundary."
+    },
+    "continuation_guard": {
+      "cmd": "python tools/continuation_guard.py",
+      "rc": 2,
+      "verdict": "NOT_TERMINAL",
+      "blockers": [{"code": "READY_AGENT_ITEMS", "ids": ["Q5.tools_local", "Q3.m2_e2e", "Q1.apply_candidate"]}],
+      "reading": "RED: three AGENT-actionable items are READY (one is Q1.apply_candidate, i.e. applying this validated diff to the product). Agent work remains, so the round is not terminal. Not this lane's to close."
+    },
+    "gate_side_effect": {
+      "observation": "tools/continuation_guard.py rewrites QUEUE_R15_2.json unconditionally (line 77) on every invocation.",
+      "test": "sha256 of QUEUE_R15_2.json before and after a guard run: 4da4bf7ec32e61aca651d342740afc6c8cac5a34ef2dd81ee298b65001ffa16b on both sides.",
+      "result": "round-trip is byte-identical for the current queue, so running the mandated gate changes no content. Disclosed because the write exists, not because it altered anything."
+    },
+    "concurrent_writer_disclosure": "QUEUE_R15_2.json was rewritten at 02:09:52 local by an orchestrator/queue-advance process that is not this lane: it set W15.gate_proposal to DONE with lane_bypassed:false, added evidence[] across five items, and set satisfiable_by/required_lane on Q1.kind_matrix and Q2.semantic_denominator. This lane wrote only under workers/w15_gate_lane/ and did not edit the queue."
+  },
+  "residual_notes": [
+    "The interpreter named in the brief (uv cpython-3.12-windows-x86_64-none) shipped no pytest. pytest 9.1.1 was installed into the user site-packages of that same interpreter so the mandated command could run verbatim; no project file was changed.",
+    "The re-emitted diff's error string adds the suffix '(refused at {to_state})' relative to the original proposal. The behavioural contract is unchanged (same ERR_PENDING_WORK_CANNOT_DELIVER code); the suffix is what makes the refusal point observable to a caller."
+  ]
+}
