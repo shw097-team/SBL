@@ -69,6 +69,11 @@ def main() -> int:
         item["status"] = "RUNNING"
         save(q)
         log(f"[{steps}] {item['id']} :: {item['next_action']}")
+        try:
+            subprocess.run([sys.executable, os.path.join(R, "tools", "heartbeat.py"), item["id"]],
+                           capture_output=True, text=True, timeout=60)
+        except Exception:
+            pass
         ok, detail = run(item)
         item["attempts"] = int(item.get("attempts", 0)) + 1
         item["last_result"] = detail

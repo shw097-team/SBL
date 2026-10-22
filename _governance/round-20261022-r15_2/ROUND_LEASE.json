@@ -1,0 +1,52 @@
+{
+  "schema": "SBL_ROUND_LEASE/1",
+  "round_id": "round-20261022-r15_2",
+  "subject_sha": null,
+  "denominator_ref": "DENOMINATOR_R15_2.json",
+  "ready_set_ref": "QUEUE_R15_2.json",
+  "driver_cmd": "python tools/advance_queue.py --max-steps 3",
+  "stop_conditions": [
+    "destructive action",
+    "missing credential",
+    "mandated lane unavailable",
+    "owner-only decision"
+  ],
+  "ttl_minutes": 90,
+  "heartbeats": [
+    {
+      "at": "2026-10-22T16:04:37Z",
+      "step": "tick",
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:05:41Z",
+      "step": "tick",
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:06:30Z",
+      "step": "W11.lease_tests",
+      "ready": 1
+    },
+    {
+      "at": "2026-10-22T16:06:33Z",
+      "step": "AUTONOMY.scheduled",
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:08:21Z",
+      "step": "final",
+      "ready": 0
+    }
+  ],
+  "terminal_proof": null,
+  "heartbeat_utc": "2026-10-22T16:08:21Z",
+  "queue_digest": "ec75d075db0561ed8aa2e465703fab0277f8e75026f34ed91ce7a2bd8ab72df1",
+  "queue_counts": {
+    "READY": 0,
+    "DONE": 13,
+    "PARKED": 5,
+    "RUNNING": 0
+  },
+  "last_step": "final"
+}

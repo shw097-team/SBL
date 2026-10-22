@@ -221,3 +221,23 @@ empty". Both readings look like data. The fix is cheap and permanent: make the t
 3. **An instrument must record where it looked.** Zero findings plus a missing root is not a finding.
 4. **Evidence must survive a re-run of the tool that produced it.** If re-running the producer orphans the consumer's
    evidence, fold the consumer's data into the producer.
+
+## 11. Sixth iteration: I was scheduling myself
+
+### 11.1 The last layer of the same mistake
+
+After building a queue I still ended every turn, because the queue was pulled by the conversation. The architecture was
+asking the loop to be its own scheduler. Anything that must outlive a context window cannot be invoked by the thing it
+is meant to outlive.
+
+### 11.2 What the repair actually changed
+
+Three objects, each of which can fail: a lease (am I in flight?), a predicate (may I claim to be finished?), and a
+scheduler (who runs me if nobody speaks?). Writing them exposed two of my own defects immediately — a timezone bug that
+declared a fresh lease stale, and a proof file named `TERMINAL` that would have asserted completion the predicate never
+checked. Both were caught by the guard being a *program* rather than a paragraph, which is the whole point.
+
+### 11.3 Rule
+
+**If a claim matters, make it a predicate with a non-zero exit.** Prose assertions of completion, of progress, or of
+"blocked" are unfalsifiable, and unfalsifiable claims decay into optimism exactly when the work is longest.

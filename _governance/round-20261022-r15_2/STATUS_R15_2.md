@@ -550,3 +550,45 @@ statement than "absent".
   inside the script, so a re-run regenerates both — an evidence path that a re-run can orphan is not evidence.
 
 Denominator after this pass: W 4 DONE / 11 PARTIAL / 3 NOT_RUN; C 5 DONE / 13 PARTIAL / 7 NOT_RUN.
+
+## 17. The harness repair: continuation gets an owner
+
+### 17.1 What was still missing after the queue
+
+The queue removed the excuse that there was nowhere to go next, and the round still ended at turn boundaries, because
+the queue was **pulled by the conversation**. Three components were absent, and each is a component rather than a habit:
+
+| missing | consequence | now |
+|---|---|---|
+| a lease | no fact distinguished "in flight" from "abandoned" | `ROUND_LEASE.json`, stamped by `tools/heartbeat.py` on every step |
+| a close predicate | anyone could write "done" | `tools/continuation_guard.py`, exits non-zero and names the blocking ids |
+| a scheduler | nothing outside the chat could resume the loop | Hermes cron job `12eff9cba53c`, `no_agent`, every 20 minutes |
+
+### 17.2 The guard refuses, and it caught two of my own defects first
+
+- The first version computed the heartbeat age with `mktime` minus `timezone` and declared a **fresh** lease stale by
+  960 minutes. A guard that cries wolf is worse than none: fixed to `calendar.timegm`.
+- The second version wrote `ROUND_CLOSE_PROOF.json` with `verdict: TERMINAL`. That is the `DELIVERY_READY` defect
+  again — a name asserting more than the predicate checks. Renamed to `QUEUE_EXHAUSTION_PROOF.json`, with
+  `is_completion_claim: false`, `r15_2_complete: false`, and the reason spelled out. Queue exhaustion means *no agent
+  can act*, not *the order is done*.
+
+### 17.3 The scheduler is now live
+
+`hermes gateway install` fell back to a Startup-folder login item (UAC was not approved) and spawned the gateway
+(PID 14164). Job `12eff9cba53c` runs `tools/autonomy_tick.py` every 20 minutes with **no agent in the loop**: heartbeat,
+advance up to three items, apply the guard, and print only when something moved. From here the round advances without a
+chat turn — the repair is testable by the fact that it can now run while nobody is looking.
+
+### 17.4 Control-plane half (candidate, not applied)
+
+`workers/candidate_proposals/w11_continuation/continuation.py` — `continuation_leases` + `continuation_heartbeats`,
+`close_blockers()` returning `READY_AGENT_ITEMS` / `PARKED_WITHOUT_OWNER` / `STALE_LEASE` / `NO_TERMINAL_PROOF`, and
+`record_terminal()`. Six tests, all green, run against the module directly. A lease held by the thing it governs is not
+a lease, which is why this belongs in HG-KSEOS and not in the round tree.
+
+### 17.5 Honest state
+
+The loop is now architecturally continuous; the *order* is still not complete. Two work packages (W02, W12) remain
+`NOT_RUN` and need an owner determination, release is BLOCKED without a seal, and M4's semantic denominator is
+UNMEASURED. Continuation and completion are different predicates and this round now says so in a file.

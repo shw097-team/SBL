@@ -99,7 +99,9 @@
       "denominator_ref": "W02/C02",
       "next_action": "Fabric active policy disposition — needs an owner-issued determination of which policy version is active",
       "parked_reason": "OWNER_DECISION",
-      "retry_hint": "owner states the active policy digest; then the agent can bind it"
+      "retry_hint": "owner states the active policy digest; then the agent can bind it",
+      "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active",
+      "owner_action_source": "FAR_DECISIONS_R15_2.md"
     },
     {
       "id": "W12.swof",
@@ -108,7 +110,9 @@
       "denominator_ref": "W12/C20/M3",
       "next_action": "SWOF W3 admission — needs an owner-issued Domain Owner Native Admission",
       "parked_reason": "OWNER_DECISION",
-      "retry_hint": "owner issues the W3 admission; agent then runs the connected mode"
+      "retry_hint": "owner issues the W3 admission; agent then runs the connected mode",
+      "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
+      "owner_action_source": "FAR_DECISIONS_R15_2.md"
     },
     {
       "id": "W13.hosts",
@@ -117,7 +121,9 @@
       "denominator_ref": "W13/C22/E06",
       "next_action": "five tools / three reproducible ZIPs / three private ChatGPT hosts",
       "parked_reason": "HOST_PENDING",
-      "retry_hint": "host IDs and the private-plugin schema must come from the host"
+      "retry_hint": "host IDs and the private-plugin schema must come from the host",
+      "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence",
+      "owner_action_source": "FAR_DECISIONS_R15_2.md"
     },
     {
       "id": "W15.release",
@@ -126,7 +132,9 @@
       "denominator_ref": "W15/C23",
       "next_action": "release control bundle — needs the owner seal and a host-load receipt",
       "parked_reason": "OWNER_DECISION",
-      "retry_hint": "two owner-side artefacts; the agent may assemble but not sign"
+      "retry_hint": "two owner-side artefacts; the agent may assemble but not sign",
+      "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
+      "owner_action_source": "FAR_DECISIONS_R15_2.md"
     },
     {
       "id": "W16.perf",
@@ -135,7 +143,9 @@
       "denominator_ref": "W16/C16",
       "next_action": "B0/B1/B2 performance baselines — ownership of the baseline is an owner call",
       "parked_reason": "OWNER_DECISION",
-      "retry_hint": "owner names the baseline owner; agent then measures against it"
+      "retry_hint": "owner names the baseline owner; agent then measures against it",
+      "owner_action": "name the reference workload and accept or reject the observed thresholds",
+      "owner_action_source": "FAR_DECISIONS_R15_2.md"
     },
     {
       "id": "PROP.kinds",
@@ -206,6 +216,32 @@
       "last_result": "rc=0 secs=0.12 expect=hit\n    bundles 3\n    verbs 0",
       "last_run_utc": "2026-10-22T15:55:28Z",
       "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence"
+    },
+    {
+      "id": "W11.lease_tests",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W11/E04",
+      "next_action": "run the six continuation-lease tests against the candidate control-plane module",
+      "resume_cmd": "set \"UV_CACHE_DIR=C:/Users/user/AppData/Local/Temp/r152/uvcache\" && uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider workers/candidate_proposals/w11_continuation/test_continuation.py",
+      "expect": "100%",
+      "timeout_s": 420,
+      "attempts": 1,
+      "last_result": "rc=0 secs=2.2 expect=hit\n    ......                                                                   [100%]",
+      "last_run_utc": "2026-10-22T16:06:33Z"
+    },
+    {
+      "id": "AUTONOMY.scheduled",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W11",
+      "next_action": "assert a scheduler job exists that runs the tick with no agent in the loop",
+      "resume_cmd": "python -c \"import json,glob,os;p=os.path.expandvars(r'%LOCALAPPDATA%/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/cron/jobs.json');d=json.load(open(p,encoding='utf-8')) if os.path.exists(p) else [];jobs=d if isinstance(d,list) else d.get('jobs',[]);hit=[j for j in jobs if 'r152' in json.dumps(j).lower()];print('jobs',len(jobs));print('r152_jobs',len(hit));print('no_agent',bool(hit and hit[0].get('no_agent')))\"",
+      "expect": "r152_jobs 1",
+      "timeout_s": 120,
+      "attempts": 1,
+      "last_result": "rc=0 secs=0.25 expect=hit\n    jobs 1\n    r152_jobs 1\n    no_agent True",
+      "last_run_utc": "2026-10-22T16:06:33Z"
     }
   ],
   "runs": [
@@ -267,6 +303,33 @@
       "at": "2026-10-22T15:55:28Z",
       "steps": 2,
       "done": 11,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:04:37Z",
+      "steps": 0,
+      "done": 11,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:05:41Z",
+      "steps": 0,
+      "done": 11,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:06:33Z",
+      "steps": 2,
+      "done": 13,
       "parked": 5,
       "owner": 4,
       "host": 1,
