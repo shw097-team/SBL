@@ -1,0 +1,32 @@
+.F.                                                                      [100%]
+================================== FAILURES ===================================
+_____________________ test_duplicate_id_newest_file_wins ______________________
+
+tmp_path = WindowsPath('C:/Users/user/AppData/Local/Temp/q3b/pytmp/02_mutant_pytest/test_duplicate_id_newest_file_0')
+capsys = <_pytest.capture.CaptureFixture object at 0x000001AE497AB650>
+
+    def test_duplicate_id_newest_file_wins(tmp_path, capsys):
+        tool = load_tool()
+        older = tmp_path / "older.jsonl"
+        newer = tmp_path / "newer.jsonl"
+        write_jsonl(older, ['{"id": "WO-1", "owner": "bob", "status": "open"}'])
+        write_jsonl(newer, ['{"id": "WO-1", "owner": "alice", "status": "open"}'])
+        os.utime(older, (1_000_000, 1_000_000))
+        os.utime(newer, (2_000_000, 2_000_000))
+    
+        assert tool.main([str(older), str(newer)]) == 0
+        counts = parse(capsys.readouterr().out)
+    
+>       assert counts == {"alice": 1}
+E       AssertionError: assert {'bob': 1} == {'alice': 1}
+E         
+E         Left contains 1 more item:
+E         {'bob': 1}
+E         Right contains 1 more item:
+E         {'alice': 1}
+E         Use -v to get more diff
+
+tests\test_owner_load.py:69: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_owner_load.py::test_duplicate_id_newest_file_wins - Asserti...
+1 failed, 2 passed in 0.12s

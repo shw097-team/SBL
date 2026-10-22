@@ -1,8 +1,79 @@
 {
-  "schema": "SBL_Q3_M2_RESULT/1",
-  "composition": "composed by the orchestrator from the lane's own stage logs under workers/q3_e2e/logs/ plus three steps run here (affected regression, cleanup, outside-scope); the lane's receipt is RED (EXECUTE 1500s TIMEOUT, no nonce), so this file is NOT a lane DONE",
-  "task": "non-prebuilt CLI_TOOL: 'read JSONL work orders, print open work orders per owner, newest file wins on duplicate id'",
-  "pipeline_trace": "workers/q3_e2e/PIPELINE_TRACE.json (SBLM01 intake -> SBLM02 4 atoms -> SBLM03 CLI_TOOL_ROUTED -> SBLM04 wrote generated/owner_load.py, sha256 e10217d2fd6de980…, inside writeset ['generated'])",
+  "schema": "SBL_Q3_M2_RESULT/2",
+  "run": "re-run q3b (unique brief name BRIEF_Q3_E2E.md; the red run's artefacts are kept as *_PRIOR_RED)",
+  "brief_nonce": "EXECUTE-R152-Q3E2E2-NONCE-ce747836",
+  "brief": "workers/q3_e2e/_BRIEF_Q3_E2E.md",
+  "driver": "workers/q3_e2e/q3b_stages.py",
+  "task": "non-prebuilt CLI_TOOL: read JSONL work orders, print the open ones grouped by owner, newest file wins when the same id appears twice",
+  "scratch": "C:/Users/user/AppData/Local/Temp/q3b",
+  "child_env": {
+    "TEMP": "C:/Users/user/AppData/Local/Temp/q3b",
+    "TMP": "C:/Users/user/AppData/Local/Temp/q3b",
+    "TMPDIR": "C:/Users/user/AppData/Local/Temp/q3b",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "note": "scratch root is outside every git repo, which is why test_bind_repo_context_negative_not_a_repo is unaffected"
+  },
+  "pipeline": {
+    "trace": "workers/q3_e2e/PIPELINE_TRACE.json",
+    "goal_id": "G-10e73d650d94",
+    "atom_count": 4,
+    "atom_ids": [
+      "A-93824880de46",
+      "A-ec43a58e22d7",
+      "A-b09fda4b655e",
+      "A-3936c699d24c"
+    ],
+    "kind": "CLI_TOOL",
+    "route_target": "SBLM04_GOVERNED_BUILD_BRIDGE",
+    "route_permitted": true,
+    "writeset_passed": [
+      "generated"
+    ],
+    "written_path": "generated/owner_load.py",
+    "written_bytes": 2850,
+    "containment_refusals": {
+      "outside_writeset": "SBL_E_WRITE_OUTSIDE_WRITESET",
+      "traversal": "SBL_E_WRITE_OUTSIDE_WRITESET"
+    },
+    "stages": [
+      {
+        "module": "SBLM01",
+        "entry_point": "GoalIntake.intake",
+        "verdict": "goal accepted",
+        "output": "G-10e73d650d94"
+      },
+      {
+        "module": "SBLM02",
+        "entry_point": "GuidedSpecification.derive",
+        "verdict": "4 source-bound atoms derived",
+        "output": "A-93824880de46, A-ec43a58e22d7, A-b09fda4b655e, A-3936c699d24c"
+      },
+      {
+        "module": "SBLM03",
+        "entry_point": "GovernedRouting.route",
+        "verdict": "permitted=True (CLI_TOOL_ROUTED)",
+        "output": "SBLM04_GOVERNED_BUILD_BRIDGE"
+      },
+      {
+        "module": "SBLM04",
+        "entry_point": "GovernedBuildBridge.prepare/apply",
+        "verdict": "wrote generated/owner_load.py inside writeset ['generated', 'generated/owner_load.py']",
+        "output": "O-55be98b93b25"
+      },
+      {
+        "module": "SBLM05",
+        "entry_point": "EvidenceVerification.record/verdict",
+        "verdict": "PASS at claim level LOCAL (denominator 3, exit 0)",
+        "output": "PASS"
+      },
+      {
+        "module": "SBLM06",
+        "entry_point": "BoundedRepair.plan",
+        "verdict": "NARROW_REPAIR planned from the mutant's assertion failure",
+        "output": "R-a413f42c899f"
+      }
+    ]
+  },
   "predicate": {
     "baseline_pass": true,
     "mutant_fails_expected_assertion": true,
@@ -11,52 +82,113 @@
     "outside_scope_unchanged": true,
     "cleanup_verified": true
   },
-  "evidence": {
+  "counts": {
     "baseline": {
-      "log": "logs/03_baseline_pytest.txt",
-      "observed": "3 passed in 0.08s"
-    },
-    "mutation": {
-      "diff": "MUTATION.diff",
-      "change": "sorted(paths, key=os.path.getmtime) -> reverse=True (newest-wins rule inverted)"
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0,
+      "summary": "3 passed in 0.06s",
+      "log": "logs_q3b/01_baseline_pytest.txt"
     },
     "mutant": {
-      "log": "logs/04_mutant_pytest.txt",
-      "observed": "FAILED test_owner_load.py::test_duplicate_id_newest_file_wins — 1 failed, 2 passed"
-    },
-    "repair": {
-      "log": "logs/05_repair.json",
-      "observed": "restored_to_baseline_bytes: true; tests 3 passed"
+      "passed": 2,
+      "failed": 1,
+      "exit_code": 1,
+      "summary": "1 failed, 2 passed in 0.12s",
+      "failing_test": "tests/test_owner_load.py::test_duplicate_id_newest_file_wins",
+      "first_fail": "AssertionError: assert {'bob': 1} == {'alice': 1} at tests/test_owner_load.py:69",
+      "failure_kind": "assertion",
+      "import_error_or_crash": false,
+      "log": "logs_q3b/02_mutant_pytest.txt"
     },
     "repaired": {
-      "log": "logs/06_repaired_pytest.txt",
-      "observed": "3 passed in 0.05s"
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0,
+      "summary": "3 passed in 0.03s",
+      "log": "logs_q3b/03_repaired_pytest.txt"
     },
     "affected_regressions": {
-      "cmd": "python -m pytest -q -p no:cacheprovider tests",
-      "observed": "rc=0, 0 FAILED, 100% (full suite run by the orchestrator after the SKILL alias repair)",
-      "log": "C:/Users/user/AppData/Local/Temp/r152_full3.txt"
+      "cmd": "python -m pytest -q -p no:cacheprovider tests/test_core_modules.py tests/test_kind_matrix.py",
+      "exit_code": 0,
+      "tests": 72,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "counts_source": "logs_q3b/04_regression.xml (JUnit), because the terminal summary line is suppressed by double -q: PYTEST_ADDOPTS already carries -q and -p no:cacheprovider, and pyproject addopts carries -q",
+      "log": "logs_q3b/04_regression_pytest.txt",
+      "xml": "logs_q3b/04_regression.xml",
+      "env_note": "TEMP/TMP/TMPDIR pinned to C:/Users/user/AppData/Local/Temp/q3b, outside every git repo, exactly as the brief requires"
     },
-    "outside_scope": {
-      "snapshot": "SNAPSHOT_BEFORE.txt",
-      "note": "only round-tree artefacts added; product files changed are the ones two separate briefs authorised"
-    },
-    "cleanup": {
-      "uninstall_rc": 0,
-      "doctor_after_uninstall_rc": 2,
-      "observed": "stack.json missing: this directory is not an installed stack",
-      "removed": [
-        "target",
-        "generated",
-        "pytest_tmp"
-      ]
+    "regression_environment_control": {
+      "why": "the same two-file command is RED on this host when the inherited TEMP is used, and the brief predicted the reason",
+      "failing_test": "tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo",
+      "inherited_TEMP": "C:/Projects/Agent_Workspace/HG-KSEOS/var/far-lane-sod-003/scratch",
+      "mechanism": "inherited TEMP is inside the HG-KSEOS git repository, so tempfile.mkdtemp() hands out a directory that git resolves to a work tree (`git rev-parse --show-toplevel` -> C:/Projects/Agent_Workspace/HG-KSEOS); bind_repo_context then correctly succeeds and the negative test's `pytest.raises` does not trigger",
+      "inherited_temp_run": {"exit_code": 1, "tests": 72, "failures": 1, "log": "logs_q3b/10_negative_control_inherited_temp.txt"},
+      "pinned_temp_run": {"exit_code": 0, "tests": 72, "failures": 0, "log": "logs_q3b/09_negative_control_clean_temp.txt"},
+      "conclusion": "the failure is environmental, not caused by the generated tool or the mutation/repair cycle; with the brief-mandated pinned temp the affected regression is green"
     }
   },
-  "first_fail": "AssertionError at test_owner_load.py:69 (test_duplicate_id_newest_file_wins): the newest file must win on a duplicate id",
+  "sha256": {
+    "pre_mutation": "e10217d2fd6de980a294d98fdd0cb4452398faf455ec9baec24ab0c37830adef",
+    "mutated": "90ec4935cb55ddf9c43ca5fee406dcaa52642cff5c9e9150a0fa2b7e59e6ccc7",
+    "after_repair": "e10217d2fd6de980a294d98fdd0cb4452398faf455ec9baec24ab0c37830adef",
+    "repaired_equals_pre_mutation": true,
+    "repair_method": "restored from the pre-mutation copy saved before mutating (owner_load.pre_mutation.py), not by re-deriving the edit",
+    "matches_prior_red_run_baseline_sha": true
+  },
+  "mutation": {
+    "file": "generated/owner_load.py (generated artefact, not product source)",
+    "replaced_line": "for path in sorted(paths, key=os.path.getmtime):",
+    "mutation_line": "for path in sorted(paths, key=os.path.getmtime, reverse=True):",
+    "changed_lines": 1,
+    "semantics": "newest-wins inverted to oldest-wins",
+    "diff": "workers/q3_e2e/MUTATION.diff"
+  },
+  "outside_scope": {
+    "evidence": "logs_q3b/08_outside_scope.json",
+    "product_file_count": 40,
+    "product_tree_digest": "ab61c562ffa7f61bd942ef6ce487d5d6be68ea499a4dcc003a17ee28aa010c88",
+    "product_files_touched_since_run_start": [],
+    "head_before": "47f2a0fba1776ccd24d869d25e8d465d73987b20",
+    "head_after": "47f2a0fba1776ccd24d869d25e8d465d73987b20",
+    "dirty_product_files": "none added by this run; the product tree (sbl_core, sbl_stack, sbl_cli, tests) has no modified .py file newer than the run's first write",
+    "governance_tree_changes": [
+      "modified: workers/q3_e2e/PIPELINE_TRACE.json (inside this worker's allowed write area)",
+      "untracked: workers/q3_e2e/{BRIEF_Q3_E2E.md,_BRIEF_Q3_E2E.md,MUTATION_PRIOR_RED.diff,PIPELINE_TRACE_PRIOR_RED.json,Q3_RESULT_PRIOR_RED.json,logs_q3b/,q3b_stages.py}",
+      "pre-existing before this brief and untouched: QUEUE_EXHAUSTION_PROOF.json, ROUND_LEASE.json, evidence/WO-TS-20261022-06/exact_set_readback.json"
+    ]
+  },
+  "cleanup": {
+    "evidence": "logs_q3b/07_cleanup.json",
+    "uninstall_cmd": "python -m sbl_stack.cli uninstall --root C:/Users/user/AppData/Local/Temp/q3b/stack",
+    "uninstall_rc": 0,
+    "doctor_cmd": "python -m sbl_stack.cli doctor --root C:/Users/user/AppData/Local/Temp/q3b/stack",
+    "doctor_after_uninstall_rc": 2,
+    "doctor_typed_problem": "stack.json is missing: this directory is not an installed stack",
+    "doctor_refused": true,
+    "generated_dir_deleted": true,
+    "generated_dir_exists_after": false,
+    "removed_files": [
+      "target/generated/owner_load.py"
+    ],
+    "listing_after": [
+      ".git",
+      "README.md"
+    ]
+  },
+  "gates": {
+    "mandate_gate_check_execute": "ALLOWED (lane EXECUTE, receipt EXECUTE__W15GATE.json ok=true nonce=true)",
+    "mandate_gate_audit": "AUDIT_FAILED rc=1 — Q3.m2_e2e is DONE with no lane receipt bound to it; this brief runs inside the lane that must produce that binding, and binding a receipt to the queue item is not a product write this worker may make",
+    "continuation_guard": "QUEUE_EXHAUSTED rc=0"
+  },
   "honest_notes": [
-    "the lane hit its 1500s cap without emitting the nonce; every stage file above is the lane's own output, but the completion claim is this file's, not the lane's",
-    "the mutant failure is a real assertion failure (non-zero exit WITH a failing test), not an import error",
-    "the first regression run was RED because applying the eight-kind candidate had dropped the SKILL kind; that is disclosed as this round's own regression and repaired by a separate bounded alias change"
+    "M04 governs where the bytes land (repo context, HEAD, writeset, lexical + real-path containment); the tool bytes are written by a bounded writer because this tree has no product code-generation module. The pipeline is presented as governed placement, not as code generation.",
+    "The 72-test regression count comes from JUnit XML because double -q suppresses the terminal summary; the exit code is 0 either way, and every test is accounted for (72 collected, 0 failed, 0 error, 0 skipped).",
+    "Running the same regression command with the INHERITED temp root makes tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo fail, because the inherited temp root lives inside the HG-KSEOS repository. Measured both ways (logs_q3b/09 vs 10); the pinned-temp run is the one this receipt claims, and the environment control is recorded rather than hidden.",
+    "The affected-regression command is exactly the two files the brief names; the whole suite was not re-run in this receipt.",
+    "The bash-style heredoc attempted once against PowerShell failed and produced no evidence; it is not cited anywhere."
   ],
-  "claim_ceiling": "one task, one host, real six modules; locally verified only. Not a product acceptance and not an independent verification."
+  "claim_ceiling": "locally verified single task; not independently accepted"
 }

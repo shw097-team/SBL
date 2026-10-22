@@ -1,0 +1,62 @@
+{
+  "schema": "SBL_Q3_M2_RESULT/1",
+  "composition": "composed by the orchestrator from the lane's own stage logs under workers/q3_e2e/logs/ plus three steps run here (affected regression, cleanup, outside-scope); the lane's receipt is RED (EXECUTE 1500s TIMEOUT, no nonce), so this file is NOT a lane DONE",
+  "task": "non-prebuilt CLI_TOOL: 'read JSONL work orders, print open work orders per owner, newest file wins on duplicate id'",
+  "pipeline_trace": "workers/q3_e2e/PIPELINE_TRACE.json (SBLM01 intake -> SBLM02 4 atoms -> SBLM03 CLI_TOOL_ROUTED -> SBLM04 wrote generated/owner_load.py, sha256 e10217d2fd6de980…, inside writeset ['generated'])",
+  "predicate": {
+    "baseline_pass": true,
+    "mutant_fails_expected_assertion": true,
+    "repaired_pass": true,
+    "affected_regressions_pass": true,
+    "outside_scope_unchanged": true,
+    "cleanup_verified": true
+  },
+  "evidence": {
+    "baseline": {
+      "log": "logs/03_baseline_pytest.txt",
+      "observed": "3 passed in 0.08s"
+    },
+    "mutation": {
+      "diff": "MUTATION.diff",
+      "change": "sorted(paths, key=os.path.getmtime) -> reverse=True (newest-wins rule inverted)"
+    },
+    "mutant": {
+      "log": "logs/04_mutant_pytest.txt",
+      "observed": "FAILED test_owner_load.py::test_duplicate_id_newest_file_wins — 1 failed, 2 passed"
+    },
+    "repair": {
+      "log": "logs/05_repair.json",
+      "observed": "restored_to_baseline_bytes: true; tests 3 passed"
+    },
+    "repaired": {
+      "log": "logs/06_repaired_pytest.txt",
+      "observed": "3 passed in 0.05s"
+    },
+    "affected_regressions": {
+      "cmd": "python -m pytest -q -p no:cacheprovider tests",
+      "observed": "rc=0, 0 FAILED, 100% (full suite run by the orchestrator after the SKILL alias repair)",
+      "log": "C:/Users/user/AppData/Local/Temp/r152_full3.txt"
+    },
+    "outside_scope": {
+      "snapshot": "SNAPSHOT_BEFORE.txt",
+      "note": "only round-tree artefacts added; product files changed are the ones two separate briefs authorised"
+    },
+    "cleanup": {
+      "uninstall_rc": 0,
+      "doctor_after_uninstall_rc": 2,
+      "observed": "stack.json missing: this directory is not an installed stack",
+      "removed": [
+        "target",
+        "generated",
+        "pytest_tmp"
+      ]
+    }
+  },
+  "first_fail": "AssertionError at test_owner_load.py:69 (test_duplicate_id_newest_file_wins): the newest file must win on a duplicate id",
+  "honest_notes": [
+    "the lane hit its 1500s cap without emitting the nonce; every stage file above is the lane's own output, but the completion claim is this file's, not the lane's",
+    "the mutant failure is a real assertion failure (non-zero exit WITH a failing test), not an import error",
+    "the first regression run was RED because applying the eight-kind candidate had dropped the SKILL kind; that is disclosed as this round's own regression and repaired by a separate bounded alias change"
+  ],
+  "claim_ceiling": "one task, one host, real six modules; locally verified only. Not a product acceptance and not an independent verification."
+}

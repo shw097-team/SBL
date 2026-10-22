@@ -713,3 +713,17 @@ instruments therefore disagree, and the stricter one (the audit) is the one to b
 `python tools/run_lane.py --role EXECUTE --brief workers/q3_e2e/BRIEF_Q3_E2E.md --nonce <fresh> --timeout 1800` —
 then bind `receipts/dispatch/EXECUTE__BRIEF_Q3_E2E.json`. Until that green receipt exists, Q3/M2 stays
 `locally measured, red lane receipt`, and M2 stays `PARTIAL`.
+
+### 12.5 Gate re-closed with a real green receipt (2026-10-22T19:47:55Z)
+
+Q3 was re-dispatched with a unique brief (`workers/q3_e2e/BRIEF_Q3_E2E.md`, 1800s) rather than papered over:
+
+- receipt `receipts/dispatch/EXECUTE__BRIEF_Q3_E2E.json` — `ok=true`, `opencode-go/deepseek-v4.1-flash`, rank 1,
+  **629.89 s**, nonce present, `timed_out=false`;
+- six predicates true, pre-mutation sha256 `e10217d2fd6de980…` restored byte-identically after the bounded repair,
+  uninstall rc 0 then `doctor` rc 2 (typed refusal);
+- `mandate_gate audit` → **AUDIT_CLEAN (26 items)** again; this is now backed by a receipt that names Q3, not by any
+  other lane's receipt.
+
+The earlier AUDIT_FAILED (§12.4) is kept in this file on purpose: the round's record must show that the gate once
+refused, and what was done instead of a false binding.

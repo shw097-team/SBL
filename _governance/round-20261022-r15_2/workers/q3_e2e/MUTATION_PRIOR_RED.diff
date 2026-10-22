@@ -1,0 +1,11 @@
+--- generated/owner_load.py (baseline)
++++ generated/owner_load.py (mutant)
+@@ -49,7 +49,7 @@
+     """Merges the files by id, keeping the entry from the newest file."""
+ 
+     merged = {}
+-    for path in sorted(paths, key=os.path.getmtime):
++    for path in sorted(paths, key=os.path.getmtime, reverse=True):
+         for record in read_orders(path):
+             merged[str(record["id"])] = record
+     return merged
