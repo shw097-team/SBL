@@ -1,0 +1,26 @@
+{
+  "schema": "SBL_CONTROL_PLANE_DISPOSITION/1",
+  "at_utc": "2026-10-22T17:19:56Z",
+  "authority": "PLAN lane (gpt-6.1-sol, PLAN__RESIDUAL_CLOSURE.json) Q6 criterion + owner max-preauthorisation of FAR",
+  "criterion_applied": "adopt only if provenance + permit scope + independent security review + targeted tests all validate; otherwise restore the verified baseline, preserving unrelated dirty work",
+  "measured": {
+    "provenance": "none: written by kanban tasks t_0a223bab/t_60dc110f, not by an authorised control-plane change",
+    "permit_scope": "none",
+    "independent_security_review": "none",
+    "targeted_tests": "unknown origin"
+  },
+  "verdict": "RESTORE_BASELINE",
+  "actions": [
+    "scripts/hgk_sp_identity.py removed (copy kept)",
+    "tests/fixtures/stub_lane_child_echo_prompt.py removed (copy kept)",
+    "tests/test_sp_identity_prespawn.py removed (copy kept)",
+    "scripts/hgk-lane-dispatch.py restored to committed baseline (copy kept)",
+    "tests/test_matrix_m02_resume.py removed (copy kept)",
+    "tests/test_sp_identity_commander_plan.py removed (copy kept)"
+  ],
+  "preserved_unrelated": {
+    "head": "f380719",
+    "note": "Codex-authored docs/ADOPTION-D08-O3-UNTRACKED-TESTS-20261023.md left in place; it is documentation, not control-plane code"
+  },
+  "rollback": "all six files exist under this directory with SHA256SUMS.txt; re-apply by copying back"
+}
