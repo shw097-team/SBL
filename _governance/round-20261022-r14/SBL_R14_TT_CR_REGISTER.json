@@ -581,6 +581,20 @@
         "raw/ts10_lifecycle/receipts.json",
         "raw/ts10_lifecycle/VERBS.md"
       ]
+    },
+    {
+      "id": "TT-R14-033",
+      "title": "The published evidence mirror had drifted from the local packet",
+      "first_broken_link": "ts03_probe_matrix.json on the evidence branch still recorded scope_path_enforcement as GAP while the local re-run (after the scope patch) showed SATISFIED, and the two files were never re-synchronised",
+      "earliest_owner": "round orchestrator (mirror discipline)",
+      "required_authority": "none",
+      "repair_cone": "re-published the current matrix; the readback now distinguishes CRLF-only differences (53 of 54) from real content differences (1), and the two denominators are recorded separately",
+      "status": "CLOSED",
+      "closed_by": "evidence 4450bfa + republish commit",
+      "evidence": [
+        "raw/ts28_readback_denominator.json",
+        "raw/ts03_probe_matrix.json"
+      ]
     }
   ]
 }

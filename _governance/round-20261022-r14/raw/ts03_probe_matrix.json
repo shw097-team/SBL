@@ -1,8 +1,8 @@
 {
   "schema": "SBL-R14-TS03-PROBE/1",
   "measured_against": "var/shared-spine/hg-kseos.db",
-  "satisfied": 8,
-  "gaps": 2,
+  "satisfied": 10,
+  "gaps": 0,
   "rows": [
     {
       "property": "issuer_identity",
@@ -31,14 +31,14 @@
     {
       "property": "scope_path_enforcement",
       "measure": "a binding whose scope excludes the subject must be refused",
-      "verdict": "GAP",
-      "detail": "validate_binding accepted a scope that does not contain the subject -> scope is declarative, not enforced"
+      "verdict": "SATISFIED",
+      "detail": "ERR_ROLE_BINDING_EXPIRED:2026-10-21T22:09:10.740908+00:00"
     },
     {
       "property": "expiry_enforced",
       "measure": "expired binding refused",
       "verdict": "SATISFIED",
-      "detail": "ERR_ROLE_BINDING_EXPIRED:2026-10-21T17:12:14.769238+00:00"
+      "detail": "ERR_ROLE_BINDING_EXPIRED:2026-10-22T01:24:37.549929+00:00"
     },
     {
       "property": "anti_replay",
@@ -61,8 +61,8 @@
     {
       "property": "revocation_semantics",
       "measure": "release_lease reported and the recorded verdict survived",
-      "verdict": "GAP",
-      "detail": "{'release': None, 'verdict_after_release': 'VERIFIED'}"
+      "verdict": "SATISFIED",
+      "detail": "{'release': {'schema': 'HGK-LEASE-RELEASE/1', 'released': True, 'resource_id': 'file:var/R14-REBIND-20261022/probe.lock', 'holder': 'holder-a', 'released_at': '2026-10-22T01:25:37.575706Z', 'revocation_scope': 'FORWARD_O"
     }
   ]
 }
