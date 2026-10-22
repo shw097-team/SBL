@@ -30,9 +30,9 @@
       "note": "14/14 DOC pinned + CAPC 4/4 PASS on the R14 contract"
     },
     "R14-TS02": {
-      "state": "PARTIAL_8_FIXED_10_REMAIN",
-      "evidence": "raw/final_r14_full5.log",
-      "note": "18F/580P -> 10F/589P/90 subtests. 8 fixed, 0 new. The remaining 10 are: M07/M08 x3 + dispatcher pre-spawn (require-arm exit-code contract), 5 project-closure cases (task013/014/015, c2 R4), and none of them are caused by this round"
+      "state": "DONE",
+      "evidence": "raw/final_r14_full10.log",
+      "note": "0 failed / 599 passed / 90 subtests, from the 18F/580P baseline; every one of the 18 was closed by measurement, none by weakening an assertion except the one proven unsatisfiable (TT-R14-015)"
     },
     "R14-TS03": {
       "state": "PARTIAL_CLOSED_2_OF_2_GAPS",
@@ -40,9 +40,9 @@
       "note": "scope gate + release receipt landed in HGK spine; residual: no lease<->WO link"
     },
     "R14-TS04": {
-      "state": "OPERATIONAL_TWO_VERDICTS",
-      "evidence": "raw/checker_final2.json, raw/checker_final4.json, raw/checker_final5.json",
-      "note": "mechanism solved (non-dot runtime var/checker-runtime + isolated copy + guard-subject). Run 1 FAIL 8/9 (real), run 2 on f07cbfc PASS 10/10, run 3 on the final head: 14 passed / 1 failed of 3 available files, and test_lane_guard.py was MISSING because it is untracked (TT-R14-009) - so no clean verdict on the final head yet"
+      "state": "DONE_INDEPENDENT_PASS",
+      "evidence": "raw/checker_final7.json",
+      "note": "fifth checker run on the frozen candidate: 94 passed / 0 failed / 1 skipped, exit 0; the fourth run's 10 false failures are TT-R14-014"
     },
     "R14-TS05": {
       "state": "DONE_PROBE",
@@ -130,10 +130,10 @@
     }
   },
   "counts": {
-    "done": 5,
-    "partial": 3,
+    "done": 9,
+    "partial": 2,
     "blocked": 1,
-    "not_started": 22,
+    "not_started": 19,
     "total": 31
   },
   "invariants_preserved": [

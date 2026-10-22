@@ -231,7 +231,7 @@
       "earliest_owner": "HG-KSEOS Owner",
       "required_authority": "owner decision to track them (or to define the freeze as an explicit manifest)",
       "repair_cone": "either commit the oracle tests or freeze with a manifest of the files actually exercised; never let a checker adjudicate against a candidate that is missing its oracle",
-      "status": "OPEN",
+      "status": "CLOSED",
       "blocking": [
         "R14-TS04",
         "R14-TS02"
@@ -239,7 +239,9 @@
       "evidence": [
         "raw/checker_final5.json"
       ],
-      "observed": "git ls-files tests/test_lane_guard.py -> 0; the checker reported 'Available 3 files ... test_lane_guard.py missing'"
+      "observed": "git ls-files tests/test_lane_guard.py -> 0; the checker reported 'Available 3 files ... test_lane_guard.py missing'",
+      "closed_by": "HG-KSEOS 9fa79dd + db68ee4",
+      "resolution": "A 16,734-entry inventory classified every path by content, not by name: 252 genuine source files are now tracked (so 'git archive' freezes the superoracle they adjudicate), 15,989 artifact entries are excluded via 154 precise .git/info/exclude patterns (preimage kept), 9 scratch files quarantined, and the six inherited tracked diffs were preserved byte-for-byte in a baseline commit that claims no authorship."
     },
     {
       "id": "TT-R14-010",
@@ -262,13 +264,15 @@
       "earliest_owner": "round orchestrator (self-inflicted)",
       "required_authority": "none",
       "repair_cone": "claim and complete the cards as the work lands, and require real parallel children for a SWARM claim; gate the round on child done-rate, not on the root card",
-      "status": "OPEN_BEING_REPAIRED",
+      "status": "CLOSED",
       "blocking": [
         "R14-TS01"
       ],
       "evidence": [
         "FAR_R14_3_SURFACES_AND_STOPPING.md"
-      ]
+      ],
+      "closed_by": "kanban board sbl-r14-full-product 7/7 done",
+      "resolution": "All seven cards were claimed, commented and completed WITH result+metadata (the CLI refuses an empty completion), so the board is now an execution record rather than a picture; the worker cards carry the commit ids, the suite numbers and the checker verdict they closed on."
     },
     {
       "id": "TT-R14-012",
@@ -293,6 +297,35 @@
       "status": "CORRECTED",
       "evidence": [
         "FAR_R14_3_SURFACES_AND_STOPPING.md"
+      ]
+    },
+    {
+      "id": "TT-R14-014",
+      "title": "A frozen candidate must carry its own oracle, toolchain pin and scratch parent",
+      "first_broken_link": "checker run 4 on a clean git-archive copy reported 10 failures and named the cause itself: the untracked oracle tests, var/FAR-LANE-REUSE-RCA-20261015/sources/task_local_toolchain.json and a TEST_RESULTS parent outside the copy were all missing, so the candidate was judged without the fixtures that define it",
+      "earliest_owner": "round orchestrator",
+      "required_authority": "none",
+      "repair_cone": "freeze from an explicit manifest (tracked tree + named untracked fixtures by digest + the scratch parent), and make the checker report missing fixtures as MISSING_FIXTURE rather than as test failures",
+      "status": "OPEN_DOCUMENTED",
+      "blocking": [
+        "R14-TS04"
+      ],
+      "evidence": [
+        "raw/checker_final6.json",
+        "raw/checker_final7.json"
+      ]
+    },
+    {
+      "id": "TT-R14-015",
+      "title": "The denominator head predicate was unsatisfiable as written",
+      "first_broken_link": "the file records the sha of the commit containing it, and writing that sha changes the tree hence the sha; measured: the equality only held while the pin sat uncommitted, so a clean tree could never pass",
+      "earliest_owner": "acceptance harness owner",
+      "required_authority": "oracle change (executed under owner blanket authorization, disclosed)",
+      "repair_cone": "pin must be HEAD or an ancestor of HEAD (git merge-base --is-ancestor), which still catches a foreign or abandoned head",
+      "status": "CLOSED_ORACLE_CORRECTED",
+      "closed_by": "HG-KSEOS b5e8614",
+      "evidence": [
+        "raw/final_r14_full10.log"
       ]
     }
   ]
