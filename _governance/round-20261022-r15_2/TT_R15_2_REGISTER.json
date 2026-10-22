@@ -585,21 +585,53 @@
           "PLAN: read-only analysis"
         ],
         "orchestrator_wrote_them": false,
-        "quarantine": "evidence/LANE_ESCAPE_20261023/ (4 files + SHA256SUMS + MANIFEST)"
+        "quarantine": "evidence/LANE_ESCAPE_20261023/ (4 files + SHA256SUMS + MANIFEST)",
+        "kanban_tasks_blocked": [
+          "t_0a223bab",
+          "t_60dc110f"
+        ],
+        "hgk_head_moved_by": {
+          "commit": "f380719",
+          "author": "Codex <codex@local.invalid>",
+          "at": "2026-10-23 01:06:54 +0800",
+          "subject": "D-08/O-3: adopt the nine untracked test modules, with provenance and the ceiling that remains"
+        },
+        "untracked_after": [
+          "tests/test_matrix_m02_resume.py",
+          "tests/test_sp_identity_commander_plan.py"
+        ]
       },
       "conflict": "a bounded writer with danger-full-access and cwd at the round tree can reach any repository on the host; the write-set is a declaration, not a sandbox. It also explains the 540s 'self-dispatch loop': the model was building lane infrastructure, not the W15 brief",
-      "decision": "CONTAINED_NOT_REVERTED",
-      "resolution": "files preserved and hashed; HG-KSEOS working tree left as-is pending owner instruction (reverting could destroy somebody's real work); no further lane dispatch until the owner rules; run_lane now snapshots git status before/after and writes a control_plane_delta receipt on any change",
+      "decision": "CONTAINED_WRITERS_BLOCKED_HEAD_NOT_REVERTED",
+      "resolution": "files preserved and hashed; HG-KSEOS working tree left as-is pending owner instruction (reverting could destroy somebody's real work); no further lane dispatch until the owner rules; run_lane now snapshots git status before/after and writes a control_plane_delta receipt on any change | Correction: the writers were two Kanban board tasks, now blocked in kanban.db; the gateway cron tick that fed the board is paused (job 12eff9cba53c). Codex also committed f380719 into HG-KSEOS; that commit is left in place because reverting could destroy deliberate board work - owner call.",
       "evidence": [
         "evidence/LANE_ESCAPE_20261023/MANIFEST.json",
         "receipts/dispatch/EXECUTE__BRIEF4.json"
+      ],
+      "corrected_attribution": "WRONG AS FILED. The writers were not the lane dispatches: they were Hermes Kanban board tasks on board sbl-r13-native (t_0a223bab Commander-SP identity -> PLAN pre-handoff, t_60dc110f Challenge-SP identity -> VERIFY pre-spawn), both status running, both spawning codex children with --sandbox read-only overridden by windows.sandbox=elevated. t_60dc110f also ended in ERR_LANE_ALL_ROUTES_EXHAUSTED after 387.72s."
+    },
+    {
+      "tt_id": "TT-R15.2-ATTRIBUTION-ERROR-LANE-VS-KANBAN",
+      "kind": "TT",
+      "severity": "RESOLVED_MEASURED",
+      "subject": "I accused the lanes of writing the control plane; the writers were Kanban tasks",
+      "observed": {
+        "my_claim": "'codex lanes created and modified files inside HG-KSEOS during dispatch windows'",
+        "measured_truth": "two kanban tasks on sbl-r13-native were running and their codex children held cwd in the board workspace but wrote into HG-KSEOS; commit f380719 is authored by Codex <codex@local.invalid>"
+      },
+      "conflict": "timestamp overlap was treated as causation: the lane windows and the kanban windows coincided",
+      "decision": "CORRECTED_IN_PLACE",
+      "resolution": "TT-R15.2-LANE-WROTE-CONTROL-PLANE carries corrected_attribution; writers blocked; quorum evidence kept.",
+      "evidence": [
+        "evidence/LANE_ESCAPE_20261023/CONTROL_PLANE_HEAD_AT_0114.txt",
+        "kanban.db tasks.status for t_0a223bab and t_60dc110f = blocked"
       ]
     }
   ],
   "counts": {
-    "total": 23,
+    "total": 24,
     "hard_blocker": 0,
-    "resolved_measured": 4,
+    "resolved_measured": 5,
     "contained": 2
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",

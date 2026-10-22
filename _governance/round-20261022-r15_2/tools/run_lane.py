@@ -67,8 +67,7 @@ def main() -> int:
         side = out.replace(".json", ".control_plane_delta.json")
         json.dump({"before": hgk_before.splitlines(), "after": hgk_after.splitlines(), "new": new,
                    "verdict": "LANE_TOUCHED_CONTROL_PLANE"},
-                  open(side, "w", encoding="utf-8", newline="
-"), ensure_ascii=False, indent=2)
+                  open(side, "w", encoding="utf-8", newline=chr(10)), ensure_ascii=False, indent=2)
         print(f"LANE_TOUCHED_CONTROL_PLANE ({len(new)} new entries) -> {side}")
     print("dispatch_exit=", p.returncode)
     print("\n".join(tail))
