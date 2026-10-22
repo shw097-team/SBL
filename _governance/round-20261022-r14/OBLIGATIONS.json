@@ -186,16 +186,16 @@
     {
       "id": "R14-TS15",
       "title": "通用真 Engine／One Core E05/M2",
-      "state": "PARTIAL",
-      "next_action": "generate + install + really USE three new programs of the three kinds (routing alone is not the engine)",
+      "state": "DONE",
+      "next_action": "",
       "evidence": [
-        "raw/ts15_engine_readiness.md",
-        "raw/ts15_wo.json",
+        "raw/ts23_m2_dogfood.json",
+        "raw/ts23_live_wo.json",
         "raw/ts15_result.json",
         "raw/ts15_sbl_full2.log"
       ],
       "depends_on": [],
-      "note": "Routing half DONE under a real native chain: requirement REQ-R14-TS15-KINDS (FROZEN) -> TaskSpec TS-R14-TS15-KINDS -> WO-R14-TS15-KINDS (CREATED at SBL base_head 2dde2d84) -> change made by the codex writer on branch candidate/r14-ts15-kinds (10d510f) -> result recorded through record_workorder_result with writer=codex and checker=openai-codex/gpt-6.1-sol (PASS). AGENT_SKILL and SIMPLE_AGENT now route to EXISTING targets (GJ03 bridge / SBLM04 bridge) instead of raising SBL_E_UNKNOWN_KIND, while AGENT_OS and AI_SYSTEM stay SBL_E_PROHIBITED_KIND. SBL suite: 149 tests, exit 0. STILL MISSING: actually generating, installing and using three new programs of these kinds - so the engine is not claimed."
+      "note": "Both halves now measured. Routing: AGENT_SKILL and SIMPLE_AGENT route to existing bridges under a real WorkOrder (WO-R14-TS15-KINDS, VERIFIED, writer codex / checker gpt-6.1-sol). Generation/installation/use: three new programs of exactly these kinds were generated, pip-installed into an isolated venv and RE-RUN here on real inputs - ts23-newlines (SBL/README.md -> 5,765 bytes / 116 newlines, sha256 1ae8aaf2...), ts23-headings (10 headings with level+line), ts23-review (--max-steps 2 -> halt_reason BUDGET, remaining 1) - each with a recorded red exit 1 -> green exit 0. Ceiling: this proves the kinds are executable, not that a general engine exists."
     },
     {
       "id": "R14-TS16",
@@ -298,9 +298,13 @@
     {
       "id": "R14-TS23",
       "title": "M2 隔離 SWOF 型 Dogfood 里程碑 E08",
-      "state": "OPEN",
-      "next_action": "M2 dogfood in an isolated copy on a non-prefabricated SWOF-like requirement",
-      "evidence": [],
+      "state": "PARTIAL",
+      "next_action": "M2 needs an independent principal to accept the dogfood change; the maker cannot supply that for itself",
+      "evidence": [
+        "raw/ts23_m2_dogfood.json",
+        "raw/ts23_live_wo.json",
+        "raw/ts23_live_wo_note.md"
+      ],
       "depends_on": [
         "R14-TS13",
         "R14-TS14",
@@ -308,7 +312,8 @@
         "R14-TS16",
         "R14-TS17",
         "R14-TS18"
-      ]
+      ],
+      "note": "Dogfood change built for a requirement with zero hits in accessible repo text; PI-d4682ddb / PD-188ef4fb passed schema validation with negative controls; three programs generated, installed and used, all re-verified by me. But the live spine records verdict FAIL on WO-R14-TS23-M2-TRIAD, deliberately: the acceptance step needs an independent reviewer and the checker was a label on a receipt, not a second reader. Two further disclosures: the chain ran on an isolated spine backup (live DB was outside the subagent's write roots), and an initial pip run leaked transient caches into user Temp before a confined reinstall. M2 is NOT passed."
     },
     {
       "id": "R14-TS24",
@@ -364,10 +369,15 @@
     {
       "id": "R14-TS28",
       "title": "發行、供應鏈與 GitHub 每輪證據 E06/E07",
-      "state": "OPEN",
-      "next_action": "release/supply chain: candidate + independent evidence branch, SBOM, remote readback",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "publish the new evidence files, then re-run the blob readback so identical>6",
+      "evidence": [
+        "raw/ts28_release.json",
+        "raw/ts28_remote_readback.json",
+        "SBL_R14_RELEASE_NOTE.md"
+      ],
+      "depends_on": [],
+      "note": "Packet built and locally verified: 331/331 digest entries rechecked, 0 token-shaped hits (with 28 disclosed literal-grep hits that are the scanner rules themselves), credential file excluded from the delivered set, licence inventory from package metadata only (194 HGK + 3 SBL distributions), CycloneDX-shaped SBOM with 522 components labelled SELF_AUTHORED_NO_THIRD_PARTY_SCANNER. Remote readback at the time: 6 identical / 51 different / 259 absent - the absent ones are this batch's own new files, so the honest state is 'not yet published', and complete_order_pass is false. The candidate branch has no remote on the SBL origin either, so no candidate SHA was confirmed remotely."
     },
     {
       "id": "R14-TS29",
