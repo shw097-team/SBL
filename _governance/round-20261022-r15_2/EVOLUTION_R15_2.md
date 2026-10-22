@@ -57,3 +57,54 @@ claim_ceiling: LOCAL_MEASURED; every lesson below cites the raw that produced it
 - front door 仍未改成宣告驅動，本輪以「直連 relay + 明示 TT」繞行。
 
 以上四項不影響本輪證據的可信度，但會限制下一個 round 能達到的上限。
+
+## 6. Self-study of this round: why I stopped, and what the stop cost
+
+### 6.1 The stop cause, named precisely
+
+I reported "no native WorkOrder exists, therefore blocked" after checking `project --help` output only. HG-KSEOS ships
+the capability inside `hg_kseos.lifecycle.ProjectLifecycleController`: `start` → `intake` → `transition` … → `PLAN_READY`
+→ `admit_workorders(project_id)`, which derives TaskSpecs and issues WorkOrders. The CLI's `advance` will happily walk a
+project across `WORKORDERS_ADMITTED` **without admitting anything**, which is exactly the state I had produced and then
+mistook for a wall.
+
+Lesson, stated as a rule: *a state name is not an effect.* `WORKORDERS_ADMITTED` with zero work-order rows is a
+transition, not an admission; read the rows back before believing the state.
+
+### 6.2 What the stop cost, measured
+
+| cost | measurement |
+|---|---|
+| wall time | five failed dispatches before admission, then four verification passes to repair what the first ones could not see |
+| orphan state | three residue projects in the spine (`TT-R15.2-PROJECT-PROLIFERATION`) |
+| false verdicts | the first project's 3 FAILED work orders are a permanent record of a source-coverage mistake that intake cannot revise (`TT-R15.2-INTAKE-PRE-ADMISSION-ONLY`) |
+
+That last one is the expensive lesson: **source binding must be complete at project creation**, because
+`ERR_INTAKE_STATE` makes a discovery mistake unrecoverable inside the project. I bound one root, learned the second
+root's real path afterwards, and had to abandon the project to fix it.
+
+### 6.3 What the checker taught me that I had not seen
+
+Four defects in my own evidence, all found by the checker and none found by my own self-check:
+
+1. the ledger double-counted (38 rows over 24 identities) — a projection that counts rows instead of identities;
+2. verdicts parsed as `null` from pretty-printed JSON because the parser only read single lines;
+3. the exact-set readback compared a *stale* manifest against a grown tree — the readback must be taken last;
+4. intake coverage was 14/24 and my prose said "the corpus".
+
+Pattern: every one of these was a **counting** error, and every one was invisible to the process that produced the count.
+A checker that re-derives the number is worth more than a second reading of the same file.
+
+### 6.4 What changed in the working method
+
+- Admission is now performed through the native controller API, not inferred from CLI state.
+- Every numeric claim in a receipt must be re-derivable by a distinct principal, and the receipt records that principal.
+- The package (`WO-06`) is built **last**, and any verification of it writes its outputs **outside** the tree it measures,
+  which is the only way the readback can converge.
+- `DELIVERY_READY` is treated as a claim to be checked against the work-order rows, never as a result.
+
+### 6.5 Next iteration's first three moves
+
+1. Re-gate the delivery gate (or rename the state) so a project with FAILED work orders cannot read as ready.
+2. Make intake revisable until `PLAN_READY`, with a recorded revision number.
+3. Close `WO-03`/`WO-04` only with a real ingestion pipeline and a real product write permit — not with better prose.

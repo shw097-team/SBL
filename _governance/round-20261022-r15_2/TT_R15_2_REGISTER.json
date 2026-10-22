@@ -48,7 +48,7 @@
     {
       "tt_id": "TT-R15.2-NATIVE-ISSUER-UNBOUND",
       "kind": "TT",
-      "severity": "BLOCKER",
+      "severity": "RESOLVED_MEASURED",
       "subject": "HGK native WorkOrder / ECP / Permit issuance for this subject",
       "observed": {
         "hgk_repo_head": "1760fb443ab284c52c46a6b49f573e2a180530e6",
@@ -57,10 +57,12 @@
         "registry_epoch": 32
       },
       "conflict": "No native issuer ABI call was observed that can bind this subject to a WorkOrder/Permit. Chat text and a compiled prompt cannot substitute for it.",
-      "decision": "OPEN",
+      "decision": "CLOSED_BY_MEASUREMENT",
       "owner": "HGK Native Owner",
       "next_legal_step": "Native Owner compiles the contract's evidence gates into TaskSpec + WorkOrder + Permit with nonce, scope, expiry and rollback pointer.",
-      "far_recommendation": "Start with W00/W01 only: they are read-only and produce the very ledger the remaining 16 packages depend on. Do not open a write permit before W01 closes."
+      "far_recommendation": "Start with W00/W01 only: they are read-only and produce the very ledger the remaining 16 packages depend on. Do not open a write permit before W01 closes.",
+      "resolution": "HG-KSEOS issued 6 work orders natively for project sbl-r152-final2-20261022b via lifecycle.admit_workorders(); receipt receipts/admission/native_admit_final2.json",
+      "residual": "a *product write* permit is still absent, so WO-04 (core product surface) remains FAILED; issuance of work orders is not the same as permission to write product source"
     },
     {
       "tt_id": "TT-R15.2-VERIFY-LANE-SOD006-C6",
@@ -168,7 +170,7 @@
         "receipt": "workers/codex/RECEIPT.json"
       },
       "conflict": "The stipulated plan requires EXECUTE via Codex CLI + MiniMax M3.1 Flash and VERIFY/SECURITY via Codex CLI + GPT 6.1 SOL. On this host Codex CLI reaches a model but cannot spawn any process, and the local relay does not serve the Responses API Codex requires. Therefore 2 of the 3 stipulated arms cannot be executed as specified, and a Codex bounded write would be unverifiable even if a permit existed.",
-      "decision": "PROPOSED_RESOLVED_BY_REUSE_OF_PROVEN_LANE",
+      "decision": "CLOSED_BY_MEASUREMENT",
       "owner": "none — closed by measurement",
       "next_legal_step": "Adopt the working_recipe as the lane standard; keep the two rendered profiles under workers/codex_lane/home as the reference.",
       "far_recommendation": "Never hand-write a CODEX_HOME or a sandbox flag again: copy the sealed home, layer only the model route, and always run with danger-full-access plus a before/after sha256 guard. The guard is what makes full access acceptable.",
@@ -219,7 +221,9 @@
           "log": "workers/codex_lane/log_checker.log"
         }
       },
-      "decision_note": "proposed by the round; requires an owner signature"
+      "decision_note": "proposed by the round; requires an owner signature",
+      "resolution": "sealed CODEX_HOME + layered -p profile + -s danger-full-access makes the Codex lane usable; PLAN/EXECUTE/VERIFY all returned ok=True with nonce echo in this round",
+      "residual": "independence is lane-level only (same host, same session): TT-R15.2-VERIFY-LANE-SOD006-C6 stays open"
     },
     {
       "tt_id": "TT-R15.2-OPENSPEC-STRICT-FAIL",
@@ -416,7 +420,7 @@
   "counts": {
     "total": 16,
     "hard_blocker": 0,
-    "resolved_measured": 1,
+    "resolved_measured": 2,
     "contained": 1
   },
   "round_state": "NATIVE_ADMISSION_EXECUTED_4_OF_6_VERIFIED",
