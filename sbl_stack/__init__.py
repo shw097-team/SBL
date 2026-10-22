@@ -299,7 +299,9 @@ def uninstall(target: str | Path) -> dict[str, Any]:
         for path in root.rglob("*")
         if path.is_file()
     }
-    foreign = sorted(present - {MANIFEST_NAME})
+    # preimages are this product's own artefacts: refusing them would make an upgraded stack impossible to remove.
+    own = {path for path in present if path == MANIFEST_NAME or path.split("/")[0].startswith(PREIMAGE_PREFIX)}
+    foreign = sorted(present - own)
     if foreign:
         raise SBLError(
             "SBL_E_FOREIGN_FILES",
@@ -307,10 +309,172 @@ def uninstall(target: str | Path) -> dict[str, Any]:
             {"foreign": foreign[:10], "count": len(foreign)},
         )
     manifest_path.unlink()
+    for directory in sorted(root.glob(f"{PREIMAGE_PREFIX}*")):
+        if directory.is_dir():
+            shutil.rmtree(directory)
     empty = not any(root.iterdir())
     if empty:
         shutil.rmtree(root, ignore_errors=False)
     return {"ok": True, "target": str(root), "removed": [MANIFEST_NAME], "empty": empty}
+
+
+PREIMAGE_PREFIX = "stack.preimage-"
+
+
+def _read_manifest(root: Path) -> dict[str, Any]:
+    manifest_path = root / MANIFEST_NAME
+    if not manifest_path.is_file():
+        raise SBLError(
+            "SBL_E_BAD_STATE",
+            "no stack.json: this directory is not an installed stack",
+            {"target": str(root)},
+        )
+    return json.loads(manifest_path.read_text(encoding="utf-8"))
+
+
+def load(target: str | Path) -> dict[str, Any]:
+    """Import every component the manifest names, after checking its digest.
+
+    The digest check comes first: importing bytes that do not match the manifest would be loading something
+    the stack never installed. A component that fails the check is reported and the load fails closed.
+    """
+
+    root = Path(target)
+    manifest = _read_manifest(root)
+    recorded: dict[str, str] = manifest.get("components", {})
+    loaded: list[str] = []
+    problems: list[str] = []
+    for name, expected in recorded.items():
+        try:
+            module = __import__(name, fromlist=["__name__"])
+            actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
+        except SBLError as exc:
+            problems.append(f"{name}: {exc.message}")
+            continue
+        except Exception as exc:  # noqa: BLE001 - an import failure is an outcome, not a crash
+            problems.append(f"{name}: import failed: {exc!r}")
+            continue
+        if actual != expected:
+            problems.append(f"{name}: digest changed since install")
+            continue
+        loaded.append(f"{module.__name__}")
+    missing = sorted(set(COMPONENT_MODULES) - set(recorded))
+    if missing:
+        problems.append("manifest does not cover: " + ", ".join(missing))
+    return {
+        "ok": not problems and len(loaded) == len(recorded),
+        "target": str(root),
+        "loaded": loaded,
+        "problems": problems,
+        "components": len(recorded),
+        "claim_ceiling": CLAIM_CEILING,
+    }
+
+
+def invoke(target: str | Path, mode: str | None = None) -> dict[str, Any]:
+    """Exercise the installed mode gate and report the cells it produced."""
+
+    root = Path(target)
+    manifest = _read_manifest(root)
+    cells = modes.mode_gate_matrix()
+    if mode is not None:
+        known = {cell.get("mode") for cell in cells if isinstance(cell, dict)}
+        if mode not in known:
+            raise SBLError(
+                "SBL_E_PROHIBITED_KIND",
+                "the requested mode is not in the installed mode gate",
+                {"mode": mode, "known": sorted(str(x) for x in known if x)},
+            )
+        cells = [cell for cell in cells if cell.get("mode") == mode]
+    return {
+        "ok": bool(cells),
+        "target": str(root),
+        "version": manifest.get("version"),
+        "mode": mode,
+        "cells": cells,
+        "count": len(cells),
+        "claim_ceiling": CLAIM_CEILING,
+    }
+
+
+def upgrade(target: str | Path, manifest_path: str | Path) -> dict[str, Any]:
+    """Replace the recorded manifest with a different one, after proving the live bytes match it.
+
+    A reinstall of the same environment produces the same digests, which is why "reinstall" could not prove an
+    upgrade. This verb takes the desired manifest explicitly, refuses a no-op, verifies every desired digest
+    against the live modules, keeps the old manifest as a preimage, and only then swaps it in.
+    """
+
+    root = Path(target)
+    current = _read_manifest(root)
+    desired_path = Path(manifest_path)
+    desired = json.loads(desired_path.read_text(encoding="utf-8"))
+    if desired.get("schema") != current.get("schema"):
+        raise SBLError("SBL_E_BAD_STATE", "schema mismatch between current and desired manifest",
+                       {"current": current.get("schema"), "desired": desired.get("schema")})
+    if desired.get("version") == current.get("version") and desired.get("components") == current.get("components"):
+        raise SBLError("SBL_E_UPGRADE_NOOP", "the desired manifest is identical to the installed one",
+                       {"version": current.get("version")})
+    problems: list[str] = []
+    for name, expected in desired.get("components", {}).items():
+        try:
+            actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
+        except SBLError as exc:
+            problems.append(f"{name}: {exc.message}")
+            continue
+        if actual != expected:
+            problems.append(f"{name}: live bytes do not match the desired digest")
+    if problems:
+        raise SBLError("SBL_E_BAD_STATE", "the desired manifest does not describe the live environment",
+                       {"problems": problems})
+
+    stamp = str(int(root.stat().st_mtime_ns)) + "-upgrade"
+    preimage = root / f"{PREIMAGE_PREFIX}{stamp}"
+    preimage.mkdir(parents=True, exist_ok=False)
+    payload = (root / MANIFEST_NAME).read_bytes()
+    (preimage / MANIFEST_NAME).write_bytes(payload)
+    preimage_digest = hashlib.sha256(payload).hexdigest()
+
+    new_payload = (json.dumps(desired, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    (root / MANIFEST_NAME).write_bytes(new_payload)
+    composed = SharedCore(str(root)).doctor()
+    return {
+        "ok": bool(composed.get("ok")),
+        "target": str(root),
+        "from_version": current.get("version"),
+        "to_version": desired.get("version"),
+        "preimage": str(preimage),
+        "preimage_sha256": preimage_digest,
+        "manifest_sha256": hashlib.sha256(new_payload).hexdigest(),
+        "doctor_ok": composed.get("ok"),
+        "claim_ceiling": CLAIM_CEILING,
+    }
+
+
+def rollback(target: str | Path) -> dict[str, Any]:
+    """Restore the most recent preimage, byte for byte, and prove the result is healthy."""
+
+    root = Path(target)
+    preimages = sorted(p for p in root.glob(f"{PREIMAGE_PREFIX}*") if p.is_dir())
+    if not preimages:
+        raise SBLError("SBL_E_BAD_STATE", "no preimage to roll back to", {"target": str(root)})
+    latest = preimages[-1]
+    payload = (latest / MANIFEST_NAME).read_bytes()
+    before = (root / MANIFEST_NAME).read_bytes() if (root / MANIFEST_NAME).is_file() else b""
+    (root / MANIFEST_NAME).write_bytes(payload)
+    restored = (root / MANIFEST_NAME).read_bytes()
+    composed = SharedCore(str(root)).doctor()
+    ok = composed.get("ok") and restored == payload
+    return {
+        "ok": bool(ok),
+        "target": str(root),
+        "preimage": str(latest),
+        "restored_sha256": hashlib.sha256(restored).hexdigest(),
+        "replaced_sha256": hashlib.sha256(before).hexdigest(),
+        "byte_identical": restored == payload,
+        "doctor_ok": composed.get("ok"),
+        "claim_ceiling": CLAIM_CEILING,
+    }
 
 
 def describe() -> dict[str, Any]:

@@ -10,7 +10,7 @@ import argparse
 import json
 import sys
 
-from . import describe, doctor, install, selftest, status, uninstall
+from . import describe, doctor, install, invoke, load, rollback, selftest, status, uninstall, upgrade
 from sbl_core.errors import SBLError
 
 
@@ -38,6 +38,20 @@ def main(argv: list[str] | None = None) -> int:
     p_selftest = sub.add_parser("selftest", help="run the ordinary journey and two refusals")
     p_selftest.add_argument("--workdir", default=None)
 
+    p_load = sub.add_parser("load", help="import every component the manifest names, after checking digests")
+    p_load.add_argument("--root", required=True)
+
+    p_invoke = sub.add_parser("invoke", help="exercise the installed mode gate")
+    p_invoke.add_argument("--root", required=True)
+    p_invoke.add_argument("--mode", default=None)
+
+    p_upgrade = sub.add_parser("upgrade", help="replace the recorded manifest with a different one")
+    p_upgrade.add_argument("--root", required=True)
+    p_upgrade.add_argument("--manifest", required=True)
+
+    p_rollback = sub.add_parser("rollback", help="restore the most recent preimage byte for byte")
+    p_rollback.add_argument("--root", required=True)
+
     sub.add_parser("describe", help="print the stack surface")
 
     args = parser.parse_args(argv)
@@ -57,6 +71,18 @@ def main(argv: list[str] | None = None) -> int:
             return _emit(result, result["ok"])
         if args.command == "selftest":
             result = selftest(args.workdir)
+            return _emit(result, result["ok"])
+        if args.command == "load":
+            result = load(args.root)
+            return _emit(result, result["ok"])
+        if args.command == "invoke":
+            result = invoke(args.root, args.mode)
+            return _emit(result, result["ok"])
+        if args.command == "upgrade":
+            result = upgrade(args.root, args.manifest)
+            return _emit(result, result["ok"])
+        if args.command == "rollback":
+            result = rollback(args.root)
             return _emit(result, result["ok"])
         if args.command == "describe":
             return _emit(describe(), True)
