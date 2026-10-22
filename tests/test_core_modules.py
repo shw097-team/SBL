@@ -120,6 +120,23 @@ def test_routing_negative_unknown_kind():
     assert caught.value.code == "SBL_E_UNKNOWN_KIND"
 
 
+def test_r14_ts15_three_kinds_route():
+    """AGENT_SKILL and SIMPLE_AGENT must route instead of raising SBL_E_UNKNOWN_KIND (WO-R14-TS15-KINDS)."""
+    atom = SpecAtom(atom_id_for("t"), "t", "x.md#L1")
+    routing = GovernedRouting()
+    for kind, target in (("CLI_TOOL", "SBLM04_GOVERNED_BUILD_BRIDGE"),
+                         ("AGENT_SKILL", "GJ03_SKILL_AGENT_BRIDGE"),
+                         ("SIMPLE_AGENT", "SBLM04_GOVERNED_BUILD_BRIDGE")):
+        decision = routing.route(atom, kind)
+        assert decision.permitted is True, kind
+        assert decision.target == target, (kind, decision.target)
+    # opening two kinds must not open the prohibited ones
+    for prohibited in ("AGENT_OS", "AI_SYSTEM"):
+        with pytest.raises(SBLError) as caught:
+            routing.route(atom, prohibited)
+        assert caught.value.code == "SBL_E_PROHIBITED_KIND", prohibited
+
+
 @pytest.mark.parametrize("kind", ["AGENT_OS", "AI_SYSTEM"])
 def test_routing_negative_prohibited_kind(kind):
     atom = SpecAtom(atom_id_for("t"), "t", "x.md#L1")

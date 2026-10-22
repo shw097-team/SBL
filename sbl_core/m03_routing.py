@@ -11,6 +11,12 @@ DEFAULT_POLICY: dict[str, str | None] = {
     "CLI_TOOL": "SBLM04_GOVERNED_BUILD_BRIDGE",
     "BROWN_PATCH": "SBLM04_GOVERNED_BUILD_BRIDGE",
     "SKILL": "GJ03_SKILL_AGENT_BRIDGE",
+    # R14-TS15 (HGK WorkOrder WO-R14-TS15-KINDS): the order names AGENT_SKILL and SIMPLE_AGENT as kinds the engine
+    # must really route. They previously raised SBL_E_UNKNOWN_KIND. Both map onto EXISTING build targets - a skill
+    # bundle and the governed build bridge - so no second router or bridge is introduced. AGENT_OS and AI_SYSTEM
+    # remain prohibited: opening a kind is a governance decision, not a convenience.
+    "AGENT_SKILL": "GJ03_SKILL_AGENT_BRIDGE",
+    "SIMPLE_AGENT": "SBLM04_GOVERNED_BUILD_BRIDGE",
     "AGENT_OS": None,
     "AI_SYSTEM": None,
 }
