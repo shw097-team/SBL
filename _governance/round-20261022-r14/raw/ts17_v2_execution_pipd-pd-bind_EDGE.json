@@ -1,0 +1,70 @@
+{
+  "skill": "pipd-pd-bind",
+  "test_class": "EDGE",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-pd-bind --test-class EDGE",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:30.262266+00:00",
+  "stdout": "{\"skill\": \"pipd-pd-bind\", \"test_class\": \"EDGE\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /pi\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"EDGE-001\", \"rationale\": \"an empty tracked repo (zero files) is a legal boundary\", \"first_fail_declared\": \"NONE\", \"expected_value\": \"ACCEPT\", \"observed_value\": \"ACCEPT\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": null}, {\"case_id\": \"EDGE-002\", \"rationale\": \"an empty repo root cannot resolve\", \"first_fail_declared\": \"input.minLength\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['repo_context', 'root']: '' should be non-empty\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-pd-bind",
+    "test_class": "EDGE",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /pi"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "EDGE-001",
+        "rationale": "an empty tracked repo (zero files) is a legal boundary",
+        "first_fail_declared": "NONE",
+        "expected_value": "ACCEPT",
+        "observed_value": "ACCEPT",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "EDGE-002",
+        "rationale": "an empty repo root cannot resolve",
+        "first_fail_declared": "input.minLength",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['repo_context', 'root']: '' should be non-empty"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

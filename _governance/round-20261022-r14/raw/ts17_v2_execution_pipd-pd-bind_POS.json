@@ -1,0 +1,74 @@
+{
+  "skill": "pipd-pd-bind",
+  "test_class": "POS",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-pd-bind --test-class POS",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:29.606742+00:00",
+  "stdout": "{\"skill\": \"pipd-pd-bind\", \"test_class\": \"POS\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /pi\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"POS-001\", \"rationale\": \"fresh repo context binds a PD-PKG with an affected-only scope\", \"first_fail_declared\": \"NONE\", \"expected_value\": \"ACCEPT\", \"observed_value\": \"ACCEPT\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": null}, {\"case_id\": \"POS-002\", \"rationale\": \"a stale but declared repo context still binds; currentness is recorded, not hidden\", \"first_fail_declared\": \"NONE\", \"expected_value\": \"ACCEPT\", \"observed_value\": \"ACCEPT\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-pd-bind",
+    "test_class": "POS",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /pi"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "POS-001",
+        "rationale": "fresh repo context binds a PD-PKG with an affected-only scope",
+        "first_fail_declared": "NONE",
+        "expected_value": "ACCEPT",
+        "observed_value": "ACCEPT",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "POS-002",
+        "rationale": "a stale but declared repo context still binds; currentness is recorded, not hidden",
+        "first_fail_declared": "NONE",
+        "expected_value": "ACCEPT",
+        "observed_value": "ACCEPT",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

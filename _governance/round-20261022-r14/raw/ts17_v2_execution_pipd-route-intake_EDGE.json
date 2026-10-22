@@ -1,0 +1,70 @@
+{
+  "skill": "pipd-route-intake",
+  "test_class": "EDGE",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-route-intake --test-class EDGE",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:24.714517+00:00",
+  "stdout": "{\"skill\": \"pipd-route-intake\", \"test_class\": \"EDGE\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /goal\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"EDGE-001\", \"rationale\": \"minimal legal intake: one source, no constraints, one atom\", \"first_fail_declared\": \"NONE\", \"expected_value\": \"ACCEPT\", \"observed_value\": \"ACCEPT\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": null}, {\"case_id\": \"EDGE-002\", \"rationale\": \"a whitespace-only goal is blank for the intake gate\", \"first_fail_declared\": \"input.pattern\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['goal']: '   ' does not match '\\\\\\\\S'\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-route-intake",
+    "test_class": "EDGE",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /goal"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "EDGE-001",
+        "rationale": "minimal legal intake: one source, no constraints, one atom",
+        "first_fail_declared": "NONE",
+        "expected_value": "ACCEPT",
+        "observed_value": "ACCEPT",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "EDGE-002",
+        "rationale": "a whitespace-only goal is blank for the intake gate",
+        "first_fail_declared": "input.pattern",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['goal']: '   ' does not match '\\\\S'"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

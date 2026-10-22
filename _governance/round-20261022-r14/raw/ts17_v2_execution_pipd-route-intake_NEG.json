@@ -1,0 +1,66 @@
+{
+  "skill": "pipd-route-intake",
+  "test_class": "NEG",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-route-intake --test-class NEG",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:24.376826+00:00",
+  "stdout": "{\"skill\": \"pipd-route-intake\", \"test_class\": \"NEG\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /goal\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"NEG-001\", \"rationale\": \"a goal-less request is refused before any atom can be derived\", \"first_fail_declared\": \"input.required\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"[]: 'goal' is a required property\"}}, \"semantic_result\": null}, {\"case_id\": \"NEG-002\", \"rationale\": \"an intake with zero source locators cannot pin authority\", \"first_fail_declared\": \"input.minItems\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['sources']: [] should be non-empty\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-route-intake",
+    "test_class": "NEG",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /goal"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "NEG-001",
+        "rationale": "a goal-less request is refused before any atom can be derived",
+        "first_fail_declared": "input.required",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "[]: 'goal' is a required property"
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "NEG-002",
+        "rationale": "an intake with zero source locators cannot pin authority",
+        "first_fail_declared": "input.minItems",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['sources']: [] should be non-empty"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "skill": "pipd-package-project",
+  "test_class": "SEC",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-package-project --test-class SEC",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:35.042435+00:00",
+  "stdout": "{\"skill\": \"pipd-package-project\", \"test_class\": \"SEC\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /bundle\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"SEC-001\", \"rationale\": \"a smuggled publish flag must not force publication past the claim ceiling\", \"first_fail_declared\": \"input.additionalProperties\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"[]: Additional properties are not allowed ('publish' was unexpected)\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-package-project",
+    "test_class": "SEC",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /bundle"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "SEC-001",
+        "rationale": "a smuggled publish flag must not force publication past the claim ceiling",
+        "first_fail_declared": "input.additionalProperties",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "[]: Additional properties are not allowed ('publish' was unexpected)"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

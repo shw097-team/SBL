@@ -1,0 +1,85 @@
+{
+  "skill": "pipd-assurance-tqaep",
+  "test_class": "NEG",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-assurance-tqaep --test-class NEG",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:32.915267+00:00",
+  "stdout": "{\"skill\": \"pipd-assurance-tqaep\", \"test_class\": \"NEG\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /pi\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"NEG-001\", \"rationale\": \"maker aliased as checker fails the SoD rule (TQ_SOD) even though the shape is valid\", \"first_fail_declared\": \"semantic.distinct\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": {\"predicate\": \"semantic.distinct\", \"verdict\": \"VIOLATED\", \"reasons\": [\"input: blank identities or maker aliases checker (TQ_SOD).\"], \"evidence\": {\"identity_pairs\": [{\"location\": \"input\", \"maker\": \"Maker-A\", \"checker\": \" maker-a \", \"normalized\": [\"maker-a\", \"maker-a\"]}]}}}, {\"case_id\": \"NEG-002\", \"rationale\": \"a self-attested independence receipt is refused (case-insensitive)\", \"first_fail_declared\": \"input.not\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['checker_execution_receipt']: 'SELF_ATTESTED' should not be valid under {'pattern': '^[Ss][Ee][Ll][Ff]_[Aa][Tt][Tt][Ee][Ss][Tt][Ee][Dd]$'}\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-assurance-tqaep",
+    "test_class": "NEG",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /pi"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "NEG-001",
+        "rationale": "maker aliased as checker fails the SoD rule (TQ_SOD) even though the shape is valid",
+        "first_fail_declared": "semantic.distinct",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": {
+          "predicate": "semantic.distinct",
+          "verdict": "VIOLATED",
+          "reasons": [
+            "input: blank identities or maker aliases checker (TQ_SOD)."
+          ],
+          "evidence": {
+            "identity_pairs": [
+              {
+                "location": "input",
+                "maker": "Maker-A",
+                "checker": " maker-a ",
+                "normalized": [
+                  "maker-a",
+                  "maker-a"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "case_id": "NEG-002",
+        "rationale": "a self-attested independence receipt is refused (case-insensitive)",
+        "first_fail_declared": "input.not",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['checker_execution_receipt']: 'SELF_ATTESTED' should not be valid under {'pattern': '^[Ss][Ee][Ll][Ff]_[Aa][Tt][Tt][Ee][Ss][Tt][Ee][Dd]$'}"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

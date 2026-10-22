@@ -1,0 +1,74 @@
+{
+  "skill": "pipd-execution-contract",
+  "test_class": "NEG",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-execution-contract --test-class NEG",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:31.370195+00:00",
+  "stdout": "{\"skill\": \"pipd-execution-contract\", \"test_class\": \"NEG\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /pd\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /construction_contract\"}], \"observations\": [{\"case_id\": \"NEG-001\", \"rationale\": \"an ECP without a permission block is not an execution contract\", \"first_fail_declared\": \"output.required\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": false, \"error\": \"['ecp']: 'permission' is a required property\"}}, \"semantic_result\": null}, {\"case_id\": \"NEG-002\", \"rationale\": \"token_required must stay true; an untokened effect is refused\", \"first_fail_declared\": \"output.const\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": false, \"error\": \"['ecp', 'permission', 'token_required']: True was expected\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-execution-contract",
+    "test_class": "NEG",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /pd"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /construction_contract"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "NEG-001",
+        "rationale": "an ECP without a permission block is not an execution contract",
+        "first_fail_declared": "output.required",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": false,
+            "error": "['ecp']: 'permission' is a required property"
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "NEG-002",
+        "rationale": "token_required must stay true; an untokened effect is refused",
+        "first_fail_declared": "output.const",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": false,
+            "error": "['ecp', 'permission', 'token_required']: True was expected"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

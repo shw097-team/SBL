@@ -1,0 +1,70 @@
+{
+  "skill": "pipd-profile-tailor",
+  "test_class": "EDGE",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-profile-tailor --test-class EDGE",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:27.368190+00:00",
+  "stdout": "{\"skill\": \"pipd-profile-tailor\", \"test_class\": \"EDGE\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /profile\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"EDGE-001\", \"rationale\": \"three axes is the LITE ceiling; exactly at the boundary it stays LITE\", \"first_fail_declared\": \"NONE\", \"expected_value\": \"ACCEPT\", \"observed_value\": \"ACCEPT\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}, \"output\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": null}, {\"case_id\": \"EDGE-002\", \"rationale\": \"a duplicated axis would double-count axis complexity\", \"first_fail_declared\": \"input.uniqueItems\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['axes']: ['intent', 'intent'] has non-unique elements\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-profile-tailor",
+    "test_class": "EDGE",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /profile"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "EDGE-001",
+        "rationale": "three axes is the LITE ceiling; exactly at the boundary it stays LITE",
+        "first_fail_declared": "NONE",
+        "expected_value": "ACCEPT",
+        "observed_value": "ACCEPT",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          },
+          "output": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "EDGE-002",
+        "rationale": "a duplicated axis would double-count axis complexity",
+        "first_fail_declared": "input.uniqueItems",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['axes']: ['intent', 'intent'] has non-unique elements"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

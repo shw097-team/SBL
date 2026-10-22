@@ -1,0 +1,87 @@
+{
+  "skill": "pipd-package-project",
+  "test_class": "NEG",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-package-project --test-class NEG",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:34.377885+00:00",
+  "stdout": "{\"skill\": \"pipd-package-project\", \"test_class\": \"NEG\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /bundle\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"NEG-001\", \"rationale\": \"LOCAL_QUALIFIED without a bound approval receipt and checker identity is refused\", \"first_fail_declared\": \"semantic.claim_gate\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": true, \"error\": \"\"}}, \"semantic_result\": {\"predicate\": \"semantic.claim_gate\", \"verdict\": \"VIOLATED\", \"reasons\": [\"Missing or empty required evidence: approval.checker_identity (EVIDENCE_GAP).\", \"Missing or empty required evidence: approval.approval_receipt (EVIDENCE_GAP).\"], \"evidence\": {\"claims\": [\"LOCAL_QUALIFIED\"], \"gated_claims\": [\"LOCAL_QUALIFIED\"], \"approval\": {}, \"missing_fields\": [\"approval.checker_identity\", \"approval.approval_receipt\"], \"producer\": \"PIPD-EC\"}}}, {\"case_id\": \"NEG-002\", \"rationale\": \"a claim outside the ladder is refused before any ceiling is minted\", \"first_fail_declared\": \"input.enum\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['allowed_claims', 0]: 'SUPER_USER' is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIFIED', 'INDEPENDENT_PASS', 'PUBLICATION_APPROVED', 'RELEASED', '\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-package-project",
+    "test_class": "NEG",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /bundle"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "NEG-001",
+        "rationale": "LOCAL_QUALIFIED without a bound approval receipt and checker identity is refused",
+        "first_fail_declared": "semantic.claim_gate",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": true,
+            "error": ""
+          }
+        },
+        "semantic_result": {
+          "predicate": "semantic.claim_gate",
+          "verdict": "VIOLATED",
+          "reasons": [
+            "Missing or empty required evidence: approval.checker_identity (EVIDENCE_GAP).",
+            "Missing or empty required evidence: approval.approval_receipt (EVIDENCE_GAP)."
+          ],
+          "evidence": {
+            "claims": [
+              "LOCAL_QUALIFIED"
+            ],
+            "gated_claims": [
+              "LOCAL_QUALIFIED"
+            ],
+            "approval": {},
+            "missing_fields": [
+              "approval.checker_identity",
+              "approval.approval_receipt"
+            ],
+            "producer": "PIPD-EC"
+          }
+        }
+      },
+      {
+        "case_id": "NEG-002",
+        "rationale": "a claim outside the ladder is refused before any ceiling is minted",
+        "first_fail_declared": "input.enum",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['allowed_claims', 0]: 'SUPER_USER' is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIFIED', 'INDEPENDENT_PASS', 'PUBLICATION_APPROVED', 'RELEASED', '"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}

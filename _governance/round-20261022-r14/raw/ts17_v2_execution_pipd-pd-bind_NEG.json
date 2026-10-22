@@ -1,0 +1,66 @@
+{
+  "skill": "pipd-pd-bind",
+  "test_class": "NEG",
+  "oracle_type": "DETERMINISTIC",
+  "command": "PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 ./.venv/Scripts/python.exe -B C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_matrix_v2_measure.py --skill pipd-pd-bind --test-class NEG",
+  "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
+  "exit_code": 0,
+  "checked_at_utc": "2026-10-22T06:06:29.933897+00:00",
+  "stdout": "{\"skill\": \"pipd-pd-bind\", \"test_class\": \"NEG\", \"oracle_type\": \"DETERMINISTIC\", \"decision_operator\": \"exact_eq\", \"scope\": \"SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY\", \"source_owned_outputs_are_fixtures_not_generated\": true, \"controls\": [{\"side\": \"input\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /pi\"}, {\"side\": \"output\", \"valid_accepted\": true, \"invalid_rejected\": true, \"mutation\": \"delete /subject_id\"}], \"observations\": [{\"case_id\": \"NEG-001\", \"rationale\": \"PD late-binding requires a RepoContext; without one nothing binds\", \"first_fail_declared\": \"input.required\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"[]: 'repo_context' is a required property\"}}, \"semantic_result\": null}, {\"case_id\": \"NEG-002\", \"rationale\": \"a negative tracked-file count is not a repo context\", \"first_fail_declared\": \"input.minimum\", \"expected_value\": \"REFUSE\", \"observed_value\": \"REFUSE\", \"exact_eq\": true, \"schema_checks\": {\"input\": {\"accepted\": false, \"error\": \"['repo_context', 'tracked_files']: -1 is less than the minimum of 0\"}}, \"semantic_result\": null}], \"ok\": true}\n",
+  "stderr": "",
+  "measurement": {
+    "skill": "pipd-pd-bind",
+    "test_class": "NEG",
+    "oracle_type": "DETERMINISTIC",
+    "decision_operator": "exact_eq",
+    "scope": "SCHEMA_AND_PURE_SEMANTIC_CONTRACT_ONLY",
+    "source_owned_outputs_are_fixtures_not_generated": true,
+    "controls": [
+      {
+        "side": "input",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /pi"
+      },
+      {
+        "side": "output",
+        "valid_accepted": true,
+        "invalid_rejected": true,
+        "mutation": "delete /subject_id"
+      }
+    ],
+    "observations": [
+      {
+        "case_id": "NEG-001",
+        "rationale": "PD late-binding requires a RepoContext; without one nothing binds",
+        "first_fail_declared": "input.required",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "[]: 'repo_context' is a required property"
+          }
+        },
+        "semantic_result": null
+      },
+      {
+        "case_id": "NEG-002",
+        "rationale": "a negative tracked-file count is not a repo context",
+        "first_fail_declared": "input.minimum",
+        "expected_value": "REFUSE",
+        "observed_value": "REFUSE",
+        "exact_eq": true,
+        "schema_checks": {
+          "input": {
+            "accepted": false,
+            "error": "['repo_context', 'tracked_files']: -1 is less than the minimum of 0"
+          }
+        },
+        "semantic_result": null
+      }
+    ],
+    "ok": true
+  }
+}
