@@ -682,3 +682,34 @@ three private host ids). M4 is a measured proposal, not a closure.
   `EXECUTE__W15GATE.json`.
 - The kanban dispatcher is spending `mimo-v2.6-flash` on two stale boards (`hgk-plan-rebind-20261015`, `sbl-r12-far`);
   disclosed in `TT-R15.2-MIMO-TOKEN-ATTRIBUTION`, not killed.
+
+### 12.4 Correction to the gate state reported above (same session, later)
+
+`mandate_gate audit` now exits **1 — AUDIT_FAILED** on `Q3.m2_e2e`:
+
+```
+{"verdict": "AUDIT_FAILED",
+ "unbound_or_missing": [{"id": "Q3.m2_e2e", "lane": "EXECUTE",
+   "reason": "receipt exists for the lane but none is bound to this item"}]}
+```
+
+Why this is the honest record and not a defect to paper over:
+
+- The Q3 lane hit its 1500s cap and wrote **no nonce**, so it never had a green receipt. The earlier AUDIT_CLEAN
+  was obtained while that **red** receipt happened to be bound to the item — a bound red receipt is not evidence,
+  and the audit's job is to refuse exactly that.
+- That file (`receipts/dispatch/EXECUTE__BRIEF.json`) was then overwritten by a later lane with a 900s cap — the
+  second instance of `TT-R15.2-RECEIPT-NAME-COLLISION`. It is preserved as
+  `EXECUTE__UNATTRIBUTED_RED_900s.json`; the surviving green W15 receipt is `EXECUTE__W15GATE.json` (ok=true,
+  896.78s, nonce present).
+- The item is therefore left **DONE with `lane_receipt_file: null`, `lane_receipt_red: true`**, and an explicit note.
+  The alternative — pointing it at any green EXECUTE receipt — would bind evidence about a different subject, which is
+  precisely the laundering the gate exists to catch.
+
+`continuation_guard` still returns `QUEUE_EXHAUSTED` (rc 0) because it does not consume the audit verdict; the two
+instruments therefore disagree, and the stricter one (the audit) is the one to believe.
+
+**Remediation (one command, ~25 min):** re-dispatch Q3 with a unique brief name —
+`python tools/run_lane.py --role EXECUTE --brief workers/q3_e2e/BRIEF_Q3_E2E.md --nonce <fresh> --timeout 1800` —
+then bind `receipts/dispatch/EXECUTE__BRIEF_Q3_E2E.json`. Until that green receipt exists, Q3/M2 stays
+`locally measured, red lane receipt`, and M2 stays `PARTIAL`.
