@@ -4,9 +4,9 @@
   "task_id": "SBL-R15.2-CONTINUATION-20261022",
   "contract_sha256": "414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3",
   "claim_ceiling": "ROUTEOUT_CANDIDATE + LOCAL_RAW_ONLY",
-  "round_state": "CARRIER_LANES_EXERCISED_NO_NATIVE_PERMIT",
+  "round_state": "LANES_BOUND_AND_EXERCISED_NO_NATIVE_WORKORDER",
   "note": "the isolated CODEX_HOME used for the Codex runs lives OUTSIDE this repo at %TEMP%/r152/codex_home_isolated so no plugin tree pollutes the evidence branch",
-  "file_count": 120,
+  "file_count": 151,
   "files": [
     {
       "path": "CONTRACT.json",
@@ -17,6 +17,11 @@
       "path": "DECISION_PACK_R15_2.md",
       "bytes": 2442,
       "sha256": "71577a721ad04bb1486f6abc7ac90fb9f97f6ba5e0212cb66209000f6604c7f4"
+    },
+    {
+      "path": "LANE_DISPATCH_RECEIPTS.md",
+      "bytes": 1841,
+      "sha256": "ca95f54504cc6a7405fa6cc1d4543dcd96ce563c81b17cc216757ea10ce31d95"
     },
     {
       "path": "R14_LEDGER_READBACK.json",
@@ -30,13 +35,13 @@
     },
     {
       "path": "STATUS_R15_2.md",
-      "bytes": 11011,
-      "sha256": "b454c4b3be45490a09dd1890ddb6af2f394dc3a2b86a72ca45137bd7ec00ed1d"
+      "bytes": 13417,
+      "sha256": "19e4a32ef43498a5fdc8bcedae45c224a4fa5fb0bb13486eaa41d7cf79380622"
     },
     {
       "path": "TT_R15_2_REGISTER.json",
-      "bytes": 18391,
-      "sha256": "2548e36e52d16b6cfded7b1c8776ffc691fbc119548cfc6bb74cbf8ac82bee3a"
+      "bytes": 20875,
+      "sha256": "ee005c8b6697beab179555fd9c357efdd2d00c1f044c7d6c9028154e632fb46d"
     },
     {
       "path": "WORKER_RECEIPTS.json",
@@ -117,6 +122,151 @@
       "path": "receipts/VERIFY_challenge_gpt61sol.json",
       "bytes": 7845,
       "sha256": "6e230ee4fc8fcca191fa6d398c8c0acf4b285725bd2c5d03b7ad91ee4f55cacf"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax.json",
+      "bytes": 5989,
+      "sha256": "6f62a620c8045b8c8fc1798046c88e54d43545df3b720333d5134b3ba9576b30"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax.json.attempts.ndjson",
+      "bytes": 2574,
+      "sha256": "05af4be8b62ef2498cf6a9c3e3014f6e97df6066e42fe8df6dea893ac0f3ad31"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax.json.logs/attempt-7596-1792675254-1-stderr.txt",
+      "bytes": 220,
+      "sha256": "7318b45a0b392498aedb172281a127ad0e47a396c74fbb7c819eca9b77d9b5b4"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax.json.logs/attempt-7596-1792675254-1-stdout.txt",
+      "bytes": 1416848,
+      "sha256": "623c638947fb2e8473a3241f43a55cad353ead62756100526dcd5b72b754d633"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax_cwd.json",
+      "bytes": 6046,
+      "sha256": "375d6af83f8296b2674566f70bb30f2b7d5e7168a7bfd290c5613031a4266183"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax_cwd.json.attempts.ndjson",
+      "bytes": 2571,
+      "sha256": "cf45ef75062aa59f1b869791d5c182d40c4ad60ae848b256562c1d41a23cf802"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax_cwd.json.logs/attempt-18864-1792675609-1-stderr.txt",
+      "bytes": 220,
+      "sha256": "56076cc88e0ef41d7caacd9ad9f0940e7e550b20e7fc14ae2e7187a8d377fe12"
+    },
+    {
+      "path": "receipts/dispatch/EXECUTE_minimax_cwd.json.logs/attempt-18864-1792675609-1-stdout.txt",
+      "bytes": 5325,
+      "sha256": "44b44384e7772eef6097ca1bf2e5392821946bde98defd415f8be2b81d09c6ec"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_dispatch.json",
+      "bytes": 986,
+      "sha256": "23d2feb0d7256b7a5fb1b157824dbec44fe5b47cc23b78fe3cdbe88900785607"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_gpt-6.1-sol_openai-codex.json",
+      "bytes": 1025,
+      "sha256": "bcf69054aee01d15a85c64ff4f16538f13cbde68b3b27e6dd28e97c0e93087eb"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_gpt61sol.json",
+      "bytes": 5767,
+      "sha256": "3061422d0881cb5f45abe442f22c86cf7b08c366702171c0e56ce0ce30ce5c3b"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_gpt61sol.json.attempts.ndjson",
+      "bytes": 2486,
+      "sha256": "5fbbaba081d6319f1858fddab4625eee7b784d23e2f9c830e1721b2afcc1bbf0"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_gpt61sol.json.logs/attempt-2260-1792675234-2-stderr.txt",
+      "bytes": 220,
+      "sha256": "b6b86f69e79a74791f7e1d60e2b3b39a16493633f6fa1fa17871c07ebd1f6cf8"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_gpt61sol.json.logs/attempt-2260-1792675234-2-stdout.txt",
+      "bytes": 2739,
+      "sha256": "d7d17e778e6b8b4911ca042c6ece463e4fd6e15258e5a4f3895713a7a98a7fae"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_openai-codex_gpt-6.1-sol.json",
+      "bytes": 5883,
+      "sha256": "d33d686eae0073808aafc69657d12f891c8e968c7882c1d736301cd446e26c2a"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_openai-codex_gpt-6.1-sol.json.attempts.ndjson",
+      "bytes": 2581,
+      "sha256": "1a95e9016db2a79cebf64623d7daaf23a998c803ec4c2a5a388b3cd749cc343f"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_openai-codex_gpt-6.1-sol.json.logs/attempt-14752-1792675194-2-stderr.txt",
+      "bytes": 220,
+      "sha256": "f4d0b986f7f089ea999b0aa19ec270a324cf8c26242c9386f07fd4e9eff1e9da"
+    },
+    {
+      "path": "receipts/dispatch/PLAN_openai-codex_gpt-6.1-sol.json.logs/attempt-14752-1792675194-2-stdout.txt",
+      "bytes": 1789,
+      "sha256": "e2361d65e6a52277e9f9b6fc1521d87efac469b556b9264bab45bf551a20426b"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol.json",
+      "bytes": 5788,
+      "sha256": "c65f372791d3d8e391014a797c7792016815c22b6d30f8aa8b340eb1d9fb1cca"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol.json.attempts.ndjson",
+      "bytes": 2504,
+      "sha256": "fc3ee8f29d5937aa5fe50bd95362427873fb7771f2ea8e9db35116bc7423830f"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol.json.logs/attempt-12212-1792675556-2-stderr.txt",
+      "bytes": 220,
+      "sha256": "d7fb41db34dd7ab8d13d23507f6c10c3a45086dc6a9522c39db473f4f9d53328"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol.json.logs/attempt-12212-1792675556-2-stdout.txt",
+      "bytes": 20477,
+      "sha256": "ee3c26c3362b1fd6387c11aa6c25d291e7cc6bcf226fedd37891f3bd45c3cf83"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol_judgement.json",
+      "bytes": 5894,
+      "sha256": "1fcf08b3692962fdbd077c48e4b1ccd5b38b3958c19409828334296b3e84d151"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol_judgement.json.attempts.ndjson",
+      "bytes": 2569,
+      "sha256": "ca0ddea49db2c700031d65cea324e3f80e8d86b4d6193dd044f59f4094a77281"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol_judgement.json.logs/attempt-7260-1792675639-2-stderr.txt",
+      "bytes": 220,
+      "sha256": "607e46e0f994471a461fc451b9471c10ede8713c0aaba853a1ceb37254a301c3"
+    },
+    {
+      "path": "receipts/dispatch/VERIFY_gpt61sol_judgement.json.logs/attempt-7260-1792675639-2-stdout.txt",
+      "bytes": 3901,
+      "sha256": "64fd513ec4c2c05bda4e3fbbea3d48f57da15c4ca62a78ad6fbd64909403ae23"
+    },
+    {
+      "path": "receipts/incidents/20261022_HGK_UNAUTHORIZED_WRITE_after.txt",
+      "bytes": 241,
+      "sha256": "0d85cbcef3630a1fb0fb00e18eebb7e2bc0ff1faa64838223e88cfd51664a3e3"
+    },
+    {
+      "path": "receipts/incidents/20261022_HGK_UNAUTHORIZED_WRITE_before.txt",
+      "bytes": 501,
+      "sha256": "d63a48d14a0d64f2a20178ce90b6dfee76f83c3b665fc1ee4286d8001f00bf82"
+    },
+    {
+      "path": "receipts/incidents/EXEC_DISPATCH_RECEIPT.md.captured",
+      "bytes": 154,
+      "sha256": "a12b5ac5b7c431bb1e232495a98f0c4f9e39fccc2dd8f5b1d966a7ca29332a05"
     },
     {
       "path": "receipts/kanban_boards.txt",
@@ -322,6 +472,11 @@
       "path": "workers/codex/raw/version.txt",
       "bytes": 27,
       "sha256": "e1f0dfd633576487161a7dc09baa66e592712ee449fe295465f3ce32e0a7e2ac"
+    },
+    {
+      "path": "workers/codex_lane/EXEC_DISPATCH_RECEIPT.md",
+      "bytes": 153,
+      "sha256": "ee4309463d161835294132bb848e38fedbf1ee5aa888e610a89ec551a447f860"
     },
     {
       "path": "workers/codex_lane/RELOCATION_NOTE.md",

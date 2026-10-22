@@ -131,3 +131,42 @@ Raw logs: `workers/codex_lane/log_execute.log`, `log_verify.log`, `log_writer.lo
 Claim ceiling unchanged: `native_run NOT_RUN`, `independent_acceptance NOT_RUN`, `release BLOCKED`. What changed is that
 the two arms are now demonstrated carriers with a demonstrated bounded write and a demonstrated independent check — which
 is a strictly larger evidence base than §7 claimed, and still not a PASS.
+
+## 9. All three stipulated arms now run through the sanctioned HGK dispatcher
+
+The models are no longer invoked by hand. Every arm below went through
+`HG-KSEOS/scripts/hgk-lane-dispatch.py` against pool `config/lane-route-slots.candidate.json` rev 20, with
+`--force-rank` + `--require-arm` + a fresh nonce, and `--cwd` pinned to this round directory.
+
+| lane | forced rank | required arm | served model | nonce | ok | secs |
+|---|---|---|---|---|---|---|
+| PLAN | 2 | `openai-codex/gpt-6.1-sol` | `gpt-6.1-sol` | yes | **PASS** | 18.3 |
+| EXECUTE | 1 | `opencode-go/minimax-m3.1-flash-free` | `opencode-go/minimax-m3.1-flash-free` | yes | **PASS** | 20.9 |
+| VERIFY_SECURITY | 2 | `openai-codex/gpt-6.1-sol` | `gpt-6.1-sol` | yes | **PASS** | 19.9 |
+
+Two refusals proved the gate is real rather than decorative: `--require-arm gpt-6.1-sol` alone returns
+`ERR_LANE_REQUIRED_ARM_ABSENT` (the pool's arm key is `openai-codex/gpt-6.1-sol`), and a run with no nonce in an
+agent message cannot pass even at exit 0.
+
+The VERIFY arm then judged the EXECUTE arm's artefact:
+
+```json
+{"nonce":"VERIFY-NONCE-3D90F2B6","receipt_present":true,"lines":4,
+ "declared_model":"opencode-go/minimax-m3.1-flash-free","overclaims":[],"verdict":"PASS"}
+```
+
+### Incident this produced, disclosed in full
+
+The **first** EXECUTE dispatch omitted `--cwd`, so the writer ran with cwd = `HG-KSEOS` and created
+`HG-KSEOS/workers/codex_lane/EXEC_DISPATCH_RECEIPT.md` — a write inside a governed repository with no permit. The run
+then timed out (300s, `ok=False`), i.e. an **effect with a failed receipt**. It was contained: bytes and tree captured
+(`receipts/incidents/`), the untracked `workers/` directory removed, and `git -C HG-KSEOS status --porcelain` verified
+empty with HEAD unchanged at `1760fb4`. Re-dispatched with `--cwd` pinned, the same lane finished `ok=True` in 20.9s and
+the file landed in the evidence worktree instead. Filed as `TT-R15.2-HGK-EXECUTE-CWD-ESCAPE`.
+
+### Ceiling (unchanged)
+
+`native_run NOT_RUN` — no native WorkOrder/Permit id was issued, so no work package may claim completion.
+`independent_acceptance NOT_RUN` — the checker shares this host and session (SOD006-C6 open). `release BLOCKED`.
+What changed is that the role→model binding the user mandated is now demonstrated **through the lane plane**, with the
+orchestrating session model demonstrably different from all three lane models.

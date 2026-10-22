@@ -306,14 +306,40 @@
       "owner": "HGK Native Owner (FAR-EXEC-IDENTITY-002 packet)",
       "next_legal_step": "Make the front door declaration-driven: read the sanctioned pair from config/hermes-codex-lane.json and validate it against an owner-set allowlist instead of a compile-time constant. Until then, any Codex run must record that it bypassed the isolation layer.",
       "far_recommendation": "One-line class of fix, reversible, and it removes a whole failure mode: the drift error is a guard that fires on the lane's own declared truth. Until it lands, the direct-relay route is acceptable ONLY with a disclosed TT plus the sha256 guard, which is what this round did."
+    },
+    {
+      "tt_id": "TT-R15.2-HGK-EXECUTE-CWD-ESCAPE",
+      "kind": "CR",
+      "severity": "CRITICAL_CONTAINED",
+      "subject": "EXECUTE lane wrote into the HG-KSEOS governed repo because --cwd was not pinned",
+      "observed": {
+        "what_happened": "The first sanctioned EXECUTE dispatch omitted --cwd, so the dispatcher ran codex with cwd = C:/Projects/Agent_Workspace/HG-KSEOS and the bounded writer created HG-KSEOS/workers/codex_lane/EXEC_DISPATCH_RECEIPT.md (154 bytes) inside a governed repo with no permit.",
+        "detected_by": "reading the attempt stdout, where the pwsh tool call shows Set-Location to HG-KSEOS",
+        "captured": [
+          "receipts/incidents/20261022_HGK_UNAUTHORIZED_WRITE_before.txt",
+          "receipts/incidents/EXEC_DISPATCH_RECEIPT.md.captured"
+        ],
+        "containment": [
+          "receipts/incidents/20261022_HGK_UNAUTHORIZED_WRITE_after.txt"
+        ],
+        "restoration": "workers/ was untracked and contained only that one file; removed. `git -C HG-KSEOS status --porcelain` is empty again and HEAD is unchanged at 1760fb4.",
+        "run_outcome": "the dispatch itself timed out at 300s (ok=False, ERR_LANE_ALL_ROUTES_EXHAUSTED) even though the write had landed — an effect with a failed receipt, which is the worst shape",
+        "re_dispatch": "with --cwd pinned to the round directory the same lane finished ok=True in 20.94s with the nonce present and the file landed in the evidence worktree"
+      },
+      "conflict": "A dispatcher default (cwd = repo root) plus a writer that obeys its cwd turns a read-only-intended round into a governed-repo write. Nothing in the lane refused it: the lane was happy to write to HG-KSEOS, which is exactly the effect the round must never take without a permit.",
+      "decision": "CONTAINED_AND_DISCLOSED",
+      "owner": "HGK Native Owner (dispatcher default) + this round (invocation mistake)",
+      "next_legal_step": "Make --cwd mandatory (or default it to 'refuse unless given') in hgk-lane-dispatch.py, and have every dispatch assert `git -C <each governed repo> status --porcelain` is unchanged before and after.",
+      "far_recommendation": "Fail closed on a missing --cwd: a lane that can write anywhere is not a bounded lane. Until the dispatcher enforces it, every caller must pass --cwd plus the two-sided git-status guard, and any run that omits it should be treated as an unauthorised effect even when it 'worked'."
     }
   ],
   "counts": {
-    "total": 12,
+    "total": 13,
     "hard_blocker": 0,
-    "resolved_measured": 1
+    "resolved_measured": 1,
+    "contained": 1
   },
-  "round_state": "CARRIER_LANES_EXERCISED_NO_NATIVE_PERMIT",
+  "round_state": "LANES_BOUND_AND_EXERCISED_NO_NATIVE_WORKORDER",
   "stop_reason": null,
   "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion."
 }
