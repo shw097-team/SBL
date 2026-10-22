@@ -1,0 +1,1077 @@
+{
+  "schema": "SBL-R14-TS23-REVIEW/5",
+  "reviewer": "Fifth independent reviewer (fresh delegated review; model/provider identity not independently attested)",
+  "verdict": "FAIL",
+  "checks": [
+    {
+      "id": "LEVEL6",
+      "status": "PASS",
+      "evidence": "Generated test_skill.py line 17 writes levels 1 through 7; disk fixture has ###### Six and ####### Seven on distinct real lines; level 6 omitted mutant fails list equality with AssertionError, missing line=9 level=6 text=Six.",
+      "fixture": {
+        "hex": "2320416c7068610d0a0d0a746578740d0a0d0a232320426574610d0a2323232047616d6d610d0a232323232044656c74610d0a232323232320457073696c6f6e0d0a232323232323205369780d0a2323232323232320536576656e0d0a",
+        "sha256": "875ac455c98559675037dab352b9962199571f5b8f62a71bd9bcee5ad2284534"
+      },
+      "test_code": "  self.assertNotIn('Seven',[h['text'] for h in got2['headings']])"
+    },
+    {
+      "id": "CRLF",
+      "status": "PASS",
+      "evidence": "Generated test_cli.py line 15 writes literal CRLF bytes; existing fixture and write-guard agree byte-for-byte. Double-count mutant raises AssertionError: 6 != 3.",
+      "fixture": {
+        "hex": "616c7068610d0a626574610d0a67616d6d610d0a",
+        "sha256": "c8dba68945249de9b4faed72b89e041e3df77ffff885122599e6c2f7c65a68b2"
+      },
+      "test_code": "  crlf=p.with_name('ts23-crlf-input.md'); crlf.write_bytes(b'alpha\\r\\nbeta\\r\\ngamma\\r\\n')"
+    },
+    {
+      "id": "G2_INVOCATION_MISMATCH",
+      "status": "FAIL",
+      "evidence": "TS23_MODULE now matches, cwd does not: probe pins SB at harness lines 89-91, run_test omits cwd at line 103; test children inherit the test cwd. Probe also exercises only default max_steps=2, not max_steps=1.",
+      "invocations": [
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-m",
+            "ts23_review",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "TS23_MODULE": "ts23_review",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+          ],
+          "cwd": "INHERITED",
+          "TS23_MODULE": "ts23_review",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        }
+      ],
+      "cwd_counterexample": {
+        "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+        "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+        "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+        "results": [
+          {
+            "kind": "REVIEW5",
+            "mutation": "CWD_DEPENDENT_FAILURE",
+            "provenance": "review5",
+            "applied": true,
+            "mutant_ran_and_answered": true,
+            "probe": {
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            "test_exit": 1,
+            "assertion_message": "2 != 0 : ERR_INPUT: cwd mismatch",
+            "caught": true,
+            "crash_shaped_assertion": false,
+            "false_red": false,
+            "crash_not_evidence": false,
+            "restored_byte_identical": true,
+            "tail": "----------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 29, in test_two_step_limit_and_hashes\nAssertionError: 2 != 0 : ERR_INPUT: cwd mismatch\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.110s\n\nFAILED (failures=1)\n"
+          }
+        ],
+        "unmutated_baseline": {
+          "test_cli.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.450s\n\nOK\n",
+            "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.450s\n\nOK\n"
+          },
+          "test_skill.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.335s\n\nOK\n",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.335s\n\nOK\n"
+          },
+          "test_agent.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.377s\n\nOK\n",
+            "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.377s\n\nOK\n"
+          }
+        },
+        "flags": {
+          "all_caught": true,
+          "no_false_reds": true,
+          "all_restored": true,
+          "baseline_all_pass": true
+        },
+        "exit_code_policy": "non-zero unless every flag is true",
+        "harness_exit": 0,
+        "purge_calls": [
+          "ts23_review",
+          "ts23_review"
+        ]
+      },
+      "one_step_crash_counterexample": {
+        "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+        "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+        "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+        "results": [
+          {
+            "kind": "REVIEW5",
+            "mutation": "ONE_STEP_CRASH_WITHOUT_TRACEBACK_HEADER",
+            "provenance": "review5",
+            "applied": true,
+            "mutant_ran_and_answered": true,
+            "probe": {
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            "test_exit": 1,
+            "assertion_message": "1 != 0 : ZeroDivisionError: division by zero",
+            "caught": true,
+            "crash_shaped_assertion": false,
+            "false_red": false,
+            "crash_not_evidence": false,
+            "restored_byte_identical": true,
+            "tail": "----------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 37, in test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : ZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.194s\n\nFAILED (failures=1)\n"
+          }
+        ],
+        "unmutated_baseline": {
+          "test_cli.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.375s\n\nOK\n",
+            "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.375s\n\nOK\n"
+          },
+          "test_skill.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n"
+          },
+          "test_agent.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.278s\n\nOK\n",
+            "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.278s\n\nOK\n"
+          }
+        },
+        "flags": {
+          "all_caught": true,
+          "no_false_reds": true,
+          "all_restored": true,
+          "baseline_all_pass": true
+        },
+        "exit_code_policy": "non-zero unless every flag is true",
+        "harness_exit": 0,
+        "purge_calls": [
+          "ts23_review",
+          "ts23_review"
+        ]
+      },
+      "ordinary_traceback_control": {
+        "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+        "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+        "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+        "results": [
+          {
+            "kind": "REVIEW5",
+            "mutation": "ONE_STEP_CRASH_ORDINARY_TRACEBACK",
+            "provenance": "review5",
+            "applied": true,
+            "mutant_ran_and_answered": true,
+            "probe": {
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            "test_exit": 1,
+            "assertion_message": "1 != 0 : Traceback (most recent call last):",
+            "caught": false,
+            "crash_shaped_assertion": true,
+            "false_red": false,
+            "crash_not_evidence": false,
+            "restored_byte_identical": true,
+            "tail": "n test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.272s\n\nFAILED (failures=1)\n"
+          }
+        ],
+        "unmutated_baseline": {
+          "test_cli.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.454s\n\nOK\n",
+            "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.454s\n\nOK\n"
+          },
+          "test_skill.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.348s\n\nOK\n",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.348s\n\nOK\n"
+          },
+          "test_agent.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.336s\n\nOK\n",
+            "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.336s\n\nOK\n"
+          }
+        },
+        "flags": {
+          "all_caught": false,
+          "no_false_reds": true,
+          "all_restored": true,
+          "baseline_all_pass": true
+        },
+        "exit_code_policy": "non-zero unless every flag is true",
+        "harness_exit": 1,
+        "purge_calls": [
+          "ts23_review",
+          "ts23_review"
+        ]
+      },
+      "unconditional_crash_control": {
+        "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+        "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+        "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+        "results": [
+          {
+            "kind": "REVIEW5",
+            "mutation": "UNCONDITIONAL_ZERO_DIVISION",
+            "provenance": "review5",
+            "applied": true,
+            "mutant_ran_and_answered": false,
+            "probe": {
+              "exit": 1,
+              "answered_with_json": false,
+              "tail": "Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n"
+            },
+            "test_exit": 1,
+            "assertion_message": "1 != 0 : Traceback (most recent call last):",
+            "caught": false,
+            "crash_shaped_assertion": true,
+            "false_red": true,
+            "crash_not_evidence": true,
+            "restored_byte_identical": true,
+            "tail": "n test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.090s\n\nFAILED (failures=1)\n"
+          }
+        ],
+        "unmutated_baseline": {
+          "test_cli.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.370s\n\nOK\n",
+            "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.370s\n\nOK\n"
+          },
+          "test_skill.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.266s\n\nOK\n",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.266s\n\nOK\n"
+          },
+          "test_agent.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n",
+            "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n"
+          }
+        },
+        "flags": {
+          "all_caught": false,
+          "no_false_reds": false,
+          "all_restored": true,
+          "baseline_all_pass": true
+        },
+        "exit_code_policy": "non-zero unless every flag is true",
+        "harness_exit": 1,
+        "purge_calls": [
+          "ts23_review",
+          "ts23_review"
+        ]
+      }
+    },
+    {
+      "id": "CACHE_BINDING",
+      "status": "PARTIAL",
+      "evidence": "Pre/post cache purge and no-bytecode-write environment exist. Actual importlib timestamp validation in RAM returns stale value 1 before purge and new value 2 after invoking the real purge routine through a filesystem adapter. Physical installed-source same-mtime edit was not run because only the two review outputs may be written. Deletion is unchecked and ignore_errors=True can mask failure.",
+      "experiment": {
+        "method": "actual importlib SourceLoader, RAM source/cache, actual _purge_cache with filesystem adapter; no physical edits/deletions permitted",
+        "source_old_hex": "76616c75653d310a",
+        "source_new_hex": "76616c75653d320a",
+        "equal_size": true,
+        "identical_mtime": 1700000000,
+        "pyc_timestamp": 1700000000,
+        "before_purge_value": 1,
+        "after_purge_value": 2,
+        "purge_paths": [
+          "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__"
+        ],
+        "physical_same_mtime_test": "NOT_RUN: prohibited writes outside the two report paths",
+        "caveat": "rmtree(ignore_errors=True) can silently leave cache behind; PYTHONDONTWRITEBYTECODE does not prohibit reading existing pyc",
+        "silent_deletion_failure_model": {
+          "purge_returned_normally": true,
+          "imported_value": 1,
+          "expected_mutant_value": 2,
+          "status": "unverified deletion permits stale cache if OS deletion fails; injected failure, not observed OS failure"
+        }
+      }
+    },
+    {
+      "id": "NOVEL_BOUNDARIES",
+      "status": "FAIL",
+      "evidence": "Four new single-substitution wrong-answer mutants pass their entire shipped behavioural test, yet independent boundary probes expose changed output.",
+      "attempts": [
+        {
+          "id": "LONE_CR",
+          "input_hex": "610d620d",
+          "result": {
+            "exit": 0,
+            "json": {
+              "bytes": 4,
+              "newlines": 0,
+              "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+              "sha256": "95214dcabd7c592744f2ed461262a22b05fc1b2fd6f332bc83d0acf23193f15b"
+            },
+            "stderr": ""
+          },
+          "assessment": "Baseline counts LF bytes only (0); correct under the shipped explicit data.count(b\"\\n\") contract, not a universal line-ending census. Lone-CR-only mutant survives."
+        },
+        {
+          "id": "NO_FINAL_TERMINATOR",
+          "input_hex": "616c7068610a62657461",
+          "result": {
+            "exit": 0,
+            "json": {
+              "bytes": 10,
+              "newlines": 1,
+              "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+              "sha256": "bbfb79e82216bd2db1ad2c507d44ddf80aeb12f64f9562056afe93aad43154d9"
+            },
+            "stderr": ""
+          },
+          "assessment": "Baseline 10 bytes, 1 LF; correct. Added trailing-line count survives test but is wrong under LF-byte contract."
+        },
+        {
+          "id": "ATX_CLOSING_SEQUENCE",
+          "input_hex": "2320416c706861202323230a",
+          "result": {
+            "exit": 0,
+            "json": {
+              "headings": [
+                {
+                  "level": 1,
+                  "line": 1,
+                  "text": "Alpha ###"
+                }
+              ],
+              "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+            },
+            "stderr": ""
+          },
+          "assessment": "Observed text is Alpha ###, with closing hashes retained. Reported as untested semantics/contract ambiguity, not an externally specified CommonMark conformance verdict."
+        },
+        {
+          "id": "EMPTY_QUEUE",
+          "input_hex": "5b5d",
+          "result": {
+            "exit": 0,
+            "json": {
+              "halt_reason": "QUEUE_EXHAUSTED",
+              "remaining": 0,
+              "reviews": [],
+              "steps": 0
+            },
+            "stderr": ""
+          },
+          "assessment": "Baseline zero steps, zero remaining, empty reviews, QUEUE_EXHAUSTED; correct. BUDGET-on-empty mutant survives."
+        },
+        {
+          "id": "UTF8_HEADINGS",
+          "input_hex": "2320e4b8ade6968720636166c3a920f09f98800a",
+          "result": {
+            "exit": 0,
+            "json": {
+              "headings": [
+                {
+                  "level": 1,
+                  "line": 1,
+                  "text": "中文 café 😀"
+                }
+              ],
+              "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+            },
+            "stderr": ""
+          },
+          "assessment": "Baseline preserves Chinese, accented Latin, emoji; correct. ASCII-only filter mutant survives."
+        },
+        {
+          "id": "QUEUE_NAMES_DIRECTORY",
+          "result": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
+          },
+          "assessment": "Correctly rejected with exit 2 and ERR_INPUT; no JSON answer."
+        },
+        {
+          "id": "DASH_FILENAME_BARE",
+          "result": {
+            "exit": 2,
+            "json": null,
+            "stderr": "usage: -c [-h] path\n-c: error: the following arguments are required: path\n"
+          },
+          "assessment": "Correctly refused by argparse with exit 2; no shell interpolation occurs (argv list)."
+        },
+        {
+          "id": "DASH_FILENAME_WITH_SEPARATOR",
+          "result": {
+            "exit": 0,
+            "json": {
+              "headings": [
+                {
+                  "level": 1,
+                  "line": 1,
+                  "text": "Safe"
+                }
+              ],
+              "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\-review5.md"
+            },
+            "stderr": ""
+          },
+          "assessment": "Accepted as a literal filename after --; heading Safe returned; no argument injection observed."
+        }
+      ]
+    },
+    {
+      "id": "INSTRUMENT_CAUSALITY",
+      "status": "FAIL",
+      "code_paths": [
+        "ts23_mutation_check.py:68 PROBE_ARGS has no --max-steps 1 invocation",
+        "ts23_mutation_check.py:89-91 probe uses cwd=SB; :103 run_test inherits caller cwd",
+        "ts23_mutation_check.py:105-107 regex captures only the first AssertionError message line and uses substring membership, not structured test failures",
+        "ts23_mutation_check.py:130-141 ran_and_answered comes only from separate default probe; crash_shaped is only a literal substring search in the captured message; false_red and crash_not_evidence ignore a crash in a different test invocation",
+        "test_agent.py:19 limited=self.invoke(... --max-steps 1); assertEqual(limited.returncode,0,limited.stderr)"
+      ],
+      "evidence": "A one-step ZeroDivisionError with sys.tracebacklimit=0 is reported caught=true, false_red=false, crash_not_evidence=false and harness_exit=0; no behavioural wrong-answer assertion was reached. cwd-dependent exit 2 gets the same false catch. Ordinary traceback and unconditional crash controls are correctly rejected."
+    }
+  ],
+  "mutations_i_tried": [
+    {
+      "id": "census reports bytes=0 for a non-empty file",
+      "module": "ts23_newline",
+      "old": "'bytes':len(data)",
+      "new": "'bytes':0",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "{'bytes': 0, 'newlines': 4, 'path': 'C:\\\\Pr[160 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}"
+      }
+    },
+    {
+      "id": "census reports a fake 64-character digest",
+      "module": "ts23_newline",
+      "old": "'sha256':hashlib.sha256(data).hexdigest()",
+      "new": "'sha256':'0'*64",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "{'bytes': 28, 'newlines': 4, 'path': 'C:\\\\P[161 chars]000'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}"
+      }
+    },
+    {
+      "id": "headings are fixture constants regardless of the document",
+      "module": "ts23_headings",
+      "old": "return headings",
+      "new": "return [{'line':1,'level':1,'text':'One'},{'line':3,'level':2,'text':'Two'},{'line':4,'level':3,'text':'Three'}]",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[201 chars]ix'}]"
+      }
+    },
+    {
+      "id": "correct headings but a wrong path",
+      "module": "ts23_headings",
+      "old": "'path':str(args.path.resolve())",
+      "new": "'path':'wrong'",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'"
+      }
+    },
+    {
+      "id": "agent reports bytes=0 per file",
+      "module": "ts23_review",
+      "old": "'bytes':len(data)",
+      "new": "'bytes':0",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [0, 0] != [5765, 5776]"
+      }
+    },
+    {
+      "id": "agent reports remaining=0 while a file is still queued",
+      "module": "ts23_review",
+      "old": "'remaining':len(fixed)-len(reviews)",
+      "new": "'remaining':0",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "0 != 1"
+      }
+    },
+    {
+      "id": "correct byte counts but a wrong path in the one-step run",
+      "module": "ts23_review",
+      "old": "'path':path",
+      "new": "'path':'wrong'",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['wrong', 'wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\READM[94 chars]son']"
+      }
+    },
+    {
+      "id": "one-step run reports a fake digest",
+      "module": "ts23_review",
+      "old": "'sha256':hashlib.sha256(data).hexdigest()",
+      "new": "'sha256':'0'*64",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['00000000000000000000000000000000000000000[88 chars]000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4df[88 chars]e71']"
+      }
+    },
+    {
+      "id": "one-step run reports remaining=999",
+      "module": "ts23_review",
+      "old": "'remaining':len(fixed)-len(reviews)",
+      "new": "'remaining':999",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "999 != 1"
+      }
+    },
+    {
+      "id": "one-step run claims the queue is exhausted",
+      "module": "ts23_review",
+      "old": "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
+      "new": "'halt_reason':'QUEUE_EXHAUSTED'",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'"
+      }
+    },
+    {
+      "id": "level-six headings are silently dropped",
+      "module": "ts23_headings",
+      "old": "(#{1,6})",
+      "new": "(#{1,5})",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[161 chars]on'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[201 chars]ix'}]"
+      }
+    },
+    {
+      "id": "CRLF is counted twice",
+      "module": "ts23_newline",
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\n')+data.count(b'\\r')",
+      "survived": false,
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "6 != 3"
+      }
+    },
+    {
+      "id": "LONE_CR_IGNORED_BY_SUITE",
+      "module": "ts23_newline",
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\n')+(data.count(b'\\r') if b'\\n' not in data else 0)",
+      "survived": true,
+      "boundary_baseline": {
+        "exit": 0,
+        "json": {
+          "bytes": 4,
+          "newlines": 0,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "95214dcabd7c592744f2ed461262a22b05fc1b2fd6f332bc83d0acf23193f15b"
+        },
+        "stderr": ""
+      },
+      "boundary_mutant": {
+        "exit": 0,
+        "json": {
+          "bytes": 4,
+          "newlines": 2,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "95214dcabd7c592744f2ed461262a22b05fc1b2fd6f332bc83d0acf23193f15b"
+        },
+        "stderr": ""
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.423s\n\nOK\n"
+      }
+    },
+    {
+      "id": "UNTERMINATED_LINE_COUNTED_AS_NEWLINE",
+      "module": "ts23_newline",
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\n')+(1 if data and not data.endswith((b'\\n',b'\\r')) else 0)",
+      "survived": true,
+      "boundary_baseline": {
+        "exit": 0,
+        "json": {
+          "bytes": 10,
+          "newlines": 1,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "bbfb79e82216bd2db1ad2c507d44ddf80aeb12f64f9562056afe93aad43154d9"
+        },
+        "stderr": ""
+      },
+      "boundary_mutant": {
+        "exit": 0,
+        "json": {
+          "bytes": 10,
+          "newlines": 2,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "bbfb79e82216bd2db1ad2c507d44ddf80aeb12f64f9562056afe93aad43154d9"
+        },
+        "stderr": ""
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.375s\n\nOK\n"
+      }
+    },
+    {
+      "id": "EMPTY_QUEUE_REPORTS_BUDGET",
+      "module": "ts23_review",
+      "old": "if len(reviews)<len(fixed) else",
+      "new": "if not fixed or len(reviews)<len(fixed) else",
+      "survived": true,
+      "boundary_baseline": {
+        "exit": 0,
+        "json": {
+          "halt_reason": "QUEUE_EXHAUSTED",
+          "remaining": 0,
+          "reviews": [],
+          "steps": 0
+        },
+        "stderr": ""
+      },
+      "boundary_mutant": {
+        "exit": 0,
+        "json": {
+          "halt_reason": "BUDGET",
+          "remaining": 0,
+          "reviews": [],
+          "steps": 0
+        },
+        "stderr": ""
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.279s\n\nOK\n"
+      }
+    },
+    {
+      "id": "UTF8_HEADINGS_DROPPED",
+      "module": "ts23_headings",
+      "old": "return headings",
+      "new": "return [h for h in headings if h['text'].isascii()]",
+      "survived": true,
+      "boundary_baseline": {
+        "exit": 0,
+        "json": {
+          "headings": [
+            {
+              "level": 1,
+              "line": 1,
+              "text": "中文 café 😀"
+            }
+          ],
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+        },
+        "stderr": ""
+      },
+      "boundary_mutant": {
+        "exit": 0,
+        "json": {
+          "headings": [],
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+        },
+        "stderr": ""
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.268s\n\nOK\n"
+      }
+    },
+    {
+      "id": "UNCONDITIONAL_ZERO_DIVISION",
+      "module": "ts23_review",
+      "old": "result=review(fixed,args.max_steps)",
+      "new": "result=1/0",
+      "survived_behavioural_test": false,
+      "classification": {
+        "kind": "REVIEW5",
+        "mutation": "UNCONDITIONAL_ZERO_DIVISION",
+        "provenance": "review5",
+        "applied": true,
+        "mutant_ran_and_answered": false,
+        "probe": {
+          "exit": 1,
+          "answered_with_json": false,
+          "tail": "Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n"
+        },
+        "test_exit": 1,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "caught": false,
+        "crash_shaped_assertion": true,
+        "false_red": true,
+        "crash_not_evidence": true,
+        "restored_byte_identical": true,
+        "tail": "n test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.090s\n\nFAILED (failures=1)\n"
+      },
+      "harness_exit": 1,
+      "assessment": "correctly rejected as non-catch"
+    },
+    {
+      "id": "ONE_STEP_CRASH_ORDINARY_TRACEBACK",
+      "module": "ts23_review",
+      "old": "result=review(fixed,args.max_steps)",
+      "new": "result=review(fixed,args.max_steps) if args.max_steps==2 else 1/0",
+      "survived_behavioural_test": false,
+      "classification": {
+        "kind": "REVIEW5",
+        "mutation": "ONE_STEP_CRASH_ORDINARY_TRACEBACK",
+        "provenance": "review5",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "exit": 0,
+          "answered_with_json": true,
+          "tail": ""
+        },
+        "test_exit": 1,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "caught": false,
+        "crash_shaped_assertion": true,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "n test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : Traceback (most recent call last):\n  File \"<string>\", line 19, in <module>\n  File \"<string>\", line 15, in main\nZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.272s\n\nFAILED (failures=1)\n"
+      },
+      "harness_exit": 1,
+      "assessment": "correctly rejected as non-catch"
+    },
+    {
+      "id": "ONE_STEP_CRASH_WITHOUT_TRACEBACK_HEADER",
+      "module": "ts23_review",
+      "old": "result=review(fixed,args.max_steps)",
+      "new": "__import__('sys').tracebacklimit=0; result=review(fixed,args.max_steps) if args.max_steps==2 else 1/0",
+      "survived_behavioural_test": false,
+      "classification": {
+        "kind": "REVIEW5",
+        "mutation": "ONE_STEP_CRASH_WITHOUT_TRACEBACK_HEADER",
+        "provenance": "review5",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "exit": 0,
+          "answered_with_json": true,
+          "tail": ""
+        },
+        "test_exit": 1,
+        "assertion_message": "1 != 0 : ZeroDivisionError: division by zero",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "----------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 37, in test_two_step_limit_and_hashes\nAssertionError: 1 != 0 : ZeroDivisionError: division by zero\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.194s\n\nFAILED (failures=1)\n"
+      },
+      "harness_exit": 0,
+      "assessment": "FALSE CATCH: infrastructure/exit-code failure, not behavioural wrong answer"
+    },
+    {
+      "id": "CWD_DEPENDENT_FAILURE",
+      "module": "ts23_review",
+      "old": "result=review(fixed,args.max_steps)",
+      "new": "result=review(fixed,args.max_steps) if str(Path.cwd())=='C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox' else parser.exit(2,'ERR_INPUT: cwd mismatch\\n')",
+      "survived_behavioural_test": false,
+      "classification": {
+        "kind": "REVIEW5",
+        "mutation": "CWD_DEPENDENT_FAILURE",
+        "provenance": "review5",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "exit": 0,
+          "answered_with_json": true,
+          "tail": ""
+        },
+        "test_exit": 1,
+        "assertion_message": "2 != 0 : ERR_INPUT: cwd mismatch",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "----------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 29, in test_two_step_limit_and_hashes\nAssertionError: 2 != 0 : ERR_INPUT: cwd mismatch\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.110s\n\nFAILED (failures=1)\n"
+      },
+      "harness_exit": 0,
+      "assessment": "FALSE CATCH: infrastructure/exit-code failure, not behavioural wrong answer"
+    }
+  ],
+  "surviving_mutations": [
+    {
+      "id": "LONE_CR_IGNORED_BY_SUITE",
+      "module": "ts23_newline",
+      "test_exit": 0,
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\n')+(data.count(b'\\r') if b'\\n' not in data else 0)",
+      "baseline": {
+        "exit": 0,
+        "json": {
+          "bytes": 4,
+          "newlines": 0,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "95214dcabd7c592744f2ed461262a22b05fc1b2fd6f332bc83d0acf23193f15b"
+        },
+        "stderr": ""
+      },
+      "mutant": {
+        "exit": 0,
+        "json": {
+          "bytes": 4,
+          "newlines": 2,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "95214dcabd7c592744f2ed461262a22b05fc1b2fd6f332bc83d0acf23193f15b"
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "id": "UNTERMINATED_LINE_COUNTED_AS_NEWLINE",
+      "module": "ts23_newline",
+      "test_exit": 0,
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\n')+(1 if data and not data.endswith((b'\\n',b'\\r')) else 0)",
+      "baseline": {
+        "exit": 0,
+        "json": {
+          "bytes": 10,
+          "newlines": 1,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "bbfb79e82216bd2db1ad2c507d44ddf80aeb12f64f9562056afe93aad43154d9"
+        },
+        "stderr": ""
+      },
+      "mutant": {
+        "exit": 0,
+        "json": {
+          "bytes": 10,
+          "newlines": 2,
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input",
+          "sha256": "bbfb79e82216bd2db1ad2c507d44ddf80aeb12f64f9562056afe93aad43154d9"
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "id": "EMPTY_QUEUE_REPORTS_BUDGET",
+      "module": "ts23_review",
+      "test_exit": 0,
+      "old": "if len(reviews)<len(fixed) else",
+      "new": "if not fixed or len(reviews)<len(fixed) else",
+      "baseline": {
+        "exit": 0,
+        "json": {
+          "halt_reason": "QUEUE_EXHAUSTED",
+          "remaining": 0,
+          "reviews": [],
+          "steps": 0
+        },
+        "stderr": ""
+      },
+      "mutant": {
+        "exit": 0,
+        "json": {
+          "halt_reason": "BUDGET",
+          "remaining": 0,
+          "reviews": [],
+          "steps": 0
+        },
+        "stderr": ""
+      }
+    },
+    {
+      "id": "UTF8_HEADINGS_DROPPED",
+      "module": "ts23_headings",
+      "test_exit": 0,
+      "old": "return headings",
+      "new": "return [h for h in headings if h['text'].isascii()]",
+      "baseline": {
+        "exit": 0,
+        "json": {
+          "headings": [
+            {
+              "level": 1,
+              "line": 1,
+              "text": "中文 café 😀"
+            }
+          ],
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+        },
+        "stderr": ""
+      },
+      "mutant": {
+        "exit": 0,
+        "json": {
+          "headings": [],
+          "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\review5-memory-input"
+        },
+        "stderr": ""
+      }
+    }
+  ],
+  "residual_gaps": [
+    {
+      "id": "G2_CWD_STILL_MISMATCHED",
+      "severity": "major",
+      "finding": "The review-4 same-cwd claim is false unless the caller happens to run from SB. A controlled cwd-dependent exit is counted as caught and gives harness exit 0."
+    },
+    {
+      "id": "FALSE_CATCH_ONE_STEP_CRASH",
+      "severity": "major",
+      "finding": "Default-only probe plus traceback-string heuristic records an actual one-step ZeroDivisionError as caught. Failure is a returncode guard, not wrong-answer detection."
+    },
+    {
+      "id": "CACHE_DELETION_UNVERIFIED",
+      "severity": "gap",
+      "finding": "Successful deletion defeats timestamp collision in the in-memory importlib experiment. ignore_errors=True plus no absence check allows stale-cache import if deletion fails. Physical same-size/same-mtime mutation not run under the write allowlist."
+    },
+    {
+      "id": "ATX_CLOSING_SEQUENCE_UNSPECIFIED",
+      "severity": "gap",
+      "finding": "# Alpha ### returns text Alpha ###. No fixture covers the closing sequence and no explicit raw-text-versus-ATX-content contract resolves it; no conformance conclusion asserted."
+    },
+    {
+      "id": "WRITE_ALLOWLIST_LIMITS",
+      "severity": "limitation",
+      "finding": "All new inputs and installed-module mutations were RAM overlays. Physical package files, fixture files, caches and ts23_test_strength.json were never modified; no unmodified native harness filesystem-mutation run is claimed."
+    }
+  ],
+  "claim_ceiling": "LEVEL6 and CRLF fixes independently reproduce. CACHE_BINDING succeeds in an actual importlib/RAM deletion model, not a physical same-mtime installed-source experiment. G2 is not closed: two real execution failures falsely earn caught=true and harness exit 0. Four new wrong-answer mutants survive shipped tests. This is local rejection evidence, not product acceptance, full Markdown conformance testing, or an unrestricted native harness execution.",
+  "method": {
+    "write_allowlist": [
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review5.json",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review5.md"
+    ],
+    "runtime": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+    "review_cwd": "C:/Users/user",
+    "baseline": "Native installed modules tested in child processes with only fixture writes guarded/suppressed when their exact bytes already match. All three pass.",
+    "mutants": "Installed __init__.py bytes read and mutated by one textual substitution; child invocation delivered through python -c source overlay. Generated tests and assertions unchanged. Test Path.write calls verify would-write bytes equal disk and return without writing.",
+    "boundary_inputs": "Path.read_bytes/read_text patched for one synthetic input path inside each child; directory input points to real existing SB.",
+    "harness": "Original main() aggregation/classification executed unchanged; source/receipt writes adapted to RAM; probe and run_test execute real children with the source overlay; purge calls recorded rather than deleting disk caches.",
+    "cache": "Actual importlib SourceLoader with source and timestamp pyc in RAM; real _purge_cache called with rglob/rmtree filesystem adapters. Includes successful deletion and silent failure models.",
+    "initial_adapter_issue": "First instrumented harness trial stopped with KeyError: tail in the reviewer adapter; adapter then returned the required tail field and all reported trials were rerun. No subject defect inferred from that adapter error."
+  },
+  "counts": {
+    "existing_mutations_replayed": 12,
+    "new_wrong_answer_mutations": 4,
+    "surviving_wrong_answer_mutations": 4,
+    "crash_or_execution_failure_controls": 4,
+    "false_catches": 2,
+    "boundary_attempts": 8
+  },
+  "native_installed_baseline": {
+    "test_cli.py": {
+      "exit": 0,
+      "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.480s\n\nOK\n"
+    },
+    "test_skill.py": {
+      "exit": 0,
+      "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.369s\n\nOK\n"
+    },
+    "test_agent.py": {
+      "exit": 0,
+      "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.353s\n\nOK\n"
+    }
+  },
+  "source_overlay_baseline": {
+    "ts23_newline": {
+      "exit": 0,
+      "has_assertion": false,
+      "assertion_message": "",
+      "output": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.358s\n\nOK\n"
+    },
+    "ts23_headings": {
+      "exit": 0,
+      "has_assertion": false,
+      "assertion_message": "",
+      "output": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.265s\n\nOK\n"
+    },
+    "ts23_review": {
+      "exit": 0,
+      "has_assertion": false,
+      "assertion_message": "",
+      "output": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.292s\n\nOK\n"
+    }
+  },
+  "subject_integrity": {
+    "installed_sources_equal_initial_reads": true,
+    "harness_equal_initial_read": true,
+    "writes_to_subject": 0,
+    "digests": {
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6"
+    }
+  },
+  "reviewed_file_sha256": {
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_mutation_check.py": "a388dbf2238fd9e46b71b7b81b4d3a528bc9424a04f1125dfb2ee67497faa932",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_build.py": "7dda07a10c1f509188281699377e788bd10e236cc5ede7d2dca8dd3e787d1517",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_remediation4.json": "2e371f507cdd6e9d06dcd85ef3278a2fcf4805648adc57bbd1a675a81fd12cba",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_test_strength.json": "e7e8d8441794b82851ae9e86d01b17c9e4dfacc43903af74e2d6eff4b8f19834",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py": "2f8f1c17dd1e83fa40526d8868c64e88ebc91253c667c4bf8261dab3d842f4c3",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py": "f8774bee44a3480f8a62148f1aea71c4445b175ce1801d68b44da635af6b08da",
+    "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py": "84f9ef2e9359c8ae099299e6698b772342679ade52ba1eedf434e38128b31420"
+  }
+}

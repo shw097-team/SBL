@@ -1,0 +1,37 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/5",
+  "answers_review": "ts23_review5.json (FAIL: LONE_CR_IGNORED_BY_SUITE, UNTERMINATED_LINE_COUNTED_AS_NEWLINE, EMPTY_QUEUE_REPORTS_BUDGET, UTF8_HEADINGS_DROPPED, G2_CWD_STILL_MISMATCHED, FALSE_CATCH_ONE_STEP_CRASH, CACHE_DELETION_UNVERIFIED, ATX_CLOSING_SEQUENCE_UNSPECIFIED)",
+  "confirmed_by_reviewer": ["LEVEL6 and CRLF repairs reproduced", "both mutations fail with AssertionErrors"],
+  "admission": "The four survivors were not implementation bugs so much as UNSPECIFIED BEHAVIOUR: the requirement never said what a lone CR counts as, whether an unterminated last line is a newline, whether non-ASCII headings count, or what an empty queue reports. An unspecified behaviour cannot fail a test, which is why a wrong answer passed. So this round pins the semantics instead of patching around them. That is TT-R14-040.",
+  "semantics_now_pinned": {
+    "newlines": "a line terminator is LF, CRLF or a lone CR; the count is terminators, not lines, so a trailing terminator counts and an unterminated final line does not",
+    "atx": "levels 1..6 count, 7 or more hashes is not a heading, and an ATX closing sequence (space + hashes) is stripped from the text",
+    "utf8": "non-ASCII heading text is kept as is",
+    "empty_queue": "steps 0, remaining 0, reviews [], halt_reason QUEUE_EXHAUSTED - nothing was queued, so nothing was budget-limited"
+  },
+  "changes": [
+    {"finding": "LONE_CR_IGNORED_BY_SUITE / UNTERMINATED_LINE_COUNTED_AS_NEWLINE",
+     "fix": "the implementation counts terminators (LF + CR - CRLF) and the test pins a lone-CR file (3) and an unterminated file (1), each asserting the precondition that the file really contains the bytes it claims",
+     "evidence": "both mutations now fail with AssertionErrors"},
+    {"finding": "UTF8_HEADINGS_DROPPED / ATX_CLOSING_SEQUENCE_UNSPECIFIED",
+     "fix": "the fixture contains a CJK heading and an '## Beta ##' line; the implementation strips the closing sequence and the test's expectation applies the same rule",
+     "evidence": "both mutations fail; the CJK heading and 'Beta' (not 'Beta ##') are asserted"},
+    {"finding": "EMPTY_QUEUE_REPORTS_BUDGET",
+     "fix": "an empty queue is now a case: steps 0, remaining 0, reviews [], halt_reason QUEUE_EXHAUSTED",
+     "evidence": "mutation ('halt_reason':'BUDGET' constant) fails"},
+    {"finding": "G2_CWD_STILL_MISMATCHED / FALSE_CATCH_ONE_STEP_CRASH",
+     "fix": "the test runs in the same cwd as the probe, and a crash is detected by any exception class in the assertion message, not only by a traceback header",
+     "evidence": "self-test with a ZeroDivisionError mutant that carries no traceback header: caught=false, crash_not_evidence=true, false_red=true, harness exit 1"},
+    {"finding": "CACHE_DELETION_UNVERIFIED",
+     "fix": "the purge no longer ignores errors and asserts that no __pycache__ remains; a failed purge raises instead of leaving stale bytecode",
+     "evidence": "harness runs clean with the assertion active"}
+  ],
+  "coverage": {"mutations": 16, "caught": 16, "false_reds": 0, "restored_byte_identical": 16,
+               "baseline_all_pass": true, "harness_exit": 0,
+               "reviewer_mutations_included": ["review 1 fixture constants", "review 2 bytes=0 / remaining=0",
+                                               "review 3 N3 N4 N5 N7 N8", "review 4 LEVEL6 CRLF",
+                                               "review 5 lone CR, unterminated line, UTF-8, ATX closing, empty queue"]},
+  "related_tt": "TT-R14-040 - unspecified behaviour cannot fail a test; pin the semantics before writing the assertion",
+  "claim_ceiling": "Five reviews, five sets of real findings, all fixed. Still my measurement, not M2. A sixth independent read is required.",
+  "next_step": "sixth independent review"
+}

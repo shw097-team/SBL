@@ -39,7 +39,7 @@ tests={
   p=Path(os.environ['TS23_FIXTURE']); data=p.read_bytes(); got=self.invoke(p)
   self.assertEqual(got.returncode,0,got.stderr)
   self.assertTrue(got.stdout.strip(),'program produced no output')
-  self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()})
+  self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n'),'sha256':hashlib.sha256(data).hexdigest()})
   empty=p.with_name('ts23-empty-input'); empty.write_bytes(b'')
   got2=self.invoke(empty); self.assertEqual(got2.returncode,0,got2.stderr)
   self.assertEqual(json.loads(got2.stdout),{'path':str(empty.resolve()),'bytes':0,'newlines':0,'sha256':hashlib.sha256(b'').hexdigest()})
@@ -50,6 +50,14 @@ tests={
   self.assertEqual(got3['bytes'],crlf.stat().st_size)
   self.assertEqual(got3['newlines'],crlf.read_bytes().count(b'\\n'))
   self.assertEqual(got3['sha256'],_h.sha256(crlf.read_bytes()).hexdigest())
+  lone=p.with_name('ts23-lone-cr-input.md'); lone.write_bytes(b'alpha\\rbeta\\rgamma\\r')
+  self.assertIn(b'\\r',lone.read_bytes()); self.assertNotIn(b'\\n',lone.read_bytes())
+  gotl=json.loads(self.invoke(lone).stdout)
+  self.assertEqual(gotl['newlines'],3,'a lone CR is a line terminator')
+  unterminated=p.with_name('ts23-unterminated-input.md'); unterminated.write_bytes(b'alpha\\nbeta')
+  gotu=json.loads(self.invoke(unterminated).stdout)
+  self.assertEqual(gotu['newlines'],1,'only the terminator counts, the last partial line does not')
+  self.assertEqual(gotu['bytes'],unterminated.stat().st_size)
   bad=self.invoke(p.with_name('nonexistent-cli-input'))
   self.assertNotEqual(bad.returncode,0); self.assertIn('ERR_INPUT',bad.stderr)
 if __name__=='__main__': unittest.main(verbosity=2)
@@ -62,9 +70,12 @@ if __name__=='__main__': unittest.main(verbosity=2)
   import importlib.resources
   doc=importlib.resources.files('ts23_headings').joinpath('SKILL.md').read_text(encoding='utf-8')
   self.assertIn('name: ts23-heading-inventory',doc); self.assertIn('ts23-headings',doc)
-  second=p.with_name('ts23-headings-second.md'); second.write_text('# Alpha\\n\\ntext\\n\\n## Beta\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n',encoding='utf-8')
+  second=p.with_name('ts23-headings-second.md'); second.write_text('# Alpha\\n\\ntext\\n\\n## Beta ##\\n## 知識庫 heading\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n',encoding='utf-8')
   got2=json.loads(self.invoke(second).stdout)
   expect=[{'line':i+1,'level':len(l)-len(l.lstrip('#')),'text':l.lstrip('#').strip()} for i,l in enumerate(second.read_text(encoding='utf-8').splitlines()) if 1<=len(l)-len(l.lstrip('#'))<=6]
+  import re as _re
+  for h in expect:
+   h['text']=_re.sub(r'[ \\t]+#+$','',h['text']).strip()
   self.assertNotIn('Seven',[h['text'] for h in got2['headings']])
   self.assertEqual(got2['path'],str(second.resolve()))
   self.assertEqual(json.loads(got.stdout)['path'],str(p.resolve()))
@@ -91,6 +102,11 @@ if __name__=='__main__': unittest.main(verbosity=2)
   self.assertEqual([r['sha256'] for r in lim['reviews']],[hashlib.sha256(Path(x).read_bytes()).hexdigest() for x in queue[:1]])
   self.assertEqual(lim['remaining'],len(queue)-1)
   self.assertEqual(lim['halt_reason'],'BUDGET')
+  emptyq=p.with_name('ts23-empty-queue.json'); emptyq.write_text('[]',encoding='utf-8')
+  e=self.invoke(emptyq); self.assertEqual(e.returncode,0,e.stderr)
+  ed=json.loads(e.stdout)
+  self.assertEqual((ed['steps'],ed['remaining'],ed['reviews']),(0,0,[]))
+  self.assertEqual(ed['halt_reason'],'QUEUE_EXHAUSTED','nothing was queued, so nothing was budget-limited')
   bad=self.invoke(p,'--max-steps','3'); self.assertNotEqual(bad.returncode,0)
 if __name__=='__main__': unittest.main(verbosity=2)
 '''
@@ -103,7 +119,7 @@ def main():
  parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()
  try: data=args.path.read_bytes()
  except OSError as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')
- print(json.dumps({'path':str(args.path.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()},sort_keys=True))
+ print(json.dumps({'path':str(args.path.resolve()),'bytes':len(data),'newlines':data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n'),'sha256':hashlib.sha256(data).hexdigest()},sort_keys=True))
  return 0
 ''',
  'AGENT_SKILL':'''"""Inventory ATX headings; fenced-code interpretation is outside scope."""
@@ -113,7 +129,7 @@ def inventory(path):
  lines=Path(path).read_text(encoding='utf-8').splitlines(); headings=[]
  for number,line in enumerate(lines,1):
   match=re.match(r'^(#{1,6})[ \\t]+(.+?)\\s*$',line)
-  if match: headings.append({'line':number,'level':len(match[1]),'text':match[2]})
+  if match: headings.append({'line':number,'level':len(match[1]),'text':re.sub(r'[ \t]+#+$','',match[2]).strip()})
  return headings
 def main():
  parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()

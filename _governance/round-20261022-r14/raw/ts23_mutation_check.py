@@ -62,6 +62,15 @@ MUTATIONS = [
      "level-six headings are silently dropped", "review 4 (LEVEL6_COVERAGE)"),
     ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')", "data.count(b'\\n')+data.count(b'\\r')",
      "CRLF is counted twice", "review 4 (CRLF_COVERAGE)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')", "data.count(b'\\n')",
+     "a lone CR is not counted as a line terminator", "review 5 (LONE_CR_IGNORED_BY_SUITE)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')+(0 if data.endswith((b'\\n',b'\\r')) else 1)",
+     "an unterminated final line is counted as a newline", "review 5 (UNTERMINATED_LINE_COUNTED_AS_NEWLINE)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "re.sub(r'[ \t]+#+$','',match[2]).strip()", 'match[2]',
+     "the ATX closing sequence stays in the heading text", "review 5 (ATX_CLOSING_SEQUENCE_UNSPECIFIED)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
+     "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'", "'halt_reason':'BUDGET'",
+     "an empty queue is reported as budget-limited", "review 5 (EMPTY_QUEUE_REPORTS_BUDGET)"),
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
@@ -72,7 +81,9 @@ def _purge_cache(module: str) -> None:
     """A same-size edit within one mtime tick can be masked by a stale .pyc. Round 4 (CACHE_BINDING) showed it."""
     import shutil
     for cache in (SP / module).rglob("__pycache__"):
-        shutil.rmtree(cache, ignore_errors=True)
+        shutil.rmtree(cache)          # no ignore_errors: a failed purge must be visible
+    leftovers = list((SP / module).rglob("__pycache__"))
+    assert not leftovers, f"bytecode cache could not be removed: {leftovers}"
 
 
 def _env() -> dict:
@@ -100,7 +111,8 @@ def probe(module: str) -> dict:
 def run_test(test: str) -> dict:
     env = _env()
     env["TS23_MODULE"] = MODULE_FOR_TEST[test]
-    proc = subprocess.run([str(VENV), str(TESTS / test)], capture_output=True, text=True, encoding="utf-8", env=env)
+    proc = subprocess.run([str(VENV), str(TESTS / test)], capture_output=True, text=True, encoding="utf-8",
+                          env=env, cwd=str(SB))
     text = (proc.stderr or "") + (proc.stdout or "")
     match = re.search(r"AssertionError: (.+)", text)
     return {"exit": proc.returncode, "has_assertion": "AssertionError" in text,
@@ -129,7 +141,7 @@ def main() -> int:
         restored = hashlib.sha256(target.read_bytes()).hexdigest() == digest
         ran_and_answered = probe_result["exit"] == 0 and probe_result["answered_with_json"]
         message = test_result["assertion_message"]
-        crash_shaped = "Traceback (most recent call last)" in message
+        crash_shaped = bool(re.search(r"(Traceback \(most recent call last\)|\w*Error|\w*Exception)", message))
         caught = (ran_and_answered and test_result["exit"] != 0
                   and test_result["has_assertion"] and not crash_shaped)
         results.append({
