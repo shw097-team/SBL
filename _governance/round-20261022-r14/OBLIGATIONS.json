@@ -374,10 +374,11 @@
       "evidence": [
         "raw/ts28_release.json",
         "raw/ts28_remote_readback.json",
-        "SBL_R14_RELEASE_NOTE.md"
+        "SBL_R14_RELEASE_NOTE.md",
+        "raw/ts28_readback_denominator.json"
       ],
       "depends_on": [],
-      "note": "Packet built and locally verified: 331/331 digest entries rechecked, 0 token-shaped hits (with 28 disclosed literal-grep hits that are the scanner rules themselves), credential file excluded from the delivered set, licence inventory from package metadata only (194 HGK + 3 SBL distributions), CycloneDX-shaped SBOM with 522 components labelled SELF_AUTHORED_NO_THIRD_PARTY_SCANNER. Remote readback at the time: 6 identical / 51 different / 259 absent - the absent ones are this batch's own new files, so the honest state is 'not yet published', and complete_order_pass is false. The candidate branch has no remote on the SBL origin either, so no candidate SHA was confirmed remotely."
+      "note": "Packet built and locally verified: 331/331 digest entries rechecked, 0 token-shaped hits (with 28 disclosed literal-grep hits that are the scanner rules themselves), credential file excluded from the delivered set, licence inventory from package metadata only (194 HGK + 3 SBL distributions), CycloneDX-shaped SBOM with 522 components labelled SELF_AUTHORED_NO_THIRD_PARTY_SCANNER. Remote readback at the time: 6 identical / 51 different / 259 absent - the absent ones are this batch's own new files, so the honest state is 'not yet published', and complete_order_pass is false. The candidate branch has no remote on the SBL origin either, so no candidate SHA was confirmed remotely. Re-published after the batch and re-measured: of the 54 DIFFERENT entries, 53 are CRLF-only and 1 was real - the published ts03 matrix still showed scope_path_enforcement as GAP after the local re-run had closed it (TT-R14-033, re-published). The two denominators are now recorded separately: published set vs full local manifest, because 295 'absent' are repo-local artifacts never meant for the evidence branch. Candidate branch still has no remote on the SBL origin, so remote_candidate_verified stays false."
     },
     {
       "id": "R14-TS29",
