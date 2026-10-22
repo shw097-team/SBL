@@ -1,0 +1,129 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "EXECUTE",
+  "role": "writer",
+  "role_binding_source": null,
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\6257d9e8f63c0f2b\\codex.exe",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "danger-full-access",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "config/lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "opencode-go",
+        "model": "minimax-m3.1-flash-free",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "opencode-go/minimax-m3.1-flash-free"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/receipts/dispatch/EXECUTE_wo04.json.logs",
+  "output_dir_policy": {
+    "mode": "explicit-path",
+    "derived": null,
+    "existing": false
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "minimax-m3.1-flash-free",
+      "transport_model": "opencode-go/minimax-m3.1-flash-free",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": "TIMEOUT",
+      "timed_out": true,
+      "seconds": 360.04,
+      "nonce_present": false,
+      "nonce_present_raw_stdout": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 20,
+      "usage_offset": 30884496,
+      "usage_provider": "opencode-go",
+      "usage_model": "minimax-m3.1-flash-free",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/receipts/dispatch/EXECUTE_wo04.json.logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE_wo04.json.logs\\attempt-3104-1792680457-1-stdout.txt",
+      "stdout_bytes": 830061,
+      "stdout_sha256": "0262fb3d4a9345cad6b0a15910c205e13554ba8d10483090f6ace147ce070525",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE_wo04.json.logs\\attempt-3104-1792680457-1-stderr.txt",
+      "stderr_bytes": 317,
+      "stderr_sha256": "e293d9d48ec4187ab28064021e6ed31fd3b1c4eb45306aebaa5b0fba607a58a0",
+      "stdout_tail": "paths 2>&1\\r\\n     |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\r\\n     | Program 'git.exe' failed to run: StandardOutputEncoding is only supported when standard output is redirected.At line:11 char:8\\r\\n+ $out = & git -C $repo check-attr eol -- @paths 2>&1\\r\\n+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~.\\r\\nEXITCODE=0\\r\\nOUTPUT_LINES=1\\r\\n\",\"exit_code\":0,\"status\":\"completed\"}}\n",
+      "stderr_tail": "l input from stdin...\n2026-10-22T14:47:38.449737Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n2026-10-22T14:49:54.425045Z ERROR codex_core::tools::router: error=unsupported call: update_plan\n"
+    }
+  ],
+  "used_rank": null,
+  "used_transport_model": null,
+  "used_seconds": null,
+  "generated_utc": "2026-10-22T14:53:38.472601+00:00",
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "completion_evidence": {
+    "checked": false
+  },
+  "usage_receipt_ok": false,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+  "timed_out_arms": [
+    "opencode-go/minimax-m3.1-flash-free"
+  ]
+}

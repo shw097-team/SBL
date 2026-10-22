@@ -1,0 +1,30 @@
+{
+  "token": "EXEC-R15-2-WO04-NONCE-C5A90E31",
+  "repo": "C:/Projects/Agent_Workspace/_r152_ev",
+  "tracked_total": 712,
+  "tracked_text": 638,
+  "pathlist_chars": 37693,
+  "command_line_chars": 37733,
+  "over_windows_limit": true,
+  "commands": [
+    {
+      "cmd": "git -C \"C:/Projects/Agent_Workspace/_r152_ev\" ls-files | wc -l",
+      "stdout": "712\n",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "cmd": "git -C \"C:/Projects/Agent_Workspace/_r152_ev\" ls-files \"*.py\" \"*.md\" \"*.json\" \"*.toml\" \"*.yml\" \"*.yaml\" \"*.txt\" | wc -l",
+      "stdout": "639\n",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "cmd": "python -c \"import subprocess;o=subprocess.run(['git','-C','C:/Projects/Agent_Workspace/_r152_ev','ls-files'],capture_output=True,text=True).stdout.splitlines();t=[f for f in o if f.lower().endswith(('.py','.md','.json','.toml','.yml','.yaml','.txt'))];j=' '.join(t);print('tracked',len(o));print('tracked_text',len(t));print('pathlist_chars',len(j));print('cmdline_chars',len(j)+40);print('over_32767',len(j)+40>32767)\"",
+      "stdout": "tracked 712\ntracked_text 638\npathlist_chars 37693\ncmdline_chars 37733\nover_32767 True\n",
+      "stderr": "",
+      "exit": 0
+    }
+  ],
+  "verdict": "PASS"
+}

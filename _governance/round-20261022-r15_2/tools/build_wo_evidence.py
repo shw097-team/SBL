@@ -124,7 +124,8 @@ for dirpath, dirnames, filenames in os.walk(R):
     for f in sorted(filenames):
         fp = os.path.join(dirpath, f)
         rel = os.path.relpath(fp, R).replace("\\", "/")
-        if rel == "ROUND_MANIFEST.json":
+        if rel == "ROUND_MANIFEST.json" or rel.startswith("receipts/dispatch/") \
+                or rel == "evidence/WO-TS-20261022-06/exact_set_readback.json":
             continue
         rows.append({"path": rel, "bytes": os.path.getsize(fp), "sha256": sha(fp)})
 declared = {e["path"] for e in manifest["files"]}
@@ -132,13 +133,19 @@ on_disk = {r["path"] for r in rows}
 # regenerate the manifest so the exact-set readback is taken against a manifest that already
 # contains every evidence bundle written above (AO/checker finding: the readback compared a stale
 # manifest against a newer tree).
+# A package must not contain its own verification receipts: every dispatch adds files to
+# receipts/dispatch/, so including that directory makes the exact-set readback diverge forever.
+# The package scope is the round tree minus harness output and minus the readback that measures it.
+MANIFEST_EXCLUDE = ("ROUND_MANIFEST.json", "evidence/WO_EVIDENCE_INDEX.json",
+                    "evidence/WO-TS-20261022-06/exact_set_readback.json")
+MANIFEST_EXCLUDE_PREFIX = ("receipts/dispatch/",)
 _mrows = []
 for _dp, _dn, _fn in os.walk(R):
     _dn[:] = [d for d in _dn if d not in ("__pycache__",)]
     for _f in sorted(_fn):
         _fp = os.path.join(_dp, _f)
         _rel = os.path.relpath(_fp, R).replace("\\", "/")
-        if _rel in ("ROUND_MANIFEST.json", "evidence/WO_EVIDENCE_INDEX.json"):
+        if _rel in MANIFEST_EXCLUDE or _rel.startswith(MANIFEST_EXCLUDE_PREFIX):
             continue
         _mrows.append({"path": _rel, "bytes": os.path.getsize(_fp), "sha256": sha(_fp)})
 _mrows.sort(key=lambda r: r["path"])
@@ -151,6 +158,7 @@ manifest = _mf
 declared = {e["path"] for e in manifest["files"]}
 on_disk = {r["path"] for r in rows}
 on_disk.discard("evidence/WO_EVIDENCE_INDEX.json")
+on_disk.discard("evidence/WO-TS-20261022-06/exact_set_readback.json")
 
 out["bundles"]["WO-TS-20261022-06"] = write("WO-TS-20261022-06/exact_set_readback.json", {
     "workorder": "WO-TS-20261022-06",

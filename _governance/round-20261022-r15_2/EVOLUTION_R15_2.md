@@ -108,3 +108,37 @@ A checker that re-derives the number is worth more than a second reading of the 
 1. Re-gate the delivery gate (or rename the state) so a project with FAILED work orders cannot read as ready.
 2. Make intake revisable until `PLAN_READY`, with a recorded revision number.
 3. Close `WO-03`/`WO-04` only with a real ingestion pipeline and a real product write permit — not with better prose.
+
+## 7. Second iteration: what the second stop taught
+
+### 7.1 The stop was a measurement failure, again
+
+I had reported two work orders FAILED "because the capability does not exist". Both capabilities existed. I had never
+run `sbl_core.gknow`, and I had never run the 227-test suite. The rule this produces is blunt: **before declaring a
+capability absent, run it.** A `grep` for a filename is not a test of behaviour, and the word "missing" in a verdict is
+a claim about the world that needs the same evidence as any other claim.
+
+### 7.2 My own evidence polluted the thing it measured
+
+Copying the source corpus into the tracked tree broke the product's reproducibility test, and the first readback design
+put the measuring file inside the measured set. Both are the same error in different clothes: **a measurement must be
+outside the thing it measures.** Three consecutive readback failures were the cost of learning it.
+
+### 7.3 What the Windows run found that no review would have
+
+`git check-attr eol -- <every tracked file>` exceeds the Windows command-line cap on this repo, so a shipped assertion
+never executed on the platform this host runs on. It looked covered in every report. Two failures, one root cause, one
+one-hunk fix, and the suite went 227/2 → 227/0.
+
+### 7.4 Rules carried forward
+
+1. Run the capability before writing the verdict.
+2. A package excludes its own verification receipts, and the measuring file is never a member of the measured set.
+3. Build order is: all bundles → manifest → readback; any other order produces a readback of a tree that never existed.
+4. A test that cannot execute on the target platform is not coverage; it is a claim of coverage.
+5. Distinguish "engineering gate closed" from "release gate closed" in every summary; they fail for different reasons.
+
+### 7.5 Next iteration
+
+Re-gate the delivery state (section 11 defect), make intake revisable to `PLAN_READY`, and merge the one-hunk Windows
+fix on the product line. Those three are owner actions, all reversible, all small.

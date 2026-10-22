@@ -62,7 +62,7 @@
       "next_legal_step": "Native Owner compiles the contract's evidence gates into TaskSpec + WorkOrder + Permit with nonce, scope, expiry and rollback pointer.",
       "far_recommendation": "Start with W00/W01 only: they are read-only and produce the very ledger the remaining 16 packages depend on. Do not open a write permit before W01 closes.",
       "resolution": "HG-KSEOS issued 6 work orders natively for project sbl-r152-final2-20261022b via lifecycle.admit_workorders(); receipt receipts/admission/native_admit_final2.json",
-      "residual": "a *product write* permit is still absent, so WO-04 (core product surface) remains FAILED; issuance of work orders is not the same as permission to write product source"
+      "residual": "closed for work-order issuance; the *product write* question is now answered differently — the engineer does not need to write product source, because the capability was already there"
     },
     {
       "tt_id": "TT-R15.2-VERIFY-LANE-SOD006-C6",
@@ -415,15 +415,85 @@
       "owner": "HGK Native Owner",
       "next_legal_step": "Cancel or annotate the three residue projects with a pointer to the project of record; do not delete rows.",
       "far_recommendation": "Annotate rather than delete: the residue is the honest record of the exploration, and deleting it would make the state look cleaner than the process was."
+    },
+    {
+      "tt_id": "TT-R15.2-PRODUCT-WINDOWS-TEST-ARGLEN",
+      "kind": "CR",
+      "severity": "MEDIUM",
+      "subject": "Shipped test builds a command line above the Windows limit",
+      "observed": {
+        "test": "tests/test_reproducible_build.py::test_git_applies_lf_to_the_shipped_text_files",
+        "error": "FileNotFoundError: [WinError 206] 檔名或副檔名太長",
+        "call": "git check-attr eol -- <all tracked text files>",
+        "before": "227 tests / 2 failed",
+        "after": "227 tests / 0 failed",
+        "candidate_patch": "tests/test_reproducible_build.py on evidence/r15_2-20261022 (batch of 60 paths)"
+      },
+      "conflict": "The assertion is correct and valuable, but on Windows it cannot run at all once the repo has enough tracked text files, so the guarantee silently stops being enforced on the platform this host runs.",
+      "decision": "PROPOSED_CANDIDATE_MERGE",
+      "owner": "SBL Product Owner",
+      "next_legal_step": "Review and merge the batching fix on the product line; do not merge the evidence branch wholesale.",
+      "far_recommendation": "Merge the one-hunk fix now: an assertion that cannot execute is worse than no assertion, because it reads as covered."
+    },
+    {
+      "tt_id": "TT-R15.2-SOURCE-CORPUS-DUP-NAME",
+      "kind": "TT",
+      "severity": "LOW",
+      "subject": "One admitted source document carries a ' (1)' download suffix",
+      "observed": {
+        "file": "PIPD_LS_DOC-02_2026-10-07_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_REPAIR_FULL_SUBSTANTIVE_BODY (1).md",
+        "effect": "a corpus copy inside the product tree made tar extraction fail, cascading into two test failures",
+        "corpus_documents": 24,
+        "distinct_hashes": 24
+      },
+      "conflict": "The document is admitted by hash, but its name suggests a duplicate download; a reader cannot tell whether it is a duplicate of DOC-02 or a distinct revision.",
+      "decision": "PROPOSED_OWNER_REVIEW",
+      "owner": "Source Admission Owner",
+      "next_legal_step": "Confirm whether the ' (1)' file is a distinct revision; rename it to a content-derived name at the source.",
+      "far_recommendation": "Hash-admission already makes it safe; the name is what hurts, because it invites a later reader to treat the file as noise."
+    },
+    {
+      "tt_id": "TT-R15.2-EXECUTE-LANE-BYPASSED",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "Bulk artefact production ran as the session principal, not through the EXECUTE lane",
+      "observed": {
+        "execute_dispatches_before_owner_question": 3,
+        "execute_dispatches_during_admission_and_wos": 0,
+        "verifiy_dispatches": 11,
+        "plan_dispatches_ok": 1,
+        "what_was_produced_by_the_session_principal": [
+          "native admission scripts",
+          "evidence bundles",
+          "ledger rebuild",
+          "gknow ingestion run",
+          "227-test suite run",
+          "package manifest and readback",
+          "spine result recording"
+        ],
+        "what_the_lane_proved_afterwards": {
+          "receipt": "workers/codex_exec/EXEC_RECEIPT_ABS.json",
+          "tracked_text": 638,
+          "pathlist_chars": 37693,
+          "command_line_chars": 37733,
+          "guard": "2 files added inside the write-set, 0 outside"
+        }
+      },
+      "conflict": "The mandated split assigns product-affecting execution to the Codex CLI bounded writer. Running the same work as the orchestrator is not equivalent: the orchestrator sees the whole tree, can write anywhere, and is the same principal that then judges its own output.",
+      "decision": "PROPOSED_OWNER_REVIEW",
+      "owner": "Round Owner",
+      "next_legal_step": "Route future producing steps through `hgk-lane-dispatch.py --lane EXECUTE` with a declared write-set, and keep the orchestrator to planning, guarding and recording.",
+      "far_recommendation": "Keep the guard, move the hands: the orchestrator should never be the one writing the artefact it later checks, and the lane already proves it can do it inside a write-set.",
+      "severity_note": "the acceptance evidence is unaffected; the provenance claim is what was wrong"
     }
   ],
   "counts": {
-    "total": 16,
+    "total": 19,
     "hard_blocker": 0,
     "resolved_measured": 2,
     "contained": 1
   },
-  "round_state": "NATIVE_ADMISSION_EXECUTED_4_OF_6_VERIFIED",
+  "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
   "stop_reason": null,
   "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion.",
   "ao_review": {
@@ -441,15 +511,26 @@
     "response": "STATUS_R15_2.md §10"
   },
   "native_plane": {
-    "project_of_record": "sbl-r152-final2-20261022b",
-    "state": "DELIVERY_READY (not DELIVERED)",
+    "project_of_record": "sbl-r152-close-20261022c",
+    "state": "DELIVERY_READY (DELIVERED withheld: no owner seal)",
     "workorders": {
-      "WO-TS-20261022b-01": "VERIFIED",
-      "WO-TS-20261022b-02": "VERIFIED",
-      "WO-TS-20261022b-03": "FAILED",
-      "WO-TS-20261022b-04": "FAILED",
-      "WO-TS-20261022b-05": "VERIFIED",
-      "WO-TS-20261022b-06": "VERIFIED"
+      "WO-TS-20261022c-01": "VERIFIED",
+      "WO-TS-20261022c-02": "VERIFIED",
+      "WO-TS-20261022c-03": "VERIFIED",
+      "WO-TS-20261022c-04": "VERIFIED",
+      "WO-TS-20261022c-05": "VERIFIED",
+      "WO-TS-20261022c-06": "VERIFIED"
+    },
+    "product_suite": {
+      "tests": 227,
+      "failures_before": 2,
+      "failures_after": 0,
+      "skipped": 4
+    },
+    "ingestion": {
+      "index_schema": "SBL-GKNOW-INDEX/1",
+      "chunks": 3033,
+      "coverage_gaps": 0
     }
   }
 }

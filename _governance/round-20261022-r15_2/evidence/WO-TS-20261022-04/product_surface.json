@@ -1,0 +1,137 @@
+{
+  "workorder": "WO-TS-20261022-04",
+  "objective": "core product surface present and exercised by its own test suite",
+  "surface": {
+    "modules": [
+      "sbl_core/m01_intake.py",
+      "sbl_core/m02_spec.py",
+      "sbl_core/m03_routing.py",
+      "sbl_core/m04_bridge.py",
+      "sbl_core/m05_verify.py",
+      "sbl_core/m06_repair.py",
+      "sbl_core/gknow.py",
+      "sbl_core/core.py",
+      "sbl_core/dto.py",
+      "sbl_core/errors.py",
+      "sbl_core/modes.py",
+      "sbl_cli/sbl_todo.py"
+    ],
+    "test_files": 22,
+    "product_py_files": 12
+  },
+  "suite": {
+    "runner": "uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider",
+    "before": {
+      "tests": "227",
+      "failures": "2",
+      "errors": "0",
+      "skipped": "4",
+      "time": "68.210"
+    },
+    "after": {
+      "tests": "227",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "4",
+      "time": "250.524"
+    },
+    "junit_before": "report.xml (2 failed)",
+    "junit_after": "report_clean.xml (0 failed)"
+  },
+  "two_defects_found_and_fixed_in_the_evidence_branch_only": [
+    {
+      "defect": "tests/test_reproducible_build.py::test_git_applies_lf_to_the_shipped_text_files",
+      "error": "FileNotFoundError: [WinError 206] 檔名或副檔名太長",
+      "cause": "`git check-attr eol -- <every tracked file>` builds a command line above the Windows 32,767-char cap",
+      "fix": "batch the path list in groups of 60; the assertion is unchanged",
+      "file_touched": "tests/test_reproducible_build.py (evidence branch only)",
+      "status": "fixed"
+    },
+    {
+      "defect": "corpus copy inside the repo",
+      "error": "tarfile extract: No such file or directory ... PIPD_LS_DOC-02_..._BODY (1).md",
+      "cause": "I had copied the source corpus into the tracked tree, and one source file carries a ' (1)' download suffix",
+      "fix": "keep the corpus outside the repo; the index and its manifest stay as evidence",
+      "status": "fixed"
+    }
+  ],
+  "disclosure": "these are candidate-branch edits on evidence/r15_2-20261022; nothing was merged to the SBL main line and no product release is implied",
+  "execute_lane_evidence": {
+    "lane": "EXECUTE",
+    "engine": "codex-cli",
+    "transport_model": "opencode-go/minimax-m3.1-flash-free",
+    "rank": 1,
+    "dispatches": [
+      {
+        "receipt": "receipts/dispatch/EXECUTE_wo04.json",
+        "ok": false,
+        "seconds": 360.04,
+        "measured": {
+          "tracked_text": 638,
+          "pathlist_chars": 37693,
+          "cmdlime_naive_chars": 37757
+        },
+        "prefix_arithmetic": "37,693 path characters + 64 characters of `git -C \"...\" check-attr eol -- ` = 37,757",
+        "note": "timed out at the wall after producing the measurement"
+      },
+      {
+        "receipt": "receipts/dispatch/EXECUTE_wo04b.json",
+        "ok": true,
+        "net_effect": "EXEC_RECEIPT.json survives; `_run_receipt.ps1` was removed by the next dispatch (wo04c), so the net addition is 1 file, not 2 — the checker caught this and the earlier wording was wrong",
+        "guard_provenance": "EXECUTE_wo04b.json itself reports subject_mutation=not_guarded and completion_evidence.checked=false, so the dispatcher does NOT guarantee the write-set; the zero-outside-writes claim rests on the round's own external before/after snapshot (guard_exec2_before/after), which is a weaker instrument and is labelled as such",
+        "write_effect": {
+          "survives": [
+            "workers/codex_exec/EXEC_RECEIPT.json"
+          ],
+          "created_and_removed_within_the_same_dispatch": [
+            "workers/codex_exec/_run_receipt.ps1"
+          ],
+          "attribution": "the wo04b log shows the helper being written and then removed inside that same dispatch (the checker cited its item_29); an earlier draft of this bundle blamed the following wo04c dispatch, which was wrong",
+          "net_addition": 1
+        }
+      },
+      {
+        "receipt": "receipts/dispatch/EXECUTE_wo04c.json",
+        "ok": null,
+        "note": "the writer's own output (workers/codex_exec/EXEC_RECEIPT_ABS.json) is authoritative; it created no helper script",
+        "writer_receipt": "workers/codex_exec/EXEC_RECEIPT_ABS.json",
+        "measured": {
+          "tracked_total": 712,
+          "tracked_text": 638,
+          "pathlist_chars": 37693,
+          "command_line_chars": 37733,
+          "over_windows_limit": true
+        },
+        "prefix_arithmetic": "37,693 + 40 = 37,733 for a shorter prefix; both figures exceed 32,767"
+      }
+    ],
+    "why_it_matters": "the product defect described above was measured by the mandated EXECUTE lane, not inferred: 37,693 characters of paths against a 32,767-character Windows cap",
+    "runtime_principal_measurement": {
+      "by": "round tooling (not the lane)",
+      "repo": "C:/Projects/Agent_Workspace/_r152_ev",
+      "tracked": 712,
+      "tracked_text": 638,
+      "pathlist_chars": 37693,
+      "cmdline_chars": 37733,
+      "over_32767": true,
+      "sbl_main": {
+        "tracked_text": 421,
+        "cmdline_chars": 23136,
+        "over_32767": false
+      },
+      "hg_kseos": {
+        "tracked_text": 720,
+        "cmdline_chars": 33772,
+        "over_32767": true
+      }
+    },
+    "disclosure": "the EXECUTE lane executed the bounded write and produced the absolute-path measurement; the guard that bounded it is external to the dispatcher, and the helper script it created did not survive the next dispatch. Both facts are stated rather than smoothed over.",
+    "number_reconciliation": {
+      "37693": "path characters only",
+      "37733": "path characters + 40-character prefix (round measurement)",
+      "37757": "path characters + 64-character prefix (EXECUTE lane's naive command line)",
+      "638_vs_639": "git's pathspec counts 639 entries while a Python endswith filter counts 638. The extra entry is a tracked path git writes in C-style quotes (a non-ASCII document name from the recycle-bin copy), so it arrives with a trailing quote character and fails the suffix test. 639 is the true tracked text count; 638 is what a naive filter sees.",
+      "32767": "Windows command-line cap"
+    }
+  }
+}
