@@ -1,0 +1,71 @@
+{
+  "schema": "SBL_PRINCIPAL_REQUESTS/1",
+  "round_id": "round-20261022-r15_2",
+  "issued_at_utc": "2026-10-22T16:17:58Z",
+  "why": "An item parked on another principal is not finished and not abandoned: it is a request. These files are the requests, each with the literal action that satisfies it.",
+  "requests": [
+    {
+      "id": "W02.policy",
+      "item": "W02 / C02",
+      "principal": "Fabric Policy Owner",
+      "expires": "2026-11-05",
+      "unblocks": [
+        "W02 DONE",
+        "C02 DONE",
+        "TT-R15.2-FRONTDOOR-SANCTIONED-DRIFT can be closed by binding"
+      ],
+      "satisfying_action": "write config/active-policy.json with {\"policy_digest\": \"<sha256>\", \"declared_by\": \"<owner>\", \"declared_at\": \"<iso8601>\"} — or reply 'hermes-codex-lane.json is active' and the agent will write it with declared_by=<owner>",
+      "file": "W02.policy.md"
+    },
+    {
+      "id": "W12.swof",
+      "item": "W12 / C19 / M3",
+      "principal": "SWOF Domain Owner",
+      "expires": "2026-11-05",
+      "unblocks": [
+        "E08",
+        "E09",
+        "M3"
+      ],
+      "satisfying_action": "issue the W3 Domain Owner Native Admission (subject = the frozen candidate sha, env = this host, ABI = current HGK) — or authorise a shadow-only connected dry run, which unblocks E08 without claiming W3",
+      "file": "W12.swof.md"
+    },
+    {
+      "id": "W13.hosts",
+      "item": "W13 / C20 / C21 / E06",
+      "principal": "ChatGPT Host Owner",
+      "expires": "2026-11-12",
+      "unblocks": [
+        "C20 to DONE",
+        "C21 only with real host IDs"
+      ],
+      "satisfying_action": "supply three host IDs plus the private-plugin schema, or accept the local double-digest build evidence as the interim ceiling for C20 while C21 stays open",
+      "file": "W13.hosts.md"
+    },
+    {
+      "id": "W15.release",
+      "item": "W15 / C22 / C24",
+      "principal": "Release Owner + HGK Control-Plane Owner",
+      "expires": "2026-11-12",
+      "unblocks": [
+        "C22",
+        "W15",
+        "the DELIVERED transition becomes trustworthy"
+      ],
+      "satisfying_action": "(a) apply the DELIVERY_READY guard diff and approve it; (b) issue the release seal for subject sha <to be named at seal time>",
+      "file": "W15.release.md"
+    },
+    {
+      "id": "W16.perf",
+      "item": "W16 / C23",
+      "principal": "SBL Performance Owner + HGK Benchmark",
+      "expires": "2026-11-12",
+      "unblocks": [
+        "C23 to DONE",
+        "B0 comparability"
+      ],
+      "satisfying_action": "name the reference workload, the attempt count and the acceptance threshold; or accept the observation that no benefit is currently demonstrable",
+      "file": "W16.perf.md"
+    }
+  ]
+}

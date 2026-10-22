@@ -39,10 +39,16 @@ def main() -> int:
         blockers.append({"code": "READY_AGENT_ITEMS", "ids": ready})
 
     for i in q["items"]:
+        if i.get("satisfiable_by") not in ("AGENT", "OWNER", "HOST", "EXTERNAL_AO"):
+            blockers.append({"code": "SATISFIABILITY_UNKNOWN", "id": i["id"],
+                             "satisfiable_by": i.get("satisfiable_by")})
         if i["status"] != "PARKED":
             continue
         if not i.get("parked_reason"):
             blockers.append({"code": "PARKED_WITHOUT_OWNER", "id": i["id"], "missing": "parked_reason"})
+        ref = i.get("principal_request_ref")
+        if not ref or not os.path.exists(os.path.join(R, ref)):
+            blockers.append({"code": "UNISSUED_PRINCIPAL_REQUEST", "id": i["id"], "ref": ref})
         if not i.get("owner_action"):
             action = OWNER_ACTIONS.get(i["id"])
             if action:
@@ -68,6 +74,7 @@ def main() -> int:
     proof = {"schema": "SBL_QUEUE_EXHAUSTION_PROOF/1",
              "is_completion_claim": False,
              "r15_2_complete": False,
+             "all_open_items_are_issued_requests": True,
              "why_not_complete": ("queue exhaustion only means no AGENT-actionable item remains. R15.2 still has "
                                   "2 NOT_RUN work packages (W02, W12), release is BLOCKED without an owner seal, "
                                   "and M4's semantic denominator is UNMEASURED"),
@@ -77,7 +84,8 @@ def main() -> int:
                           "lease fresh or terminal proof present",
              "queue_digest": lease.get("queue_digest"),
              "counts": {s: sum(1 for i in q["items"] if i["status"] == s) for s in ("DONE", "PARKED", "READY")},
-             "parked": [{"id": i["id"], "reason": i["parked_reason"], "owner_action": i["owner_action"]}
+             "parked": [{"id": i["id"], "reason": i["parked_reason"], "owner_action": i["owner_action"],
+                        "satisfiable_by": i["satisfiable_by"], "principal_request_ref": i["principal_request_ref"]}
                         for i in q["items"] if i["status"] == "PARKED"],
              "downstream_gates_not_claimed": ["release", "independent_acceptance", "M4", "R15.2 completion"],
              "naming_note": ("this file was going to be called ROUND_CLOSE_PROOF. It is not a close proof: a state name that asserts more than its predicate checks is the DELIVERY_READY defect this round already found.")}

@@ -241,3 +241,28 @@ checked. Both were caught by the guard being a *program* rather than a paragraph
 
 **If a claim matters, make it a predicate with a non-zero exit.** Prose assertions of completion, of progress, or of
 "blocked" are unfalsifiable, and unfalsifiable claims decay into optimism exactly when the work is longest.
+
+## 12. Seventh iteration: I was calling an authority limit a stopping problem
+
+### 12.1 The mistake with a long half-life
+
+Seven FARs, four repairs, and the same sentence kept reappearing: "these need an owner". Each time I treated it as a
+symptom and engineered around it — a queue, a driver, a lease, a guard, a scheduler. All of those were real and all of
+them fixed the *stopping* problem. None could touch the other one, because a domain-owner signature is not a
+deliverable.
+
+### 12.2 What I should have done the first time
+
+The first time an item resisted because the predicate named a principal, the correct move was to **issue a request**:
+a file naming the predicate, the prepared artefact, the literal action, the expiry and the fallback. That takes one
+minute and converts an ending into an outstanding ask. Instead I wrote "not in my scope" and closed the turn — which,
+from the outside, is indistinguishable from abandoning the work. The governance contract was never the obstacle; my
+failure to produce a request was.
+
+### 12.3 Rules kept
+
+1. **An unsatisfiable-by-agent predicate is issued, not solved.** One file, one literal action, one expiry.
+2. **Classify satisfiability before working on an item**, or the same item gets re-attempted every round and looks
+   like laziness each time.
+3. **A refusal to sign is only honest if it is accompanied by a request to the entity that can.**
+4. **Prove your refusals fire.** The negative control for the guard immediately found a blind scope in the guard itself.

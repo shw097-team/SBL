@@ -23,7 +23,9 @@
       "parked_reason": "STEP_FAILED",
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
       "cwd": "C:/Projects/Agent_Workspace/HG-KSEOS",
-      "ladder_note": "attempt 1 ran in the evidence worktree where HG-KSEOS has no project.json; moved cwd to the product root"
+      "ladder_note": "attempt 1 ran in the evidence worktree where HG-KSEOS has no project.json; moved cwd to the product root",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "OPS.measure",
@@ -36,7 +38,9 @@
       "timeout_s": 180,
       "attempts": 1,
       "last_result": "rc=0 secs=0.11 expect=hit\n          \"R14-TS10 declares raw/ts10_lifecycle/{receipts.json,VERBS.md,SUMMARY.json}; the directory exists in-branch but only with doctor.after.json, stack.json.after, stack.json.before\"\n        ],\n        \"note\": \"readback only; no verdict recomputed\"\n      }\n    }\n    MEASURED_OK",
-      "last_run_utc": "2026-10-22T15:40:15Z"
+      "last_run_utc": "2026-10-22T15:40:15Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "C07.lanes",
@@ -49,7 +53,9 @@
       "timeout_s": 120,
       "attempts": 1,
       "last_result": "rc=0 secs=0.11 expect=hit\n    receipts 21\n    execute 6\n    verify 11",
-      "last_run_utc": "2026-10-22T15:40:16Z"
+      "last_run_utc": "2026-10-22T15:40:16Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "PRODUCT.subset",
@@ -64,7 +70,9 @@
       "last_result": "rc=0 secs=5.7 expect=hit\n    ........................................................................ [ 91%]\n    .......                                                                  [100%]",
       "last_run_utc": "2026-10-22T15:41:32Z",
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
-      "ladder_note": "attempt 1 exited 0 but printed no summary line under this pytest config; the expectation now keys on run completion, and the exit code still gates"
+      "ladder_note": "attempt 1 exited 0 but printed no summary line under this pytest config; the expectation now keys on run completion, and the exit code still gates",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "KANBAN.recheck",
@@ -77,7 +85,9 @@
       "timeout_s": 180,
       "attempts": 1,
       "last_result": "rc=0 secs=1.53 expect=hit\n    ⊘ t_97d51064  blocked   (unassigned)          W12 SWOF W2 rechallenge and W3 admission\n    ⊘ t_71712309  blocked   (unassigned)          W13 five tools three ZIPs three hosts\n    ⊘ t_cbbdaf98  blocked   (unassigned)          W14 denominators 50-149-441-38-39\n    ⊘ t_9c098fd5  blocked   (unassigned)          W15 CI supply chain release security\n    ⊘ t_10ae640b  blocked   (unassigned)          W16 B0 B1 B2 matched performance\n    ⊘ t_b8bf31f8  blocked   (unassigned)          W17 R14 31 TS and 31 CHK continuation",
-      "last_run_utc": "2026-10-22T15:40:23Z"
+      "last_run_utc": "2026-10-22T15:40:23Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "OPS.package",
@@ -90,7 +100,9 @@
       "timeout_s": 240,
       "attempts": 1,
       "last_result": "rc=0 secs=0.47 expect=hit\n    {\"files_on_disk\": 189, \"files_declared_in_manifest\": 189, \"exact_set_equal\": true, \"delivery_readiness\": \"READY_FOR_EXTERNAL_REVIEW\"}",
-      "last_run_utc": "2026-10-22T15:40:24Z"
+      "last_run_utc": "2026-10-22T15:40:24Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "W02.policy",
@@ -101,7 +113,10 @@
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner states the active policy digest; then the agent can bind it",
       "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active",
-      "owner_action_source": "FAR_DECISIONS_R15_2.md"
+      "owner_action_source": "FAR_DECISIONS_R15_2.md",
+      "satisfiable_by": "OWNER",
+      "required_field": "domain_owner_policy_determination",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W02.policy.md"
     },
     {
       "id": "W12.swof",
@@ -112,7 +127,10 @@
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner issues the W3 admission; agent then runs the connected mode",
       "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
-      "owner_action_source": "FAR_DECISIONS_R15_2.md"
+      "owner_action_source": "FAR_DECISIONS_R15_2.md",
+      "satisfiable_by": "OWNER",
+      "required_field": "domain_owner_w3_admission",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W12.swof.md"
     },
     {
       "id": "W13.hosts",
@@ -123,7 +141,10 @@
       "parked_reason": "HOST_PENDING",
       "retry_hint": "host IDs and the private-plugin schema must come from the host",
       "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence",
-      "owner_action_source": "FAR_DECISIONS_R15_2.md"
+      "owner_action_source": "FAR_DECISIONS_R15_2.md",
+      "satisfiable_by": "HOST",
+      "required_field": "host_issued_id_and_plugin_schema",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W13.hosts.md"
     },
     {
       "id": "W15.release",
@@ -134,7 +155,10 @@
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "two owner-side artefacts; the agent may assemble but not sign",
       "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
-      "owner_action_source": "FAR_DECISIONS_R15_2.md"
+      "owner_action_source": "FAR_DECISIONS_R15_2.md",
+      "satisfiable_by": "OWNER",
+      "required_field": "owner_release_seal",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md"
     },
     {
       "id": "W16.perf",
@@ -145,7 +169,10 @@
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner names the baseline owner; agent then measures against it",
       "owner_action": "name the reference workload and accept or reject the observed thresholds",
-      "owner_action_source": "FAR_DECISIONS_R15_2.md"
+      "owner_action_source": "FAR_DECISIONS_R15_2.md",
+      "satisfiable_by": "OWNER",
+      "required_field": "benchmark_owner_reference_workload",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W16.perf.md"
     },
     {
       "id": "PROP.kinds",
@@ -158,7 +185,9 @@
       "timeout_s": 300,
       "attempts": 1,
       "last_result": "rc=0 secs=1.22 expect=hit\n    {\"current\": 5, \"proposed\": 8, \"diff_lines\": 12, \"dir\": \"C:/Projects/Agent_Workspace/_r152_ev\\\\workers\\\\candidate_proposals\\\\w06_kinds\"}\n    PROPOSALS_OK\n    ...                                                                      [100%]",
-      "last_run_utc": "2026-10-22T15:42:54Z"
+      "last_run_utc": "2026-10-22T15:42:54Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "FAR.decisions",
@@ -173,7 +202,9 @@
       "last_result": "rc=0 secs=0.13 expect=hit\n    sections 5\n    owner_actions 5",
       "last_run_utc": "2026-10-22T15:43:36Z",
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
-      "ladder_note": "attempt 1 counted 4 because W13's heading read 'Owner/host action'; the heading now names the owner"
+      "ladder_note": "attempt 1 counted 4 because W13's heading read 'Owner/host action'; the heading now names the owner",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "W16.bench",
@@ -188,7 +219,9 @@
       "last_result": "rc=0 secs=7.14 expect=hit\n    {\"medians\": {\"B1\": 1.137, \"B2\": 1.144}, \"delta\": 0.007, \"all_rc_zero\": true, \"B0\": \"NOT_COMPARABLE\", \"tools\": {\"challenge\": 8, \"commander\": 8, \"tpm\": 8}, \"verbs_present\": []}\n    BENCH_TOOLS_OK",
       "last_run_utc": "2026-10-22T15:55:28Z",
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
-      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence"
+      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "W15.gate_proposal",
@@ -201,7 +234,9 @@
       "timeout_s": 420,
       "attempts": 1,
       "last_result": "rc=0 secs=2.42 expect=hit\n    {\"diff_lines\": 27, \"dir\": \"C:/Projects/Agent_Workspace/_r152_ev/workers/candidate_proposals/w15_gate\"}\n    GATE_PROPOSAL_OK\n    ....                                                                     [100%]\n    Installed 6 packages in 200ms",
-      "last_run_utc": "2026-10-22T15:53:10Z"
+      "last_run_utc": "2026-10-22T15:53:10Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "W13.tools",
@@ -215,7 +250,9 @@
       "attempts": 2,
       "last_result": "rc=0 secs=0.12 expect=hit\n    bundles 3\n    verbs 0",
       "last_run_utc": "2026-10-22T15:55:28Z",
-      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence"
+      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "W11.lease_tests",
@@ -228,7 +265,9 @@
       "timeout_s": 420,
       "attempts": 1,
       "last_result": "rc=0 secs=2.2 expect=hit\n    ......                                                                   [100%]",
-      "last_run_utc": "2026-10-22T16:06:33Z"
+      "last_run_utc": "2026-10-22T16:06:33Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
     },
     {
       "id": "AUTONOMY.scheduled",
@@ -241,7 +280,39 @@
       "timeout_s": 120,
       "attempts": 1,
       "last_result": "rc=0 secs=0.25 expect=hit\n    jobs 1\n    r152_jobs 1\n    no_agent True",
-      "last_run_utc": "2026-10-22T16:06:33Z"
+      "last_run_utc": "2026-10-22T16:06:33Z",
+      "satisfiable_by": "AGENT",
+      "required_field": null
+    },
+    {
+      "id": "W11.principal_requests",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W11/W02/W12",
+      "satisfiable_by": "AGENT",
+      "required_field": null,
+      "next_action": "validate that every owner-gated item has an issued request with a literal satisfying action",
+      "resume_cmd": "python -c \"import json,os;d=r'_governance/round-20261022-r15_2/PRINCIPAL_REQUESTS';i=json.load(open(os.path.join(d,'INDEX.json'),encoding='utf-8'));missing=[r['id'] for r in i['requests'] if not os.path.exists(os.path.join(d,r['file']))];print('requests',len(i['requests']));print('missing_files',missing);print('all_have_action',all(r.get('satisfying_action') for r in i['requests']))\"",
+      "expect": "requests 5",
+      "timeout_s": 120,
+      "attempts": 1,
+      "last_result": "rc=0 secs=0.26 expect=hit\n    requests 5\n    missing_files []\n    all_have_action True",
+      "last_run_utc": "2026-10-22T16:19:36Z"
+    },
+    {
+      "id": "W11.guard_negative",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W11/E04",
+      "satisfiable_by": "AGENT",
+      "required_field": null,
+      "next_action": "prove the guard refuses an unissued request and an unknown satisfiability, then restores the queue",
+      "resume_cmd": "python \"_governance/round-20261022-r15_2/tools/guard_negative_control.py\"",
+      "expect": "NEGATIVE_CONTROL_OK",
+      "timeout_s": 300,
+      "attempts": 1,
+      "last_result": "rc=0 secs=0.83 expect=hit\n    {\"victim\": \"W02.policy\", \"rc\": 2, \"codes\": [\"UNISSUED_PRINCIPAL_REQUEST\"], \"refused\": true}\n    {\"satisfiability_rc\": 2, \"codes\": [\"SATISFIABILITY_UNKNOWN\"], \"refused\": true}\n    NEGATIVE_CONTROL_OK",
+      "last_run_utc": "2026-10-22T16:19:37Z"
     }
   ],
   "runs": [
@@ -339,6 +410,15 @@
       "at": "2026-10-22T16:09:15Z",
       "steps": 0,
       "done": 13,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T16:19:37Z",
+      "steps": 2,
+      "done": 15,
       "parked": 5,
       "owner": 4,
       "host": 1,

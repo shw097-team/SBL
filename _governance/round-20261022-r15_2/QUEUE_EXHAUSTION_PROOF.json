@@ -2,13 +2,14 @@
   "schema": "SBL_QUEUE_EXHAUSTION_PROOF/1",
   "is_completion_claim": false,
   "r15_2_complete": false,
+  "all_open_items_are_issued_requests": true,
   "why_not_complete": "queue exhaustion only means no AGENT-actionable item remains. R15.2 still has 2 NOT_RUN work packages (W02, W12), release is BLOCKED without an owner seal, and M4's semantic denominator is UNMEASURED",
   "round_id": "round-20261022-r15_2",
-  "observed_at_utc": "2026-10-22T16:09:15Z",
+  "observed_at_utc": "2026-10-22T16:19:37Z",
   "predicate": "no READY agent item; every PARKED item has a typed reason and a named owner action; lease fresh or terminal proof present",
-  "queue_digest": "ec75d075db0561ed8aa2e465703fab0277f8e75026f34ed91ce7a2bd8ab72df1",
+  "queue_digest": "1502cfaebdb44537330ead81828688b0b25e28f38278da2d30734195bf9b7458",
   "counts": {
-    "DONE": 13,
+    "DONE": 15,
     "PARKED": 5,
     "READY": 0
   },
@@ -16,27 +17,37 @@
     {
       "id": "W02.policy",
       "reason": "OWNER_DECISION",
-      "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active"
+      "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active",
+      "satisfiable_by": "OWNER",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W02.policy.md"
     },
     {
       "id": "W12.swof",
       "reason": "OWNER_DECISION",
-      "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run"
+      "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
+      "satisfiable_by": "OWNER",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W12.swof.md"
     },
     {
       "id": "W13.hosts",
       "reason": "HOST_PENDING",
-      "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence"
+      "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence",
+      "satisfiable_by": "HOST",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W13.hosts.md"
     },
     {
       "id": "W15.release",
       "reason": "OWNER_DECISION",
-      "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal"
+      "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
+      "satisfiable_by": "OWNER",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md"
     },
     {
       "id": "W16.perf",
       "reason": "OWNER_DECISION",
-      "owner_action": "name the reference workload and accept or reject the observed thresholds"
+      "owner_action": "name the reference workload and accept or reject the observed thresholds",
+      "satisfiable_by": "OWNER",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W16.perf.md"
     }
   ],
   "downstream_gates_not_claimed": [

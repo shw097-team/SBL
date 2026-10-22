@@ -592,3 +592,46 @@ a lease, which is why this belongs in HG-KSEOS and not in the round tree.
 The loop is now architecturally continuous; the *order* is still not complete. Two work packages (W02, W12) remain
 `NOT_RUN` and need an owner determination, release is BLOCKED without a seal, and M4's semantic denominator is
 UNMEASURED. Continuation and completion are different predicates and this round now says so in a file.
+
+## 18. Why the round kept landing on "not in my scope", and what that actually was
+
+### 18.1 The distinction that was missing
+
+Two phenomena were sharing one name. **Stopping** is ending a turn with agent-actionable work left; that was fixed by a
+queue, a lease, a guard and a scheduler, and the scheduled tick has since run unattended. **Not completing** is
+reaching items whose predicate is *principal identity*, not effort: `signed_by ∈ {domain_owner}`. Repeated FAR missed
+this because each FAR was aimed at the first phenomenon.
+
+### 18.2 Attribution
+
+| layer | role in the recurring stop | measured |
+|---|---|---|
+| Hermes runtime | loop was conversation-pulled, no scheduler | 12 stops, all after a push, 0 cron jobs before this round |
+| model / session | compaction destroys in-flight intent | 12 compactions, state re-derived from prose each time |
+| SBL | no front door refusing a closure | queue exhaustion read as completion until the guard existed |
+| HG-KSEOS | states named above their predicates | `lifecycle.py:172` guards `DELIVERED` but not `DELIVERY_READY` |
+| **Fabric** | **defines principals, not effort** | `SWOF_CONNECTED -> BLOCKED_EXTERNAL`; `release: BLOCKED` |
+
+The dominant cause of *not completing* is the last row, and it is not a defect: a user's standing authorization cannot
+make a domain-owner signature exist. Every possible action therefore violated something — stop violated the continuity
+instruction, sign anyway violated the contract. **I kept choosing the legal action and then presenting the refusal as an
+ending, instead of issuing the request that unblocks it.** That is the root cause, and it is mine, not the model's.
+
+### 18.3 The repair, executed
+
+1. **`PRINCIPAL_REQUESTS/`** — five files, one per owner/host-gated item, each carrying the predicate, why an agent
+   cannot satisfy it, the artefact already built and waiting, and the **literal** action or command that satisfies it,
+   plus expiry and fallback. Blocked work is now an issued request with a form attached, not a sentence.
+2. **`satisfiable_by` on every queue row**, with the required field named, so an item cannot be re-litigated as if it
+   were merely unfinished.
+3. **Two new guard refusals**: `UNISSUED_PRINCIPAL_REQUEST` (parked without a request is indistinguishable from
+   abandoned) and `SATISFIABILITY_UNKNOWN`.
+4. **A negative control** that proves both refusals fire — and which immediately found that the satisfiability check
+   was scoped to parked rows only, so a completed row could carry an impossible classification unnoticed. Broadened to
+   every row, re-tested, green.
+
+### 18.4 The terminal state this round can now honestly occupy
+
+*No agent-actionable work remains, every open item is an issued request naming its principal, and the artefact each
+principal needs already exists.* That is `QUEUE_EXHAUSTED` with `r15_2_complete: false` — not "done", and no longer
+"stopped".
