@@ -14,6 +14,7 @@ from pathlib import Path
 
 def review(queue, max_steps=2):
     fixed = tuple(queue)
+    max_steps = max(0, max_steps)   # a negative budget means review nothing, and that is BUDGET
     if not isinstance(queue, list):
         raise TypeError("queue must be a JSON array of paths")
     reviewed = []

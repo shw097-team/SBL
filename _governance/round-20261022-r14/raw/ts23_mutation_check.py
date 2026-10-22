@@ -87,6 +87,16 @@ MUTATIONS = [
     ("AGENT_SKILL", "ts23_headings", "test_skill.py", "    headings = []",
      "    headings = []\n    return [{'line': 1, 'level': 1, 'text': 'One'}]",
      "headings are constants regardless of the document", "review 1"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", '    data = path.read_bytes()\n', '    data = path.read_bytes()\n    path.write_bytes(data)\n',
+     'the census rewrites its input with identical bytes', 'review 8'),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", '    text = Path(path).read_text(encoding="utf-8")\n', '    text = Path(path).read_text(encoding="utf-8").lstrip("\\ufeff")\n',
+     'a leading BOM is stripped from the heading text', 'review 8'),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '        if not isinstance(queue, list):\n            raise ValueError("queue must be a JSON array of paths")\n        result = review(queue, args.max_steps)', '        result = review(queue if isinstance(queue, list) else [], args.max_steps)',
+     'a non-array queue is coerced to an empty queue', 'review 8'),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", 'CLOSING = re.compile(r"[ \\t]+#+$")', 'CLOSING = re.compile(r" +#+$")',
+     'a tab-separated closing sequence is kept', 'review 8'),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", '        body = CLOSING.sub("", match.group(2)).strip()', '        body = " ".join(CLOSING.sub("", match.group(2)).split())',
+     'internal tabs are collapsed too', 'review 8'),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"bytes": len(data)', '"bytes": 0',
      "agent reports bytes=0 per file", "review 2 (G1)"),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", 'hashlib.sha256(data).hexdigest()', "'0' * 64",
@@ -112,6 +122,11 @@ MUTATIONS = [
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
+# every test file that belongs to a program: the generated one and the hand-written contract one. A mutation is only
+# caught if NO test for that program accepts the wrong answer, so both have to run.
+TESTS_FOR = {"test_cli.py": ["test_cli.py", "test_cli_extra.py"],
+             "test_skill.py": ["test_skill.py", "test_skill_extra.py"],
+             "test_agent.py": ["test_agent.py", "test_agent_extra.py"]}
 PROBE_ARGS = {
     "ts23_newline": [[str(FIXTURE)]],
     "ts23_headings": [[str(FIXTURE)]],
@@ -150,9 +165,16 @@ def probe(module: str) -> dict:
     return {"runs": runs, "ok": all(r["exit"] == 0 and r["answered"] for r in runs)}
 
 
+def module_for(test: str) -> str:
+    if test in MODULE_FOR_TEST:
+        return MODULE_FOR_TEST[test]
+    return {"test_cli_extra.py": "ts23_newline", "test_skill_extra.py": "ts23_headings",
+            "test_agent_extra.py": "ts23_review"}[test]
+
+
 def run_test(test: str) -> dict:
     e = env()
-    e["TS23_MODULE"] = MODULE_FOR_TEST[test]
+    e["TS23_MODULE"] = module_for(test)
     proc = subprocess.run([str(VENV), str(TESTS / test)], capture_output=True, text=True,
                           encoding="utf-8", env=e, cwd=str(SB))
     text = (proc.stderr or "") + (proc.stdout or "")
@@ -171,22 +193,29 @@ def main() -> int:
             continue
         base = target.read_bytes()
         digest = hashlib.sha256(base).hexdigest()
-        text = base.decode("utf-8")
+        # read_text() translates CRLF; read_bytes().decode() does not, and that mismatch made a real snippet look absent.
+        # read_text() translates CRLF; read_bytes().decode() does not, and that mismatch made a real snippet look absent.
+        text = base.decode("utf-8").replace("\r\n", "\n")
+        original = original.replace("\r\n", "\n")
+        mutant_text = mutant.replace("\r\n", "\n")
         if original not in text:
             results.append({"kind": kind, "mutation": description, "provenance": provenance,
                             "applied": False, "caught": False, "note": "snippet absent from the installed source"})
             continue
         purge(module)
         try:
-            target.write_text(text.replace(original, mutant, 1), encoding="utf-8")
+            target.write_text(text.replace(original, mutant_text, 1), encoding="utf-8")
             probed = probe(module)
-            outcome = run_test(test)
+            outcomes = [run_test(name) for name in TESTS_FOR.get(test, [test]) if (TESTS / name).exists()]
+            outcome = next((o for o in outcomes if o["exit"] != 0), outcomes[0] if outcomes else run_test(test))
         finally:
             target.write_bytes(base)
             purge(module)
         message = outcome["message"]
-        crash_shaped = bool(re.search(r"(Traceback \(most recent call last\)|\w*Error|\w*Exception)", message))
-        caught = bool(probed["ok"] and outcome["exit"] != 0 and outcome["assertion"] and not crash_shaped)
+        # A message-based crash rule cannot work: a legitimate assertion also reads "0 != 2". The program's own
+        # liveness is decided by the probe, which now runs every invocation the tests use.
+        crash_shaped = "Traceback (most recent call last)" in message
+        caught = bool(probed["ok"] and outcome["exit"] != 0 and outcome["assertion"])
         results.append({"kind": kind, "mutation": description, "provenance": provenance, "applied": True,
                         "mutant_ran_and_answered": probed["ok"], "probe": probed,
                         "test_exit": outcome["exit"], "assertion_message": message,
@@ -194,7 +223,11 @@ def main() -> int:
                         "crash_not_evidence": not probed["ok"],
                         "false_red": (not probed["ok"]) and outcome["exit"] != 0,
                         "restored_byte_identical": hashlib.sha256(target.read_bytes()).hexdigest() == digest})
-    baseline = {test: run_test(test) for test in MODULE_FOR_TEST}
+    baseline = {}
+    for test in MODULE_FOR_TEST:
+        for name in TESTS_FOR.get(test, [test]):
+            if (TESTS / name).exists():
+                baseline[name] = run_test(name)
     flags = {"all_caught": all(r.get("caught") for r in results if r.get("applied")),
              "no_false_reds": all(not r.get("false_red") for r in results if r.get("applied")),
              "all_applied": all(r.get("applied") for r in results),

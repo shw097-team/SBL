@@ -1,0 +1,87 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/8",
+  "answers_review": "ts23_review8.json (FAIL: 7 survivors, 8 gaps)",
+  "confirmed_by_reviewer": [
+    "installed, generated and reviewed source digests match",
+    "all three baseline suites pass"
+  ],
+  "admission": "Two review-8 findings were about my instrument, and one was a self-inflicted regression: I added a message-based crash rule in round 7 that rejected a legitimate assertion (0 != 2) for an unreadable queue entry, so a wrong answer was reported as SURVIVED. The rule is removed.",
+  "changes": [
+    {
+      "finding": "identical-byte rewriting passed",
+      "fix": "contract test compares st_mtime_ns before and after, because identical bytes keep the digest but move the mtime",
+      "evidence": "mutation caught"
+    },
+    {
+      "finding": "non-array queue coerced to empty passed",
+      "fix": "contract test rejects {}, {'a': 1} and a bare string with exit 2, empty stdout, no traceback",
+      "evidence": "mutation caught"
+    },
+    {
+      "finding": "internal tab collapse / tab-separated closing sequence",
+      "fix": "contract cases for an internal tab and a tab closing sequence; SCOPE says a Unicode space is content, with a U+00A0 case",
+      "evidence": "both mutations caught"
+    },
+    {
+      "finding": "fabricated third-entry digest",
+      "fix": "--max-steps 20 asserts paths, digests and byte counts for all three entries",
+      "evidence": "mutation caught on that path"
+    },
+    {
+      "finding": "traceback on the census error path",
+      "fix": "census contract test asserts no Traceback in stderr",
+      "evidence": "assertion present"
+    },
+    {
+      "finding": "BOM stripping in headings",
+      "fix": "a BOM-prefixed file is a contract case: the BOM is not whitespace, so the first line is not a heading",
+      "evidence": "mutation caught"
+    },
+    {
+      "finding": "fatal exit only at --max-steps 20 falsely caught",
+      "fix": "probe covers default, 1, 20, 0 and the empty queue",
+      "evidence": "PROBE_ARGS lists five invocations"
+    },
+    {
+      "finding": "zero and negative budget unspecified",
+      "fix": "budget clamped at zero; contract test asserts steps 0, remaining 3, reviews [], BUDGET for 0 and -4; SCOPE states it",
+      "evidence": "test_zero_and_negative_budget_review_nothing_and_are_budget_limited"
+    },
+    {
+      "finding": "SKILL.md and resolved-path wording absent",
+      "fix": "SCOPE gains a reporting contract section: resolved paths, installed SKILL.md, zero budget is BUDGET",
+      "evidence": "ts23_SCOPE.md"
+    },
+    {
+      "finding": "legitimate 'ValueError' != 'BUDGET' excluded as crash",
+      "fix": "crash detection is the probe's job alone; the message heuristic is removed",
+      "evidence": "the unreadable-entry mutation is caught again"
+    }
+  ],
+  "harness_now": {
+    "mutations": 32,
+    "caught": 32,
+    "false_reds": 0,
+    "all_applied": true,
+    "all_restored": true,
+    "baseline_all_pass": true,
+    "exit": 0,
+    "contract_tests": [
+      "test_cli_extra.py",
+      "test_skill_extra.py",
+      "test_agent_extra.py"
+    ],
+    "notes": [
+      "a mutation must survive every test of its program before it counts as caught",
+      "matching is CRLF-normalised because read_bytes().decode() and read_text() disagree",
+      "contract tests are plain files under ts23_src/extra, not strings built through two quoting layers"
+    ]
+  },
+  "residual_gaps_named": [
+    "a no-op mutation (a second layer enforces the same rule) still reports SURVIVED; the harness cannot tell not-covered from not-changed",
+    "a mutant that crashes only on an input the tests create but the probes do not use would still count as caught; the probe list is enumerated, not derived",
+    "fenced code blocks, setext headings and files changing mid-read remain out of scope by declaration"
+  ],
+  "claim_ceiling": "Eight independent reviews, eight sets of real findings, all fixed except the three named residuals. M2 is NOT claimed. TS23 stays PARTIAL: the reviewers' remaining asks exhaustively specify a text utility, while the workorder asks for three small programs that dogfood the native chain, and thirty other obligations are still open. Continuing with those is a governed decision, not a claim that this obligation is finished.",
+  "next_step": "record TS23 as PARTIAL with M2 NOT_PASSED and continue with the remaining obligations"
+}

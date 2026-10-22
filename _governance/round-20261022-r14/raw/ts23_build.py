@@ -220,6 +220,11 @@ for entry in results:
  entry['usage']=use
  env=dict(use_env,TS23_MODULE=entry['module'],TS23_FIXTURE=str(fixture),TS23_QUEUE=str(queue))
  entry['installed_test']=run([vp,repo/'ts23_tests'/('test_'+{'CLI_TOOL':'cli','AGENT_SKILL':'skill','SIMPLE_AGENT':'agent'}[entry['kind']]+'.py')],entry['kind']+' installed behavioral TEST',env)
+ suffix2={'CLI_TOOL':'cli','AGENT_SKILL':'skill','SIMPLE_AGENT':'agent'}[entry['kind']]
+ extra=R/'ts23_src'/'extra'/('test_'+suffix2+'_extra.py')
+ if extra.exists():
+  write('ts23_tests/test_'+suffix2+'_extra.py',extra.read_text(encoding='utf-8'))
+  entry['contract_test']=run([vp,repo/'ts23_tests'/('test_'+suffix2+'_extra.py')],entry['kind']+' CONTRACT (installed) TEST',env)
  location=run([vp,'-c',f'import {entry["module"]}; print({entry["module"]}.__file__)'],entry['kind']+' installed LOCATION',use_env)
  entry['installed_location']=location['stdout'].strip()
  entry['source_files']=[{'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in Path(entry['source_root']).rglob('*') if p.is_file() and 'build' not in p.parts and not any(x.endswith('.egg-info') for x in p.parts)]

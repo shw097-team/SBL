@@ -446,6 +446,154 @@
       "restored_byte_identical": true
     },
     {
+      "kind": "CLI_TOOL",
+      "mutation": "the census rewrites its input with identical bytes",
+      "provenance": "review 8",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          }
+        ],
+        "ok": true
+      },
+      "test_exit": 1,
+      "assertion_message": "1792645916758444500 != 1792645916638861500 : a rewrite of identical bytes still moves the mtime, so this proves read-only",
+      "caught": true,
+      "crash_not_evidence": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "a leading BOM is stripped from the heading text",
+      "provenance": "review 8",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          }
+        ],
+        "ok": true
+      },
+      "test_exit": 1,
+      "assertion_message": "'BOMHeading' unexpectedly found in ['BOMHeading', 'Real']",
+      "caught": true,
+      "crash_not_evidence": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "SIMPLE_AGENT",
+      "mutation": "a non-array queue is coerced to an empty queue",
+      "provenance": "review 8",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          }
+        ],
+        "ok": true
+      },
+      "test_exit": 1,
+      "assertion_message": "0 != 2 :",
+      "caught": true,
+      "crash_not_evidence": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "a tab-separated closing sequence is kept",
+      "provenance": "review 8",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          }
+        ],
+        "ok": true
+      },
+      "test_exit": 1,
+      "assertion_message": "Lists differ: ['Gamma\\t##'] != ['Gamma']",
+      "caught": true,
+      "crash_not_evidence": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "internal tabs are collapsed too",
+      "provenance": "review 8",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered": true,
+            "tail": ""
+          }
+        ],
+        "ok": true
+      },
+      "test_exit": 1,
+      "assertion_message": "'two  spaces' not found in ['Tabbed', 'two spaces', 'InFence', '① circle'] : internal spaces are preserved, only the ends are trimmed",
+      "caught": true,
+      "crash_not_evidence": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
       "kind": "SIMPLE_AGENT",
       "mutation": "agent reports bytes=0 per file",
       "provenance": "review 2 (G1)",
@@ -891,19 +1039,37 @@
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.984s\n\nOK\n"
+      "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.977s\n\nOK\n"
+    },
+    "test_cli_extra.py": {
+      "exit": 0,
+      "assertion": false,
+      "message": "",
+      "tail": "est_input_error_writes_nothing_and_prints_no_traceback) ... ok\ntest_read_only_even_when_the_rewrite_would_be_identical (__main__.Contract.test_read_only_even_when_the_rewrite_would_be_identical) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.305s\n\nOK\n"
     },
     "test_skill.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.454s\n\nOK\n"
+      "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.488s\n\nOK\n"
+    },
+    "test_skill_extra.py": {
+      "exit": 0,
+      "assertion": false,
+      "message": "",
+      "tail": "nal_tab_is_preserved (__main__.Contract.test_internal_tab_is_preserved) ... ok\ntest_tab_separated_closing_sequence_is_stripped (__main__.Contract.test_tab_separated_closing_sequence_is_stripped) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.573s\n\nOK\n"
     },
     "test_agent.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.557s\n\nOK\n"
+      "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.625s\n\nOK\n"
+    },
+    "test_agent_extra.py": {
+      "exit": 0,
+      "assertion": false,
+      "message": "",
+      "tail": "ull_queue_records_every_digest) ... ok\ntest_zero_and_negative_budget_review_nothing_and_are_budget_limited (__main__.Contract.test_zero_and_negative_budget_review_nothing_and_are_budget_limited) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.768s\n\nOK\n"
     }
   },
   "flags": {

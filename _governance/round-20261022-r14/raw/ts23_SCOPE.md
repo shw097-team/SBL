@@ -29,7 +29,8 @@ asserts its own precondition before it asserts the program's answer.
   `two  spaces`).
 - An empty text after trimming is **not** a heading (`## ` alone is ignored).
 - 7 or more `#` characters is not a heading. That line is ignored, not an error.
-- An ATX **closing sequence** - whitespace then one or more `#` at end of line - is removed from the text:
+- An ATX **closing sequence** - an ASCII space or tab, then one or more `#` at end of line - is removed: a Unicode
+  space (U+00A0, U+3000) is content, not whitespace:
   `## Beta ##` -> `Beta`. A `#` that is not preceded by whitespace is content: `## tag#` -> `tag#`.
 - Text is kept exactly as written, including non-ASCII characters and including decomposed (NFD) sequences. No Unicode
   normalisation is performed.
@@ -59,6 +60,14 @@ These are named so that a test is not expected to cover them, rather than being 
 - a UTF-8 BOM: it is bytes in the file and is counted as such; it is not stripped before parsing;
 - symlinks, devices, files that change while being read (the census reads the bytes it was given, whatever they are);
 - any concurrency, retry, caching or non-local I/O.
+
+## Reporting contract shared by all three
+
+- `path` in every output is the **resolved** absolute path, so a caller can compare it with `Path.resolve()`.
+- The installed package must carry its `SKILL.md`; the bundle check reads it from the installed distribution, not from
+  the source tree.
+- A budget (`--max-steps`) of zero or less reviews nothing and reports `BUDGET`: the limit stopped the run, even though
+  the queue is untouched.
 
 ## How this is checked
 
