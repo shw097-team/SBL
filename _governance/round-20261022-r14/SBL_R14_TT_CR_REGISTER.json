@@ -728,11 +728,32 @@
       "id": "TT-R14-045",
       "title": "Owner 模型方案第三版：VERIFY/SECURITY 改用 deepseek-v4.1-flash",
       "severity": "high",
-      "status": "OPEN",
+      "status": "CLOSED",
       "finding": "使用者本輪指定：PLAN=gpt-6.1-sol(OpenAI OAuth)、EXECUTE=opencode-go/minimax-m3.1-flash-free、Acceptance/VERIFY/SECURITY=**opencode-go/deepseek-v4.1-flash**。registry epoch 30 的 VERIFY_SECURITY 仍是 openai-codex/gpt-6.1-sol，因此這是一筆真實的車道落差，不是既有狀態。",
       "impact": "在 rebind 完成前，任何「檢查由 deepseek 執行」的宣稱都不成立。",
       "fix": "依 rebind 五組同步處理：registry route/transport、assignment 衍生欄位、87 projections、lane-route-slots pool、drift baseline，並升 epoch；不得只改 registry 一處（半套 rebind 已被證明會讓 8 個車道測試轉紅）。",
-      "lesson": "模型方案變更要先量測落差再一次性 rebind；單點修改等於製造新的投影落後。"
+      "lesson": "模型方案變更要先量測落差再一次性 rebind；單點修改等於製造新的投影落後。",
+      "resolution": "Rebind completed in two movements: the delegated one (registry/pool/assignment[2]/VERIFY arms) and the repair that followed it (PLAN and EXECUTE projection, chain rebuild, arms/fallbacks derivation, binding and fixture alignment, self-seal last). Final state epoch 31 - PLAN openai-codex/gpt-6.1-sol, EXECUTE opencode-go/minimax-m3.1-flash-free, VERIFY_SECURITY opencode-go/deepseek-v4.1-flash - verified by reading the three planes rather than by the green suite alone (see TT-R14-046). 23 passed / 90 subtests on the three lane suites; test_c2_case_run 6 passed on a clean tree."
+    },
+    {
+      "id": "TT-R14-046",
+      "title": "子代理回報 23 passed，但三條車道仍不是 owner 的方案",
+      "severity": "critical",
+      "status": "CLOSED",
+      "finding": "我把 VERIFY_SECURITY rebind 委派出去，子代理回 green=true、23 passed/90 subtests，並列出 7 個檔案變更。實測：registry 的 PLAN 是 gpt-6.1-sol，但投影 assignment 仍是 PLAN=minimax、EXECUTE=deepseek——整個投影落後一組；VERIFY 鏈被壓成五條一模一樣的 deepseek 分支（失去 fallback 多樣性）。三套件之所以綠，是 drift baseline 被搬去描述那個錯的狀態。",
+      "impact": "「綠」被當成「符合方案」。若直接收線，會宣稱檢查者已綁 deepseek，而實際寫入者與計畫者仍錯位。",
+      "fix": "以單一宣告重新導出各平面：PLAN=openai-codex/gpt-6.1-sol、EXECUTE=opencode-go/minimax-m3.1-flash-free、VERIFY=opencode-go/deepseek-v4.1-flash；registry arms/fallbacks、assignment 群組與鏈、projection bindings、lane fixtures 全數一致；八筆已登記的 PLAN/EXECUTE 落差例外因落差消失而刪除。23 passed/90 subtests 重跑通過。",
+      "lesson": "子代理的綠只證明它讓測試通過；要證明方案成立，必須自己把宣告與投影逐欄比對。"
+    },
+    {
+      "id": "TT-R14-047",
+      "title": "自我封印必須在最後一個編輯之後才釘",
+      "severity": "medium",
+      "status": "CLOSED",
+      "finding": "registry 的 source_of_routes.sha256 封印被指向 config/model-lane-assignment.json；任何後續對該檔的編輯都會讓 hgk-lane-guard 回 ERR_LANE_SOURCE_STALE（exit 4），而這個錯誤看起來像「來源過期」，實際是「封印早了一步」。",
+      "impact": "守衛把正常的編輯順序判成來源漂移，容易被誤讀成資料壞掉。",
+      "fix": "所有會動到被封印檔案的編輯先完成，最後一步才重算並寫回 sha256；本輪據此重釘並綠。",
+      "lesson": "封印是編輯序列的最後一個動作，不是其中一個動作。"
     }
   ]
 }
