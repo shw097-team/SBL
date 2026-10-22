@@ -775,6 +775,16 @@
       "impact": "若不處理，只有兩條路：偷偷放寬不變式（等於假宣稱分離），或讓測試長期紅（等於沒有守衛）。兩者都不可接受。",
       "fix": "① registry/assignment/pool/projection 全部改綁 deepseek，gpt-6.1-sol 降為 fallback1 不刪除；epoch 31→32、revision→32；自我封印最後釘。② sod_invariants.pairs 對 PLAN/VERIFY 不再宣稱 distinct；新增 SOD006-C6 OPEN_OWNER_ORDERED 明寫『模型分離依 owner 命令不存在，保留的是流程、車道、證據路徑分離』。③ 隔離不變式改為『有宣告且宣告指名同一模型才放行』，未宣告的移動仍然紅。④ 車道四套件 159 passed / 90 subtests。",
       "lesson": "模型方案變更必然改變 SoD 事實；正確做法是把新的碰撞寫成宣告並讓守衛只放行有宣告的情況，不是把守衛調鬆。"
+    },
+    {
+      "id": "TT-R14-050",
+      "title": "車道改了，delegation 綁定沒改：49 分鐘的子代理死於 429",
+      "severity": "critical",
+      "status": "CLOSED",
+      "finding": "PLAN 由 GPT 改 deepseek 後，我以為三個平面都同步了。實際上 config.yaml 的 delegation.provider/model 仍釘在 openai-codex/gpt-6.1-sol，於是 TS19/TS20 那個跑了 2923 秒、88 次呼叫的子代理在 429（usage limit）被殺，整批產物沒有落地。同時 assignment 的 revision 被我當成『編輯次數』加到 33，而 hgk-lane-guard 的 live_epoch 讀的正是這個 revision，於是三次 admission 全回 ERR_LANE_STALE_EPOCH。",
+      "impact": "長任務在最貴的時間點被丟棄；車道看似一致，實際仍有一條綁定住在 config.yaml，不在 registry/assignment 裡。",
+      "fix": "① config.yaml delegation → opencode-go/deepseek-v4.1-flash（用 main.py config set，並讀回驗證）；② effective_wiring.delegation 記錄 provider/model、applied_at、理由與量測來源；③ assignment.revision 改為『鏡射 registry epoch』（32），不再當計數器；projection binding 與封印同步；④ 車道四套件 159 passed / 90 subtests。",
+      "lesson": "每個『車道』只要有一處綁定住在車道檔案之外（config.yaml、CI、啟動腳本），rebind 就必須把那些住處列成清單逐項量測，否則一致性只是表面。"
     }
   ]
 }
