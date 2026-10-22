@@ -327,6 +327,46 @@
       "evidence": [
         "raw/final_r14_full10.log"
       ]
+    },
+    {
+      "id": "TT-R14-016",
+      "title": "Pool selection flags trailed the re-bound chain (declared vs actual)",
+      "first_broken_link": "rev-17 moved the mandated arm to rank 1 but left default/automatic_selection true on the old rank-2 arm, so an unpinned dispatch served a different model than the registry declared",
+      "earliest_owner": "round orchestrator (re-binding)",
+      "required_authority": "none",
+      "repair_cone": "flags follow rank 1; PoolSelectionTests implements the check that test_lane_policy.py:113 only referenced",
+      "status": "CLOSED",
+      "closed_by": "HG-KSEOS 94e6b56",
+      "evidence": [
+        "raw/pool.before_v3.json",
+        "raw/final_r14_full11.log"
+      ]
+    },
+    {
+      "id": "TT-R14-017",
+      "title": "Lane rank guessed instead of resolved from the pool",
+      "first_broken_link": "a guessed PLAN rank dispatched minimax under a gpt-6.1-sol requirement; require-arm killed the turn with ok=false and an empty transcript, which read like an SP failure",
+      "earliest_owner": "adapter author",
+      "required_authority": "none",
+      "repair_cone": "resolve rank by (provider,model) match in the deployed pool; never hardcode",
+      "status": "CLOSED",
+      "closed_by": "var/R14-SP-20261022/sp_adapter_v2.py",
+      "evidence": [
+        "raw/sp_v2_run.json"
+      ]
+    },
+    {
+      "id": "TT-R14-018",
+      "title": "stdout_tail truncation fabricated a negative join verdict",
+      "first_broken_link": "stdout_tail is capped near 400 chars and the echoed ids sat mid-transcript; the adapter reported join_complete=false for turns that had echoed every id",
+      "earliest_owner": "adapter author",
+      "required_authority": "none",
+      "repair_cone": "judge on the attempt's full stdout file; treat tail as a preview only",
+      "status": "CLOSED",
+      "closed_by": "sp_adapter_v2.py",
+      "evidence": [
+        "raw/sp_invocations/commander_joined_receipt.json"
+      ]
     }
   ]
 }

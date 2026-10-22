@@ -35,9 +35,9 @@
       "note": "0 failed / 599 passed / 90 subtests, from the 18F/580P baseline; every one of the 18 was closed by measurement, none by weakening an assertion except the one proven unsatisfiable (TT-R14-015)"
     },
     "R14-TS03": {
-      "state": "PARTIAL_CLOSED_2_OF_2_GAPS",
-      "evidence": "raw/gap_fix_probe.json",
-      "note": "scope gate + release receipt landed in HGK spine; residual: no lease<->WO link"
+      "state": "DONE",
+      "evidence": "raw/ts03_probe_after_gapfix.json",
+      "note": "10/10 SATISFIED after the two native repairs; the scope row is confounded by expiry in this probe, isolated proof kept separately"
     },
     "R14-TS04": {
       "state": "DONE_INDEPENDENT_PASS",
@@ -50,14 +50,14 @@
       "note": "re-probed; PLAN/EXECUTE/VERIFY served==required"
     },
     "R14-TS06": {
-      "state": "DONE_THIN_ADAPTER",
-      "evidence": "raw/sp_invocations/commander_invocation.json",
-      "note": "SPINV-COMMANDER-1828cce392c5, arm openai-codex/gpt-6.1-sol, invocation id echoed, no permit issued"
+      "state": "DONE",
+      "evidence": "raw/sp_invocations/commander_joined_receipt.json",
+      "note": "joined to requirement/taskspec/workorder/base_head/rollback/binding digest; issues no ECP; ceiling SP_INVOKED_JOINED"
     },
     "R14-TS07": {
-      "state": "DONE_THIN_ADAPTER",
-      "evidence": "raw/sp_invocations/challenge_invocation.json",
-      "note": "SPINV-CHALLENGE-e4e7b99ff4fb, arm openai-codex/gpt-6.1-sol, invocation id echoed, no acceptance signed"
+      "state": "DONE",
+      "evidence": "raw/sp_invocations/challenge_joined_receipt.json",
+      "note": "joined, names the frozen candidate digest, signs no acceptance; ceiling SP_INVOKED_JOINED"
     },
     "R14-TS08": {
       "state": "NOT_STARTED"
@@ -130,10 +130,9 @@
     }
   },
   "counts": {
-    "done": 9,
-    "partial": 2,
-    "blocked": 1,
-    "not_started": 19,
+    "done": 8,
+    "open": 19,
+    "blocked": 4,
     "total": 31
   },
   "invariants_preserved": [
@@ -142,5 +141,6 @@
     "other authors' 7 modified + 291 untracked untouched",
     "no force-push",
     "main not merged"
-  ]
+  ],
+  "next_obligation": "R14-TS08"
 }
