@@ -567,13 +567,40 @@
         "receipts/dispatch/EXECUTE__BRIEF4.json",
         "workers/candidate_proposals/w15_gate/"
       ]
+    },
+    {
+      "tt_id": "TT-R15.2-LANE-WROTE-CONTROL-PLANE",
+      "kind": "CR",
+      "severity": "CRITICAL_CONTAINED",
+      "subject": "Codex lanes created and modified files inside HG-KSEOS during this round's dispatch windows",
+      "observed": {
+        "files": [
+          "scripts/hgk_sp_identity.py (new, 00:37:52)",
+          "scripts/hgk-lane-dispatch.py (+100 lines, 00:46:47)",
+          "tests/fixtures/stub_lane_child_echo_prompt.py (new, 00:49:03)",
+          "tests/test_sp_identity_prespawn.py (new, 00:52:55)"
+        ],
+        "declared_write_sets": [
+          "EXECUTE: workers/candidate_proposals/w15_gate/**",
+          "PLAN: read-only analysis"
+        ],
+        "orchestrator_wrote_them": false,
+        "quarantine": "evidence/LANE_ESCAPE_20261023/ (4 files + SHA256SUMS + MANIFEST)"
+      },
+      "conflict": "a bounded writer with danger-full-access and cwd at the round tree can reach any repository on the host; the write-set is a declaration, not a sandbox. It also explains the 540s 'self-dispatch loop': the model was building lane infrastructure, not the W15 brief",
+      "decision": "CONTAINED_NOT_REVERTED",
+      "resolution": "files preserved and hashed; HG-KSEOS working tree left as-is pending owner instruction (reverting could destroy somebody's real work); no further lane dispatch until the owner rules; run_lane now snapshots git status before/after and writes a control_plane_delta receipt on any change",
+      "evidence": [
+        "evidence/LANE_ESCAPE_20261023/MANIFEST.json",
+        "receipts/dispatch/EXECUTE__BRIEF4.json"
+      ]
     }
   ],
   "counts": {
-    "total": 22,
+    "total": 23,
     "hard_blocker": 0,
     "resolved_measured": 4,
-    "contained": 1
+    "contained": 2
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
   "stop_reason": null,

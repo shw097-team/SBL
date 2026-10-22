@@ -49,6 +49,11 @@ def main() -> int:
         + brief_text)
     brief = stamped
     out = os.path.join(R, "receipts", "dispatch", f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}.json")
+    def hgk_state() -> str:
+        q = subprocess.run(["git", "-C", HGK, "status", "--porcelain"], capture_output=True, text=True)
+        return (q.stdout or "").strip()
+
+    hgk_before = hgk_state()
     cmd = [sys.executable, "scripts/hgk-lane-dispatch.py", "--lane", m["lane"], "--prompt", brief,
            "--nonce", nonce, "--require-arm", m["provider_model"], "--force-rank", str(m["required_rank"]),
            "--pool", "config/lane-route-slots.candidate.json", "--cwd", R, "--timeout", str(tmo),
@@ -56,6 +61,15 @@ def main() -> int:
     env = dict(os.environ, PYTHONPATH="src")
     p = subprocess.run(cmd, cwd=HGK, capture_output=True, text=True, timeout=tmo + 90, env=env)
     tail = ((p.stdout or "") + (p.stderr or "")).strip().splitlines()[-2:]
+    hgk_after = hgk_state()
+    if hgk_after != hgk_before:
+        new = [ln for ln in hgk_after.splitlines() if ln not in hgk_before.splitlines()]
+        side = out.replace(".json", ".control_plane_delta.json")
+        json.dump({"before": hgk_before.splitlines(), "after": hgk_after.splitlines(), "new": new,
+                   "verdict": "LANE_TOUCHED_CONTROL_PLANE"},
+                  open(side, "w", encoding="utf-8", newline="
+"), ensure_ascii=False, indent=2)
+        print(f"LANE_TOUCHED_CONTROL_PLANE ({len(new)} new entries) -> {side}")
     print("dispatch_exit=", p.returncode)
     print("\n".join(tail))
     try:
