@@ -123,3 +123,16 @@ PYTHONPATH=src ./.venv/Scripts/python.exe -m pytest tests/ -q -p no:cacheprovide
 - `SBL_FULL_PRODUCT` **未完成**；M1 SIGNED、**M2 NOT_PASSED**、M3 BLOCKED、M4 BLOCKED。
 - 「HGK conformance 0 紅」只代表控制平面自身 harness，**不等於** DOC-00..13 語義驗收。
 - 全量套件最後一次：**646 passed / 90 subtests / exit 0**（`var/R14-OBLIGATIONS/full_suite_after_delegation.log`）；本 checkpoint 之後的 `OBLIGATIONS.json` 變更只是註記，未重跑套件。
+
+---
+
+## 8. 補記：第十輪審查被暫停時已有部分發現（**恢復後先看這一節**）
+
+詳細內容見同目錄 `REVIEW10_PARTIAL_FINDINGS.md`，逐字 transcript 已存 `raw/review10_partial/transcript.log`。
+
+要點：
+1. 它在 `ts23_review` 找到一筆 **SURVIVED**（`mutant_ran_and_answered: true`，不是崩潰）→ 我的「36 caught / 0 survived」在它新增的變異下**不成立**，必須先坐實。
+2. `no_op_control_detected: False` 曾出現 → CONTROL 判定可能脆弱，也可能真有缺陷，**不可預設是前者**。
+3. 兩個修正是有效的：崩潰不再算 catch（`no_crash_counted: True`）、自製 `PYTHONPATH` 遮蔽被判 `SHADOWED_IMPORT` 而非 survivor。
+
+恢復順序：先讀 transcript 45–100 列 → 重跑該變異 → 先加測試再修程式 → 修 CONTROL 判定 → 才重派第十一輪。**訊號 1 未坐實前，不得宣稱 M2 有進展。**
