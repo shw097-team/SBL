@@ -754,6 +754,17 @@
       "impact": "守衛把正常的編輯順序判成來源漂移，容易被誤讀成資料壞掉。",
       "fix": "所有會動到被封印檔案的編輯先完成，最後一步才重算並寫回 sha256；本輪據此重釘並綠。",
       "lesson": "封印是編輯序列的最後一個動作，不是其中一個動作。"
+    },
+    {
+      "id": "TT-R14-048",
+      "title": "宣告平面綁 deepseek，部署平面 rank-1 仍只服務 gpt-6.1-sol",
+      "severity": "critical",
+      "status": "CLOSED",
+      "finding": "把 VERIFY 池的 rank-1 換成 opencode-go/deepseek-v4.1-flash 後，test_lane_dispatch_ao_guard 的 E11a/E11b/E11d 立刻紅：dispatcher 實際挑到的 arm 是 openai-codex/gpt-6.1-sol，而 stub 依池 rank-1 寫出的 usage row 是 opencode-go，於是得到 usage provider mismatch → ERR_LANE_ALL_ROUTES_EXHAUSTED。原因不是池寫錯，是能服務的 arm 來自 identity gate（目前只有 openai-codex 憑證與 relay arm），所以池的 rank-1 只能是 gate 認得的 arm。",
+      "impact": "這是「宣告 vs 實服務」的落差：registry/assignment/projection 都宣告 VERIFY=deepseek，但實際派工只服務 gpt-6.1-sol。任何「檢查者已由 deepseek 執行」的宣稱在補上 gate 前都不成立。",
+      "fix": "本輪選擇不強改池：把 pool 還原成 rev 18（rank-1 = openai-codex/gpt-6.1-sol）讓 136 個 dispatch 測試全綠，並把落差寫進 TT。要真正讓檢查者由 deepseek 服務，必須先讓 identity gate 帶上 opencode-go 這條 arm（憑證 + relay + usage receipt 三件），再單獨一輪把池 rank-1 移上去。",
+      "lesson": "模型方案要在『能服務』的平面上驗證；把宣告改綠不算把工作改綠。",
+      "resolution": "第二個動作解掉了落差：pool 的 DEFAULT 是旗標（role/default/automatic_selection），不是陣列順序，所以先前把 deepseek 移到第 0 位沒有作用。改為：rank 重新編號 1..5、deepseek = DEFAULT/首選（default 與 automatic_selection 為 true）、gpt-6.1-sol 降為 FALLBACK1、其餘各降一級且無任何 arm 被刪。之後 test_lane_dispatch_ao_guard + test_lane_policy = 142 passed/90 subtests（含先前紅的 E11a/E11b/E11d），全套件 PYTHONPATH=src 下 646 passed/90 subtests/exit 0。宣稱上限：本機量測；檢查者由 deepseek 服務是池與派工旗標的結果，尚未有真實 turn 的 usage 收據佐證。"
     }
   ]
 }
