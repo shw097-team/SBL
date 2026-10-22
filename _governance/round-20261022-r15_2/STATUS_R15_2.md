@@ -407,7 +407,7 @@ holds the arithmetic.
 
 | set | total | DONE | PARTIAL | NOT_RUN |
 |---|---|---|---|---|
-| WorkPackages W00–W17 | 18 | 4 | 7 | 7 |
+| WorkPackages W00–W17 | 18 | 4 | 8 | 6 |
 | CheckRuns C00–C24 | 25 | 3 | 11 | 11 |
 | E-series E01–E09 | 9 | 0 | 5 | 4 |
 | Milestones M1–M4 | 4 | 0 (PASSED) | 1 | 3 |
@@ -436,12 +436,13 @@ percentage, no FULL, and no M4 — not because work failed but because the measu
 
 | class | items | why |
 |---|---|---|
-| **agent-executable next** | W05 (PIPD 8 skills / 19 contracts / 13 CLI), W11 (standing-grant FAR resume) | no external principal needed; both are bounded build work with tests |
+| **agent-executable next** | W11 (standing-grant FAR resume) | no external principal needed |
+| **measured this pass, far from met** | W05 | 1 skill dir / 1 SKILL.md against 8; 4 contract JSONs against 19; 5 CLI commands (`init`, `add`, `list`, `remove`, `uninstall`) against 13, dispatched through a `_COMMANDS` dict rather than argparse |
 | **owner-blocked** | W02 (Fabric active policy disposition), W12 (SWOF W3 admission), W15 (release control), W16 (B0/B1/B2 performance baseline ownership) | each needs an owner decision or an owner-issued baseline that an agent may not manufacture |
 | **host-blocked** | W13 (five tools, three reproducible ZIPs, three private ChatGPT hosts) | `HOST_PENDING`: no host-issued IDs, no private-plugin schema |
 
 ### 14.4 Verdict, restated against the real denominator
 
-`PARTIAL` — 4 of 18 work packages done, 0 of 9 E-series capabilities done, 0 of 4 milestones passed, release blocked.
+`PARTIAL` — 4 of 18 work packages done, 8 partial, 6 not started; 0 of 9 E-series capabilities done; 0 of 4 milestones passed; release blocked.
 The six VERIFIED work orders were real, and they are a subset. Anyone reading only section 11 would over-estimate this
 round by a wide margin; that is exactly why this section exists.
