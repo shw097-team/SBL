@@ -1,0 +1,104 @@
+{
+  "schema": "SBL-R14-TS09-F0-TRACE/1",
+  "at_utc": "2026-10-22T01:56:06.309832Z",
+  "subject": {
+    "policy_sha256": "93ec36da9f487b41dc3655ff94a788b0cedb7d8a16a26687e1243d0e4b3aa734",
+    "workorder_id": "WO-TS-WO-01",
+    "artifact_sha256": "fc34fb7de8b271d31e7b7a9d3a64cc913d23e2a2d51b2ac3a9d6df9650873f15",
+    "commit": "fca4dfa"
+  },
+  "edges": [
+    {
+      "edge": "E1_fabric_policy",
+      "consumer": "Fabric (policy owner)",
+      "artifacts": {
+        "Fabric\\FABRIC\\rp002\\RP002_CHANGE_CLASS_ROUTER.yaml": "93ec36da9f487b41dc3655ff94a788b0cedb7d8a16a26687e1243d0e4b3aa734",
+        "Fabric\\FABRIC\\control\\ACCEPTANCE_POLICY.yaml": "695f327303cc7ad3f658c6c17bd42d23504fedb5b81565f7eb01bf0595dd414e",
+        "Fabric\\FABRIC\\control\\SOD_POLICY.yaml": "45a2caad808f0bcb2a3542df8ea4378bbcbf8dbe8860be6061ec473f86d3705c"
+      },
+      "router_sha256": "93ec36da9f487b41dc3655ff94a788b0cedb7d8a16a26687e1243d0e4b3aa734",
+      "readback": "digests computed from the files on disk"
+    },
+    {
+      "edge": "E2_hgk_route",
+      "router_sha256_used": "93ec36da9f487b41dc3655ff94a788b0cedb7d8a16a26687e1243d0e4b3aa734",
+      "consumer": "HGK orchestrator wrapper (Fabric policy consumer)",
+      "change_class": "STACK_CHANGE",
+      "decision": {
+        "verdict": "ROUTE_OK",
+        "route": "ORACLE_TO_HGK",
+        "consumer": "oracle-commander->hgk",
+        "oracle_required": true,
+        "pack": "stack"
+      },
+      "consumer_source": "Fabric\\FABRIC\\fabric\\consumers\\hgk_policy_consumer.py",
+      "consumer_sha256": "247cbd50a20e128112cdc64e4beab3a81fd4096232b428c2555c9ad27a36515b",
+      "readback": "route_event(STACK_CHANGE) -> ORACLE_TO_HGK / ROUTE_OK"
+    },
+    {
+      "edge": "E3_hgk_native_method",
+      "consumer": "hg_kseos.named_methods.route",
+      "decision": {
+        "flow": "r14 full product round: hgk source + config change",
+        "provider": null,
+        "state": null,
+        "fallback": null,
+        "final_authority": true,
+        "route": "NATIVE"
+      },
+      "readback": "route -> NATIVE provider=None"
+    },
+    {
+      "edge": "E4_hgk_workorder",
+      "consumer": "Shared Spine",
+      "workorder": {
+        "workorder_id": "WO-TS-WO-01",
+        "taskspec_id": "TS-WO-01",
+        "writer": "codex",
+        "base_head": "b22706ebbdff9248f851767c010befc8e807d463",
+        "state": "VERIFIED"
+      },
+      "taskspec": {
+        "taskspec_id": "TS-WO-01",
+        "requirement_id": "REQ-HGKR13-WO-PLAN",
+        "owner": "WP-RBWI-01",
+        "state": "ADMITTED"
+      },
+      "readback": "WO-TS-WO-01 state=VERIFIED writer=codex"
+    },
+    {
+      "edge": "E5_effect",
+      "consumer": "Codex bounded writer (EXECUTE lane) -> git object",
+      "commit": "fca4dfa",
+      "artifact": "HG-KSEOS\\src\\hg_kseos\\capability_delta.py",
+      "artifact_sha256": "fc34fb7de8b271d31e7b7a9d3a64cc913d23e2a2d51b2ac3a9d6df9650873f15",
+      "git_blob": "369ce3c96dfd02923521f0557a9e1c2fa3dfe3f6",
+      "readback": "working-tree sha256 == git blob 369ce3c96dfd for fca4dfa"
+    },
+    {
+      "edge": "E6_observer",
+      "consumer": "VERIFY_SECURITY lane (independent principal)",
+      "receipt": "_r14_packet\\raw\\e6_observer.json",
+      "reported_sha256": "fc34fb7de8b271d31e7b7a9d3a64cc913d23e2a2d51b2ac3a9d6df9650873f15",
+      "served_arm": "openai-codex/gpt-6.1-sol",
+      "state": "OBSERVED",
+      "readback": "Measured capability_delta.py using Get-FileHash -Algorithm SHA256; command exited 0."
+    }
+  ],
+  "join": {
+    "E2_used_the_same_policy_sha": true,
+    "E4_wo_matches_subject": true,
+    "E5_artifact_matches_subject": true,
+    "E6_observer_reports_same_artifact": true,
+    "six_edges_present": true,
+    "fabric_not_issuer": true
+  },
+  "verdict": "PASS_F0_CONSUMPTION",
+  "fabric_issuer_check": {
+    "checked": "Fabric policy consumer source",
+    "issuer_verbs_found": [],
+    "fabric_is_issuer": false,
+    "note": "Fabric routes and classifies; HGK issues WorkOrders/permit and signs acceptance."
+  },
+  "claim_ceiling": "F0 consumption traced for ONE subject tuple; it shows the policy was consumed on this path, not that every HGK task consumes Fabric policy."
+}

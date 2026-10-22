@@ -20,9 +20,11 @@
       "state": "DONE",
       "next_action": "CAPC C0-C9 4/4 PROMPT_COMPILE_PASS on the R14 contract 8643749",
       "evidence": [
-        "raw/ts01_compile.txt"
+        "raw/TS01_source_identity.json",
+        "raw/compile_r14/compiler-receipt.json"
       ],
-      "depends_on": []
+      "depends_on": [],
+      "note": "14/14 DOC sha+bytes reproduce the rollup; CAPC C0-C9 compile receipt is compile_r14/compiler-receipt.json (the earlier ledger pointed at raw/ts01_compile.txt, which does not exist - corrected here)."
     },
     {
       "id": "R14-TS02",
@@ -107,10 +109,16 @@
     {
       "id": "R14-TS09",
       "title": "Fabric F0 Consumption E04/M1",
-      "state": "OPEN",
-      "next_action": "build the Fabric F0 six-edge consumption trace with one subject tuple",
-      "evidence": [],
-      "depends_on": []
+      "state": "DONE",
+      "next_action": "",
+      "evidence": [
+        "raw/ts09_f0_trace.json",
+        "raw/e6_observer.json",
+        "_governance/round-20261022-r14/SBL_R14_TS09_F0_CONSUMPTION.md",
+        "HG-KSEOS scripts/f0_trace.py"
+      ],
+      "depends_on": [],
+      "note": "Six edges read back under one subject tuple; E2 asserts the route was computed from the same policy bytes E1 digested; E6 is an independent VERIFY_SECURITY lane measuring the file itself (matched). Fabric-issuer check: no issuance verbs in the consumer. Real defect found: the shipped consumer's router path is Fabric/rp002 not Fabric/FABRIC/rp002, so it cannot route at all (TT-R14-020) - traced around, not patched, because Fabric's contract face is not this round's. Ceiling: one subject tuple."
     },
     {
       "id": "R14-TS10",
@@ -139,10 +147,14 @@
     {
       "id": "R14-TS13",
       "title": "八 PIPD Skills＋Native Writer E02/M2",
-      "state": "OPEN",
-      "next_action": "eight PIPD skills: discover/bind/invoke/deny with owner-only PI/PD/ECP/TQAEP",
-      "evidence": [],
-      "depends_on": []
+      "state": "BLOCKED_SOFT",
+      "next_action": "PIPD bundle Owner must enforce the 7 declared-only refusals in the three skills' input schemas",
+      "evidence": [
+        "raw/ts13_pipd_skills.json",
+        "HG-KSEOS scripts/pipd_skills_conformance.py"
+      ],
+      "depends_on": [],
+      "note": "Measured all eight official skills: 8/8 discoverable with version+name matching the directory, 8/8 ACCEPT cases validate against their own input schema AND their declared output validates against the output schema (24 POS cases). Refusals: 5 skills enforce all 4 negatives at the schema; pipd-execution-contract enforces 0/4, pipd-assurance-tqaep 2/4, pipd-package-project 3/4 - their deny path is declared, not mechanical. Fixing that means editing PIPD's own schemas, which belongs to the PIPD bundle Owner, so this item is BLOCKED_SOFT with the exact case ids, not silently greened."
     },
     {
       "id": "R14-TS14",
@@ -211,9 +223,12 @@
     {
       "id": "R14-TS22",
       "title": "M1 Native 指揮鏈里程碑",
-      "state": "OPEN",
-      "next_action": "M1 gate: sign M1_NATIVE_CHAIN_READY only after TS02-TS09 all hold",
-      "evidence": [],
+      "state": "BLOCKED",
+      "next_action": "compile a real PI-PKG for a frozen source subject (H0), then re-run scripts/m1_gate_packet.py",
+      "evidence": [
+        "raw/ts22_m1_gate_packet.json",
+        "HG-KSEOS scripts/m1_gate_packet.py"
+      ],
       "depends_on": [
         "R14-TS03",
         "R14-TS04",
@@ -222,7 +237,8 @@
         "R14-TS07",
         "R14-TS08",
         "R14-TS09"
-      ]
+      ],
+      "note": "Packet assembled and measured: H1 (CAPC C0-C9) met, H2 (identity/repo/permit, 10/10 probe with six deny properties) met, H3 (independent observer + dynamic checker) met, H0 (PIPD source/PI) NOT met - no PI-PKG has ever been compiled for a real subject, and eight existing skills are not a PI. Verdict M1_NOT_READY (3/4). The packet is deliberately unsigned: M1 is an Owner Gate and an agent must not supply the other principal's signature."
     },
     {
       "id": "R14-TS23",

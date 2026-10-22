@@ -1,0 +1,629 @@
+{
+  "schema": "SBL-R14-TS13-PIPD-SKILLS/1",
+  "at_utc": "2026-10-22T02:01:28.214625Z",
+  "official_count": 8,
+  "rows": [
+    {
+      "skill": "pipd-route-intake",
+      "root_exists": true,
+      "verdict": "PASS",
+      "findings": [],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD-EC (deterministic compiler)",
+      "description_owner": "Use when an unbound goal with source locators arrives at the intake gate and must be captured as a typed IntentCard with requirement atoms before any compilation begins.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD-EC (deterministic compiler). Consumer: pipd-pi-compile. An unbound intake request: goal plus at least one resolvable source locator.",
+      "owner_in_schema_desc": "PIPD-EC (deterministic compiler)",
+      "consumer_in_schema_desc": "pipd-pi-compile",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "[]: 'goal' is a required property"
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['sources']: [] should be non-empty"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['goal']: '   ' does not match '\\\\S'"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['sources', 0, 'rel']: '../HG-KSEOS/src/hg_kseos/hg-kseos.db' should not be valid under {'pattern': '\\\\.\\\\.'}"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "SCHEMA_ENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
+    },
+    {
+      "skill": "pipd-authority-source",
+      "root_exists": true,
+      "verdict": "PASS",
+      "findings": [],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD",
+      "description_owner": "Use when source families must be frozen into a SourceFreezeManifest with AuthorityBinding records before any compiler reads them.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD. Consumer: all compilers/adapters. Source families to freeze, each with a sha256 manifest digest and at least one file locator inside the admitted root.",
+      "owner_in_schema_desc": "PIPD",
+      "consumer_in_schema_desc": "all compilers/adapters",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['families', 0]: 'manifest_sha256' is a required property"
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['families', 0, 'manifest_sha256']: 'abc123' does not match '^[0-9a-f]{64}$'"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['families', 0, 'files']: [] should be non-empty"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['families', 0, 'files', 0, 'rel']: '../openspec/archive/sealed.zip' should not be valid under {'pattern': '\\\\.\\\\.'}"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "SCHEMA_ENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
+    },
+    {
+      "skill": "pipd-profile-tailor",
+      "root_exists": true,
+      "verdict": "PASS",
+      "findings": [],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD",
+      "description_owner": "Use when a requested profile and axis set must be resolved into an effective ProfileBinding through the safety veto before compilation.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD. Consumer: Skills/JIT/HGK. A requested profile plus the axis set that drives the safety veto (S0 family 04).",
+      "owner_in_schema_desc": "PIPD",
+      "consumer_in_schema_desc": "Skills/JIT/HGK",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['profile']: 'ELITE' is not one of ['LITE', 'STANDARD', 'ASSURED']"
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['axes', 1]: 'telepathy' is not one of ['intent', 'knowledge', 'verification', 'release', 'trust_boundary', 'preexisting"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['axes']: ['intent', 'intent'] has non-unique elements"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "[]: Additional properties are not allowed ('escalation' was unexpected)"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "SCHEMA_ENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
+    },
+    {
+      "skill": "pipd-pi-compile",
+      "root_exists": true,
+      "verdict": "PASS",
+      "findings": [],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD",
+      "description_owner": "Use when a frozen IntentCard and an effective ProfileBinding must be compiled into a PI-PKG with a stable semantic contract and trace links.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD. Consumer: PD binder. A frozen IntentCard reference, the effective profile, and the requirement atoms to compile into PI-PKG (S0 family 06).",
+      "owner_in_schema_desc": "PIPD",
+      "consumer_in_schema_desc": "PD binder",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['atoms']: [] should be non-empty"
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['atoms', 0]: 'risk_guard' is a required property"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['atoms', 0, 'acceptance_cue']: '' should be non-empty"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "[]: Additional properties are not allowed ('_profile_meta' was unexpected)"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "SCHEMA_ENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
+    },
+    {
+      "skill": "pipd-pd-bind",
+      "root_exists": true,
+      "verdict": "PASS",
+      "findings": [],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD",
+      "description_owner": "Use when a compiled PI-PKG must be late-bound to a real RepoContext into a PD-PKG before any construction is planned.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD. Consumer: execution handoff. A PI-PKG reference plus a real RepoContext; PD late-binding requires both (S0 family 07).",
+      "owner_in_schema_desc": "PIPD",
+      "consumer_in_schema_desc": "execution handoff",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "[]: 'repo_context' is a required property"
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['repo_context', 'tracked_files']: -1 is less than the minimum of 0"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['repo_context', 'root']: '' should be non-empty"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['repo_context', 'writable_scope']: '../HG-KSEOS/**' should not be valid under {'pattern': '\\\\.\\\\.'}"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "SCHEMA_ENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
+    },
+    {
+      "skill": "pipd-execution-contract",
+      "root_exists": true,
+      "verdict": "PARTIAL",
+      "findings": [
+        "4/4 refusals are declared, not schema-enforced"
+      ],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD (ConstructionContract) / PIPD-ECP semantics (ECP)",
+      "description_owner": "Use when a bound PD-PKG must become a ConstructionContract plus an ECP that fixes effect, permission, retries, idempotency, readback and rollback.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD (ConstructionContract, S0 family 10) and PIPD/ECP semantics (ECP, S0 family 12). Consumer: HGK adapter. A bound PD-PKG reference plus its PI-PKG reference.",
+      "owner_in_schema_desc": "PIPD (ConstructionContract, S0 family 10) and PIPD/ECP semantics (ECP, S0 family 12)",
+      "consumer_in_schema_desc": "HGK adapter",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "UNENFORCED": 4
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 0,
+      "refuse_unenforced": 4
+    },
+    {
+      "skill": "pipd-assurance-tqaep",
+      "root_exists": true,
+      "verdict": "PARTIAL",
+      "findings": [
+        "2/4 refusals are declared, not schema-enforced"
+      ],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD/TQAEP semantics",
+      "description_owner": "Use when a PI-PKG and ECP must be assured through a TQAEP with an independent checker, per-atom oracles and positive/negative fixtures.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD/TQAEP semantics. Consumer: Independent checker/release. PI with trace, ECP, maker and an INDEPENDENT checker with a real execution receipt (S0 family 13).",
+      "owner_in_schema_desc": "PIPD/TQAEP semantics",
+      "consumer_in_schema_desc": "Independent checker/release",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['checker_execution_receipt']: 'SELF_ATTESTED' should not be valid under {'pattern': '^[Ss][Ee][Ll][Ff]_[Aa][Tt][Tt][Ee]"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['pi', 'trace']: [] should be non-empty"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "UNENFORCED": 2,
+        "SCHEMA_ENFORCED": 2
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 2,
+      "refuse_unenforced": 2
+    },
+    {
+      "skill": "pipd-package-project",
+      "root_exists": true,
+      "verdict": "PARTIAL",
+      "findings": [
+        "1/4 refusals are declared, not schema-enforced"
+      ],
+      "has_skill_md": true,
+      "version": 1,
+      "declared_owner": "PIPD",
+      "description_owner": "Use when the artifact bundle must be closed into a ClaimCeiling with EvidenceExpectation records and a TraceClosureReport before handoff.",
+      "has_input_schema": true,
+      "has_output_schema": true,
+      "has_cases": true,
+      "issuer_consumer_declared": "Owner: PIPD. Consumer: all planes. The artifact bundle to close, the claim ceiling to set, and (only for LOCAL_QUALIFIED and above) the independent approval evidence.",
+      "owner_in_schema_desc": "PIPD",
+      "consumer_in_schema_desc": "all planes",
+      "cases": [
+        {
+          "id": "POS-001",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "POS-002",
+          "kind": "POS",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "NEG-001",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "UNENFORCED",
+          "why": ""
+        },
+        {
+          "id": "NEG-002",
+          "kind": "NEG",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['allowed_claims', 0]: 'SUPER_USER' is not one of ['PROMPT_COMPILE_PASS', 'HGK_ADMITTED', 'RUNTIME_READY', 'LOCAL_QUALIF"
+        },
+        {
+          "id": "EDGE-001",
+          "kind": "EDGE",
+          "expect": "ACCEPT",
+          "state": "PASS",
+          "why": ""
+        },
+        {
+          "id": "EDGE-002",
+          "kind": "EDGE",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "['bundle', 'artifacts']: [] should be non-empty"
+        },
+        {
+          "id": "SEC-001",
+          "kind": "SEC",
+          "expect": "REFUSE",
+          "state": "SCHEMA_ENFORCED",
+          "why": "[]: Additional properties are not allowed ('publish' was unexpected)"
+        }
+      ],
+      "case_counts": {
+        "PASS": 3,
+        "UNENFORCED": 1,
+        "SCHEMA_ENFORCED": 3
+      },
+      "pos_total": 3,
+      "pos_pass": 3,
+      "refuse_total": 4,
+      "refuse_enforced": 3,
+      "refuse_unenforced": 1
+    }
+  ],
+  "summary": {
+    "PASS": 5,
+    "PARTIAL": 3,
+    "FAIL": 0
+  },
+  "claim_ceiling": "discover/bind/invoke are measured at the schema and frontmatter level; a refusal that the schema does not enforce is reported UNENFORCED and never counted as a pass"
+}

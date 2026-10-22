@@ -1,0 +1,71 @@
+{
+  "schema": "SBL-R14-TS22-M1-GATE/1",
+  "at_utc": "2026-10-22T02:03:27.491852Z",
+  "gate": "M1_NATIVE_CHAIN_READY",
+  "levels": [
+    {
+      "level": "H0",
+      "name": "PIPD source/PI",
+      "schema_present": true,
+      "schema_sha256": "4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71",
+      "pi_instances_found": [],
+      "met": false,
+      "gap": "no compiled PI-PKG for a real subject exists; the eight skills' existence is not H0, and no PI has been compiled against a frozen source"
+    },
+    {
+      "level": "H1",
+      "name": "CAPC C0-C9",
+      "evidence": [
+        "compiler-receipt.json",
+        "compiler-report.json"
+      ],
+      "pass_markers": 2,
+      "met": true,
+      "gap": null
+    },
+    {
+      "level": "H2",
+      "name": "HGK identity/repo/permit",
+      "probe_satisfied": 10,
+      "probe_gaps": 0,
+      "deny_properties": [
+        "scope_path_enforcement",
+        "expiry_enforced",
+        "anti_replay",
+        "maker_checker_separation",
+        "lease_exclusion",
+        "revocation_semantics"
+      ],
+      "met": true,
+      "gap": null
+    },
+    {
+      "level": "H3",
+      "name": "actual-world readback",
+      "e6_observer": {
+        "served_arm": "openai-codex/gpt-6.1-sol",
+        "matches_local": true,
+        "artifact_sha256": "fc34fb7de8b271d3"
+      },
+      "checker": {
+        "ok": true,
+        "served_arm": "openai-codex/gpt-6.1-sol"
+      },
+      "met": true,
+      "gap": null
+    }
+  ],
+  "levels_met": 3,
+  "levels_total": 4,
+  "verdict": "M1_NOT_READY",
+  "open_gaps": [
+    {
+      "level": "H0",
+      "gap": "no compiled PI-PKG for a real subject exists; the eight skills' existence is not H0, and no PI has been compiled against a frozen source"
+    }
+  ],
+  "signed": false,
+  "signer": null,
+  "why_unsigned": "M1 is an Owner Gate. An agent may assemble and measure the packet; it may not supply the other principal's signature, and this round forbids self-promotion.",
+  "claim_ceiling": "packet + measurements only; M1 is NOT signed and no milestone is claimed"
+}
