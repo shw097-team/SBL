@@ -34,6 +34,16 @@ def main() -> int:
     lease = json.load(open(LEASE, encoding="utf-8")) if os.path.exists(LEASE) else {}
     blockers: list[dict] = []
 
+    rec = (q.get("lane_obligations") or {}).get("ok_receipts") or {}
+    for i in q["items"]:
+        lane = i.get("required_lane", "AGENT")
+        if lane != "AGENT" and i["status"] == "DONE" and not rec.get(lane):
+            blockers.append({"code": "LANE_RECEIPT_MISSING", "id": i["id"], "lane": lane})
+    bypassed = [i["id"] for i in q["items"] if i.get("lane_bypassed")]
+    if bypassed:
+        blockers.append({"code": "LANE_BYPASSED_DISCLOSED", "ids": bypassed,
+                         "note": "work completed in-session where a lane was mandated; disclosed, not laundered"})
+
     ready = [i["id"] for i in q["items"] if i["status"] == "READY" and i["owner_class"] == "AGENT"]
     if ready:
         blockers.append({"code": "READY_AGENT_ITEMS", "ids": ready})

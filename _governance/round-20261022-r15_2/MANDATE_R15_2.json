@@ -1,0 +1,34 @@
+{
+  "schema": "SBL_MANDATE/1",
+  "round_id": "round-20261022-r15_2",
+  "why": "A mandate that lives only in a chat message is a preference: nothing fails when it is violated, and context compaction erases it. This file makes the role split machine-readable so a gate can refuse work that bypassed its lane.",
+  "roles": {
+    "PLAN": {
+      "actor": "SBL-Commander & PLAN",
+      "lane": "PLAN",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "required_rank": 2,
+      "applies_to": ["research", "analysis", "root-cause", "decision", "planning"],
+      "evidence": "a receipts/dispatch/PLAN*.json with ok=true and nonce_present=true"
+    },
+    "EXECUTE": {
+      "actor": "SBL-EXECUTE & Codex bounded writer",
+      "lane": "EXECUTE",
+      "provider_model": "opencode-go/minimax-m3.1-flash-free",
+      "required_rank": 1,
+      "applies_to": ["product-write", "candidate-proposal", "bounded-writer"],
+      "evidence": "a receipts/dispatch/EXECUTE*.json with ok=true and nonce_present=true"
+    },
+    "VERIFY": {
+      "actor": "SBL-Acceptance Challenge & Independent Acceptance Officer & VERIFY & SECURITY",
+      "lane": "VERIFY_SECURITY",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "required_rank": 2,
+      "applies_to": ["verification", "acceptance", "security-review", "challenge"],
+      "evidence": "a receipts/dispatch/VERIFY*.json with ok=true and nonce_present=true"
+    }
+  },
+  "orchestrator_exempt": ["measurement", "file-plumbing", "package-build", "queue-maintenance", "test-execution"],
+  "violation_policy": "a work item whose role is in a role above may not be marked DONE without the matching receipt; the gate exits non-zero and names the item",
+  "honest_ceiling": "This makes violation detectable and blocking. It cannot make a model obey; it can make disobedience unshippable."
+}
