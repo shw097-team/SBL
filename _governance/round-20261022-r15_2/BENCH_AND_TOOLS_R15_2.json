@@ -1,0 +1,219 @@
+{
+  "bench": {
+    "schema": "SBL_BENCH_PAIR/1",
+    "workload": "uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider tests/test_modes.py tests/test_core_modules.py tests/test_gj03_bridge.py",
+    "attempts": 3,
+    "hardware": {
+      "platform": "Windows-10-10.0.26200-SP0",
+      "cpu_count": 12,
+      "python": "3.11.17"
+    },
+    "subjects": {
+      "B1": {
+        "sha": "e6623ba1e9a4a477d07048cd3a5a906f33d6029d",
+        "note": "pre-round tooling baseline"
+      },
+      "B2": {
+        "sha": "869ae913c995071c1c2e032f96bd49f6ec7d375a",
+        "note": "current evidence branch"
+      }
+    },
+    "runs": {
+      "B1": [
+        {
+          "attempt": 1,
+          "rc": 0,
+          "secs": 1.129,
+          "last_line": "....................................................................     [100%]"
+        },
+        {
+          "attempt": 2,
+          "rc": 0,
+          "secs": 1.208,
+          "last_line": "....................................................................     [100%]"
+        },
+        {
+          "attempt": 3,
+          "rc": 0,
+          "secs": 1.137,
+          "last_line": "....................................................................     [100%]"
+        }
+      ],
+      "B2": [
+        {
+          "attempt": 1,
+          "rc": 0,
+          "secs": 1.141,
+          "last_line": "....................................................................     [100%]"
+        },
+        {
+          "attempt": 2,
+          "rc": 0,
+          "secs": 1.167,
+          "last_line": "....................................................................     [100%]"
+        },
+        {
+          "attempt": 3,
+          "rc": 0,
+          "secs": 1.144,
+          "last_line": "....................................................................     [100%]"
+        }
+      ]
+    },
+    "medians": {
+      "B1": 1.137,
+      "B2": 1.144
+    },
+    "all_rc_zero": true,
+    "B0": {
+      "state": "NOT_COMPARABLE",
+      "why": "no owner-defined HGK-only workload matches this corpus; inventing one would be the 'different denominator' that C23 declares INVALID_COMPARE"
+    },
+    "claim_ceiling": "paired wall-time on one fixed suite, same host, alternating attempts. This is not a B0/B1/B2 engineering-performance claim and carries no benefit assertion.",
+    "delta_secs": 0.007,
+    "two_run_observation": {
+      "run_1": {
+        "B1": [
+          7.321,
+          1.258,
+          1.213
+        ],
+        "B2": [
+          1.576,
+          1.176,
+          1.09
+        ],
+        "delta_median_secs": -0.082
+      },
+      "run_2": {
+        "medians": {
+          "B1": 1.137,
+          "B2": 1.144
+        },
+        "delta_median_secs": 0.007
+      },
+      "reading": "the sign flips between independent runs, so the subject difference is smaller than run-to-run variance at n=3 on a 79-test suite. No benefit may be claimed from this harness; C23 stays PARTIAL and a heavier owner-defined workload is required before any performance statement."
+    }
+  },
+  "five_tools_calibrated": {
+    "roots": [
+      "C:/Projects/Agent_Workspace/_r14s12_ev/pkg",
+      "C:/Projects/Agent_Workspace/_r14s12_ev/pkg2"
+    ],
+    "found": {
+      "challenge": 8,
+      "commander": 8,
+      "tpm": 8
+    },
+    "declared": 5,
+    "lifecycle_verbs_present": [],
+    "lifecycle_verbs_missing": [
+      "install",
+      "doctor",
+      "load",
+      "invoke",
+      "deny",
+      "upgrade",
+      "uninstall",
+      "rollback"
+    ],
+    "per_bundle": {
+      "pkg/challenge": {
+        "files": 7,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      },
+      "pkg/commander": {
+        "files": 7,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      },
+      "pkg/tpm": {
+        "files": 7,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      },
+      "pkg2/challenge": {
+        "files": 8,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      },
+      "pkg2/commander": {
+        "files": 8,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      },
+      "pkg2/tpm": {
+        "files": 8,
+        "verbs_present": [],
+        "verbs_missing": [
+          "install",
+          "doctor",
+          "load",
+          "invoke",
+          "deny",
+          "upgrade",
+          "uninstall",
+          "rollback"
+        ]
+      }
+    },
+    "verdict": "3 of 5 declared tools exist as packaging bundles; 0 of 8 lifecycle verbs found. E06/C20 NOT_RUN stands.",
+    "instrument_note": "first pass walked C:/Projects/Agent_Workspace/PIPD-LS-SP, which is MISSING on this host, and reported 0 files for all five tools — an uncalibrated path list manufacturing an all-clear. Roots are now the R14 package directories and are asserted to exist.",
+    "roots_checked": [
+      {
+        "path": "C:/Projects/Agent_Workspace/_r14s12_ev/pkg",
+        "exists": true
+      },
+      {
+        "path": "C:/Projects/Agent_Workspace/_r14s12_ev/pkg2",
+        "exists": true
+      }
+    ]
+  }
+}

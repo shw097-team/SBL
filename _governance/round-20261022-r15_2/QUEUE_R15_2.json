@@ -164,6 +164,48 @@
       "last_run_utc": "2026-10-22T15:43:36Z",
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
       "ladder_note": "attempt 1 counted 4 because W13's heading read 'Owner/host action'; the heading now names the owner"
+    },
+    {
+      "id": "W16.bench",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W16/C23",
+      "next_action": "re-run the paired B1/B2 benchmark and assert both subjects ran clean",
+      "resume_cmd": "set \"UV_CACHE_DIR=C:/Users/user/AppData/Local/Temp/r152/uvcache\" && python \"_governance/round-20261022-r15_2/tools/bench_pair_and_tools.py\"",
+      "expect": "BENCH_TOOLS_OK",
+      "timeout_s": 600,
+      "attempts": 3,
+      "last_result": "rc=0 secs=7.14 expect=hit\n    {\"medians\": {\"B1\": 1.137, \"B2\": 1.144}, \"delta\": 0.007, \"all_rc_zero\": true, \"B0\": \"NOT_COMPARABLE\", \"tools\": {\"challenge\": 8, \"commander\": 8, \"tpm\": 8}, \"verbs_present\": []}\n    BENCH_TOOLS_OK",
+      "last_run_utc": "2026-10-22T15:55:28Z",
+      "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
+      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence"
+    },
+    {
+      "id": "W15.gate_proposal",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W15/C23",
+      "next_action": "re-emit the DELIVERY_READY guard diff and run its four behavioural tests",
+      "resume_cmd": "python \"_governance/round-20261022-r15_2/tools/build_gate_proposal.py\" && set \"UV_CACHE_DIR=C:/Users/user/AppData/Local/Temp/r152/uvcache\" && uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider workers/candidate_proposals/w15_gate/test_gate_candidate.py",
+      "expect": "100%",
+      "timeout_s": 420,
+      "attempts": 1,
+      "last_result": "rc=0 secs=2.42 expect=hit\n    {\"diff_lines\": 27, \"dir\": \"C:/Projects/Agent_Workspace/_r152_ev/workers/candidate_proposals/w15_gate\"}\n    GATE_PROPOSAL_OK\n    ....                                                                     [100%]\n    Installed 6 packages in 200ms",
+      "last_run_utc": "2026-10-22T15:53:10Z"
+    },
+    {
+      "id": "W13.tools",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "W13/C20/E06",
+      "next_action": "assert the corrected five-tool inventory: 3 bundles present, zero lifecycle verbs",
+      "resume_cmd": "python -c \"import json;d=json.load(open(r'_governance/round-20261022-r15_2/BENCH_AND_TOOLS_R15_2.json',encoding='utf-8'))['five_tools_calibrated'];print('bundles',len(d['found']));print('verbs',len(d['lifecycle_verbs_present']))\"",
+      "expect": "bundles 3",
+      "timeout_s": 120,
+      "attempts": 2,
+      "last_result": "rc=0 secs=0.12 expect=hit\n    bundles 3\n    verbs 0",
+      "last_run_utc": "2026-10-22T15:55:28Z",
+      "ladder_note": "re-armed: the bench script now regenerates the calibrated tool inventory, so a re-run cannot orphan W13's evidence"
     }
   ],
   "runs": [
@@ -198,6 +240,33 @@
       "at": "2026-10-22T15:43:36Z",
       "steps": 1,
       "done": 8,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T15:53:10Z",
+      "steps": 3,
+      "done": 10,
+      "parked": 6,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T15:55:10Z",
+      "steps": 1,
+      "done": 11,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T15:55:28Z",
+      "steps": 2,
+      "done": 11,
       "parked": 5,
       "owner": 4,
       "host": 1,

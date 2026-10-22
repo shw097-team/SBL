@@ -1,0 +1,8 @@
+{
+  "proposal": "W15 delivery gate must also refuse at DELIVERY_READY",
+  "measured_correction": "The earlier TT said the delivery gate ignores FAILED orders. Re-reading lifecycle.py 169-182 shows the DELIVERED transition DOES count FAILED as open; the actual defect is that DELIVERY_READY carries no such guard, so the state reads as 'almost delivered' with two FAILED orders present.",
+  "applies_to": "src/hg_kseos/lifecycle.py",
+  "apply": "git -C C:/Projects/Agent_Workspace/HG-KSEOS apply workers/candidate_proposals/w15_gate/proposal.diff",
+  "permit": "NOT_APPLIED — control-plane change; a HGK owner applies it",
+  "claim_ceiling": "a 2-line guard plus four tests; no control-plane behaviour has changed here"
+}

@@ -171,10 +171,11 @@
         "C21",
         "C22"
       ],
-      "status": "NOT_RUN",
+      "status": "PARTIAL",
       "evidence": [
-        "TT_R15_2_REGISTER.json#TT-R15.2-CHATGPT-HOST-PENDING"
-      ]
+        "BENCH_AND_TOOLS_R15_2.json"
+      ],
+      "note": "3 of 5 tools exist as packaging bundles (knowledge/prompts/PROVENANCE/SHA256SUMS) under _r14s12_ev/pkg*; none has any of the 8 lifecycle verbs; the first inventory reported 0 files for all five because it walked a root that does not exist on this host (instrument corrected)"
     },
     {
       "id": "W14",
@@ -197,8 +198,11 @@
         "C22",
         "C24"
       ],
-      "status": "NOT_RUN",
-      "evidence": []
+      "status": "PARTIAL",
+      "evidence": [
+        "workers/candidate_proposals/w15_gate/proposal.diff"
+      ],
+      "note": "measured correction: the DELIVERED transition already counts FAILED as open; the defect is that DELIVERY_READY has no such guard. 2-line candidate guard + 4 behavioural tests, nothing applied"
     },
     {
       "id": "W16",
@@ -206,8 +210,11 @@
       "checks": [
         "C23"
       ],
-      "status": "NOT_RUN",
-      "evidence": []
+      "status": "PARTIAL",
+      "evidence": [
+        "BENCH_AND_TOOLS_R15_2.json"
+      ],
+      "note": "paired B1/B2 wall time on one fixed 79-test suite, same host, alternating attempts, n=3 with attempt 1 as cold-cache warmup: B1 1.258s, B2 1.176s median (delta -0.082s, inside noise). B0 HGK-only is NOT_COMPARABLE: no owner-defined matched workload exists; claiming one would be the different-denominator error C23 forbids"
     },
     {
       "id": "W17",
@@ -330,7 +337,8 @@
     {
       "id": "C20",
       "title": "五工具及三 ZIP 雙建/doctor/effective-load",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "note": "3/5 tool bundles, 0 lifecycle verbs"
     },
     {
       "id": "C21",
@@ -345,7 +353,8 @@
     {
       "id": "C23",
       "title": "B0/B1/B2 同工作量同環境績效實測",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "note": "B1/B2 paired; B0 NOT_COMPARABLE (no owner-matched workload)"
     },
     {
       "id": "C24",
@@ -545,14 +554,14 @@
     "workpackages": {
       "total": 18,
       "DONE": 4,
-      "NOT_RUN": 6,
-      "PARTIAL": 8
+      "NOT_RUN": 3,
+      "PARTIAL": 11
     },
     "checkruns": {
       "total": 25,
       "DONE": 3,
-      "NOT_RUN": 11,
-      "PARTIAL": 11
+      "NOT_RUN": 9,
+      "PARTIAL": 13
     },
     "eseries": {
       "total": 9,

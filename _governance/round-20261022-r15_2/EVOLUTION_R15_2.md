@@ -193,3 +193,31 @@ tools/advance_queue.py`, not a lost thread.
    kind of thing that used to end a round.
 4. **Split build from acceptance.** Three of the five parked items are cases where I can produce the artefact but not
    the authority that accepts it. `BUILT_AWAITING_ACCEPTANCE` is a true state; `NOT_RUN` reads as idleness.
+
+## 10. Fifth iteration: build the half you may build, and refuse the number that flatters you
+
+### 10.1 Two habits that look like rigour and are not
+
+**Recording a defect one layer too high.** "The delivery gate ignores FAILED work orders" was dramatic and slightly
+false. The final transition does refuse; the intermediate state simply has no guard. A defect stated at the wrong layer
+cannot be fixed at the right one, and it makes the control plane look worse than it is while leaving the real hole
+open.
+
+**Reporting a benchmark that cancels itself.** Two runs of the same paired harness gave −0.082 s and +0.007 s. The
+temptation was to publish the first, which favoured the current state. The honest artefact is both runs plus the
+sentence "the sign flips, therefore no claim". A number that changes sign under repetition is not a small effect, it is
+noise wearing a decimal point.
+
+### 10.2 The instrument lesson, again, in a new place
+
+A file inventory that starts from a directory which does not exist returns zeros indistinguishable from "the product is
+empty". Both readings look like data. The fix is cheap and permanent: make the tool assert its roots exist and record
+`roots_checked` alongside the findings, so the next reader can see whether zero means zero or means nowhere.
+
+### 10.3 Rules kept
+
+1. **State a defect at the layer where it is true**, and correct the record when a re-read contradicts it.
+2. **Publish cancelling measurements together**, never the favourable one alone.
+3. **An instrument must record where it looked.** Zero findings plus a missing root is not a finding.
+4. **Evidence must survive a re-run of the tool that produced it.** If re-running the producer orphans the consumer's
+   evidence, fold the consumer's data into the producer.

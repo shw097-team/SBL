@@ -494,3 +494,59 @@ items with a recommendation and a one-line owner action each.
 W02, W12, W15, W16 need an owner determination; W13 needs host IDs and the private-plugin schema. Their FAR
 recommendations are written, including the one change that would matter most for every future round: HG-KSEOS's
 delivery transition must reject FAILED work orders instead of flipping to `DELIVERY_READY`.
+
+## 16. Building the half an agent may build
+
+The FAR recommendation was to split each parked work package into a buildable part and an acceptance part. This
+section is the buildable half, executed and measured.
+
+### 16.1 W15 — the delivery-gate finding was wrong in an instructive way
+
+I had recorded `TT-R15.2-DELIVERY-GATE-IGNORES-FAILED`. Re-reading `lifecycle.py:169-182` shows the `DELIVERED`
+transition **does** count FAILED work orders as open and refuses. The real defect is narrower: **`DELIVERY_READY` carries
+no such guard**, so a project with two FAILED orders sits in a state whose name reads as "ready", and that is what my
+own earlier reports repeated. Candidate repair: a two-line guard covering both states, plus four behavioural tests run
+against an isolated sqlite mirror of the same schema (FAILED blocks, CREATED blocks, all-VERIFIED does not, and the
+candidate text guards both states). Diff and tests are in `workers/candidate_proposals/w15_gate/`; nothing is applied —
+the control plane belongs to a HGK owner.
+
+### 16.2 W16 — a paired benchmark that refuses to claim a benefit
+
+Harness: same command, same host, alternating attempts, three attempts per subject, B1 = `e6623ba` (pre-round tooling),
+B2 = the evidence branch head.
+
+| run | B1 median | B2 median | delta |
+|---|---|---|---|
+| 1 | 1.258 s | 1.176 s | −0.082 s |
+| 2 | 1.137 s | 1.144 s | +0.007 s |
+
+**The sign flips.** At n=3 on a 79-test suite the subject difference is smaller than run-to-run variance, so this
+harness supports no performance statement at all. B0 (`HGK_only`) is recorded `NOT_COMPARABLE`: no owner has defined a
+matched HGK-only workload, and inventing one is precisely the different-denominator error `C23` declares
+`INVALID_COMPARE`. Recording a pair of numbers that cancel each other is more useful than recording one that flatters
+the round.
+
+### 16.3 W13 — an uncalibrated instrument manufactured an all-clear
+
+The first five-tool inventory reported **0 files for all five tools**. The cause was not the product: the walk started
+at `C:/Projects/Agent_Workspace/PIPD-LS-SP`, which does not exist on this host, so every hint matched nothing. Re-run
+against the real packaging roots (`_r14s12_ev/pkg`, `pkg2`):
+
+- 3 of 5 declared tools exist as bundles (`tpm`, `commander`, `challenge`), 8 files each — knowledge, prompts,
+  `PROVENANCE.json`, `SHA256SUMS`, licence and notice;
+- **0 of 8 lifecycle verbs** (`install`, `doctor`, `load`, `invoke`, `deny`, `upgrade`, `uninstall`, `rollback`) exist
+  in any of them.
+
+So `E06`/`C20` `NOT_RUN` stands, and the gap is "packaged content, no lifecycle", which is a much more actionable
+statement than "absent".
+
+### 16.4 Queue after this pass
+
+**11 DONE / 5 PARKED (4 owner, 1 host) / 0 ready.** Two of the new items failed first and were re-armed, not reported:
+
+- `W16.bench` refused to add its worktree because a detached worktree has `.git` as a *file*, so the `isdir` check
+  missed it; fixed and re-armed.
+- Re-running the bench overwrote the calibrated tool inventory, orphaning W13's evidence. The calibration now lives
+  inside the script, so a re-run regenerates both — an evidence path that a re-run can orphan is not evidence.
+
+Denominator after this pass: W 4 DONE / 11 PARTIAL / 3 NOT_RUN; C 5 DONE / 13 PARTIAL / 7 NOT_RUN.
