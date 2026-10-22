@@ -10,17 +10,39 @@
       "severity": "HIGH",
       "subject": "R14 obligation ledger vs checkpoint narrative",
       "observed": {
-        "obligations_state_distribution": {"DONE": 17, "PARTIAL": 9, "BLOCKED_SOFT": 1, "BLOCKED": 4},
+        "obligations_state_distribution": {
+          "DONE": 17,
+          "PARTIAL": 9,
+          "BLOCKED_SOFT": 1,
+          "BLOCKED": 4
+        },
         "obligations_count": 31,
         "obligations_sha256_receipt": "R14_LEDGER_READBACK.json",
         "branch": "evidence/r14-20261022-native",
-        "commit": "from R14_LEDGER_READBACK.json.source_commit"
+        "commit": "from R14_LEDGER_READBACK.json.source_commit",
+        "evidence_blob_readback": {
+          "EVIDENCE_PRESENT": 20,
+          "EVIDENCE_PARTIAL": 10,
+          "EVIDENCE_MISSING": 1,
+          "DONE_with_all_evidence_present": 12,
+          "DONE_total": 17,
+          "receipt": "workers/r14ledger/per_item.json",
+          "suspect_items": [
+            "R14-TS10",
+            "R14-TS18",
+            "R14-TS21",
+            "R14-TS11",
+            "R14-TS09",
+            "R14-TS14",
+            "R14-TS24"
+          ]
+        }
       },
       "conflict": "The R15.2 command text quotes the R14 checkpoint as 21 DONE / 5 PARTIAL / 4 BLOCKED / 1 SOFT. The machine-readable OBLIGATIONS.json on the same branch reports 17 DONE / 9 PARTIAL / 1 BLOCKED_SOFT / 4 BLOCKED. Neither may be used as a verdict until the per-item candidate raw is recomputed.",
       "decision": "OPEN",
       "owner": "R14 Continuation Owner + Independent AO",
-      "next_legal_step": "Recompute each of the 31 items against its own recorded candidate sha and raw log; publish the per-item table; do not overwrite either existing record.",
-      "far_recommendation": "Treat OBLIGATIONS.json as the primary machine ledger and the checkpoint as narrative. Recompute affected items only (9 PARTIAL + 4 BLOCKED + 1 SOFT = 14), keep the 17 DONE as readback-only unless their candidate sha changed."
+      "next_legal_step": "Read back all 31 items' declared evidence blobs (cheap, already done in workers/r14ledger/per_item.json), THEN deep-recompute the 14 items whose state is PARTIAL/BLOCKED/BLOCKED_SOFT plus the 5 DONE items whose declared evidence was not fully present. Scope is 31 readback + 19 deep, not 31 deep.",
+      "far_recommendation": "Same scope as next_legal_step: 31 readback, 19 deep recompute. Reason: the readback showed 20 EVIDENCE_PRESENT / 10 EVIDENCE_PARTIAL / 1 EVIDENCE_MISSING, and only 12 of the 17 DONE items have every declared artefact present (workers/r14ledger/per_item.json)."
     },
     {
       "tt_id": "TT-R15.2-NATIVE-ISSUER-UNBOUND",
@@ -61,7 +83,10 @@
       "severity": "BLOCKER",
       "subject": "Which Fabric policy digest is active rather than Stage-1 frozen",
       "observed": {
-        "policy_files_hashed": ["FABRIC/control/ACCEPTANCE_POLICY.yaml", "FABRIC/control/CAPABILITY_QUALIFICATION_POLICY.yaml"],
+        "policy_files_hashed": [
+          "FABRIC/control/ACCEPTANCE_POLICY.yaml",
+          "FABRIC/control/CAPABILITY_QUALIFICATION_POLICY.yaml"
+        ],
         "fabric_repo_head": "d62635626d5d2e54fe5bba22a500a17423c85719",
         "fabric_repo_dirty_count": 49
       },
@@ -76,7 +101,10 @@
       "kind": "TT",
       "severity": "BLOCKER",
       "subject": "SWOF W2 rechallenge and W3 domain-owner admission",
-      "observed": {"w2_accepted_readset": "NOT_OBSERVED", "w3_admission": "NOT_OBSERVED"},
+      "observed": {
+        "w2_accepted_readset": "NOT_OBSERVED",
+        "w3_admission": "NOT_OBSERVED"
+      },
       "conflict": "W12/C19 cannot run. Any SWOF write without W3 would be CRITICAL_INVALID_EFFECT.",
       "decision": "OPEN",
       "owner": "SWOF W2/W3 Domain Receiver + HGK",
@@ -88,7 +116,10 @@
       "kind": "TT",
       "severity": "HIGH",
       "subject": "Three ChatGPT private plugins",
-      "observed": {"host_issued_ids": 0, "portable_zips": "not built in this round"},
+      "observed": {
+        "host_issued_ids": 0,
+        "portable_zips": "not built in this round"
+      },
       "conflict": "No official host-issued plugin identity exists; a ZIP hash is not a host registration.",
       "decision": "HOST_PENDING",
       "owner": "ChatGPT Host Owner",
@@ -104,13 +135,112 @@
         "board": "sbl-r15-2-20261022",
         "cards": 18,
         "state": "all blocked with reason NO_NATIVE_WORKORDER_PERMIT",
-        "receipts": ["receipts/kanban_create_board.txt", "receipts/kanban_cards.txt"]
+        "receipts": [
+          "receipts/kanban_create_board.txt",
+          "receipts/kanban_cards.txt"
+        ]
       },
       "conflict": "None: blocking every card is the correct fail-closed state when no permit exists. The board proves claims/leases are not invented.",
       "decision": "NO_ACTION",
       "owner": "Hermes Controller",
       "next_legal_step": "Unblock W00/W01 when the native issuer binds them.",
       "far_recommendation": "Use card ids as the C08 subject so a later run can show claim/lease/heartbeat transitions rather than re-created cards."
+    },
+    {
+      "tt_id": "TT-R15.2-CODEX-CLI-UNUSABLE",
+      "kind": "TT",
+      "severity": "HARD_BLOCKER",
+      "subject": "Codex CLI as the EXECUTE / VERIFY carrier (2 of the 3 stipulated arms)",
+      "observed": {
+        "binary": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe",
+        "binary_sha256": "00c0f1e4099246fddcd67ec620ca8ed50827c7d70e113b7224f7a2933cf2d67c",
+        "version": "codex-cli 0.163.0-alpha.11",
+        "launch": "codex exec --ignore-user-config -C <round> -s read-only --skip-git-repo-check --ephemeral",
+        "exit_code": 0,
+        "model_reached": true,
+        "tool_execution": "EVERY CreateProcess rejected: pwsh.exe -Command pwd blocked by policy, under both -s read-only and -s workspace-write",
+        "relay_protocol": "default config -> 127.0.0.1:10101 returned 404 (relay serves /v1/chat/completions, not /v1/responses)",
+        "direct_upstream": "api.openai.com -> 401 missing scope api.responses.write",
+        "self_reported_verdict": "FAIL with placeholder zeros (execution-capability failure, not manifest drift)",
+        "cross_check": "INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC: 28/28 files byte+sha match, 0 mismatches",
+        "receipt": "workers/codex/RECEIPT.json"
+      },
+      "conflict": "The stipulated plan requires EXECUTE via Codex CLI + MiniMax M3.1 Flash and VERIFY/SECURITY via Codex CLI + GPT 6.1 SOL. On this host Codex CLI reaches a model but cannot spawn any process, and the local relay does not serve the Responses API Codex requires. Therefore 2 of the 3 stipulated arms cannot be executed as specified, and a Codex bounded write would be unverifiable even if a permit existed.",
+      "decision": "OPEN_STOPPED_FOR_OWNER",
+      "owner": "Host Sandbox Owner + HGK Model Pool Owner",
+      "next_legal_step": "Either (a) fix host sandbox policy so codex.exe may spawn its shell AND add a Responses-API route to the relay for gpt-6.1-sol + minimax-m3.1-flash, then re-run the two arms; or (b) the Owner explicitly re-binds EXECUTE and VERIFY to a carrier that works on this host (the relay chat-completions path already serves all three model ids).",
+      "far_recommendation": "Option (b) now, option (a) later. Measured basis: relay /v1/chat/completions returns HTTP 200 with the exact served ids for gpt-6.1-sol and opencode-go/minimax-m3.1-flash-free (receipts/model_*.json), while the codex.exe path fails at both the model protocol layer and the process-spawn layer (workers/codex/RECEIPT.json). Re-binding is reversible and needs one owner decision; rebuilding a Responses route plus sandbox policy is a multi-day host change. Per the user's own rule, this is the point to stop and report."
+    },
+    {
+      "tt_id": "TT-R15.2-OPENSPEC-STRICT-FAIL",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "OpenSpec 1.8.0 strict validation against the SBL worktree",
+      "observed": {
+        "cli": "openspec 1.8.0 (@fission-ai/openspec)",
+        "command": "openspec validate --strict --all --no-interactive",
+        "exit_code": 1,
+        "first_fail": "change/far-r12-20261021: [ERROR] Change must have at least one delta. No deltas found.",
+        "receipt": "workers/openspec/RECEIPT.json"
+      },
+      "conflict": "A pre-existing change (far-r12-20261021) fails strict validation because it has no specs/ delta with ADDED/MODIFIED/REMOVED requirements and no skip_specs: true. This is a real repository-state defect, and it blocks using openspec validate --strict --all as an all-green gate for this round.",
+      "decision": "OPEN",
+      "owner": "OpenSpec Change Owner (far-r12-20261021)",
+      "next_legal_step": "Add the missing delta spec or set skip_specs: true in that change's .openspec.yaml, then re-run strict validate; scope this round's gate to its own change id until then.",
+      "far_recommendation": "Scope to openspec validate <round-change-id> --strict so a pre-existing unrelated defect cannot mask this round's result, and file the far-r12 fix separately."
+    },
+    {
+      "tt_id": "TT-R15.2-GSTACK-NOFIT",
+      "kind": "TT",
+      "severity": "MEDIUM",
+      "subject": "Named method provider gstack",
+      "observed": {
+        "probes_run": 24,
+        "result": "no binary, no npm global, no pip package, no workspace entry point",
+        "residue": "C:/Users/user/.gstack is state only (sessions/, slug-cache/); the *gstack* paths under HG-KSEOS/PIPD are evidence records",
+        "receipt": "workers/gstack/NOFIT_OR_RECEIPT.json"
+      },
+      "conflict": "The contract names gstack as a donor method. No licensed provider exists on this host, so no role-review invocation can be produced.",
+      "decision": "NOFIT_ACCEPTED",
+      "owner": "Method Owner",
+      "next_legal_step": "Install a licensed gstack provider, or accept the local reviewer checklist as the substitute (still not an independent AO).",
+      "far_recommendation": "Accept the substitute for this round; keep disposition DONOR_ONLY so nothing downstream depends on it."
+    },
+    {
+      "tt_id": "TT-R15.2-R14-EVIDENCE-GAP",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "R14 obligations whose declared evidence is not actually in the branch",
+      "observed": {
+        "EVIDENCE_PRESENT": 20,
+        "EVIDENCE_PARTIAL": 10,
+        "EVIDENCE_MISSING": 1,
+        "items_total": 31,
+        "suspect_items": [
+          "R14-TS10",
+          "R14-TS18",
+          "R14-TS21",
+          "R14-TS11",
+          "R14-TS09",
+          "R14-TS14",
+          "R14-TS24"
+        ],
+        "receipts": [
+          "workers/r14ledger/per_item.json",
+          "workers/r14ledger/SUMMARY.json"
+        ]
+      },
+      "conflict": "5 of the 17 items marked DONE in OBLIGATIONS.json do not have every declared evidence artefact present in evidence/r14-20261022-native. A DONE state without its evidence blob is not reproducible.",
+      "decision": "OPEN",
+      "owner": "R14 Continuation Owner + Independent AO",
+      "next_legal_step": "For each of the 7 suspect items: locate the artefact on another ref, or downgrade the item to PARTIAL with a reason. Never synthesize the missing blob.",
+      "far_recommendation": "Downgrade first, search later: an honest PARTIAL is cheaper than a contested DONE, and the search can run without blocking the round."
     }
-  ]
+  ],
+  "counts": {
+    "total": 11,
+    "hard_blocker": 1
+  },
+  "round_state": "NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION",
+  "stop_reason": "user rule: if the stipulated model plan cannot be used, stop and report. Codex CLI (2 of 3 arms) is unusable on this host."
 }

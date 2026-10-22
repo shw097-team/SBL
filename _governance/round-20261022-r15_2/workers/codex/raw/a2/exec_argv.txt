@@ -1,0 +1,21 @@
+C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe
+exec
+--ignore-user-config
+-C
+C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2
+-s
+read-only
+--skip-git-repo-check
+--ephemeral
+-o
+workers/codex/raw/last_message.json
+READ-ONLY AUDIT TASK. Do not write, create, modify, delete or move any file anywhere. Do not run git commands. Work only inside the current working directory.
+
+Verify these three things:
+1. ROUND_MANIFEST.json parses as JSON and its "file_count" field equals the number of entries in its "files" array.
+2. For EVERY entry in ROUND_MANIFEST.json "files": the file at that relative "path" exists on disk, its byte size equals "bytes", and its sha256 equals "sha256". Compute hashes with sha256sum (git-bash POSIX shell is available; quote paths).
+3. CONTRACT.json parses as a JSON object.
+
+Then output ONLY a single-line JSON object, no markdown fence, no prose, with exactly these keys:
+{"verdict":"PASS"|"FAIL","manifest_parses":bool,"file_count_declared":int,"file_count_actual":int,"checked":int,"mismatches":[{"path":str,"reason":str}],"contract_parses":bool}
+verdict is PASS only if all checks pass and mismatches is empty.

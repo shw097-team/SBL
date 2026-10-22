@@ -1,0 +1,376 @@
+{
+  "dag_edges": [
+    ["W00", "W01"],
+    ["W00", "W02"],
+    ["W00", "W03"],
+    ["W00", "W04"],
+    ["W00", "W05"],
+    ["W00", "W10"],
+    ["W00", "W14"],
+    ["W01", "W02"],
+    ["W01", "W03"],
+    ["W01", "W04"],
+    ["W01", "W05"],
+    ["W01", "W06"],
+    ["W02", "W08"],
+    ["W03", "W08"],
+    ["W03", "W09"],
+    ["W05", "W09"],
+    ["W04", "W07"],
+    ["W06", "W07"],
+    ["W08", "W07"],
+    ["W09", "W07"],
+    ["W07", "W11"],
+    ["W10", "W11"],
+    ["W04", "W12"],
+    ["W11", "W12"],
+    ["W06", "W15"],
+    ["W12", "W15"],
+    ["W06", "W16"],
+    ["W12", "W13"],
+    ["W14", "W13"],
+    ["W15", "W13"],
+    ["W16", "W13"],
+    ["W13", "W17"],
+    ["W14", "W17"],
+    ["W15", "W17"],
+    ["W16", "W17"]
+  ],
+  "executable_today": {
+    "decision_basis": "僅依題示限制做 PLAN 判定；未執行命令、未核驗來源、未簽發 permit。DAG 是保守的候選完成依賴，不是既有原生流程的證據；節點內的唯讀前置盤點可先做，但不得據此宣稱上游已完成。",
+    "whole_package_effect_class_eligible": [
+      "W00",
+      "W14",
+      "W16"
+    ],
+    "whole_package_completion_authorized": [],
+    "completion_note": "effect class 相容不等於已具備輸入、原生 owner 權限或完成證據。尤其 W00 的 upstream admission 只能核對既存 admission，不得建立或變更 admission；W16 必須使用既有 B0/B1/B2，不得為取得測量而安裝或修改環境。",
+    "read_only_stage_eligible": [
+      {
+        "id": "W00",
+        "allowed_stage": "來源盤點、記憶體內雜湊與 freeze manifest 投影、既存 CAPC C0-C9 對照、既存 upstream admission 核對。",
+        "effective_effect_class": "READ_ONLY",
+        "why": "宣告類別直接符合今日白名單。",
+        "excluded": [
+          "寫入 freeze 檔案或產生編譯輸出",
+          "建立或變更 upstream admission",
+          "將未提供定義的 CAPC 或 C00-C24 判為通過"
+        ]
+      },
+      {
+        "id": "W01",
+        "allowed_stage": "僅限已證明屬於 HGK 的路徑，讀取既存 issuer、lease、nonce、replay 與 ABI 契約及證據。",
+        "effective_effect_class": "OWNED_HGK_PATHS_ONLY none-write",
+        "why": "今日限制只容許其 none-write 子階段；路徑 ownership 未核實前不得讀取候選路徑。",
+        "excluded": [
+          "簽發 issuer 或 lease 狀態",
+          "消耗 nonce",
+          "修改 replay store",
+          "產生 ABI 輸出",
+          "執行尚未證明零寫入的 conformance harness"
+        ]
+      },
+      {
+        "id": "W10",
+        "allowed_stage": "僅 READ_ONLY_EXPLORE：讀取 OpenSpec 既存規格、既存 validation 證據，以及 gstack 方法需求。",
+        "effective_effect_class": "READ_ONLY",
+        "why": "scope 明確拆出 READ_ONLY_EXPLORE；此許可不延伸至 propose 或 NATIVE_WO 階段。",
+        "excluded": [
+          "執行可能建立檔案的 propose",
+          "執行未證明零副作用的 strict validate",
+          "安裝 gstack",
+          "以其他方法冒充指定的 gstack 方法"
+        ]
+      },
+      {
+        "id": "W14",
+        "allowed_stage": "由可讀來源 atoms 在記憶體內投影六組 denominator、owner 與 coverage。",
+        "effective_effect_class": "SOURCE_ATOMS_PROJECTION_ONLY",
+        "why": "宣告類別直接符合今日白名單。",
+        "excluded": [
+          "修改來源 atoms",
+          "補造 owner",
+          "以題示數字當成已驗證分母",
+          "寫回 coverage 或登錄狀態"
+        ]
+      },
+      {
+        "id": "W16",
+        "allowed_stage": "讀取既存 B0/B1/B2 原始測量；或在已證明零寫入、無外部狀態變更的既有環境執行測量。",
+        "effective_effect_class": "BENCHMARK_READ_ONLY",
+        "why": "宣告類別直接符合今日白名單；完整 matched comparison 仍須滿足 W06 的完成依賴。",
+        "excluded": [
+          "安裝或卸載 benchmark 對象",
+          "建立 cache、log、profile 或結果檔",
+          "改動 host 設定",
+          "以不匹配的環境宣稱 B0/B1/B2 matched"
+        ]
+      }
+    ],
+    "not_included_by_name_similarity": [
+      {
+        "id": "W04",
+        "reason": "READ_ONLY_CANDIDATE 不等於白名單 READ_ONLY；真實 Challenge-SP invocation 的副作用與 distinct checker principal 亦未提供證據。"
+      },
+      {
+        "id": "W05",
+        "reason": "NO_SECOND_PIPD_WRITER 是限制，不是正面的零 permit 執行授權。"
+      },
+      {
+        "id": "W09",
+        "reason": "NO_NEW_SCHEDULER 不代表 claim、lease、heartbeat、cancel 為唯讀。"
+      },
+      {
+        "id": "W12",
+        "reason": "ZERO_EFFECT_UNTIL_W3_ADMIT 是禁止副作用的前置條件，不是 W2/W3 admission 或 patch 的授權。"
+      }
+    ]
+  },
+  "raw_evidence_plan": {
+    "delivery_rule": "下列 file_name 僅為邏輯證據名稱，不代表今天可建立檔案。內容只能輸出至回應或已獲授權且不落盤的 stdout；若接收端會寫 repository、SWOF 或其他未授權位置，則不得執行該輸出流程。",
+    "common_fields": [
+      "subject",
+      "work_package",
+      "stage",
+      "observed_at",
+      "source_refs",
+      "source_digests",
+      "collection_method",
+      "raw_observations",
+      "missing_inputs",
+      "errors",
+      "effect_class",
+      "side_effect_assessment",
+      "execution_status"
+    ],
+    "evidence_rules": [
+      "未實際觀測的欄位使用 null 或明確標示 unavailable，不填造時間、digest、owner、principal 或 PASS。",
+      "raw_observations 保留實際來源位置、逐字輸出或可核對的記錄；摘要不得冒充 raw evidence。",
+      "執行命令時另附 argv、cwd、exit_code、stdout、stderr；敏感內容不得直接外洩，必要時保留受控來源參照。",
+      "副作用未能事前確認為零的命令不得執行；事後沒有看到 diff 不能替代事前邊界確認。"
+    ],
+    "artifacts": [
+      {
+        "work_package": "W00",
+        "file_name": "W00.source-capc-admission.raw.json",
+        "fields": [
+          "common_fields",
+          "source_inventory",
+          "freeze_projection",
+          "capc_definition_ref",
+          "capc_c0_c9_source_map",
+          "upstream_admission_record_refs",
+          "upstream_admission_authority_refs",
+          "checks_c00_c24_definition_refs",
+          "checks_c00_c24_source_map",
+          "first_missing_prerequisite"
+        ]
+      },
+      {
+        "work_package": "W01",
+        "file_name": "W01.hgk-conformance-readonly.raw.json",
+        "fields": [
+          "common_fields",
+          "owned_path_claims",
+          "owned_path_evidence_refs",
+          "issuer_contract_refs",
+          "lease_contract_refs",
+          "nonce_contract_refs",
+          "replay_contract_refs",
+          "abi_contract_refs",
+          "existing_conformance_record_refs",
+          "principal_separation_observations",
+          "unexecuted_stateful_tests"
+        ]
+      },
+      {
+        "work_package": "W10",
+        "file_name": "W10.openspec-gstack-explore.raw.json",
+        "fields": [
+          "common_fields",
+          "openspec_version_claim",
+          "openspec_version_observation",
+          "existing_spec_refs",
+          "existing_strict_validation_record_refs",
+          "named_gstack_method_requirement_ref",
+          "gstack_availability_claim",
+          "gstack_availability_observation",
+          "propose_not_executed",
+          "install_not_executed",
+          "blocked_native_stages"
+        ]
+      },
+      {
+        "work_package": "W14",
+        "file_name": "W14.denominator-owner-projection.raw.json",
+        "fields": [
+          "common_fields",
+          "denominator_definition_refs",
+          "declared_targets",
+          "source_atom_records",
+          "deduplication_rule_ref",
+          "atom_to_denominator_membership",
+          "owner_source_refs",
+          "owner_assignments",
+          "observed_counts",
+          "target_count_deltas",
+          "unowned_atoms",
+          "unresolved_memberships"
+        ],
+        "declared_targets": [
+          50,
+          149,
+          441,
+          38,
+          39,
+          24
+        ],
+        "qualification": "六組 denominator 的名稱與計數規則尚未提供；不得自行命名或推定 membership。"
+      },
+      {
+        "work_package": "W16",
+        "file_name": "W16.b0-b1-b2-matched-measurement.raw.json",
+        "fields": [
+          "common_fields",
+          "measurement_protocol_ref",
+          "b0_definition_ref",
+          "b1_definition_ref",
+          "b2_definition_ref",
+          "environment_identity",
+          "tool_versions",
+          "workload_digest",
+          "configuration_digests",
+          "matching_criteria",
+          "matching_observations",
+          "sample_records",
+          "units",
+          "warmup_policy",
+          "repetition_counts",
+          "aggregation_rule_ref",
+          "w06_completion_evidence_ref",
+          "comparison_eligibility"
+        ]
+      }
+    ]
+  },
+  "permit_gated": {
+    "gate_name_status": "輸入沒有原生 gate registry、TaskSpec schema、permit schema 或 gate 定義來源，因此不能誠實提供已核實的精確原生 gate 名稱。以下 native_gate_name 均為 null；required_gate_condition 是必須解析至原生 gate 的條件，不是假造的 gate 名稱。",
+    "global_rule": "原生 permit 是必要條件而非充分條件。今日 any repo write、any SWOF write、any release、any host install 仍一律禁止；即使取得 permit，也不能在未變更今日上位限制前執行。",
+    "packages": [
+      {
+        "id": "W00",
+        "native_gate_name": null,
+        "required_gate_condition": "若 upstream admission 含狀態變更，須先取得該 admission authority 的原生 WO 與對應 permit；僅既存記錄核對不需開啟此階段。"
+      },
+      {
+        "id": "W01",
+        "native_gate_name": null,
+        "required_gate_condition": "超出 none-write 的 conformance invocation，須有涵蓋 owned paths、issuer、lease、nonce、replay 與 ABI 實際效果的原生授權。"
+      },
+      {
+        "id": "W02",
+        "native_gate_name": null,
+        "required_gate_condition": "Fabric scope policy owner 授權，明定 RP002 active policy 版本、HGK APL 六條 edge 與 consumption 效果。"
+      },
+      {
+        "id": "W03",
+        "native_gate_name": null,
+        "required_gate_condition": "candidate plugin adapter 的真實 invocation 授權及原生 TaskSpec/WO candidate 契約；candidate 不得視為已簽發 WO 或 permit。"
+      },
+      {
+        "id": "W04",
+        "native_gate_name": null,
+        "required_gate_condition": "VERIFY_SECURITY 真實 Challenge-SP invocation 授權、可驗證的 distinct checker principal 與零副作用邊界。"
+      },
+      {
+        "id": "W05",
+        "native_gate_name": null,
+        "required_gate_condition": "既有 PIPD owner 的原生 trace WO，明定 8 skills、19 contract families、13 CLI verbs，且不得建立第二 writer。"
+      },
+      {
+        "id": "W06",
+        "native_gate_name": null,
+        "required_gate_condition": "涵蓋六模組與三種 real kinds 的 standalone install/run/uninstall 授權；今日 host install 與任何 repository write 仍禁止。"
+      },
+      {
+        "id": "W07",
+        "native_gate_name": null,
+        "required_gate_condition": "以實測 first-fail 為輸入的 authorized repair cone，包含可寫路徑、效果上限及停止條件；evolution candidate 不得自行擴權。"
+      },
+      {
+        "id": "W08",
+        "native_gate_name": null,
+        "required_gate_condition": "原生 configuration WO，明定三 lane 的 required/served rank、epoch、digest 與配置 owner。"
+      },
+      {
+        "id": "W09",
+        "native_gate_name": null,
+        "required_gate_condition": "Hermes 原生 claim/lease/heartbeat/cancel 與 swarm fan-in 授權，使用既有 scheduler，不得另建 scheduler。"
+      },
+      {
+        "id": "W10",
+        "native_gate_name": null,
+        "required_gate_condition": "READ_ONLY_EXPLORE 之後的原生 WO，以及指定 gstack 方法的真實可用性證據；gstack ABSENT 不能靠 permit 消除，今日亦不得安裝。"
+      },
+      {
+        "id": "W11",
+        "native_gate_name": null,
+        "required_gate_condition": "已簽署 mission ceiling 與 bounded standing grant，明定 FAR typed recommendation、resume 範圍、期限及撤銷條件。"
+      },
+      {
+        "id": "W12",
+        "native_gate_name": null,
+        "required_gate_condition": "原生 W2 rechallenge、W3 admission 及 SWOF patch 授權；未完成 W3 admission 前維持 zero effect，今日 SWOF write 仍禁止。"
+      },
+      {
+        "id": "W13",
+        "native_gate_name": null,
+        "required_gate_condition": "release owner 的原生 WO/permit，涵蓋五工具、三 deterministic ZIP 與三 private hosts；今日 release 及 host install 仍禁止。"
+      },
+      {
+        "id": "W15",
+        "native_gate_name": null,
+        "required_gate_condition": "release owner WO，涵蓋 secure CI、SBOM、provenance、secret scan 與 independent AO；不得將一般 CI 執行視為純唯讀。"
+      },
+      {
+        "id": "W17",
+        "native_gate_name": null,
+        "required_gate_condition": "原生 affected-only transport WO，包含 R14 31 TS/31 CHK 的來源、受影響範圍與 final adjudication authority；PLAN 不自行作成最終裁定。"
+      }
+    ],
+    "read_only_completion_gates": [
+      {
+        "id": "W14",
+        "native_gate_name": null,
+        "required_gate_condition": "來源 atoms、六組 denominator 定義與真實 owner 證據齊備；這是證據完整性條件，不是寫入 permit。"
+      },
+      {
+        "id": "W16",
+        "native_gate_name": null,
+        "required_gate_condition": "既有 B0/B1/B2、匹配測量協定與 W06 完成證據齊備；若需 install 或其他副作用，必須停止而非擴張 BENCHMARK_READ_ONLY。"
+      }
+    ]
+  },
+  "first_action": {
+    "work_package": "W00",
+    "action": "先做 source-admissibility 唯讀前置盤點：從已授權的來源定位 freeze manifest、CAPC C0-C9 定義、C00-C24 定義、native gate registry 與既存 upstream admission 記錄，逐項核對來源位置、digest 及 authority 參照。",
+    "why_highest_value": "這一步直接決定後續 DAG 的證據基線、gate 名稱能否精確解析，以及哪些後續工作只是候選。先執行工具鏈或 benchmark 不能補足這些根依賴。",
+    "execution_boundary": "目前只收到描述性 JSON，沒有來源 root 或工具執行介面；不得猜測路徑、啟動未知副作用命令或建立任何檔案。codex_cli 路徑、OpenSpec 版本與 gstack 狀態目前均屬使用者提供的聲明，尚非獨立觀測。",
+    "expected_first_fail": {
+      "status": "PREDICTED_NOT_OBSERVED",
+      "local_diagnostic": "SOURCE_BASELINE_NOT_RESOLVED",
+      "diagnostic_is_native_gate_name": false,
+      "reason": "輸入未提供可解析的來源 root、freeze manifest 或其 digest，亦未提供 CAPC、C00-C24 與原生 gate registry 定義，因此第一個失敗預期發生在證據來源定位，而不是任一技術 conformance check。",
+      "stop_condition": "任一必要來源無法定位或無法確認讀取權限時，停止該分支；不得將缺件映射成 C00-C24 中任一特定 FAIL，也不得宣稱任何 check PASS。",
+      "next_required_input": [
+        "已授權的唯讀來源 root 或來源內容",
+        "freeze manifest 參照及預期 digest",
+        "CAPC C0-C9 與 C00-C24 定義參照",
+        "native gate registry 與 permit/WO schema 參照",
+        "既存 upstream admission 記錄與 authority 參照"
+      ]
+    },
+    "secondary_known_blocker": "W10 後續指定 gstack 方法依題示為 ABSENT；它不是目前 W00 的 first-fail，且不得以今日禁止的 host install 修復。",
+    "expected_evidence": "W00.source-capc-admission.raw.json 的非落盤內容；缺件照實列入 missing_inputs，execution_status 不得標示完成。"
+  }
+}

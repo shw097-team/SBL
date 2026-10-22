@@ -1,0 +1,5 @@
+C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe exec -c openai_base_url="https://api.openai.com/v1" -m gpt-5.1-codex -C C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2 -s read-only --skip-git-repo-check --ephemeral -o workers/codex/raw/last_message.json READ-ONLY AUDIT. Do not write/create/modify/delete/move any file. Do not run git. Work only in the current directory.
+1. Parse ROUND_MANIFEST.json; check "file_count" equals len("files").
+2. For every entry in "files": file exists, size == "bytes", sha256 == "sha256" (use a shell command you are permitted to run).
+3. Parse CONTRACT.json as a JSON object.
+Output ONLY one line of JSON: {"verdict":"PASS"|"FAIL","manifest_parses":bool,"file_count_declared":int,"file_count_actual":int,"checked":int,"mismatches":[{"path":str,"reason":str}],"contract_parses":bool}

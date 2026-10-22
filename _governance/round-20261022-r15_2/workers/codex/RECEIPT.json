@@ -1,0 +1,108 @@
+{
+  "schema": "SBL_R15_2_CODEX_EXEC_RECEIPT/1",
+  "worker": "codex",
+  "round": "round-20261022-r15_2",
+  "binary_path": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe",
+  "binary_sha256": "00c0f1e4099246fddcd67ec620ca8ed50827c7d70e113b7224f7a2933cf2d67c",
+  "binary_version": "codex-cli 0.163.0-alpha.11",
+  "binary_is_newest": true,
+  "auth_mode": "ChatGPT (codex login status: Logged in using ChatGPT)",
+  "argv_exact": "C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe exec --ignore-user-config -C C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2 -s read-only --skip-git-repo-check --ephemeral -o workers/codex/raw/last_message.json 'READ-ONLY AUDIT TASK. Do not write, create, modify, delete or move any file anywhere. Do not run git commands. Work only inside the current working directory.\n\nVerify these three things:\n1. ROUND_MANIFEST.json parses as JSON and its \"file_count\" field equals the number of entries in its \"files\" array.\n2. For EVERY entry in ROUND_MANIFEST.json \"files\": the file at that relative \"path\" exists on disk, its byte size equals \"bytes\", and its sha256 equals \"sha256\". Compute hashes with sha256sum (git-bash POSIX shell is available; quote paths).\n3. CONTRACT.json parses as a JSON object.\n\nThen output ONLY a single-line JSON object, no markdown fence, no prose, with exactly these keys:\n{\"verdict\":\"PASS\"|\"FAIL\",\"manifest_parses\":bool,\"file_count_declared\":int,\"file_count_actual\":int,\"checked\":int,\"mismatches\":[{\"path\":str,\"reason\":str}],\"contract_parses\":bool}\nverdict is PASS only if all checks pass and mismatches is empty.'",
+  "argv": [
+    "C:/Users/user/AppData/Local/OpenAI/Codex/bin/6257d9e8f63c0f2b/codex.exe",
+    "exec",
+    "--ignore-user-config",
+    "-C",
+    "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2",
+    "-s",
+    "read-only",
+    "--skip-git-repo-check",
+    "--ephemeral",
+    "-o",
+    "workers/codex/raw/last_message.json",
+    "READ-ONLY AUDIT TASK. Do not write, create, modify, delete or move any file anywhere. Do not run git commands. Work only inside the current working directory.\n\nVerify these three things:\n1. ROUND_MANIFEST.json parses as JSON and its \"file_count\" field equals the number of entries in its \"files\" array.\n2. For EVERY entry in ROUND_MANIFEST.json \"files\": the file at that relative \"path\" exists on disk, its byte size equals \"bytes\", and its sha256 equals \"sha256\". Compute hashes with sha256sum (git-bash POSIX shell is available; quote paths).\n3. CONTRACT.json parses as a JSON object.\n\nThen output ONLY a single-line JSON object, no markdown fence, no prose, with exactly these keys:\n{\"verdict\":\"PASS\"|\"FAIL\",\"manifest_parses\":bool,\"file_count_declared\":int,\"file_count_actual\":int,\"checked\":int,\"mismatches\":[{\"path\":str,\"reason\":str}],\"contract_parses\":bool}\nverdict is PASS only if all checks pass and mismatches is empty."
+  ],
+  "cwd": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2",
+  "exit_code": 0,
+  "verdict": "FAIL",
+  "verdict_source": "codex exec stdout (model final message)",
+  "codex_final_message_raw": "{\"verdict\":\"FAIL\",\"manifest_parses\":false,\"file_count_declared\":0,\"file_count_actual\":0,\"checked\":0,\"mismatches\":[{\"path\":\"ROUND_MANIFEST.json\",\"reason\":\"Audit could not run: execution policy blocked PowerShell and Git Bash. Parse status and counts are unverified; zeros are placeholders.\"},{\"path\":\"CONTRACT.json\",\"reason\":\"JSON object parsing could not be verified because command execution was blocked.\"}],\"contract_parses\":false}",
+  "adjudication": "Codex CLI DOES expose a non-interactive path (codex exec) and it was actually launched; BLOCKED_NO_NONINTERACTIVE_PATH does not apply. The run completed with exit code 0 and a model turn, but every shell invocation was rejected by the host sandbox policy (CreateProcess ... Rejected(\"pwsh.exe -Command pwd\" rejected: blocked by policy)), so the model could not read or hash any file and returned verdict FAIL with placeholder zeros and the explicit reason 'Audit could not run: execution policy blocked PowerShell and Git Bash'. Thus the FAIL is an execution-capability failure of this host, NOT evidence of manifest/hash drift. A separate, clearly labelled read-only Hermes check (raw/independent_check.json, label INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC) found file_count 28=28, all 28 sha256+byte sizes matching, 0 mismatches, CONTRACT.json parsing as a JSON object. Conclusion: round directory is internally consistent per independent check, but this Codex invocation produced no affirmative on-disk verification and must not be cited as a Codex PASS.",
+  "blocked_by": "windows_sandbox_process_spawn_policy (reproduced identically under -s read-only and -s workspace-write; a pwd-only probe also returned BLOCKED)",
+  "failed_attempts": [
+    {
+      "attempt": 1,
+      "why": "default config routes to local adapter http://127.0.0.1:10101/v1 (model nvidia/01-ai-yi-large); websocket 426 then 404 Not found for account",
+      "exit_code": 1,
+      "files": [
+        "raw/exec_stdout_attempt1.txt",
+        "raw/exec_stderr_attempt1.txt",
+        "raw/exec_argv_attempt1.txt",
+        "raw/exit_code_attempt1.txt"
+      ]
+    },
+    {
+      "attempt": 3,
+      "why": "override base_url=https://api.openai.com/v1 + -m gpt-5.1-codex; 401 insufficient permissions (missing scopes api.responses.write)",
+      "exit_code": 1,
+      "files": [
+        "raw/a3_stdout.txt",
+        "raw/a3_stderr.txt",
+        "raw/a3_argv_preview.txt"
+      ]
+    },
+    {
+      "attempt": 4,
+      "why": "pwd-only probe under -s read-only with --ignore-user-config: model returned BLOCKED (spawn denied)",
+      "exit_code": 0,
+      "files": [
+        "raw/a4_stdout.txt",
+        "raw/a4_stderr.txt"
+      ]
+    },
+    {
+      "attempt": 5,
+      "why": "pwd-only probe under -s workspace-write rooted in a Hermes scratch dir: model returned BLOCKED (spawn denied)",
+      "exit_code": 0,
+      "files": [
+        "raw/a5_out.txt",
+        "raw/a5_err.txt"
+      ]
+    }
+  ],
+  "write_effects_outside_workers_dir": [],
+  "independent_check": {
+    "label": "INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC",
+    "manifest_parses": true,
+    "file_count_declared": 28,
+    "file_count_actual": 28,
+    "checked_ok": 28,
+    "mismatches": [],
+    "contract_parses": true,
+    "verdict": "PASS"
+  },
+  "timestamp_utc": "2026-10-22T12:47:50Z",
+  "raw_sha256_map": {
+    "a3_argv_preview.txt": "065d86ea74f18e5750f8079ffefc76b9096783ea98db01acd58385cac1bb5eda",
+    "a3_stderr.txt": "6848f3795b41f40210f5bc5d67f30d9dbd13b9aa601e573e73a5033b92bff9cd",
+    "a3_stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "a4_stderr.txt": "db8b458a7a711376b5f9f33540f08f4bacaabd65c96eb2afc1145ff96976df98",
+    "a4_stdout.txt": "57ae2fe82645cb38f3b828263b6ee49a867e4d57a08fcc77c2306594981188d2",
+    "a5_err.txt": "341c9cdb3fb63da8a35567d3913c19816a10112089c65cc7053cf75ed868bb2d",
+    "a5_out.txt": "57ae2fe82645cb38f3b828263b6ee49a867e4d57a08fcc77c2306594981188d2",
+    "binary_sha256.txt": "e87a6bc4023d67c925d317b5c4690e06a06110e2c8d7a87ee2b32eebc46b1ad8",
+    "exec_argv.txt": "818c0d2f9896debd22411d56416751f597d319287efd32936fc291287da963ab",
+    "exec_argv_attempt1.txt": "9cd40089ddeee3bc91cc16c1e2e963f79c03bc0e828e48fb2fc360b3913e3b38",
+    "exec_help.txt": "df0d864ca2076f7654288c6a1e3394e3eaa2ea8f15021df2524efdd90c70986c",
+    "exec_stderr.txt": "83a37b0ffef0ca1e9348e396462c060b32441fa8cb09ed5a23a1f8f6e3f05cb5",
+    "exec_stderr_attempt1.txt": "9438a5e01cc77a202af463422822d447385daa0469eb0156888b61fe54c8f2d2",
+    "exec_stdout.txt": "a2f2d26dcd46b12b3b6b00c0011d0f331c80472155dfb0696d029ff2c7354177",
+    "exec_stdout_attempt1.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "exit_code_attempt1.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "help.txt": "4a7f0188d4d6e6d812c5cfbcf82468336b899acd5e437de7450421a403c0071e",
+    "independent_check.json": "6b9461e7dd5bfdff7cdb63991412b0a57db41e6c0f36f93d635023b9927119e2",
+    "last_message.json": "2afde9dc5c4a85f82cc4d8d4032d80dc733903c3a2a65d75440f58108b6628b0",
+    "version.txt": "e1f0dfd633576487161a7dc09baa66e592712ee449fe295465f3ce32e0a7e2ac"
+  }
+}

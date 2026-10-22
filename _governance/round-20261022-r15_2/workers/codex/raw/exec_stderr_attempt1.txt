@@ -1,0 +1,31 @@
+Reading additional input from stdin...
+OpenAI Codex v0.163.0-alpha.11
+--------
+workdir: C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+model: nvidia/01-ai-yi-large
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a163a4-af8a-7e42-acc2-bfcbd388358b
+--------
+user
+READ-ONLY AUDIT TASK. Do not write, create, modify, delete or move any file anywhere. Do not run git commands. Work only inside the current working directory.
+
+Verify these three things:
+1. ROUND_MANIFEST.json parses as JSON and its "file_count" field equals the number of entries in its "files" array.
+2. For EVERY entry in ROUND_MANIFEST.json "files": the file at that relative "path" exists on disk, its byte size equals "bytes", and its sha256 equals "sha256". Compute hashes with sha256sum (git-bash POSIX shell is available; quote paths).
+3. CONTRACT.json parses as a JSON object.
+
+Then output ONLY a single-line JSON object, no markdown fence, no prose, with exactly these keys:
+{"verdict":"PASS"|"FAIL","manifest_parses":bool,"file_count_declared":int,"file_count_actual":int,"checked":int,"mismatches":[{"path":str,"reason":str}],"contract_parses":bool}
+verdict is PASS only if all checks pass and mismatches is empty.
+2026-10-22T12:45:00.354485Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses
+ERROR: Reconnecting... 1/5
+ERROR: Reconnecting... 2/5
+ERROR: Reconnecting... 3/5
+ERROR: Reconnecting... 4/5
+ERROR: Reconnecting... 5/5
+ERROR: unexpected status 404 Not Found: Provider error 404: Function '23bd454d-b225-49a3-8118-582a62fc51b8': Not found for account 'PjvVrykNhLTcSiQjLEwoAx3mKR3LI2lQNV9MYMioC-0', url: http://127.0.0.1:10101/v1/responses
+ERROR: unexpected status 404 Not Found: Provider error 404: Function '23bd454d-b225-49a3-8118-582a62fc51b8': Not found for account 'PjvVrykNhLTcSiQjLEwoAx3mKR3LI2lQNV9MYMioC-0', url: http://127.0.0.1:10101/v1/responses

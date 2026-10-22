@@ -58,3 +58,46 @@ python scripts/prompt_contract_compiler.py compile    CONTRACT.json --out-dir ou
 ```
 
 Expected: four exit-0, one `contract_sha256`, `PROMPT_COMPILE_PASS`.
+
+## 7. Execution addendum — the stipulated model plan was actually exercised (and stopped on a hard blocker)
+
+This section supersedes any earlier wording that implied the three arms were only probed. All rows below are backed by
+raw files under `receipts/` and `workers/`.
+
+| Stipulated arm | What was really run | Raw receipt | Verdict |
+|---|---|---|---|
+| PLAN = GPT 6.1 SOL-MEDIUM | `gpt-6.1-sol` via relay `/v1/chat/completions`, full 18-package brief; returned 13,028 chars / 4,858 completion tokens incl. a 35-edge DAG | `receipts/PLAN_commander_dag.json`, `.content.json`, `.http` | REAL RUN (served id matched) |
+| VERIFY / SECURITY = GPT 6.1 SOL | `gpt-6.1-sol` adversarial review of this very status + TT + contract summary; returned 4,364 chars / 2,279 tokens with HIGH findings, including a real contradiction inside TT-R15.2-LEDGER-DIVERGENCE | `receipts/VERIFY_challenge_gpt61sol.*` | REAL RUN — but NOT an AO pass, and not the registry-bound checker arm |
+| EXECUTE = Codex CLI + MiniMax M3.1 Flash | `codex.exe` 0.163.0-alpha.11 really launched (`codex exec ... -s read-only --ephemeral`), reached a model, exit 0 — then every `CreateProcess` was rejected by host policy, so it could read nothing | `workers/codex/RECEIPT.json` | **HARD BLOCKER** |
+| VERIFY carrier = Codex CLI | same binary, same spawn rejection; relay also lacks `/v1/responses` (404) and direct upstream returns 401 `api.responses.write` | `workers/codex/RECEIPT.json` | **HARD BLOCKER** |
+| SWARM | 4 parallel leaf workers (delegation `deleg_7b546db6`), 62 artefacts | `WORKER_RECEIPTS.json` | REAL RUN (workers inherit `deepseek-v4.1-flash`, not a lane model) |
+| KANBAN | board `sbl-r15-2-20261022`, 18 cards, all blocked `NO_NATIVE_WORKORDER_PERMIT` | `receipts/kanban_cards.txt` | REAL (no dispatch) |
+| OPENSPEC | `openspec validate --strict --all --no-interactive` exit 1 — pre-existing change `far-r12-20261021` has no delta specs | `workers/openspec/RECEIPT.json` | FAIL (real repo defect) |
+| GSTACK | 24 probes, no provider anywhere; `~/.gstack` is state residue only | `workers/gstack/NOFIT_OR_RECEIPT.json` | NOFIT |
+
+### Stop reason (per the user's own rule)
+
+> 若無法使用以上模型方案，你必須直接暫停任務，並告知用戶！
+
+Two of the three stipulated arms (EXECUTE, VERIFY/SECURITY) are carried by Codex CLI. On this host Codex CLI
+reaches a model but **cannot spawn a single process**, and the local relay does not serve the Responses API it
+needs. A Codex bounded write would therefore be unverifiable even if a permit existed. The round is stopped here
+with `round_state = NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION`; `TT-R15.2-CODEX-CLI-UNUSABLE` carries the
+measured basis and two remediation options.
+
+Nothing was signed. No repository effect was taken. The FACT that PLAN and VERIFY ran on `gpt-6.1-sol` raises the
+evidence ceiling for those two arms only — it does not make the round a PASS.
+
+### New blockers found by this round's own execution
+
+- `TT-R15.2-CODEX-CLI-UNUSABLE` (HARD_BLOCKER)
+- `TT-R15.2-R14-EVIDENCE-GAP`: only 12 of 17 R14 DONE items have all declared evidence present in the branch
+  (20 PRESENT / 10 PARTIAL / 1 MISSING across 31).
+- `TT-R15.2-OPENSPEC-STRICT-FAIL`: `far-r12-20261021` has no deltas.
+- `TT-R15.2-GSTACK-NOFIT`.
+
+### Self-check cross-reference
+
+`workers/codex/raw/independent_check.json` is explicitly labelled
+`INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC`: 28/28 manifest files byte- and sha256-match, 0 mismatches, CONTRACT.json
+valid. It is not a Codex result and must never be cited as one.

@@ -1,0 +1,104 @@
+{
+  "round": "r15_2 / readback of R14 ledger",
+  "branch": "evidence/r14-20261022-native",
+  "branch_commit": "e6623ba1e9a4a477d07048cd3a5a906f33d6029d",
+  "items_total": 31,
+  "counts_by_state": {
+    "DONE": 17,
+    "PARTIAL": 9,
+    "BLOCKED_SOFT": 1,
+    "BLOCKED": 4
+  },
+  "counts_by_classification": {
+    "EVIDENCE_PRESENT": 20,
+    "EVIDENCE_PARTIAL": 10,
+    "EVIDENCE_MISSING": 1
+  },
+  "state_x_classification": {
+    "DONE": {
+      "EVIDENCE_PRESENT": 12,
+      "EVIDENCE_PARTIAL": 5
+    },
+    "PARTIAL": {
+      "EVIDENCE_MISSING": 1,
+      "EVIDENCE_PARTIAL": 5,
+      "EVIDENCE_PRESENT": 3
+    },
+    "BLOCKED_SOFT": {
+      "EVIDENCE_PRESENT": 1
+    },
+    "BLOCKED": {
+      "EVIDENCE_PRESENT": 4
+    }
+  },
+  "done_items_total": 17,
+  "done_items_all_evidence_present": 12,
+  "done_items_with_gaps": 5,
+  "done_gap_detail": [
+    {
+      "id": "R14-TS09",
+      "missing": [
+        "HG-KSEOS scripts/f0_trace.py"
+      ]
+    },
+    {
+      "id": "R14-TS14",
+      "missing": [
+        "HG-KSEOS scripts/pi_compile_h0.py"
+      ]
+    },
+    {
+      "id": "R14-TS18",
+      "missing": [
+        "raw/ts18_gknow.md",
+        "HG-KSEOS src/hg_kseos/knowledge.py citation_integrity/detect_conflicts",
+        "HG-KSEOS src/hg_kseos/security.py INJECTION_PATTERNS (CJK set)"
+      ]
+    },
+    {
+      "id": "R14-TS21",
+      "missing": [
+        "raw/ts1921_evidence_anchors.csv"
+      ]
+    },
+    {
+      "id": "R14-TS24",
+      "missing": [
+        "HG-KSEOS scripts/ts24_w3_route_out.py"
+      ]
+    }
+  ],
+  "in_branch_missing_paths": [
+    "raw/ts10_lifecycle/SUMMARY.json",
+    "raw/ts10_lifecycle/VERBS.md",
+    "raw/ts10_lifecycle/receipts.json",
+    "raw/ts11_SUMMARY.md",
+    "raw/ts11_build_output/",
+    "raw/ts18_gknow.md",
+    "raw/ts1921_evidence_anchors.csv"
+  ],
+  "external_cross_repo_refs_not_in_branch": [
+    "HG-KSEOS scripts/f0_trace.py",
+    "HG-KSEOS scripts/pi_compile_h0.py",
+    "HG-KSEOS scripts/ts24_w3_route_out.py",
+    "HG-KSEOS scripts/ts29_debt_closure.py",
+    "HG-KSEOS src/hg_kseos/knowledge.py citation_integrity/detect_conflicts",
+    "HG-KSEOS src/hg_kseos/security.py INJECTION_PATTERNS (CJK set)",
+    "HG-KSEOS src/hg_kseos/semantic_oracle.py",
+    "HG-KSEOS tests/test_semantic_oracle.py"
+  ],
+  "resolution_policy": {
+    "round_base": "_governance/round-20261022-r14/",
+    "order": "(1) _governance/-prefixed -> repo-root-relative; (2) HG-KSEOS-prefixed -> cross-repo, unresolvable in branch, counted missing; (3) else round-relative, then repo-root-relative, then round-relative raw/ for bare filenames",
+    "match_rule": "git cat-file -e <branch>:<candidate> == 0; sha via git rev-parse <branch>:<candidate>"
+  },
+  "notes": [
+    "readback only; no verdict recomputed",
+    "no tests run; no writes to the repo",
+    "presence != correctness: blob content was not judged",
+    "HG-KSEOS-prefixed refs point at a separate repo and can never resolve inside this branch; they are counted missing per the branch-only rule but are listed separately so they are not read as absent artefacts",
+    "R14-TS11 declares raw/ts11_build_output/ (a directory); absent as both tree and blob anywhere in the branch",
+    "R14-TS10 declares raw/ts10_lifecycle/{receipts.json,VERBS.md,SUMMARY.json}; the directory exists in-branch but only with doctor.after.json, stack.json.after, stack.json.before"
+  ],
+  "note": "readback only; no verdict recomputed"
+}
