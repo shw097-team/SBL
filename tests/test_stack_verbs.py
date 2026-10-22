@@ -77,6 +77,40 @@ class StackVerbTests(unittest.TestCase):
             sbl_stack.invoke(target, "NOT_A_MODE")
         self.assertEqual(caught.exception.code, "SBL_E_PROHIBITED_KIND")
 
+    def test_doctor_refuses_a_tampered_manifest_with_a_typed_code_and_no_traceback(self) -> None:
+        """NEG: an edited digest and a removed entry are typed refusals, not silent failures or crashes."""
+
+        import contextlib
+        import io
+        import re
+
+        from sbl_stack.cli import main
+
+        def tampered(shape: str) -> Path:
+            target = self.root / f"stack-{shape}"
+            self.assertTrue(sbl_stack.install(target)["ok"])
+            manifest_path = target / "stack.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            first = sorted(manifest["components"])[0]
+            if shape == "digest-edited":
+                manifest["components"][first] = "0" * 64
+            else:
+                manifest["components"].pop(first)
+            manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+            return target
+
+        for shape in ("digest-edited", "entry-removed"):
+            with self.subTest(shape=shape):
+                buffer = io.StringIO()
+                with contextlib.redirect_stdout(buffer):
+                    rc = main(["doctor", "--root", str(tampered(shape))])
+                output = buffer.getvalue()
+                self.assertNotEqual(rc, 0, output)
+                self.assertNotIn("Traceback", output)
+                payload = json.loads(output)
+                self.assertIs(payload["ok"], False)
+                self.assertRegex(payload["code"], r"^SBL_E_[A-Z_]+$")
+
     def test_upgrade_refuses_a_noop(self) -> None:
         target = self.installed()
         current = target / "stack.json"
