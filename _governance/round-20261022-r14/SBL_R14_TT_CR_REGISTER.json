@@ -380,6 +380,70 @@
       "evidence": [
         "raw/capability_delta.json"
       ]
+    },
+    {
+      "id": "TT-R14-020",
+      "title": "The shipped Fabric policy consumer cannot route at all",
+      "first_broken_link": "hgk_policy_consumer.py hardcodes FAB/'rp002'/RP002_CHANGE_CLASS_ROUTER.yaml i.e. Fabric\rp002, while the canonical file is Fabric\\FABRIC\rp002; selfcheck dies with FileNotFoundError",
+      "earliest_owner": "Fabric owner",
+      "required_authority": "Fabric contract face (not this round's)",
+      "repair_cone": "FAB = Fabric / 'FABRIC'; until then every consumer of that module reports no route. Traced around in scripts/f0_trace.py, not patched into Fabric",
+      "status": "OPEN_REPORTED",
+      "blocking": [
+        "R14-TS09"
+      ],
+      "evidence": [
+        "raw/ts09_f0_trace.json"
+      ]
+    },
+    {
+      "id": "TT-R14-021",
+      "title": "The R12 13/14 stack drift was a version-skewed manifest, closed only by re-install",
+      "first_broken_link": "stack.json pinned 0.1.0/py3.11.9 while the active distribution is 0.1.1rc1/py3.11.17; doctor re-resolves modules from its own interpreter, so 13 of 14 digests disagree",
+      "earliest_owner": "stack installer user (upgrade path)",
+      "required_authority": "none (lifecycle verbs exist)",
+      "repair_cone": "install into the existing root is REFUSED (SBL_E_FOREIGN_FILES); the supported path is uninstall->install, which re-pins 14 components and yields doctor ok=true, 0 problems (preimage kept)",
+      "status": "CLOSED",
+      "closed_by": "SBL-install/stack re-install 2026-10-22",
+      "evidence": [
+        "raw/ts10_lifecycle/doctor.after.json",
+        "raw/ts10_lifecycle/stack.json.after"
+      ]
+    },
+    {
+      "id": "TT-R14-022",
+      "title": "Three inventories reconcile at 50/149/441/38 but carry no per-row execution evidence",
+      "first_broken_link": "ts19 children all carry raw_evidence=null, ts21 install_evidence is RECORDED_ONLY and deny_evidence says NO_PER_SURFACE_RAW_DENY_REFERENCE_IN_LEDGER, ts20 has digests but no live per-record receipt",
+      "earliest_owner": "SBL evidence-ledger owner",
+      "required_authority": "none",
+      "repair_cone": "structure is measured (0 orphans by set subtraction); per-row receipts must be produced before any M4 claim",
+      "status": "OPEN_DOCUMENTED",
+      "blocking": [
+        "R14-TS19",
+        "R14-TS20",
+        "R14-TS21"
+      ],
+      "evidence": [
+        "raw/ts19_traceability.csv",
+        "raw/ts21_surfaces.csv"
+      ]
+    },
+    {
+      "id": "R14-TS27-DENOM",
+      "title": "Semantic denominator proposed, unsigned, total UNMEASURED",
+      "first_broken_link": "1,743 review packets measured and a signature block defined, but only the PIPD Source Owner may sign, so no semantic percentage exists",
+      "earliest_owner": "PIPD Source Owner",
+      "required_authority": "Source Owner signature",
+      "repair_cone": "sign the proposal (doc version + digest + scope), then statuses can move from UNKNOWN to measured",
+      "status": "OPEN_REPORTED",
+      "blocking": [
+        "R14-TS27",
+        "R14-TS30"
+      ],
+      "evidence": [
+        "raw/ts27_denominator_proposal.md",
+        "raw/ts27_denominator.json"
+      ]
     }
   ]
 }

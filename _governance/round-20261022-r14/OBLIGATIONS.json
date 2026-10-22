@@ -123,26 +123,38 @@
     {
       "id": "R14-TS10",
       "title": "五工具獨立 Host 部署 E06/M1",
-      "state": "OPEN",
-      "next_action": "five-tool host lifecycle: installer/doctor/load/invoke/deny/upgrade/uninstall/rollback",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "build load/invoke/upgrade/rollback for the stack tool, then repeat the 8 verbs for the other four tools",
+      "evidence": [
+        "raw/ts10_12_PLAN.md",
+        "raw/stack.json.before",
+        "raw/ts10_lifecycle/doctor.after.json",
+        "raw/ts10_lifecycle/stack.json.after"
+      ],
+      "depends_on": [],
+      "note": "The R12 13/14 digest debt is CLOSED by a real lifecycle, not by editing the number: doctor reproduced 13/14 'digest changed since install' (manifest 0.1.0/py3.11.9 vs active 0.1.1rc1/py3.11.17), `install` into the existing dir was REFUSED with SBL_E_FOREIGN_FILES (a real deny path), so uninstall->install was used: 14 components re-pinned (13 digests changed, 1 identical) and doctor now returns ok=true, 0 problems. Preimage kept. Verbs evidenced for the Full Stack tool: install, uninstall, doctor, deny -> 4/8; load / invoke / upgrade / rollback still MISSING. The other four tools have not been walked through any verb yet."
     },
     {
       "id": "R14-TS11",
       "title": "三 SP ZIP 正式可分發 E06/M1/M4",
-      "state": "OPEN",
-      "next_action": "three SP ZIPs: deterministic double build, SBOM/licence/secret scan, release rewrite readback",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "install or replace the missing scanners, then double-build the three SP ZIPs for real",
+      "evidence": [
+        "raw/ts10_12_PLAN.md"
+      ],
+      "depends_on": [],
+      "note": "Determinism was exercised on a neutral fixture ZIP (identical SHA on double build) and the non-determinism sources to pin are enumerated. syft / pip-licenses / detect-secrets / trivy / grype are ALL absent from this host, so SBOM, licence and secret scanning cannot be claimed - the obligation cannot pass on this host as configured."
     },
     {
       "id": "R14-TS12",
       "title": "三私人 ChatGPT Plugin 正式資格 E06/M4",
       "state": "BLOCKED_SOFT",
-      "next_action": "three private ChatGPT plugins stay HOST_PENDING unless a CR grants the schema authority",
-      "evidence": [],
-      "depends_on": []
+      "next_action": "a CR must grant the plugin schema/host authority; until then the three surfaces stay HOST_PENDING",
+      "evidence": [
+        "raw/ts10_12_PLAN.md"
+      ],
+      "depends_on": [],
+      "note": "Confirmed from the R13 CR that three surfaces are preserved as HOST_PENDING; nothing in this round changes that. Draft-host submission is forbidden by DOC-06, so 'pending' is the correct state, not 'not selected'."
     },
     {
       "id": "R14-TS13",
@@ -199,26 +211,38 @@
     {
       "id": "R14-TS19",
       "title": "50 Parent／149 Child 全程追溯 M4",
-      "state": "OPEN",
-      "next_action": "50 parents / 149 children traceability with 0 orphans",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "author the per-child raw evidence (149 rows currently raw_evidence=null); structure and orphan proof are done",
+      "evidence": [
+        "raw/ts19_traceability.csv",
+        "raw/ts19_21_SUMMARY.md"
+      ],
+      "depends_on": [],
+      "note": "50 parents / 149 children measured from DOC locators with delta 0, and the parent set subtraction is empty, so 0 orphans is a MEASURED result. But every child row carries raw_evidence=null: the trace is structural, not execution. M4-level traceability therefore is not established by this item."
     },
     {
       "id": "R14-TS20",
       "title": "441 source identities／OSS 導入 M4",
-      "state": "OPEN",
-      "next_action": "441 source identities: frozen/current disposition per identity",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "attach a live receipt per source identity (441 rows carry makespan/history labels only)",
+      "evidence": [
+        "raw/ts20_sources.csv",
+        "raw/ts19_21_SUMMARY.md"
+      ],
+      "depends_on": [],
+      "note": "441 unique identities reproduce exactly (6 donors + 24 slots + 25 methods + 386 named), digests present on all 441. Per-record live receipt fields are absent, and the 386 named identities carry historical frozen labels that differ from the canonical disposition text - both are retained rather than one being silently preferred."
     },
     {
       "id": "R14-TS21",
       "title": "38 surfaces／五工具分發 M4",
-      "state": "OPEN",
-      "next_action": "38 delivery surfaces with host applicability and install/deny/uninstall evidence",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "produce per-surface install AND deny receipts; today the ledger only records design intent",
+      "evidence": [
+        "raw/ts21_surfaces.csv",
+        "raw/ts19_21_SUMMARY.md"
+      ],
+      "depends_on": [],
+      "note": "38 surfaces reproduce exactly and join canonical DOC-12 rows. But install_evidence is RECORDED_ONLY and deny_evidence says NO_PER_SURFACE_RAW_DENY_REFERENCE_IN_LEDGER: the inventory is real, the host lifecycle evidence is not."
     },
     {
       "id": "R14-TS22",
@@ -286,10 +310,15 @@
     {
       "id": "R14-TS27",
       "title": "全 DOC 語義分母／M4",
-      "state": "OPEN",
-      "next_action": "semantic denominator signed by the PIPD Source Owner; no percentage may be claimed before it",
-      "evidence": [],
-      "depends_on": []
+      "state": "BLOCKED",
+      "next_action": "PIPD Source Owner signs the denominator (proposal is ready and unsigned)",
+      "evidence": [
+        "raw/ts27_denominator_proposal.md",
+        "raw/ts27_denominator.json",
+        "raw/ts27_measure.py"
+      ],
+      "depends_on": [],
+      "note": "Denominator PROPOSAL delivered and measured: 1,743 non-overlapping review packets, plus diagnostic inventories 54 Cxx families / 208 requirement lexemes / 1,631 acceptance lexemes / 149 U-children / 38 surfaces / 96 TQAEP cells which deliberately are NOT summed (they overlap). Every packet is UNKNOWN, not absent, because implementation/evidence/checker joins were not assessed. signed=false, signer=null, total UNMEASURED: no semantic percentage may be quoted until the Source Owner signs."
     },
     {
       "id": "R14-TS28",

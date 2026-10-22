@@ -1,0 +1,77 @@
+{
+  "schema": "SBL-STACK/1",
+  "version": "0.1.1rc1",
+  "root": "C:\\Projects\\Agent_Workspace\\SBL-install\\stack",
+  "python": "3.11.17",
+  "components": {
+    "sbl_core.core": "5320c9328579ea890d464a82f7f077debbb81dfe8653c96668a7bd62dc1ce181",
+    "sbl_core.dto": "791b23a010e7f8ffaa843a66c63548f1bc5e4463c93e709570948e9488308a85",
+    "sbl_core.errors": "4e58742d97e64db347666efce65cd55068ab82c12bfd61900b09f3b16ce43fc9",
+    "sbl_core.modes": "b0d81ee6f2f15334dc1f47dfd7a46fbe4534cd4a89e43ff0ca57d6ac5d0631a9",
+    "sbl_core.gknow": "b5bb8d153335aaec965f1f472c4d3b91cb90584ed3af5e7fa5dd4581dcfb2e45",
+    "sbl_core.m01_intake": "4657a529b74fd6cc4c7bb82e87218e76990768a7b4b1c3339e890ed6081dfaec",
+    "sbl_core.m02_spec": "40334929817546d538c985335f2547a769c1882170625391d08ca110e987b98e",
+    "sbl_core.m03_routing": "fdb62afadaf00fd2b09a29998a8071ea0f3b20730a529ac2c1037d6a205f8673",
+    "sbl_core.m04_bridge": "2681739185065dfce73f1c08f8decf1281808ca926f9aeea5bebd035018874ff",
+    "sbl_core.m05_verify": "5adbf4903120739b991a5688ba51a2e7e985208081e7d8c332348e935588ee88",
+    "sbl_core.m06_repair": "51b1f0c16c6b11b324940c980f677b9e3786a1a3e5eb3d7cfdc892d3241a3f84",
+    "sbl_sp.sp": "8fa61b8346466d09a2c7f636f54dc2d40a782ac079ed5e1142d56d812731711f",
+    "sbl_sp.plugins": "0febb130f38f7c9abcf5d1243ae825b0636d649f78e2df3703a3fb8ccc95f188",
+    "sbl_sp.plugins.portable": "df286703831281243d779106df40cfbe4681003e0afddc3a2b5b0a2ad0bd7e81"
+  },
+  "extras": {
+    "principals": {
+      "tpm_sp": {
+        "schema": "SBL-SP-MANIFEST/1",
+        "sp_id": "tpm_sp",
+        "name": "TPM-SP",
+        "role": "product-manager",
+        "permissions": [
+          "goal.read",
+          "spec.write",
+          "evidence.read"
+        ],
+        "forbidden": [
+          "product.write",
+          "challenge.sign"
+        ],
+        "read_only": false
+      },
+      "commander_sp": {
+        "schema": "SBL-SP-MANIFEST/1",
+        "sp_id": "commander_sp",
+        "name": "Commander-SP",
+        "role": "build-commander",
+        "permissions": [
+          "product.write",
+          "build.route",
+          "evidence.read"
+        ],
+        "forbidden": [
+          "challenge.sign",
+          "verdict.sign"
+        ],
+        "read_only": false
+      },
+      "external_challenge_sp": {
+        "schema": "SBL-SP-MANIFEST/1",
+        "sp_id": "external_challenge_sp",
+        "name": "External Challenge-SP",
+        "role": "independent-challenger",
+        "permissions": [
+          "evidence.read",
+          "challenge.sign"
+        ],
+        "forbidden": [
+          "product.write",
+          "goal.write"
+        ],
+        "read_only": true
+      }
+    },
+    "mode_gate_cells": 39,
+    "plugin_schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+  },
+  "claim_ceiling": "STANDALONE_ONLY",
+  "host_install_state": "NOT_INSTALLED"
+}
