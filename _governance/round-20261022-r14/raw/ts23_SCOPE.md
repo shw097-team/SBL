@@ -16,18 +16,26 @@ asserts its own precondition before it asserts the program's answer.
   - `\r\n\r\n\n\r` -> 4.
   - A file of only terminators counts all of them; it is not treated as empty.
 - `sha256` is the digest of the exact bytes read.
-- A missing or unreadable path exits 2 with `ERR_INPUT` on stderr and nothing on stdout.
+- A missing or unreadable path exits **2**, writes `ERR_INPUT` to stderr, writes **nothing to stdout** and prints no
+  traceback.
+- The file is never rewritten; the census is read-only.
+- A UTF-8 BOM is bytes. It is counted, not stripped. Binary content is fine: nothing is decoded.
 
 ## ts23-headings (ATX heading inventory)
 
-- A heading is a line starting with 1 to 6 `#` characters, followed by at least one space or tab, followed by text.
+- A heading is a line starting with 1 to 6 `#` characters, followed by **at least one space or tab**, followed by text.
+  `#NoSpace` is not a heading; a tab is a valid separator.
+- Leading and trailing whitespace of the text is trimmed; **internal whitespace is preserved** (`##  two  spaces  ` ->
+  `two  spaces`).
+- An empty text after trimming is **not** a heading (`## ` alone is ignored).
 - 7 or more `#` characters is not a heading. That line is ignored, not an error.
 - An ATX **closing sequence** - whitespace then one or more `#` at end of line - is removed from the text:
   `## Beta ##` -> `Beta`. A `#` that is not preceded by whitespace is content: `## tag#` -> `tag#`.
 - Text is kept exactly as written, including non-ASCII characters and including decomposed (NFD) sequences. No Unicode
   normalisation is performed.
 - `line` is the 1-based line number in the file.
-- A missing or undecodable file exits 2 with `ERR_INPUT` on stderr.
+- A missing or undecodable file exits **2**, writes `ERR_INPUT` to stderr, writes **nothing to stdout** and prints no
+  traceback.
 
 ## ts23-review (bounded deterministic evidence review)
 
@@ -37,7 +45,10 @@ asserts its own precondition before it asserts the program's answer.
 - `halt_reason` is `BUDGET` when the step limit stopped the run and `QUEUE_EXHAUSTED` when the queue ran out. An **empty
   queue** therefore reports `steps 0, remaining 0, reviews [], halt_reason QUEUE_EXHAUSTED` - nothing was queued, so nothing
   was budget-limited.
-- A queue entry that cannot be read, or a queue that is not a JSON array, exits 2; the program does not silently skip.
+- A queue that is not a JSON array exits **2**. An entry that cannot be read exits **2**; nothing is silently skipped.
+  In both cases stderr carries `ERR_INPUT` and stdout stays empty.
+- A queue longer than the step limit reports `BUDGET`; a queue shorter than the limit reports `QUEUE_EXHAUSTED`. Both
+  apply to non-empty queues; an empty queue is `QUEUE_EXHAUSTED`.
 
 ## Out of scope, deliberately
 
@@ -46,7 +57,7 @@ These are named so that a test is not expected to cover them, rather than being 
 - fenced code blocks and indented code blocks: a `#` line inside a fence is still reported as a heading;
 - setext headings (`text` underlined with `===` or `---`);
 - a UTF-8 BOM: it is bytes in the file and is counted as such; it is not stripped before parsing;
-- symlinks, devices, files that change while being read;
+- symlinks, devices, files that change while being read (the census reads the bytes it was given, whatever they are);
 - any concurrency, retry, caching or non-local I/O.
 
 ## How this is checked

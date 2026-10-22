@@ -1,16 +1,19 @@
-"""Do the tests catch a wrong answer for the RIGHT reason - and does this harness say so honestly?
+"""Do the tests catch a wrong answer for the RIGHT reason?
 
-Version history, because each version was wrong in a way a reviewer had to point out:
-  v1  replaced main() with a body referencing undefined names, so "caught" meant NameError. False red. (review 2, G2)
-  v2  mutated real source but still classified any AssertionError as caught - a crashing mutant makes the test's
-      "returncode == 0" guard fail with an AssertionError, so a crash still read as behavioural detection.
-      It also always exited 0, so a failing receipt could not fail a pipeline. (review 3, G2)
-  v3  (this file) probes the mutated program FIRST: if it crashes or emits no JSON, the mutation is recorded as CRASH,
-      never as caught. `caught` now requires the program to run and answer, the test to fail, and the failure to be an
-      AssertionError. The script exits non-zero whenever any flag is false.
+Four earlier versions of this file were wrong in ways reviewers had to point out:
+  v1 replaced main() with a body referencing undefined names, so "caught" meant NameError.
+  v2 mutated real source but counted any AssertionError as a catch - a crashing mutant makes the returncode guard raise.
+  v3-v6 kept improving, and each round reviewers found another shape the fixtures did not contain.
+  v7 (this file) supersedes the string-patched versions: the three implementations now live in ts23_src/, so the snippets
+  below are plain substrings of real files rather than escapes inside a generator.
 
-It also carries every mutation the three reviewers used, including the five that survived review 3 (N3, N4, N5, N7, N8),
-so the survivors cannot quietly come back.
+Rules that make a "caught" honest:
+  - the mutation is one textual substitution in the INSTALLED module, so the mutant stays self-contained;
+  - the mutated program is probed for EVERY invocation the tests use, and must still exit 0 with JSON, otherwise the
+    mutation is recorded as crash_not_evidence, never as a catch;
+  - the failing test must report an AssertionError whose message carries no exception class;
+  - __pycache__ is purged before and after, with a failure to purge raising rather than being ignored;
+  - the script exits non-zero unless every flag holds, so a failing receipt cannot look like a passing one.
 """
 from __future__ import annotations
 
@@ -26,170 +29,186 @@ SB = RAW / "ts23_sandbox"
 VENV = SB / "venv" / "Scripts" / "python.exe"
 SP = SB / "venv" / "Lib" / "site-packages"
 TESTS = SB / "SBL" / "ts23_tests"
-FIXTURE = SB / "SBL" / "ts23_tests" / "headings.md"
+FIXTURE = TESTS / "headings.md"
 QUEUE = SB / "workspace_queue.json"
+EMPTY_QUEUE = SB / "ts23_empty_queue.json"
 
+BS = "\\"
+TERM = 'terminators = data.count(b"' + BS + 'n") + data.count(b"' + BS + 'r") - data.count(b"' + BS + 'r' + BS + 'n")'
+HEADING = 'HEADING = re.compile(r"^(#{1,6})[ ' + BS + 't]+(.*)$")'
+CLOSING = 'CLOSING = re.compile(r"[ ' + BS + 't]+#+$")'
+BODY = '        body = CLOSING.sub("", match.group(2)).strip()'
+ERR = '        sys.stderr.write("ERR_INPUT: " + str(exc) + "' + BS + 'n")'
+NOT_LIST = ('        if not isinstance(queue, list):\n'
+            '            raise ValueError("queue must be a JSON array of paths")\n')
+
+# (kind, module, test file, original, mutant, description, provenance)
 MUTATIONS = [
-    # (kind, module, test, original, mutant, description, reviewer who used it)
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "'bytes':len(data)", "'bytes':0",
-     "census reports bytes=0 for a non-empty file", "review 2 (survived), review 3 (G1)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py",
-     "'sha256':hashlib.sha256(data).hexdigest()", "'sha256':'0'*64",
-     "census reports a fake 64-character digest", "maker"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "return headings",
-     "return [{'line':1,'level':1,'text':'One'},{'line':3,'level':2,'text':'Two'},{'line':4,'level':3,'text':'Three'}]",
-     "headings are fixture constants regardless of the document", "review 1"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "'path':str(args.path.resolve())", "'path':'wrong'",
-     "correct headings but a wrong path", "review 3 (N3)"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", "'bytes':len(data)", "'bytes':0",
-     "agent reports bytes=0 per file", "review 2 (survived)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data = path.read_bytes()",
+     'data = Path(path).read_text(encoding="utf-8").encode("utf-8")',
+     "binary input is decoded as UTF-8", "review 7 (N01)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", ERR + "\n        return 2",
+     ERR + "\n        return 7", "an input error exits 7 instead of 2", "review 7 (N02)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "    except OSError as exc:\n" + ERR,
+     "    except OSError as exc:\n        print('partial')\n" + ERR,
+     "an input error also writes to stdout", "review 7 (N03)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", '"bytes": len(data)', '"bytes": 0',
+     "census reports bytes=0 for a non-empty file", "review 2 (G1)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", 'hashlib.sha256(data).hexdigest()', "'0' * 64",
+     "census reports a fake digest", "maker"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", TERM, 'terminators = data.count(b"' + BS + 'n")',
+     "a lone CR is not counted as a terminator", "review 5 (LONE_CR)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", TERM,
+     TERM + ' + (0 if data.endswith((b"' + BS + 'n", b"' + BS + 'r")) else 1)',
+     "an unterminated final line is counted", "review 5 (UNTERMINATED)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", TERM, TERM + ' - data.count(b"' + BS + 'n' + BS + 'r")',
+     "an LF+CR pair is merged into one terminator", "review 6 (LFCR)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", TERM,
+     'terminators = 0',
+     "a file of only terminators reports zero", "review 6 (TERMINATORS_ONLY)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", HEADING, HEADING.replace("[ " + BS + "t]+", " +"),
+     "only a space separates the hashes from the text", "review 7 (N04)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", HEADING,
+     'HEADING = re.compile(r"^(#{1,5})[ ' + BS + 't]+(.*)$")',
+     "level-six headings are dropped", "review 4 (LEVEL6)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", BODY,
+     '        body = " ".join(CLOSING.sub("", match.group(2)).split())',
+     "internal whitespace is collapsed", "review 7 (N07)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", BODY,
+     '        body = __import__("unicodedata").normalize("NFKD", CLOSING.sub("", match.group(2)).strip())',
+     "heading text is NFKD-normalised", "review 7 (N19)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", BODY,
+     '        body = re.sub(r"#+$", "", match.group(2)).strip()',
+     "a trailing hash is stripped without a closing sequence", "review 6 (CONTENT_HASH)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "        if not body:\n            continue\n",
+     "", "an empty heading text is accepted", "review 7 (G07)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", 'str(args.path.resolve())', '"wrong"',
+     "headings come with a wrong path", "review 3 (N3)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "    headings = []",
+     "    headings = []\n    return [{'line': 1, 'level': 1, 'text': 'One'}]",
+     "headings are constants regardless of the document", "review 1"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"bytes": len(data)', '"bytes": 0',
+     "agent reports bytes=0 per file", "review 2 (G1)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", 'hashlib.sha256(data).hexdigest()', "'0' * 64",
+     "agent reports fake digests", "maker"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"path": str(path),', '"path": "wrong",',
+     "a wrong path in the review entry", "review 3 (N4)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"remaining": len(fixed) - len(reviewed)',
+     '"remaining": 0', "remaining is always zero", "maker"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"remaining": len(fixed) - len(reviewed)',
+     '"remaining": 999', "remaining is 999", "review 3 (N7)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", "    budget_hit = len(reviewed) < len(fixed)",
+     "    budget_hit = True", "a non-empty exhausted queue reports BUDGET", "review 7 (N14)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", "    budget_hit = len(reviewed) < len(fixed)",
+     "    budget_hit = False", "a budget-limited run reports QUEUE_EXHAUSTED", "maker"),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
-     "'remaining':len(fixed)-len(reviews)", "'remaining':0",
-     "agent reports remaining=0 while a file is still queued", "maker"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", "'path':path", "'path':'wrong'",
-     "correct byte counts but a wrong path in the one-step run", "review 3 (N4)"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
-     "'sha256':hashlib.sha256(data).hexdigest()", "'sha256':'0'*64",
-     "one-step run reports a fake digest", "review 3 (N5)"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
-     "'remaining':len(fixed)-len(reviews)", "'remaining':999",
-     "one-step run reports remaining=999", "review 3 (N7)"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
-     "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
-     "'halt_reason':'QUEUE_EXHAUSTED'",
-     "one-step run claims the queue is exhausted", "review 3 (N8)"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "(#{1,6})", "(#{1,5})",
-     "level-six headings are silently dropped", "review 4 (LEVEL6_COVERAGE)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')", "data.count(b'\\n')+data.count(b'\\r')",
-     "CRLF is counted twice", "review 4 (CRLF_COVERAGE)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')", "data.count(b'\\n')",
-     "a lone CR is not counted as a line terminator", "review 5 (LONE_CR_IGNORED_BY_SUITE)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')+(0 if data.endswith((b'\\n',b'\\r')) else 1)",
-     "an unterminated final line is counted as a newline", "review 5 (UNTERMINATED_LINE_COUNTED_AS_NEWLINE)"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "re.sub(r'[ \t]+#+$','',match[2]).strip()", 'match[2]',
-     "the ATX closing sequence stays in the heading text", "review 5 (ATX_CLOSING_SEQUENCE_UNSPECIFIED)"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
-     "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'", "'halt_reason':'BUDGET'",
-     "an empty queue is reported as budget-limited", "review 5 (EMPTY_QUEUE_REPORTS_BUDGET)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')",
-     "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')-data.count(b'\\n\\r')",
-     "an LF+CR pair is merged into one terminator", "review 6 (LFCR_PAIR_MERGED)"),
-    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')",
-     "(0 if not data.strip(b'\\r\\n') else data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n'))",
-     "a file made only of terminators reports zero", "review 6 (TERMINATORS_ONLY_SUPPRESSED)"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "headings.append({'line':number,'level':len(match[1]),'text':re.sub(r'[ \t]+#+$','',match[2]).strip()})",
-     "headings.append({'line':number,'level':len(match[1]),'text':__import__('unicodedata').normalize('NFC',re.sub(r'[ \t]+#+$','',match[2]).strip())})",
-     "heading text is Unicode-normalised instead of kept as-is", "review 6 (UNICODE_NORMALIZATION)"),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "re.sub(r'[ "+chr(9)+"]+#+$','',match[2]).strip()", "re.sub(r'#+$','',match[2]).strip()",
-     "a trailing hash is stripped even without a closing sequence", "review 6 (CONTENT_HASH_STRIPPED)"),
+     'queue = json.loads(args.queue.read_text(encoding="utf-8"))', 'queue = json.loads("[]")',
+     "the queue file is ignored and an empty list is used", "review 7 (N16)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", "        data = Path(path).read_bytes()",
+     "        try:\n            data = Path(path).read_bytes()\n        except OSError:\n            continue",
+     "an unreadable entry is silently skipped", "review 7 (N15)"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", ERR + "\n        return 2",
+     ERR + "\n        return 7", "a queue input error exits 7", "review 7 (N17)"),
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
-PROBE_ARGS = {"ts23_newline": [[str(FIXTURE)]],
-              "ts23_headings": [[str(FIXTURE)]],
-              # the agent is exercised twice: default and --max-steps 1. Probing only the default hid a fatal exit
-              # in the limited invocation (review 6, FATAL_EXIT_FALSE_CATCH).
-              "ts23_review": [[str(QUEUE)], [str(QUEUE), "--max-steps", "1"]]}
+PROBE_ARGS = {
+    "ts23_newline": [[str(FIXTURE)]],
+    "ts23_headings": [[str(FIXTURE)]],
+    "ts23_review": [[str(QUEUE)], [str(QUEUE), "--max-steps", "1"], [str(EMPTY_QUEUE)]],
+}
 
 
-def _purge_cache(module: str) -> None:
-    """A same-size edit within one mtime tick can be masked by a stale .pyc. Round 4 (CACHE_BINDING) showed it."""
+def purge(module: str) -> None:
     import shutil
     for cache in (SP / module).rglob("__pycache__"):
-        shutil.rmtree(cache)          # no ignore_errors: a failed purge must be visible
+        shutil.rmtree(cache)
     leftovers = list((SP / module).rglob("__pycache__"))
     assert not leftovers, f"bytecode cache could not be removed: {leftovers}"
 
 
-def _env() -> dict:
-    env = dict(os.environ)
-    env.update({"TS23_FIXTURE": str(FIXTURE), "TS23_QUEUE": str(QUEUE),
-                "PYTHONDONTWRITEBYTECODE": "1"})
-    return env
+def env() -> dict:
+    e = dict(os.environ)
+    e.update({"TS23_FIXTURE": str(FIXTURE), "TS23_QUEUE": str(QUEUE), "PYTHONDONTWRITEBYTECODE": "1"})
+    return e
 
 
 def probe(module: str) -> dict:
-    """Run the mutated program for EVERY invocation the test exercises."""
-    env = _env()
-    env["TS23_MODULE"] = module
+    e = env()
+    e["TS23_MODULE"] = module
     runs = []
     for args in PROBE_ARGS[module]:
-        proc = subprocess.run([str(VENV), "-m", module, *args],
-                              capture_output=True, text=True, encoding="utf-8", env=env,
-                              cwd=str(SB))
+        proc = subprocess.run([str(VENV), "-m", module, *args], capture_output=True, text=True,
+                              encoding="utf-8", env=e, cwd=str(SB))
         try:
             json.loads(proc.stdout)
             answered = True
         except Exception:
             answered = False
-        runs.append({"args": args, "exit": proc.returncode, "answered_with_json": answered,
+        runs.append({"args": args, "exit": proc.returncode, "answered": answered,
                      "tail": (proc.stderr or "")[-160:]})
-    return {"runs": runs,
-            "exit": 0 if all(r["exit"] == 0 for r in runs) else 1,
-            "answered_with_json": all(r["answered_with_json"] for r in runs)}
+    return {"runs": runs, "ok": all(r["exit"] == 0 and r["answered"] for r in runs)}
 
 
 def run_test(test: str) -> dict:
-    env = _env()
-    env["TS23_MODULE"] = MODULE_FOR_TEST[test]
-    proc = subprocess.run([str(VENV), str(TESTS / test)], capture_output=True, text=True, encoding="utf-8",
-                          env=env, cwd=str(SB))
+    e = env()
+    e["TS23_MODULE"] = MODULE_FOR_TEST[test]
+    proc = subprocess.run([str(VENV), str(TESTS / test)], capture_output=True, text=True,
+                          encoding="utf-8", env=e, cwd=str(SB))
     text = (proc.stderr or "") + (proc.stdout or "")
     match = re.search(r"AssertionError: (.+)", text)
-    return {"exit": proc.returncode, "has_assertion": "AssertionError" in text,
-            "assertion_message": match.group(1).strip()[:160] if match else "", "tail": text[-320:]}
+    return {"exit": proc.returncode, "assertion": "AssertionError" in text,
+            "message": match.group(1).strip()[:200] if match else "", "tail": text[-300:]}
 
 
 def main() -> int:
     results = []
-    for kind, module, test, original_snippet, mutant_snippet, description, provenance in MUTATIONS:
+    for kind, module, test, original, mutant, description, provenance in MUTATIONS:
         target = SP / module / "__init__.py"
-        original = target.read_bytes()
-        digest = hashlib.sha256(original).hexdigest()
-        text = original.decode("utf-8")
-        if original_snippet not in text:
+        if not target.exists():
             results.append({"kind": kind, "mutation": description, "provenance": provenance,
-                            "applied": False, "caught": False, "note": "snippet absent; not applied"})
+                            "applied": False, "caught": False, "note": "module not installed"})
             continue
-        _purge_cache(module)
+        base = target.read_bytes()
+        digest = hashlib.sha256(base).hexdigest()
+        text = base.decode("utf-8")
+        if original not in text:
+            results.append({"kind": kind, "mutation": description, "provenance": provenance,
+                            "applied": False, "caught": False, "note": "snippet absent from the installed source"})
+            continue
+        purge(module)
         try:
-            target.write_text(text.replace(original_snippet, mutant_snippet, 1), encoding="utf-8")
-            probe_result = probe(module)
-            test_result = run_test(test)
+            target.write_text(text.replace(original, mutant, 1), encoding="utf-8")
+            probed = probe(module)
+            outcome = run_test(test)
         finally:
-            target.write_bytes(original)
-            _purge_cache(module)
-        restored = hashlib.sha256(target.read_bytes()).hexdigest() == digest
-        ran_and_answered = probe_result["exit"] == 0 and probe_result["answered_with_json"]
-        message = test_result["assertion_message"]
+            target.write_bytes(base)
+            purge(module)
+        message = outcome["message"]
         crash_shaped = bool(re.search(r"(Traceback \(most recent call last\)|\w*Error|\w*Exception)", message))
-        caught = (ran_and_answered and test_result["exit"] != 0
-                  and test_result["has_assertion"] and not crash_shaped)
-        results.append({
-            "kind": kind, "mutation": description, "provenance": provenance, "applied": True,
-            "mutant_ran_and_answered": ran_and_answered, "probe": probe_result,
-            "test_exit": test_result["exit"], "assertion_message": test_result["assertion_message"],
-            "caught": caught, "crash_shaped_assertion": crash_shaped,
-            "false_red": (not ran_and_answered) and test_result["exit"] != 0,
-            "crash_not_evidence": (not ran_and_answered),
-            "restored_byte_identical": restored, "tail": test_result["tail"]})
+        caught = bool(probed["ok"] and outcome["exit"] != 0 and outcome["assertion"] and not crash_shaped)
+        results.append({"kind": kind, "mutation": description, "provenance": provenance, "applied": True,
+                        "mutant_ran_and_answered": probed["ok"], "probe": probed,
+                        "test_exit": outcome["exit"], "assertion_message": message,
+                        "caught": caught,
+                        "crash_not_evidence": not probed["ok"],
+                        "false_red": (not probed["ok"]) and outcome["exit"] != 0,
+                        "restored_byte_identical": hashlib.sha256(target.read_bytes()).hexdigest() == digest})
     baseline = {test: run_test(test) for test in MODULE_FOR_TEST}
-    flags = {
-        "all_caught": all(r.get("caught") for r in results),
-        "no_false_reds": all(not r.get("false_red") for r in results),
-        "all_restored": all(r.get("restored_byte_identical") for r in results),
-        "baseline_all_pass": all(v["exit"] == 0 for v in baseline.values()),
-    }
-    doc = {"schema": "SBL-R14-TS23-MUTATION-CHECK/3",
-           "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
-           "method": ("one textual substitution in the INSTALLED module; the mutant is probed directly first, and a "
-                      "mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch"),
+    flags = {"all_caught": all(r.get("caught") for r in results if r.get("applied")),
+             "no_false_reds": all(not r.get("false_red") for r in results if r.get("applied")),
+             "all_applied": all(r.get("applied") for r in results),
+             "all_restored": all(r.get("restored_byte_identical") for r in results if r.get("applied")),
+             "baseline_all_pass": all(v["exit"] == 0 for v in baseline.values())}
+    doc = {"schema": "SBL-R14-TS23-MUTATION-CHECK/7",
+           "answers_review": "ts23_review7.json - 14 in-scope survivors, C03/C04 false catches, G06 coverage overclaim",
+           "method": "one textual substitution in the INSTALLED module; probe every invocation; cache purged; crash never counts",
            "results": results, "unmutated_baseline": baseline, "flags": flags,
            "exit_code_policy": "non-zero unless every flag is true"}
     (RAW / "ts23_test_strength.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
     for r in results:
-        print(f"{r['kind']:12} caught={str(r.get('caught')):5} ran={str(r.get('mutant_ran_and_answered')):5} "
-              f"restored={r.get('restored_byte_identical','-')} {r['mutation']}")
+        state = "CAUGHT" if r.get("caught") else ("absent" if not r.get("applied") else "SURVIVED")
+        print(f"{r['kind']:12} {state:9} restored={r.get('restored_byte_identical','-')} {r['mutation']}  [{r['provenance']}]")
     for name, value in flags.items():
         print(f"  {name}: {value}")
     return 0 if all(flags.values()) else 1

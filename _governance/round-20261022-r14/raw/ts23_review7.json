@@ -1,0 +1,3418 @@
+{
+  "schema": "SBL-R14-TS23-REVIEW/7",
+  "reviewer": {
+    "role": "seventh independent reviewer",
+    "identity": "fresh-context Hermes delegated reviewer; model identity declared, not attested"
+  },
+  "verdict": "FAIL",
+  "checks": {
+    "contract_sha256": "e3af229a40ac81585ecd401a28955578f24e3af29b189f33a561bcce2ecdb994",
+    "rule_matrix": [
+      {
+        "id": "N0",
+        "scope_lines": "7",
+        "rule": "Read-only census",
+        "attempts": [
+          "N21_INPUT_REWRITTEN"
+        ],
+        "result": "FAIL",
+        "detail": "Rewriting every input with identical bytes passes the generated suite; independent stat records changed mtime. No test asserts absence of writes."
+      },
+      {
+        "id": "N1",
+        "scope_lines": "9",
+        "rule": "Exact byte size; bytes never decoded",
+        "attempts": [
+          "maker: census bytes=0",
+          "N01_DECODE_BINARY",
+          "BINARY_READ"
+        ],
+        "result": "FAIL",
+        "detail": "Exact ordinary-file size is enforced. UTF-8 decode/encode mutation passes; independent ff000a800d input crashes with UnicodeDecodeError rather than reporting five bytes and two terminators."
+      },
+      {
+        "id": "N2",
+        "scope_lines": "10-17",
+        "rule": "Terminator formula, trailing LF, unterminated line, lone CR, LF+CR and terminators-only",
+        "attempts": [
+          "maker: CRLF counted twice",
+          "maker: lone CR not counted",
+          "maker: unterminated final line counted",
+          "maker: LF+CR pair merged",
+          "maker: terminators-only reports zero"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "All five named wrong formulas fail value assertions while answering. Primary LF fixture ends with LF; a missing-terminator overcount is also rejected. This is a bounded mutation result, not exhaustive proof over byte strings."
+      },
+      {
+        "id": "N3",
+        "scope_lines": "18",
+        "rule": "SHA256 of exact input bytes",
+        "attempts": [
+          "maker: census fake digest",
+          "BINARY_READ"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "Fake digest rejected; unmodified binary-input digest agrees with independently computed exact-byte SHA256. Binary-decode survivor is separately N1."
+      },
+      {
+        "id": "N4",
+        "scope_lines": "19",
+        "rule": "Missing/unreadable: exit 2, ERR_INPUT stderr, empty stdout",
+        "attempts": [
+          "N02_INPUT_EXIT7",
+          "N03_ERROR_STDOUT",
+          "NL_MISSING",
+          "NL_UNREADABLE_DIRECTORY"
+        ],
+        "result": "FAIL",
+        "detail": "Baseline meets contract; generated tests require only nonzero and ERR_INPUT for missing input. Exit 7 and unexpected stdout both survive; directory unreadability is not tested."
+      },
+      {
+        "id": "H1",
+        "scope_lines": "23",
+        "rule": "Column-zero 1-6 hashes, mandatory space/tab, then text",
+        "attempts": [
+          "N04_TAB_REJECTED",
+          "N05_NO_SEPARATOR",
+          "N20_NO_SEPARATOR_ISOLATED",
+          "HEADING_EDGES"
+        ],
+        "result": "FAIL",
+        "detail": "Tab rejection survives. Unisolated optional-separator mutation is rejected because it also accepts level 7; adding (?!#) isolates mandatory-separator defect and survives. Thus that first red does not establish the separator rule. Empty-text boundary remains ambiguous; see G07."
+      },
+      {
+        "id": "H2",
+        "scope_lines": "24",
+        "rule": "Ignore 7+ hashes without error",
+        "attempts": [
+          "N06_LEVEL7",
+          "maker: level-six headings dropped"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "Both accepting seven hashes and rejecting six are detected. Fixture contains levels 1-7 today, but its continued presence is not precondition-guarded (P01)."
+      },
+      {
+        "id": "H3",
+        "scope_lines": "25-26",
+        "rule": "Strip whitespace-prefixed closing hashes; preserve bare content hash",
+        "attempts": [
+          "maker: ATX closing sequence kept",
+          "maker: trailing hash stripped without sequence",
+          "HEADING_EDGES"
+        ],
+        "result": "PASS_ASCII_ONLY",
+        "detail": "Both ASCII-space closing/hash counterexamples are rejected; direct tab closing sequence is correctly removed. Scope says whitespace without defining its Unicode domain; NBSP is not removed (G07)."
+      },
+      {
+        "id": "H4",
+        "scope_lines": "27-28",
+        "rule": "Keep text exactly, nonASCII and NFD; no Unicode normalization",
+        "attempts": [
+          "N07_INTERNAL_WHITESPACE_COLLAPSED",
+          "N18_NONASCII_DROPPED",
+          "N19_REVIEW6_EXACT_NFKD",
+          "maker: Unicode normalisation",
+          "HEADING_EDGES"
+        ],
+        "result": "FAIL",
+        "detail": "NonASCII drop and NFC composition are detected. Exact review6 NFKD mutation STILL PASSES, changing composed café to cafe+combining acute on an independent input. Internal-space collapse also survives. Baseline strips trailing content spaces despite exact-text wording (G01)."
+      },
+      {
+        "id": "H5",
+        "scope_lines": "29",
+        "rule": "One-based file line number",
+        "attempts": [
+          "N08_LINE_ZERO"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "Offset mutation is rejected by exact heading list assertions, including blank/body lines."
+      },
+      {
+        "id": "H6",
+        "scope_lines": "30",
+        "rule": "Missing/undecodable: exit 2 and ERR_INPUT stderr",
+        "attempts": [
+          "N09_UNDECODABLE_CRASH",
+          "N10_HEADING_EXIT7",
+          "HEADING_UNDECODABLE",
+          "HEADING_MISSING"
+        ],
+        "result": "FAIL",
+        "detail": "Baseline correct; dropping UnicodeError handler and replacing exit 2 with exit 7 both pass tests. Undecodable input is absent from generated suite."
+      },
+      {
+        "id": "R1",
+        "scope_lines": "34",
+        "rule": "JSON path queue order; max-steps N bounds; default 2",
+        "attempts": [
+          "N11_QUEUE_ORDER",
+          "N12_BUDGET_IGNORED",
+          "N13_ALLOW_N3",
+          "N23_DEFAULT1",
+          "QUEUE_N3"
+        ],
+        "result": "FAIL_CONTRACT_TEST_MISMATCH",
+        "detail": "Order reversal, ignoring explicit limit, and default 1 rejected. Baseline forbids N=3 despite scope not stating a 1-or-2 domain; test_agent.py:29 requires rejection and fails the mutation which permits N=3 and correctly reviews all three files. Scope must specify its allowed N domain, not inherit test intent."
+      },
+      {
+        "id": "R2",
+        "scope_lines": "35",
+        "rule": "Per-entry path, exact bytes, exact digest",
+        "attempts": [
+          "maker: agent bytes=0",
+          "maker: wrong path",
+          "maker: fake digest"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "Existing default and one-step assertions check exact paths, sizes and digests. All corresponding maker mutations are detected."
+      },
+      {
+        "id": "R3",
+        "scope_lines": "36",
+        "rule": "Steps number reviewed; remaining queue length minus steps",
+        "attempts": [
+          "N22_STEPS999",
+          "maker: remaining=0",
+          "maker: remaining=999"
+        ],
+        "result": "PASS_BOUNDED",
+        "detail": "All named numeric corruptions rejected on the exercised default/limited cases; empty fields also asserted exactly."
+      },
+      {
+        "id": "R4",
+        "scope_lines": "37-39",
+        "rule": "BUDGET vs QUEUE_EXHAUSTED, including empty queue",
+        "attempts": [
+          "N14_SHORT_QUEUE_BUDGET",
+          "maker: empty queue reports BUDGET",
+          "maker: QUEUE_EXHAUSTED while budget-limited",
+          "QUEUE_SHORT"
+        ],
+        "result": "FAIL",
+        "detail": "Empty-queue and truncated-queue cases guarded; nonempty exhausted queue missing. Returning BUDGET for every nonempty queue passes and is wrong on a one-file queue with default budget two. Equality at budget/queue length also lacks an explicit precedence sentence."
+      },
+      {
+        "id": "R5",
+        "scope_lines": "40",
+        "rule": "Unreadable entry or nonarray queue exits 2, no skipping",
+        "attempts": [
+          "N15_SKIP_UNREADABLE",
+          "N16_NONARRAY_ACCEPTED",
+          "N17_QUEUE_EXIT7",
+          "QUEUE_NONARRAY",
+          "QUEUE_UNREADABLE"
+        ],
+        "result": "FAIL",
+        "detail": "All three wrong implementations pass suite. {} becomes successful empty review under disabled validation; nonexistent entry is silently skipped; input errors may exit 7 undetected. Baseline handles these correctly."
+      },
+      {
+        "id": "O1",
+        "scope_lines": "44-46",
+        "rule": "Fence/code-block parsing excluded, but fence headings explicitly still reported",
+        "attempts": [
+          "FENCE",
+          "O02_FENCE_SUPPRESSED"
+        ],
+        "result": "SCOPE_MIXED",
+        "detail": "Baseline reports fenced heading; a fence-suppressing mutation passes. Full Markdown context parsing can legitimately be excluded, but the positive still-reported sentence conflicts with the blanket no-test-expectation framing. Do not silently use the exclusion to erase the positive statement."
+      },
+      {
+        "id": "O2",
+        "scope_lines": "47",
+        "rule": "Setext excluded",
+        "attempts": [
+          "SETEXT"
+        ],
+        "result": "LEGITIMATELY_OUT_OF_SCOPE",
+        "detail": "Direct unmodified probe ignores Setext. No requirement to implement full Markdown is imposed; no defect scored for absent Setext support."
+      },
+      {
+        "id": "O3",
+        "scope_lines": "48",
+        "rule": "BOM excluded, but counted and not stripped before parsing",
+        "attempts": [
+          "BOM",
+          "O01_BOM_STRIPPED"
+        ],
+        "result": "SCOPE_MIXED",
+        "detail": "Baseline does not strip BOM; a stripping mutation passes. Positive no-stripping promise and no-test-expectation framing should be reconciled; counted bytes already follows universal N1."
+      },
+      {
+        "id": "O4",
+        "scope_lines": "49-50",
+        "rule": "Symlinks/devices/changing files; concurrency/retry/caching/nonlocal I/O excluded",
+        "attempts": [],
+        "result": "LEGITIMATELY_OUT_OF_SCOPE",
+        "detail": "No tests or unsupported features demanded for these explicit exclusions. They do not cover invalid UTF8 census, tabs, NFKD, local queue errors, or crash classification. Bytecode-cache correctness of the TEST INSTRUMENT is not excused by application caching exclusion."
+      },
+      {
+        "id": "M1",
+        "scope_lines": "4-5,54-59",
+        "rule": "Each rule fixture/precondition; build RED/GREEN/location; every invocation probed; only noncrash assertion counts; exit reflects flags",
+        "attempts": [
+          "P01-P08",
+          "C01-C04",
+          "maker replay",
+          "build receipt audit"
+        ],
+        "result": "FAIL",
+        "detail": "Recorded REDs are output assertions, current recorded source/installed digests match and three installed tests pass; full builder not re-executed under two-output write limit. Level-six fixture removal passes. Harness probes 1/1/2 invocations versus tests 8/3/4 (including intended errors); even successful empty queue is omitted. Limited hard exits now honestly fail harness, but empty-queue hard exits are falsely caught and actual harness main exits 0 with every flag true."
+      }
+    ],
+    "review6_closure": [
+      {
+        "review6_item": "LF+CR",
+        "status": "CLOSED_BOUNDED",
+        "evidence": "Maker LFCR subtraction mutant answers but fails new value assertion; P04 CRLF-shape regression fails its precondition."
+      },
+      {
+        "review6_item": "terminators-only",
+        "status": "BEHAVIOUR_CLOSED_PRECONDITION_PARTIAL",
+        "evidence": "Zero-on-only-terminators mutant rejected. P03 empty fixture passes vacuous strips-to-empty guard and fails only later value assertion."
+      },
+      {
+        "review6_item": "Unicode normalisation",
+        "status": "NOT_CLOSED",
+        "evidence": "New NFC mutant caught, but exact prior NFKD mutant N19 passes and changes café to decomposed cafe+acute on independent composed input."
+      },
+      {
+        "review6_item": "bare trailing hash",
+        "status": "CLOSED_BOUNDED",
+        "evidence": "Unconditional trailing-hash stripping rejected; P06 missing tag# trips precondition."
+      },
+      {
+        "review6_item": "hard exit in limited invocation",
+        "status": "SPECIFIC_CASE_CLOSED_CLASS_NOT_CLOSED",
+        "evidence": "C01/C02 caught=false; actual main returns 1 for each. C03/C04 empty-queue hard exits remain false catches, actual C03 main returns 0."
+      },
+      {
+        "review6_item": "fixture preconditions",
+        "status": "NOT_CLOSED",
+        "evidence": "P01 level-six fixture removed and suite passes; P02/P03 wrong fixture shape not rejected by their nominal preconditions. P04-P08 guarded."
+      },
+      {
+        "review6_item": "coverage claims",
+        "status": "NOT_CLOSED",
+        "evidence": "21 advertised vs 20 automated; missing nonASCII drop; NFKD prior survivor substituted by NFC. Independent N18 drop is caught, but not part of maker automation."
+      }
+    ],
+    "counts": {
+      "maker_mutation_attempts": 20,
+      "additional_mutation_attempts": 29,
+      "all_mutation_attempts": 49,
+      "in_scope_suite_survivors": 14,
+      "exclusion_ambiguity_survivors": 2,
+      "harness_false_catches": 2,
+      "fixture_perturbations": 8,
+      "fixture_perturbations_passing_suite": 1
+    },
+    "novelty_audit": {
+      "reviewed_files": [
+        "ts23_review2.json",
+        "ts23_review3.json",
+        "ts23_review4.json",
+        "ts23_review5.json",
+        "ts23_review6.json"
+      ],
+      "novel_at_least_two": [
+        "N04_TAB_REJECTED",
+        "N14_SHORT_QUEUE_BUDGET"
+      ],
+      "ceiling": "No matching described attempt in available review2-6 JSON or maker list; review1 full record absent."
+    },
+    "scope_judgment": "Most functional rules are enforceable, but tests under-enforce written cases and over-enforce undeclared restrictions. Exact-text trimming mismatch, unspecified N domain, heading whitespace/text ambiguity and mixed normative exclusions prevent PASS. No evidence of an intentional excuse is inferred. True nonlocal/concurrency/device/full-Markdown exclusions are legitimate; none covers the 14 local deterministic survivors.",
+    "method": {
+      "scratch": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments",
+      "interpreter": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+      "method": "unmodified installed source copied into scratch; PYTHONPATH binds copies; tests copied; original workspace queue copied; no subject writes"
+    },
+    "evidence": {
+      "bindings": {
+        "ts23_newline": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_newline\\__init__.py",
+        "ts23_headings": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__init__.py",
+        "ts23_review": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_review\\__init__.py"
+      },
+      "baseline": {
+        "test_cli.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.760s\n\nOK\n"
+        },
+        "test_skill.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.267s\n\nOK\n"
+        },
+        "test_agent.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.377s\n\nOK\n"
+        }
+      },
+      "direct_probes": [
+        {
+          "id": "BINARY_READ",
+          "module": "ts23_newline",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\binary.bin"
+          ],
+          "expected": {
+            "bytes": 5,
+            "newlines": 2,
+            "sha256": "c74dccc435f26f0d6fcd6881f5a5c90dd8447623b67fb9544165f5fe2cfa3556"
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"bytes\": 5, \"newlines\": 2, \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\binary.bin\", \"sha256\": \"c74dccc435f26f0d6fcd6881f5a5c90dd8447623b67fb9544165f5fe2cfa3556\"}\n",
+            "stderr": ""
+          },
+          "matches": true
+        },
+        {
+          "id": "NL_MISSING",
+          "module": "ts23_newline",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\absent-input"
+          ],
+          "expected": {
+            "exit": 2,
+            "stdout": "",
+            "stderr_contains": "ERR_INPUT"
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "NL_UNREADABLE_DIRECTORY",
+          "module": "ts23_newline",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments"
+          ],
+          "expected": {
+            "exit": 2,
+            "stdout": "",
+            "stderr_contains": "ERR_INPUT"
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments'\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "HEADING_EDGES",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\edges.md"
+          ],
+          "expected": {
+            "headings": [
+              {
+                "line": 1,
+                "level": 1,
+                "text": "Tabbed"
+              },
+              {
+                "line": 4,
+                "level": 2,
+                "text": "Tail  "
+              },
+              {
+                "line": 5,
+                "level": 2,
+                "text": "Inner  space"
+              },
+              {
+                "line": 6,
+                "level": 2,
+                "text": "Name"
+              }
+            ]
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+            "stderr": ""
+          },
+          "matches": false
+        },
+        {
+          "id": "HEADING_UNDECODABLE",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\nonutf.md"
+          ],
+          "expected": {
+            "exit": 2,
+            "stderr_contains": "ERR_INPUT"
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: 'utf-8' codec can't decode byte 0xff in position 2: invalid start byte\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "HEADING_MISSING",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\absent-input"
+          ],
+          "expected": {
+            "exit": 2,
+            "stderr_contains": "ERR_INPUT"
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "QUEUE_NONARRAY",
+          "module": "ts23_review",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\not-array.json"
+          ],
+          "expected": {
+            "exit": 2
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: queue must be a JSON list of paths\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "QUEUE_UNREADABLE",
+          "module": "ts23_review",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\unreadable.json"
+          ],
+          "expected": {
+            "exit": 2
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+          },
+          "matches": true
+        },
+        {
+          "id": "QUEUE_SHORT",
+          "module": "ts23_review",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\short.json"
+          ],
+          "expected": {
+            "steps": 1,
+            "remaining": 0,
+            "halt_reason": "QUEUE_EXHAUSTED"
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"halt_reason\": \"QUEUE_EXHAUSTED\", \"remaining\": 0, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}], \"steps\": 1}\n",
+            "stderr": ""
+          },
+          "matches": true
+        },
+        {
+          "id": "QUEUE_N3",
+          "module": "ts23_review",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+            "--max-steps",
+            "3"
+          ],
+          "expected": {
+            "steps": 3,
+            "remaining": 0,
+            "halt_reason": "QUEUE_EXHAUSTED"
+          },
+          "actual": {
+            "exit": 2,
+            "stdout": "",
+            "stderr": "usage: __main__.py [-h] [--max-steps {1,2}] queue\n__main__.py: error: argument --max-steps: invalid choice: 3 (choose from 1, 2)\n"
+          },
+          "matches": false
+        },
+        {
+          "id": "FENCE",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\fence.md"
+          ],
+          "expected": {
+            "headings": [
+              {
+                "line": 2,
+                "level": 1,
+                "text": "Fenced"
+              }
+            ]
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"headings\": [{\"level\": 1, \"line\": 2, \"text\": \"Fenced\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\fence.md\"}\n",
+            "stderr": ""
+          },
+          "matches": true
+        },
+        {
+          "id": "SETEXT",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\setext.md"
+          ],
+          "expected": {
+            "headings": []
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"headings\": [], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\setext.md\"}\n",
+            "stderr": ""
+          },
+          "matches": true
+        },
+        {
+          "id": "BOM",
+          "module": "ts23_headings",
+          "args": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\bom.md"
+          ],
+          "expected": {
+            "headings": [
+              {
+                "line": 2,
+                "level": 1,
+                "text": "Visible"
+              }
+            ]
+          },
+          "actual": {
+            "exit": 0,
+            "stdout": "{\"headings\": [{\"level\": 1, \"line\": 2, \"text\": \"Visible\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\bom.md\"}\n",
+            "stderr": ""
+          },
+          "matches": true
+        }
+      ],
+      "fixture_preconditions": [
+        {
+          "id": "P01_LEVEL6_REMOVED",
+          "test": "test_skill.py",
+          "substitution": {
+            "old": "###### Six",
+            "new": "##### Six"
+          },
+          "result": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.266s\n\nOK\n"
+          }
+        },
+        {
+          "id": "P02_CRLF_BECOMES_LONECR",
+          "test": "test_cli.py",
+          "substitution": {
+            "old": "b'alpha\\r\\nbeta\\r\\ngamma\\r\\n'",
+            "new": "b'alpha\\rbeta\\rgamma\\r'"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "3 != 0",
+            "tail": "ocal\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\test_cli.py\", line 21, in test_census_and_missing_input\n    self.assertEqual(got3['newlines'],crlf.read_bytes().count(b'\\n'))\nAssertionError: 3 != 0\n\n----------------------------------------------------------------------\nRan 1 test in 0.272s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P03_TERMINATORS_BECOME_EMPTY",
+          "test": "test_cli.py",
+          "substitution": {
+            "old": "b'\\r\\n\\r\\n\\n\\r'",
+            "new": "b''"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "0 != 4 : three terminators plus one more",
+            "tail": "line 38, in test_census_and_missing_input\n    self.assertEqual(json.loads(self.invoke(only).stdout)['newlines'],4,'three terminators plus one more')\nAssertionError: 0 != 4 : three terminators plus one more\n\n----------------------------------------------------------------------\nRan 1 test in 0.640s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P04_LFCR_BECOMES_CRLF",
+          "test": "test_cli.py",
+          "substitution": {
+            "old": "b'a\\n\\rb'",
+            "new": "b'a\\r\\nb'"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "b'\\r\\n' unexpectedly found in b'a\\r\\nb' : the pair must not be a CRLF",
+            "tail": "line 34, in test_census_and_missing_input\n    self.assertNotIn(b'\\r\\n',pair.read_bytes(),'the pair must not be a CRLF')\nAssertionError: b'\\r\\n' unexpectedly found in b'a\\r\\nb' : the pair must not be a CRLF\n\n----------------------------------------------------------------------\nRan 1 test in 0.476s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P05_NFD_BECOMES_NFC",
+          "test": "test_skill.py",
+          "substitution": {
+            "old": "## Cafe\\u0301",
+            "new": "## Caf\\u00e9"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "'Café' not found in '# Alpha\\n\\ntext\\n\\n## Beta ##\\n## 知識庫 heading\\n## Café\\n## tag#\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n' : fixt",
+            "tail": "Error: 'Café' not found in '# Alpha\\n\\ntext\\n\\n## Beta ##\\n## 知識庫 heading\\n## Café\\n## tag#\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n' : fixture must contain a decomposed sequence\n\n----------------------------------------------------------------------\nRan 1 test in 0.101s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P06_BARE_HASH_REMOVED",
+          "test": "test_skill.py",
+          "substitution": {
+            "old": "## tag#",
+            "new": "## tag"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "'## tag#' not found in '# Alpha\\n\\ntext\\n\\n## Beta ##\\n## 知識庫 heading\\n## Café\\n## tag\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n' : fi",
+            "tail": " in '# Alpha\\n\\ntext\\n\\n## Beta ##\\n## 知識庫 heading\\n## Café\\n## tag\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n' : fixture must contain a bare trailing hash with no closing sequence\n\n----------------------------------------------------------------------\nRan 1 test in 0.101s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P07_UNTERMINATED_TERMINATED",
+          "test": "test_cli.py",
+          "substitution": {
+            "old": "b'alpha\\nbeta'",
+            "new": "b'alpha\\nbeta\\n'"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "True is not false : fixture must not end with a terminator",
+            "tail": "and_missing_input\n    self.assertFalse(unterminated.read_bytes().endswith((b'\\n',b'\\r')),'fixture must not end with a terminator')\nAssertionError: True is not false : fixture must not end with a terminator\n\n----------------------------------------------------------------------\nRan 1 test in 0.365s\n\nFAILED (failures=1)\n"
+          }
+        },
+        {
+          "id": "P08_EMPTY_QUEUE_NONEMPTY",
+          "test": "test_agent.py",
+          "substitution": {
+            "old": "emptyq.write_text('[]'",
+            "new": "emptyq.write_text('[\"missing\"]'"
+          },
+          "result": {
+            "exit": 1,
+            "has_assertion": true,
+            "assertion_message": "Lists differ: ['missing'] != []",
+            "tail": "ture must be an empty list')\nAssertionError: Lists differ: ['missing'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'missing'\n\n- ['missing']\n+ [] : fixture must be an empty list\n\n----------------------------------------------------------------------\nRan 1 test in 0.182s\n\nFAILED (failures=1)\n"
+          }
+        }
+      ],
+      "maker_replay_exit": 0,
+      "empty_crash_harness_exit": 0,
+      "empty_crash_harness_receipt": {
+        "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+        "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+        "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+        "results": [
+          {
+            "kind": "SIMPLE_AGENT",
+            "mutation": "empty queue fatal exit",
+            "provenance": "review7",
+            "applied": true,
+            "mutant_ran_and_answered": true,
+            "probe": {
+              "runs": [
+                {
+                  "args": [
+                    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+                  ],
+                  "exit": 0,
+                  "answered_with_json": true,
+                  "tail": ""
+                },
+                {
+                  "args": [
+                    "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                    "--max-steps",
+                    "1"
+                  ],
+                  "exit": 0,
+                  "answered_with_json": true,
+                  "tail": ""
+                }
+              ],
+              "exit": 0,
+              "answered_with_json": true
+            },
+            "test_exit": 1,
+            "assertion_message": "3 != 0 :",
+            "caught": true,
+            "crash_shaped_assertion": false,
+            "false_red": false,
+            "crash_not_evidence": false,
+            "restored_byte_identical": true,
+            "tail": "ine 25, in test_two_step_limit_and_hashes\n    e=self.invoke(emptyq); self.assertEqual(e.returncode,0,e.stderr)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.267s\n\nFAILED (failures=1)\n"
+          }
+        ],
+        "unmutated_baseline": {
+          "test_cli.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.723s\n\nOK\n"
+          },
+          "test_skill.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.270s\n\nOK\n"
+          },
+          "test_agent.py": {
+            "exit": 0,
+            "has_assertion": false,
+            "assertion_message": "",
+            "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.359s\n\nOK\n"
+          }
+        },
+        "flags": {
+          "all_caught": true,
+          "no_false_reds": true,
+          "all_restored": true,
+          "baseline_all_pass": true
+        },
+        "exit_code_policy": "non-zero unless every flag is true"
+      },
+      "final_baseline": {
+        "test_cli.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.727s\n\nOK\n"
+        },
+        "test_skill.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.274s\n\nOK\n"
+        },
+        "test_agent.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.382s\n\nOK\n"
+        }
+      },
+      "subject_files_unchanged": true,
+      "subject_hashes": {
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_SCOPE.md": "e3af229a40ac81585ecd401a28955578f24e3af29b189f33a561bcce2ecdb994",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_build.py": "dd66b379fc3c4b2dea31f1914a4625a9a6586262b7cfcf1bfcadfea51a01c4e3",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_mutation_check.py": "3d66f955a6cca978e7ca2841d7820619a4796f5be6094682be5d001b72f1e41b",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_test_strength.json": "f4e3593ec21773daca4f8a0d0d1170f66122a1df2112ccac4746f41b9f528eae",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_build_receipt.json": "0c936b1b8cb7f99214b75bba962b0de7019884413079a3267e94c1bf9251043e",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_remediation6.json": "6a67aad433e37a4ca8bfaea30dfdb26c956287bb306ede85b8dfbb93cf0f3157",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py": "90906b2b26e1d837524e8b44ba8e8e3ea8705867befc50e668a738a180f107a5",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py": "a307a1fbd5376a92e51e218009da389ab62f7d07679729931e7c07cff836f091",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py": "fbf85856c80532e3aad61c7902d0d217c7433075705dfca2279d5773d9737400",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py": "9e93a8935736c04e100bfe2f57c268b2f1ad6cfcdf9815f0f77483b6f95371db",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py": "a9939ce416b636b468f672f8dc1e164f489aca1e7de60fede19b6c513fac7c34"
+      },
+      "coverage_claim_audit": {
+        "claimed_list": [
+          "census bytes=0",
+          "census fake digest",
+          "headings are fixture constants",
+          "headings wrong path",
+          "agent bytes=0",
+          "agent remaining=0",
+          "limited-run wrong path",
+          "limited-run fake digest",
+          "limited-run remaining=999",
+          "limited-run claims QUEUE_EXHAUSTED",
+          "level-six headings dropped",
+          "CRLF counted twice",
+          "lone CR not counted",
+          "unterminated line counted",
+          "non-ASCII headings dropped",
+          "ATX closing sequence kept",
+          "empty queue claims BUDGET",
+          "LF+CR pair merged",
+          "terminators-only reports zero",
+          "Unicode normalisation",
+          "trailing hash stripped without a sequence"
+        ],
+        "actual_mutation_descriptions": [
+          "census reports bytes=0 for a non-empty file",
+          "census reports a fake 64-character digest",
+          "headings are fixture constants regardless of the document",
+          "correct headings but a wrong path",
+          "agent reports bytes=0 per file",
+          "agent reports remaining=0 while a file is still queued",
+          "correct byte counts but a wrong path in the one-step run",
+          "one-step run reports a fake digest",
+          "one-step run reports remaining=999",
+          "one-step run claims the queue is exhausted",
+          "level-six headings are silently dropped",
+          "CRLF is counted twice",
+          "a lone CR is not counted as a line terminator",
+          "an unterminated final line is counted as a newline",
+          "the ATX closing sequence stays in the heading text",
+          "an empty queue is reported as budget-limited",
+          "an LF+CR pair is merged into one terminator",
+          "a file made only of terminators reports zero",
+          "heading text is Unicode-normalised instead of kept as-is",
+          "a trailing hash is stripped even without a closing sequence"
+        ]
+      },
+      "original_installed_baseline": {
+        "test_cli.py": {
+          "exit": 0,
+          "stdout": "",
+          "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.714s\n\nOK\n",
+          "module_location": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py",
+          "test_invocations": 8
+        },
+        "test_skill.py": {
+          "exit": 0,
+          "stdout": "",
+          "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.260s\n\nOK\n",
+          "module_location": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py",
+          "test_invocations": 3
+        },
+        "test_agent.py": {
+          "exit": 0,
+          "stdout": "",
+          "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.363s\n\nOK\n",
+          "module_location": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py",
+          "test_invocations": 4
+        }
+      },
+      "build_receipt_audit": [
+        {
+          "kind": "CLI_TOOL",
+          "red_exit": 1,
+          "red_stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 11, in test_census_and_missing_input\n    self.assertTrue(got.stdout.strip(),'program produced no output')\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.086s\n\nFAILED (failures=1)\n",
+          "green_exit": 0,
+          "installed_test_exit": 0,
+          "recorded_file_digests_mismatched": []
+        },
+        {
+          "kind": "AGENT_SKILL",
+          "red_exit": 1,
+          "red_stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... FAIL\n\n======================================================================\nFAIL: test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py\", line 9, in test_heading_inventory_and_bundle\n    self.assertTrue(got.stdout.strip(),'program produced no output')\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.088s\n\nFAILED (failures=1)\n",
+          "green_exit": 0,
+          "installed_test_exit": 0,
+          "recorded_file_digests_mismatched": []
+        },
+        {
+          "kind": "SIMPLE_AGENT",
+          "red_exit": 1,
+          "red_stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... FAIL\n\n======================================================================\nFAIL: test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py\", line 9, in test_two_step_limit_and_hashes\n    self.assertTrue(got.stdout.strip(),'program produced no output'); data=json.loads(got.stdout)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.100s\n\nFAILED (failures=1)\n",
+          "green_exit": 0,
+          "installed_test_exit": 0,
+          "recorded_file_digests_mismatched": []
+        }
+      ],
+      "venv_config": "home = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\ninclude-system-site-packages = false\nversion = 3.11.17\nexecutable = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\ncommand = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -m venv C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\n",
+      "limited_crash_main_selftests": [
+        {
+          "buffered": false,
+          "exit": 1,
+          "receipt": {
+            "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+            "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+            "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+            "results": [
+              {
+                "kind": "SIMPLE_AGENT",
+                "mutation": "limited fatal exit",
+                "provenance": "review7",
+                "applied": true,
+                "mutant_ran_and_answered": false,
+                "probe": {
+                  "runs": [
+                    {
+                      "args": [
+                        "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+                      ],
+                      "exit": 0,
+                      "answered_with_json": true,
+                      "tail": ""
+                    },
+                    {
+                      "args": [
+                        "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                        "--max-steps",
+                        "1"
+                      ],
+                      "exit": 3,
+                      "answered_with_json": false,
+                      "tail": ""
+                    }
+                  ],
+                  "exit": 1,
+                  "answered_with_json": false
+                },
+                "test_exit": 1,
+                "assertion_message": "3 != 0 :",
+                "caught": false,
+                "crash_shaped_assertion": false,
+                "false_red": true,
+                "crash_not_evidence": true,
+                "restored_byte_identical": true,
+                "tail": "oke(p,'--max-steps','1'); self.assertEqual(limited.returncode,0,limited.stderr)\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.182s\n\nFAILED (failures=1)\n"
+              }
+            ],
+            "unmutated_baseline": {
+              "test_cli.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.715s\n\nOK\n"
+              },
+              "test_skill.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.265s\n\nOK\n"
+              },
+              "test_agent.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.355s\n\nOK\n"
+              }
+            },
+            "flags": {
+              "all_caught": false,
+              "no_false_reds": false,
+              "all_restored": true,
+              "baseline_all_pass": true
+            },
+            "exit_code_policy": "non-zero unless every flag is true"
+          }
+        },
+        {
+          "buffered": true,
+          "exit": 1,
+          "receipt": {
+            "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+            "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+            "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+            "results": [
+              {
+                "kind": "SIMPLE_AGENT",
+                "mutation": "limited fatal exit",
+                "provenance": "review7",
+                "applied": true,
+                "mutant_ran_and_answered": false,
+                "probe": {
+                  "runs": [
+                    {
+                      "args": [
+                        "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+                      ],
+                      "exit": 0,
+                      "answered_with_json": true,
+                      "tail": ""
+                    },
+                    {
+                      "args": [
+                        "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                        "--max-steps",
+                        "1"
+                      ],
+                      "exit": 3,
+                      "answered_with_json": true,
+                      "tail": ""
+                    }
+                  ],
+                  "exit": 1,
+                  "answered_with_json": true
+                },
+                "test_exit": 1,
+                "assertion_message": "3 != 0 :",
+                "caught": false,
+                "crash_shaped_assertion": false,
+                "false_red": true,
+                "crash_not_evidence": true,
+                "restored_byte_identical": true,
+                "tail": "oke(p,'--max-steps','1'); self.assertEqual(limited.returncode,0,limited.stderr)\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.182s\n\nFAILED (failures=1)\n"
+              }
+            ],
+            "unmutated_baseline": {
+              "test_cli.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.734s\n\nOK\n"
+              },
+              "test_skill.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.270s\n\nOK\n"
+              },
+              "test_agent.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.358s\n\nOK\n"
+              }
+            },
+            "flags": {
+              "all_caught": false,
+              "no_false_reds": false,
+              "all_restored": true,
+              "baseline_all_pass": true
+            },
+            "exit_code_policy": "non-zero unless every flag is true"
+          }
+        }
+      ],
+      "scope_ambiguity_probe": {
+        "input": "#  \n## Name ##\n",
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"\"}, {\"level\": 2, \"line\": 2, \"text\": \"Name\\u00a0##\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\scope-ambiguity.md\"}\n",
+        "stderr": ""
+      },
+      "prior_review_novelty_audit": {
+        "reviewed_files": [
+          "ts23_review2.json",
+          "ts23_review3.json",
+          "ts23_review4.json",
+          "ts23_review5.json",
+          "ts23_review6.json"
+        ],
+        "novel_at_least_two": [
+          "N04_TAB_REJECTED",
+          "N14_SHORT_QUEUE_BUDGET"
+        ],
+        "ceiling": "No matching described attempt in available review2-6 JSON or maker list; review1 full record absent."
+      }
+    },
+    "execution_note": "An initial exploratory run used runtime TMPDIR which resolved to the system user Temp. Authoritative experiments were rerun under the explicit Hermes scratch path; embedded evidence is from that rerun and subsequent scratch-only probes. Only the two requested review artifacts were written under raw/.",
+    "subject_hashes_match_at_report": true,
+    "scratch_modules_restored": true
+  },
+  "mutations_i_tried": [
+    {
+      "id": "MAKER_01",
+      "origin": "maker-list independent replay",
+      "description": "census reports bytes=0 for a non-empty file",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "census reports bytes=0 for a non-empty file",
+        "provenance": "review 2 (survived), review 3 (G1)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "{'bytes': 0, 'newlines': 4, 'path': 'C:\\\\Us[227 chars]051'} != {'path': 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\[228 chars]051'}",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "kages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.091s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_02",
+      "origin": "maker-list independent replay",
+      "description": "census reports a fake 64-character digest",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "census reports a fake 64-character digest",
+        "provenance": "maker",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "{'bytes': 28, 'newlines': 4, 'path': 'C:\\\\U[228 chars]000'} != {'path': 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\[228 chars]051'}",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "3_review7_experiments\\\\tests\\\\headings.md',\n-  'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}\n+  'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.091s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_03",
+      "origin": "maker-list independent replay",
+      "description": "headings are fixture constants regardless of the document",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "headings are fixture constants regardless of the document",
+        "provenance": "review 1",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": ", 'level': 1, 'text': 'Alpha'}\n\nSecond list contains 6 additional elements.\nFirst extra element 3:\n{'line': 7, 'level': 2, 'text': 'Café'}\n\nDiff is 795 characters long. Set self.maxDiff to None to see it.\n\n----------------------------------------------------------------------\nRan 1 test in 0.202s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_04",
+      "origin": "maker-list independent replay",
+      "description": "correct headings but a wrong path",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "correct headings but a wrong path",
+        "provenance": "review 3 (N3)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "'wrong' != 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages[125 chars]d.md'",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "Data\\\\Local\\\\Packages[125 chars]d.md'\n- wrong\n+ C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\ts23-headings-second.md\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.190s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_05",
+      "origin": "maker-list independent replay",
+      "description": "agent reports bytes=0 per file",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "agent reports bytes=0 per file",
+        "provenance": "review 2 (survived)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [0, 0] != [5765, 5776]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "tEqual([r['bytes'] for r in data['reviews']],[len(Path(x).read_bytes()) for x in queue[:2]])\nAssertionError: Lists differ: [0, 0] != [5765, 5776]\n\nFirst differing element 0:\n0\n5765\n\n- [0, 0]\n+ [5765, 5776]\n\n----------------------------------------------------------------------\nRan 1 test in 0.091s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_06",
+      "origin": "maker-list independent replay",
+      "description": "agent reports remaining=0 while a file is still queued",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "agent reports remaining=0 while a file is still queued",
+        "provenance": "maker",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "0 != 1",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "st_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.090s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_07",
+      "origin": "maker-list independent replay",
+      "description": "correct byte counts but a wrong path in the one-step run",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "correct byte counts but a wrong path in the one-step run",
+        "provenance": "review 3 (N4)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: ['wrong', 'wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\READM[94 chars]son']",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "s\\\\Agent_Workspace\\\\SBL\\\\README.md'\n\n- ['wrong', 'wrong']\n+ ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md',\n+  'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json']\n\n----------------------------------------------------------------------\nRan 1 test in 0.091s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_08",
+      "origin": "maker-list independent replay",
+      "description": "one-step run reports a fake digest",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "one-step run reports a fake digest",
+        "provenance": "review 3 (N5)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: ['00000000000000000000000000000000000000000[88 chars]000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4df[88 chars]e71']",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "0000000000000000000000000000000000000000000000000000000000000']\n+ ['1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed',\n+  '4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71']\n\n----------------------------------------------------------------------\nRan 1 test in 0.092s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_09",
+      "origin": "maker-list independent replay",
+      "description": "one-step run reports remaining=999",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "one-step run reports remaining=999",
+        "provenance": "review 3 (N7)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "999 != 1",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 999 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.091s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_10",
+      "origin": "maker-list independent replay",
+      "description": "one-step run claims the queue is exhausted",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "one-step run claims the queue is exhausted",
+        "provenance": "review 3 (N8)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "ew7_experiments\\tests\\test_agent.py\", line 11, in test_two_step_limit_and_hashes\n    self.assertEqual(data['halt_reason'],'BUDGET')\nAssertionError: 'QUEUE_EXHAUSTED' != 'BUDGET'\n- QUEUE_EXHAUSTED\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.098s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_11",
+      "origin": "maker-list independent replay",
+      "description": "level-six headings are silently dropped",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "level-six headings are silently dropped",
+        "provenance": "review 4 (LEVEL6_COVERAGE)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[294 chars]on'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "t': 'Epsilon'}]\n?                                             ^\n\n+  {'level': 5, 'line': 11, 'text': 'Epsilon'},\n?                                             ^\n\n+  {'level': 6, 'line': 12, 'text': 'Six'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.188s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_12",
+      "origin": "maker-list independent replay",
+      "description": "CRLF is counted twice",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "CRLF is counted twice",
+        "provenance": "review 4 (CRLF_COVERAGE)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "6 != 3",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "ocal\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\test_cli.py\", line 21, in test_census_and_missing_input\n    self.assertEqual(got3['newlines'],crlf.read_bytes().count(b'\\n'))\nAssertionError: 6 != 3\n\n----------------------------------------------------------------------\nRan 1 test in 0.271s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_13",
+      "origin": "maker-list independent replay",
+      "description": "a lone CR is not counted as a line terminator",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "a lone CR is not counted as a line terminator",
+        "provenance": "review 5 (LONE_CR_IGNORED_BY_SUITE)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "0 != 3 : a lone CR is a line terminator",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "7_experiments\\tests\\test_cli.py\", line 26, in test_census_and_missing_input\n    self.assertEqual(gotl['newlines'],3,'a lone CR is a line terminator')\nAssertionError: 0 != 3 : a lone CR is a line terminator\n\n----------------------------------------------------------------------\nRan 1 test in 0.366s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_14",
+      "origin": "maker-list independent replay",
+      "description": "an unterminated final line is counted as a newline",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "an unterminated final line is counted as a newline",
+        "provenance": "review 5 (UNTERMINATED_LINE_COUNTED_AS_NEWLINE)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "{'bytes': 0, 'newlines': 1, 'path': 'C:\\\\Us[232 chars]855'} != {'path': 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\[232 chars]855'}",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\tests\\\\ts23-empty-input',\n   'sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.182s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_15",
+      "origin": "maker-list independent replay",
+      "description": "the ATX closing sequence stays in the heading text",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "the ATX closing sequence stays in the heading text",
+        "provenance": "review 5 (ATX_CLOSING_SEQUENCE_UNSPECIFIED)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[338 chars]ix'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "': 8, 'text': 'tag#'},\n   {'level': 3, 'line': 9, 'text': 'Gamma'},\n   {'level': 4, 'line': 10, 'text': 'Delta'},\n   {'level': 5, 'line': 11, 'text': 'Epsilon'},\n   {'level': 6, 'line': 12, 'text': 'Six'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.184s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_16",
+      "origin": "maker-list independent replay",
+      "description": "an empty queue is reported as budget-limited",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "SIMPLE_AGENT",
+        "mutation": "an empty queue is reported as budget-limited",
+        "provenance": "review 5 (EMPTY_QUEUE_REPORTS_BUDGET)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            },
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+                "--max-steps",
+                "1"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "'BUDGET' != 'QUEUE_EXHAUSTED'",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "reason'],'QUEUE_EXHAUSTED','nothing was queued, so nothing was budget-limited')\nAssertionError: 'BUDGET' != 'QUEUE_EXHAUSTED'\n- BUDGET\n+ QUEUE_EXHAUSTED\n : nothing was queued, so nothing was budget-limited\n\n----------------------------------------------------------------------\nRan 1 test in 0.290s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_17",
+      "origin": "maker-list independent replay",
+      "description": "an LF+CR pair is merged into one terminator",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "an LF+CR pair is merged into one terminator",
+        "provenance": "review 6 (LFCR_PAIR_MERGED)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "1 != 2 : LF then CR is two terminators",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "y\", line 35, in test_census_and_missing_input\n    self.assertEqual(json.loads(self.invoke(pair).stdout)['newlines'],2,'LF then CR is two terminators')\nAssertionError: 1 != 2 : LF then CR is two terminators\n\n----------------------------------------------------------------------\nRan 1 test in 0.547s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_18",
+      "origin": "maker-list independent replay",
+      "description": "a file made only of terminators reports zero",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "CLI_TOOL",
+        "mutation": "a file made only of terminators reports zero",
+        "provenance": "review 6 (TERMINATORS_ONLY_SUPPRESSED)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "0 != 4 : three terminators plus one more",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "line 38, in test_census_and_missing_input\n    self.assertEqual(json.loads(self.invoke(only).stdout)['newlines'],4,'three terminators plus one more')\nAssertionError: 0 != 4 : three terminators plus one more\n\n----------------------------------------------------------------------\nRan 1 test in 0.643s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_19",
+      "origin": "maker-list independent replay",
+      "description": "heading text is Unicode-normalised instead of kept as-is",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "heading text is Unicode-normalised instead of kept as-is",
+        "provenance": "review 6 (UNICODE_NORMALIZATION)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[334 chars]ix'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "': 8, 'text': 'tag#'},\n   {'level': 3, 'line': 9, 'text': 'Gamma'},\n   {'level': 4, 'line': 10, 'text': 'Delta'},\n   {'level': 5, 'line': 11, 'text': 'Epsilon'},\n   {'level': 6, 'line': 12, 'text': 'Six'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.189s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "MAKER_20",
+      "origin": "maker-list independent replay",
+      "description": "a trailing hash is stripped even without a closing sequence",
+      "disposition": "CORRECTLY_REJECTED",
+      "survived_suite": false,
+      "evidence": {
+        "kind": "AGENT_SKILL",
+        "mutation": "a trailing hash is stripped even without a closing sequence",
+        "provenance": "review 6 (CONTENT_HASH_STRIPPED)",
+        "applied": true,
+        "mutant_ran_and_answered": true,
+        "probe": {
+          "runs": [
+            {
+              "args": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+              ],
+              "exit": 0,
+              "answered_with_json": true,
+              "tail": ""
+            }
+          ],
+          "exit": 0,
+          "answered_with_json": true
+        },
+        "test_exit": 1,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[334 chars]ix'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "caught": true,
+        "crash_shaped_assertion": false,
+        "false_red": false,
+        "crash_not_evidence": false,
+        "restored_byte_identical": true,
+        "tail": "                    +\n\n   {'level': 3, 'line': 9, 'text': 'Gamma'},\n   {'level': 4, 'line': 10, 'text': 'Delta'},\n   {'level': 5, 'line': 11, 'text': 'Epsilon'},\n   {'level': 6, 'line': 12, 'text': 'Six'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.185s\n\nFAILED (failures=1)\n"
+      }
+    },
+    {
+      "id": "N01_DECODE_BINARY",
+      "module": "ts23_newline",
+      "rule": "N1 bytes never decoded",
+      "novel": true,
+      "substitution": {
+        "old": "data=args.path.read_bytes()",
+        "new": "data=args.path.read_bytes().decode('utf-8').encode('utf-8')"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.733s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_newline\\__main__.py\", line 2, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_newline\\__init__.py\", line 6, in main\n    try: data=args.path.read_bytes().decode('utf-8').encode('utf-8')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N02_INPUT_EXIT7",
+      "module": "ts23_newline",
+      "rule": "N4 missing/unreadable exit exactly 2",
+      "novel": true,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.724s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N03_ERROR_STDOUT",
+      "module": "ts23_newline",
+      "rule": "N4 empty stdout on input error",
+      "novel": true,
+      "substitution": {
+        "old": "except OSError as exc: parser.exit(2,",
+        "new": "except OSError as exc: print('unexpected output'); parser.exit(2,"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.725s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 2,
+        "stdout": "unexpected output\n",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N04_TAB_REJECTED",
+      "module": "ts23_headings",
+      "rule": "H1 tab is valid separator",
+      "novel": true,
+      "substitution": {
+        "old": "[ \\t]+(.+?)",
+        "new": " +(.+?)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.274s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N05_NO_SEPARATOR",
+      "module": "ts23_headings",
+      "rule": "H1 space/tab required",
+      "novel": true,
+      "substitution": {
+        "old": "[ \\t]+(.+?)",
+        "new": "[ \\t]*(.+?)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[380 chars]en'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "tail": "e': 12, 'text': 'Six'},\n?                                         ^\n\n+  {'level': 6, 'line': 12, 'text': 'Six'}]\n?                                         ^\n\n-  {'level': 6, 'line': 13, 'text': '# Seven'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.192s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 1, \"line\": 2, \"text\": \"NoSpace\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}, {\"level\": 6, \"line\": 7, \"text\": \"# Seven\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "REJECTED_ON_COLLATERAL_LEVEL7_DEFECT"
+    },
+    {
+      "id": "N06_LEVEL7",
+      "module": "ts23_headings",
+      "rule": "H2 ignore level 7",
+      "novel": true,
+      "substitution": {
+        "old": "(#{1,6})",
+        "new": "(#{1,7})"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'Seven' unexpectedly found in ['Alpha', 'Beta', '知識庫 heading', 'Café', 'tag#', 'Gamma', 'Delta', 'Epsilon', 'Six', 'Seven']",
+        "tail": " self.assertNotIn('Seven',[h['text'] for h in got2['headings']])\nAssertionError: 'Seven' unexpectedly found in ['Alpha', 'Beta', '知識庫 heading', 'Café', 'tag#', 'Gamma', 'Delta', 'Epsilon', 'Six', 'Seven']\n\n----------------------------------------------------------------------\nRan 1 test in 0.189s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}, {\"level\": 7, \"line\": 7, \"text\": \"Seven\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "N07_INTERNAL_WHITESPACE_COLLAPSED",
+      "module": "ts23_headings",
+      "rule": "H4 text kept exactly as written including internal whitespace",
+      "novel": true,
+      "substitution": {
+        "old": ".strip()})",
+        "new": ".strip().replace('  ',' ')})"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.277s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N08_LINE_ZERO",
+      "module": "ts23_headings",
+      "rule": "H5 one-based line numbers",
+      "novel": true,
+      "substitution": {
+        "old": "'line':number",
+        "new": "'line':number-1"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 0, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'One'}, {'li[72 chars]ee'}]",
+        "tail": "el': 2, 'line': 3, 'text': 'Two'},\n?                       ^\n\n-  {'level': 3, 'line': 3, 'text': 'Three'}]\n?                       ^\n\n+  {'level': 3, 'line': 4, 'text': 'Three'}]\n?                       ^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.092s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 0, \"text\": \"x\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\normal.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "N09_UNDECODABLE_CRASH",
+      "module": "ts23_headings",
+      "rule": "H6 undecodable exits 2 with ERR_INPUT",
+      "novel": true,
+      "substitution": {
+        "old": "(OSError,UnicodeError)",
+        "new": "(OSError,)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.276s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__main__.py\", line 2, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__init__.py\", line 12, in main\n    try: headings=inventory(args.path)\n                  ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__init__.py\", line 5, in inventory\n    lines=Path(path).read_text(encoding='utf-8').splitlines(); headings=[]\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\Lib\\pathlib.py\", line 1059, in read_text\n    return f.read()\n           ^^^^^^^^\n  File \"<frozen codecs>\", line 322, in decode\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 2: invalid start byte\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N10_HEADING_EXIT7",
+      "module": "ts23_headings",
+      "rule": "H6 missing exits exactly 2",
+      "novel": true,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.267s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N11_QUEUE_ORDER",
+      "module": "ts23_review",
+      "rule": "R1 queue order",
+      "novel": true,
+      "substitution": {
+        "old": "fixed=tuple(queue)",
+        "new": "fixed=tuple(reversed(queue))"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [4353, 5776] != [5765, 5776]",
+        "tail": "'reviews']],[len(Path(x).read_bytes()) for x in queue[:2]])\nAssertionError: Lists differ: [4353, 5776] != [5765, 5776]\n\nFirst differing element 0:\n4353\n5765\n\n- [4353, 5776]\n?  -- ^\n\n+ [5765, 5776]\n?   ^^^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.093s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 4353, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\scripts\\\\pi_compile_h0.py\", \"sha256\": \"33e25399317d79220ad61d54619bc83044cfaec44a603b543182c66947094d89\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "N12_BUDGET_IGNORED",
+      "module": "ts23_review",
+      "rule": "R1 explicit --max-steps bound",
+      "novel": true,
+      "substitution": {
+        "old": "if index>=max_steps: break",
+        "new": "if index>=2: break"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "2 != 1",
+        "tail": ", line 17, in test_two_step_limit_and_hashes\n    lim=json.loads(limited.stdout); self.assertEqual(lim['steps'],1)\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 2 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.181s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "N13_ALLOW_N3",
+      "module": "ts23_review",
+      "rule": "R1 scope N unrestricted vs test prohibits N3",
+      "novel": true,
+      "substitution": {
+        "old": "choices=[1,2]",
+        "new": "choices=[1,2,3]"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "0 == 0",
+        "tail": "_step_limit_and_hashes\n    bad=self.invoke(p,'--max-steps','3'); self.assertNotEqual(bad.returncode,0)\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 == 0\n\n----------------------------------------------------------------------\nRan 1 test in 0.378s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"QUEUE_EXHAUSTED\", \"remaining\": 0, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}, {\"bytes\": 4353, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\scripts\\\\pi_compile_h0.py\", \"sha256\": \"33e25399317d79220ad61d54619bc83044cfaec44a603b543182c66947094d89\"}], \"steps\": 3}\n",
+        "stderr": ""
+      },
+      "disposition": "REJECTED_CONTRACT_COMPATIBLE_EXTENSION_UNDECLARED_RESTRICTION"
+    },
+    {
+      "id": "N14_SHORT_QUEUE_BUDGET",
+      "module": "ts23_review",
+      "rule": "R4 nonempty exhausted queue",
+      "novel": true,
+      "substitution": {
+        "old": "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
+        "new": "'halt_reason':('BUDGET' if reviews else 'QUEUE_EXHAUSTED')"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.371s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 0, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}], \"steps\": 1}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N15_SKIP_UNREADABLE",
+      "module": "ts23_review",
+      "rule": "R5 unreadable entry must not skip",
+      "novel": true,
+      "substitution": {
+        "old": "data=Path(path).read_bytes();",
+        "new": "if not Path(path).is_file(): continue\n  data=Path(path).read_bytes();"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.369s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [], \"steps\": 0}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N16_NONARRAY_ACCEPTED",
+      "module": "ts23_review",
+      "rule": "R5 reject nonarray queue",
+      "novel": true,
+      "substitution": {
+        "old": "if not isinstance(fixed,list) or not all(isinstance(x,str) for x in fixed):",
+        "new": "if False:"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.372s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"QUEUE_EXHAUSTED\", \"remaining\": 0, \"reviews\": [], \"steps\": 0}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N17_QUEUE_EXIT7",
+      "module": "ts23_review",
+      "rule": "R5 error exits exactly 2",
+      "novel": true,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.363s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N18_NONASCII_DROPPED",
+      "module": "ts23_headings",
+      "rule": "H4 preserve nonASCII",
+      "novel": false,
+      "substitution": {
+        "old": "if match: headings.append",
+        "new": "if match and match[2].isascii(): headings.append"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[245 chars]ix'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
+        "tail": "': 8, 'text': 'tag#'},\n   {'level': 3, 'line': 9, 'text': 'Gamma'},\n   {'level': 4, 'line': 10, 'text': 'Delta'},\n   {'level': 5, 'line': 11, 'text': 'Epsilon'},\n   {'level': 6, 'line': 12, 'text': 'Six'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.186s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Alpha\"}, {\"level\": 2, \"line\": 5, \"text\": \"Beta\"}, {\"level\": 2, \"line\": 8, \"text\": \"tag#\"}, {\"level\": 3, \"line\": 9, \"text\": \"Gamma\"}, {\"level\": 4, \"line\": 10, \"text\": \"Delta\"}, {\"level\": 5, \"line\": 11, \"text\": \"Epsilon\"}, {\"level\": 6, \"line\": 12, \"text\": \"Six\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\tests\\\\ts23-headings-second.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "C01_LIMITED_HARD_EXIT",
+      "module": "ts23_review",
+      "rule": "M1 crash must not count as catch",
+      "novel": true,
+      "substitution": {
+        "old": "reviews=[]; fixed=tuple(queue)",
+        "new": "if max_steps==1: __import__('os')._exit(3)\n reviews=[]; fixed=tuple(queue)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 3,
+            "answered_with_json": false,
+            "tail": ""
+          }
+        ],
+        "exit": 1,
+        "answered_with_json": false
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "3 != 0 :",
+        "tail": "oke(p,'--max-steps','1'); self.assertEqual(limited.returncode,0,limited.stderr)\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.176s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": false,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_CLASSIFIED_CRASH_NOT_CATCH"
+    },
+    {
+      "id": "C02_LIMITED_BUFFERED_EXIT",
+      "module": "ts23_review",
+      "rule": "M1 crash must not count as catch",
+      "novel": true,
+      "substitution": {
+        "old": "reviews=[]; fixed=tuple(queue)",
+        "new": "if max_steps==1: print('{}',flush=True); __import__('os')._exit(3)\n reviews=[]; fixed=tuple(queue)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 3,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 1,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "3 != 0 :",
+        "tail": "oke(p,'--max-steps','1'); self.assertEqual(limited.returncode,0,limited.stderr)\n                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.176s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": false,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+        "stderr": ""
+      },
+      "disposition": "CORRECTLY_CLASSIFIED_CRASH_NOT_CATCH"
+    },
+    {
+      "id": "C03_EMPTY_HARD_EXIT",
+      "module": "ts23_review",
+      "rule": "M1 crash must not count as catch",
+      "novel": true,
+      "substitution": {
+        "old": "reviews=[]; fixed=tuple(queue)",
+        "new": "if not queue: __import__('os')._exit(3)\n reviews=[]; fixed=tuple(queue)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "3 != 0 :",
+        "tail": "ine 25, in test_two_step_limit_and_hashes\n    e=self.invoke(emptyq); self.assertEqual(e.returncode,0,e.stderr)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.273s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 3,
+        "stdout": "",
+        "stderr": ""
+      },
+      "disposition": "FALSE_CATCH_IN_HARNESS"
+    },
+    {
+      "id": "C04_EMPTY_BUFFERED_EXIT",
+      "module": "ts23_review",
+      "rule": "M1 crash must not count as catch",
+      "novel": true,
+      "substitution": {
+        "old": "reviews=[]; fixed=tuple(queue)",
+        "new": "if not queue: print('{}',flush=True); __import__('os')._exit(3)\n reviews=[]; fixed=tuple(queue)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "3 != 0 :",
+        "tail": "ine 25, in test_two_step_limit_and_hashes\n    e=self.invoke(emptyq); self.assertEqual(e.returncode,0,e.stderr)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 3 != 0 : \n\n----------------------------------------------------------------------\nRan 1 test in 0.271s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 3,
+        "stdout": "{}\n",
+        "stderr": ""
+      },
+      "disposition": "FALSE_CATCH_IN_HARNESS"
+    },
+    {
+      "id": "N19_REVIEW6_EXACT_NFKD",
+      "module": "ts23_headings",
+      "rule": "H4 no Unicode normalisation; exact review-6 survivor",
+      "novel": false,
+      "substitution": {
+        "old": "return headings",
+        "new": "return [dict(h,text=__import__('unicodedata').normalize('NFKD',h['text'])) for h in headings]"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.309s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"cafe\\u0301 \\ud83d\\ude00\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\composed.md\"}\n",
+        "stderr": ""
+      },
+      "counterexample_baseline": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"caf\\u00e9 \\ud83d\\ude00\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\composed.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N20_NO_SEPARATOR_ISOLATED",
+      "module": "ts23_headings",
+      "rule": "H1 mandatory separator; retains H2 seven-hash rejection",
+      "novel": true,
+      "substitution": {
+        "old": "(#{1,6})[ \\t]+(.+?)",
+        "new": "(#{1,6})(?!#)[ \\t]*(.+?)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.265s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 1, \"line\": 2, \"text\": \"NoSpace\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "O01_BOM_STRIPPED",
+      "module": "ts23_headings",
+      "rule": "O3 excluded BOM but positive no-stripping sentence",
+      "novel": true,
+      "substitution": {
+        "old": ".read_text(encoding='utf-8').splitlines()",
+        "new": ".read_text(encoding='utf-8').lstrip('\\ufeff').splitlines()"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.264s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Hidden\"}, {\"level\": 1, \"line\": 2, \"text\": \"Visible\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\bom.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_EXCLUSION_WITH_POSITIVE_PROMISE_AMBIGUITY"
+    },
+    {
+      "id": "O02_FENCE_SUPPRESSED",
+      "module": "ts23_headings",
+      "rule": "O1 excluded fence parsing but positive still-reported sentence",
+      "novel": true,
+      "substitution": {
+        "old": "return headings",
+        "new": "return [] if '```' in Path(path).read_text(encoding='utf-8') else headings"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.265s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\fence.md\"}\n",
+        "stderr": ""
+      },
+      "disposition": "SURVIVED_EXCLUSION_WITH_POSITIVE_PROMISE_AMBIGUITY"
+    },
+    {
+      "id": "N21_INPUT_REWRITTEN",
+      "module": "ts23_newline",
+      "rule": "N0 read-only census",
+      "novel": true,
+      "substitution": {
+        "old": "data=args.path.read_bytes()",
+        "new": "data=args.path.read_bytes(); args.path.write_bytes(data)"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\tests\\headings.md"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.721s\n\nOK\n"
+      },
+      "harness_caught": false,
+      "survived_suite": true,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"bytes\": 5, \"newlines\": 2, \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\binary.bin\", \"sha256\": \"c74dccc435f26f0d6fcd6881f5a5c90dd8447623b67fb9544165f5fe2cfa3556\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": true,
+      "disposition": "SURVIVED_IN_SCOPE"
+    },
+    {
+      "id": "N22_STEPS999",
+      "module": "ts23_review",
+      "rule": "R3 steps is number reviewed",
+      "novel": true,
+      "substitution": {
+        "old": "'steps':len(reviews)",
+        "new": "'steps':999"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "999 != 2",
+        "tail": "\\tests\\test_agent.py\", line 10, in test_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 999 != 2\n\n----------------------------------------------------------------------\nRan 1 test in 0.089s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 999}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": false,
+      "disposition": "CORRECTLY_REJECTED"
+    },
+    {
+      "id": "N23_DEFAULT1",
+      "module": "ts23_review",
+      "rule": "R1 default limit 2",
+      "novel": true,
+      "substitution": {
+        "old": "choices=[1,2],default=2",
+        "new": "choices=[1,2],default=1"
+      },
+      "harness_probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "answered_with_json": true,
+            "tail": ""
+          }
+        ],
+        "exit": 0,
+        "answered_with_json": true
+      },
+      "test": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "1 != 2",
+        "tail": "ts\\tests\\test_agent.py\", line 10, in test_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 2\n\n----------------------------------------------------------------------\nRan 1 test in 0.092s\n\nFAILED (failures=1)\n"
+      },
+      "harness_caught": true,
+      "survived_suite": false,
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 2, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}], \"steps\": 1}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": false,
+      "disposition": "CORRECTLY_REJECTED"
+    }
+  ],
+  "surviving_mutations": [
+    {
+      "id": "N01_DECODE_BINARY",
+      "rule": "N1 bytes never decoded",
+      "test_exit": 0,
+      "substitution": {
+        "old": "data=args.path.read_bytes()",
+        "new": "data=args.path.read_bytes().decode('utf-8').encode('utf-8')"
+      },
+      "counterexample": {
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_newline\\__main__.py\", line 2, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_newline\\__init__.py\", line 6, in main\n    try: data=args.path.read_bytes().decode('utf-8').encode('utf-8')\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N02_INPUT_EXIT7",
+      "rule": "N4 missing/unreadable exit exactly 2",
+      "test_exit": 0,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N03_ERROR_STDOUT",
+      "rule": "N4 empty stdout on input error",
+      "test_exit": 0,
+      "substitution": {
+        "old": "except OSError as exc: parser.exit(2,",
+        "new": "except OSError as exc: print('unexpected output'); parser.exit(2,"
+      },
+      "counterexample": {
+        "exit": 2,
+        "stdout": "unexpected output\n",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N04_TAB_REJECTED",
+      "rule": "H1 tab is valid separator",
+      "test_exit": 0,
+      "substitution": {
+        "old": "[ \\t]+(.+?)",
+        "new": " +(.+?)"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N07_INTERNAL_WHITESPACE_COLLAPSED",
+      "rule": "H4 text kept exactly as written including internal whitespace",
+      "test_exit": 0,
+      "substitution": {
+        "old": ".strip()})",
+        "new": ".strip().replace('  ',' ')})"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N09_UNDECODABLE_CRASH",
+      "rule": "H6 undecodable exits 2 with ERR_INPUT",
+      "test_exit": 0,
+      "substitution": {
+        "old": "(OSError,UnicodeError)",
+        "new": "(OSError,)"
+      },
+      "counterexample": {
+        "exit": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__main__.py\", line 2, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__init__.py\", line 12, in main\n    try: headings=inventory(args.path)\n                  ^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\ts23_review7_experiments\\modules\\ts23_headings\\__init__.py\", line 5, in inventory\n    lines=Path(path).read_text(encoding='utf-8').splitlines(); headings=[]\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\Lib\\pathlib.py\", line 1059, in read_text\n    return f.read()\n           ^^^^^^^^\n  File \"<frozen codecs>\", line 322, in decode\nUnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 2: invalid start byte\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N10_HEADING_EXIT7",
+      "rule": "H6 missing exits exactly 2",
+      "test_exit": 0,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N14_SHORT_QUEUE_BUDGET",
+      "rule": "R4 nonempty exhausted queue",
+      "test_exit": 0,
+      "substitution": {
+        "old": "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
+        "new": "'halt_reason':('BUDGET' if reviews else 'QUEUE_EXHAUSTED')"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 0, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}], \"steps\": 1}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N15_SKIP_UNREADABLE",
+      "rule": "R5 unreadable entry must not skip",
+      "test_exit": 0,
+      "substitution": {
+        "old": "data=Path(path).read_bytes();",
+        "new": "if not Path(path).is_file(): continue\n  data=Path(path).read_bytes();"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [], \"steps\": 0}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N16_NONARRAY_ACCEPTED",
+      "rule": "R5 reject nonarray queue",
+      "test_exit": 0,
+      "substitution": {
+        "old": "if not isinstance(fixed,list) or not all(isinstance(x,str) for x in fixed):",
+        "new": "if False:"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"halt_reason\": \"QUEUE_EXHAUSTED\", \"remaining\": 0, \"reviews\": [], \"steps\": 0}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N17_QUEUE_EXIT7",
+      "rule": "R5 error exits exactly 2",
+      "test_exit": 0,
+      "substitution": {
+        "old": "parser.exit(2,'ERR_INPUT:",
+        "new": "parser.exit(7,'ERR_INPUT:"
+      },
+      "counterexample": {
+        "exit": 7,
+        "stdout": "",
+        "stderr": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\absent-input'\n"
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N19_REVIEW6_EXACT_NFKD",
+      "rule": "H4 no Unicode normalisation; exact review-6 survivor",
+      "test_exit": 0,
+      "substitution": {
+        "old": "return headings",
+        "new": "return [dict(h,text=__import__('unicodedata').normalize('NFKD',h['text'])) for h in headings]"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"cafe\\u0301 \\ud83d\\ude00\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\composed.md\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N20_NO_SEPARATOR_ISOLATED",
+      "rule": "H1 mandatory separator; retains H2 seven-hash rejection",
+      "test_exit": 0,
+      "substitution": {
+        "old": "(#{1,6})[ \\t]+(.+?)",
+        "new": "(#{1,6})(?!#)[ \\t]*(.+?)"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"Tabbed\"}, {\"level\": 1, \"line\": 2, \"text\": \"NoSpace\"}, {\"level\": 2, \"line\": 4, \"text\": \"Tail\"}, {\"level\": 2, \"line\": 5, \"text\": \"Inner  space\"}, {\"level\": 2, \"line\": 6, \"text\": \"Name\"}], \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\edges.md\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": null
+    },
+    {
+      "id": "N21_INPUT_REWRITTEN",
+      "rule": "N0 read-only census",
+      "test_exit": 0,
+      "substitution": {
+        "old": "data=args.path.read_bytes()",
+        "new": "data=args.path.read_bytes(); args.path.write_bytes(data)"
+      },
+      "counterexample": {
+        "exit": 0,
+        "stdout": "{\"bytes\": 5, \"newlines\": 2, \"path\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\cache\\\\scratch\\\\ts23_review7_experiments\\\\binary.bin\", \"sha256\": \"c74dccc435f26f0d6fcd6881f5a5c90dd8447623b67fb9544165f5fe2cfa3556\"}\n",
+        "stderr": ""
+      },
+      "input_mtime_changed": true
+    }
+  ],
+  "residual_gaps": [
+    {
+      "id": "G01",
+      "severity": "major",
+      "finding": "Baseline strips trailing heading text spaces, contradicting exact-text wording.",
+      "evidence": "## Tail followed by two spaces returns Tail without either space. No closing hash sequence exists; N07 additionally demonstrates internal-space preservation is unguarded.",
+      "direction": "Specify any intended content trimming explicitly or preserve text and add independent exact-whitespace tests."
+    },
+    {
+      "id": "G02",
+      "severity": "major",
+      "finding": "Unstated budget-domain restriction is enforced; budget-boundary semantics incomplete.",
+      "evidence": "Scope promises --max-steps N, baseline choices=[1,2], test requires N=3 rejection. N13 permits 3, correctly reviews all files, and fails that test. N=0/negative validity and equality precedence not specified.",
+      "direction": "Declare valid N and halt precedence, then align implementation/tests. Do not classify N13 as a semantic defect."
+    },
+    {
+      "id": "G03",
+      "severity": "major_contract_mismatch",
+      "finding": "Tests enforce output/path and bundle rules absent from SCOPE.",
+      "evidence": "test_cli.py:12,15 and test_skill.py:24-25 require resolved absolute path; test_skill.py:11-13 requires bundled SKILL.md and exact name/command strings. SCOPE has no newline/headings output schema or path rule and no package-data contract.",
+      "direction": "State output schema, path semantics and bundle requirements, or remove undeclared conformance gates."
+    },
+    {
+      "id": "G04",
+      "severity": "major",
+      "finding": "Every-fixture-precondition closure is false.",
+      "evidence": "P01 replaces ###### Six by ##### Six and test still exits 0, because expected output is derived from regressed fixture. P02 CRLF-to-lone-CR and P03 terminators-to-empty fail only answer assertions, not claimed fixture guards. P04-P08 correctly fail explicit shape preconditions.",
+      "direction": "Assert required levels 6/7, actual CRLF pairs and nonempty terminators-only shape before running the program; add preconditions for every promised boundary."
+    },
+    {
+      "id": "G05",
+      "severity": "major",
+      "finding": "Harness still records a crash as caught and exits successfully.",
+      "evidence": "C03/C04 crash only on empty queue. Default and limited probes succeed; test fails 3 != 0 with no Error/Exception text. Actual main with C03 sets caught=true, false_red=false and all four flags=true and returns 0.",
+      "direction": "Capture status and answers for every actual successful test invocation, including empty/alternate inputs; do not infer behavioural failures from first-line assertion strings."
+    },
+    {
+      "id": "G06",
+      "severity": "major_claim_layer",
+      "finding": "Review6 coverage/all-fixed claim is still inaccurate.",
+      "evidence": "Remediation6 lists 21 names but automated list has 20; non-ASCII-drop replay is absent. ATX closing sequence appears once, not an explanation for missing replay. Citing fatal-exit self-tests does not reconcile the nonASCII omission. More importantly exact review6 NFKD mutation N19 still survives: replacing it with an NFC mutation changed the challenged behaviour.",
+      "direction": "Correct the enumerated receipt and all-fixed ceiling; replay exact prior counterexamples before claiming closure."
+    },
+    {
+      "id": "G07",
+      "severity": "contract_ambiguity",
+      "finding": "Heading text/whitespace boundary definitions are incomplete.",
+      "evidence": "# followed by two spaces yields an empty-text heading despite followed-by-text wording. Closing sequence uses unspecified whitespace; NBSP before ## is retained while ASCII/tab separators are stripped. Exact-text versus trimming is G01.",
+      "direction": "Define nonempty text, separator versus content whitespace, Unicode whitespace domain, and heading line boundaries. Current ordinary rules are enforceable; these boundary clauses are not unambiguous."
+    },
+    {
+      "id": "G08",
+      "severity": "contract_ambiguity",
+      "finding": "Exclusion list mixes true exclusions with positive promises.",
+      "evidence": "Scope says excluded topics need no test coverage, then promises fenced headings are still reported and BOM is not stripped. O01/O02 survive while violating those literal promises.",
+      "direction": "Keep full Markdown/BOM-aware semantics excluded if desired, but mark these positive behaviours as normative tested rules or explicitly advisory descriptions. This ambiguity cannot excuse any of the 14 clearly in-scope survivors."
+    }
+  ],
+  "claim_ceiling": "FAIL against the exact digest-bound SCOPE. Three generated tests pass both on original installed modules and byte-identical scratch copies; all 20 maker-list mutants are detected in replay. This is NOT full contract coverage or closure: 14 clearly in-scope mutations survive, exact review6 NFKD survives, and two empty-queue crashes earn false catches. Mutations ran against scratch copies of installed sources, not physical site-packages, preserving the user write boundary; package locations were verified. Builder/install/network stages were not rerun. No exhaustive proof, release acceptance or independent-model attestation is claimed."
+}

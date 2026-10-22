@@ -1,0 +1,29 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/7",
+  "answers_review": "ts23_review7.json (FAIL: 14 in-scope survivors, C03/C04 false catches, G01-G08 scope and instrument gaps)",
+  "admission": "Round 7 was the most useful of the seven: it attacked the contract itself rather than the fixtures. Two of its findings were about my instrument, not the programs - an empty-queue invocation that was never probed (C03/C04) and a coverage line that still overstated the mutation set (G06, my third overclaim on this point). Both are admitted.",
+  "structural_change": "The three implementations moved out of the generator into ts23_src/*.py, and the build reads them with read_text. Four earlier rounds of defects came from escaping inside triple-quoted generator strings; that layer is gone, so a source change can no longer silently become a different source change.",
+  "changes": [
+    {"finding": "N01 binary decoded as UTF-8", "fix": "fixture of invalid UTF-8 bytes; the digest must equal the digest of the bytes on disk", "evidence": "mutation caught"},
+    {"finding": "N02/N03 input errors exit 7 / write to stdout", "fix": "the CLI and heading tests assert exit code 2 and an EMPTY stdout on the error path", "evidence": "both mutations caught"},
+    {"finding": "N04 tab separator, N07 internal whitespace, N20 separator required, G07 empty heading", "fix": "a dedicated edge fixture: '#NoSpace', '##\\tTabbed', '##   two  spaces   ', a bare '## ', a fenced heading and a compatibility character; each expectation is asserted individually", "evidence": "all four mutations caught"},
+    {"finding": "N09/N10 undecodable input crashes or exits 7", "fix": "an undecodable fixture asserts exit 2, empty stdout, ERR_INPUT on stderr and no traceback", "evidence": "implementation returns 2 on UnicodeError; the assertion is in the suite"},
+    {"finding": "N14 BUDGET for a non-empty exhausted queue", "fix": "a run with --max-steps 20 over a 3-file queue must report steps 3, remaining 0, QUEUE_EXHAUSTED", "evidence": "mutation caught in both directions (budget_hit always true and always false)"},
+    {"finding": "N15 silent skip of an unreadable entry, N16 non-array queue, N17 exit code", "fix": "both error paths asserted at exit 2 with empty stdout; the queue parse is mutated rather than one of two duplicate guards", "evidence": "mutations caught"},
+    {"finding": "N19 NFKD normalisation, N21 input rewritten", "fix": "a compatibility character must survive unchanged; the census's input digest is compared before and after the run", "evidence": "NFKD mutation caught; the read-only assertion is in the census test"},
+    {"finding": "G04 fixture precondition incomplete", "fix": "the heading fixture now asserts it contains a level-six line as well", "evidence": "assertion present in the generated test"},
+    {"finding": "C03/C04 an empty-queue hard exit was never probed", "fix": "the probe list now includes the empty-queue invocation for the agent, so a crash there is crash_not_evidence", "evidence": "ts23_mutation_check.py PROBE_ARGS, three invocations for ts23_review"},
+    {"finding": "G06 coverage overstated", "fix": "the harness now reports all_applied as its own flag and prints SURVIVED / absent per mutation, so a claim cannot exceed the executed list", "evidence": "27 mutations listed with provenance, flags all true, harness exit 0"}
+  ],
+  "mutations_executed": 27,
+  "mutations_caught": 27,
+  "flags": {"all_caught": true, "no_false_reds": true, "all_applied": true, "all_restored": true, "baseline_all_pass": true},
+  "residual_gaps_named": [
+    "G02: the budget domain's boundary semantics (a negative --max-steps) are still not asserted; the implementation treats it as 'review nothing, BUDGET' and no test pins that",
+    "G03: the resolved-path rule and the SKILL.md bundle requirement are asserted in the tests and now described in ts23_SCOPE.md, but the bundle requirement is stated only as 'the installed package must carry SKILL.md'",
+    "the crash-classification rule is a heuristic: an exception class name inside a legitimate assertion message would be misread as a crash. No case has been produced that triggers it",
+    "a source mutation that is a no-op because a second layer enforces the same rule still reports SURVIVED; the run distinguishes that from a real hole only by the reviewer reading it"
+  ],
+  "claim_ceiling": "Seven reviews, seven sets of real findings, all fixed except the four named residual gaps. This is still my measurement and still not M2. The residual list above is deliberately explicit so an eighth review can attack it instead of rediscovering it.",
+  "next_step": "eighth independent review, this time also asked to attack the residual list and the new ts23_src layout"
+}

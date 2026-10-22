@@ -68,7 +68,18 @@ tests={
   only=p.with_name('ts23-terminators-only.md'); only.write_bytes(b'\\r\\n\\r\\n\\n\\r')
   self.assertEqual(only.read_bytes().strip(b'\\r\\n'),b'','fixture must contain nothing but terminators')
   self.assertEqual(json.loads(self.invoke(only).stdout)['newlines'],4,'three terminators plus one more')
+  bom=p.with_name('ts23-bom.md'); bom.write_bytes(b'\\xef\\xbb\\xbf# Title\\n')
+  self.assertTrue(bom.read_bytes().startswith(b'\\xef\\xbb\\xbf'),'fixture must start with a BOM')
+  b=json.loads(self.invoke(bom).stdout)
+  self.assertEqual((b['bytes'],b['newlines']),(bom.stat().st_size,1),'a BOM is bytes, not something to strip')
+  binary=p.with_name('ts23-binary.bin'); binary.write_bytes(b'\\xff\\xfea\\n')
+  before=_h.sha256(binary.read_bytes()).hexdigest()
+  bd=json.loads(self.invoke(binary).stdout)
+  self.assertEqual(bd['sha256'],before,'invalid UTF-8 must not be decoded')
+  self.assertEqual(_h.sha256(binary.read_bytes()).hexdigest(),before,'the census must not rewrite its input')
   bad=self.invoke(p.with_name('nonexistent-cli-input'))
+  self.assertEqual(bad.returncode,2,'an input error must exit 2')
+  self.assertEqual(bad.stdout,'','an input error must write nothing to stdout')
   self.assertNotEqual(bad.returncode,0); self.assertIn('ERR_INPUT',bad.stderr)
 if __name__=='__main__': unittest.main(verbosity=2)
 ''',
@@ -84,6 +95,18 @@ if __name__=='__main__': unittest.main(verbosity=2)
   raw=second.read_text(encoding='utf-8')
   self.assertIn('Cafe\\u0301',raw,'fixture must contain a decomposed sequence')
   self.assertIn('## tag#',raw,'fixture must contain a bare trailing hash with no closing sequence')
+  self.assertIn('###### Six',raw,'fixture must contain a level-six heading')
+  edge=p.with_name('ts23-headings-edge.md'); edge.write_text('#NoSpace\\n##	Tabbed\\n##   two  spaces   \\n## \\n```\\n## InFence\\n```\\n## ① circle\\n',encoding='utf-8')
+  re_=edge.read_text(encoding='utf-8')
+  self.assertIn('```',re_,'fixture must contain a fence')
+  self.assertIn('##	Tabbed',re_,'fixture must contain a tab separator')
+  texts=[h['text'] for h in json.loads(self.invoke(edge).stdout)['headings']]
+  self.assertNotIn('NoSpace',texts,'a heading needs a separator')
+  self.assertIn('Tabbed',texts,'a tab is a valid separator')
+  self.assertIn('two  spaces',texts,'internal spaces are preserved, only the ends are trimmed')
+  self.assertNotIn('',texts,'an empty heading text is not a heading')
+  self.assertIn('InFence',texts,'fenced headings are still reported: fences are out of scope')
+  self.assertIn('① circle',texts,'no Unicode normalisation')
   got2=json.loads(self.invoke(second).stdout)
   expect=[{'line':i+1,'level':len(l)-len(l.lstrip('#')),'text':l.lstrip('#').strip()} for i,l in enumerate(second.read_text(encoding='utf-8').splitlines()) if 1<=len(l)-len(l.lstrip('#'))<=6]
   import re as _re
@@ -94,8 +117,15 @@ if __name__=='__main__': unittest.main(verbosity=2)
   self.assertEqual(json.loads(got.stdout)['path'],str(p.resolve()))
   self.assertEqual(got2['headings'],expect)
   self.assertNotEqual(got2['headings'],json.loads(got.stdout)['headings'])
+  unde=p.with_name('ts23-undecodable.md'); unde.write_bytes(b'\\xff\\xfe# x\\n')
+  self.assertIn(b'\\xff',unde.read_bytes(),'fixture must be undecodable as UTF-8')
+  u=self.invoke(unde); self.assertEqual(u.returncode,2,'undecodable input exits 2, it does not crash')
+  self.assertEqual(u.stdout,''); self.assertIn('ERR_INPUT',u.stderr)
+  self.assertNotIn('Traceback',u.stderr,'no traceback on an input error')
   bad=self.invoke(p.with_name('nonexistent-skill-input'))
   self.assertNotEqual(bad.returncode,0); self.assertIn('ERR_INPUT',bad.stderr)
+  self.assertEqual(bad.returncode,2,'a missing input must exit 2')
+  self.assertEqual(bad.stdout,'','an input error must write nothing to stdout')
 if __name__=='__main__': unittest.main(verbosity=2)
 ''',
  'SIMPLE_AGENT':common+''' def test_two_step_limit_and_hashes(self):
@@ -121,55 +151,18 @@ if __name__=='__main__': unittest.main(verbosity=2)
   ed=json.loads(e.stdout)
   self.assertEqual((ed['steps'],ed['remaining'],ed['reviews']),(0,0,[]))
   self.assertEqual(ed['halt_reason'],'QUEUE_EXHAUSTED','nothing was queued, so nothing was budget-limited')
-  bad=self.invoke(p,'--max-steps','3'); self.assertNotEqual(bad.returncode,0)
+  over=self.invoke(p,'--max-steps','20'); self.assertEqual(over.returncode,0,over.stderr)
+  od=json.loads(over.stdout); self.assertEqual((od['steps'],od['remaining']),(3,0))
+  self.assertEqual(od['halt_reason'],'QUEUE_EXHAUSTED','the queue ran out before the limit')
+  badq=p.with_name('ts23-bad-queue.json'); badq.write_text('{"a":1}',encoding='utf-8')
+  bq=self.invoke(badq); self.assertEqual(bq.returncode,2,bq.stderr); self.assertEqual(bq.stdout,'')
+  miss=p.with_name('ts23-queue-missing-entry.json'); miss.write_text(json.dumps([str(p.with_name('nope'))]),encoding='utf-8')
+  mq=self.invoke(miss); self.assertEqual(mq.returncode,2,'an unreadable entry must not be skipped'); self.assertEqual(mq.stdout,'')
 if __name__=='__main__': unittest.main(verbosity=2)
 '''
 }
-codes={
- 'CLI_TOOL':'''"""Read-only byte/newline census."""
-import argparse,hashlib,json
-from pathlib import Path
-def main():
- parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()
- try: data=args.path.read_bytes()
- except OSError as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')
- print(json.dumps({'path':str(args.path.resolve()),'bytes':len(data),'newlines':data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n'),'sha256':hashlib.sha256(data).hexdigest()},sort_keys=True))
- return 0
-''',
- 'AGENT_SKILL':'''"""Inventory ATX headings; fenced-code interpretation is outside scope."""
-import argparse,json,re
-from pathlib import Path
-def inventory(path):
- lines=Path(path).read_text(encoding='utf-8').splitlines(); headings=[]
- for number,line in enumerate(lines,1):
-  match=re.match(r'^(#{1,6})[ \\t]+(.+?)\\s*$',line)
-  if match: headings.append({'line':number,'level':len(match[1]),'text':re.sub(r'[ \t]+#+$','',match[2]).strip()})
- return headings
-def main():
- parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()
- try: headings=inventory(args.path)
- except (OSError,UnicodeError) as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')
- print(json.dumps({'path':str(args.path.resolve()),'headings':headings},sort_keys=True)); return 0
-''',
- 'SIMPLE_AGENT':'''"""Bounded deterministic evidence-review agent; no LLM or external actions."""
-import argparse,hashlib,json
-from pathlib import Path
-def review(queue,max_steps=2):
- reviews=[]; fixed=tuple(queue)
- for index,path in enumerate(fixed):
-  if index>=max_steps: break
-  data=Path(path).read_bytes(); reviews.append({'path':path,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
- return {'steps':len(reviews),'remaining':len(fixed)-len(reviews),'reviews':reviews,'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'}
-def main():
- parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('queue',type=Path); parser.add_argument('--max-steps',type=int,choices=[1,2],default=2); args=parser.parse_args()
- try:
-  fixed=json.loads(args.queue.read_text(encoding='utf-8'))
-  if not isinstance(fixed,list) or not all(isinstance(x,str) for x in fixed): raise ValueError('queue must be a JSON list of paths')
-  result=review(fixed,args.max_steps)
- except (OSError,ValueError,UnicodeError) as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')
- print(json.dumps(result,sort_keys=True)); return 0
-'''
-}
+codes={k:(R/'ts23_src'/f'{k}.py').read_text(encoding='utf-8') for k in ('CLI_TOOL','AGENT_SKILL','SIMPLE_AGENT')}
+assert all(len(v)>200 for v in codes.values()), codes
 settings=[('CLI_TOOL','cli','ts23_newline','ts23-newlines'),('AGENT_SKILL','skill','ts23_headings','ts23-headings'),('SIMPLE_AGENT','agent','ts23_review','ts23-review')]
 results=[]
 for kind,directory,module,command in settings:
