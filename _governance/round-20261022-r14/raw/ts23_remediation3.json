@@ -1,0 +1,38 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/3",
+  "answers_review": "ts23_review3.json (FAIL: survivors N3, N4, N5, N7, N8; G2 residual; harness always exited 0)",
+  "admission": "All five survivors were real holes, and the G2 residual was a hole in my own harness: a crashing mutant makes the test's 'returncode == 0' guard fail with an AssertionError, so a crash still read as behavioural detection. Version 2 of the harness did that, and it always exited 0, so a failing receipt could not fail anything.",
+  "changes": [
+    {
+      "finding": "N3 - the skill test accepted correct headings for the wrong path",
+      "fix": "test_skill.py now asserts got2['path'] == str(second.resolve()) for the second document and the path of the first document",
+      "evidence": "mutation 'correct headings but a wrong path' fails with an AssertionError"
+    },
+    {
+      "finding": "N4, N5, N7, N8 - the --max-steps 1 run was only checked for byte counts",
+      "fix": "the limited run is now held to the same contract as the full run: exact paths (queue[:1]), exact digests, remaining == len(queue)-1, halt_reason == 'BUDGET'",
+      "evidence": "all four mutations (wrong path, fake digest, remaining=999, claims QUEUE_EXHAUSTED) fail with AssertionErrors"
+    },
+    {
+      "finding": "G2 - a crash could still be recorded as caught",
+      "fix": "the harness probes the mutated program directly before running the test. A mutant that crashes or emits no JSON is recorded as crash_not_evidence and can never be caught. 'caught' requires: the program ran and answered with JSON, the test exited non-zero, and the failure was an AssertionError.",
+      "evidence": "every one of the ten mutations shows mutant_ran_and_answered = true, so each catch is a wrong answer, not a crash"
+    },
+    {
+      "finding": "the harness always exited 0",
+      "fix": "it now exits non-zero unless all_caught, no_false_reds, all_restored and baseline_all_pass are all true",
+      "evidence": "self-test with an unappliable mutation: exit 1 with all_caught=false and all_restored=false"
+    }
+  ],
+  "coverage": {
+    "mutations": 10,
+    "caught": 10,
+    "false_reds": 0,
+    "restored_byte_identical": 10,
+    "baseline_all_pass": true,
+    "reviewer_mutations_included": ["N3", "N4", "N5", "N7", "N8", "review-1 fixture constants", "review-2 bytes=0"]
+  },
+  "superseded_harnesses_kept": ["ts23_mutation_check_v1_superseded.py", "ts23_mutation_check_v2_superseded.py"],
+  "claim_ceiling": "Three independent reviews have each found something real, and this remediation is again my own measurement. It is not M2. A fourth independent read is required, and if it finds another hole I will say so rather than arguing that three rounds is enough.",
+  "next_step": "fourth independent review"
+}
