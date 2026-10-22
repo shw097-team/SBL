@@ -1,0 +1,64 @@
+{
+ "schema": "PIPD-GSTACK-ROUTE-CHECK/1",
+ "registry": [
+  "gstack.cso",
+  "gstack.office-hours",
+  "gstack.plan-eng-review",
+  "gstack.qa",
+  "gstack.retro",
+  "gstack.review",
+  "gstack.ship",
+  "openspec",
+  "spec_kit"
+ ],
+ "flows": {
+  "design": {
+   "flow": "design",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "implementation": {
+   "flow": "implementation",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "acceptance": {
+   "flow": "acceptance",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "validation": {
+   "flow": "validation",
+   "provider": null,
+   "state": null,
+   "fallback": null,
+   "final_authority": true,
+   "route": "NATIVE"
+  },
+  "review": {
+   "flow": "review",
+   "provider": "gstack.review",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_review",
+   "final_authority": true,
+   "route": "GSTACK"
+  },
+  "qa": {
+   "flow": "qa",
+   "provider": "gstack.qa",
+   "state": "CERTIFIED",
+   "fallback": "hgk_native_qa",
+   "final_authority": true,
+   "route": "GSTACK"
+  }
+ }
+}

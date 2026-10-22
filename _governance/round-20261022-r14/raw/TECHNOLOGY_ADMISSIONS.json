@@ -1,0 +1,2648 @@
+{
+ "source_clause": "PIPD-LS-SP_PIPD-PKG-00 §9 / §9.2 (authoritative 22-candidate table + 24-column design contract)",
+ "source_sha256": "89b60fde8b7bb93522c897a250a3ffbf9f2c4f91556493e74ee2da269710ecfe",
+ "records": 22,
+ "schema_valid": "22/22",
+ "validation": [
+  {
+   "candidate": "CAND-01",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-02",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-03",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-04",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-05",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-06",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-07",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-08",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-09",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-10",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-11",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-12",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-13",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-14",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-15",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-16",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-17",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-18",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-19",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-20",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-21",
+   "verdict": "PASS",
+   "detail": []
+  },
+  {
+   "candidate": "CAND-22",
+   "verdict": "PASS",
+   "detail": []
+  }
+ ],
+ "disposition_set": [
+  "ADOPT",
+  "REFERENCE",
+  "EVAL_ONLY",
+  "QUARANTINE",
+  "REJECT"
+ ],
+ "gate_summary": {
+  "G-TECH-SOURCE-PIN": "0/22 PASS (rest PARTIAL: pin/licence not independently verified)",
+  "G-TECH-NEGATIVE": "22/22 PASS",
+  "G-TECH-ROLLBACK": "22/22 PASS",
+  "G-TECH-DISPOSITION": "22/22 PASS"
+ },
+ "hard_gate_verdicts": {
+  "G-TECH-SOURCE-PIN": {
+   "gate_id": "G-TECH-SOURCE-PIN",
+   "denominator": 22,
+   "passed": 0,
+   "failed": 22,
+   "verdict": "FAIL",
+   "first_fail_reason": "no row is admitted active: every row is UNAVAILABLE/PARTIAL (0/22 source-pinned); the exact repository+version/commit pin is left to receiver-side revalidation"
+  },
+  "G-TECH-NEGATIVE": {
+   "gate_id": "G-TECH-NEGATIVE",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  },
+  "G-TECH-ROLLBACK": {
+   "gate_id": "G-TECH-ROLLBACK",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  },
+  "G-TECH-DISPOSITION": {
+   "gate_id": "G-TECH-DISPOSITION",
+   "denominator": 22,
+   "passed": 22,
+   "failed": 0,
+   "verdict": "PASS",
+   "first_fail_reason": ""
+  }
+ },
+ "source_pin_summary": {
+  "pin_verified": 0,
+  "total": 22,
+  "active_rows": [],
+  "interpretation": "reported_active: [] means NO ROW IS ADMITTED ACTIVE — it is NOT a statement that 22/22 rows are source-pinned. The pin gate is 0/22 because zero rows carry a source-verified repository+version/commit pin; the pin is left to receiver-side revalidation, so the honest hard-gate denominator stays 0/22."
+ },
+ "consumer_guard": "G-TECH-SOURCE-PIN: 0/22 PASS — reported_active: [] means NO ROW IS ADMITTED ACTIVE (not 22/22 source-pinned); this is a FAIL, not an overall PASS.",
+ "overall_verdict": "FAIL",
+ "runtime_state": "NOT_EXECUTED — no candidate was installed, fetched or run",
+ "reported_active": [],
+ "refused_active_claims": [],
+ "gates": [
+  {
+   "candidate": "CAND-01",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-02",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-03",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-04",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-05",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-06",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-07",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-08",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-09",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "EVAL_ONLY",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-10",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-11",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-12",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "EVAL_ONLY",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-13",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-14",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REJECT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-15",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-16",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-17",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "ADOPT",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-18",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "QUARANTINE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-19",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-20",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-21",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  },
+  {
+   "candidate": "CAND-22",
+   "gates": [
+    {
+     "gate": "G-TECH-SOURCE-PIN",
+     "pinned": false,
+     "license_verified": false,
+     "verdict": "FAIL",
+     "why": "the row records an exact repository+version/commit pin only when the source provides one; otherwise the pin is the literal UNAVAILABLE with a machine-readable reason and the gate FAILS (it is never rounded up to PASS)"
+    },
+    {
+     "gate": "G-TECH-NEGATIVE",
+     "fixture_mutation": "MUT-TECH-PIN",
+     "fixture_rejected": true,
+     "named": "MUT-TECH-PIN",
+     "verdict": "PASS",
+     "why": "an active claim backed by a mutable/unverified pin and an unknown licence must be refused, not admitted"
+    },
+    {
+     "gate": "G-TECH-ROLLBACK",
+     "rollback_target_present": true,
+     "verdict": "PASS",
+     "why": "a rollback target or plan is mandatory before canary"
+    },
+    {
+     "gate": "G-TECH-DISPOSITION",
+     "disposition": "REFERENCE",
+     "in_closed_set": true,
+     "non_adopt_not_active": true,
+     "verdict": "PASS",
+     "why": "only ADOPT may be reported active/installed; REFERENCE/EVAL_ONLY/QUARANTINE/REJECT are never installed"
+    }
+   ]
+  }
+ ],
+ "admissions": [
+  {
+   "technology_id": "CAND-01",
+   "external_name": "GPT-5.6 Sol",
+   "internal_short_name": "CAND-01_SLOT",
+   "capability_slot": "semantic judgment / research / design compiler",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "workspace-available model / no hard-coded availability",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "model-provider adapter",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "design/eval suite",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "fallback model tier via ModelProvider interface",
+   "reselection_trigger": "model/version availability drift",
+   "current_design_state": "SUPPORT_PIN_AT_RUNTIME",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-01/adapter@r2",
+   "output_ref": "CAND-01_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-01",
+   "fixture_ref": "fixtures/CAND-01/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-01",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "semantic judgment / research / design compiler",
+   "candidate": "GPT-5.6 Sol",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "SUPPORT_PIN_AT_RUNTIME",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "fallback model tier via ModelProvider interface",
+    "exit_criterion": "model/version availability drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "fallback model tier via ModelProvider interface",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "fallback model tier via ModelProvider interface",
+   "subject_id": "subset-tech-b33db717c9c249d82d35db832a558bb7",
+   "version": "workspace-available model / no hard-coded availability",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "db34f270930d49781a533b8152a37409f843195b12c544a437d85a13d9d1fb71"
+  },
+  {
+   "technology_id": "CAND-02",
+   "external_name": "OpenAI Codex / Agents SDK",
+   "internal_short_name": "CAND-02_SLOT",
+   "capability_slot": "bounded coding/execution route-out",
+   "source_repository": "https://github.com/openai/openai-agents-python",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "current provider/version at implementation",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_WRAPPER",
+   "adoption_owner": "HGK",
+   "integration_owner": "HGK",
+   "translation_method": "HGK executor/provider wrapper",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "shadow→canary + permission/effect tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "HGK native admitted executor alternative",
+   "reselection_trigger": "provider/API/security/version drift",
+   "current_design_state": "CURRENTNESS_RECHECK_REQUIRED",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_WRAPPER",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-02/adapter@r2",
+   "output_ref": "CAND-02_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-02",
+   "fixture_ref": "fixtures/CAND-02/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-02",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "bounded coding/execution route-out",
+   "candidate": "OpenAI Codex / Agents SDK",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "https://github.com/openai/openai-agents-python",
+     "reason_code": "PIN_REVALIDATION_REQUIRED",
+     "reason": "the source terminalises DESIGN only and explicitly leaves the immutable version/commit pin to receiver-side revalidation"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "CURRENTNESS_RECHECK_REQUIRED",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "HGK native admitted executor alternative",
+    "exit_criterion": "provider/API/security/version drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "HGK native admitted executor alternative",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_WRAPPER",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "HGK native admitted executor alternative",
+   "subject_id": "subset-tech-daf989e4f840246082d93187bbdc19db",
+   "version": "current provider/version at implementation",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "92781779ffb679c4d2e989db7c07bca526a4c24410b61c56ee59f4c691dce023"
+  },
+  {
+   "technology_id": "CAND-03",
+   "external_name": "AGENTS.md map/router",
+   "internal_short_name": "CAND-03_SLOT",
+   "capability_slot": "repo steering / generated projection",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "local canonical contract",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "generated projection",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "root/subtree precedence tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "nearest-scope project map or no projection",
+   "reselection_trigger": "hierarchy conflict / source hash drift",
+   "current_design_state": "INTERNAL_CANONICAL_PATTERN",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-03/adapter@r2",
+   "output_ref": "CAND-03_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-03",
+   "fixture_ref": "fixtures/CAND-03/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-03",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "repo steering / generated projection",
+   "candidate": "AGENTS.md map/router",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "INTERNAL_CANONICAL_PATTERN",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "nearest-scope project map or no projection",
+    "exit_criterion": "hierarchy conflict / source hash drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "nearest-scope project map or no projection",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "nearest-scope project map or no projection",
+   "subject_id": "subset-tech-5c6f82aeca74576cfb932d55f16641f0",
+   "version": "local canonical contract",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "4f38310ade5bff14c0435369dab11f1a6480245edf6f584e2535155fc8dfcaa8"
+  },
+  {
+   "technology_id": "CAND-04",
+   "external_name": "OpenSpec",
+   "internal_short_name": "CAND-04_SLOT",
+   "capability_slot": "spec/predev change adapter",
+   "source_repository": "https://github.com/Fission-AI/OpenSpec",
+   "license": "MIT_AT_UNPINNED_MAIN",
+   "observed_version": "implementation-time immutable release/commit pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_WRAPPER",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "brownfield/spec provider",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "artifact translation + rollback fixture",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD native change contract",
+   "reselection_trigger": "breaking schema/command drift",
+   "current_design_state": "RECHECK_RELEASE",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_WRAPPER",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-04/adapter@r2",
+   "output_ref": "CAND-04_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-04",
+   "fixture_ref": "fixtures/CAND-04/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-04",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "spec/predev change adapter",
+   "candidate": "OpenSpec",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "https://github.com/Fission-AI/OpenSpec",
+     "reason_code": "PIN_REVALIDATION_REQUIRED",
+     "reason": "the source terminalises DESIGN only and explicitly leaves the immutable version/commit pin to receiver-side revalidation"
+    },
+    "license": {
+     "value": "MIT_AT_UNPINNED_MAIN",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "RECHECK_RELEASE",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD native change contract",
+    "exit_criterion": "breaking schema/command drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD native change contract",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_WRAPPER",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD native change contract",
+   "subject_id": "subset-tech-cc5625e446960a9ff4ba8a5ac4f82624",
+   "version": "implementation-time immutable release/commit pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "a3d8fa9665ad1fd7e8ac4e799ba6187e670b3afb914780f9fe35aee9e3ebf69f"
+  },
+  {
+   "technology_id": "CAND-05",
+   "external_name": "GitHub Spec Kit",
+   "internal_short_name": "CAND-05_SLOT",
+   "capability_slot": "SDD/spec artifact workflow donor",
+   "source_repository": "https://github.com/github/spec-kit",
+   "license": "MIT_AT_UNPINNED_MAIN",
+   "observed_version": "implementation-time immutable release/commit pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_WRAPPER",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "composition/workflow adapter",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "primitive→PIPD crosswalk; no-second-SSOT test",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD native compiler workflow",
+   "reselection_trigger": "bundle/pin/conflict semantics drift",
+   "current_design_state": "RECHECK_RELEASE",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_WRAPPER",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-05/adapter@r2",
+   "output_ref": "CAND-05_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-05",
+   "fixture_ref": "fixtures/CAND-05/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-05",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "SDD/spec artifact workflow donor",
+   "candidate": "GitHub Spec Kit",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "https://github.com/github/spec-kit",
+     "reason_code": "PIN_REVALIDATION_REQUIRED",
+     "reason": "the source terminalises DESIGN only and explicitly leaves the immutable version/commit pin to receiver-side revalidation"
+    },
+    "license": {
+     "value": "MIT_AT_UNPINNED_MAIN",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "RECHECK_RELEASE",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD native compiler workflow",
+    "exit_criterion": "bundle/pin/conflict semantics drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD native compiler workflow",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_WRAPPER",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD native compiler workflow",
+   "subject_id": "subset-tech-dbe37ec423d68b006691944ae35ab7d6",
+   "version": "implementation-time immutable release/commit pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "88c31a36acd4fa316c61b264af02a02bc6deaf9e1ec5d6f0635fa50056642f1f"
+  },
+  {
+   "technology_id": "CAND-06",
+   "external_name": "MCP",
+   "internal_short_name": "CAND-06_SLOT",
+   "capability_slot": "external tool connector ABI",
+   "source_repository": "https://github.com/modelcontextprotocol/specification",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "protocol/server pin per provider",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "HGK/PIPD adapter",
+   "integration_owner": "HGK/PIPD adapter",
+   "translation_method": "optional connector seam",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "schema/auth/effect/readback tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "existing local/tool interface",
+   "reselection_trigger": "auth/effect/capability mismatch",
+   "current_design_state": "OPTIONAL_LATE_BIND",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-06/adapter@r2",
+   "output_ref": "CAND-06_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-06",
+   "fixture_ref": "fixtures/CAND-06/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-06",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "external tool connector ABI",
+   "candidate": "MCP",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "https://github.com/modelcontextprotocol/specification",
+     "reason_code": "PIN_REVALIDATION_REQUIRED",
+     "reason": "the source terminalises DESIGN only and explicitly leaves the immutable version/commit pin to receiver-side revalidation"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "OPTIONAL_LATE_BIND",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "existing local/tool interface",
+    "exit_criterion": "auth/effect/capability mismatch",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "existing local/tool interface",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "existing local/tool interface",
+   "subject_id": "subset-tech-3e74224d14284f6e23653febb1c25696",
+   "version": "protocol/server pin per provider",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "50b128260a2fcc589fd0d145c323245aa7885b0f7b6cd36cda2d2dad674a9ce3"
+  },
+  {
+   "technology_id": "CAND-07",
+   "external_name": "A2A",
+   "internal_short_name": "CAND-07_SLOT",
+   "capability_slot": "federation / cross-agent protocol",
+   "source_repository": "https://github.com/a2aproject/A2A",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "protocol implementation pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "HGK",
+   "integration_owner": "HGK",
+   "translation_method": "bounded delegation adapter",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "delegation/identity/cancel/replay tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "local/federated handoff envelope",
+   "reselection_trigger": "identity/trust/cancel/version mismatch",
+   "current_design_state": "CONDITIONAL",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-07/adapter@r2",
+   "output_ref": "CAND-07_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-07",
+   "fixture_ref": "fixtures/CAND-07/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-07",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "federation / cross-agent protocol",
+   "candidate": "A2A",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "https://github.com/a2aproject/A2A",
+     "reason_code": "PIN_REVALIDATION_REQUIRED",
+     "reason": "the source terminalises DESIGN only and explicitly leaves the immutable version/commit pin to receiver-side revalidation"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "CONDITIONAL",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "local/federated handoff envelope",
+    "exit_criterion": "identity/trust/cancel/version mismatch",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "local/federated handoff envelope",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "local/federated handoff envelope",
+   "subject_id": "subset-tech-ec5e240c5e34fffbbfcac4417196a3f5",
+   "version": "protocol implementation pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "ff465a71830be9427d93870af510ae6c74c75a71334abadc859db0aaad3c2ea8"
+  },
+  {
+   "technology_id": "CAND-08",
+   "external_name": "OpenTelemetry GenAI semantic conventions",
+   "internal_short_name": "CAND-08_SLOT",
+   "capability_slot": "observability plane",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "version-selected semconv; currently Development",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "HGK/observability",
+   "integration_owner": "HGK/observability",
+   "translation_method": "telemetry adapter only",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "telemetry mapping + PII + correlation tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD/HGK native evidence envelope",
+   "reselection_trigger": "semconv version drift",
+   "current_design_state": "DEVELOPMENT_ADAPTER_ONLY",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-08/adapter@r2",
+   "output_ref": "CAND-08_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-08",
+   "fixture_ref": "fixtures/CAND-08/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-08",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "observability plane",
+   "candidate": "OpenTelemetry GenAI semantic conventions",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "DEVELOPMENT_ADAPTER_ONLY",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD/HGK native evidence envelope",
+    "exit_criterion": "semconv version drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD/HGK native evidence envelope",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD/HGK native evidence envelope",
+   "subject_id": "subset-tech-302cf604286031a1236bd27eeb7128d3",
+   "version": "version-selected semconv; currently Development",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "12d6aa8db2d5bdc2436b85fc0fc3890f45f0c42feee10461b45036240f08e120"
+  },
+  {
+   "technology_id": "CAND-09",
+   "external_name": "Pi Coding Agent",
+   "internal_short_name": "CAND-09_SLOT",
+   "capability_slot": "harness donor / evaluation lane",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "eval-time commit pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "EVAL_ONLY",
+   "adoption_owner": "TQAEP",
+   "integration_owner": "TQAEP",
+   "translation_method": "isolated eval provider",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "bounded fixture comparison",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "HGK/Hermes/Codex lane",
+   "reselection_trigger": "unproven parity/security",
+   "current_design_state": "NOT_RUNTIME_OWNER",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "EVAL_ONLY",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-09/adapter@r2",
+   "output_ref": "CAND-09_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-09",
+   "fixture_ref": "fixtures/CAND-09/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-09",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "harness donor / evaluation lane",
+   "candidate": "Pi Coding Agent",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "NOT_RUNTIME_OWNER",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "HGK/Hermes/Codex lane",
+    "exit_criterion": "unproven parity/security",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "HGK/Hermes/Codex lane",
+    "disposition": "EVAL_ONLY",
+    "design_disposition": "EVAL_ONLY",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition EVAL_ONLY never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "HGK/Hermes/Codex lane",
+   "subject_id": "subset-tech-065eec8bbc5136f8a424af359e44fb67",
+   "version": "eval-time commit pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "aa1434e5c39e337c96e55258146172b4c6bb8324f7d9c3576a1b09cad432fcb5"
+  },
+  {
+   "technology_id": "CAND-10",
+   "external_name": "Superpowers",
+   "internal_short_name": "CAND-10_SLOT",
+   "capability_slot": "TDD/planning/review skill donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "release/commit pin; latest support finding v6.4.2 2026-09-25",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "PIPD/HGK",
+   "integration_owner": "PIPD/HGK",
+   "translation_method": "optional method/skill provider",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "plan/TDD/verification parity tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD native methods",
+   "reselection_trigger": "method semantic/permission drift",
+   "current_design_state": "RECHECK_RELEASE",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-10/adapter@r2",
+   "output_ref": "CAND-10_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-10",
+   "fixture_ref": "fixtures/CAND-10/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-10",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "TDD/planning/review skill donor",
+   "candidate": "Superpowers",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "RECHECK_RELEASE",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD native methods",
+    "exit_criterion": "method semantic/permission drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD native methods",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD native methods",
+   "subject_id": "subset-tech-4c00bd0aa66db6b5e36c400ee3beddaf",
+   "version": "release/commit pin; latest support finding v6.4.2 2026-09-25",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "00a0739884c49cac4cac28642aa64b9b61b6a52af0ef1a6c44a4601bbf95c9a4"
+  },
+  {
+   "technology_id": "CAND-11",
+   "external_name": "gstack",
+   "internal_short_name": "CAND-11_SLOT",
+   "capability_slot": "workflow/review donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "exact commit/release required before activation",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "HGK",
+   "integration_owner": "HGK",
+   "translation_method": "selected review/QA method donor",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "route evidence + no-authority test",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "HGK native review flow",
+   "reselection_trigger": "identity/currentness/authority ambiguity",
+   "current_design_state": "REFERENCE_UNTIL_PIN",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-11/adapter@r2",
+   "output_ref": "CAND-11_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-11",
+   "fixture_ref": "fixtures/CAND-11/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-11",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "workflow/review donor",
+   "candidate": "gstack",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_UNTIL_PIN",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "HGK native review flow",
+    "exit_criterion": "identity/currentness/authority ambiguity",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "HGK native review flow",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "HGK native review flow",
+   "subject_id": "subset-tech-6b7fe0d1b662b0abfc5ff7cb4d4e7464",
+   "version": "exact commit/release required before activation",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "c9c12b6376606c318f1e5e232c63b88f9fe4cb96efd860a31769f32f8cdc22a5"
+  },
+  {
+   "technology_id": "CAND-12",
+   "external_name": "DeepSeek Harness / DSH",
+   "internal_short_name": "CAND-12_SLOT",
+   "capability_slot": "harness architecture donor / host",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "release/commit pin; Developer Preview",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "EVAL_ONLY",
+   "adoption_owner": "PIPD/HGK",
+   "integration_owner": "PIPD/HGK",
+   "translation_method": "experimental host adapter",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "adapter parity + migration test",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "Hermes/Codex/HGK",
+   "reselection_trigger": "breaking compatibility promised upstream",
+   "current_design_state": "EXPERIMENTAL",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "EVAL_ONLY",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-12/adapter@r2",
+   "output_ref": "CAND-12_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-12",
+   "fixture_ref": "fixtures/CAND-12/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-12",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "harness architecture donor / host",
+   "candidate": "DeepSeek Harness / DSH",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "EXPERIMENTAL",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "Hermes/Codex/HGK",
+    "exit_criterion": "breaking compatibility promised upstream",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "Hermes/Codex/HGK",
+    "disposition": "EVAL_ONLY",
+    "design_disposition": "EVAL_ONLY",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition EVAL_ONLY never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "Hermes/Codex/HGK",
+   "subject_id": "subset-tech-c940d3cceaa507c6e4c20fc5cafcdefe",
+   "version": "release/commit pin; Developer Preview",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "8cf9c6ba37918eaa0701f252058ef1140f2f483ff41c2ad26cef4769668a7c38"
+  },
+  {
+   "technology_id": "CAND-13",
+   "external_name": "Open GSD / GSD Redux",
+   "internal_short_name": "CAND-13_SLOT",
+   "capability_slot": "workflow + cross-runtime installer donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "release/commit pin; MIT",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "installer/profile pattern donor",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "installer conversion/uninstall tests; reject skip-permissions",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD installer",
+   "reselection_trigger": "permission philosophy conflicts",
+   "current_design_state": "REFERENCE_PATTERN",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-13/adapter@r2",
+   "output_ref": "CAND-13_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-13",
+   "fixture_ref": "fixtures/CAND-13/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-13",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "workflow + cross-runtime installer donor",
+   "candidate": "Open GSD / GSD Redux",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_PATTERN",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD installer",
+    "exit_criterion": "permission philosophy conflicts",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD installer",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD installer",
+   "subject_id": "subset-tech-941bfe635cfd4746ea0b2c943df91555",
+   "version": "release/commit pin; MIT",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "3dd2d88f3c7f87301dcd8d1b46190a75d7c202d5f512f044be9d23c1f25d77b3"
+  },
+  {
+   "technology_id": "CAND-14",
+   "external_name": "Legacy gsd-build/get-shit-done",
+   "internal_short_name": "CAND-14_SLOT",
+   "capability_slot": "superseded legacy donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "n/a",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REJECT",
+   "adoption_owner": "none",
+   "integration_owner": "none",
+   "translation_method": "none",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "must remain rejected in registry",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "none",
+   "reselection_trigger": "superseded/identity collision",
+   "current_design_state": "ARCHIVED_REJECT",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REJECT",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-14/adapter@r2",
+   "output_ref": "CAND-14_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-14",
+   "fixture_ref": "fixtures/CAND-14/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-14",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "superseded legacy donor",
+   "candidate": "Legacy gsd-build/get-shit-done",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "ARCHIVED_REJECT",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "none",
+    "exit_criterion": "superseded/identity collision",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "none",
+    "disposition": "REJECT",
+    "design_disposition": "REJECT",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REJECT never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "none",
+   "subject_id": "subset-tech-4074a115d9c8bc471b14971b73c80905",
+   "version": "n/a",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "fdf272c5218df432056b1986503cad50a847f29d24a6d56da0f17bef728d36ad"
+  },
+  {
+   "technology_id": "CAND-15",
+   "external_name": "mattpocock/skills",
+   "internal_short_name": "CAND-15_SLOT",
+   "capability_slot": "JIT skill + installer / whole-spec donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "v1.3.1 support finding; immutable commit at implementation",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "PIPD/HGK",
+   "integration_owner": "PIPD/HGK",
+   "translation_method": "skill/provider pattern",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "managed-vendored + implement-spec bounded comparison",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "native PIPD/HGK execution",
+   "reselection_trigger": "workflow/host drift",
+   "current_design_state": "RECHECK_RELEASE",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-15/adapter@r2",
+   "output_ref": "CAND-15_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-15",
+   "fixture_ref": "fixtures/CAND-15/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-15",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "JIT skill + installer / whole-spec donor",
+   "candidate": "mattpocock/skills",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "RECHECK_RELEASE",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "native PIPD/HGK execution",
+    "exit_criterion": "workflow/host drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "native PIPD/HGK execution",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "native PIPD/HGK execution",
+   "subject_id": "subset-tech-8372b21a859982705f3afd6734dbf289",
+   "version": "v1.3.1 support finding; immutable commit at implementation",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "7920c8a33a2eca1643f413bcf515a162d9dcb5c56ab05f79c43a5bc89ab683ae"
+  },
+  {
+   "technology_id": "CAND-16",
+   "external_name": "Hugging Face Agent Skills",
+   "internal_short_name": "CAND-16_SLOT",
+   "capability_slot": "model/data/eval skill donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "per-skill revision/license/provenance pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "PIPD",
+   "integration_owner": "PIPD",
+   "translation_method": "skill donor admission lane",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "rights/provenance/permission/trigger eval",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "native PIPD skill",
+   "reselection_trigger": "rights/tool-permission/provenance failure",
+   "current_design_state": "PER_SKILL_ADMISSION",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-16/adapter@r2",
+   "output_ref": "CAND-16_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-16",
+   "fixture_ref": "fixtures/CAND-16/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-16",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "model/data/eval skill donor",
+   "candidate": "Hugging Face Agent Skills",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "PER_SKILL_ADMISSION",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "native PIPD skill",
+    "exit_criterion": "rights/tool-permission/provenance failure",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "native PIPD skill",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "native PIPD skill",
+   "subject_id": "subset-tech-3031fa59c164ea1b406d6f3ce1d085dc",
+   "version": "per-skill revision/license/provenance pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "21af36d47bc725090a59d4fb1c8569aa484173922eb68feff10ee01f02f818d6"
+  },
+  {
+   "technology_id": "CAND-17",
+   "external_name": "AG-UI",
+   "internal_short_name": "CAND-17_SLOT",
+   "capability_slot": "UI projection protocol",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "protocol version pin",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "ADOPT_WITH_TRANSLATION",
+   "adoption_owner": "GENIE/adapter",
+   "integration_owner": "GENIE/adapter",
+   "translation_method": "optional UI projection",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "projection-only + event-order tests",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "headless projection",
+   "reselection_trigger": "UI events mistaken for canonical state",
+   "current_design_state": "CONDITIONAL_UI",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_BASELINE_SELECTED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "ADOPT_WITH_TRANSLATION",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-17/adapter@r2",
+   "output_ref": "CAND-17_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-17",
+   "fixture_ref": "fixtures/CAND-17/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-17",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "UI projection protocol",
+   "candidate": "AG-UI",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "CONDITIONAL_UI",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "headless projection",
+    "exit_criterion": "UI events mistaken for canonical state",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "headless projection",
+    "disposition": "ADOPT",
+    "design_disposition": "ADOPT_WITH_TRANSLATION",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "ADOPT but the source pin is UNAVAILABLE (unverified)",
+    "independently_verified": false
+   },
+   "fallback_exit": "headless projection",
+   "subject_id": "subset-tech-ca627ae2fc48508da5eb800ffc52ce70",
+   "version": "protocol version pin",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "4ae323d5fe9a55e9b612fac97dd9117ba12a3f28761bc41f2cfd7c63f588f3fb"
+  },
+  {
+   "technology_id": "CAND-18",
+   "external_name": "External NousResearch Hermes Agent",
+   "internal_short_name": "CAND-18_SLOT",
+   "capability_slot": "external runtime donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "exact external repo/tag/commit required",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "QUARANTINE",
+   "adoption_owner": "HGK",
+   "integration_owner": "HGK",
+   "translation_method": "external donor only; distinct from internal HGK binding",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "donor identity isolation + no auto-upgrade",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "current HGK canonical Hermes binding",
+   "reselection_trigger": "identity/provenance conflation",
+   "current_design_state": "QUARANTINE_EXTERNAL_DONOR",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "QUARANTINE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-18/adapter@r2",
+   "output_ref": "CAND-18_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-18",
+   "fixture_ref": "fixtures/CAND-18/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-18",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "external runtime donor",
+   "candidate": "External NousResearch Hermes Agent",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "QUARANTINE_EXTERNAL_DONOR",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "current HGK canonical Hermes binding",
+    "exit_criterion": "identity/provenance conflation",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "current HGK canonical Hermes binding",
+    "disposition": "QUARANTINE",
+    "design_disposition": "QUARANTINE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition QUARANTINE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "current HGK canonical Hermes binding",
+   "subject_id": "subset-tech-f15c0625fd3d5cd6d03439f12e66fc6c",
+   "version": "exact external repo/tag/commit required",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "19247eb00debf63d8a151d5a291f5b21cafcebdb46c1ae757b107a20a2b2247b"
+  },
+  {
+   "technology_id": "CAND-19",
+   "external_name": "Cordis",
+   "internal_short_name": "CAND-19_SLOT",
+   "capability_slot": "runtime extension donor",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "exact version/commit only if DSH pilot",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "HGK",
+   "integration_owner": "HGK",
+   "translation_method": "DSH runtime-extension reference",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "reference/eval only",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "no Cordis dependency",
+   "reselection_trigger": "DSH coupling/version drift",
+   "current_design_state": "REFERENCE_ONLY",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-19/adapter@r2",
+   "output_ref": "CAND-19_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-19",
+   "fixture_ref": "fixtures/CAND-19/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-19",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "runtime extension donor",
+   "candidate": "Cordis",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_ONLY",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "no Cordis dependency",
+    "exit_criterion": "DSH coupling/version drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "no Cordis dependency",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "no Cordis dependency",
+   "subject_id": "subset-tech-c2b9be15c546163f7bbafe360e276284",
+   "version": "exact version/commit only if DSH pilot",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "be6ac9f4dcb33da76e03f217cfcdb684a318423b9911582d0b98db7dbd88b9c6"
+  },
+  {
+   "technology_id": "CAND-20",
+   "external_name": "LongHorizon-Harness research",
+   "internal_short_name": "CAND-20_SLOT",
+   "capability_slot": "long-task assurance pattern",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "paper/research snapshot",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "TQAEP/HGK",
+   "integration_owner": "TQAEP/HGK",
+   "translation_method": "Manage–Execute–Audit pattern donor",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "pattern mapping + checkpoint/recovery fixtures",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD/HGK native long-run control",
+   "reselection_trigger": "research not implementation",
+   "current_design_state": "REFERENCE_RESEARCH",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-20/adapter@r2",
+   "output_ref": "CAND-20_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-20",
+   "fixture_ref": "fixtures/CAND-20/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-20",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "long-task assurance pattern",
+   "candidate": "LongHorizon-Harness research",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_RESEARCH",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD/HGK native long-run control",
+    "exit_criterion": "research not implementation",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD/HGK native long-run control",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD/HGK native long-run control",
+   "subject_id": "subset-tech-b4aadfb05fb6a4ff8146087549d29be3",
+   "version": "paper/research snapshot",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "cde661259959eadcc9bd9e0721ca6b94a79d1e3f0bb1ce68119962f107027820"
+  },
+  {
+   "technology_id": "CAND-21",
+   "external_name": "Skill-Use benchmark",
+   "internal_short_name": "CAND-21_SLOT",
+   "capability_slot": "skill qualification oracle",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "benchmark version/snapshot",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "TQAEP",
+   "integration_owner": "TQAEP",
+   "translation_method": "Trigger/Compliance/Boundary eval concept",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "paired trigger/compliance/boundary eval",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD eval suite",
+   "reselection_trigger": "benchmark mismatch",
+   "current_design_state": "REFERENCE_EVAL",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-21/adapter@r2",
+   "output_ref": "CAND-21_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-21",
+   "fixture_ref": "fixtures/CAND-21/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-21",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "skill qualification oracle",
+   "candidate": "Skill-Use benchmark",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_EVAL",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD eval suite",
+    "exit_criterion": "benchmark mismatch",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD eval suite",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD eval suite",
+   "subject_id": "subset-tech-f92536f747ea15ba0d5a48e69312b19f",
+   "version": "benchmark version/snapshot",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "d3aa9c407d1eecc068b1d9e74e955900836f4139aed7cff50364ef5186c378bc"
+  },
+  {
+   "technology_id": "CAND-22",
+   "external_name": "HarnessRisk benchmark",
+   "internal_short_name": "CAND-22_SLOT",
+   "capability_slot": "harness adversarial test lane",
+   "source_repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+   "license": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+   "observed_version": "benchmark version/snapshot",
+   "selected_baseline": "PIPD-LS-SP_藍圖@2026-10-08_r2",
+   "immutable_pin": "PIN_REVALIDATION_REQUIRED",
+   "disposition": "REFERENCE",
+   "adoption_owner": "TQAEP",
+   "integration_owner": "TQAEP",
+   "translation_method": "adversarial taxonomy donor",
+   "adapter_contract": "TechnologyAdmission@1+SourceFreezeManifestRef",
+   "known_limitations": [
+    "design disposition not active installation",
+    "upstream pin and rights to be validated"
+   ],
+   "security_requirements": [
+    "no second SSOT",
+    "permission narrowing",
+    "secret-free packaging"
+   ],
+   "verification_suite": "map taxonomy→local negative fixtures",
+   "install_plan": "HGK/receiver governed shadow-only after pin/license verification; NOT_EXECUTED",
+   "enablement_plan": "ACK+permission+negative suite+rollback before canary; NOT_EXECUTED",
+   "rollback_plan": "disable adapter + restore last verified native path and subject/hash evidence",
+   "fallback": "PIPD security fixtures",
+   "reselection_trigger": "benchmark taxonomy drift",
+   "current_design_state": "REFERENCE_EVAL",
+   "current_runtime_state": "NOT_EXECUTED",
+   "design_selection_state": "DESIGN_DISPOSITION_TERMINALIZED",
+   "adapter_materialization_state": "DESIGN_CONTRACT_SPECIFIED_NOT_INSTALLED",
+   "runtime_admission_state": "BLOCKED_EXTERNAL_PIN_LICENSE_PENDING",
+   "upstream_disposition": "REFERENCE",
+   "adapter_ref": "pack://PIPD-PKG-00/technology/CAND-22/adapter@r2",
+   "output_ref": "CAND-22_TechnologySelectionRecord@2",
+   "schema_ref": "urn:pipd:pkg00:r2:tech:CAND-22",
+   "fixture_ref": "fixtures/CAND-22/mutation-unpinned.json",
+   "oracle_ref": "OR-ANTI-CAND-22",
+   "acceptance_gate_ref": "G-TECH-SOURCE-PIN+G-TECH-NEGATIVE+G-TECH-ROLLBACK",
+   "rollback_target": "prior approved native/provider-off lane",
+   "capability_need": "harness adversarial test lane",
+   "candidate": "HarnessRisk benchmark",
+   "pin_license_currentness": {
+    "pin": {
+     "value": "UNAVAILABLE",
+     "repository": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason_code": "SOURCE_REPOSITORY_RECHECK_REQUIRED",
+     "reason": "the source clause does not name a resolvable upstream repository, so no immutable repository+version/commit pin can be established"
+    },
+    "license": {
+     "value": "LICENSE_NOT_INDEPENDENTLY_PIN_VERIFIED",
+     "known": false,
+     "blocks_activation": true,
+     "disposition": "UNKNOWN_LICENCE_BLOCKS_ACTIVATION"
+    },
+    "currentness": "REFERENCE_EVAL",
+    "ttl_security_note": "no runtime freshness window is claimed; the source pin is UNAVAILABLE and any activation requires a fresh receiver-side revalidation and a bounded TTL before canary. Security: no-second-SSOT, permission narrowing, secret-free packaging.",
+    "fallback": "PIPD security fixtures",
+    "exit_criterion": "benchmark taxonomy drift",
+    "permission_scope": "READ+PROPOSE only; no writeback; HGK/receiver governed, shadow-only",
+    "provider_off_behaviour": "PIPD security fixtures",
+    "disposition": "REFERENCE",
+    "design_disposition": "REFERENCE",
+    "pin_verified": false,
+    "licence_known": false,
+    "reported_active": false,
+    "activation_reason": "disposition REFERENCE never activates",
+    "independently_verified": false
+   },
+   "fallback_exit": "PIPD security fixtures",
+   "subject_id": "subset-tech-ecc0c59cdd71d958e6c188428e12b420",
+   "version": "benchmark version/snapshot",
+   "schema_version": "TechnologyAdmission@2",
+   "content_hash": "ad173b76289334f80b142886e236f1018cba0192492724165bf2badc2c6fc5c5"
+  }
+ ],
+ "honest_ceiling": "DESIGN_DISPOSITION_TERMINALIZED per source. This is NOT an active installation and NOT a licence determination; both are receiver-side.",
+ "candidate_head": "2efc84eac8e1939092c748d5b389b6dd72267aef",
+ "artefact_consistency_verdict": "PASS",
+ "verdict": "PASS"
+}

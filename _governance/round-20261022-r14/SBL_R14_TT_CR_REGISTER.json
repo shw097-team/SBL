@@ -821,6 +821,15 @@
       "title": "檔案層級 digest 重複 441 列：欄位在，語意不在",
       "detail": "ts20_sources.csv 的 digest 欄 441 列全同值 e0eee84c…，實際是 90621 B 的 source_identity_441_ledger.json 自身雜湊；每列並沒有自己的 digest。",
       "action": "修復檔改為每列 row_digest（441 個相異值）＋保留舊檔層級值並註明其來源；驗收時以『相異值數 == 列數』為判準。"
+    },
+    {
+      "id": "TT-R14-055",
+      "severity": "high",
+      "round": "R14",
+      "opened_at": "2026-10-22",
+      "title": "控制包自相矛盾：GSTACK 未准入，卻被路由檢查標成 CERTIFIED",
+      "detail": "TECHNOLOGY_ADMISSIONS.json 把 CAND-11(gstack) 列為 disposition=REFERENCE，來源/授權/版本三者未釘；同一包的 gstack_route_check.json 卻把 flows.review 與 flows.qa 標成 route=GSTACK、state=CERTIFIED。全盤找不到任何 gstack 可執行體，node/npm 存在而 bun 不存在——先前把阻塞記成『bun 缺』是症狀不是原因。",
+      "action": "裁決：以技術准入為授權來源，review/qa 走宣告的 fallback hgk_native_review / hgk_native_qa（見 FAR_R14_6）。route=GSTACK 在 CAND-11 未釘來源與授權前不得被引用為已達成，也不計入任何 Gate 證據。"
     }
   ]
 }
