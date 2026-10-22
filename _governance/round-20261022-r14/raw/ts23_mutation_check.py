@@ -58,22 +58,36 @@ MUTATIONS = [
      "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
      "'halt_reason':'QUEUE_EXHAUSTED'",
      "one-step run claims the queue is exhausted", "review 3 (N8)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "(#{1,6})", "(#{1,5})",
+     "level-six headings are silently dropped", "review 4 (LEVEL6_COVERAGE)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')", "data.count(b'\\n')+data.count(b'\\r')",
+     "CRLF is counted twice", "review 4 (CRLF_COVERAGE)"),
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
 PROBE_ARGS = {"ts23_newline": [str(FIXTURE)], "ts23_headings": [str(FIXTURE)], "ts23_review": [str(QUEUE)]}
 
 
+def _purge_cache(module: str) -> None:
+    """A same-size edit within one mtime tick can be masked by a stale .pyc. Round 4 (CACHE_BINDING) showed it."""
+    import shutil
+    for cache in (SP / module).rglob("__pycache__"):
+        shutil.rmtree(cache, ignore_errors=True)
+
+
 def _env() -> dict:
     env = dict(os.environ)
-    env.update({"TS23_FIXTURE": str(FIXTURE), "TS23_QUEUE": str(QUEUE)})
+    env.update({"TS23_FIXTURE": str(FIXTURE), "TS23_QUEUE": str(QUEUE),
+                "PYTHONDONTWRITEBYTECODE": "1"})
     return env
 
 
 def probe(module: str) -> dict:
     """Run the mutated program directly: did it run and answer at all?"""
+    env = _env()
+    env["TS23_MODULE"] = module
     proc = subprocess.run([str(VENV), "-m", module, *PROBE_ARGS[module]],
-                          capture_output=True, text=True, encoding="utf-8", env=_env(),
+                          capture_output=True, text=True, encoding="utf-8", env=env,
                           cwd=str(SB))
     try:
         json.loads(proc.stdout)
@@ -104,20 +118,25 @@ def main() -> int:
             results.append({"kind": kind, "mutation": description, "provenance": provenance,
                             "applied": False, "caught": False, "note": "snippet absent; not applied"})
             continue
+        _purge_cache(module)
         try:
             target.write_text(text.replace(original_snippet, mutant_snippet, 1), encoding="utf-8")
             probe_result = probe(module)
             test_result = run_test(test)
         finally:
             target.write_bytes(original)
+            _purge_cache(module)
         restored = hashlib.sha256(target.read_bytes()).hexdigest() == digest
         ran_and_answered = probe_result["exit"] == 0 and probe_result["answered_with_json"]
-        caught = ran_and_answered and test_result["exit"] != 0 and test_result["has_assertion"]
+        message = test_result["assertion_message"]
+        crash_shaped = "Traceback (most recent call last)" in message
+        caught = (ran_and_answered and test_result["exit"] != 0
+                  and test_result["has_assertion"] and not crash_shaped)
         results.append({
             "kind": kind, "mutation": description, "provenance": provenance, "applied": True,
             "mutant_ran_and_answered": ran_and_answered, "probe": probe_result,
             "test_exit": test_result["exit"], "assertion_message": test_result["assertion_message"],
-            "caught": caught,
+            "caught": caught, "crash_shaped_assertion": crash_shaped,
             "false_red": (not ran_and_answered) and test_result["exit"] != 0,
             "crash_not_evidence": (not ran_and_answered),
             "restored_byte_identical": restored, "tail": test_result["tail"]})

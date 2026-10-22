@@ -1,0 +1,35 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/4",
+  "answers_review": "ts23_review4.json (FAIL: LEVEL6_COVERAGE, CRLF_COVERAGE, G2_INVOCATION_MISMATCH, CACHE_BINDING)",
+  "confirmed_by_reviewer": ["N3", "N4", "N5", "N7", "N8 closed", "failed flags now exit 1"],
+  "admission": "All four findings were real. Two of them (LEVEL6 and CRLF) were fixtures that did not contain what they claimed, so the tests were passing on the wrong input - the same escape-layer defect that broke this generator three times. That is now written up as TT-R14-039.",
+  "changes": [
+    {
+      "finding": "LEVEL6_COVERAGE - an implementation that drops level-six headings passed",
+      "fix": "the heading fixture now contains levels 1 through 7, the expectation counts only levels 1..6 (ATX), and the test asserts that the seven-hash line is NOT reported as a heading",
+      "evidence": "mutation (regex #{1,6} -> #{1,5}) fails with an AssertionError"
+    },
+    {
+      "finding": "CRLF_COVERAGE - double counting CRLF passed",
+      "root_cause": "the generated 'CRLF' fixture contained only LF: the escape layer ate the \\r, so a program that counts \\r as well produced the same number",
+      "fix": "the fixture now writes real CRLF and asserts its own precondition (assertIn(b'\\r', data)) before asserting the census",
+      "evidence": "mutation (count \\n + count \\r) fails with an AssertionError"
+    },
+    {
+      "finding": "G2_INVOCATION_MISMATCH - crashes under the test's conditions could still count as caught",
+      "fix": "the probe now runs with the same cwd and the same TS23_MODULE environment as the test; the test's own stdout is classified, and an assertion whose message embeds a traceback is treated as crash_not_evidence, never as a catch",
+      "evidence": "self-test with a deliberate ZeroDivisionError mutant: caught=false, crash_not_evidence=true, false_red=true, harness exit 1"
+    },
+    {
+      "finding": "CACHE_BINDING - a same-size edit within one mtime tick could be hidden by a stale .pyc",
+      "fix": "__pycache__ is purged before and after every mutation and PYTHONDONTWRITEBYTECODE=1 is set for probe and test",
+      "evidence": "the mutation that previously needed forcing now applies on a plain run"
+    }
+  ],
+  "coverage": {"mutations": 12, "caught": 12, "false_reds": 0, "restored_byte_identical": 12,
+               "baseline_all_pass": true, "harness_exit": 0,
+               "reviewer_mutations_included": ["N3", "N4", "N5", "N7", "N8", "LEVEL6_COVERAGE", "CRLF_COVERAGE", "review-1 fixture constants", "review-2 bytes=0", "review-2 remaining=0"]},
+  "related_tt": "TT-R14-039 - fixture must assert its own precondition, otherwise it lies for the test",
+  "claim_ceiling": "Four reviews, four sets of real findings, all fixed. This is still my measurement, not M2. A fifth independent read is required; if it finds another hole, the honest response is another fix, not a claim that four rounds is enough.",
+  "next_step": "fifth independent review"
+}

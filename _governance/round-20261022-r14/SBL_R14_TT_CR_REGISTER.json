@@ -663,6 +663,16 @@
       "evidence": [
         "raw/lane_scope_isolation_STUDY.md"
       ]
+    },
+    {
+      "id": "TT-R14-039",
+      "title": "沙箱產生器反覆出現轉義錯誤，使 fixture 不是它自稱的東西",
+      "severity": "high",
+      "status": "CLOSED",
+      "finding": "R14-TS23 的 sandbox 產生器用三層字串組出測試檔，轉義在其中被吃掉三次：第一次把標題 fixture 寫成真換行（IndentationError）、第二次把 '\n' 寫成 \\n 讓產生物件與期望值同時是反斜線而非換行、第三次讓所謂的 CRLF fixture 其實只有 LF，因此「把 CRLF 重複計數」的變異仍通過。每次都是外部審查（第 4 輪 CRLF_COVERAGE）或 baseline 對照才照出來，不是我自己看出來的。",
+      "impact": "測試看似綠燈，實際上在測一個與宣稱不同的輸入，屬於假綠的一種。",
+      "fix": "fixture 現在自我檢查前提：CRLF 案例直接 assertIn(b'\r', data)，標題 fixture 用 1–7 級且斷言 7 級不算標題；產生器以 repr() 建構易錯字面值，並保留三次錯誤的歷史檔（*_superseded.py）。",
+      "lesson": "fixture 必須斷言自己的前提，否則它壞掉時測試會替它圓謊。"
     }
   ]
 }

@@ -1,0 +1,1287 @@
+{
+  "schema": "SBL-R14-TS23-INDEPENDENT-REVIEW/4",
+  "reviewer": {
+    "role": "fourth independent reviewer",
+    "identity": "Hermes delegated fresh-context reviewer; gpt-6.1-sol runtime-declared, not attested",
+    "method": {
+      "write_constraint": "Only ts23_review4.json and ts23_review4.md may be written; therefore no literal on-disk mutation of installed files and no normal harness run that would overwrite ts23_test_strength.json.",
+      "execution": "Read installed module/test/harness source. Run real sandbox venv Python subprocesses with in-memory SourceFileLoader overrides that compile each single-substitution mutant at its real installed path. Execute the generated test source unchanged in the subprocess __main__ namespace; preserve its original -m targets logically, argv, env and cwd through launch adapters.",
+      "fixture_write_handling": "Suppress only generated-test writes whose existing text/bytes already equal the requested content (normalizing Windows text newlines for write_text). Child audit hooks reject other file writes; readonly virtual witnesses exist in memory only.",
+      "harness_execution": "Execute unchanged harness main() and flag/exit logic in separate venv processes. Redirect only SP source reads/writes and RAW receipt writes to memory; dispatch probe/test calls to real child Python processes. Observe OS process return codes. This is adapted read-only execution, not a claim to have launched the unmodified on-disk mutation harness directly.",
+      "bytecode": "Force freshly compiled mutant source for behavioral checks; separately switch to inherited SourceFileLoader timestamp caching to exercise the cache collision using original pyc bytes.",
+      "stateful_attack": "A temporary loopback TCP counter, held only in memory, serves invocation counts 1 and 2; mutant answers correctly first, raises NameError second. Listener closed after experiment. This is disclosed review control-plane activity, not a subject file write.",
+      "setup_issues_resolved": [
+        "An initial adapter executed unittest in an unregistered namespace and ran zero tests; rejected, then fixed to execute in __main__. All retained baselines show Ran 1 test.",
+        "Initial custom resource loader failed on SKILL.md; replaced with SourceFileLoader with intact resource support.",
+        "Initial byte-equality suppression rejected Windows CRLF text rewrite; fixed using read_text equality.",
+        "An initial child-harness adapter lost a default argument; rejected all those setup-error exits and reran after fixing it.",
+        "marshal byte-for-byte inequality of two cache objects was not treated as stale code: structural bytecode/constants/names/line-table/filename comparisons showed baseline equivalence."
+      ],
+      "claim_limit": "No adversarial file-write poisoning was executed because that would breach the subject write constraint. No network access beyond the local counter, no build/pip, and no repo edits. All successful runs here are scoped to the read-only execution adapter."
+    }
+  },
+  "verdict": "FAIL",
+  "checks": [
+    {
+      "id": "N3",
+      "requirement": 1,
+      "status": "PASS",
+      "assertions": [
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py",
+          "line": 17,
+          "assertion": "self.assertEqual(got2['path'],str(second.resolve()))"
+        },
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py",
+          "line": 18,
+          "assertion": "self.assertEqual(json.loads(got.stdout)['path'],str(p.resolve()))"
+        }
+      ],
+      "experiments": [
+        "N3",
+        "N3_first_only"
+      ],
+      "conclusion": "Both first and second document path assertions independently fire on wrong paths, with normal program exit and JSON."
+    },
+    {
+      "id": "N4",
+      "requirement": 1,
+      "status": "PASS",
+      "assertions": [
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py",
+          "line": 19,
+          "assertion": "self.assertEqual([r['path'] for r in lim['reviews']],queue[:1])"
+        }
+      ],
+      "experiments": [
+        "N4",
+        "N4_limited"
+      ],
+      "conclusion": "Present in generated test and independently exercised; value assertion fails, not a program crash. Limited-only variant preserves the default answer."
+    },
+    {
+      "id": "N5",
+      "requirement": 1,
+      "status": "PASS",
+      "assertions": [
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py",
+          "line": 20,
+          "assertion": "self.assertEqual([r['sha256'] for r in lim['reviews']],[hashlib.sha256(Path(x).read_bytes()).hexdigest() for x in queue[:1]])"
+        }
+      ],
+      "experiments": [
+        "N5",
+        "N5_limited"
+      ],
+      "conclusion": "Present in generated test and independently exercised; value assertion fails, not a program crash. Limited-only variant preserves the default answer."
+    },
+    {
+      "id": "N7",
+      "requirement": 1,
+      "status": "PASS",
+      "assertions": [
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py",
+          "line": 21,
+          "assertion": "self.assertEqual(lim['remaining'],len(queue)-1)"
+        }
+      ],
+      "experiments": [
+        "N7",
+        "N7_limited"
+      ],
+      "conclusion": "Present in generated test and independently exercised; value assertion fails, not a program crash. Limited-only variant preserves the default answer."
+    },
+    {
+      "id": "N8",
+      "requirement": 1,
+      "status": "PASS",
+      "assertions": [
+        {
+          "file": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py",
+          "line": 22,
+          "assertion": "self.assertEqual(lim['halt_reason'],'BUDGET')"
+        }
+      ],
+      "experiments": [
+        "N8",
+        "N8_limited"
+      ],
+      "conclusion": "Present in generated test and independently exercised; value assertion fails, not a program crash. Limited-only variant preserves the default answer."
+    },
+    {
+      "id": "BASELINE_AND_SHIPPED_CORPUS",
+      "status": "PASS",
+      "unmutated_baseline": {
+        "test_cli.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.390s\n\nOK\n"
+        },
+        "test_skill.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.366s\n\nOK\n"
+        },
+        "test_agent.py": {
+          "exit": 0,
+          "has_assertion": false,
+          "assertion_message": "",
+          "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.392s\n\nOK\n"
+        }
+      },
+      "installed_read_only_direct": {
+        "ts23_newline": {
+          "exit": 0,
+          "stdout": "{\"bytes\": 28, \"newlines\": 4, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\", \"sha256\": \"2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051\"}\n",
+          "stderr": ""
+        },
+        "ts23_headings": {
+          "exit": 0,
+          "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"One\"}, {\"level\": 2, \"line\": 3, \"text\": \"Two\"}, {\"level\": 3, \"line\": 4, \"text\": \"Three\"}], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\"}\n",
+          "stderr": ""
+        },
+        "ts23_review": {
+          "exit": 0,
+          "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+          "stderr": ""
+        }
+      },
+      "shipped_harness_execution": {
+        "id": "all_ten_shipped_mutations",
+        "process_exit": 0,
+        "stdout": "CLI_TOOL     caught=True  ran=True  restored=True census reports bytes=0 for a non-empty file\nCLI_TOOL     caught=True  ran=True  restored=True census reports a fake 64-character digest\nAGENT_SKILL  caught=True  ran=True  restored=True headings are fixture constants regardless of the document\nAGENT_SKILL  caught=True  ran=True  restored=True correct headings but a wrong path\nSIMPLE_AGENT caught=True  ran=True  restored=True agent reports bytes=0 per file\nSIMPLE_AGENT caught=True  ran=True  restored=True agent reports remaining=0 while a file is still queued\nSIMPLE_AGENT caught=True  ran=True  restored=True correct byte counts but a wrong path in the one-step run\nSIMPLE_AGENT caught=True  ran=True  restored=True one-step run reports a fake digest\nSIMPLE_AGENT caught=True  ran=True  restored=True one-step run reports remaining=999\nSIMPLE_AGENT caught=True  ran=True  restored=True one-step run claims the queue is exhausted\n  all_caught: True\n  no_false_reds: True\n  all_restored: True\n  baseline_all_pass: True\n",
+        "stderr": "",
+        "receipt": {
+          "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+          "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+          "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+          "results": [
+            {
+              "kind": "CLI_TOOL",
+              "mutation": "census reports bytes=0 for a non-empty file",
+              "provenance": "review 2 (survived), review 3 (G1)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "{'bytes': 0, 'newlines': 4, 'path': 'C:\\\\Pr[160 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "\n   'newlines': 4,\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.146s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "CLI_TOOL",
+              "mutation": "census reports a fake 64-character digest",
+              "provenance": "maker",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "{'bytes': 28, 'newlines': 4, 'path': 'C:\\\\P[161 chars]000'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "s23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n-  'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}\n+  'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.146s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "AGENT_SKILL",
+              "mutation": "headings are fixture constants regardless of the document",
+              "provenance": "review 1",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[75 chars]ma'}]",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "            ^           ^^^^\n\n-  {'level': 3, 'line': 4, 'text': 'Three'}]\n?                       ^           ^^^^^\n\n+  {'level': 3, 'line': 6, 'text': 'Gamma'}]\n?                       ^           ^^^^^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.357s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "AGENT_SKILL",
+              "mutation": "correct headings but a wrong path",
+              "provenance": "review 3 (N3)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "d.resolve()))\nAssertionError: 'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'\n- wrong\n+ C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\ts23-headings-second.md\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.299s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "agent reports bytes=0 per file",
+              "provenance": "review 2 (survived)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "Lists differ: [0, 0] != [5765, 5776]",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "tEqual([r['bytes'] for r in data['reviews']],[len(Path(x).read_bytes()) for x in queue[:2]])\nAssertionError: Lists differ: [0, 0] != [5765, 5776]\n\nFirst differing element 0:\n0\n5765\n\n- [0, 0]\n+ [5765, 5776]\n\n----------------------------------------------------------------------\nRan 1 test in 0.158s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "agent reports remaining=0 while a file is still queued",
+              "provenance": "maker",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "0 != 1",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "st_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.169s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "correct byte counts but a wrong path in the one-step run",
+              "provenance": "review 3 (N4)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "Lists differ: ['wrong', 'wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\READM[94 chars]son']",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "s\\\\Agent_Workspace\\\\SBL\\\\README.md'\n\n- ['wrong', 'wrong']\n+ ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md',\n+  'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json']\n\n----------------------------------------------------------------------\nRan 1 test in 0.151s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "one-step run reports a fake digest",
+              "provenance": "review 3 (N5)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "Lists differ: ['00000000000000000000000000000000000000000[88 chars]000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4df[88 chars]e71']",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "0000000000000000000000000000000000000000000000000000000000000']\n+ ['1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed',\n+  '4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71']\n\n----------------------------------------------------------------------\nRan 1 test in 0.175s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "one-step run reports remaining=999",
+              "provenance": "review 3 (N7)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "999 != 1",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 999 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.137s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "one-step run claims the queue is exhausted",
+              "provenance": "review 3 (N8)",
+              "applied": true,
+              "mutant_ran_and_answered": true,
+              "probe": {
+                "exit": 0,
+                "answered_with_json": true,
+                "tail": ""
+              },
+              "test_exit": 1,
+              "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
+              "caught": true,
+              "false_red": false,
+              "crash_not_evidence": false,
+              "restored_byte_identical": true,
+              "tail": "andbox\\SBL\\ts23_tests\\test_agent.py\", line 11, in test_two_step_limit_and_hashes\n    self.assertEqual(data['halt_reason'],'BUDGET')\nAssertionError: 'QUEUE_EXHAUSTED' != 'BUDGET'\n- QUEUE_EXHAUSTED\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.153s\n\nFAILED (failures=1)\n"
+            }
+          ],
+          "unmutated_baseline": {
+            "test_cli.py": {
+              "exit": 0,
+              "has_assertion": false,
+              "assertion_message": "",
+              "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.462s\n\nOK\n"
+            },
+            "test_skill.py": {
+              "exit": 0,
+              "has_assertion": false,
+              "assertion_message": "",
+              "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.458s\n\nOK\n"
+            },
+            "test_agent.py": {
+              "exit": 0,
+              "has_assertion": false,
+              "assertion_message": "",
+              "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.462s\n\nOK\n"
+            }
+          },
+          "flags": {
+            "all_caught": true,
+            "no_false_reds": true,
+            "all_restored": true,
+            "baseline_all_pass": true
+          },
+          "exit_code_policy": "non-zero unless every flag is true"
+        }
+      }
+    },
+    {
+      "id": "HARNESS_HONESTY",
+      "requirement": 2,
+      "status": "FAIL",
+      "experiments": [
+        "H_ENV_CRASH",
+        "H_CWD_CRASH",
+        "H_ARGS_CRASH",
+        "H_SECOND_INVOCATION",
+        "H_CACHE_SAME_SIZE",
+        "H_CACHE_FORCE_SOURCE_CONTROL"
+      ],
+      "correct_probe_equivalence": {
+        "H_ENV_CRASH": {
+          "exit": 0,
+          "equals_unmutated_probe_json": true,
+          "json": {
+            "bytes": 28,
+            "newlines": 4,
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "sha256": "2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051"
+          }
+        },
+        "H_CWD_CRASH": {
+          "exit": 0,
+          "equals_unmutated_probe_json": true,
+          "json": {
+            "bytes": 28,
+            "newlines": 4,
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "sha256": "2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051"
+          }
+        },
+        "H_ARGS_CRASH": {
+          "exit": 0,
+          "equals_unmutated_probe_json": true,
+          "json": {
+            "halt_reason": "BUDGET",
+            "remaining": 1,
+            "reviews": [
+              {
+                "bytes": 5765,
+                "path": "C:\\Projects\\Agent_Workspace\\SBL\\README.md",
+                "sha256": "1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed"
+              },
+              {
+                "bytes": 5776,
+                "path": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-pi-compile\\schemas\\output.schema.json",
+                "sha256": "4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71"
+              }
+            ],
+            "steps": 2
+          }
+        }
+      },
+      "conclusion": "A correct successful probe does not authenticate the invocation that failed under the test. Four crash-only variants are called caught. An unchanged main() subprocess even exits 0 with every flag true for H_ENV_CRASH.",
+      "invocation_mismatches": {
+        "probe_cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+        "test_cwd": "C:/Users/user (inherited; original run_test sets no cwd)",
+        "probe_env": "_env(): TS23_FIXTURE and TS23_QUEUE; no TS23_MODULE in this review environment",
+        "test_env": "_env() plus TS23_MODULE",
+        "probe_args": "One default fixture/queue invocation only",
+        "test_args": "Also empty input, second headings document, missing input, --max-steps 1 and invalid --max-steps 3",
+        "state": "Probe itself is an extra invocation; no state reset between probe and test"
+      }
+    },
+    {
+      "id": "CACHE_FIDELITY",
+      "status": "FAIL",
+      "evidence": [
+        {
+          "module": "ts23_newline",
+          "pyc": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__\\__init__.cpython-311.pyc",
+          "flags": 0,
+          "cached_timestamp": 1792641354,
+          "cached_size": 490,
+          "source_timestamp": 1792641354,
+          "source_size": 490,
+          "timestamp_cache_valid_now": true,
+          "code_matches_fresh_compile": false,
+          "constants": "('Read-only byte/newline census.', 0, None, ('Path',), <code object main at 0x000001C8131250D0, file \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py\", line 4>)",
+          "code_shape_equal": true
+        },
+        {
+          "module": "ts23_headings",
+          "pyc": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__pycache__\\__init__.cpython-311.pyc",
+          "flags": 0,
+          "cached_timestamp": 1792641354,
+          "cached_size": 755,
+          "source_timestamp": 1792641354,
+          "source_size": 755,
+          "timestamp_cache_valid_now": true,
+          "code_matches_fresh_compile": true,
+          "constants": "('Inventory ATX headings; fenced-code interpretation is outside scope.', 0, None, ('Path',), <code object inventory at 0x000001C813384FB0, file \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py\", line 4>, <code object main at 0x000001C8132BD8F"
+        },
+        {
+          "module": "ts23_review",
+          "pyc": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__pycache__\\__init__.cpython-311.pyc",
+          "flags": 0,
+          "cached_timestamp": 1792641357,
+          "cached_size": 1123,
+          "source_timestamp": 1792641357,
+          "source_size": 1123,
+          "timestamp_cache_valid_now": true,
+          "code_matches_fresh_compile": false,
+          "constants": "('Bounded deterministic evidence-review agent; no LLM or external actions.', 0, None, ('Path',), 2, <code object review at 0x000001C813163BA0, file \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py\", line 4>, <code object main at 0x000001C8131DE",
+          "code_shape_equal": true
+        }
+      ],
+      "experiments": [
+        "H_CACHE_SAME_SIZE",
+        "H_CACHE_FORCE_SOURCE_CONTROL"
+      ],
+      "conclusion": "Existing pyc code shapes match restored source; no stale mutant in the current installed caches was established. But a real timestamp-pyc read with a same-size source overlay and matching path_stats ignores the mutation; force-source control detects it. Harness does not invalidate caches or bind loaded code to written source. PYTHONDONTWRITEBYTECODE/-B suppress writes, not reads.",
+      "scope": "The cache collision was deliberately modeled with an in-memory get_data overlay and real file metadata/cache bytes; it is not evidence that the maker historical run actually collided."
+    },
+    {
+      "id": "EXIT_POLICY",
+      "requirement": 3,
+      "status": "PASS",
+      "executions": [
+        {
+          "id": "unappliable_snippet",
+          "process_exit": 1,
+          "stdout": "CLI_TOOL     caught=False ran=None  restored=- absent snippet\n  all_caught: False\n  no_false_reds: True\n  all_restored: False\n  baseline_all_pass: True\n",
+          "stderr": "",
+          "receipt": {
+            "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+            "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+            "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+            "results": [
+              {
+                "kind": "CLI_TOOL",
+                "mutation": "absent snippet",
+                "provenance": "review4",
+                "applied": false,
+                "caught": false,
+                "note": "snippet absent; not applied"
+              }
+            ],
+            "unmutated_baseline": {
+              "test_cli.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.390s\n\nOK\n"
+              },
+              "test_skill.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.374s\n\nOK\n"
+              },
+              "test_agent.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.406s\n\nOK\n"
+              }
+            },
+            "flags": {
+              "all_caught": false,
+              "no_false_reds": true,
+              "all_restored": false,
+              "baseline_all_pass": true
+            },
+            "exit_code_policy": "non-zero unless every flag is true"
+          }
+        },
+        {
+          "id": "semantic_survivor",
+          "process_exit": 1,
+          "stdout": "AGENT_SKILL  caught=False ran=True  restored=True drop level six\n  all_caught: False\n  no_false_reds: True\n  all_restored: True\n  baseline_all_pass: True\n",
+          "stderr": "",
+          "receipt": {
+            "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+            "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+            "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+            "results": [
+              {
+                "kind": "AGENT_SKILL",
+                "mutation": "drop level six",
+                "provenance": "review4",
+                "applied": true,
+                "mutant_ran_and_answered": true,
+                "probe": {
+                  "exit": 0,
+                  "answered_with_json": true,
+                  "tail": ""
+                },
+                "test_exit": 0,
+                "assertion_message": "",
+                "caught": false,
+                "false_red": false,
+                "crash_not_evidence": false,
+                "restored_byte_identical": true,
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.402s\n\nOK\n"
+              }
+            ],
+            "unmutated_baseline": {
+              "test_cli.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.394s\n\nOK\n"
+              },
+              "test_skill.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.375s\n\nOK\n"
+              },
+              "test_agent.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.450s\n\nOK\n"
+              }
+            },
+            "flags": {
+              "all_caught": false,
+              "no_false_reds": true,
+              "all_restored": true,
+              "baseline_all_pass": true
+            },
+            "exit_code_policy": "non-zero unless every flag is true"
+          }
+        },
+        {
+          "id": "test_only_crash_false_green",
+          "process_exit": 0,
+          "stdout": "CLI_TOOL     caught=True  ran=True  restored=True test-only crash\n  all_caught: True\n  no_false_reds: True\n  all_restored: True\n  baseline_all_pass: True\n",
+          "stderr": "",
+          "receipt": {
+            "schema": "SBL-R14-TS23-MUTATION-CHECK/3",
+            "answers_review": "ts23_review3.json - survivors N3/N4/N5/N7/N8, G2 crash-read-as-caught, exit 0 on failure",
+            "method": "one textual substitution in the INSTALLED module; the mutant is probed directly first, and a mutant that crashes or emits no JSON is recorded as crash_not_evidence rather than as a catch",
+            "results": [
+              {
+                "kind": "CLI_TOOL",
+                "mutation": "test-only crash",
+                "provenance": "review4",
+                "applied": true,
+                "mutant_ran_and_answered": true,
+                "probe": {
+                  "exit": 0,
+                  "answered_with_json": true,
+                  "tail": ""
+                },
+                "test_exit": 1,
+                "assertion_message": "1 != 0 : Traceback (most recent call last):",
+                "caught": true,
+                "false_red": false,
+                "crash_not_evidence": false,
+                "restored_byte_identical": true,
+                "tail": "=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: review4 test-only crash\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.135s\n\nFAILED (failures=1)\n"
+              }
+            ],
+            "unmutated_baseline": {
+              "test_cli.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.393s\n\nOK\n"
+              },
+              "test_skill.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.376s\n\nOK\n"
+              },
+              "test_agent.py": {
+                "exit": 0,
+                "has_assertion": false,
+                "assertion_message": "",
+                "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.448s\n\nOK\n"
+              }
+            },
+            "flags": {
+              "all_caught": true,
+              "no_false_reds": true,
+              "all_restored": true,
+              "baseline_all_pass": true
+            },
+            "exit_code_policy": "non-zero unless every flag is true"
+          }
+        }
+      ],
+      "conclusion": "Unappliable snippet: process exit 1 with failed flags. Valid level-six survivor: process exit 1 with all_caught=false. Actual exit-code gate is implemented. However it exits 0 for a falsely caught test-only crash."
+    },
+    {
+      "id": "NEW_MUTATIONS",
+      "requirement": 4,
+      "status": "FAIL",
+      "attack_execution_complete": true,
+      "novelty_basis": "Not present in the available first, second or third review JSON descriptions or the current shipped mutation list. No claim about undocumented private attempts.",
+      "cases": [
+        "NEW_TRAILING_LF",
+        "NEW_DUPLICATE_HEADING",
+        "NEW_LEVEL6_OMISSION",
+        "NEW_CR_AS_NEWLINE"
+      ],
+      "witnesses": {
+        "NEW_LEVEL6_OMISSION": {
+          "input_path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\review4-virtual-NEW_LEVEL6_OMISSION.txt",
+          "input_bytes_hex": "232323232323205369780a",
+          "baseline": {
+            "exit": 0,
+            "stdout": "{\"headings\": [{\"level\": 6, \"line\": 1, \"text\": \"Six\"}], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_LEVEL6_OMISSION.txt\"}\n",
+            "stderr": ""
+          },
+          "mutant": {
+            "exit": 0,
+            "stdout": "{\"headings\": [], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_LEVEL6_OMISSION.txt\"}\n",
+            "stderr": ""
+          }
+        },
+        "NEW_CR_AS_NEWLINE": {
+          "input_path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\review4-virtual-NEW_CR_AS_NEWLINE.txt",
+          "input_bytes_hex": "410d0a",
+          "baseline": {
+            "exit": 0,
+            "stdout": "{\"bytes\": 3, \"newlines\": 1, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_CR_AS_NEWLINE.txt\", \"sha256\": \"26ffd5886253906a36a7ea0f6e26056fc36472626cb4894bcb100a34dc69d1db\"}\n",
+            "stderr": ""
+          },
+          "mutant": {
+            "exit": 0,
+            "stdout": "{\"bytes\": 3, \"newlines\": 2, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_CR_AS_NEWLINE.txt\", \"sha256\": \"26ffd5886253906a36a7ea0f6e26056fc36472626cb4894bcb100a34dc69d1db\"}\n",
+            "stderr": ""
+          }
+        }
+      },
+      "conclusion": "Terminal-LF undercount and extra duplicate heading are detected by value assertions. Level-six omission and CR double-count both pass the generated suite and independently produce wrong valid JSON on new input."
+    },
+    {
+      "id": "WRITE_BOUNDARY",
+      "status": "PASS",
+      "protected_files_hashed": 3054,
+      "changed_protected_files": [],
+      "new_sandbox_files": [],
+      "durable_write_allowlist": [
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review4.json",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review4.md"
+      ],
+      "conclusion": "No subject, source, test, pyc or receipt file modified. Only the two authorized review artifacts are written."
+    },
+    {
+      "id": "REVIEWED_INPUT_DIGESTS",
+      "status": "RECORDED",
+      "sha256": {
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_mutation_check.py": "9d3ff56c505fdd6d0c872825d01e9e654c886692984719078c5e0db14086c415",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_build.py": "94cc7eb89b328c56231390dc50101e690aa250846d22a2200b970d4d644708fb",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_remediation3.json": "b18f363294d6789cb5595e9d773ac288b0ae61ad766c4e5993d9909f7ab537c6",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_build_receipt.json": "556c72e23ed6e8896fb1c575eb4b125ce11f9d8a0df9b32e222ea6d1233ed3f9",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_test_strength.json": "a3ccff2ab323c9598ba4ea23c552406a6903c9d4c309fb0d4e22e1b95903d592",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py": "8d0d25b9e37baa9660f8b4aa426adfcbd9ebec346affe74f3a77cfa71273ae05",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py": "4fc256135440ba6574779b8c349fa6d0c31ea89c766deb31b8166fc90ef94514",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py": "2f8f1c17dd1e83fa40526d8868c64e88ebc91253c667c4bf8261dab3d842f4c3",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+        "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6"
+      }
+    }
+  ],
+  "mutations_i_tried": [
+    {
+      "id": "N3",
+      "module": "ts23_headings",
+      "test": "test_skill.py",
+      "old": "'path':str(args.path.resolve())",
+      "new": "'path':'wrong'",
+      "purpose": "correct headings but a wrong path",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'",
+        "tail": "d.resolve()))\nAssertionError: 'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'\n- wrong\n+ C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\ts23-headings-second.md\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.248s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N4",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'path':path",
+      "new": "'path':'wrong'",
+      "purpose": "correct byte counts but a wrong path in the one-step run",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['wrong', 'wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\READM[94 chars]son']",
+        "tail": "s\\\\Agent_Workspace\\\\SBL\\\\README.md'\n\n- ['wrong', 'wrong']\n+ ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md',\n+  'C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json']\n\n----------------------------------------------------------------------\nRan 1 test in 0.132s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N5",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'sha256':hashlib.sha256(data).hexdigest()",
+      "new": "'sha256':'0'*64",
+      "purpose": "one-step run reports a fake digest",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['00000000000000000000000000000000000000000[88 chars]000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4df[88 chars]e71']",
+        "tail": "0000000000000000000000000000000000000000000000000000000000000']\n+ ['1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed',\n+  '4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71']\n\n----------------------------------------------------------------------\nRan 1 test in 0.132s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N7",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'remaining':len(fixed)-len(reviews)",
+      "new": "'remaining':999",
+      "purpose": "one-step run reports remaining=999",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "999 != 1",
+        "tail": "_two_step_limit_and_hashes\n    self.assertEqual(data['steps'],2); self.assertEqual(data['remaining'],1)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 999 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.178s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N8",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
+      "new": "'halt_reason':'QUEUE_EXHAUSTED'",
+      "purpose": "one-step run claims the queue is exhausted",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
+        "tail": "andbox\\SBL\\ts23_tests\\test_agent.py\", line 11, in test_two_step_limit_and_hashes\n    self.assertEqual(data['halt_reason'],'BUDGET')\nAssertionError: 'QUEUE_EXHAUSTED' != 'BUDGET'\n- QUEUE_EXHAUSTED\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.137s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N4_limited",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'path':path",
+      "new": "'path':('wrong' if max_steps==1 else path)",
+      "purpose": "Isolate the --max-steps 1 assertion; default run remains correct",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md']",
+        "tail": "g'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md']\n\nFirst differing element 0:\n'wrong'\n'C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md'\n\n- ['wrong']\n+ ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md']\n\n----------------------------------------------------------------------\nRan 1 test in 0.331s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N5_limited",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'sha256':hashlib.sha256(data).hexdigest()",
+      "new": "'sha256':('0'*64 if max_steps==1 else hashlib.sha256(data).hexdigest())",
+      "purpose": "Isolate the --max-steps 1 assertion; default run remains correct",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: ['0000000000000000000000000000000000000000000000000000000000000000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed']",
+        "tail": "8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed'\n\n- ['0000000000000000000000000000000000000000000000000000000000000000']\n+ ['1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed']\n\n----------------------------------------------------------------------\nRan 1 test in 0.262s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N7_limited",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'remaining':len(fixed)-len(reviews)",
+      "new": "'remaining':(999 if max_steps==1 else len(fixed)-len(reviews))",
+      "purpose": "Isolate the --max-steps 1 assertion; default run remains correct",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "999 != 2",
+        "tail": "\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py\", line 21, in test_two_step_limit_and_hashes\n    self.assertEqual(lim['remaining'],len(queue)-1)\nAssertionError: 999 != 2\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N8_limited",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'",
+      "new": "'halt_reason':('QUEUE_EXHAUSTED' if max_steps==1 else ('BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'))",
+      "purpose": "Isolate the --max-steps 1 assertion; default run remains correct",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
+        "tail": "sandbox\\SBL\\ts23_tests\\test_agent.py\", line 22, in test_two_step_limit_and_hashes\n    self.assertEqual(lim['halt_reason'],'BUDGET')\nAssertionError: 'QUEUE_EXHAUSTED' != 'BUDGET'\n- QUEUE_EXHAUSTED\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.260s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "H_ENV_CRASH",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "def main():",
+      "new": "def main():\n if __import__('os').environ.get('TS23_MODULE'): raise NameError('review4 test-only crash')",
+      "purpose": "Probe lacks TS23_MODULE but test sets it: correct probe answer, crash under test",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "tail": "=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()\n                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: review4 test-only crash\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.128s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "PROGRAM_NAMEERROR_WRAPPED_BY_RETURNCODE_ASSERTION",
+      "honest_catch": false
+    },
+    {
+      "id": "H_CWD_CRASH",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "def main():",
+      "new": "def main():\n if __import__('os').path.normcase(__import__('os').getcwd()) != 'c:\\\\projects\\\\agent_workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox': raise NameError('review4 cwd-only crash')",
+      "purpose": "Probe cwd=SB; test inherits C:/Users/user: correct probe, crash under test",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "tail": "ment('path',type=Path); args=parser.parse_args()\n                                                                                                                         \nNameError: review4 cwd-only crash\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.142s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "PROGRAM_NAMEERROR_WRAPPED_BY_RETURNCODE_ASSERTION",
+      "honest_catch": false
+    },
+    {
+      "id": "H_ARGS_CRASH",
+      "module": "ts23_review",
+      "test": "test_agent.py",
+      "old": "  result=review(fixed,args.max_steps)",
+      "new": "  if args.max_steps==1: raise NameError('review4 limited-only crash')\n  result=review(fixed,args.max_steps)",
+      "purpose": "Default probe and default test correct; limited invocation crashes",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "tail": "et\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py\", line 15, in main\n    result=review(fixed,args.max_steps)\n                          ^^^^^^^^^^^^^^\nNameError: review4 limited-only crash\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.274s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "PROGRAM_NAMEERROR_WRAPPED_BY_RETURNCODE_ASSERTION",
+      "honest_catch": false
+    },
+    {
+      "id": "NEW_TRAILING_LF",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "'newlines':data.count(b'\\n')",
+      "new": "'newlines':data.count(b'\\n')-int(data.endswith(b'\\n'))",
+      "purpose": "Exclude terminal LF from census count",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "{'bytes': 28, 'newlines': 3, 'path': 'C:\\\\P[161 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
+        "tail": "\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.128s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "NEW_DUPLICATE_HEADING",
+      "module": "ts23_headings",
+      "test": "test_skill.py",
+      "old": " return headings",
+      "new": " return headings+headings[:1]",
+      "purpose": "Add one duplicate heading to correct output",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[112 chars]ne'}] != [{'line': 1, 'level': 1, 'text': 'One'}, {'li[72 chars]ee'}]",
+        "tail": "ne': 4, 'text': 'Three'},\n?                                          ^\n\n+  {'level': 3, 'line': 4, 'text': 'Three'}]\n?                                          ^\n\n-  {'level': 1, 'line': 1, 'text': 'One'}]\n\n----------------------------------------------------------------------\nRan 1 test in 0.122s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "NEW_LEVEL6_OMISSION",
+      "module": "ts23_headings",
+      "test": "test_skill.py",
+      "old": "#{1,6}",
+      "new": "#{1,5}",
+      "purpose": "Drop supported sixth-level ATX headings; fixtures cover only levels 1-3",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.397s\n\nOK\n"
+      },
+      "harness_would_record_caught": false,
+      "actual_failure_kind": "PASSED_WITH_WRONG_IMPLEMENTATION",
+      "honest_catch": false
+    },
+    {
+      "id": "NEW_CR_AS_NEWLINE",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "'newlines':data.count(b'\\n')",
+      "new": "'newlines':data.count(b'\\n')+data.count(b'\\r')",
+      "purpose": "Count bare CR and double-count CRLF; current census fixture uses LF only",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.456s\n\nOK\n"
+      },
+      "harness_would_record_caught": false,
+      "actual_failure_kind": "PASSED_WITH_WRONG_IMPLEMENTATION",
+      "honest_catch": false
+    },
+    {
+      "id": "H_SECOND_INVOCATION",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "def main():",
+      "new": "def main():\n import socket\n with socket.create_connection(('127.0.0.1',14637)) as s: number=int(s.recv(32))\n if number==2: raise NameError('review4 second-invocation-only crash')",
+      "purpose": "Correct on first invocation; loopback counter induces crash only on invocation 2, without subject file writes",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "1 != 0 : Traceback (most recent call last):",
+        "tail": "line 7, in main\n    except OSError as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nNameError: review4 second-invocation-only crash\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.148s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "loopback_counter_observed": [
+        1,
+        2
+      ],
+      "actual_failure_kind": "PROGRAM_NAMEERROR_WRAPPED_BY_RETURNCODE_ASSERTION",
+      "honest_catch": false
+    },
+    {
+      "id": "H_CACHE_SAME_SIZE",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\r')",
+      "purpose": "Inherited timestamp loader uses existing original pyc when virtual mutated source retains timestamp and byte length",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 0,
+        "has_assertion": false,
+        "assertion_message": "",
+        "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.408s\n\nOK\n"
+      },
+      "harness_would_record_caught": false,
+      "cache_simulation": "In-memory get_data overlay, real original path_stats and existing pyc; no filesystem rewrite, and no claim that this occurred in maker run.",
+      "actual_failure_kind": "PASSED_WITH_CACHED_ORIGINAL_CODE",
+      "honest_catch": false
+    },
+    {
+      "id": "H_CACHE_FORCE_SOURCE_CONTROL",
+      "module": "ts23_newline",
+      "test": "test_cli.py",
+      "old": "data.count(b'\\n')",
+      "new": "data.count(b'\\r')",
+      "purpose": "Control: exact same source mutation is detected when explicitly compiled rather than loading pyc",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "{'bytes': 28, 'newlines': 0, 'path': 'C:\\\\P[161 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
+        "tail": "\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.135s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    },
+    {
+      "id": "N3_first_only",
+      "module": "ts23_headings",
+      "test": "test_skill.py",
+      "old": "'path':str(args.path.resolve())",
+      "new": "'path':('wrong' if args.path.name=='headings.md' else str(args.path.resolve()))",
+      "purpose": "Isolate first-document path assertion; second document remains correct",
+      "probe": {
+        "exit": 0,
+        "answered_with_json": true,
+        "tail": ""
+      },
+      "test_result": {
+        "exit": 1,
+        "has_assertion": true,
+        "assertion_message": "'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[46 chars]s.md'",
+        "tail": "'path'],str(p.resolve()))\nAssertionError: 'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[46 chars]s.md'\n- wrong\n+ C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.241s\n\nFAILED (failures=1)\n"
+      },
+      "harness_would_record_caught": true,
+      "actual_failure_kind": "OUTPUT_VALUE_ASSERTION",
+      "honest_catch": true
+    }
+  ],
+  "surviving_mutations": [
+    {
+      "id": "NEW_LEVEL6_OMISSION",
+      "test_exit": 0,
+      "mutation": "Drop supported sixth-level ATX headings; fixtures cover only levels 1-3",
+      "old": "#{1,6}",
+      "new": "#{1,5}",
+      "counterexample": {
+        "input_path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\review4-virtual-NEW_LEVEL6_OMISSION.txt",
+        "input_bytes_hex": "232323232323205369780a",
+        "baseline": {
+          "exit": 0,
+          "stdout": "{\"headings\": [{\"level\": 6, \"line\": 1, \"text\": \"Six\"}], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_LEVEL6_OMISSION.txt\"}\n",
+          "stderr": ""
+        },
+        "mutant": {
+          "exit": 0,
+          "stdout": "{\"headings\": [], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_LEVEL6_OMISSION.txt\"}\n",
+          "stderr": ""
+        }
+      }
+    },
+    {
+      "id": "NEW_CR_AS_NEWLINE",
+      "test_exit": 0,
+      "mutation": "Count bare CR and double-count CRLF; current census fixture uses LF only",
+      "old": "'newlines':data.count(b'\\n')",
+      "new": "'newlines':data.count(b'\\n')+data.count(b'\\r')",
+      "counterexample": {
+        "input_path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\review4-virtual-NEW_CR_AS_NEWLINE.txt",
+        "input_bytes_hex": "410d0a",
+        "baseline": {
+          "exit": 0,
+          "stdout": "{\"bytes\": 3, \"newlines\": 1, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_CR_AS_NEWLINE.txt\", \"sha256\": \"26ffd5886253906a36a7ea0f6e26056fc36472626cb4894bcb100a34dc69d1db\"}\n",
+          "stderr": ""
+        },
+        "mutant": {
+          "exit": 0,
+          "stdout": "{\"bytes\": 3, \"newlines\": 2, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\review4-virtual-NEW_CR_AS_NEWLINE.txt\", \"sha256\": \"26ffd5886253906a36a7ea0f6e26056fc36472626cb4894bcb100a34dc69d1db\"}\n",
+          "stderr": ""
+        }
+      }
+    }
+  ],
+  "residual_gaps": [
+    {
+      "id": "G2_INVOCATION_MISMATCH",
+      "severity": "major",
+      "status": "CONFIRMED",
+      "description": "Crash-only mutants are recorded caught: environment, cwd, limited arguments and stateful second invocation all bypass the one-shot probe. H_ENV_CRASH also makes the full unchanged main() exit 0 with all flags true. No wrong JSON was needed.",
+      "evidence": [
+        "H_ENV_CRASH",
+        "H_CWD_CRASH",
+        "H_ARGS_CRASH",
+        "H_SECOND_INVOCATION",
+        "test_only_crash_false_green"
+      ],
+      "remediation_boundary": "Classify the actual failing invocation and assert a value mismatch, not merely a return-code assertion or the substring AssertionError; collect every relevant child argv/env/cwd/result. Reset or control state and reject crashes for any path that is credited as detection."
+    },
+    {
+      "id": "CACHE_BINDING",
+      "severity": "major",
+      "status": "CONFIRMED_IN_MEMORY_COLLISION",
+      "description": "A same-size source change with matching timestamp can load the old valid pyc instead. The cache-control experiment changes only source-loading policy and changes a passing test into an output assertion. Current actual cache code shapes are baseline, not demonstrated stale mutants.",
+      "evidence": [
+        "H_CACHE_SAME_SIZE",
+        "H_CACHE_FORCE_SOURCE_CONTROL"
+      ],
+      "remediation_boundary": "Invalidate or isolate bytecode per case and prove which code executed; restoring source digest alone does not restore cache state."
+    },
+    {
+      "id": "LEVEL6_COVERAGE",
+      "severity": "major",
+      "status": "CONFIRMED",
+      "description": "Generated headings fixtures cover levels 1-3 only; changing #{1,6} to #{1,5} survives while ###### Six produces no heading.",
+      "evidence": [
+        "NEW_LEVEL6_OMISSION"
+      ]
+    },
+    {
+      "id": "CRLF_COVERAGE",
+      "severity": "major",
+      "status": "CONFIRMED",
+      "description": "Census fixture is LF-only plus empty. Counting CR in addition to LF survives and returns newlines=2 for A\\r\\n instead of 1.",
+      "evidence": [
+        "NEW_CR_AS_NEWLINE"
+      ]
+    }
+  ],
+  "claim_ceiling": "N3/N4/N5/N7/N8 are genuinely closed at their output-value assertions, including isolated one-step variants; all ten shipped mutations are value-detected in the read-only adapter. Exit 1 on a failed flag is real. This is NOT acceptance: G2 remains open through unmatched invocations, four crash-only variants are falsely caught, a full harness process can falsely exit 0, two new behavioral mutants survive, and a controlled timestamp-cache collision hides a source mutation. No subject/receipt mutation was performed; results are bounded to explicitly disclosed in-memory source/IO adapters and real venv subprocess execution."
+}

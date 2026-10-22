@@ -43,6 +43,13 @@ tests={
   empty=p.with_name('ts23-empty-input'); empty.write_bytes(b'')
   got2=self.invoke(empty); self.assertEqual(got2.returncode,0,got2.stderr)
   self.assertEqual(json.loads(got2.stdout),{'path':str(empty.resolve()),'bytes':0,'newlines':0,'sha256':hashlib.sha256(b'').hexdigest()})
+  import hashlib as _h
+  crlf=p.with_name('ts23-crlf-input.md'); crlf.write_bytes(b'alpha\\r\\nbeta\\r\\ngamma\\r\\n')
+  self.assertIn(b'\\r',crlf.read_bytes(),'fixture must really contain CR')
+  got3=json.loads(self.invoke(crlf).stdout)
+  self.assertEqual(got3['bytes'],crlf.stat().st_size)
+  self.assertEqual(got3['newlines'],crlf.read_bytes().count(b'\\n'))
+  self.assertEqual(got3['sha256'],_h.sha256(crlf.read_bytes()).hexdigest())
   bad=self.invoke(p.with_name('nonexistent-cli-input'))
   self.assertNotEqual(bad.returncode,0); self.assertIn('ERR_INPUT',bad.stderr)
 if __name__=='__main__': unittest.main(verbosity=2)
@@ -55,9 +62,10 @@ if __name__=='__main__': unittest.main(verbosity=2)
   import importlib.resources
   doc=importlib.resources.files('ts23_headings').joinpath('SKILL.md').read_text(encoding='utf-8')
   self.assertIn('name: ts23-heading-inventory',doc); self.assertIn('ts23-headings',doc)
-  second=p.with_name('ts23-headings-second.md'); second.write_text('# Alpha\\n\\ntext\\n\\n## Beta\\n### Gamma\\n',encoding='utf-8')
+  second=p.with_name('ts23-headings-second.md'); second.write_text('# Alpha\\n\\ntext\\n\\n## Beta\\n### Gamma\\n#### Delta\\n##### Epsilon\\n###### Six\\n####### Seven\\n',encoding='utf-8')
   got2=json.loads(self.invoke(second).stdout)
-  expect=[{'line':i+1,'level':len(l)-len(l.lstrip('#')),'text':l.lstrip('#').strip()} for i,l in enumerate(second.read_text(encoding='utf-8').splitlines()) if l.startswith('#')]
+  expect=[{'line':i+1,'level':len(l)-len(l.lstrip('#')),'text':l.lstrip('#').strip()} for i,l in enumerate(second.read_text(encoding='utf-8').splitlines()) if 1<=len(l)-len(l.lstrip('#'))<=6]
+  self.assertNotIn('Seven',[h['text'] for h in got2['headings']])
   self.assertEqual(got2['path'],str(second.resolve()))
   self.assertEqual(json.loads(got.stdout)['path'],str(p.resolve()))
   self.assertEqual(got2['headings'],expect)
