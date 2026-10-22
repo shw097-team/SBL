@@ -35,12 +35,14 @@ def main() -> int:
     after = counts()
     rc_guard, out_guard = run("continuation_guard.py")
 
-    verdict = "TERMINAL" if rc_guard == 0 else "NOT_TERMINAL"
-    blockers = []
+    # Report the guard's own verdict, never a label of our own: a tick that renames QUEUE_EXHAUSTED to "TERMINAL"
+    # asserts completion the predicate never checked.
     try:
-        blockers = json.loads(out_guard).get("blockers", [])
+        guard_doc = json.loads(out_guard)
     except Exception:
-        pass
+        guard_doc = {}
+    verdict = guard_doc.get("verdict") or ("GUARD_UNREADABLE" if rc_guard else "QUEUE_EXHAUSTED")
+    blockers = guard_doc.get("blockers", [])
     moved = after != before or after["runs"] != before["runs"]
 
     prev = {}
