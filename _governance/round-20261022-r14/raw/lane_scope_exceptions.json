@@ -1,0 +1,123 @@
+{
+  "schema": "SBL-LANE-SCOPE-EXCEPTIONS/1",
+  "registry_epoch": 29,
+  "reason": "Values below were written by a round whose mandate differed and were not re-derived afterwards. They are registered so the guard fails on NEW divergence only, and so this history stays visible instead of being silently normalised away.",
+  "exceptions": [
+    {
+      "role": "PLAN",
+      "index": 0,
+      "field": "transport_model",
+      "lane_scope_value": "gpt-6.1-sol",
+      "assignment_value": "opencode-go/minimax-m3.1-flash-free",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin_commit": "a1bd583",
+      "origin_subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "provider",
+      "lane_scope_value": "opencode-go",
+      "assignment_value": "openai-codex",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": "c442f07",
+      "origin_subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "model",
+      "lane_scope_value": "minimax-m3.1-flash-free",
+      "assignment_value": "gpt-6.1-sol",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": "c442f07",
+      "origin_subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/minimax-m3.1-flash-free",
+      "assignment_value": "gpt-6.1-sol",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": "c442f07",
+      "origin_subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "EXECUTE",
+      "index": 0,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/minimax-m3.1-flash-free",
+      "assignment_value": "opencode-go/deepseek-v4.1-flash",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin_commit": "a1bd583",
+      "origin_subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "EXECUTE",
+      "index": 0,
+      "field": "automatic_selection",
+      "lane_scope_value": true,
+      "assignment_value": false,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": null,
+      "origin_subject": null,
+      "origin_date": null
+    },
+    {
+      "role": "EXECUTE",
+      "index": 1,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/deepseek-v4.1-flash",
+      "assignment_value": "opencode-go/minimax-m3.1-flash-free",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin_commit": "a1bd583",
+      "origin_subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)",
+      "origin_date": "2026-10-21"
+    },
+    {
+      "role": "EXECUTE",
+      "index": 1,
+      "field": "automatic_selection",
+      "lane_scope_value": false,
+      "assignment_value": true,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": null,
+      "origin_subject": null,
+      "origin_date": null
+    },
+    {
+      "role": "VERIFY_SECURITY",
+      "index": 0,
+      "field": "automatic_selection",
+      "lane_scope_value": true,
+      "assignment_value": false,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": null,
+      "origin_subject": null,
+      "origin_date": null
+    },
+    {
+      "role": "VERIFY_SECURITY",
+      "index": 1,
+      "field": "automatic_selection",
+      "lane_scope_value": false,
+      "assignment_value": true,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin_commit": null,
+      "origin_subject": null,
+      "origin_date": null
+    }
+  ],
+  "epoch_skew": {
+    "registry": 30,
+    "assignment": 29,
+    "registered_on": "2026-10-22",
+    "reason": "The registry advanced to epoch 30 (R14 rebind) while the assignment still names epoch 29, so the assignment is a projection of the previous epoch. This single skew explains all ten value divergences; it is registered so the guard fails on further movement rather than staying red. Re-projecting means bumping the assignment revision and its lane_chains from the registry in one change."
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "schema": "SBL-R14-LANE-SCOPE-ISOLATION/1",
+  "at_utc": "2026-10-22T03:26:02.207779Z",
+  "registry_epoch": 29,
+  "scopes": {
+    "L_lane": {
+      "authority": "config/lane-routing-registry.yaml",
+      "note": "authority for lane -> provider/model"
+    },
+    "R_round": {
+      "authority": "per-round role_mandate.json + scripts/runtime_role_binding_assert.py (P1-A)",
+      "note": "a round may bind a lane differently for its duration; owner decision, recorded"
+    },
+    "S_session": {
+      "authority": "Hermes state.db sessions.model",
+      "note": "the interactive model of a session; never a lane binding"
+    },
+    "V_served": {
+      "authority": "session_model_usage",
+      "note": "what actually answered a call"
+    }
+  },
+  "divergences": [
+    {
+      "role": "PLAN",
+      "index": 0,
+      "field": "transport_model",
+      "lane_scope_value": "gpt-6.1-sol",
+      "assignment_value": "opencode-go/minimax-m3.1-flash-free",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin": {
+        "commit": "a1bd583",
+        "date": "2026-10-21",
+        "subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)"
+      }
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "provider",
+      "lane_scope_value": "opencode-go",
+      "assignment_value": "openai-codex",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": "c442f07",
+        "date": "2026-10-21",
+        "subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)"
+      }
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "model",
+      "lane_scope_value": "minimax-m3.1-flash-free",
+      "assignment_value": "gpt-6.1-sol",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": "c442f07",
+        "date": "2026-10-21",
+        "subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)"
+      }
+    },
+    {
+      "role": "PLAN",
+      "index": 1,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/minimax-m3.1-flash-free",
+      "assignment_value": "gpt-6.1-sol",
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": "c442f07",
+        "date": "2026-10-21",
+        "subject": "lane-routing: align PLAN/VERIFY declarations to owner order 2026-10-21 (epoch 23)"
+      }
+    },
+    {
+      "role": "EXECUTE",
+      "index": 0,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/minimax-m3.1-flash-free",
+      "assignment_value": "opencode-go/deepseek-v4.1-flash",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin": {
+        "commit": "a1bd583",
+        "date": "2026-10-21",
+        "subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)"
+      }
+    },
+    {
+      "role": "EXECUTE",
+      "index": 0,
+      "field": "automatic_selection",
+      "lane_scope_value": true,
+      "assignment_value": false,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": null,
+        "date": null,
+        "subject": null
+      }
+    },
+    {
+      "role": "EXECUTE",
+      "index": 1,
+      "field": "transport_model",
+      "lane_scope_value": "opencode-go/deepseek-v4.1-flash",
+      "assignment_value": "opencode-go/minimax-m3.1-flash-free",
+      "classification": "SUPERSEDED_ROUND_RESIDUE",
+      "origin": {
+        "commit": "a1bd583",
+        "date": "2026-10-21",
+        "subject": "FAR-MINIMAX-MANDATE-20261021: bind all three lanes to MiniMax M3.1 Flash (epoch 25)"
+      }
+    },
+    {
+      "role": "EXECUTE",
+      "index": 1,
+      "field": "automatic_selection",
+      "lane_scope_value": false,
+      "assignment_value": true,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": null,
+        "date": null,
+        "subject": null
+      }
+    },
+    {
+      "role": "VERIFY_SECURITY",
+      "index": 0,
+      "field": "automatic_selection",
+      "lane_scope_value": true,
+      "assignment_value": false,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": null,
+        "date": null,
+        "subject": null
+      }
+    },
+    {
+      "role": "VERIFY_SECURITY",
+      "index": 1,
+      "field": "automatic_selection",
+      "lane_scope_value": false,
+      "assignment_value": true,
+      "classification": "CURRENT_ROUND_NOT_DERIVED",
+      "origin": {
+        "commit": null,
+        "date": null,
+        "subject": null
+      }
+    }
+  ],
+  "counts": {
+    "SUPERSEDED_ROUND_RESIDUE": 3,
+    "CURRENT_ROUND_NOT_DERIVED": 7
+  },
+  "session_scope_observations": [
+    {
+      "id": "20261022_100010_67dad4",
+      "model": "deepseek-v4.1-flash",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 239,
+      "started_at": 1792634866.6813598,
+      "started_local": "2026-10-22 10:07"
+    },
+    {
+      "id": "20261022_091710_18a854",
+      "model": "deepseek-v4.1-flash",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 160,
+      "started_at": 1792632524.8787916,
+      "started_local": "2026-10-22 09:28"
+    },
+    {
+      "id": "20261021_224136_53890b",
+      "model": "deepseek-v4.1-flash",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 329,
+      "started_at": 1792595311.006785,
+      "started_local": "2026-10-21 23:08"
+    },
+    {
+      "id": "20261021_120449_0f0ef6",
+      "model": "minimax-m3.1-flash-free",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 184,
+      "started_at": 1792555634.3880289,
+      "started_local": "2026-10-21 12:07"
+    },
+    {
+      "id": "20261021_111630_fdf37c",
+      "model": "deepseek-v4.1-flash",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 192,
+      "started_at": 1792554931.1670125,
+      "started_local": "2026-10-21 11:55"
+    },
+    {
+      "id": "20261021_110219_9e1b3a",
+      "model": "minimax-m3.1-flash-free",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 245,
+      "started_at": 1792552028.7971225,
+      "started_local": "2026-10-21 11:07"
+    },
+    {
+      "id": "20261020_131818_f94bcd",
+      "model": "glm-5.3-flash",
+      "billing_provider": "opencode-go",
+      "parent_session_id": null,
+      "message_count": 204,
+      "started_at": 1792473620.4490175,
+      "started_local": "2026-10-20 13:20"
+    }
+  ],
+  "reading": "Every divergence is between L (registry, epoch 29) and its projection in the assignment. The PLAN transport value came from an owner mandate that bound all three lanes to MiniMax for one round and was only partly reverted afterwards, so it is stale round residue. Concurrent sessions running other models are S-scope and are not lane drift at all.",
+  "claim_ceiling": "Classified, not repaired. Registering the residue as an exception makes it visible and dated; it does not make the projection correct, and it changes no runtime binding."
+}

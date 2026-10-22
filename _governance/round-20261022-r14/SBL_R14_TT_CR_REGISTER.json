@@ -598,25 +598,26 @@
     },
     {
       "id": "TT-R14-034",
-      "title": "The lane assignment declares one model and carries the transport of another",
-      "first_broken_link": "config/model-lane-assignment.json lane_chains.PLAN[0] declares openai-codex/gpt-6.1-sol but transport_model is opencode-go/minimax-m3.1-flash-free; EXECUTE[1] declares deepseek with a MiniMax transport and is the auto-selected arm; VERIFY_SECURITY auto-selects the MiniMax arm although the owner order puts VERIFY/SECURITY on GPT",
-      "earliest_owner": "lane wiring owner",
+      "title": "The lane assignment is a stale projection, not a mis-wired lane (scope conflation)",
+      "first_broken_link": "config/model-lane-assignment.json names registry_epoch 29 while the registry is at epoch 30, so the projection was never re-derived after the R14 rebind; the PLAN transport value additionally traces to commit a1bd583 (FAR-MINIMAX-MANDATE-20261021), an owner decision that bound all three lanes to MiniMax for one round and was only partly reverted",
+      "earliest_owner": "round orchestrator (projection discipline), not a wiring error",
       "required_authority": "coordinated rebind (assignment revision + projections + drift baseline in one change)",
-      "repair_cone": "scripts/lane_assignment_resync.py re-derives all 11 derived fields from the registry (the registry itself is correct and matches the owner order), but applying it alone leaves 8 lane tests red because the drift baseline pins the drifted values - so the rebind must be one change and was NOT performed here; the pristine file was restored (revision 30) and the defect is recorded",
-      "status": "OPEN",
+      "repair_cone": "scopes separated: L=registry/epoch, R=per-round role_mandate (P1-A), S=session model in state.db, V=usage receipts. scripts/lane_scope_isolation.py classifies each divergence by origin commit (3 SUPERSEDED_ROUND_RESIDUE, 7 CURRENT_ROUND_NOT_DERIVED); the epoch skew and every residue are registered in config/lane_scope_exceptions.json with provenance; tests/test_lane_scope_isolation.py fails on NEW divergence and forbids a session model from becoming a lane declaration",
+      "status": "RECLASSIFIED_REGISTERED",
       "closed_by": "",
       "evidence": [
-        "raw/lanemodel_fidelity.json",
-        "raw/lanemodel_fidelity.md"
+        "raw/lane_scope_isolation_STUDY.md",
+        "raw/isolation.json",
+        "raw/lane_scope_exceptions.json"
       ]
     },
     {
       "id": "TT-R14-035",
-      "title": "The drift detector cannot see the drift it exists to catch",
+      "title": "The drift detector compares a file against an older copy of itself, so it cannot see plane confusion",
       "first_broken_link": "check_drift() returned [] while 44 field-path inconsistencies were measured: 12 conflicting values are themselves pinned as expected values, and 32 fields have no matching projection binding at all",
       "earliest_owner": "HG-KSEOS owner",
       "required_authority": "none to record; fixing needs the same coordinated rebind",
-      "repair_cone": "measured and recorded; the fidelity audit (363 comparisons) is the compensating control until the baseline is rebuilt from the registry rather than from a previous copy of the same file",
+      "repair_cone": "reworded, not just widened: check_drift() pins expected values taken from the same file's previous revision, so a legitimate round-scope change and a genuine regression look identical to it. The lane-scope guard (4 tests) now supplies the missing plane separation; rebuilding the baseline from the registry is the remaining work and must ship with the epoch 30 re-projection",
       "status": "OPEN",
       "closed_by": "",
       "evidence": [
@@ -648,6 +649,19 @@
       "evidence": [
         "raw/ts17_tqaep_matrix_runtime.csv",
         "raw/ts17_runtime_SUMMARY.md"
+      ]
+    },
+    {
+      "id": "TT-R14-038",
+      "title": "Parallel sessions on other models were being read as lane drift",
+      "first_broken_link": "the fidelity audit compared assignment fields against session-scope observables without separating planes, so three concurrent root sessions running opencode-go/deepseek (10:07, 09:28 and this one) plus four older ones (minimax/glm) looked like lane inconsistency",
+      "earliest_owner": "round orchestrator (audit design)",
+      "required_authority": "none",
+      "repair_cone": "S-scope values are now reported separately as session observations and are excluded from lane-scope comparison; a test forbids a session-tier model from becoming a lane declaration",
+      "status": "CLOSED",
+      "closed_by": "tests/test_lane_scope_isolation.py",
+      "evidence": [
+        "raw/lane_scope_isolation_STUDY.md"
       ]
     }
   ]
