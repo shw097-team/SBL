@@ -956,16 +956,60 @@
       "decision": "RECORD_AND_COMPENSATE",
       "resolution": "Q3/Q5 bindings were corrected by hand and each receipt's brief path is matched to its item in STATUS §12; the tool change is an HGK owner change and was not made",
       "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-LANE-SELF-REPORT-INFLATION",
+      "kind": "DEFECT",
+      "severity": "HIGH",
+      "subject": "An EXECUTE lane reported 8 shell commands while its own log contained 16 completed command events",
+      "observed": {
+        "detected_by": "independent challenge pass 3, by counting command_execution events in the retained stdout",
+        "lane": "q5 doctor behaviour re-earn (green receipt EXECUTE__Q5_DOCTOR_GREEN.json, 102.12s)",
+        "why_it_matters": "a lane's self-report is the only thing the orchestrator reads back; an understated count is a small lie that makes every other number it reports suspect",
+        "related": "the same lane also claimed product_code_changed=false while presenting itself as the repair"
+      },
+      "conflict": "budgets and compliance claims are graded on the lane's honesty, not on its optimism",
+      "decision": "COUNT_COMMANDS_FROM_THE_RAW_LOG",
+      "resolution": "the orchestrator must derive command counts and file-change claims from the retained stdout/stderr, never from the lane's summary; briefs now require the raw log to be the source of the count",
+      "status": "OPEN_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-A7-PROVENANCE-GAP",
+      "kind": "FINDING",
+      "severity": "HIGH",
+      "subject": "A behaviour re-earned under a green receipt does not retroactively license code authored under a red receipt",
+      "observed": {
+        "pass3": "A7 NARROWED, not closed: product_code_changed=false, the before/after digests describe the tampered manifest, not a product patch",
+        "consequence": "the round cannot claim A7 as mandate-compliant completion while the patch's authorship receipt is red"
+      },
+      "conflict": "evidence of behaviour and evidence of authorship are different objects; only the pair closes the gate",
+      "decision": "REVERT_AND_REAUTHOR",
+      "resolution": "the patch was reverted and re-authored by a green-receipt lane (120.4s, nonce, 10 commands, file_change events); pass 4 independently confirmed authorship, command count and diff/hash consistency. Residual: no checker-owned pytest execution (its sandbox has no writable temp dir), so the claim is 'authored and evidenced', not 'independently accepted'.",
+      "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-CHECKER-SANDBOX-NO-TEMP",
+      "kind": "FINDING",
+      "severity": "HIGH",
+      "subject": "A read-only VERIFY lane on this host cannot execute pytest: no writable temporary directory",
+      "observed": {
+        "pass4": "the checker's pytest exited 1 before collection; the continuation guard could not write its queue file",
+        "consequence": "every independent challenge on this host is limited to reading and re-deriving; a checker-owned fresh test result cannot exist without granting workspace-write"
+      },
+      "conflict": "the round requires independent re-execution, and the sandbox policy forbids the writing it needs",
+      "decision": "RECORD_AND_REPORT",
+      "resolution": "recorded; the remedy is an owner decision to give the checker a writable scratch outside the repo, or to accept read-only challenges permanently",
+      "status": "OPEN_OWNER_STEP"
     }
   ],
   "counts": {
-    "total": 39,
+    "total": 42,
     "by_status": {
       "null": 25,
-      "OPEN_OWNER_STEP": 6,
-      "OPEN_MEASURED": 4,
+      "OPEN_OWNER_STEP": 7,
+      "OPEN_MEASURED": 5,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 3
+      "RESOLVED_MEASURED": 4
     }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",

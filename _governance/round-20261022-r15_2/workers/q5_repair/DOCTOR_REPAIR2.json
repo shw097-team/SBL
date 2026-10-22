@@ -1,0 +1,19 @@
+{
+  "product_code_changed": true,
+  "files_changed": ["sbl_stack/__init__.py"],
+  "typed_code": "SBL_E_COMPONENT_UNRESOLVED",
+  "tests": {"file": "tests/test_stack_verbs.py", "passed": 9, "failed": 0, "skipped": 0},
+  "shell_commands_used": 10,
+  "before_sha256": "57f7fd57b3e9a9c7fc0f5c49719d2e86990ab3fb6feb4384af8b497a8eddc427",
+  "after_sha256": "2817d34d5a5107fa387d310feaef0b771b626f577ed13456e638f4b0b3597494",
+  "claim_ceiling": "doctor refuses an unresolvable or tampered component with a typed code; nothing about release, installation or acceptance is claimed",
+  "notes": [
+    "Root cause: _module_source called __import__ directly, so a component named in stack.json with no importable module raised ModuleNotFoundError. That is an ImportError, not an SBLError, and doctor only caught SBLError.",
+    "Fix 1: _module_source converts ImportError into SBLError with code SBL_E_COMPONENT_UNRESOLVED and carries the module name, so load, invoke and upgrade also get typed refusals instead of tracebacks.",
+    "Fix 2: doctor collects a code per problem and sets report code when problems is non-empty. SBL_E_COMPONENT_UNRESOLVED wins if present, otherwise the first code. ok stays false and problems, target, components, claim_ceiling, host_install_state keep their shape.",
+    "The missing-manifest early return also gained a code (SBL_E_NOT_INSTALLED) so every non-ok doctor payload is typed, matching the code regex the tests assert.",
+    "Codes introduced: SBL_E_COMPONENT_UNRESOLVED, SBL_E_DIGEST_MISMATCH, SBL_E_MANIFEST_INCOMPLETE, SBL_E_CORE_UNHEALTHY, SBL_E_NOT_INSTALLED.",
+    "Tests were not edited, no other module was touched, and no commits were made.",
+    "Observed but not chased (budget): this repo's pytest config prints no trailing counts line, so the numbers here come from the nine per-test result characters and the PASSED listing."
+  ]
+}

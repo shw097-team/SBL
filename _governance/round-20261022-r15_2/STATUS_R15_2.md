@@ -756,3 +756,52 @@ Third dispatch of the same narrow change, this time with a **hard 8-command budg
   `949af7c5…` → tampered `69f30ac4…`;
 - `product_code_changed: false` — the code was already there from the red-receipt lane. So: **behaviour re-earned and
   evidenced by a green receipt; authorship of the change stays a red-receipt lane and is disclosed as such.**
+
+### 12.8 Independent challenge, pass 3 — C6 PASS, A7 NARROWED (kept as FAIL overall)
+
+`receipts/dispatch/VERIFY_SECURITY__CHALLENGE_PASS3.json` — `gpt-6.1-sol`, rank 2, **109.1 s**, nonce present;
+transcript in `workers/verify/VERDICT_PASS3.md`.
+
+- **C6 → PASS**, re-derived: 11 rows, 11 distinct resolved paths, zero missing files, zero sha/byte mismatches, all 11
+  `.sha256` sidecars agree, prefixes 001–011 without duplication.
+- **A7 → NARROWED, not closed.** The checker accepted the behaviour evidence but refused the provenance, and caught two
+  misstatements in the lane's own report: it claimed 8 shell commands while its log holds **16** completed command
+  events, and `product_code_changed=false` means it tested someone else's patch.
+- Standing limits unchanged: `TT-R15.2-MANDATE-AUDIT-IS-SHALLOW`, A4's missing outside-scope manifest, and the
+  same-host/same-family ceiling.
+
+Action taken instead of arguing: the doctor repair was **reverted** to its pre-repair bytes
+(`git show 10dd826^:sbl_stack/__init__.py`), three committed oracle tests went red again, and a bounded lane (10
+commands, 900 s) is authoring the change itself so that the green receipt owns the patch.
+
+### 12.9 Pass 4 — the authorship gap is closed; the checker's own re-run was blocked by its sandbox
+
+`receipts/dispatch/VERIFY_SECURITY__CHALLENGE_PASS4.json` — `gpt-6.1-sol`, rank 2, **95.3 s**, nonce present.
+Verdict line: **FAIL / A7 STILL_NARROWED — "Green-receipt patch authorship is established; the required fresh test
+result remains unverified."** Its own basis, verbatim: *"The authorship gap itself is resolved."*
+
+What it re-derived and agreed with:
+
+- the green receipt's stdout holds real `file_change` events (`item_13`, `item_14`) against `sbl_stack/__init__.py` —
+  the lane **wrote** the patch, it did not test someone else's;
+- it counted **10** completed shell-command events, matching the reported `10` (the inflation defect of pass 3 is gone);
+- the retained diff matches `git diff`, the source hash matches the reported after-hash, the code carries
+  `SBL_E_COMPONENT_UNRESOLVED`.
+
+Why it still says NARROWED: **its own** `pytest` re-run exited 1 before collection ("no writable temporary directory"),
+and the continuation guard could not write its queue file under read-only enforcement. Those are sandbox limits on the
+checker side, not defects in the round — but they are the reason a fresh, checker-owned test result does not exist, so
+the honest status is "narrowed", not "closed independently".
+
+Orchestrator-side measurements that stand in their place, and their ceiling:
+
+| Measurement | Result |
+|---|---|
+`python -m pytest -q -p no:cacheprovider tests/test_stack_verbs.py` | **9 passed, rc 0** |
+`python -m pytest -q -p no:cacheprovider tests` (full suite) | **rc 0, 0 FAILED**, `r152_full4.txt` |
+`mandate_gate audit` | AUDIT_CLEAN, 26 items |
+`continuation_guard` | QUEUE_EXHAUSTED, rc 0 |
+Round package | 441 files, exact set equal, `READY_FOR_EXTERNAL_REVIEW` |
+
+Recorded as `TT-R15.2-CHECKER-SANDBOX-NO-TEMP`: a read-only checker on this host cannot run pytest at all, which caps
+every challenge at "read and re-derive" rather than "re-execute".

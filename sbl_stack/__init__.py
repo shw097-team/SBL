@@ -64,7 +64,14 @@ COMPONENT_MODULES: tuple[str, ...] = (
 
 
 def _module_source(name: str) -> Path:
-    module = sys.modules.get(name) or __import__(name, fromlist=["__name__"])
+    try:
+        module = sys.modules.get(name) or __import__(name, fromlist=["__name__"])
+    except ImportError as exc:
+        raise SBLError(
+            "SBL_E_COMPONENT_UNRESOLVED",
+            f"a stack component cannot be resolved to a module: {exc}",
+            {"module": name},
+        ) from None
     location = getattr(module, "__file__", None)
     if not location:
         raise SBLError(
@@ -142,42 +149,34 @@ def doctor(target: str | Path) -> dict[str, Any]:
     if not manifest_path.is_file():
         return {
             "ok": False,
+            "code": "SBL_E_NOT_INSTALLED",
             "problems": ["stack.json is missing: this directory is not an installed stack"],
             "target": str(root),
             "claim_ceiling": CLAIM_CEILING,
         }
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     problems: list[str] = []
+    codes: list[str] = []
     recorded = manifest.get("components", {})
-    unresolved: list[str] = []
-    if not isinstance(recorded, dict):
-        problems.append(
-            "components: the manifest records a "
-            f"{type(recorded).__name__}, not a name-to-digest mapping"
-        )
-        unresolved.append("<manifest>")
-        recorded = {}
-    else:
-        for name, expected in recorded.items():
-            try:
-                actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
-            except SBLError as exc:
-                problems.append(f"{name}: {exc.message}")
-                unresolved.append(name)
-                continue
-            except Exception as exc:  # noqa: BLE001 - an unresolvable component is an outcome, not a crash
-                problems.append(f"{name}: unresolvable component: {type(exc).__name__}")
-                unresolved.append(name)
-                continue
-            if actual != expected:
-                problems.append(f"{name}: digest changed since install")
+    for name, expected in recorded.items():
+        try:
+            actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
+        except SBLError as exc:
+            problems.append(f"{name}: {exc.message}")
+            codes.append(exc.code)
+            continue
+        if actual != expected:
+            problems.append(f"{name}: digest changed since install")
+            codes.append("SBL_E_DIGEST_MISMATCH")
     missing = sorted(set(COMPONENT_MODULES) - set(recorded))
     if missing:
         problems.append("manifest does not cover: " + ", ".join(missing))
+        codes.append("SBL_E_MANIFEST_INCOMPLETE")
 
     composed = SharedCore(str(root)).doctor()
     if not composed.get("ok"):
         problems.append("composed core is not healthy")
+        codes.append("SBL_E_CORE_UNHEALTHY")
 
     report: dict[str, Any] = {
         "ok": not problems,
@@ -188,8 +187,12 @@ def doctor(target: str | Path) -> dict[str, Any]:
         "claim_ceiling": CLAIM_CEILING,
         "host_install_state": "NOT_INSTALLED",
     }
-    if unresolved:
-        report["code"] = "SBL_E_COMPONENT_UNRESOLVED"
+    if problems:
+        report["code"] = (
+            "SBL_E_COMPONENT_UNRESOLVED"
+            if "SBL_E_COMPONENT_UNRESOLVED" in codes
+            else codes[0]
+        )
     return report
 
 
