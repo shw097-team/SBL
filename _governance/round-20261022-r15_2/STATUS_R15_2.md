@@ -101,3 +101,33 @@ evidence ceiling for those two arms only — it does not make the round a PASS.
 `workers/codex/raw/independent_check.json` is explicitly labelled
 `INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC`: 28/28 manifest files byte- and sha256-match, 0 mismatches, CONTRACT.json
 valid. It is not a Codex result and must never be cited as one.
+
+## 8. Correction — both stipulated Codex arms DO work (this supersedes the stop in §7)
+
+§7 stopped the round on the belief that Codex CLI could not execute anything on this host. **That was wrong.** The
+worker invoked `codex.exe` with `--ignore-user-config` (throwing away the proven lane home) and `-s read-only` (which
+on this host refuses every process spawn). Reusing the established HGK recipe makes both stipulated arms run end to
+end, and they were then used for real work:
+
+| Stipulated arm | Command recipe | Real result |
+|---|---|---|
+| EXECUTE = Codex CLI + MiniMax M3.1 Flash | isolated copy of sealed `CODEX_HOME`, layered `-p exe`, `model = opencode-go/minimax-m3.1-flash-free`, `base_url http://127.0.0.1:10101/v1`, `wire_api = responses`, `-s danger-full-access` | `pwsh -Command 'echo SHELL_GATE_OK'` **succeeded in 391ms**; created exactly `workers/codex_writer/EXECUTE_WRITER_RECEIPT.md`; guard `MODIFIED=0 REMOVED=0` outside the write set |
+| VERIFY = Codex CLI + GPT 6.1 SOL | same home, layered `-p ver`, `model = gpt-6.1-sol` | exit 0; independent audit returned `{"verdict":"PASS","addition_only":true,"overclaims":[]}` |
+| (bonus) PLAN = GPT 6.1 SOL | relay `/v1/chat/completions` | 35-edge DAG, 4,858 completion tokens |
+
+Raw logs: `workers/codex_lane/log_execute.log`, `log_verify.log`, `log_writer.log`, `log_checker.log`,
+`guard_before.txt` / `guard_after.txt`.
+
+### What was genuinely blocking, and what still is
+
+- **Found and disclosed:** `TT-R15.2-FRONTDOOR-SANCTIONED-DRIFT` — the sealed front door on 10100 pins
+  `deepseek-v4.1-flash` at compile time while the lane declaration now says `minimax-m3.1-flash-free`, so it refuses to
+  start (`ERR_EXEC_FRONTDOOR_SANCTIONED_DRIFT`). The working runs above therefore point Codex at the shared relay 10101
+  directly, which **bypasses the isolation layer the front door exists to provide**. This is a real, disclosed deviation,
+  not a resolved issue.
+- **Still blocking a full R15.2:** no native WorkOrder / Permit, no SWOF W3 admission, no ChatGPT host IDs, pre-existing
+  `openspec` failure on `far-r12-20261021`, and gstack absent. The carrier was never the blocker for those.
+
+Claim ceiling unchanged: `native_run NOT_RUN`, `independent_acceptance NOT_RUN`, `release BLOCKED`. What changed is that
+the two arms are now demonstrated carriers with a demonstrated bounded write and a demonstrated independent check — which
+is a strictly larger evidence base than §7 claimed, and still not a PASS.

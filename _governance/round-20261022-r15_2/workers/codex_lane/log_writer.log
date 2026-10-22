@@ -1,0 +1,132 @@
+OpenAI Codex v0.163.0-alpha.11
+--------
+workdir: C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+model: opencode-go/minimax-m3.1-flash-free
+provider: hgk_relay
+approval: never
+sandbox: danger-full-access
+reasoning effort: none
+reasoning summaries: none
+session id: 01a163be-eccf-7863-8766-d6bf8e46a8fb
+--------
+user
+You are the bounded writer for a governed evidence round. Your write set is EXACTLY one new file:
+  workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+Do not create, modify, move or delete anything else. Do not run git.
+
+Write that file with exactly this content (nothing else, no code fences):
+
+# EXECUTE lane receipt
+carrier: codex-cli 0.163.0-alpha.11
+model: opencode-go/minimax-m3.1-flash-free
+write_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+scope: self-receipt only; no product source, no contract, no manifest
+effect: one new file in the evidence worktree
+claim_ceiling: this receipt proves the carrier can write; it is not a Permit
+
+Then print the single line: WRITER_DONE
+
+warning: Model metadata for `opencode-go/minimax-m3.1-flash-free` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.
+codex
+I'll create that single receipt file as specified.
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Test-Path "workers/codex_writer"; Test-Path "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md"' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 380ms:
+True
+False
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$content = @'"'
+# EXECUTE lane receipt
+carrier: codex-cli 0.163.0-alpha.11
+model: opencode-go/minimax-m3.1-flash-free
+write_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+scope: self-receipt only; no product source, no contract, no manifest
+effect: one new file in the evidence worktree
+claim_ceiling: this receipt proves the carrier can write; it is not a Permit
+'@
+Set-Content -LiteralPath \"workers/codex_writer/EXECUTE_WRITER_RECEIPT.md\" -Value "'$content -Encoding utf8 -NoNewline' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 395ms:
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command 'Get-Content -LiteralPath "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md" -Raw | Out-String; "---BYTES---"; (Get-Item -LiteralPath "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md").Length' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 413ms:
+# EXECUTE lane receipt
+carrier: codex-cli 0.163.0-alpha.11
+model: opencode-go/minimax-m3.1-flash-free
+write_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+scope: self-receipt only; no product source, no contract, no manifest
+effect: one new file in the evidence worktree
+claim_ceiling: this receipt proves the carrier can write; it is not a Permit
+
+---BYTES---
+352
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$content = @'"'
+# EXECUTE lane receipt
+carrier: codex-cli 0.163.0-alpha.11
+model: opencode-go/minimax-m3.1-flash-free
+write_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+scope: self-receipt only; no product source, no contract, no manifest
+effect: one new file in the evidence worktree
+claim_ceiling: this receipt proves the carrier can write; it is not a Permit
+'@
+Set-Content -LiteralPath \"workers/codex_writer/EXECUTE_WRITER_RECEIPT.md\" -Value "'$content -Encoding utf8
+Get-Content -LiteralPath "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md" | ForEach-Object { "LINE: $_" }
+"---BYTES---"; (Get-Item -LiteralPath "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md").Length
+"---DIR---"; Get-ChildItem -LiteralPath "workers/codex_writer" | Select-Object -ExpandProperty Name' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 432ms:
+LINE: # EXECUTE lane receipt
+LINE: carrier: codex-cli 0.163.0-alpha.11
+LINE: model: opencode-go/minimax-m3.1-flash-free
+LINE: write_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+LINE: scope: self-receipt only; no product source, no contract, no manifest
+LINE: effect: one new file in the evidence worktree
+LINE: claim_ceiling: this receipt proves the carrier can write; it is not a Permit
+---BYTES---
+354
+---DIR---
+EXECUTE_WRITER_RECEIPT.md
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$b = [System.IO.File]::ReadAllBytes("workers/codex_writer/EXECUTE_WRITER_RECEIPT.md")
+"len=$($b.Length)"
+"first3=$($b[0]),$($b[1]),$($b[2])"
+"cr_count=$(($b | Where-Object {$_ -eq 13}).Count)"
+"lf_count=$(($b | Where-Object {$_ -eq 10}).Count)"
+"last3=$($b[$b.Length-3]),$($b[$b.Length-2]),$($b[$b.Length-1])"' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 277ms:
+len=354
+first3=35,32,69
+cr_count=1
+lf_count=7
+last3=116,13,10
+
+exec
+"C:\\Users\\user\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe" -Command '$expected = "# EXECUTE lane receipt`ncarrier: codex-cli 0.163.0-alpha.11`nmodel: opencode-go/minimax-m3.1-flash-free`nwrite_set: workers/codex_writer/EXECUTE_WRITER_RECEIPT.md`nscope: self-receipt only; no product source, no contract, no manifest`neffect: one new file in the evidence worktree`nclaim_ceiling: this receipt proves the carrier can write; it is not a Permit`n"
+$enc = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText((Join-Path (Get-Location) "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md"), $expected, $enc)
+$b = [System.IO.File]::ReadAllBytes("workers/codex_writer/EXECUTE_WRITER_RECEIPT.md")
+"len=$($b.Length)"
+"first3=$($b[0]),$($b[1]),$($b[2])"
+"cr=$(($b | Where-Object {$_ -eq 13}).Count) lf=$(($b | Where-Object {$_ -eq 10}).Count)"
+$actual = [System.IO.File]::ReadAllText((Join-Path (Get-Location) "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md"))
+"exact_match=$($actual -ceq $expected)"
+"---DIR---"; Get-ChildItem -LiteralPath "workers/codex_writer" | Select-Object -ExpandProperty Name' in C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2
+ succeeded in 492ms:
+len=353
+first3=35,32,69
+cr=0 lf=7
+exact_match=True
+---DIR---
+EXECUTE_WRITER_RECEIPT.md
+
+codex
+The receipt file is written with exactly the specified content (353 bytes, UTF-8 no BOM, LF line endings, trailing newline). It is the only file in `workers/codex_writer/`, and nothing else was created, modified, or deleted. Git was not run.
+
+WRITER_DONE
+tokens used
+15,593
+The receipt file is written with exactly the specified content (353 bytes, UTF-8 no BOM, LF line endings, trailing newline). It is the only file in `workers/codex_writer/`, and nothing else was created, modified, or deleted. Git was not run.
+
+WRITER_DONE
