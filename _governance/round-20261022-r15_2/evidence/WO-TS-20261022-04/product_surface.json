@@ -101,8 +101,8 @@
       },
       {
         "receipt": "receipts/dispatch/EXECUTE_wo04c.json",
-        "ok": null,
-        "note": "the writer's own output (workers/codex_exec/EXEC_RECEIPT_ABS.json) is authoritative; it created no helper script",
+        "ok": true,
+        "note": "completed in 133.13 s with the nonce echoed; the writer's own output (workers/codex_exec/EXEC_RECEIPT_ABS.json) reproduces the worktree figures exactly and created no helper script",
         "writer_receipt": "workers/codex_exec/EXEC_RECEIPT_ABS.json",
         "measured": {
           "tracked_total": 712,
@@ -111,7 +111,15 @@
           "command_line_chars": 37733,
           "over_windows_limit": true
         },
-        "prefix_arithmetic": "37,693 + 40 = 37,733 for a shorter prefix; both figures exceed 32,767"
+        "prefix_arithmetic": "37,693 + 40 = 37,733 for a shorter prefix; both figures exceed 32,767",
+        "authoritative_dispatch_record": {
+          "lane": "EXECUTE",
+          "ok": true,
+          "seconds": 133.13,
+          "nonce_present": true,
+          "used_rank": 1,
+          "used_transport_model": "opencode-go/minimax-m3.1-flash-free"
+        }
       }
     ],
     "why_it_matters": "the product defect described above was measured by the mandated EXECUTE lane, not inferred: 37,693 characters of paths against a 32,767-character Windows cap",
