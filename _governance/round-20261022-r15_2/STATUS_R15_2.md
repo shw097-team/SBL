@@ -805,3 +805,34 @@ Round package | 441 files, exact set equal, `READY_FOR_EXTERNAL_REVIEW` |
 
 Recorded as `TT-R15.2-CHECKER-SANDBOX-NO-TEMP`: a read-only checker on this host cannot run pytest at all, which caps
 every challenge at "read and re-derive" rather than "re-execute".
+
+### 12.10 Late notifications triaged (all four already-handled, one material)
+
+Three of the four late completions were dispatches this round already accounted for (challenge pass 2's role-key crash,
+the doctor behaviour re-earn at 102.12 s, the Q3 re-run at 629.89 s). The material one is the **original q5_repair
+dispatch**, whose receipt carried `dispatch_exit=3` and `LANE_TOUCHED_CONTROL_PLANE`:
+
+```
+before: ["?? tests/test_sp_identity_commander_plan.py", "?? uv.lock"]
+after : ["M tests/test_lane_policy.py", " M tests/test_matrix_d_full.py",
+         " M tests/test_role_binding_enforcement.py", ...]
+```
+
+Those three files are in **HG-KSEOS**, and they were neither touched nor dirty at the time: they were being written by a
+**Kanban swarm worker** (`t_56c9fbe7`, the mimo board work identified earlier), which then committed to the control
+plane **during this round**:
+
+| commit | time (+0800) | author | subject |
+|---|---|---|---|
+`2c0209f` | 02:36:14 | Codex | pool(rev21 repair): move EXECUTE automatic_selection onto the rank-1 arm |
+`c0c661f` | 02:44:42 | Codex | evidence: close TT-R12-POOLREV21-AUTOSEL |
+`237969e` | 02:51:23 | **Hermes t_56c9fbe7** | tests(pool-rev21 pins): bind the EXECUTE mandate from the pool as INPUT |
+
+Consequences, stated plainly:
+
+- the lane was flagged for **seeing** a foreign write, not for making one; this round wrote no HGK registry, epoch or
+  policy;
+- the pool change moved EXECUTE `automatic_selection` onto the rank-1 arm — the arm this round's EXECUTE lanes were in
+  fact served (`deepseek-v4.1-flash`), so the round's receipts and the repaired pool agree;
+- HG-KSEOS is clean at `237969e` and `hg_kseos.cli doctor` re-run there returns **PASS**;
+- recorded as `TT-R15.2-FOREIGN-CONTROL-PLANE-WRITES`; a writer lease on HG-KSEOS during a round is an owner decision.

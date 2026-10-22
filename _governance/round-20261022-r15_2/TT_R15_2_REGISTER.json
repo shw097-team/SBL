@@ -1000,16 +1000,51 @@
       "decision": "RECORD_AND_REPORT",
       "resolution": "recorded; the remedy is an owner decision to give the checker a writable scratch outside the repo, or to accept read-only challenges permanently",
       "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-FOREIGN-CONTROL-PLANE-WRITES",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "HG-KSEOS received three commits from a Kanban swarm worker during this round, one authored as 'Hermes t_56c9fbe7'",
+      "observed": {
+        "commits": [
+          "2c0209f 2026-10-23 02:36:14 +0800 Codex pool(rev21 repair): move EXECUTE automatic_selection onto the rank-1 arm",
+          "c0c661f 02:44:42 +0800 Codex evidence: close TT-R12-POOLREV21-AUTOSEL",
+          "237969e 02:51:23 +0800 Hermes t_56c9fbe7 tests(pool-rev21 pins): bind the EXECUTE mandate from the pool as INPUT"
+        ],
+        "detected_by": "the red q5_repair lane's control-plane delta snapshot (LANE_TOUCHED_CONTROL_PLANE, dispatch_exit=3) and the later empty git status at head 237969e",
+        "state_now": "HG-KSEOS working tree clean at 237969e; doctor PASS on Python 3.12",
+        "timing": "all three landed after this round opened (01:51 local) and before it closed",
+        "effect_on_this_round": "the pool's EXECUTE automatic_selection moved onto the rank-1 arm, which is the arm this round's EXECUTE lanes were served (deepseek-v4.1-flash); no HGK registry/epoch was rewritten by this round"
+      },
+      "conflict": "a control plane that neighbours can write to while a round is running makes every observation a moving target; the round's own lanes were correctly flagged for merely seeing it",
+      "decision": "RECORD_AND_TIMESTAMP",
+      "resolution": "disclosed; this round's HGK observations are timestamped against 237969e and doctor was re-run there (PASS). The remedy - a lease or writer exclusion on HG-KSEOS during a round - is an owner decision",
+      "status": "OPEN_OWNER_STEP"
+    },
+    {
+      "tt_id": "TT-R15.2-RUN-LANE-ROLE-KEY",
+      "kind": "DEFECT",
+      "severity": "LOW",
+      "subject": "run_lane.py takes the mandate role key, not the lane label: --role VERIFY_SECURITY dies with KeyError while the receipt label is VERIFY_SECURITY",
+      "observed": {
+        "error": "KeyError: 'VERIFY_SECURITY' at run_lane.py:34 (roles are PLAN/EXECUTE/VERIFY)",
+        "cost": "one wasted dispatch of challenge pass 2; re-dispatched with --role VERIFY"
+      },
+      "conflict": "two identifiers for one lane: the mandate role key and the receipt lane label",
+      "decision": "USE_THE_MANDATE_KEY",
+      "resolution": "recorded; challenges are dispatched with --role VERIFY and still labelled VERIFY_SECURITY in the receipt",
+      "status": "RESOLVED_MEASURED"
     }
   ],
   "counts": {
-    "total": 42,
+    "total": 44,
     "by_status": {
       "null": 25,
-      "OPEN_OWNER_STEP": 7,
+      "OPEN_OWNER_STEP": 8,
       "OPEN_MEASURED": 5,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 4
+      "RESOLVED_MEASURED": 5
     }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
