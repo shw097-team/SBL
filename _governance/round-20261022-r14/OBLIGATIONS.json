@@ -214,13 +214,14 @@
       "id": "R14-TS17",
       "title": "TQAEP／Independent Challenge E07/M2",
       "state": "PARTIAL",
-      "next_action": "run the matrix with a real checker principal; today 0 of 96 cells are runtime-qualified",
+      "next_action": "66 rows stay DECLARED_ONLY; 2 negatives are accepted by their own schemas (PIPD bundle owner)",
       "evidence": [
-        "raw/ts17_tqaep_matrix.csv",
-        "raw/ts17_tqaep_summary.md"
+        "raw/ts17_tqaep_matrix_runtime.csv",
+        "raw/ts17_runtime_SUMMARY.md",
+        "raw/ts17_runtime_executions.jsonl"
       ],
       "depends_on": [],
-      "note": "96 unique TestClass x skill rows built; 32 cells are exercised through 56 existing schema cases, 64 are asserted only, 0 are runtime-qualified. Important correction: DOC-08's normative matrix is 12 TestClass x 8 OracleType, NOT 12 x 8 skills - the skills matrix here is a reviewer projection and the original oracle cells are preserved separately. No invented legal exclusions."
+      "note": "32/32 case-bearing rows were executed, each with its own command, exit code, timestamp and output tail; 30/96 RUNTIME_QUALIFIED strictly at schema-oracle scope; 66 DECLARED_ONLY (64 with no row-specific executable case, 2 real enforcement failures - tqaep NEG-001 semantic.distinct and package-project NEG-001 semantic.claim_gate are both ACCEPTED by their schemas); 0 NO_ORACLE. Dimension, stated precisely this time: the supplied matrix ARTEFACT is 12 TestClass x 8 skills while DOC-08's normative matrix is TestClass x OracleTypes - no equivalence was invented (TT-R14-037 corrects my earlier note). Qualification = executed once on this host at commit d09dda0, not functional or native qualification."
     },
     {
       "id": "R14-TS18",

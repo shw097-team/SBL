@@ -595,6 +595,60 @@
         "raw/ts28_readback_denominator.json",
         "raw/ts03_probe_matrix.json"
       ]
+    },
+    {
+      "id": "TT-R14-034",
+      "title": "The lane assignment declares one model and carries the transport of another",
+      "first_broken_link": "config/model-lane-assignment.json lane_chains.PLAN[0] declares openai-codex/gpt-6.1-sol but transport_model is opencode-go/minimax-m3.1-flash-free; EXECUTE[1] declares deepseek with a MiniMax transport and is the auto-selected arm; VERIFY_SECURITY auto-selects the MiniMax arm although the owner order puts VERIFY/SECURITY on GPT",
+      "earliest_owner": "lane wiring owner",
+      "required_authority": "coordinated rebind (assignment revision + projections + drift baseline in one change)",
+      "repair_cone": "scripts/lane_assignment_resync.py re-derives all 11 derived fields from the registry (the registry itself is correct and matches the owner order), but applying it alone leaves 8 lane tests red because the drift baseline pins the drifted values - so the rebind must be one change and was NOT performed here; the pristine file was restored (revision 30) and the defect is recorded",
+      "status": "OPEN",
+      "closed_by": "",
+      "evidence": [
+        "raw/lanemodel_fidelity.json",
+        "raw/lanemodel_fidelity.md"
+      ]
+    },
+    {
+      "id": "TT-R14-035",
+      "title": "The drift detector cannot see the drift it exists to catch",
+      "first_broken_link": "check_drift() returned [] while 44 field-path inconsistencies were measured: 12 conflicting values are themselves pinned as expected values, and 32 fields have no matching projection binding at all",
+      "earliest_owner": "HG-KSEOS owner",
+      "required_authority": "none to record; fixing needs the same coordinated rebind",
+      "repair_cone": "measured and recorded; the fidelity audit (363 comparisons) is the compensating control until the baseline is rebuilt from the registry rather than from a previous copy of the same file",
+      "status": "OPEN",
+      "closed_by": "",
+      "evidence": [
+        "raw/lanemodel_fidelity.json"
+      ]
+    },
+    {
+      "id": "TT-R14-036",
+      "title": "Usage-receipt matching accepts a changed resolvedModel",
+      "first_broken_link": "the receipt matcher rejects a wrong usage.model but accepts a different resolvedModel or an unrelated conversationId when the other fields still match, so attribution can be moved without being caught",
+      "earliest_owner": "HG-KSEOS owner",
+      "required_authority": "none",
+      "repair_cone": "recorded with the in-memory controls that demonstrated it; no fix applied this round",
+      "status": "OPEN",
+      "closed_by": "",
+      "evidence": [
+        "raw/lanemodel_fidelity.json"
+      ]
+    },
+    {
+      "id": "TT-R14-037",
+      "title": "My own matrix-dimension correction was itself wrong",
+      "first_broken_link": "I wrote that the TQAEP matrix is TestClass x OracleType and dismissed an earlier report of eight skills; the matrix ARTEFACT is 12 TestClass x 8 skills, while DOC-08's normative matrix is TestClass x OracleTypes - the two are different objects and I conflated them",
+      "earliest_owner": "round orchestrator (reporting)",
+      "required_authority": "none",
+      "repair_cone": "stated separately now: 30/96 rows are RUNTIME_QUALIFIED strictly at schema-oracle scope against the artefact as supplied, and no OracleType equivalence was invented",
+      "status": "CLOSED",
+      "closed_by": "raw/ts17_runtime_SUMMARY.md",
+      "evidence": [
+        "raw/ts17_tqaep_matrix_runtime.csv",
+        "raw/ts17_runtime_SUMMARY.md"
+      ]
     }
   ]
 }
