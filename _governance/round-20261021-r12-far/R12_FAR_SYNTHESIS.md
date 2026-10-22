@@ -49,6 +49,14 @@ worktree `_r12_docs`, flagged `O-1-landing-at-risk` by the verifier) are landed 
    the repair card `t_d5596d34` was still `running` when this synthesis was written — not
    closed, not pushed-verified here. Not one of the five workers caused it; none of the five
    touched the pool file.
+   *Addendum (synthesizer re-measure, after the repair card closed `t_d5596d34`):* the card
+   completed with its own readback (`2c0209f` one-commit fix + `c0c661f` TT receipt
+   `TT-R12-POOLREV21-AUTOSEL`). Independently re-measured here at HG-KSEOS HEAD `237969e`
+   (the R15.2 session's later pin-binding commit): `test_lane_policy.py` +
+   `test_lane_scope_isolation.py` = **10 passed / 90 subtests, exit 0**; `config/` tree clean.
+   The repair's own residual stands: the registry-vs-pool one-commit violation from `9c36a77`
+   (registry epoch 32 / assignment rev 32 still declaring EXECUTE rank-1 = minimax) remains
+   OPEN and folds into residual 1 (D-11b, issuer-owned).
 3. **O-5 citation defect (verifier-noted, minor)**: the CR's metadata corpus path spells
    `驗收指標官` while the real directory is `驗收指揮官`; content was verified against the
    real directory. Left uncorrected here (the CR is a pushed record; corrections belong to a
@@ -67,7 +75,10 @@ worktree `_r12_docs`, flagged `O-1-landing-at-risk` by the verifier) are landed 
   `tests/`, `skills/` or `docs/` file touched. Pushed non-force; branch is new, no ref rewritten.
 - **Control-package pin**: not touched — `contracts/CONTROL_PACKAGE_MANIFEST.json` unchanged
   in this commit (verified in the diff); the pin's subject is the external
-  `SBL_PIPD-LS-PKG` mirror, outside this repo.
+  `SBL_PIPD-LS-PKG` mirror, outside this repo. Re-verified from this landing branch after
+  the commit: `tools/check_control_package.py --verify` → `CONTROL_PACKAGE_PINNED: 14 docs,
+  17473442 bytes, rollup 01b972c80341e1b8`, exit 0 — the pin the round goal requires is
+  intact.
 - **HG-KSEOS**: not modified by this synthesis (the pool repair is the sibling card's work).
 - **`_r12_docs` worktree**: its uncommitted O-1 edits were copied out as a patch and landed
   here; the original uncommitted state was left in place untouched (that worktree is shared).
