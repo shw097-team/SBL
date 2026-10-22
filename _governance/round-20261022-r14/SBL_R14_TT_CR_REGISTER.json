@@ -803,6 +803,24 @@
       "action": "probe 只判斷『沒有 traceback 且成功呼叫能解析出 JSON』；正確性交給測試。expected exit 與形狀只留作 conforms 報告欄，不參與 caught。",
       "round": "R14",
       "opened_at": "2026-10-22"
+    },
+    {
+      "id": "TT-R14-053",
+      "severity": "high",
+      "round": "R14",
+      "opened_at": "2026-10-22",
+      "title": "上游文件只剩回收桶副本：可證位元組，但不可當『在位』",
+      "detail": "TS19 引用的 SBL_PIPD-LS-PKG_全DOC藍圖(8).md 在 C:/Projects、C:/Users/user、D:、G: 全無活體副本，唯一命中是 C:/$Recycle.Bin 的 $RY4OYY7 殘留（2619602 B、sha256 8e8327db…）。位元組可證明，位置卻是被刪除的。",
+      "action": "位元組另存證據分支（upstream/，同 digest），並把『recycle-bin 副本能否充當上位正本』列為 owner 決定；不得寫成 locator 全數修復就等於上游可用。"
+    },
+    {
+      "id": "TT-R14-054",
+      "severity": "high",
+      "round": "R14",
+      "opened_at": "2026-10-22",
+      "title": "檔案層級 digest 重複 441 列：欄位在，語意不在",
+      "detail": "ts20_sources.csv 的 digest 欄 441 列全同值 e0eee84c…，實際是 90621 B 的 source_identity_441_ledger.json 自身雜湊；每列並沒有自己的 digest。",
+      "action": "修復檔改為每列 row_digest（441 個相異值）＋保留舊檔層級值並註明其來源；驗收時以『相異值數 == 列數』為判準。"
     }
   ]
 }
