@@ -863,7 +863,12 @@
           "workers/q3_e2e/BRIEF.md"
         ],
         "effect": "the W15 green receipt was overwritten by the repair lane's red one until it was copied aside as EXECUTE__W15GATE.json",
-        "fix": "unique brief filenames BRIEF_<ID>.md going forward"
+        "fix": "unique brief filenames BRIEF_<ID>.md going forward",
+        "second_instance": "a late-landing lane (900s cap) overwrote EXECUTE__BRIEF.json at 03:16 after the Q3 lane's 1500s timeout receipt had been read from it; the destroyed receipt is preserved as EXECUTE__UNATTRIBUTED_RED_900s.json and the surviving W15 receipt as EXECUTE__W15GATE.json",
+        "affected_items": [
+          "Q3.m2_e2e (bound to a null receipt with a red note)",
+          "Q5.tools_local (same treatment)"
+        ]
       },
       "conflict": "the mandate gate's evidence is a receipt path; a colliding path makes the evidence refer to a different subject",
       "decision": "UNIQUE_BRIEF_NAMES",
