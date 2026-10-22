@@ -1,0 +1,52 @@
+{
+  "schema": "SBL-R14-TS23-INDEPENDENT-REVIEW/1",
+  "provenance": {
+    "reviewer": "independent checker (separate subagent, gpt-6.1-sol, no knowledge of the maker's reasoning)",
+    "recorded_by": "round orchestrator",
+    "why_recorded_here": "The reviewer's write of the JSON was refused by the authorization gate at delivery time, so the verdict text is transcribed here verbatim in substance. The orchestrator did not add findings and did not soften any.",
+    "reviewer_markdown": "C:/Projects/Agent_Workspace/_r14_packet/raw/ts23_independent_review.md"
+  },
+  "verdict": "FAIL",
+  "failed_checks": ["2", "3"],
+  "checks": [
+    {
+      "id": 1,
+      "name": "re-run on independently chosen inputs",
+      "verdict": "PASS",
+      "evidence": "All three installed launchers re-run on inputs the reviewer chose: newline counts and hashes matched independent expectations; a new queue naming an absent third file stopped after two entries, as specified."
+    },
+    {
+      "id": 2,
+      "name": "tests exercise behaviour rather than echo the implementation",
+      "verdict": "FAIL",
+      "evidence": "All shipped tests pass, but they also pass against deliberately broken in-memory implementations: test_census_and_missing_input misses an empty-file defect; test_heading_inventory_and_bundle accepts fixture-constant headings for other documents; test_two_step_limit_and_hashes accepts bytes=-999 and halt_reason=WRONG.",
+      "scope_note": "These are coverage defects. The reviewer does not claim the installed implementations contain those mutations."
+    },
+    {
+      "id": 3,
+      "name": "red->green is a behavioural red",
+      "verdict": "FAIL",
+      "evidence": "All three captured RED runs fail with 'No module named ...' - a collection/import error before any behavioural comparison. The build harness expects exactly that, so a missing-module RED was captured and a behavioural RED was not."
+    },
+    {
+      "id": 4,
+      "name": "PI/PD schema validation and negative controls",
+      "verdict": "PASS",
+      "evidence": "All four PI/PD input/output artefacts re-validated independently; removing 'acceptance' or 'RepoContext' was refused; the native writeset negative control was refused."
+    },
+    {
+      "id": 5,
+      "name": "isolation",
+      "verdict": "PASS_BOUNDED",
+      "evidence": "Source SBL tracked diff empty; the disclosed R9 files remain untracked; sandbox additions untracked; before/after statuses matched; installed package bytes, distribution origins and launcher targets bind to the sandbox sources.",
+      "caveat": "The venv is not hermetic - system-site-packages is enabled, so 'installed in an isolated venv' is weaker than it sounds."
+    }
+  ],
+  "residual_gaps": [
+    "The three tests would not catch a broken implementation; the fix is behavioural assertions, not more tests.",
+    "No behavioural RED exists for any of the three programs, so 'test failed before the code' is not demonstrated.",
+    "The sandbox venv inherits system site-packages, so the installation is not hermetic."
+  ],
+  "effect_on_the_round": "M2 stays NOT_PASSED. This is now a measured FAIL with named causes rather than 'nobody looked'.",
+  "claim_ceiling": "One independent read of one change. It does not qualify the three programs as products, does not test them beyond the reviewer's inputs, and does not make the M2 gate pass."
+}

@@ -1,0 +1,762 @@
+{
+  "schema": "HGK-TS13-SEMANTIC-ORACLE/1",
+  "semantics": {
+    "semantic.distinct": "Maker/checker separation of duties: reject equal casefolded identities after removing whitespace, including supplied output acceptance pairs. Not a generic novelty/reordered-items test.",
+    "semantic.claim_gate": "LOCAL_QUALIFIED and all higher rungs requested or emitted require input approval.checker_identity and approval.approval_receipt as nonblank strings; checker must not alias producer. Below threshold is NOT_APPLICABLE. Output evidence expectations cannot substitute for approval."
+  },
+  "negative_case_quotes": {
+    "pipd-assurance-tqaep": "- id: NEG-001\n  kind: NEG\n  expect: REFUSE\n  first_fail: semantic.distinct\n  rationale: maker aliased as checker fails the SoD rule (TQ_SOD) even though the shape is valid\n  input:\n    pi: *id001\n    ecp: *id002\n    maker: Maker-A\n    checker: ' maker-a '\n    checker_execution_receipt: receipt://chk-2026-10-09/a17f\n  route:\n    utterance: Remind me to water the plants at 6pm\n    expect: NO_ROUTE\n  semantic:\n    rule: distinct\n    fields:\n    - maker\n    - checker",
+    "pipd-package-project": "- id: NEG-001\n  kind: NEG\n  expect: REFUSE\n  first_fail: semantic.claim_gate\n  rationale: LOCAL_QUALIFIED without a bound approval receipt and checker identity is refused\n  input:\n    bundle: *id001\n    allowed_claims:\n    - LOCAL_QUALIFIED\n    producer: PIPD-EC\n  route:\n    utterance: Water my plants while I am away\n    expect: NO_ROUTE\n  semantic:\n    rule: claim_gate"
+  },
+  "cases": [
+    {
+      "skill": "pipd-assurance-tqaep",
+      "case_id": "POS-001",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\tests\\cases.yaml",
+      "payload": {
+        "id": "POS-001",
+        "kind": "POS",
+        "expect": "ACCEPT",
+        "first_fail": "NONE",
+        "rationale": "distinct maker and checker with a real receipt compile a two-test TQAEP",
+        "input": {
+          "pi": {
+            "subject_id": "PI-0bd843e58ea8e70d",
+            "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c",
+            "trace": [
+              {
+                "to_id": "ATOM-2a23035a7108408f"
+              },
+              {
+                "to_id": "ATOM-0b6373dc7d250dad"
+              }
+            ]
+          },
+          "ecp": {
+            "subject_id": "ECP-5eec32eeac7ec0b8",
+            "content_hash": "883c2cdb515beff688da74c97a31ae6cd1c650652ceb97709e0959bf13062941"
+          },
+          "maker": "execute/deepseek-v4.1-flash",
+          "checker": "verify/glm-5.3-flash",
+          "checker_execution_receipt": "receipt://chk-2026-10-09/a17f"
+        },
+        "route": {
+          "utterance": "Compile the TQAEP assurance plan for the two atoms",
+          "expect": "ROUTE"
+        },
+        "output": {
+          "subject_id": "TQAEP-27a6f0d9f2949830",
+          "content_hash": "5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668",
+          "version": "1",
+          "schema_version": "TQAEP@1",
+          "tests": [
+            {
+              "test_id": "TEST-REQ-INTENT",
+              "requirement": "REQ-INTENT",
+              "oracle": "deterministic assertion on the bound artifact",
+              "positive_fixture": "fixtures/REQ-INTENT/positive",
+              "negative_fixture": "fixtures/REQ-INTENT/negative",
+              "evidence_expectation": "EVD-REQ-INTENT"
+            },
+            {
+              "test_id": "TEST-REQ-VERIFY",
+              "requirement": "REQ-VERIFY",
+              "oracle": "deterministic assertion on the bound artifact",
+              "positive_fixture": "fixtures/REQ-VERIFY/positive",
+              "negative_fixture": "fixtures/REQ-VERIFY/negative",
+              "evidence_expectation": "EVD-REQ-VERIFY"
+            }
+          ],
+          "oracles": [
+            "TEST-REQ-INTENT: deterministic assertion on the bound artifact",
+            "TEST-REQ-VERIFY: deterministic assertion on the bound artifact"
+          ],
+          "fixtures": [
+            "fixtures/REQ-INTENT/positive",
+            "fixtures/REQ-VERIFY/positive"
+          ],
+          "acceptance": [
+            {
+              "case": "INDEPENDENT_CASE_PASS",
+              "maker_identity": "execute/deepseek-v4.1-flash",
+              "checker_identity": "verify/glm-5.3-flash",
+              "distinct": true,
+              "checker_execution_receipt": "receipt://chk-2026-10-09/a17f"
+            }
+          ],
+          "requalification": "affected-only"
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "ACCEPT"
+      },
+      "schema_errors": {
+        "input": [],
+        "output": []
+      },
+      "oracle": {
+        "predicate": "semantic.distinct",
+        "verdict": "SATISFIED",
+        "reasons": [
+          "Maker and checker identities are distinct in every supplied pair."
+        ],
+        "evidence": {
+          "identity_pairs": [
+            {
+              "location": "input",
+              "maker": "execute/deepseek-v4.1-flash",
+              "checker": "verify/glm-5.3-flash",
+              "normalized": [
+                "execute/deepseek-v4.1-flash",
+                "verify/glm-5.3-flash"
+              ]
+            },
+            {
+              "location": "output.acceptance[0]",
+              "maker": "execute/deepseek-v4.1-flash",
+              "checker": "verify/glm-5.3-flash",
+              "normalized": [
+                "execute/deepseek-v4.1-flash",
+                "verify/glm-5.3-flash"
+              ]
+            }
+          ]
+        }
+      },
+      "oracle_enforcement": "PREDICATE_ONLY_NO_REFUSAL"
+    },
+    {
+      "skill": "pipd-assurance-tqaep",
+      "case_id": "NEG-001",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\tests\\cases.yaml",
+      "payload": {
+        "id": "NEG-001",
+        "kind": "NEG",
+        "expect": "REFUSE",
+        "first_fail": "semantic.distinct",
+        "rationale": "maker aliased as checker fails the SoD rule (TQ_SOD) even though the shape is valid",
+        "input": {
+          "pi": {
+            "subject_id": "PI-0bd843e58ea8e70d",
+            "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c",
+            "trace": [
+              {
+                "to_id": "ATOM-2a23035a7108408f"
+              },
+              {
+                "to_id": "ATOM-0b6373dc7d250dad"
+              }
+            ]
+          },
+          "ecp": {
+            "subject_id": "ECP-5eec32eeac7ec0b8",
+            "content_hash": "883c2cdb515beff688da74c97a31ae6cd1c650652ceb97709e0959bf13062941"
+          },
+          "maker": "Maker-A",
+          "checker": " maker-a ",
+          "checker_execution_receipt": "receipt://chk-2026-10-09/a17f"
+        },
+        "route": {
+          "utterance": "Remind me to water the plants at 6pm",
+          "expect": "NO_ROUTE"
+        },
+        "semantic": {
+          "rule": "distinct",
+          "fields": [
+            "maker",
+            "checker"
+          ]
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "NOT_PROVIDED"
+      },
+      "schema_errors": {
+        "input": []
+      },
+      "oracle": {
+        "predicate": "semantic.distinct",
+        "verdict": "VIOLATED",
+        "reasons": [
+          "input: blank identities or maker aliases checker (TQ_SOD)."
+        ],
+        "evidence": {
+          "identity_pairs": [
+            {
+              "location": "input",
+              "maker": "Maker-A",
+              "checker": " maker-a ",
+              "normalized": [
+                "maker-a",
+                "maker-a"
+              ]
+            }
+          ]
+        }
+      },
+      "oracle_enforcement": "REFUSE"
+    },
+    {
+      "skill": "pipd-package-project",
+      "case_id": "POS-001",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml",
+      "payload": {
+        "id": "POS-001",
+        "kind": "POS",
+        "expect": "ACCEPT",
+        "first_fail": "NONE",
+        "rationale": "LOCAL_QUALIFIED with independent approval evidence closes the package",
+        "input": {
+          "bundle": {
+            "artifacts": [
+              {
+                "name": "PI-PKG",
+                "subject_id": "PI-0bd843e58ea8e70d",
+                "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c"
+              },
+              {
+                "name": "PD-PKG",
+                "subject_id": "PD-4bfd476b5670ff7e",
+                "content_hash": "f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365"
+              },
+              {
+                "name": "TQAEP",
+                "subject_id": "TQAEP-27a6f0d9f2949830",
+                "content_hash": "5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668"
+              }
+            ],
+            "trace_edges": 2
+          },
+          "allowed_claims": [
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY"
+          ],
+          "producer": "PIPD-EC",
+          "approval": {
+            "checker_identity": "verify/glm-5.3-flash",
+            "approval_receipt": "receipt://ao-2026-10-09/7c2b"
+          }
+        },
+        "route": {
+          "utterance": "Package the project and set the claim ceiling",
+          "expect": "ROUTE"
+        },
+        "output": {
+          "subject_id": "CCL-5e0811f4191f77bb",
+          "content_hash": "72d649872e8510d7cd691e269915833c6e3791515b000ed96e2068755dd3cb42",
+          "version": "1",
+          "schema_version": "ClaimCeiling@1",
+          "allowed_claims": [
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY"
+          ],
+          "forbidden_escalation": [
+            "INDEPENDENT_PASS",
+            "PUBLICATION_APPROVED",
+            "RELEASED",
+            "PRODUCTION_VERIFIED"
+          ],
+          "close_conditions": [
+            "raw receipt bound to candidate hash",
+            "independent checker verdict"
+          ],
+          "evidence": [
+            {
+              "subject_id": "EE-5d2ac0157e7fcaa3",
+              "content_hash": "50cc71cf05e57d3d4a4a0ca684d21e57a9cedc8b23618048106c550815934ec7",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-INTENT returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            },
+            {
+              "subject_id": "EE-70969a11513b9492",
+              "content_hash": "b17a5b3cabd7270dd1b1a566a259365c65fab6c91b63688d689b7255f8831e2a",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-VERIFY returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            },
+            {
+              "subject_id": "EE-e4bfec3e64aefcf9",
+              "content_hash": "02ca8555eb43e4f5c538b42b003e9860f06fb729aac590c0608b923010ef5211",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-GOVERN returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            }
+          ],
+          "trace_closure": {
+            "subject_id": "TRC-5e0811f4191f77bb",
+            "content_hash": "c72c6f48acbe787a5859645edcd33175f55cd567d60ed8165786967fb3b45222",
+            "version": "1",
+            "schema_version": "TraceClosureReport@1",
+            "edges": 2,
+            "orphans": [],
+            "bad_hashes": [],
+            "verdict": "PASS"
+          }
+        },
+        "semantic": {
+          "rule": "claim_gate"
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "ACCEPT"
+      },
+      "schema_errors": {
+        "input": [],
+        "output": []
+      },
+      "oracle": {
+        "predicate": "semantic.distinct",
+        "verdict": "NOT_APPLICABLE",
+        "reasons": [
+          "No maker/checker roles."
+        ],
+        "evidence": {
+          "identity_pairs": []
+        }
+      },
+      "oracle_enforcement": "PREDICATE_ONLY_NO_REFUSAL"
+    },
+    {
+      "skill": "pipd-package-project",
+      "case_id": "POS-001",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml",
+      "payload": {
+        "id": "POS-001",
+        "kind": "POS",
+        "expect": "ACCEPT",
+        "first_fail": "NONE",
+        "rationale": "LOCAL_QUALIFIED with independent approval evidence closes the package",
+        "input": {
+          "bundle": {
+            "artifacts": [
+              {
+                "name": "PI-PKG",
+                "subject_id": "PI-0bd843e58ea8e70d",
+                "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c"
+              },
+              {
+                "name": "PD-PKG",
+                "subject_id": "PD-4bfd476b5670ff7e",
+                "content_hash": "f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365"
+              },
+              {
+                "name": "TQAEP",
+                "subject_id": "TQAEP-27a6f0d9f2949830",
+                "content_hash": "5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668"
+              }
+            ],
+            "trace_edges": 2
+          },
+          "allowed_claims": [
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY"
+          ],
+          "producer": "PIPD-EC",
+          "approval": {
+            "checker_identity": "verify/glm-5.3-flash",
+            "approval_receipt": "receipt://ao-2026-10-09/7c2b"
+          }
+        },
+        "route": {
+          "utterance": "Package the project and set the claim ceiling",
+          "expect": "ROUTE"
+        },
+        "output": {
+          "subject_id": "CCL-5e0811f4191f77bb",
+          "content_hash": "72d649872e8510d7cd691e269915833c6e3791515b000ed96e2068755dd3cb42",
+          "version": "1",
+          "schema_version": "ClaimCeiling@1",
+          "allowed_claims": [
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY"
+          ],
+          "forbidden_escalation": [
+            "INDEPENDENT_PASS",
+            "PUBLICATION_APPROVED",
+            "RELEASED",
+            "PRODUCTION_VERIFIED"
+          ],
+          "close_conditions": [
+            "raw receipt bound to candidate hash",
+            "independent checker verdict"
+          ],
+          "evidence": [
+            {
+              "subject_id": "EE-5d2ac0157e7fcaa3",
+              "content_hash": "50cc71cf05e57d3d4a4a0ca684d21e57a9cedc8b23618048106c550815934ec7",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-INTENT returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            },
+            {
+              "subject_id": "EE-70969a11513b9492",
+              "content_hash": "b17a5b3cabd7270dd1b1a566a259365c65fab6c91b63688d689b7255f8831e2a",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-VERIFY returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            },
+            {
+              "subject_id": "EE-e4bfec3e64aefcf9",
+              "content_hash": "02ca8555eb43e4f5c538b42b003e9860f06fb729aac590c0608b923010ef5211",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-GOVERN returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            }
+          ],
+          "trace_closure": {
+            "subject_id": "TRC-5e0811f4191f77bb",
+            "content_hash": "c72c6f48acbe787a5859645edcd33175f55cd567d60ed8165786967fb3b45222",
+            "version": "1",
+            "schema_version": "TraceClosureReport@1",
+            "edges": 2,
+            "orphans": [],
+            "bad_hashes": [],
+            "verdict": "PASS"
+          }
+        },
+        "semantic": {
+          "rule": "claim_gate"
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "ACCEPT"
+      },
+      "schema_errors": {
+        "input": [],
+        "output": []
+      },
+      "oracle": {
+        "predicate": "semantic.claim_gate",
+        "verdict": "SATISFIED",
+        "reasons": [
+          "Gated claims have a nonblank receipt and distinct checker identity."
+        ],
+        "evidence": {
+          "claims": [
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY",
+            "LOCAL_QUALIFIED",
+            "RUNTIME_READY"
+          ],
+          "gated_claims": [
+            "LOCAL_QUALIFIED"
+          ],
+          "approval": {
+            "checker_identity": "verify/glm-5.3-flash",
+            "approval_receipt": "receipt://ao-2026-10-09/7c2b"
+          },
+          "missing_fields": [],
+          "producer": "PIPD-EC"
+        }
+      },
+      "oracle_enforcement": "PREDICATE_ONLY_NO_REFUSAL"
+    },
+    {
+      "skill": "pipd-package-project",
+      "case_id": "NEG-001",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml",
+      "payload": {
+        "id": "NEG-001",
+        "kind": "NEG",
+        "expect": "REFUSE",
+        "first_fail": "semantic.claim_gate",
+        "rationale": "LOCAL_QUALIFIED without a bound approval receipt and checker identity is refused",
+        "input": {
+          "bundle": {
+            "artifacts": [
+              {
+                "name": "PI-PKG",
+                "subject_id": "PI-0bd843e58ea8e70d",
+                "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c"
+              },
+              {
+                "name": "PD-PKG",
+                "subject_id": "PD-4bfd476b5670ff7e",
+                "content_hash": "f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365"
+              },
+              {
+                "name": "TQAEP",
+                "subject_id": "TQAEP-27a6f0d9f2949830",
+                "content_hash": "5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668"
+              }
+            ],
+            "trace_edges": 2
+          },
+          "allowed_claims": [
+            "LOCAL_QUALIFIED"
+          ],
+          "producer": "PIPD-EC"
+        },
+        "route": {
+          "utterance": "Water my plants while I am away",
+          "expect": "NO_ROUTE"
+        },
+        "semantic": {
+          "rule": "claim_gate"
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "NOT_PROVIDED"
+      },
+      "schema_errors": {
+        "input": []
+      },
+      "oracle": {
+        "predicate": "semantic.claim_gate",
+        "verdict": "VIOLATED",
+        "reasons": [
+          "Missing or empty required evidence: approval.checker_identity (EVIDENCE_GAP).",
+          "Missing or empty required evidence: approval.approval_receipt (EVIDENCE_GAP)."
+        ],
+        "evidence": {
+          "claims": [
+            "LOCAL_QUALIFIED"
+          ],
+          "gated_claims": [
+            "LOCAL_QUALIFIED"
+          ],
+          "approval": {},
+          "missing_fields": [
+            "approval.checker_identity",
+            "approval.approval_receipt"
+          ],
+          "producer": "PIPD-EC"
+        }
+      },
+      "oracle_enforcement": "REFUSE"
+    },
+    {
+      "skill": "pipd-package-project",
+      "case_id": "POS-002",
+      "source": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml",
+      "payload": {
+        "id": "POS-002",
+        "kind": "POS",
+        "expect": "ACCEPT",
+        "first_fail": "NONE",
+        "rationale": "a ceiling below LOCAL_QUALIFIED needs no approval evidence",
+        "input": {
+          "bundle": {
+            "artifacts": [
+              {
+                "name": "PI-PKG",
+                "subject_id": "PI-0bd843e58ea8e70d",
+                "content_hash": "352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c"
+              },
+              {
+                "name": "PD-PKG",
+                "subject_id": "PD-4bfd476b5670ff7e",
+                "content_hash": "f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365"
+              },
+              {
+                "name": "TQAEP",
+                "subject_id": "TQAEP-27a6f0d9f2949830",
+                "content_hash": "5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668"
+              }
+            ],
+            "trace_edges": 2
+          },
+          "allowed_claims": [
+            "RUNTIME_READY"
+          ],
+          "producer": "PIPD-EC"
+        },
+        "route": {
+          "utterance": "Close the trace closure for the runtime-ready package",
+          "expect": "ROUTE"
+        },
+        "output": {
+          "subject_id": "CCL-b2f3ce7e1ead934e",
+          "content_hash": "615cf50425725e8f56c4b7d5b046cc96f0957bccfd419208e3bff379d26ebe66",
+          "version": "1",
+          "schema_version": "ClaimCeiling@1",
+          "allowed_claims": [
+            "RUNTIME_READY"
+          ],
+          "forbidden_escalation": [
+            "LOCAL_QUALIFIED",
+            "INDEPENDENT_PASS",
+            "PUBLICATION_APPROVED",
+            "RELEASED",
+            "PRODUCTION_VERIFIED"
+          ],
+          "close_conditions": [
+            "raw receipt bound to candidate hash",
+            "independent checker verdict"
+          ],
+          "evidence": [
+            {
+              "subject_id": "EE-1e71875911f59252",
+              "content_hash": "41a4ee068dce17b4d5dd2039ca4e117548891f7fff3ce6bd7e20c4ebbe77e83f",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-INTENT returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            },
+            {
+              "subject_id": "EE-64306cb6c5fa44fd",
+              "content_hash": "f31ecf06e191a3997f728a868093c62b3b84f02a7ff4d81294819544f313fa99",
+              "version": "1",
+              "schema_version": "EvidenceExpectation@1",
+              "expected_evidence_type": "RAW_RECEIPT",
+              "producer": "PIPD-EC",
+              "postcondition": "TEST-REQ-VERIFY returned its oracle verdict",
+              "freshness": "same_candidate_hash",
+              "claim_effect": "LOCAL"
+            }
+          ],
+          "trace_closure": {
+            "subject_id": "TRC-b2f3ce7e1ead934e",
+            "content_hash": "841a6ab5b277d4f00fac598316ca2e378b643782686d1a8308f9b1a55bdb995d",
+            "version": "1",
+            "schema_version": "TraceClosureReport@1",
+            "edges": 2,
+            "orphans": [],
+            "bad_hashes": [],
+            "verdict": "PASS"
+          }
+        },
+        "semantic": {
+          "rule": "claim_gate"
+        }
+      },
+      "schema_verdicts": {
+        "input": "ACCEPT",
+        "output": "ACCEPT"
+      },
+      "schema_errors": {
+        "input": [],
+        "output": []
+      },
+      "oracle": {
+        "predicate": "semantic.claim_gate",
+        "verdict": "NOT_APPLICABLE",
+        "reasons": [
+          "No LOCAL_QUALIFIED-or-higher claim; schema checks remain required."
+        ],
+        "evidence": {
+          "claims": [
+            "RUNTIME_READY",
+            "RUNTIME_READY"
+          ],
+          "gated_claims": []
+        }
+      },
+      "oracle_enforcement": "PREDICATE_ONLY_NO_REFUSAL"
+    }
+  ],
+  "test_runs": {
+    "focused": {
+      "command": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/test_semantic_oracle.py",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "stdout": ".........................                                                [100%]\n25 passed in 0.70s\n",
+      "stderr": ""
+    },
+    "full_suite": {
+      "command": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "--basetemp=tests/ts13_semantic_tmp",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": null,
+      "timed_out": true,
+      "stdout": "[w3_solution] REPO_ROOT=C:\\Projects\\Agent_Workspace\\HG-KSEOS\n[w3_solution] SCRIPTS=C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\n[w3_solution] FIXTURES=C:\\Projects\\Agent_Workspace\\HG-KSEOS\\tests\\w3_solution\\fixtures\n........................................................................ [ 11%]\n....F................................................................... [ 22%]\n........................................................................ [ 33%]\n........................................................................ [ 45%]\n........................................................................ [ 56%]\n...................................................... [ 64%]\n...................s.................................................... [ 76%]\n........................................................................ [ 87%]\n........................................F.........................F.FF.. [ 98%]\n.....",
+      "stderr": ""
+    },
+    "first_failure_diagnostic": {
+      "command": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "--maxfail=1",
+        "--basetemp=tests/ts13_semantic_probe_tmp",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 1,
+      "stdout": "[w3_solution] REPO_ROOT=C:\\Projects\\Agent_Workspace\\HG-KSEOS\n[w3_solution] SCRIPTS=C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\n[w3_solution] FIXTURES=C:\\Projects\\Agent_Workspace\\HG-KSEOS\\tests\\w3_solution\\fixtures\n........................................................................ [ 11%]\n....F\n================================== FAILURES ===================================\n_____________ CaseRunCliTests.test_r4_only_allowed_files_changed ______________\n\nself = <tests.test_c2_case_run.CaseRunCliTests testMethod=test_r4_only_allowed_files_changed>\n\n    def test_r4_only_allowed_files_changed(self) -> None:\n        porcelain = subprocess.run(\n            [\"git\", \"status\", \"--porcelain\"],\n            cwd=REPO_ROOT,\n            capture_output=True,\n            text=True,\n            check=True,\n        ).stdout\n        changed: set[str] = set()\n        for line in porcelain.splitlines():\n            if line.strip():\n                changed.add(line[3:].strip())\n        unexpected = changed - ALLOWED_CHANGED_FILES - PRE_EXISTING_UNTRACKED\n>       self.assertEqual(set(), unexpected)\nE       AssertionError: Items in the second set but not the first:\nE       'tests/ts13_semantic_tmp/'\nE       'tests/test_semantic_oracle.py'\nE       'src/hg_kseos/semantic_oracle.py'\nE       'tests/test_lane_scope_isolation.py'\nE       'scripts/lane_scope_isolation.py'\nE       'config/lane_scope_exceptions.json'\n\ntests\\test_c2_case_run.py:148: AssertionError\n=========================== short test summary info ===========================\nFAILED tests/test_c2_case_run.py::CaseRunCliTests::test_r4_only_allowed_files_changed\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 76 passed in 18.16s\n",
+      "stderr": ""
+    }
+  },
+  "tdd_observed": [
+    "distinct: 3 expected missing-oracle failures, then 3 passed",
+    "claim_gate: 3 expected missing-function failures and 3 passed, then 6 passed"
+  ],
+  "source_sha256_before": {
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\tests\\cases.yaml": "840b7205bfb7bfee3ec6ab66b89148a5606c99d81e855168de5a72c75cafb682",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\SKILL.md": "703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\references\\contract.md": "24069a39b7d880bfb704c87f73619d7dad2df22043b34e70e6e3bb18eaea600d",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\schemas\\input.schema.json": "e3e9bd5426005ed9f90d9c7c877b599a349b8ed375ee8c76f2ab9c42b97d195c",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\schemas\\output.schema.json": "8d54e00e718e69690bca29ac811d6762696f137b51dc4929eff95c6f7f9de7d2",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml": "b82c028925b0ee6a3b64197443ba007259d39f8ec52237fafea3862ac36dff82",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\SKILL.md": "a5f2a57af6f903adec3cad069d2b1e4c15df42f14a14a8e3940830faae129a67",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\references\\contract.md": "de485bc19ee8db85437ce9f96296527a3927d974429ba930ff9cd3a45a41614f",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\schemas\\input.schema.json": "83b69f3ae3da71053c97e97126a73af60c353e496bd7f7dd82aab7fcd8e7380e",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\schemas\\output.schema.json": "95b1952d117328d401361f69843cb6cf9c7bc2d732bef0a6b446aca05024a4fb"
+  },
+  "source_sha256_after": {
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\tests\\cases.yaml": "840b7205bfb7bfee3ec6ab66b89148a5606c99d81e855168de5a72c75cafb682",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\SKILL.md": "703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\references\\contract.md": "24069a39b7d880bfb704c87f73619d7dad2df22043b34e70e6e3bb18eaea600d",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\schemas\\input.schema.json": "e3e9bd5426005ed9f90d9c7c877b599a349b8ed375ee8c76f2ab9c42b97d195c",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-assurance-tqaep\\schemas\\output.schema.json": "8d54e00e718e69690bca29ac811d6762696f137b51dc4929eff95c6f7f9de7d2",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\tests\\cases.yaml": "b82c028925b0ee6a3b64197443ba007259d39f8ec52237fafea3862ac36dff82",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\SKILL.md": "a5f2a57af6f903adec3cad069d2b1e4c15df42f14a14a8e3940830faae129a67",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\references\\contract.md": "de485bc19ee8db85437ce9f96296527a3927d974429ba930ff9cd3a45a41614f",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\schemas\\input.schema.json": "83b69f3ae3da71053c97e97126a73af60c353e496bd7f7dd82aab7fcd8e7380e",
+    "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-package-project\\schemas\\output.schema.json": "95b1952d117328d401361f69843cb6cf9c7bc2d732bef0a6b446aca05024a4fb"
+  },
+  "implementation_sha256": {
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\src\\hg_kseos\\semantic_oracle.py": "e5644e0929d0db7bedae9b8eacf1c8c255a5c2715d0663d22b3e46506b99f674",
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\tests\\test_semantic_oracle.py": "70572433457b6ad7f6fa79041ef3dd92f5b4e89200734e05b2b1f080a0991e33"
+  },
+  "claim_ceiling": "HG-KSEOS-side opt-in callable semantic oracle only. PIPD remains authoritative over its own contracts and schemas; no PIPD files or schemas were changed. No existing HG-KSEOS runtime entry point was rewired, so callers must invoke these checks and refuse on VIOLATED. SATISFIED establishes only the bounded predicate, not full artifact validity, receipt authenticity, cryptographic candidate binding, or real-world checker independence."
+}

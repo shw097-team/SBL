@@ -162,13 +162,15 @@
       "id": "R14-TS13",
       "title": "八 PIPD Skills＋Native Writer E02/M2",
       "state": "PARTIAL",
-      "next_action": "PIPD bundle Owner enforces the two remaining semantic-only refusals (pipd-assurance-tqaep NEG-001, pipd-package-project NEG-001)",
+      "next_action": "wire the oracle into the emission path; PIPD keeps authority over its own schemas",
       "evidence": [
-        "raw/ts13_pipd_skills.json",
-        "HG-KSEOS scripts/pipd_skills_conformance.py"
+        "raw/ts13_semantic_results.json",
+        "raw/ts13_semantic_oracle.md",
+        "HG-KSEOS src/hg_kseos/semantic_oracle.py",
+        "HG-KSEOS tests/test_semantic_oracle.py"
       ],
       "depends_on": [],
-      "note": "CORRECTED measurement: the first harness run checked only the INPUT schema and reported 7 declared-only refusals (pipd-execution-contract 0/4). Re-measured across BOTH schemas: 30 of 32 REFUSE cases are schema-enforced (execution-contract's four are all output-side: output.required/const/minItems/not). Only 2 remain semantic-only: pipd-assurance-tqaep NEG-001 (first_fail=semantic.distinct) and pipd-package-project NEG-001 (first_fail=semantic.claim_gate). 6 skills PASS, 2 PARTIAL; 24/24 ACCEPT cases valid on both sides."
+      "note": "The two REFUSE cases the schemas accept are now refused by a runtime oracle in HG-KSEOS: check_distinct (maker/checker separation - the case text governs, and it says separation of duties, not output novelty) and check_claim_gate (a LOCAL_QUALIFIED-or-higher claim needs non-blank checker_identity and approval_receipt). Re-measured here on the real fixtures with the correct argument shape: schema ACCEPT vs oracle VIOLATED for both. My first run of the oracle returned NOT_APPLICABLE because I passed the whole case dict instead of its input - the API takes the payload, not the case envelope. PIPD is untouched, the oracle is opt-in and NOT wired into the emission path, so the gap is expressible and correct but not yet enforced automatically."
     },
     {
       "id": "R14-TS14",
@@ -301,11 +303,12 @@
       "id": "R14-TS23",
       "title": "M2 隔離 SWOF 型 Dogfood 里程碑 E08",
       "state": "PARTIAL",
-      "next_action": "M2 needs an independent principal to accept the dogfood change; the maker cannot supply that for itself",
+      "next_action": "behavioural assertions and a behavioural RED are needed before M2 can be re-reviewed",
       "evidence": [
         "raw/ts23_m2_dogfood.json",
         "raw/ts23_live_wo.json",
-        "raw/ts23_live_wo_note.md"
+        "raw/ts23_live_wo_note.md",
+        "raw/ts23_independent_review.json"
       ],
       "depends_on": [
         "R14-TS13",
@@ -315,7 +318,7 @@
         "R14-TS17",
         "R14-TS18"
       ],
-      "note": "Dogfood change built for a requirement with zero hits in accessible repo text; PI-d4682ddb / PD-188ef4fb passed schema validation with negative controls; three programs generated, installed and used, all re-verified by me. But the live spine records verdict FAIL on WO-R14-TS23-M2-TRIAD, deliberately: the acceptance step needs an independent reviewer and the checker was a label on a receipt, not a second reader. Two further disclosures: the chain ran on an isolated spine backup (live DB was outside the subagent's write roots), and an initial pip run leaked transient caches into user Temp before a confined reinstall. M2 is NOT passed."
+      "note": "An independent checker reviewed the change (separate subagent, no access to the maker's reasoning) and returned FAIL on two of five checks: (2) all three shipped tests also pass against deliberately broken in-memory implementations - empty-file defect, fixture-constant headings, bytes=-999 with halt_reason=WRONG - so they do not exercise behaviour; (3) every captured RED run fails with 'No module named ...', i.e. a collection error rather than a behavioural red, so 'the test failed before the code' is not demonstrated. Checks 1, 4 and 5 passed, the last with a caveat: the sandbox venv is not hermetic because system-site-packages is enabled. The reviewer's JSON write was refused by the authorization gate at delivery time, so the verdict is transcribed with provenance in raw/ts23_independent_review.json. M2 remains NOT_PASSED, now with measured causes instead of absence."
     },
     {
       "id": "R14-TS24",
