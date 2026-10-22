@@ -1,0 +1,35 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/2",
+  "answers_review": "ts23_review2.json (verdict FAIL: G1 surviving mutation, G2 false-red mutation receipts)",
+  "admission": "Review 2 was right on both counts, and G2 is a defect in what I reported: my first mutation harness replaced main() with a body referencing names that did not exist, so the three 'caught' results were NameError / missing-fixture failures. I reported them as behaviour detection. They were not.",
+  "changes": [
+    {
+      "finding": "G1 - the agent test accepted entirely incorrect non-negative byte counts; a bytes=0 mutation survived with exit 0",
+      "fix": "test_agent.py now compares [r['bytes'] for r in data['reviews']] with [len(Path(x).read_bytes()) for x in queue[:2]], and applies the same exact oracle to the --max-steps 1 result",
+      "evidence": "mutation case D (agent reports bytes=0 per file) now fails with an AssertionError; it exited 0 before this change"
+    },
+    {
+      "finding": "G2 - ts23_test_strength.json all_caught=true did not establish behavioural detection",
+      "fix": "the harness was rewritten: each mutation is a single textual substitution in the REAL installed source, so the mutant is self-contained and wrong in exactly one respect. It now records failure_kind and only counts a mutation as caught when the exit is non-zero AND the failure is an AssertionError. Non-assertion failures are recorded as false_red and make the run fail.",
+      "evidence": "5 mutations, 5 caught as AssertionError, 0 false reds, 5/5 restored byte-identical, unmutated baseline passes for all three tests",
+      "mutations": [
+        "census reports bytes=0 for a non-empty file",
+        "census reports a fake 64-character digest",
+        "headings are fixture constants regardless of the document",
+        "agent reports bytes=0 per file (the one that survived review 2)",
+        "agent reports remaining=0 while a file is still queued"
+      ]
+    },
+    {
+      "finding": "the harness's own fixture path was wrong, which the baseline check exposed",
+      "fix": "pointed at ts23_tests/headings.md, the file the build actually uses; baseline_all_pass is now part of the receipt so a wrong harness cannot look like a passing one again",
+      "evidence": "unmutated_baseline: three tests, exit 0"
+    }
+  ],
+  "unchanged": [
+    "checks 3 (behavioural RED), 5 (hermetic venv) and 4 (positive controls) passed in review 2 and were not touched",
+    "the requirement is still one small local tool set"
+  ],
+  "claim_ceiling": "Remediated with reproducible evidence, and my earlier '3/3 caught' claim is withdrawn as a false red. M2 still needs a THIRD independent read: the maker cannot accept its own remediation, and a reviewer who was wrong once is exactly why the next read must be fresh.",
+  "next_step": "fresh independent review of review-2's two findings; on PASS the workorder can be re-recorded"
+}

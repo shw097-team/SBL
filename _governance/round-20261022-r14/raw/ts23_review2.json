@@ -1,0 +1,1055 @@
+{
+  "schema": "SBL-R14-TS23-REVIEW2/1",
+  "reviewer": {
+    "role": "second independent reviewer",
+    "identity": "Hermes delegated fresh-context reviewer; gpt-6.1-sol (runtime-declared, not attested)",
+    "method": "Direct installed-module mutations, installed tests, output oracles, runtime metadata probes and source git diff; maker receipts inspected but not trusted as execution proof."
+  },
+  "verdict": "FAIL",
+  "checks": [
+    {
+      "id": "3",
+      "verdict": "PASS",
+      "evidence": {
+        "summary": "All three remediated RED receipts fail on assertTrue(got.stdout.strip()), not import/entrypoint/collection. Independently replaced the installed census implementation with a runnable exit-0, wrong-JSON placeholder; test_cli.py:10 rejects bytes 0 vs 28, newlines 0 vs 4 and an incorrect digest. Restore SHA256 equals the preimage.",
+        "red_receipts": [
+          {
+            "kind": "CLI_TOOL",
+            "behavioural_output_assertion": true,
+            "receipt": {
+              "label": "CLI_TOOL RED with an importable but unimplemented module",
+              "argv": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 9, in test_census_and_missing_input\n    self.assertTrue(got.stdout.strip(),'program produced no output')\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.086s\n\nFAILED (failures=1)\n"
+            }
+          },
+          {
+            "kind": "AGENT_SKILL",
+            "behavioural_output_assertion": true,
+            "receipt": {
+              "label": "AGENT_SKILL RED with an importable but unimplemented module",
+              "argv": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... FAIL\n\n======================================================================\nFAIL: test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py\", line 9, in test_heading_inventory_and_bundle\n    self.assertTrue(got.stdout.strip(),'program produced no output')\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.086s\n\nFAILED (failures=1)\n"
+            }
+          },
+          {
+            "kind": "SIMPLE_AGENT",
+            "behavioural_output_assertion": true,
+            "receipt": {
+              "label": "SIMPLE_AGENT RED with an importable but unimplemented module",
+              "argv": [
+                "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... FAIL\n\n======================================================================\nFAIL: test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py\", line 9, in test_two_step_limit_and_hashes\n    self.assertTrue(got.stdout.strip(),'program produced no output'); data=json.loads(got.stdout)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '' is not true : program produced no output\n\n----------------------------------------------------------------------\nRan 1 test in 0.082s\n\nFAILED (failures=1)\n"
+            }
+          }
+        ],
+        "independent_placeholder": {
+          "id": "behavioural-red",
+          "kind": "cli",
+          "mutation": "Importable, runnable replacement with exit 0 and incorrect JSON census output",
+          "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py",
+          "original_sha256": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+          "replacement_code": "import json,sys\nfrom pathlib import Path\ndef main():\n print(json.dumps({'path':str(Path(sys.argv[1]).resolve()),'bytes':0,'newlines':0,'sha256':'0'*64}))\n return 0\n",
+          "mutant_sha256": "dddf67ec57d8ac6efccee3828384d53bfd343d13331fae994668d4536c4081d6",
+          "test": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 1,
+            "stdout": "",
+            "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 10, in test_census_and_missing_input\n    self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()})\nAssertionError: {'pat[103 chars]es': 0, 'newlines': 0, 'sha256': '000000000000[49 chars]000'} != {'pat[103 chars]es': 28, 'newlines': 4, 'sha256': '2d34cad9832[50 chars]051'}\n- {'bytes': 0,\n?           ^\n\n+ {'bytes': 28,\n?           ^^\n\n-  'newlines': 0,\n?              ^\n\n+  'newlines': 4,\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n-  'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}\n+  'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.078s\n\nFAILED (failures=1)\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_newline",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          },
+          "restored_sha256": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+          "restored_byte_identical": true
+        }
+      },
+      "command": {
+        "argv": [
+          "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+          "-B",
+          "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+        ],
+        "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 10, in test_census_and_missing_input\n    self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()})\nAssertionError: {'pat[103 chars]es': 0, 'newlines': 0, 'sha256': '000000000000[49 chars]000'} != {'pat[103 chars]es': 28, 'newlines': 4, 'sha256': '2d34cad9832[50 chars]051'}\n- {'bytes': 0,\n?           ^\n\n+ {'bytes': 28,\n?           ^^\n\n-  'newlines': 0,\n?              ^\n\n+  'newlines': 4,\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n-  'sha256': '0000000000000000000000000000000000000000000000000000000000000000'}\n+  'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.078s\n\nFAILED (failures=1)\n",
+        "environment_overrides": {
+          "TS23_MODULE": "ts23_newline",
+          "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+          "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+          "PYTHONDONTWRITEBYTECODE": "1"
+        },
+        "PYTHONPATH": "removed"
+      }
+    },
+    {
+      "id": "2",
+      "verdict": "FAIL",
+      "evidence": {
+        "summary": "Independently applied all three advertised mutation classes correctly; all three fail on intended output assertions. One additional mutation survives: agent bytes=0. The maker mutation receipt itself contains three false-red causes.",
+        "independent_mutations": [
+          {
+            "id": "maker-cli-zero",
+            "kind": "cli",
+            "mutation": "Census reports zero for a non-empty file",
+            "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py",
+            "original_sha256": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+            "replacement_code": "\"\"\"Read-only byte/newline census.\"\"\"\nimport argparse,hashlib,json\nfrom pathlib import Path\ndef main():\n parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()\n try: data=args.path.read_bytes()\n except OSError as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')\n print(json.dumps({'path':str(args.path.resolve()),'bytes':0,'newlines':0,'sha256':hashlib.sha256(data).hexdigest()},sort_keys=True))\n return 0\n",
+            "mutant_sha256": "a22372f16e0e9e045dd4242454afbb4c7abffa5eb00292934ad3ce37d1087496",
+            "test": {
+              "argv": [
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+                "-B",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 10, in test_census_and_missing_input\n    self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()})\nAssertionError: {'bytes': 0, 'newlines': 0, 'path': 'C:\\\\Pr[160 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}\n- {'bytes': 0,\n?           ^\n\n+ {'bytes': 28,\n?           ^^\n\n-  'newlines': 0,\n?              ^\n\n+  'newlines': 4,\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.101s\n\nFAILED (failures=1)\n",
+              "environment_overrides": {
+                "TS23_MODULE": "ts23_newline",
+                "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+                "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "PYTHONPATH": "removed"
+            },
+            "restored_sha256": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+            "restored_byte_identical": true
+          },
+          {
+            "id": "maker-headings-constant",
+            "kind": "skill",
+            "mutation": "Headings are fixture constants regardless of input",
+            "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py",
+            "original_sha256": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+            "replacement_code": "\"\"\"Inventory ATX headings; fenced-code interpretation is outside scope.\"\"\"\nimport argparse,json,re\nfrom pathlib import Path\ndef inventory(path):\n return [{'line':1,'level':1,'text':'One'},{'line':3,'level':2,'text':'Two'},{'line':4,'level':3,'text':'Three'}]\ndef main():\n parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('path',type=Path); args=parser.parse_args()\n try: headings=inventory(args.path)\n except (OSError,UnicodeError) as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')\n print(json.dumps({'path':str(args.path.resolve()),'headings':headings},sort_keys=True)); return 0\n",
+            "mutant_sha256": "0273687a487bc798598373b092ed7d79d748782002b29dfa2ffb0a33ecccf6eb",
+            "test": {
+              "argv": [
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+                "-B",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... FAIL\n\n======================================================================\nFAIL: test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py\", line 17, in test_heading_inventory_and_bundle\n    self.assertEqual(got2['headings'],expect)\nAssertionError: Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[75 chars]ma'}]\n\nFirst differing element 0:\n{'level': 1, 'line': 1, 'text': 'One'}\n{'line': 1, 'level': 1, 'text': 'Alpha'}\n\n- [{'level': 1, 'line': 1, 'text': 'One'},\n?                                   ^^^\n\n+ [{'level': 1, 'line': 1, 'text': 'Alpha'},\n?                                   ^^^^^\n\n-  {'level': 2, 'line': 3, 'text': 'Two'},\n?                       ^           ^^^\n\n+  {'level': 2, 'line': 5, 'text': 'Beta'},\n?                       ^           ^^^^\n\n-  {'level': 3, 'line': 4, 'text': 'Three'}]\n?                       ^           ^^^^^\n\n+  {'level': 3, 'line': 6, 'text': 'Gamma'}]\n?                       ^           ^^^^^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.211s\n\nFAILED (failures=1)\n",
+              "environment_overrides": {
+                "TS23_MODULE": "ts23_headings",
+                "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+                "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "PYTHONPATH": "removed"
+            },
+            "restored_sha256": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+            "restored_byte_identical": true
+          },
+          {
+            "id": "maker-agent-wrong",
+            "kind": "agent",
+            "mutation": "Wrong halt reason and negative byte count, otherwise valid running implementation",
+            "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py",
+            "original_sha256": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "replacement_code": "\"\"\"Bounded deterministic evidence-review agent; no LLM or external actions.\"\"\"\nimport argparse,hashlib,json\nfrom pathlib import Path\ndef review(queue,max_steps=2):\n reviews=[]; fixed=tuple(queue)\n for index,path in enumerate(fixed):\n  if index>=max_steps: break\n  data=Path(path).read_bytes(); reviews.append({'path':path,'bytes':-999,'sha256':hashlib.sha256(data).hexdigest()})\n return {'steps':len(reviews),'remaining':len(fixed)-len(reviews),'reviews':reviews,'halt_reason':'WRONG'}\ndef main():\n parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('queue',type=Path); parser.add_argument('--max-steps',type=int,choices=[1,2],default=2); args=parser.parse_args()\n try:\n  fixed=json.loads(args.queue.read_text(encoding='utf-8'))\n  if not isinstance(fixed,list) or not all(isinstance(x,str) for x in fixed): raise ValueError('queue must be a JSON list of paths')\n  result=review(fixed,args.max_steps)\n except (OSError,ValueError,UnicodeError) as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')\n print(json.dumps(result,sort_keys=True)); return 0\n",
+            "mutant_sha256": "0c0185a8b35c877dde72b2ffe4ec4d692f23166e29e3966e20a18731bc513e76",
+            "test": {
+              "argv": [
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+                "-B",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 1,
+              "stdout": "",
+              "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... FAIL\n\n======================================================================\nFAIL: test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py\", line 12, in test_two_step_limit_and_hashes\n    self.assertEqual(data['halt_reason'],'BUDGET')\nAssertionError: 'WRONG' != 'BUDGET'\n- WRONG\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.097s\n\nFAILED (failures=1)\n",
+              "environment_overrides": {
+                "TS23_MODULE": "ts23_review",
+                "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+                "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "PYTHONPATH": "removed"
+            },
+            "restored_sha256": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "restored_byte_identical": true
+          },
+          {
+            "id": "reviewer-agent-zero-bytes",
+            "kind": "agent",
+            "mutation": "Report bytes=0 for every reviewed file; retain exact real digests, paths, bounds, and halt reason",
+            "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py",
+            "original_sha256": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "replacement_code": "\"\"\"Bounded deterministic evidence-review agent; no LLM or external actions.\"\"\"\nimport argparse,hashlib,json\nfrom pathlib import Path\ndef review(queue,max_steps=2):\n reviews=[]; fixed=tuple(queue)\n for index,path in enumerate(fixed):\n  if index>=max_steps: break\n  data=Path(path).read_bytes(); reviews.append({'path':path,'bytes':0,'sha256':hashlib.sha256(data).hexdigest()})\n return {'steps':len(reviews),'remaining':len(fixed)-len(reviews),'reviews':reviews,'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'}\ndef main():\n parser=argparse.ArgumentParser(description=__doc__); parser.add_argument('queue',type=Path); parser.add_argument('--max-steps',type=int,choices=[1,2],default=2); args=parser.parse_args()\n try:\n  fixed=json.loads(args.queue.read_text(encoding='utf-8'))\n  if not isinstance(fixed,list) or not all(isinstance(x,str) for x in fixed): raise ValueError('queue must be a JSON list of paths')\n  result=review(fixed,args.max_steps)\n except (OSError,ValueError,UnicodeError) as exc: parser.exit(2,'ERR_INPUT: '+str(exc)+'\\n')\n print(json.dumps(result,sort_keys=True)); return 0\n",
+            "mutant_sha256": "3b2e247a12bfb40f41c5756c125afd4976302028dcfebbbe2a9001147fa7592a",
+            "test": {
+              "argv": [
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+                "-B",
+                "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+              ],
+              "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+              "exit_code": 0,
+              "stdout": "",
+              "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.277s\n\nOK\n",
+              "environment_overrides": {
+                "TS23_MODULE": "ts23_review",
+                "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+                "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "PYTHONPATH": "removed"
+            },
+            "restored_sha256": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "restored_byte_identical": true
+          }
+        ],
+        "maker_receipt": {
+          "schema": "SBL-R14-TS23-MUTATION-CHECK/1",
+          "note": "Each mutation replaces the installed module's main() with a wrong implementation, runs the installed behavioural test, then restores the file and verifies the digest. A surviving mutation is a coverage hole and is reported as caught=false.",
+          "results": [
+            {
+              "kind": "CLI_TOOL",
+              "mutation": "census reports zero for a non-empty file",
+              "test": "test_cli.py",
+              "test_exit": 1,
+              "caught": true,
+              "restored_byte_identical": true,
+              "tail": "ine 1044, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\fixture.md'\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (errors=1)\n"
+            },
+            {
+              "kind": "AGENT_SKILL",
+              "mutation": "headings are fixture constants regardless of input",
+              "test": "test_skill.py",
+              "test_exit": 1,
+              "caught": true,
+              "restored_byte_identical": true,
+              "tail": "_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py\", line 11, in main\n    return {'path': str(p), 'headings': [{'line':1,'level':1,'text':'One'},{'line':3,'level':2,'text':'Two'},{'line':4,'level':3,'text':'Three'}]}\n                        ^\nNameError: name 'p' is not defined\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.081s\n\nFAILED (failures=1)\n"
+            },
+            {
+              "kind": "SIMPLE_AGENT",
+              "mutation": "halt_reason wrong and a negative byte count",
+              "test": "test_agent.py",
+              "test_exit": 1,
+              "caught": true,
+              "restored_byte_identical": true,
+              "tail": "alt_reason': 'WRONG', 'reviews': [{'path': str(q), 'bytes': -999, 'sha256': 'x'*64} for q in queue[:2]]}\n                                                                                                                                       ^^^^^\nNameError: name 'queue' is not defined\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.088s\n\nFAILED (failures=1)\n"
+            }
+          ],
+          "all_caught": true,
+          "all_restored": true
+        },
+        "failing_assertions": {
+          "maker-cli-zero": "test_cli.py:10 self.assertEqual(json.loads(got.stdout), expected): bytes 0 != 28, newlines 0 != 4",
+          "maker-headings-constant": "test_skill.py:17 self.assertEqual(got2['headings'],expect): One/Two/Three != Alpha/Beta/Gamma",
+          "maker-agent-wrong": "test_agent.py:12 self.assertEqual(data['halt_reason'],'BUDGET'): 'WRONG' != 'BUDGET'",
+          "reviewer-agent-zero-bytes": "No assertion fires; exit 0, Ran 1 test, OK."
+        }
+      },
+      "command": [
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... FAIL\n\n======================================================================\nFAIL: test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py\", line 10, in test_census_and_missing_input\n    self.assertEqual(json.loads(got.stdout),{'path':str(p.resolve()),'bytes':len(data),'newlines':data.count(b'\\n'),'sha256':hashlib.sha256(data).hexdigest()})\nAssertionError: {'bytes': 0, 'newlines': 0, 'path': 'C:\\\\Pr[160 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}\n- {'bytes': 0,\n?           ^\n\n+ {'bytes': 28,\n?           ^^\n\n-  'newlines': 0,\n?              ^\n\n+  'newlines': 4,\n?              ^\n\n   'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md',\n   'sha256': '2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.101s\n\nFAILED (failures=1)\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_newline",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... FAIL\n\n======================================================================\nFAIL: test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py\", line 17, in test_heading_inventory_and_bundle\n    self.assertEqual(got2['headings'],expect)\nAssertionError: Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}, {'le[72 chars]ee'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[75 chars]ma'}]\n\nFirst differing element 0:\n{'level': 1, 'line': 1, 'text': 'One'}\n{'line': 1, 'level': 1, 'text': 'Alpha'}\n\n- [{'level': 1, 'line': 1, 'text': 'One'},\n?                                   ^^^\n\n+ [{'level': 1, 'line': 1, 'text': 'Alpha'},\n?                                   ^^^^^\n\n-  {'level': 2, 'line': 3, 'text': 'Two'},\n?                       ^           ^^^\n\n+  {'level': 2, 'line': 5, 'text': 'Beta'},\n?                       ^           ^^^^\n\n-  {'level': 3, 'line': 4, 'text': 'Three'}]\n?                       ^           ^^^^^\n\n+  {'level': 3, 'line': 6, 'text': 'Gamma'}]\n?                       ^           ^^^^^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.211s\n\nFAILED (failures=1)\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_headings",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... FAIL\n\n======================================================================\nFAIL: test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py\", line 12, in test_two_step_limit_and_hashes\n    self.assertEqual(data['halt_reason'],'BUDGET')\nAssertionError: 'WRONG' != 'BUDGET'\n- WRONG\n+ BUDGET\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.097s\n\nFAILED (failures=1)\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_review",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.277s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_review",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "verdict": "PASS",
+      "evidence": {
+        "summary": "include-system-site-packages=false; user site disabled. Exactly three matching distributions, version 0.0.1, all in sandbox venv; actual imported module __file__ paths are inside it. No matching distributions/modules in maker Hermes runtime, its base runtime (including user site), or HG-KSEOS .venv. Source SBL tracked diff empty before/after; existing two R9 untracked status entries unchanged.",
+        "isolation": {
+          "cfg": "home = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\ninclude-system-site-packages = false\nversion = 3.11.17\nexecutable = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe\ncommand = C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe -m venv C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\n",
+          "venv_probe": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-c",
+              "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"prefix\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\", \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}, {\"name\": \"ts23-skill\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}, {\"name\": \"ts23-agent\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}], \"modules\": {\"ts23_newline\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_newline\\\\__init__.py\", \"ts23_headings\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_headings\\\\__init__.py\", \"ts23_review\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_review\\\\__init__.py\"}}\n",
+            "stderr": ""
+          },
+          "host_runtime_probe": {
+            "argv": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+              "-B",
+              "-c",
+              "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\", \"__editable__.hermes_agent-0.21.5.finder.__path_hook__\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\win32\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\win32\\\\lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\Pythonwin\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+            "stderr": ""
+          },
+          "base_runtime_probe": {
+            "argv": [
+              "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe",
+              "-B",
+              "-c",
+              "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Users\\\\user\\\\AppData\\\\Roaming\\\\Python\\\\Python311\\\\site-packages\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\\\\site-packages\"], \"user_site_enabled\": true, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+            "stderr": ""
+          },
+          "actual_import_files": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-c",
+              "import json,ts23_newline,ts23_headings,ts23_review; print(json.dumps({m.__name__:m.__file__ for m in [ts23_newline,ts23_headings,ts23_review]}))"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"ts23_newline\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_newline\\\\__init__.py\", \"ts23_headings\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_headings\\\\__init__.py\", \"ts23_review\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_review\\\\__init__.py\"}\n",
+            "stderr": ""
+          },
+          "hgk_runtime_probe": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+              "-B",
+              "-c",
+              "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"prefix\": \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python312.zip\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\DLLs\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\Lib\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\", \"__editable__.mcp_contextforge_gateway-1.0.7.finder.__path_hook__\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\win32\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\win32\\\\lib\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\pythonwin\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+            "stderr": ""
+          },
+          "all_matching_metadata": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-c",
+              "import importlib.metadata as m,json; wanted={'ts23-cli','ts23-skill','ts23-agent'}; print(json.dumps([{'name':d.metadata['Name'],'root':str(d.locate_file('')),'version':d.version} for d in m.distributions() if d.metadata['Name'].lower().replace('_','-') in wanted]))"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "[{\"name\": \"ts23-agent\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}, {\"name\": \"ts23-cli\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}, {\"name\": \"ts23-skill\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}]\n",
+            "stderr": ""
+          }
+        },
+        "source_before": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "diff",
+            "HEAD",
+            "--"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "source_after": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "diff",
+            "HEAD",
+            "--"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        "source_status_before": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "status",
+            "--porcelain",
+            "--untracked-files=normal"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/\n",
+          "stderr": ""
+        },
+        "source_status_after": {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "status",
+            "--porcelain",
+            "--untracked-files=normal"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/\n",
+          "stderr": ""
+        },
+        "installed_receipt_digest_matches": [
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py",
+            "expected": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+            "actual": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__main__.py",
+            "expected": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "actual": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\manifest.json",
+            "expected": "f620f1fe27c971a70faa2a821e8036981fb13d0983f0ab3b55e04456a9233443",
+            "actual": "f620f1fe27c971a70faa2a821e8036981fb13d0983f0ab3b55e04456a9233443",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\SKILL.md",
+            "expected": "965abcff4174bc77b7751d7b4e0e335170422949af2d7d2cb7159bd43faf9c0a",
+            "actual": "965abcff4174bc77b7751d7b4e0e335170422949af2d7d2cb7159bd43faf9c0a",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py",
+            "expected": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+            "actual": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__main__.py",
+            "expected": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "actual": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py",
+            "expected": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "actual": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+            "match": true
+          },
+          {
+            "path": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__main__.py",
+            "expected": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "actual": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+            "match": true
+          }
+        ],
+        "scope": "Runtime installation absence is bounded to the three relevant non-sandbox interpreters inspected; no universal full-disk nonexistence claim."
+      },
+      "command": [
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-c",
+            "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"prefix\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\", \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}, {\"name\": \"ts23-skill\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}, {\"name\": \"ts23-agent\", \"version\": \"0.0.1\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\"}], \"modules\": {\"ts23_newline\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_newline\\\\__init__.py\", \"ts23_headings\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_headings\\\\__init__.py\", \"ts23_review\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_review\\\\__init__.py\"}}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+            "-B",
+            "-c",
+            "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\", \"__editable__.hermes_agent-0.21.5.finder.__path_hook__\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\win32\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\win32\\\\lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\venv\\\\Lib\\\\site-packages\\\\Pythonwin\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.17-windows-x86_64-none\\python.exe",
+            "-B",
+            "-c",
+            "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\python311.zip\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\DLLs\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\", \"C:\\\\Users\\\\user\\\\AppData\\\\Roaming\\\\Python\\\\Python311\\\\site-packages\", \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Packages\\\\OpenAI.Codex_2p2nqsd0c76g0\\\\LocalCache\\\\Local\\\\hermes\\\\hermes-agent\\\\.hermes-runtime\\\\python\\\\cpython-3.11.17-windows-x86_64-none\\\\Lib\\\\site-packages\"], \"user_site_enabled\": true, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-c",
+            "import json,ts23_newline,ts23_headings,ts23_review; print(json.dumps({m.__name__:m.__file__ for m in [ts23_newline,ts23_headings,ts23_review]}))"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"ts23_newline\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_newline\\\\__init__.py\", \"ts23_headings\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_headings\\\\__init__.py\", \"ts23_review\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\\\\ts23_review\\\\__init__.py\"}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+            "-B",
+            "-c",
+            "import sys,site,json,importlib,importlib.metadata as m\nnames=['ts23-cli','ts23-skill','ts23-agent']; modules=['ts23_newline','ts23_headings','ts23_review']\ndef dist(n):\n try:\n  d=m.distribution(n); return {'name':n,'version':d.version,'root':str(d.locate_file(''))}\n except m.PackageNotFoundError: return {'name':n,'absent':True}\nprint(json.dumps({'prefix':sys.prefix,'base_prefix':sys.base_prefix,'sys_path':sys.path,'user_site_enabled':site.ENABLE_USER_SITE,'distributions':[dist(n) for n in names],'modules':{n:getattr(importlib.util.find_spec(n),'origin',None) for n in modules}}))\n"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"prefix\": \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\", \"base_prefix\": \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\", \"sys_path\": [\"\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python312.zip\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\DLLs\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\Lib\", \"C:\\\\Users\\\\user\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\", \"__editable__.mcp_contextforge_gateway-1.0.7.finder.__path_hook__\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\win32\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\win32\\\\lib\", \"C:\\\\Projects\\\\Agent_Workspace\\\\HG-KSEOS\\\\.venv\\\\Lib\\\\site-packages\\\\pythonwin\"], \"user_site_enabled\": false, \"distributions\": [{\"name\": \"ts23-cli\", \"absent\": true}, {\"name\": \"ts23-skill\", \"absent\": true}, {\"name\": \"ts23-agent\", \"absent\": true}], \"modules\": {\"ts23_newline\": null, \"ts23_headings\": null, \"ts23_review\": null}}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-c",
+            "import importlib.metadata as m,json; wanted={'ts23-cli','ts23-skill','ts23-agent'}; print(json.dumps([{'name':d.metadata['Name'],'root':str(d.locate_file('')),'version':d.version} for d in m.distributions() if d.metadata['Name'].lower().replace('_','-') in wanted]))"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "[{\"name\": \"ts23-agent\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}, {\"name\": \"ts23-cli\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}, {\"name\": \"ts23-skill\", \"root\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\venv\\\\Lib\\\\site-packages\", \"version\": \"0.0.1\"}]\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "diff",
+            "HEAD",
+            "--"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "diff",
+            "HEAD",
+            "--"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "status",
+            "--porcelain",
+            "--untracked-files=normal"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "git",
+            "-C",
+            "C:\\Projects\\Agent_Workspace\\SBL",
+            "status",
+            "--porcelain",
+            "--untracked-files=normal"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "4-positive-controls",
+      "verdict": "PASS",
+      "evidence": {
+        "summary": "All three unmodified installed tests pass before mutation and again after restoring. Legitimate direct outputs independently verified: census 28 bytes/4 LF/exact SHA256; headings One/Two/Three at lines 1/3/4 and levels 1/2/3; agent two real paths with exact byte counts 5765/5776, exact SHA256s, steps=2, remaining=1, halt_reason=BUDGET. Thus the strengthened tests do not simply reject every output.",
+        "baseline": {
+          "cli": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.300s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_newline",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          },
+          "skill": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.275s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_headings",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          },
+          "agent": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.277s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_review",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          }
+        },
+        "legitimate_behaviour": {
+          "cli": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-m",
+              "ts23_newline",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"bytes\": 28, \"newlines\": 4, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\", \"sha256\": \"2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051\"}\n",
+            "stderr": ""
+          },
+          "skill": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-m",
+              "ts23_headings",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"One\"}, {\"level\": 2, \"line\": 3, \"text\": \"Two\"}, {\"level\": 3, \"line\": 4, \"text\": \"Three\"}], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\"}\n",
+            "stderr": ""
+          },
+          "agent": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "-m",
+              "ts23_review",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+            "stderr": ""
+          }
+        },
+        "post_restore": {
+          "cli": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_newline",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          },
+          "skill": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.278s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_headings",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          },
+          "agent": {
+            "argv": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+              "-B",
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+            ],
+            "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.287s\n\nOK\n",
+            "environment_overrides": {
+              "TS23_MODULE": "ts23_review",
+              "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+              "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "PYTHONPATH": "removed"
+          }
+        },
+        "installed_package_inventory_unchanged": true,
+        "test_fixture_bytes_unchanged": true
+      },
+      "command": [
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.300s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_newline",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.275s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_headings",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.277s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_review",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ts23_newline",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"bytes\": 28, \"newlines\": 4, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\", \"sha256\": \"2d34cad9832c1bef733d424191234a2e4428b8697cea72eb1940f98aff528051\"}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ts23_headings",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"headings\": [{\"level\": 1, \"line\": 1, \"text\": \"One\"}, {\"level\": 2, \"line\": 3, \"text\": \"Two\"}, {\"level\": 3, \"line\": 4, \"text\": \"Three\"}], \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\headings.md\"}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "-m",
+            "ts23_review",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "{\"halt_reason\": \"BUDGET\", \"remaining\": 1, \"reviews\": [{\"bytes\": 5765, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\README.md\", \"sha256\": \"1ae8aaf22407a4657a666054ba3558330f8c9f4dfd6a50d24db91ddc85ac59ed\"}, {\"bytes\": 5776, \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\PIPD\\\\skills\\\\pipd-pi-compile\\\\schemas\\\\output.schema.json\", \"sha256\": \"4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71\"}], \"steps\": 2}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_cli.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.280s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_newline",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_skill.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.278s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_headings",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        },
+        {
+          "argv": [
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Scripts\\python.exe",
+            "-B",
+            "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\test_agent.py"
+          ],
+          "cwd": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox",
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.287s\n\nOK\n",
+          "environment_overrides": {
+            "TS23_MODULE": "ts23_review",
+            "TS23_FIXTURE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md",
+            "TS23_QUEUE": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "PYTHONPATH": "removed"
+        }
+      ]
+    }
+  ],
+  "surviving_mutations": [
+    {
+      "id": "reviewer-agent-zero-bytes",
+      "mutation": "Report bytes=0 for every reviewed file; retain exact real digests, paths, bounds, and halt reason",
+      "test_exit": 0,
+      "target": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py",
+      "why_survived": "test_agent.py:13 checks only isinstance(bytes,int) and bytes>=0, not equality with the input length. Both real reviewed files are nonempty (5765 and 5776 bytes).",
+      "required_fix": "Compare [r['bytes'] for r in data['reviews']] with [len(Path(x).read_bytes()) for x in queue[:2]], and apply the equivalent exact oracle to the --max-steps 1 result."
+    }
+  ],
+  "residual_gaps": [
+    {
+      "id": "G1",
+      "severity": "major",
+      "finding": "The agent test accepts entirely incorrect nonnegative byte counts. The reviewer-only bytes=0 mutation survived with exit 0.",
+      "required_fix": "Compare [r['bytes'] for r in data['reviews']] with [len(Path(x).read_bytes()) for x in queue[:2]], and apply the equivalent exact oracle to the --max-steps 1 result."
+    },
+    {
+      "id": "G2",
+      "severity": "major",
+      "finding": "ts23_test_strength.json all_caught=true and ts23_remediation.json '3/3 caught' do not establish behavioural detection: CLI dies on missing fixture.md, headings dies on undefined p, agent dies on undefined queue. These are harness/runtime errors, not comparisons of the intended wrong answer.",
+      "required_fix": "Preserve the existing failed receipt as historical evidence; generate a corrected superseding mutation receipt using the actual fixture/environment, valid executable mutants, captured output assertions, baseline/post-restore greens and digest restores. Include the new zero-bytes mutation. Treat unexpected exceptions, missing fixtures, import failures and collection errors as invalid experiments, not caught=true."
+    }
+  ],
+  "claim_ceiling": "Independent second review of the currently installed remediated R14-TS23 artifacts, not product qualification, general coverage, independent-model attestation or M2/Gate acceptance. FAIL: behavioural RED and hermetic runtime isolation are substantiated, and legitimate behaviour is accepted, but the agent byte-count coverage hole survives and the maker mutation-evidence claim is invalid. Historical ts23_m2_dogfood.json remains a pre-remediation record with its own FAIL and older REDs; it was not promoted or rewritten. Absence outside the sandbox was checked only in the three relevant external runtimes, not all filesystems/environments.",
+  "reviewed_artifact_sha256": {
+    "ts23_build.py": "2fa36ee42134330178a6fe7f9e2991b064afc1695fcdecea1b72e0ab838be215",
+    "ts23_build_receipt.json": "ad14385d3dc6aa9c955cfe16f255b8d385980befd3b8c107f8d2521000f68697",
+    "ts23_test_strength.json": "457a581dc03bcf10855fbc9f68d1d05af119a349b8c4e990f13593966ab0968b",
+    "ts23_remediation.json": "80c2ed97809e3c42fc61d838e9880a50ffbfb96407f8d2c3acfee44f1d2f6586",
+    "ts23_independent_review.json": "d9fc4990975f5159ed50a9fbf5c0b713ccd344c6250c0dcfaca7be6c22adafce",
+    "ts23_m2_dogfood.json": "55f1f7f6a9ccbce15cc674d5acc0b0d4e71c4ff9e0075b26e6b024bb31641fec"
+  },
+  "restoration": {
+    "all_five_experiments_restored": true,
+    "preimage_package_inventory": {
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__\\__init__.cpython-311.pyc": "db0c5891ea005c876b282cc47b8e48d588bececd96b19da143bd3dde131c39bb",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__\\__main__.cpython-311.pyc": "10b365d1fb1099903f898f6beef2988fd8feea94d392ae94c5cbdd4fdee6862d",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\manifest.json": "f620f1fe27c971a70faa2a821e8036981fb13d0983f0ab3b55e04456a9233443",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\SKILL.md": "965abcff4174bc77b7751d7b4e0e335170422949af2d7d2cb7159bd43faf9c0a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__pycache__\\__init__.cpython-311.pyc": "e60da0c4b78d3834d84ebbb880b3e46798fc92ea89238189e1d9892ec79b7762",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__pycache__\\__main__.cpython-311.pyc": "e30459795314057ba5c2ed02f00079000dd115bdc5c7d772687f7901f1223b9f",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__pycache__\\__init__.cpython-311.pyc": "2987fce01a0f49452eb31cd82bbabdc4889927256a7484ab7d7305dae33bc30a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__pycache__\\__main__.cpython-311.pyc": "50f50c6a288cc69e615e87869b555e9f90ccfbde128f5cbbc1f51cd497fcad2c"
+    },
+    "postimage_package_inventory": {
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__init__.py": "fa8134f7298b73d06ff96a372c5771ac5ea92e9bef316d41aea56015d03dfb0a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__\\__init__.cpython-311.pyc": "db0c5891ea005c876b282cc47b8e48d588bececd96b19da143bd3dde131c39bb",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_newline\\__pycache__\\__main__.cpython-311.pyc": "10b365d1fb1099903f898f6beef2988fd8feea94d392ae94c5cbdd4fdee6862d",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\manifest.json": "f620f1fe27c971a70faa2a821e8036981fb13d0983f0ab3b55e04456a9233443",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\SKILL.md": "965abcff4174bc77b7751d7b4e0e335170422949af2d7d2cb7159bd43faf9c0a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py": "46a89d205ddab4644dd93ea6a1e9f6fa9397894afdbe9dc625f9c9cd46094135",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__pycache__\\__init__.cpython-311.pyc": "e60da0c4b78d3834d84ebbb880b3e46798fc92ea89238189e1d9892ec79b7762",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__pycache__\\__main__.cpython-311.pyc": "e30459795314057ba5c2ed02f00079000dd115bdc5c7d772687f7901f1223b9f",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__init__.py": "84eba02064ef09ef7a24c890d7988e857c24c068d52fc91cddf4e2d842a3c5b6",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__main__.py": "6834b438d197bcd8ac3a32e661e2667c54dbe84a79f58e7cc98baa2c82d0ee53",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__pycache__\\__init__.cpython-311.pyc": "2987fce01a0f49452eb31cd82bbabdc4889927256a7484ab7d7305dae33bc30a",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\venv\\Lib\\site-packages\\ts23_review\\__pycache__\\__main__.cpython-311.pyc": "50f50c6a288cc69e615e87869b555e9f90ccfbde128f5cbbc1f51cd497fcad2c"
+    },
+    "persistent_review_deliverables": [
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review2.json",
+      "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_review2.md"
+    ],
+    "scope": "Only three installed __init__.py files were temporarily mutated; originals restored in finally with preimage timestamps. Tests rewrote their pre-existing empty/second-document fixtures to identical bytes; bytecode writes disabled. No source repository or maker receipt writes."
+  }
+}
