@@ -118,6 +118,37 @@ class StackVerbTests(unittest.TestCase):
             sbl_stack.upgrade(target, current)
         self.assertEqual(caught.exception.code, "SBL_E_UPGRADE_NOOP")
 
+    def test_load_refuses_a_tampered_manifest_with_a_typed_code(self) -> None:
+        """NEG: load fails closed with a typed code, same discipline as doctor."""
+
+        import contextlib
+        import io
+        import re
+
+        from sbl_stack.cli import main
+
+        target = self.installed()
+        manifest_path = target / "stack.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        first = sorted(manifest["components"])[0]
+        manifest["components"][first] = "0" * 64
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+        result = sbl_stack.load(target)
+        self.assertIs(result["ok"], False)
+        self.assertRegex(result["code"], r"^SBL_E_[A-Z_]+$")
+
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            rc = main(["load", "--root", str(target)])
+        output = buffer.getvalue()
+        self.assertNotEqual(rc, 0, output)
+        self.assertNotIn("Traceback", output)
+        payload = json.loads(output)
+        self.assertIs(payload["ok"], False)
+        self.assertRegex(payload["code"], r"^SBL_E_[A-Z_]+$")
+        self.assertIsNotNone(re.search(r"^SBL_E_[A-Z_]+$", payload["code"]))
+
     def test_upgrade_keeps_a_preimage_and_rollback_restores_it_byte_for_byte(self) -> None:
         target = self.installed()
         original = (target / "stack.json").read_bytes()

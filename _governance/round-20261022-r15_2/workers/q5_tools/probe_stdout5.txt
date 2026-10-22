@@ -1,0 +1,24 @@
+{
+ "sbl_stack_verbs": {
+  "install": "PASS",
+  "doctor": "PASS",
+  "load": "PASS",
+  "invoke": "PASS",
+  "deny": "rc=2",
+  "upgrade": "rc=2",
+  "rollback": "rc=2",
+  "uninstall": "PASS"
+ },
+ "zip_pairs_equal": true,
+ "hgk_doctor": "PASS",
+ "negative_control": {
+  "doctor_rc": 2,
+  "doctor_crashed": false,
+  "doctor_typed_refusal": true,
+  "load_rc": 2,
+  "load_typed_refusal": true,
+  "load_ok_false": true,
+  "reading": "a crash is not a refusal; this row is only PASS when doctor_crashed is false and a typed code is present"
+ },
+ "uninstall_readback_clean": true
+}

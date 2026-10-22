@@ -364,24 +364,29 @@ def load(target: str | Path) -> dict[str, Any]:
     recorded: dict[str, str] = manifest.get("components", {})
     loaded: list[str] = []
     problems: list[str] = []
+    codes: list[str] = []
     for name, expected in recorded.items():
         try:
             module = __import__(name, fromlist=["__name__"])
             actual = hashlib.sha256(_module_source(name).read_bytes()).hexdigest()
         except SBLError as exc:
             problems.append(f"{name}: {exc.message}")
+            codes.append("SBL_E_COMPONENT_UNRESOLVED")
             continue
         except Exception as exc:  # noqa: BLE001 - an import failure is an outcome, not a crash
             problems.append(f"{name}: import failed: {exc!r}")
+            codes.append("SBL_E_COMPONENT_UNRESOLVED")
             continue
         if actual != expected:
             problems.append(f"{name}: digest changed since install")
+            codes.append("SBL_E_DIGEST_MISMATCH")
             continue
         loaded.append(f"{module.__name__}")
     missing = sorted(set(COMPONENT_MODULES) - set(recorded))
     if missing:
         problems.append("manifest does not cover: " + ", ".join(missing))
-    return {
+        codes.append("SBL_E_COMPONENT_UNRESOLVED")
+    report: dict[str, Any] = {
         "ok": not problems and len(loaded) == len(recorded),
         "target": str(root),
         "loaded": loaded,
@@ -389,6 +394,13 @@ def load(target: str | Path) -> dict[str, Any]:
         "components": len(recorded),
         "claim_ceiling": CLAIM_CEILING,
     }
+    if not report["ok"]:
+        report["code"] = (
+            "SBL_E_COMPONENT_UNRESOLVED"
+            if "SBL_E_COMPONENT_UNRESOLVED" in codes or not codes
+            else codes[0]
+        )
+    return report
 
 
 def invoke(target: str | Path, mode: str | None = None) -> dict[str, Any]:

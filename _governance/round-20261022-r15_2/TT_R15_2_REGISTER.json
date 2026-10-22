@@ -1035,16 +1035,31 @@
       "decision": "USE_THE_MANDATE_KEY",
       "resolution": "recorded; challenges are dispatched with --role VERIFY and still labelled VERIFY_SECURITY in the receipt",
       "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-ORCHESTRATOR-OVERCLAIM-PASS1",
+      "kind": "DEFECT",
+      "severity": "HIGH",
+      "subject": "The orchestrator reported the pass-1 challenge findings as repaired while C2-load was still open",
+      "observed": {
+        "claim": "closing report said the pass-1 findings were repaired one by one",
+        "measurement": "probe row load_typed_refusal=false at 2026-10-22T21:00:37Z, i.e. after the doctor repair",
+        "why_it_happened": "the C6 and audit repairs were loud and verifiable; the load row was never re-read after the pass-3/4 focus moved to A7"
+      },
+      "conflict": "an orchestrator summary is a claim like any other and needs the same readback as a lane's",
+      "decision": "READBACK_BEFORE_SUMMARY",
+      "resolution": "corrected in STATUS 12.11; the rule going forward: every 'repaired' word in a summary must name the probe row or receipt line that shows it",
+      "status": "RESOLVED_MEASURED"
     }
   ],
   "counts": {
-    "total": 44,
+    "total": 45,
     "by_status": {
       "null": 25,
       "OPEN_OWNER_STEP": 8,
       "OPEN_MEASURED": 5,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 5
+      "RESOLVED_MEASURED": 6
     }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",

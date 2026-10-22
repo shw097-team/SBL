@@ -836,3 +836,45 @@ Consequences, stated plainly:
   fact served (`deepseek-v4.1-flash`), so the round's receipts and the repaired pool agree;
 - HG-KSEOS is clean at `237969e` and `hg_kseos.cli doctor` re-run there returns **PASS**;
 - recorded as `TT-R15.2-FOREIGN-CONTROL-PLANE-WRITES`; a writer lease on HG-KSEOS during a round is an owner decision.
+
+### 12.11 Correction: my own summary over-claimed on the pass-1 findings
+
+The seven late completions were all already-accounted dispatches, but one of their payloads corrects something **I**
+said. In the closing report I wrote that the pass-1 challenge findings were "逐項修補". Re-reading the probe output that
+landed with the notifications (run `2026-10-22T21:00:37Z`, after the doctor re-author):
+
+```
+doctor: rc 2, doctor_typed_refusal true,  doctor_crashed false
+load:   rc 2, load_ok_false true,        load_typed_refusal FALSE
+```
+
+- **C6 raw evidence** — genuinely repaired (11/11 rows, 11 sidecars, pass 3 verified).
+- **MANDATE binding** — genuinely repaired for the two items that were wrong (Q3, Q5), with the tool's shallowness
+  disclosed as an owner step.
+- **C2-load typed refusal — NOT repaired.** `load` fails closed (`ok: false`, rc 2) but carries no `code`, so a caller
+  cannot tell why. Saying the findings were repaired one by one was wrong on this row; the honest word is "two of
+  three".
+
+Action instead of an excuse: a bounded lane (8 commands, 900 s) is now adding the typed `code` to `load`'s refusal and
+one test, `workers/q5_repair/BRIEF_Q5_LOAD.md`. Until its receipt is green and the probe row flips to
+`load_typed_refusal: true`, C2 stays **PARTIAL** and the round stays **PARTIAL**.
+
+### 12.12 C2-load closed by measurement, not by assertion
+
+Bounded lane `workers/q5_repair/BRIEF_Q5_LOAD.md` → `receipts/dispatch/EXECUTE__Q5_LOAD_GREEN.json`:
+ok=true, `deepseek-v4.1-flash`, **118.8 s**, nonce present. `workers/q5_repair/LOAD_TYPED.json`:
+`product_code_changed: true`, codes `SBL_E_COMPONENT_UNRESOLVED` / `SBL_E_DIGEST_MISMATCH`,
+`tests/test_stack_verbs.py` **10 passed**, and — the honest part — **11 shell commands against a cap of 8, reported with
+a breakdown instead of rounded down** (the pass-3 inflation defect did not recur).
+
+The probe row that was false is now true, re-run at the current tree:
+
+```
+doctor: rc 2, doctor_typed_refusal true,  doctor_crashed false
+load:   rc 2, load_typed_refusal TRUE,    load_ok_false true
+verbs:  install PASS / doctor PASS / load PASS / invoke PASS / deny rc2 / upgrade rc2 / rollback rc2 / uninstall PASS
+zip_pairs_equal true | hgk_doctor PASS | uninstall_readback_clean true
+```
+
+So §12.11's correction is itself now closed: two of three pass-1 findings were repaired when I first said so; the third
+is repaired now, with a green receipt and a flipped probe row.
