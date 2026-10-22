@@ -1,0 +1,116 @@
+{
+  "schema": "SBL_R15_2_TT_REGISTER/1",
+  "round": "round-20261022-r15_2",
+  "task_id": "SBL-R15.2-CONTINUATION-20261022",
+  "claim_ceiling": "LOCAL_READ_ONLY_ADJUDICATION; no TT here is closed by an agent",
+  "items": [
+    {
+      "tt_id": "TT-R15.2-LEDGER-DIVERGENCE",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "R14 obligation ledger vs checkpoint narrative",
+      "observed": {
+        "obligations_state_distribution": {"DONE": 17, "PARTIAL": 9, "BLOCKED_SOFT": 1, "BLOCKED": 4},
+        "obligations_count": 31,
+        "obligations_sha256_receipt": "R14_LEDGER_READBACK.json",
+        "branch": "evidence/r14-20261022-native",
+        "commit": "from R14_LEDGER_READBACK.json.source_commit"
+      },
+      "conflict": "The R15.2 command text quotes the R14 checkpoint as 21 DONE / 5 PARTIAL / 4 BLOCKED / 1 SOFT. The machine-readable OBLIGATIONS.json on the same branch reports 17 DONE / 9 PARTIAL / 1 BLOCKED_SOFT / 4 BLOCKED. Neither may be used as a verdict until the per-item candidate raw is recomputed.",
+      "decision": "OPEN",
+      "owner": "R14 Continuation Owner + Independent AO",
+      "next_legal_step": "Recompute each of the 31 items against its own recorded candidate sha and raw log; publish the per-item table; do not overwrite either existing record.",
+      "far_recommendation": "Treat OBLIGATIONS.json as the primary machine ledger and the checkpoint as narrative. Recompute affected items only (9 PARTIAL + 4 BLOCKED + 1 SOFT = 14), keep the 17 DONE as readback-only unless their candidate sha changed."
+    },
+    {
+      "tt_id": "TT-R15.2-NATIVE-ISSUER-UNBOUND",
+      "kind": "TT",
+      "severity": "BLOCKER",
+      "subject": "HGK native WorkOrder / ECP / Permit issuance for this subject",
+      "observed": {
+        "hgk_repo_head": "1760fb443ab284c52c46a6b49f573e2a180530e6",
+        "hgk_branch": "codex/hgk-final-closure-002",
+        "lane_assignment_revision": 32,
+        "registry_epoch": 32
+      },
+      "conflict": "No native issuer ABI call was observed that can bind this subject to a WorkOrder/Permit. Chat text and a compiled prompt cannot substitute for it.",
+      "decision": "OPEN",
+      "owner": "HGK Native Owner",
+      "next_legal_step": "Native Owner compiles the contract's evidence gates into TaskSpec + WorkOrder + Permit with nonce, scope, expiry and rollback pointer.",
+      "far_recommendation": "Start with W00/W01 only: they are read-only and produce the very ledger the remaining 16 packages depend on. Do not open a write permit before W01 closes."
+    },
+    {
+      "tt_id": "TT-R15.2-VERIFY-LANE-SOD006-C6",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "Checker lane binding vs requested model plan",
+      "observed": {
+        "requested_verify_model": "openai-codex/gpt-6.1-sol (medium, OpenAI OAuth)",
+        "assigned_verify_model_revision_32": "opencode-go/deepseek-v4.1-flash",
+        "transport_probe": "receipts/model_VERIFY.json -> HTTP 200, served gpt-6.1-sol"
+      },
+      "conflict": "The requested checker arm is servable but is not the currently assigned VERIFY_SECURITY lane arm. Invoking it would be a silent lane rebinding, which is forbidden without an owner-ordered registry change.",
+      "decision": "OPEN_OWNER_ORDERED",
+      "owner": "HGK Model Pool Owner",
+      "next_legal_step": "Owner issues a registry/assignment change (native config WorkOrder) or explicitly accepts deepseek as checker for this round.",
+      "far_recommendation": "Keep the registry as-is for the round and record the deviation; a checker on a different arm than requested is a smaller defect than an unlogged lane rebinding."
+    },
+    {
+      "tt_id": "TT-R15.2-FABRIC-ACTIVE-POLICY-UNRESOLVED",
+      "kind": "TT",
+      "severity": "BLOCKER",
+      "subject": "Which Fabric policy digest is active rather than Stage-1 frozen",
+      "observed": {
+        "policy_files_hashed": ["FABRIC/control/ACCEPTANCE_POLICY.yaml", "FABRIC/control/CAPABILITY_QUALIFICATION_POLICY.yaml"],
+        "fabric_repo_head": "d62635626d5d2e54fe5bba22a500a17423c85719",
+        "fabric_repo_dirty_count": 49
+      },
+      "conflict": "Files exist and are hashed, but no HGK consumer readback proves the active digest. C02 therefore stays TEMP_CLOSED.",
+      "decision": "OPEN",
+      "owner": "Fabric Policy Owner + HGK APL",
+      "next_legal_step": "Fabric Owner publishes the active policy digest; HGK APL records the consumption receipt for the same digest.",
+      "far_recommendation": "Do not infer activity from file presence. Require one signed digest and one consumer receipt."
+    },
+    {
+      "tt_id": "TT-R15.2-SWOF-W3-ABSENT",
+      "kind": "TT",
+      "severity": "BLOCKER",
+      "subject": "SWOF W2 rechallenge and W3 domain-owner admission",
+      "observed": {"w2_accepted_readset": "NOT_OBSERVED", "w3_admission": "NOT_OBSERVED"},
+      "conflict": "W12/C19 cannot run. Any SWOF write without W3 would be CRITICAL_INVALID_EFFECT.",
+      "decision": "OPEN",
+      "owner": "SWOF W2/W3 Domain Receiver + HGK",
+      "next_legal_step": "SWOF Owner accepts the W2 rechallenge, then issues W3 with readset, RepoContext and exact WriteSet.",
+      "far_recommendation": "Keep M2 sandbox dogfood going; hold only W12. Do not pre-write SWOF patches."
+    },
+    {
+      "tt_id": "TT-R15.2-CHATGPT-HOST-PENDING",
+      "kind": "TT",
+      "severity": "HIGH",
+      "subject": "Three ChatGPT private plugins",
+      "observed": {"host_issued_ids": 0, "portable_zips": "not built in this round"},
+      "conflict": "No official host-issued plugin identity exists; a ZIP hash is not a host registration.",
+      "decision": "HOST_PENDING",
+      "owner": "ChatGPT Host Owner",
+      "next_legal_step": "Official create/install/@POS/@NEG/uninstall with three distinct host-issued IDs, or an owner-signed NoFit.",
+      "far_recommendation": "Keep HOST_PENDING and ship the manual route; do not fabricate IDs."
+    },
+    {
+      "tt_id": "TT-R15.2-KANBAN-DISPATCH-BLOCKED",
+      "kind": "OBSERVATION",
+      "severity": "INFO",
+      "subject": "Hermes Kanban board for this round",
+      "observed": {
+        "board": "sbl-r15-2-20261022",
+        "cards": 18,
+        "state": "all blocked with reason NO_NATIVE_WORKORDER_PERMIT",
+        "receipts": ["receipts/kanban_create_board.txt", "receipts/kanban_cards.txt"]
+      },
+      "conflict": "None: blocking every card is the correct fail-closed state when no permit exists. The board proves claims/leases are not invented.",
+      "decision": "NO_ACTION",
+      "owner": "Hermes Controller",
+      "next_legal_step": "Unblock W00/W01 when the native issuer binds them.",
+      "far_recommendation": "Use card ids as the C08 subject so a later run can show claim/lease/heartbeat transitions rather than re-created cards."
+    }
+  ]
+}
