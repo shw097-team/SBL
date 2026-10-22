@@ -356,6 +356,34 @@
       "last_result": "rc=0 secs=0.83 expect=hit\n    {\"victim\": \"W02.policy\", \"rc\": 2, \"codes\": [\"UNISSUED_PRINCIPAL_REQUEST\"], \"refused\": true}\n    {\"satisfiability_rc\": 2, \"codes\": [\"SATISFIABILITY_UNKNOWN\"], \"refused\": true}\n    NEGATIVE_CONTROL_OK",
       "last_run_utc": "2026-10-22T16:19:37Z",
       "required_lane": "AGENT"
+    },
+    {
+      "id": "Q1.kind_matrix",
+      "status": "DONE",
+      "owner_class": "AGENT",
+      "attempts": 3,
+      "resume_cmd": "(closed) see workers/candidate_proposals/w06_kinds2/",
+      "expect": "receipt ok + nonce; diff applies; tests pass under my own run",
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__BRIEF6_Q1b.json",
+      "lane_verdict": {
+        "ok": true,
+        "nonce_present": true,
+        "secs": 556.99,
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "rank": 1
+      },
+      "independent_checks": {
+        "git_apply_check": "rc=0",
+        "pytest_rerun": "25 passed (orchestrator run)",
+        "kind_matrix_rows": 8,
+        "dispositions": {
+          "SUPPORTED": 2,
+          "DEFERRED": 3,
+          "UNSUPPORTED": 3
+        }
+      },
+      "claim_ceiling": "candidate proposal only: matrix + diff + 25 tests. Nothing applied to sbl_core. Lifecycle qualification (create/install/use/uninstall with consumer readback) is NOT done, so W06 stays PARTIAL.",
+      "note": "two prior dispatches timed out (600.04s, 540.05s) on the same arm; this one finished at 1200s budget with a four-file brief"
     }
   ],
   "runs": [
@@ -487,6 +515,15 @@
     },
     {
       "at": "2026-10-22T17:08:36Z",
+      "steps": 0,
+      "done": 14,
+      "parked": 6,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-22T17:43:25Z",
       "steps": 0,
       "done": 14,
       "parked": 6,

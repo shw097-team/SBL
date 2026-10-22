@@ -1,0 +1,55 @@
+{
+  "schema": "SBL_R15_2_KIND_MATRIX/1",
+  "source": "workers/candidate_proposals/w06_kinds2/m03_routing.candidate.py",
+  "canonical_count": 8,
+  "rows": [
+    {
+      "kind": "CLI_TOOL",
+      "disposition": "SUPPORTED",
+      "reason": "routes to the governed build bridge; build order, writeset and apply are implemented and tested",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['CLI_TOOL'] + sbl_core/m04_bridge.py:GovernedBuildBridge"
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "disposition": "SUPPORTED",
+      "reason": "routes to the GJ03 skill-agent bridge; discover, load, invoke and unload exist in sbl_sp/bridge.py",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['AGENT_SKILL'] + sbl_sp/bridge.py:SkillBridge"
+    },
+    {
+      "kind": "SIMPLE_AGENT",
+      "disposition": "DEFERRED",
+      "reason": "no permitted target in v0.1; the bounded single-agent lifecycle (stop, credential revoke, provider-off) is not implemented",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['SIMPLE_AGENT']"
+    },
+    {
+      "kind": "PLUGIN",
+      "disposition": "DEFERRED",
+      "reason": "DOC-01 DEFERRED_UNVERIFIED / ADMISSION_HOLD; needs publisher, version, licence, permissions and a host readback before a target may exist",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['PLUGIN']"
+    },
+    {
+      "kind": "PROFILE",
+      "disposition": "DEFERRED",
+      "reason": "DOC-01 DEFERRED_UNVERIFIED; a profile that does not change real host behaviour is not a product kind, and no host binding exists",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['PROFILE']"
+    },
+    {
+      "kind": "AGENT_OS",
+      "disposition": "UNSUPPORTED",
+      "reason": "DOC-01 UNSUPPORTED_V0_1 / NO_FIT; v0.1 ships no secondary control plane",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['AGENT_OS']"
+    },
+    {
+      "kind": "AI_SYSTEM",
+      "disposition": "UNSUPPORTED",
+      "reason": "DOC-01 UNSUPPORTED_V0_1 / NO_FIT; v0.1 produces bounded artefacts, not systems",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['AI_SYSTEM']"
+    },
+    {
+      "kind": "GENIE/GENIE.md",
+      "disposition": "UNSUPPORTED",
+      "reason": "DOC-01 SWOF_RESERVED_COMPATIBILITY_ONLY; native read references only, no SBL generation right",
+      "code_ref": "sbl_core/m03_routing.py:DEFAULT_DISPOSITIONS['GENIE/GENIE.md']"
+    }
+  ]
+}
