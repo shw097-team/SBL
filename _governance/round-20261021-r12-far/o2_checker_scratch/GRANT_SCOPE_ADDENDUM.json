@@ -1,0 +1,28 @@
+{
+  "schema": "HGK-CHECKER-SCRATCH-GRANT-ADDENDUM/1",
+  "addendum_to": "GRANT.json (HGK-CHECKER-SCRATCH-GRANT/1), decision DEC-R12-D07-O2-20261023",
+  "at_utc": "2026-10-22T18:10:00Z",
+  "reason": "The original granted root staged the subject via `git archive | tar -x` (no .git), which made 4 git-dependent SBL tests measure the staging artefact instead of the subject (2 repo-context tests, 2 reproducible-build tests). The corrected run re-staged with `git clone --no-hardlinks` + `git checkout dc5428f2` and executed in a new round root outside every product repo.",
+  "scope_change": {
+    "original_root": "C:/Projects/Agent_Workspace/HG-KSEOS/var/checker-scratch/round-20261023-r12o2",
+    "corrected_root": "C:/Projects/Agent_Workspace/_r12o2_checker_scratch/round-20261023",
+    "corrected_scope": [
+      "C:/Projects/Agent_Workspace/_r12o2_checker_scratch/round-20261023/tmp/**",
+      "C:/Projects/Agent_Workspace/_r12o2_checker_scratch/round-20261023/out/**",
+      "C:/Projects/Agent_Workspace/_r12o2_checker_scratch/round-20261023/staged/**"
+    ],
+    "invariants_unchanged": [
+      "candidate repository C:/Projects/Agent_Workspace/SBL read-only (P4 + git status readback before/after)",
+      "subject binding unchanged: origin/main @ dc5428f23d15f0ec56cbc3d25b22f5381fce8771, tree 3f95125c, rollup eb5325d4abd00aeb (SUBJECT_FREEZE.json)",
+      "temp-root redirection + PYTHONDONTWRITEBYTECODE=1 + -p no:cacheprovider env contract unchanged",
+      "24h expiry and digest-guard enforcement unchanged"
+    ]
+  },
+  "evidence": {
+    "run1_raw_log": "round-20261023-r12o2/out/run_pytest_suite.log (4 failures = staging defect, kept as raw)",
+    "run2_json": "_r12o2_checker_scratch/round-20261023/out/RUN2.json",
+    "run2_suite_log": "_r12o2_checker_scratch/round-20261023/out/run2_pytest_suite.log",
+    "run2_pin_log": "_r12o2_checker_scratch/round-20261023/out/run2_control_package_verify.log",
+    "run2_result": "suite exit 0 (220 collected, 218 passed / 2 skipped), pin CONTROL_PACKAGE_PINNED exit 0, subject tree unchanged"
+  }
+}
