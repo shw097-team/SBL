@@ -119,21 +119,21 @@ def main(argv: list[str] | None = None) -> int:
             print(f"CRED_STORE_UNREADABLE {tmpcred}", file=sys.stderr)
             return 3
 
-        # The helper is pinned HERE as well, so an inherited global helper
-        # (Git Credential Manager, at system scope on this machine) cannot win.
+        # Measured 2026-10-23: the credential-store helper is NOT consulted on this host even
+        # when the store is readable -- git falls through to askpass and dies with
+        # "fatal: unable to get password from user" (rc 128, no network round trip; reproduced
+        # with core.askPass pointed at a working wrapper too). What does work is an
+        # authorisation header delivered through the environment, so it never appears in argv:
+        #   GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.https://github.com/.extraheader
+        #   GIT_CONFIG_VALUE_0=AUTHORIZATION: basic <base64(x-access-token:TOKEN)>
+        import base64
+
+        env["GIT_CONFIG_COUNT"] = "1"
+        env["GIT_CONFIG_KEY_0"] = f"http.https://{CRED_HOST}/.extraheader"
+        env["GIT_CONFIG_VALUE_0"] = "AUTHORIZATION: basic " + base64.b64encode(
+            f"{CRED_USER}:{token}".encode()).decode()
         push = subprocess.run(
-            [
-                "git",
-                "-c",
-                "credential.helper=",
-                "-c",
-                f"credential.helper=store --file={tmpcred}",
-                "-c",
-                "credential.interactive=never",
-                "push",
-                remote,
-                refspec,
-            ],
+            ["git", "-c", "credential.helper=", "-c", "credential.interactive=never", "push", remote, refspec],
             capture_output=True,
             text=True,
             env=env,

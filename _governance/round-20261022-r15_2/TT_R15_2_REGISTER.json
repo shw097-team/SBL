@@ -899,16 +899,37 @@
       "decision": "POINT_TEMP_OUTSIDE_ANY_REPO",
       "resolution": "recorded; the orchestrator's own runs use the Hermes scratch dir, which is outside every repo",
       "status": "OPEN_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-PUSH-PAT-CREDHELPER",
+      "kind": "DEFECT",
+      "severity": "MEDIUM",
+      "subject": "push_pat tooling could not authenticate: git never consulted a readable credential store on this host",
+      "observed": {
+        "symptom": "fatal: unable to get password from user (rc 128, ~0.4s, no network round trip)",
+        "tried": [
+          "credential.helper=store --file=<readable file> + credential.interactive=never",
+          "core.askPass=<working .cmd that echoes the token> + GIT_ASKPASS set",
+          "GIT_TERMINAL_PROMPT=0 with both askpass variables pointed at the wrapper"
+        ],
+        "worked": "http.https://github.com/.extraheader delivered via GIT_CONFIG_COUNT/GIT_CONFIG_KEY_0/GIT_CONFIG_VALUE_0 so the basic-auth header never enters argv",
+        "verified": "git push origin HEAD:refs/heads/evidence/r15_2-20261022 -> 5237aaa..58f2c53 (rc 0)",
+        "token_handling": "read from the owner PAT file at run time, base64 in memory, never printed, never committed; the temporary token and askpass files were removed"
+      },
+      "conflict": "the round's push tool reported a boolean that looked like success while the push had failed",
+      "decision": "ENV_EXTRAHEADER",
+      "resolution": "tools/push_pat.py patched to the working method and used for the round's push",
+      "status": "RESOLVED_MEASURED"
     }
   ],
   "counts": {
-    "total": 36,
+    "total": 37,
     "by_status": {
       "null": 25,
       "OPEN_OWNER_STEP": 5,
       "OPEN_MEASURED": 4,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 1
+      "RESOLVED_MEASURED": 2
     }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
