@@ -713,6 +713,26 @@
       "impact": "判定規則本身成為假陰性來源——比沒有規則更危險，因為它讓收據看起來通過。",
       "fix": "崩潰改由 probe 判定（每個測試用到的呼叫都跑一次，必須 exit 0 且吐 JSON）；訊息啟發式從判定中移除，只留作記錄。",
       "lesson": "不要用錯誤訊息的形狀去猜原因；用行為（程式是否仍能應答）去判。"
+    },
+    {
+      "id": "TT-R14-044",
+      "title": "停止的根因不是權限而是「以報告收尾」",
+      "severity": "high",
+      "status": "CLOSED",
+      "finding": "第 8 輪審查結束後，我做了治理裁決（TS23 維持 PARTIAL）並把裁決寫成一段回報就結束回合，沒有在同一回合繼續下一筆義務。使用者因此問「你為何又停止」。裁決本身沒錯，錯的是把裁決當成回合終點。",
+      "impact": "每輪都以『結論』收尾，31 筆義務永遠跑不完；回報的形式讓未完成看起來像完成。",
+      "fix": "回合只有在 next_obligation.py 回 DONE 或 ONLY_BLOCKERS（且每筆封鎖有硬證據）時才可結束；裁決、TT、commit 都只是迴圈中的一步，不是終點。本回合據此直接推進到 TS10 並在產品層補上四個動詞。",
+      "lesson": "治理裁決是中間產物；把它當結論輸出，就等於用報告代替執行。"
+    },
+    {
+      "id": "TT-R14-045",
+      "title": "Owner 模型方案第三版：VERIFY/SECURITY 改用 deepseek-v4.1-flash",
+      "severity": "high",
+      "status": "OPEN",
+      "finding": "使用者本輪指定：PLAN=gpt-6.1-sol(OpenAI OAuth)、EXECUTE=opencode-go/minimax-m3.1-flash-free、Acceptance/VERIFY/SECURITY=**opencode-go/deepseek-v4.1-flash**。registry epoch 30 的 VERIFY_SECURITY 仍是 openai-codex/gpt-6.1-sol，因此這是一筆真實的車道落差，不是既有狀態。",
+      "impact": "在 rebind 完成前，任何「檢查由 deepseek 執行」的宣稱都不成立。",
+      "fix": "依 rebind 五組同步處理：registry route/transport、assignment 衍生欄位、87 projections、lane-route-slots pool、drift baseline，並升 epoch；不得只改 registry 一處（半套 rebind 已被證明會讓 8 個車道測試轉紅）。",
+      "lesson": "模型方案變更要先量測落差再一次性 rebind；單點修改等於製造新的投影落後。"
     }
   ]
 }
