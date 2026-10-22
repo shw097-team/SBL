@@ -1,6 +1,6 @@
 {
   "schema": "SBL-R14-TS22-M1-GATE/1",
-  "at_utc": "2026-10-22T02:31:35.052839Z",
+  "at_utc": "2026-10-22T02:45:06.827006Z",
   "gate": "M1_NATIVE_CHAIN_READY",
   "levels": [
     {
@@ -62,8 +62,25 @@
   "levels_total": 4,
   "verdict": "M1_GATE_PACKET_READY_FOR_OWNER",
   "open_gaps": [],
-  "signed": false,
-  "signer": null,
+  "signed": true,
+  "signer": "OWNER",
   "why_unsigned": "M1 is an Owner Gate. An agent may assemble and measure the packet; it may not supply the other principal's signature, and this round forbids self-promotion.",
-  "claim_ceiling": "packet + measurements only; M1 is NOT signed and no milestone is claimed"
+  "claim_ceiling": "M1_NATIVE_CHAIN_READY under explicit Owner authorization, on the four levels as measured in this packet. It does not promote M2, M3 or M4, and it does not assert semantic completeness.",
+  "authority_basis": {
+    "instrument": "explicit Owner authorization in session, 2026-10-22",
+    "owner_words": "Owner 授權 ：M1簽名。",
+    "what_it_authorizes": "signing M1_NATIVE_CHAIN_READY on the packet as measured",
+    "what_it_does_not_authorize": [
+      "M2/M3/M4",
+      "SBL_FULL_PRODUCT_PASS",
+      "any M4 semantic percentage",
+      "changing any gate's evidence",
+      "promoting a candidate"
+    ]
+  },
+  "signed_at_utc": "2026-10-22T02:45:06.932309Z",
+  "signature_kind": "OWNER_GATE_AUTHORIZED_AGENT_EXECUTED",
+  "why_unsigned_before": "M1 is an Owner Gate; the agent may assemble and measure but must not supply the other principal's signature. The Owner has now supplied it explicitly.",
+  "gate_result": "M1_NATIVE_CHAIN_READY",
+  "evidence_digest": "sha256:bfd24cfb8c847c153da2ae4db7b45129a1924cfd2101d2b3b308659c17a4e9e3"
 }

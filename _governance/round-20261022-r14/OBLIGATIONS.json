@@ -186,12 +186,15 @@
       "id": "R14-TS15",
       "title": "通用真 Engine／One Core E05/M2",
       "state": "PARTIAL",
-      "next_action": "wire the engine so AGENT_SKILL and SIMPLE_AGENT kinds resolve instead of SBL_E_UNKNOWN_KIND",
+      "next_action": "generate + install + really USE three new programs of the three kinds (routing alone is not the engine)",
       "evidence": [
-        "raw/ts15_engine_readiness.md"
+        "raw/ts15_engine_readiness.md",
+        "raw/ts15_wo.json",
+        "raw/ts15_result.json",
+        "raw/ts15_sbl_full2.log"
       ],
       "depends_on": [],
-      "note": "Measured against the code: SBLM01..06 have real callable modules, but there is no complete wired engine and the kinds AGENT_SKILL and SIMPLE_AGENT return SBL_E_UNKNOWN_KIND. Fixtures existing is explicitly not counted as the engine working."
+      "note": "Routing half DONE under a real native chain: requirement REQ-R14-TS15-KINDS (FROZEN) -> TaskSpec TS-R14-TS15-KINDS -> WO-R14-TS15-KINDS (CREATED at SBL base_head 2dde2d84) -> change made by the codex writer on branch candidate/r14-ts15-kinds (10d510f) -> result recorded through record_workorder_result with writer=codex and checker=openai-codex/gpt-6.1-sol (PASS). AGENT_SKILL and SIMPLE_AGENT now route to EXISTING targets (GJ03 bridge / SBLM04 bridge) instead of raising SBL_E_UNKNOWN_KIND, while AGENT_OS and AI_SYSTEM stay SBL_E_PROHIBITED_KIND. SBL suite: 149 tests, exit 0. STILL MISSING: actually generating, installing and using three new programs of these kinds - so the engine is not claimed."
     },
     {
       "id": "R14-TS16",
@@ -269,11 +272,13 @@
     {
       "id": "R14-TS22",
       "title": "M1 Native 指揮鏈里程碑",
-      "state": "BLOCKED",
-      "next_action": "Owner signs the packet (4/4 levels measured); no agent may supply that signature",
+      "state": "DONE",
+      "next_action": "",
       "evidence": [
         "raw/ts22_m1_gate_packet.json",
-        "raw/ts14_pi_pkg.json"
+        "raw/ts14_pi_pkg.json",
+        "raw/checker_final7.json",
+        "raw/e6_observer.json"
       ],
       "depends_on": [
         "R14-TS03",
@@ -284,7 +289,7 @@
         "R14-TS08",
         "R14-TS09"
       ],
-      "note": "Packet now 4/4: H0 is backed by a PI-PKG compiled from the TS14 guided spec and validated against PIPD's own output schema WITH a negative control the same schema rejects (an earlier H0 pass came from a filename match and was a false green - corrected). H1 CAPC receipt, H2 native probe 10/10 with six deny properties, H3 independent observer + dynamic checker. Verdict M1_GATE_PACKET_READY_FOR_OWNER, signed=false: M1 is an Owner Gate and self-signing is the one thing this round forbids."
+      "note": "SIGNED M1_NATIVE_CHAIN_READY on 4/4 measured levels under the Owner's explicit authorization (\"Owner 授權 ：M1簽名。\", 2026-10-22). H0 = PI-PKG compiled from the TS14 guided spec and validated against PIPD's own output schema with a negative control that the same schema rejects; H1 = CAPC C0-C9 receipt; H2 = native probe 10/10 with six deny properties; H3 = independent observer plus dynamic checker. signature_kind=OWNER_GATE_AUTHORIZED_AGENT_EXECUTED, signed=false previously and now true with the authorization quoted in the packet. This does NOT promote M2/M3/M4 and asserts no semantic completeness."
     },
     {
       "id": "R14-TS23",
@@ -304,30 +309,40 @@
     {
       "id": "R14-TS24",
       "title": "SWOF W2 接收與 W3 准入 E09",
-      "state": "BLOCKED_MEASURE",
-      "next_action": "re-measure whether a legitimate SWOF W3 permit exists before calling this blocked",
-      "evidence": [],
-      "depends_on": []
+      "state": "DONE",
+      "next_action": "",
+      "evidence": [
+        "raw/ts24_w3_route_out.json",
+        "HG-KSEOS scripts/ts24_w3_route_out.py"
+      ],
+      "depends_on": [],
+      "note": "Route-out measured and written: SWOF HEAD 417f1157, W2 frozen readset present (RETURN_PACK evidence), and NO permit exists by field signature (structural test for the Fabric AUTHORITY_RECEIPT key set: granted_scope + authority_identity/issuer_identity -> 0 hits). A text search had reported 155 files mentioning W3 and 20 'candidates'; every one was a W2 evidence return pack or R4 reconciliation file, so the permit test is now structural. Verdict NO_EFFECT with a read-only route-out request (task, proposed WriteSet, required permit fields, required ACK). SWOF was not written by this round: its 9 untracked trees are pre-existing W2 worktrees (mtimes predate today)."
     },
     {
       "id": "R14-TS25",
       "title": "**第一次真正 SWOF 受治理變更** E09/M3",
       "state": "BLOCKED",
-      "next_action": "first real governed SWOF change - depends on TS24",
-      "evidence": [],
+      "next_action": "SWOF Native Owner must issue a W3 permit (or typed NACK) before any governed SWOF change can exist",
+      "evidence": [
+        "raw/ts24_w3_route_out.json"
+      ],
       "depends_on": [
         "R14-TS24"
-      ]
+      ],
+      "note": "Typed HOLD, which is what the order prescribes when no legitimate W3 exists. No SWOF repo write, no PR, no claim of a first governed SWOF change. The read-only proposal (task + WriteSet + permit fields + ACK protocol) is in ts24_w3_route_out.json."
     },
     {
       "id": "R14-TS26",
       "title": "M3 正式接續里程碑",
       "state": "BLOCKED",
-      "next_action": "M3 gate - depends on TS25",
-      "evidence": [],
+      "next_action": "depends on TS25, which depends on a W3 permit",
+      "evidence": [
+        "raw/ts24_w3_route_out.json"
+      ],
       "depends_on": [
         "R14-TS25"
-      ]
+      ],
+      "note": "M3 cannot be reached without TS25; no shadow result may cross the gate."
     },
     {
       "id": "R14-TS27",

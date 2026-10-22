@@ -513,6 +513,47 @@
       "evidence": [
         "raw/ts18_gknow_negatives.json"
       ]
+    },
+    {
+      "id": "TT-R14-028",
+      "title": "M1 was blocked on an Owner Gate, not on evidence - resolved by explicit authorization",
+      "first_broken_link": "the packet measured 4/4 only after H0 was rebuilt (an earlier H0 pass came from a filename match); signing still required the Owner, and an agent must not supply another principal's signature",
+      "earliest_owner": "Owner",
+      "required_authority": "Owner signature",
+      "repair_cone": "Owner authorized signing on 2026-10-22; the packet now records the authorization text, the signer, and the explicit non-authorizations (M2/M3/M4, semantic percentage)",
+      "status": "CLOSED_SIGNED",
+      "closed_by": "raw/ts22_m1_gate_packet.json",
+      "evidence": [
+        "raw/ts22_m1_gate_packet.json",
+        "raw/ts14_pi_pkg.json"
+      ]
+    },
+    {
+      "id": "TT-R14-029",
+      "title": "Two requirement kinds the order names did not exist in the router",
+      "first_broken_link": "m03_routing.DEFAULT_POLICY lacked AGENT_SKILL and SIMPLE_AGENT, so both raised SBL_E_UNKNOWN_KIND",
+      "earliest_owner": "SBL core owner",
+      "required_authority": "scoped WorkOrder (issued: WO-R14-TS15-KINDS)",
+      "repair_cone": "map both onto EXISTING bridges (GJ03 / SBLM04) so no second router appears; keep AGENT_OS and AI_SYSTEM prohibited",
+      "status": "CLOSED",
+      "closed_by": "SBL candidate/r14-ts15-kinds 10d510f + WO VERIFIED",
+      "evidence": [
+        "raw/ts15_result.json",
+        "raw/ts15_sbl_full2.log"
+      ]
+    },
+    {
+      "id": "TT-R14-030",
+      "title": "A text search for W3 permits produced 20 false candidates",
+      "first_broken_link": "searching files that merely mention 'W3' together with 'permit' matched W2 evidence return packs and R4 reconciliation files, which would have been read as a permit inventory",
+      "earliest_owner": "round orchestrator (measurement author)",
+      "required_authority": "none",
+      "repair_cone": "identify a permit by its FIELD signature (granted_scope + authority_identity/issuer_identity); measured 0 permits",
+      "status": "CLOSED",
+      "closed_by": "scripts/ts24_w3_route_out.py",
+      "evidence": [
+        "raw/ts24_w3_route_out.json"
+      ]
     }
   ]
 }
