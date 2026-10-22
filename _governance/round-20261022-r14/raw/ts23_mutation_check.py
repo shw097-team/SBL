@@ -71,10 +71,25 @@ MUTATIONS = [
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
      "'halt_reason':'BUDGET' if len(reviews)<len(fixed) else 'QUEUE_EXHAUSTED'", "'halt_reason':'BUDGET'",
      "an empty queue is reported as budget-limited", "review 5 (EMPTY_QUEUE_REPORTS_BUDGET)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')",
+     "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')-data.count(b'\\n\\r')",
+     "an LF+CR pair is merged into one terminator", "review 6 (LFCR_PAIR_MERGED)"),
+    ("CLI_TOOL", "ts23_newline", "test_cli.py", "data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n')",
+     "(0 if not data.strip(b'\\r\\n') else data.count(b'\\n')+data.count(b'\\r')-data.count(b'\\r\\n'))",
+     "a file made only of terminators reports zero", "review 6 (TERMINATORS_ONLY_SUPPRESSED)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "headings.append({'line':number,'level':len(match[1]),'text':re.sub(r'[ \t]+#+$','',match[2]).strip()})",
+     "headings.append({'line':number,'level':len(match[1]),'text':__import__('unicodedata').normalize('NFC',re.sub(r'[ \t]+#+$','',match[2]).strip())})",
+     "heading text is Unicode-normalised instead of kept as-is", "review 6 (UNICODE_NORMALIZATION)"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", "re.sub(r'[ "+chr(9)+"]+#+$','',match[2]).strip()", "re.sub(r'#+$','',match[2]).strip()",
+     "a trailing hash is stripped even without a closing sequence", "review 6 (CONTENT_HASH_STRIPPED)"),
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
-PROBE_ARGS = {"ts23_newline": [str(FIXTURE)], "ts23_headings": [str(FIXTURE)], "ts23_review": [str(QUEUE)]}
+PROBE_ARGS = {"ts23_newline": [[str(FIXTURE)]],
+              "ts23_headings": [[str(FIXTURE)]],
+              # the agent is exercised twice: default and --max-steps 1. Probing only the default hid a fatal exit
+              # in the limited invocation (review 6, FATAL_EXIT_FALSE_CATCH).
+              "ts23_review": [[str(QUEUE)], [str(QUEUE), "--max-steps", "1"]]}
 
 
 def _purge_cache(module: str) -> None:
@@ -94,18 +109,24 @@ def _env() -> dict:
 
 
 def probe(module: str) -> dict:
-    """Run the mutated program directly: did it run and answer at all?"""
+    """Run the mutated program for EVERY invocation the test exercises."""
     env = _env()
     env["TS23_MODULE"] = module
-    proc = subprocess.run([str(VENV), "-m", module, *PROBE_ARGS[module]],
-                          capture_output=True, text=True, encoding="utf-8", env=env,
-                          cwd=str(SB))
-    try:
-        json.loads(proc.stdout)
-        answered = True
-    except Exception:
-        answered = False
-    return {"exit": proc.returncode, "answered_with_json": answered, "tail": (proc.stderr or "")[-200:]}
+    runs = []
+    for args in PROBE_ARGS[module]:
+        proc = subprocess.run([str(VENV), "-m", module, *args],
+                              capture_output=True, text=True, encoding="utf-8", env=env,
+                              cwd=str(SB))
+        try:
+            json.loads(proc.stdout)
+            answered = True
+        except Exception:
+            answered = False
+        runs.append({"args": args, "exit": proc.returncode, "answered_with_json": answered,
+                     "tail": (proc.stderr or "")[-160:]})
+    return {"runs": runs,
+            "exit": 0 if all(r["exit"] == 0 for r in runs) else 1,
+            "answered_with_json": all(r["answered_with_json"] for r in runs)}
 
 
 def run_test(test: str) -> dict:
