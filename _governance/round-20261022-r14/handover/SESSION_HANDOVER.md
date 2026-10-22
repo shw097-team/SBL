@@ -146,6 +146,27 @@ cd ../_r14_packet/raw && sed -n '45,100p' ../_r14_ev/_governance/round-20261022-
 
 ---
 
+
+---
+
+## 8.5 檔案索引（同名容易搞混的，照這張表找）
+
+| 口語名稱 | 實際路徑 |
+|---|---|
+| `next_obligation.py` | `HG-KSEOS/var/R14-OBLIGATIONS/next_obligation.py` |
+| `remediation9.json` | `_r14_packet/raw/ts23_remediation9.json` |
+| `review9.json` | `_r14_packet/raw/ts23_review9.json` |
+| `SCOPE` | `_r14_packet/raw/ts23_SCOPE.md` |
+| 變異 harness | `_r14_packet/raw/ts23_mutation_check.py` |
+| 三支實作正本 | `_r14_packet/raw/ts23_src/{CLI_TOOL,AGENT_SKILL,SIMPLE_AGENT}.py` |
+| 契約測試 | `_r14_packet/raw/ts23_src/extra/test_{cli,skill,agent}_extra.py` |
+| build 產生器 | `_r14_packet/raw/ts23_build.py` |
+| 生成沙箱 | `_r14_packet/raw/ts23_sandbox/`（`venv/`、`SBL/ts23_tests/`） |
+| `config.yaml`（Hermes） | `C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/config.yaml` |
+| 車道三平面 | `HG-KSEOS/config/{lane-routing-registry.yaml, model-lane-assignment.json, lane-route-slots.candidate.json}` |
+| 8 個 PIPD skills | `PIPD/skills/*/SKILL.md` |
+| 本交接的機器可讀版 | `_handover/R14-SESSION-HANDOVER-20261022/state_at_handover.json` |
+
 ## 9. 環境陷阱（本回合真的踩過的，不要再踩）
 
 | 陷阱 | 症狀 | 正確做法 |
@@ -157,6 +178,8 @@ cd ../_r14_packet/raw && sed -n '45,100p' ../_r14_ev/_governance/round-20261022-
 | `bash -c "$cmd"` 動態命令 | 被審批閘門擋、5 分鐘無回應 | 拆成 argv 以 `shell=False` 執行（`ts17_reexec_v3.py` 就是範例） |
 | 子代理回報「綠」 | 可能是 baseline 被搬到錯誤狀態 | 自己重導三平面再驗（`TT-046`） |
 | Codex CLI 路徑會隨 app 更新失效 | — | 現查：`ls -t C:/Users/user/AppData/Local/OpenAI/Codex/bin/*/codex.exe \| head -1` |
+| **全套件必須在乾淨樹上跑** | `test_c2_case_run.py::test_r4_only_allowed_files_changed` 直接讀 `git status --porcelain`，任何未提交的改動（白名單外）都會讓它紅 | 先把改動 commit，再跑；不要把它的紅當成程式缺陷 |
+| YAML 整檔重寫 | `yaml.safe_dump` 會蒸發註解（本回合真的發生：-286/+76 行） | 治理文件只做**單行手術式**修改 |
 
 ---
 

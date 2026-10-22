@@ -4,7 +4,7 @@
   "master_goal": "SBL_FULL_PRODUCT",
   "repos": {
     "HG-KSEOS": {
-      "head": "c94da94",
+      "head": "9b2214b",
       "branch": "codex/hgk-final-closure-002",
       "remote": null
     },
@@ -87,7 +87,11 @@
     "EXECUTE": "opencode-go/minimax-m3.1-flash-free",
     "VERIFY_SECURITY": "opencode-go/deepseek-v4.1-flash",
     "sod_declaration": "SOD006-C6 OPEN_OWNER_ORDERED (PLAN and VERIFY share a model; process/lane/evidence paths stay separate)",
-    "delegation": "opencode-go/deepseek-v4.1-flash (config.yaml; was pinned to gpt-6.1-sol and died at 429)"
+    "delegation": "opencode-go/deepseek-v4.1-flash (config.yaml; was pinned to gpt-6.1-sol and died at 429)",
+    "source_of_routes": {
+      "revision": 32,
+      "note": "sealed to config/model-lane-assignment.json; revision was 31 at first and corrected"
+    }
   },
   "gates": {
     "M1": "SIGNED (owner authorised)",
@@ -98,8 +102,8 @@
   },
   "last_full_suite": {
     "result": "646 passed, 90 subtests, exit 0",
-    "log": "HG-KSEOS/var/R14-OBLIGATIONS/full_suite_after_delegation.log",
-    "when": "2026-10-22, after the delegation rebind; not re-run after ledger note edits"
+    "log": "HG-KSEOS/var/R14-OBLIGATIONS/full_suite_at_handover.log",
+    "when": "2026-10-22, re-run on a clean tree at handover (the suite refuses a dirty tree via test_c2_case_run)"
   },
   "preserved_upstream": {
     "path": "_r14_ev\\_governance\\round-20261022-r14\\upstream\\SBL_PIPD-LS-PKG_全DOC藍圖_from_recyclebin.md",
