@@ -124,26 +124,27 @@
       "id": "R14-TS10",
       "title": "五工具獨立 Host 部署 E06/M1",
       "state": "PARTIAL",
-      "next_action": "build load/invoke/upgrade/rollback for the stack tool, then repeat the 8 verbs for the other four tools",
+      "next_action": "vendor commands load/invoke/upgrade/rollback do not exist; a local wrapper is not the tool",
       "evidence": [
-        "raw/ts10_12_PLAN.md",
-        "raw/stack.json.before",
-        "raw/ts10_lifecycle/doctor.after.json",
-        "raw/ts10_lifecycle/stack.json.after"
+        "raw/ts10_lifecycle/receipts.json",
+        "raw/ts10_lifecycle/VERBS.md",
+        "raw/ts10_lifecycle/SUMMARY.json"
       ],
       "depends_on": [],
-      "note": "The R12 13/14 digest debt is CLOSED by a real lifecycle, not by editing the number: doctor reproduced 13/14 'digest changed since install' (manifest 0.1.0/py3.11.9 vs active 0.1.1rc1/py3.11.17), `install` into the existing dir was REFUSED with SBL_E_FOREIGN_FILES (a real deny path), so uninstall->install was used: 14 components re-pinned (13 digests changed, 1 identical) and doctor now returns ok=true, 0 problems. Preimage kept. Verbs evidenced for the Full Stack tool: install, uninstall, doctor, deny -> 4/8; load / invoke / upgrade / rollback still MISSING. The other four tools have not been walked through any verb yet."
+      "note": "16 raw command receipts, 8x5 verb matrix. Real: install, doctor, uninstall, deny (SBL_E_FOREIGN_FILES, exit 2), load (14/14 components imported and sha-verified), invoke (sbl_core.modes.mode_gate_matrix -> 39 cells), rollback (preimage restored byte-for-byte, doctor ok=true, 14 components). Failed closed: upgrade exit 2 - uninstall/reinstall produced the SAME deterministic digest, so a changed manifest could not be honestly proved. 15 EXISTS / 25 MISSING across the five products; the flattened Hermes adapter still fails doctor for a missing MANIFEST.json. Environment restored (manifest mtime + bytes). Ceiling: STANDALONE_ONLY / HOST_PENDING."
     },
     {
       "id": "R14-TS11",
       "title": "三 SP ZIP 正式可分發 E06/M1/M4",
       "state": "PARTIAL",
-      "next_action": "install or replace the missing scanners, then double-build the three SP ZIPs for real",
+      "next_action": "no third-party scanner on this host: SBOM/licence/secret results are self-authored",
       "evidence": [
-        "raw/ts10_12_PLAN.md"
+        "raw/ts11_receipts.json",
+        "raw/ts11_SUMMARY.md",
+        "raw/ts11_build_output/"
       ],
       "depends_on": [],
-      "note": "Determinism was exercised on a neutral fixture ZIP (identical SHA on double build) and the non-determinism sources to pin are enumerated. syft / pip-licenses / detect-secrets / trivy / grype are ALL absent from this host, so SBOM, licence and secret scanning cannot be claimed - the obligation cannot pass on this host as configured."
+      "note": "Three SP ZIPs built twice each with fixed metadata and byte-identical sha256 (tpm 7 members/4,268 B, commander 7/4,307, external-challenge 8/5,917), CRC + extraction + member digests re-verified, zero secret hits. SBOM, licence inventory and secret scan are SELF-AUTHORED: syft/pip-licenses/detect-secrets/trivy/grype all absent from PATH (recorded per tool). Positive/negative regex controls passed on synthetic input. Not a release qualification and not host installation."
     },
     {
       "id": "R14-TS12",
@@ -224,50 +225,53 @@
     {
       "id": "R14-TS18",
       "title": "SourceBound G-KNOW E02/M2",
-      "state": "PARTIAL",
-      "next_action": "close the three unenforced knowledge negatives (citation hash, CJK injection promotion, cross-source conflict)",
+      "state": "DONE",
+      "next_action": "",
       "evidence": [
-        "raw/ts18_gknow_negatives.json",
-        "raw/ts18_gknow_negatives.md"
+        "raw/ts18_gknow.md",
+        "raw/final_r14_full14.log",
+        "HG-KSEOS src/hg_kseos/knowledge.py citation_integrity/detect_conflicts",
+        "HG-KSEOS src/hg_kseos/security.py INJECTION_PATTERNS (CJK set)"
       ],
       "depends_on": [],
-      "note": "Measured: 14/14 DOC byte-range anchors resolve by real seek/read; an unknown query abstains (ABSTAIN_NO_GROUNDING) and is reported UNKNOWN. UNENFORCED, with loci: (b) verify_citation accepts changed source bytes (knowledge.py:175-185 checks stored citation status only) although repoint_source does reject drift with ERR_REPOINT_SHA_DRIFT; (d) the injection filter is regex-based (security.py:18-24) - English text is quarantined but CJK authority-escalation text stays promotable; (e) contradictory cross-source assertions persist with no runtime conflict flag."
+      "note": "All three named unenforced cases are now enforced with their own regressions: (1) live citation - citation_integrity() re-hashes the source bytes and verify_citation raises ERR_CITATION_SOURCE_DRIFT on change (require_source_bytes=True also refuses an unreadable source instead of passing silently); (2) CJK authority escalation - five CJK patterns matching the five English acts, tested positive on three escalation strings and NEGATIVE on ordinary Chinese prose so the filter is not a blanket block; (3) cross-source contradiction - detect_conflicts() reports the same (subject,predicate) with different objects plus both doc ids, and rebuild() now returns a conflicts count. What is deliberately NOT automated: adjudicating which claim wins - that stays a reviewer act, and the report says so."
     },
     {
       "id": "R14-TS19",
       "title": "50 Parent／149 Child 全程追溯 M4",
       "state": "PARTIAL",
-      "next_action": "author the per-child raw evidence (149 rows currently raw_evidence=null); structure and orphan proof are done",
+      "next_action": "upstream historical pointers cite files absent on this host; nothing can make them verifiable here",
       "evidence": [
-        "raw/ts19_traceability.csv",
-        "raw/ts19_21_SUMMARY.md"
+        "raw/ts1921_evidence_anchors.csv",
+        "raw/ts1921_evidence_SUMMARY.json",
+        "raw/ts1921_evidence_SUMMARY.md"
       ],
       "depends_on": [],
-      "note": "50 parents / 149 children measured from DOC locators with delta 0, and the parent set subtraction is empty, so 0 orphans is a MEASURED result. But every child row carries raw_evidence=null: the trace is structural, not execution. M4-level traceability therefore is not established by this item."
+      "note": "629 rows measured one locator at a time. Primary anchors: TS19 149/149, TS20 435/441, TS21 38/38 VERIFIED. Fully-verified (every locator in the row): TS19 0/149, TS20 24/441, TS21 38/38 - the shortfall is entirely the recorded upstream_locator pointing at SBL_PIPD-LS-PKG_全DOC藍圖(8).md, which is absent at the cited path. I checked whether the similarly-named canonical 全DOC藍圖.md is the same document: its file sha256 is 3ddb214e... and the cited line 3676 carries unrelated NOBJ24 content, while the row records @8e8327db..., so it is a DIFFERENT document and may not be substituted. 0/628 rows carry an execution receipt."
     },
     {
       "id": "R14-TS20",
       "title": "441 source identities／OSS 導入 M4",
       "state": "PARTIAL",
-      "next_action": "attach a live receipt per source identity (441 rows carry makespan/history labels only)",
+      "next_action": "411 rows cite SpecBuild_整合工程總藍圖_v2.0r1(1).md which is absent; and the inventory's digest column is not per-row",
       "evidence": [
-        "raw/ts20_sources.csv",
-        "raw/ts19_21_SUMMARY.md"
+        "raw/ts1921_evidence_anchors.csv",
+        "raw/ts1921_evidence_SUMMARY.json"
       ],
       "depends_on": [],
-      "note": "441 unique identities reproduce exactly (6 donors + 24 slots + 25 methods + 386 named), digests present on all 441. Per-record live receipt fields are absent, and the 386 named identities carry historical frozen labels that differ from the canonical disposition text - both are retained rather than one being silently preferred."
+      "note": "435/441 primary anchors VERIFIED, 6 CONTENT_MISMATCH (canonical lines name the donor but not its id). The 411 missing upstream pointers cite _v2.0r1(1).md; the two canonical _v2.0r1.md copies both hash 83ea1bef... but there is no per-row digest to prove aliasing - see TT-R14-031."
     },
     {
       "id": "R14-TS21",
       "title": "38 surfaces／五工具分發 M4",
-      "state": "PARTIAL",
-      "next_action": "produce per-surface install AND deny receipts; today the ledger only records design intent",
+      "state": "DONE",
+      "next_action": "",
       "evidence": [
-        "raw/ts21_surfaces.csv",
-        "raw/ts19_21_SUMMARY.md"
+        "raw/ts1921_evidence_anchors.csv",
+        "raw/ts1921_evidence_SUMMARY.json"
       ],
       "depends_on": [],
-      "note": "38 surfaces reproduce exactly and join canonical DOC-12 rows. But install_evidence is RECORDED_ONLY and deny_evidence says NO_PER_SURFACE_RAW_DENY_REFERENCE_IN_LEDGER: the inventory is real, the host lifecycle evidence is not."
+      "note": "38/38 surfaces fully anchor-verified, 0 unverified, no UTF-8/CJK decode errors. Execution receipts: 0/38, which is a separate obligation (TS12 HOST_PENDING), not a defect of the anchor check."
     },
     {
       "id": "R14-TS22",

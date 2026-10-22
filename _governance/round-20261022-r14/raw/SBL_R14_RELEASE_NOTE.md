@@ -5,14 +5,14 @@ packet, not an externally accepted production release.
 
 ## Independent subject bindings
 
-- HG-KSEOS candidate `refs/heads/codex/hgk-final-closure-002`: `726ccc8f68e4c6583d484943fc0c4ec26537a2f5` (local git rev-parse).
-- Evidence `refs/heads/evidence/r14-20261022-native`: `fac7c260372cb16e095cc14c41a3fdc3f95b6a75` (local git rev-parse and remote readback).
+- HG-KSEOS candidate `refs/heads/codex/hgk-final-closure-002`: `eec2f17720d3774b3ce88dd00f880444935ff17b` (local git rev-parse).
+- Evidence `refs/heads/evidence/r14-20261022-native`: `e5116e9edf1e23acc354ff05b7d7963884db539d` (local git rev-parse and remote readback).
 - These are independent SHAs. The evidence SHA is a pinned pre-TS28 publication,
   not a claim that it already contains this new packet.
 
 ## Contains
 
-A digest inventory of OBLIGATIONS.json, all 306 recursively discovered
+A digest inventory of OBLIGATIONS.json, all 315 recursively discovered
 pre-existing packet JSONs, and 9 scripts added under HG-KSEOS/scripts
 since `9fa79dd` (the explicitly scoped pre-round source baseline).
 The release also contains actual remote ref output and fetched-object comparisons,

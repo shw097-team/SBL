@@ -554,6 +554,33 @@
       "evidence": [
         "raw/ts24_w3_route_out.json"
       ]
+    },
+    {
+      "id": "TT-R14-031",
+      "title": "The 441-row source inventory carries ONE digest for 441 different sources",
+      "first_broken_link": "ts20_sources.csv has a digest column but all 441 rows hold e0eee84c..., so the column cannot identify any row's content and cannot prove that a substituted file is the same document",
+      "earliest_owner": "inventory author (R13/R12 lineage)",
+      "required_authority": "none to record; regeneration needs the upstream ledger",
+      "repair_cone": "measured and disclosed; anchors were verified by line content instead of the digest column, and the two canonical SpecBuild copies (both 83ea1bef...) could not be proven equivalent to the missing _v2.0r1(1) file",
+      "status": "OPEN",
+      "closed_by": "",
+      "evidence": [
+        "raw/ts1921_evidence_SUMMARY.json"
+      ]
+    },
+    {
+      "id": "TT-R14-032",
+      "title": "The shipped stack tool has four of the eight lifecycle verbs",
+      "first_broken_link": "`sbl-stack` exposes install/uninstall/doctor only, with `--root` as its sole option; load, invoke, upgrade and rollback do not exist, so upgrade cannot change a manifest because reinstall is deterministic and there is no version or source parameter",
+      "earliest_owner": "SBL tooling owner",
+      "required_authority": "product change under a scoped WorkOrder",
+      "repair_cone": "a local wrapper proves load/invoke/rollback against the real installed stack, and upgrade fails closed with exit 2 rather than faking a digest change; the vendor gap stays open",
+      "status": "OPEN",
+      "closed_by": "",
+      "evidence": [
+        "raw/ts10_lifecycle/receipts.json",
+        "raw/ts10_lifecycle/VERBS.md"
+      ]
     }
   ]
 }

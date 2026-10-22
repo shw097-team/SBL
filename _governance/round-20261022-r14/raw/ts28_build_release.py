@@ -93,9 +93,10 @@ for local in subjects:
         checks.append({'local': rel(local), 'remote_path': target, 'status': 'ABSENT_AT_PINNED_EVIDENCE'})
         continue
     d = hashlib.sha256(p.stdout).hexdigest()
-    checks.append({'local': rel(local), 'remote_path': target, 'remote_bytes': len(p.stdout), 'remote_sha256': d, 'local_sha256': initial[rel(local)]['sha256'], 'status': 'BYTE_IDENTICAL' if d == initial[rel(local)]['sha256'] else 'DIFFERENT_BYTES'})
+    checks.append({'local': rel(local), 'remote_path': target, 'remote_bytes': len(p.stdout), 'remote_sha256': d, 'local_sha256': initial[rel(local)]['sha256'], 'status': 'BYTE_IDENTICAL' if d == initial[rel(local)]['sha256'] else 'DIFFERENT_BYTES', 'equal_after_crlf_to_lf_normalization': p.stdout.replace(b'\r\n', b'\n') == local.read_bytes().replace(b'\r\n', b'\n')})
 remote_record['artifact_readback'] = checks
 remote_record['readback_counts'] = {s: sum(c['status'] == s for c in checks) for s in ['BYTE_IDENTICAL', 'DIFFERENT_BYTES', 'ABSENT_AT_PINNED_EVIDENCE']}
+remote_record['different_bytes_detail_counts'] = {'crlf_normalization_only': sum(c['status'] == 'DIFFERENT_BYTES' and c.get('equal_after_crlf_to_lf_normalization', False) for c in checks), 'substantive_or_other': sum(c['status'] == 'DIFFERENT_BYTES' and not c.get('equal_after_crlf_to_lf_normalization', False) for c in checks)}
 remote_record['scope_note'] = 'Readback is from newly fetched remote objects at the pinned evidence SHA. TS28 files authored after that SHA are local-only and are not represented as remotely delivered. HGK has no configured remote; its candidate ref is not advertised by the supplied SBL remote. No candidate history was uploaded speculatively.'
 write('ts28_remote_readback.json', remote_record)
 
@@ -227,7 +228,10 @@ for entry in manifest['entries']:
     if measure(W / entry['path']) != entry:
         errors.append({'path': entry['path'], 'error': 'DIGEST_OR_SIZE_CHANGED'})
 mirror_equal = all((RAW / name).read_bytes() == (MIRROR / name).read_bytes() for name in outputs)
-verify = {'schema': 'R14-TS28-VERIFY/1', 'manifest_entries_checked': len(manifest['entries']), 'manifest_entries_match': not errors, 'errors': errors, 'mirror_files_checked': len(outputs), 'mirror_byte_identical': mirror_equal, 'release_note_alias_byte_identical': (MIRROR / 'SBL_R14_RELEASE_NOTE.md').read_bytes() == (RAW / 'ts28_SBL_R14_RELEASE_NOTE.md').read_bytes(), 'remote_readback_performed': True, 'remote_candidate_verified': False, 'remote_evidence_sha_verified': True, 'complete_order_pass': False}
+final_scan_files = [RAW / name for name in outputs] + [MIRROR / name for name in outputs] + [MIRROR / 'SBL_R14_RELEASE_NOTE.md']
+final_payload_hits = [{'file': rel(p), 'line': n, 'rule': key} for p in final_scan_files for n, text in enumerate(p.read_text(encoding='utf-8', errors='replace').splitlines(), 1) for key, pattern in shapes.items() if re.search(pattern, text)]
+assert not final_payload_hits, 'Secret-shaped hit in assembled output payload'
+verify = {'schema': 'R14-TS28-VERIFY/1', 'manifest_entries_checked': len(manifest['entries']), 'manifest_entries_match': not errors, 'errors': errors, 'mirror_files_checked': len(outputs), 'mirror_byte_identical': mirror_equal, 'release_note_alias_byte_identical': (MIRROR / 'SBL_R14_RELEASE_NOTE.md').read_bytes() == (RAW / 'ts28_SBL_R14_RELEASE_NOTE.md').read_bytes(), 'assembled_payload_scan_files': len(final_scan_files), 'assembled_payload_token_shaped_hits': final_payload_hits, 'remote_readback_performed': True, 'remote_candidate_verified': False, 'remote_evidence_sha_verified': True, 'complete_order_pass': False}
 write('ts28_verify.json', verify)
 shutil.copyfile(RAW / 'ts28_verify.json', MIRROR / 'ts28_verify.json')
 assert not errors and mirror_equal
