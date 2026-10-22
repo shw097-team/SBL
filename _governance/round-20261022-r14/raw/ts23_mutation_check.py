@@ -37,7 +37,7 @@ BS = "\\"
 TERM = 'terminators = data.count(b"' + BS + 'n") + data.count(b"' + BS + 'r") - data.count(b"' + BS + 'r' + BS + 'n")'
 HEADING = 'HEADING = re.compile(r"^(#{1,6})[ ' + BS + 't]+(.*)$")'
 CLOSING = 'CLOSING = re.compile(r"[ ' + BS + 't]+#+$")'
-BODY = '        body = CLOSING.sub("", match.group(2)).strip()'
+BODY = '        body = CLOSING.sub("", match.group(2)).strip(" \t")'
 ERR = '        sys.stderr.write("ERR_INPUT: " + str(exc) + "' + BS + 'n")'
 NOT_LIST = ('        if not isinstance(queue, list):\n'
             '            raise ValueError("queue must be a JSON array of paths")\n')
@@ -95,13 +95,13 @@ MUTATIONS = [
      'a non-array queue is coerced to an empty queue', 'review 8'),
     ("AGENT_SKILL", "ts23_headings", "test_skill.py", 'CLOSING = re.compile(r"[ \\t]+#+$")', 'CLOSING = re.compile(r" +#+$")',
      'a tab-separated closing sequence is kept', 'review 8'),
-    ("AGENT_SKILL", "ts23_headings", "test_skill.py", '        body = CLOSING.sub("", match.group(2)).strip()', '        body = " ".join(CLOSING.sub("", match.group(2)).split())',
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py", '        body = CLOSING.sub("", match.group(2)).strip(" \t")', '        body = " ".join(CLOSING.sub("", match.group(2)).split())',
      'internal tabs are collapsed too', 'review 8'),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"bytes": len(data)', '"bytes": 0',
      "agent reports bytes=0 per file", "review 2 (G1)"),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", 'hashlib.sha256(data).hexdigest()', "'0' * 64",
      "agent reports fake digests", "maker"),
-    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"path": str(path),', '"path": "wrong",',
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"path": str(Path(path).resolve()),', '"path": "wrong",',
      "a wrong path in the review entry", "review 3 (N4)"),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", '"remaining": len(fixed) - len(reviewed)',
      '"remaining": 0', "remaining is always zero", "maker"),
@@ -119,6 +119,25 @@ MUTATIONS = [
      "an unreadable entry is silently skipped", "review 7 (N15)"),
     ("SIMPLE_AGENT", "ts23_review", "test_agent.py", ERR + "\n        return 2",
      ERR + "\n        return 7", "a queue input error exits 7", "review 7 (N17)"),
+    # Added in round 9, after a reviewer showed three shipped defects the suite accepted and one harness blind spot.
+    ("CONTROL", "ts23_review", "test_agent.py",
+     '        if max_steps <= 0:', '        if max_steps <= 0:',
+     "a literal no-op edit, to prove the harness can tell 'not a change' from 'not caught'", "round9 no-op"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
+     '        reviewed.append({"path": str(Path(path).resolve()), "bytes": len(data),',
+     '        reviewed.append({"path": str(path), "bytes": len(data),',
+     "the record echoes the queue entry instead of the resolved path", "round9 resolved-path"),
+    ("SIMPLE_AGENT", "ts23_review", "test_agent.py",
+     '    if max_steps <= 0:', '    if max_steps < -9999:',
+     "the budget never stops the run before it starts", "round9 budget-precedence"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py",
+     '        body = CLOSING.sub("", match.group(2)).strip(" \t")',
+     '        body = CLOSING.sub("", match.group(2)).strip()',
+     "a Unicode space is treated as trimmable whitespace", "round9 nbsp-trim"),
+    ("AGENT_SKILL", "ts23_headings", "test_skill.py",
+     "    for number, line in enumerate(_lines(text), 1):",
+     "    for number, line in enumerate(text.splitlines(), 1):",
+     "a Unicode line separator splits a line and eats the rest of the text", "round9 separator"),
 ]
 
 MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_headings", "test_agent.py": "ts23_review"}
@@ -127,11 +146,39 @@ MODULE_FOR_TEST = {"test_cli.py": "ts23_newline", "test_skill.py": "ts23_heading
 TESTS_FOR = {"test_cli.py": ["test_cli.py", "test_cli_extra.py"],
              "test_skill.py": ["test_skill.py", "test_skill_extra.py"],
              "test_agent.py": ["test_agent.py", "test_agent_extra.py"]}
-PROBE_ARGS = {
-    "ts23_newline": [[str(FIXTURE)]],
-    "ts23_headings": [[str(FIXTURE)]],
-    "ts23_review": [[str(QUEUE)], [str(QUEUE), "--max-steps", "1"], [str(EMPTY_QUEUE)]],
+PROBE_CASES = {
+    "ts23_newline": [
+        {"args": [str(FIXTURE)], "exit": 0, "json": True},
+        {"args": [str(FIXTURE.parent / "absent-for-probe.md")], "exit": 2, "json": False},
+        {"args": [str(FIXTURE.parent)], "exit": 2, "json": False},
+    ],
+    "ts23_headings": [
+        {"args": [str(FIXTURE)], "exit": 0, "json": True},
+        {"args": [str(FIXTURE.parent / "absent-for-probe.md")], "exit": 2, "json": False},
+        {"args": [str(FIXTURE.parent)], "exit": 2, "json": False},
+    ],
+    "ts23_review": [
+        {"args": [str(QUEUE)], "exit": 0, "json": True},
+        {"args": [str(QUEUE), "--max-steps", "1"], "exit": 0, "json": True},
+        {"args": [str(QUEUE), "--max-steps", "0"], "exit": 0, "json": True},
+        {"args": [str(EMPTY_QUEUE)], "exit": 0, "json": True},
+        {"args": [str(EMPTY_QUEUE), "--max-steps", "0"], "exit": 0, "json": True},
+        {"args": [str(QUEUE.parent / "absent-for-probe.json")], "exit": 2, "json": False},
+        {"args": [str(QUEUE.parent)], "exit": 2, "json": False},
+    ],
 }
+
+
+def import_origin(module: str) -> str:
+    """Where `python -m module` would actually import from.
+
+    A PYTHONPATH entry or an earlier scratch install can put a same-named package ahead of site-packages, and then every
+    mutation lands in a file nobody imports: the mutant "survives" because it was never loaded. A round was lost to exactly
+    that, so the target is resolved before it is mutated and a mismatch is fatal rather than silent.
+    """
+    proc = subprocess.run([str(VENV), "-c", f"import {module}; print({module}.__file__)"],
+                          capture_output=True, text=True, encoding="utf-8", env=env(), cwd=str(SB))
+    return (proc.stdout or "").strip()
 
 
 def purge(module: str) -> None:
@@ -149,20 +196,42 @@ def env() -> dict:
 
 
 def probe(module: str) -> dict:
+    """Run every invocation the tests use, each with the status it is supposed to have.
+
+    A mutant is only "alive and answering" if EVERY probe matches its expected exit code and output shape. A probe that
+    traces back is a crash even when its exit code happens to match, because a traceback means the program did not answer
+    the question - it fell over. Error invocations are therefore part of the probe set: without them, a mutant that breaks
+    only the error path looks alive.
+    """
     e = env()
     e["TS23_MODULE"] = module
     runs = []
-    for args in PROBE_ARGS[module]:
-        proc = subprocess.run([str(VENV), "-m", module, *args], capture_output=True, text=True,
+    for case in PROBE_CASES[module]:
+        proc = subprocess.run([str(VENV), "-m", module, *case["args"]], capture_output=True, text=True,
                               encoding="utf-8", env=e, cwd=str(SB))
         try:
             json.loads(proc.stdout)
-            answered = True
+            is_json = True
         except Exception:
+            is_json = False
+        stderr = proc.stderr or ""
+        runs.append({"args": case["args"], "exit": proc.returncode, "expected_exit": case["exit"],
+                     "json": is_json, "expected_json": case["json"],
+                     "traceback": "Traceback (most recent call last)" in stderr,
+                     "stdout_empty": proc.stdout == "", "tail": stderr[-160:]})
+    # "Answered" means it produced an output of the right shape without falling over. It deliberately does NOT require
+    # the expected exit code: a mutant that exits 7 instead of 2 answered wrongly, and the tests are what judge that.
+    # Requiring the expected code here made every exit-code mutation look like a crash instead of a catch.
+    answered = True
+    for r in runs:
+        if r["traceback"]:
             answered = False
-        runs.append({"args": args, "exit": proc.returncode, "answered": answered,
-                     "tail": (proc.stderr or "")[-160:]})
-    return {"runs": runs, "ok": all(r["exit"] == 0 and r["answered"] for r in runs)}
+        elif r["expected_json"]:
+            # A success invocation has to answer with a parseable record; that is what "alive" means there.
+            answered = answered and r["json"]
+    conforms = all(r["exit"] == r["expected_exit"] and r["json"] == r["expected_json"] for r in runs)
+    return {"runs": runs, "ok": answered, "conforms": conforms,
+            "crashing": any(r["traceback"] for r in runs)}
 
 
 def module_for(test: str) -> str:
@@ -187,6 +256,14 @@ def main() -> int:
     results = []
     for kind, module, test, original, mutant, description, provenance in MUTATIONS:
         target = SP / module / "__init__.py"
+        origin = import_origin(module)
+        origin_ok = bool(origin) and Path(origin).resolve() == target.resolve()
+        if not origin_ok:
+            results.append({"kind": kind, "mutation": description, "provenance": provenance,
+                            "applied": False, "caught": False, "disposition": "SHADOWED_IMPORT",
+                            "note": f"python -m {module} imports {origin or 'nothing'}, not {target}; "
+                                    "mutating it would prove nothing"})
+            continue
         if not target.exists():
             results.append({"kind": kind, "mutation": description, "provenance": provenance,
                             "applied": False, "caught": False, "note": "module not installed"})
@@ -198,9 +275,17 @@ def main() -> int:
         text = base.decode("utf-8").replace("\r\n", "\n")
         original = original.replace("\r\n", "\n")
         mutant_text = mutant.replace("\r\n", "\n")
+        if original == mutant_text:
+            # A literal no-op is not a survivor: nothing was mutated, so no test could possibly notice. Keeping it out of
+            # the all_caught denominator is what stops "not covered" and "not a change" sharing one disposition.
+            results.append({"kind": kind, "mutation": description, "provenance": provenance,
+                            "applied": False, "caught": False, "disposition": "NOT_A_CHANGE",
+                            "note": "the substitution does not change the source, so it tests nothing"})
+            continue
         if original not in text:
             results.append({"kind": kind, "mutation": description, "provenance": provenance,
-                            "applied": False, "caught": False, "note": "snippet absent from the installed source"})
+                            "applied": False, "caught": False, "disposition": "ABSENT",
+                            "note": "snippet absent from the installed source"})
             continue
         purge(module)
         try:
@@ -214,13 +299,17 @@ def main() -> int:
         message = outcome["message"]
         # A message-based crash rule cannot work: a legitimate assertion also reads "0 != 2". The program's own
         # liveness is decided by the probe, which now runs every invocation the tests use.
-        crash_shaped = "Traceback (most recent call last)" in message
-        caught = bool(probed["ok"] and outcome["exit"] != 0 and outcome["assertion"])
+        # A message-based crash rule cannot work: a legitimate assertion also reads "0 != 2", and a
+        # crash has to be judged by the probe's own traceback check, which now covers error invocations too.
+        caught = bool(probed["ok"] and not probed.get("crashing") and outcome["exit"] != 0 and outcome["assertion"])
         results.append({"kind": kind, "mutation": description, "provenance": provenance, "applied": True,
                         "mutant_ran_and_answered": probed["ok"], "probe": probed,
                         "test_exit": outcome["exit"], "assertion_message": message,
                         "caught": caught,
+                        "disposition": "CAUGHT" if caught else "SURVIVED",
                         "crash_not_evidence": not probed["ok"],
+                        "mutant_crashed": probed.get("crashing", False),
+                        "mutant_conforms": probed.get("conforms", True),
                         "false_red": (not probed["ok"]) and outcome["exit"] != 0,
                         "restored_byte_identical": hashlib.sha256(target.read_bytes()).hexdigest() == digest})
     baseline = {}
@@ -228,19 +317,29 @@ def main() -> int:
         for name in TESTS_FOR.get(test, [test]):
             if (TESTS / name).exists():
                 baseline[name] = run_test(name)
-    flags = {"all_caught": all(r.get("caught") for r in results if r.get("applied")),
-             "no_false_reds": all(not r.get("false_red") for r in results if r.get("applied")),
-             "all_applied": all(r.get("applied") for r in results),
-             "all_restored": all(r.get("restored_byte_identical") for r in results if r.get("applied")),
+    real = [r for r in results if r.get("applied")]
+    controls = [r for r in results if r.get("kind") == "CONTROL"]
+    subjects = [r for r in results if r.get("kind") != "CONTROL"]
+    flags = {"all_caught": all(r.get("caught") for r in real),
+             "no_false_reds": all(not r.get("false_red") for r in real),
+             "no_crash_counted": all(not r.get("mutant_crashed") for r in real),
+             "all_mutations_are_real_changes": not any(r.get("disposition") == "NOT_A_CHANGE" for r in subjects),
+             "no_op_control_detected": bool(controls) and all(r.get("disposition") == "NOT_A_CHANGE" for r in controls),
+             "no_shadowed_imports": not any(r.get("disposition") == "SHADOWED_IMPORT" for r in results),
+             "all_applied": len(real) == len(subjects),
+             "all_restored": all(r.get("restored_byte_identical") for r in real),
              "baseline_all_pass": all(v["exit"] == 0 for v in baseline.values())}
-    doc = {"schema": "SBL-R14-TS23-MUTATION-CHECK/7",
-           "answers_review": "ts23_review7.json - 14 in-scope survivors, C03/C04 false catches, G06 coverage overclaim",
-           "method": "one textual substitution in the INSTALLED module; probe every invocation; cache purged; crash never counts",
+    doc = {"schema": "SBL-R14-TS23-MUTATION-CHECK/8",
+           "answers_review": ("ts23_review9.json - 6 attempts, 4 survived; false-CAUGHT via unprobed error path; no "
+                              "NOT_A_CHANGE disposition; digest gate not bound to the reviewed source"),
+           "method": ("one textual substitution in the INSTALLED module; every invocation the tests use is probed with its "
+                      "expected status, so a crash on an error path is a crash; cache purged; a no-op edit has its own "
+                      "disposition and no flag can hide it"),
            "results": results, "unmutated_baseline": baseline, "flags": flags,
            "exit_code_policy": "non-zero unless every flag is true"}
     (RAW / "ts23_test_strength.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
     for r in results:
-        state = "CAUGHT" if r.get("caught") else ("absent" if not r.get("applied") else "SURVIVED")
+        state = r.get("disposition") or ("absent" if not r.get("applied") else "SURVIVED")
         print(f"{r['kind']:12} {state:9} restored={r.get('restored_byte_identical','-')} {r['mutation']}  [{r['provenance']}]")
     for name, value in flags.items():
         print(f"  {name}: {value}")

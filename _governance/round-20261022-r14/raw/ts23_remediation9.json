@@ -1,0 +1,97 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/9",
+  "answers_review": "ts23_review9.json - 6 mutations, 4 survived, 7 failed findings, 7 gaps",
+  "verdict_on_review": "ACCEPTED - every finding reproduced before it was fixed; two of them (shadowed import, probe semantics) were defects in my own measuring instrument, not in the programs",
+  "shipped_defects_fixed": [
+    {
+      "finding": "ts23-review emits an unresolved path, violating SCOPE line 66",
+      "reproduced": "queue [\"headings.md\"] returned path \"headings.md\"; the same relative entry from two cwds gave identical path strings with different digests",
+      "fix": "the record now writes str(Path(path).resolve())",
+      "test": "test_agent_extra.test_every_recorded_path_is_resolved - builds its own queue with a relative entry and compares against Path.resolve()",
+      "mutation": "round9 resolved-path (reverting the fix) is CAUGHT"
+    },
+    {
+      "finding": "ts23-headings truncates at Unicode line separators: '# A\\u2028B' -> 'A'",
+      "reproduced": "'# A\\u2028B' -> A, '# C\\x85D' -> C",
+      "fix": "_lines() splits on LF, CRLF and CR only; U+2028, U+2029, NEL, VT and FF are content",
+      "test": "test_skill_extra.test_unicode_line_separators_do_not_split_a_line - five separators, each asserted present in the fixture first",
+      "mutation": "round9 separator (splitlines() restored) is CAUGHT"
+    },
+    {
+      "finding": "trailing U+00A0 is stripped although a Unicode space is content",
+      "reproduced": "'## Delta\\u00a0' -> 'Delta'",
+      "fix": "trim ASCII space/tab only: strip(\" \\t\")",
+      "test": "test_skill_extra.test_a_trailing_unicode_space_is_content_so_it_is_not_trimmed",
+      "mutation": "round9 nbsp-trim (plain strip()) is CAUGHT"
+    },
+    {
+      "finding": "empty queue with --max-steps 0 is contract-contradictory and unpinned",
+      "reproduced": "SCOPE said QUEUE_EXHAUSTED at lines 46-48 and BUDGET at line 69; the implementation answered QUEUE_EXHAUSTED",
+      "fix": "precedence written into SCOPE: a step limit of zero or less is BUDGET even when the queue is empty; implementation changed to match",
+      "test": "test_agent_extra.test_an_empty_queue_with_zero_budget_reports_budget",
+      "mutation": "round9 budget-precedence (making BUDGET unreachable) is CAUGHT"
+    },
+    {
+      "finding": "'except OSError' narrowed to FileNotFoundError survives because every error fixture is a missing path",
+      "reproduced": "the mutation survived with test_exit 0",
+      "fix": "a directory is now a fixture: on Windows a directory raises a different OSError, so the narrowed handler fails",
+      "test": "test_agent_extra.test_a_directory_entry_is_an_error_too",
+      "note": "probes now include the directory invocation for all three programs"
+    }
+  ],
+  "instrument_defects_fixed": [
+    {
+      "finding": "a crash on a tested-but-unprobed input was counted CAUGHT (deleting the UnicodeError handler)",
+      "root_cause": "probe only ran success invocations, so 'the mutant still answers' was true by construction",
+      "fix": "PROBE_CASES carries error invocations with their intended status; a traceback in any probe makes the mutant a crash, and a crash is never a catch",
+      "flag": "no_crash_counted"
+    },
+    {
+      "finding": "a literal no-op edit is reported applied=True/SURVIVED",
+      "fix": "a substitution that does not change the source gets its own disposition NOT_A_CHANGE and is excluded from the catch denominator",
+      "control": "a CONTROL entry with original == mutant is part of every run; flag no_op_control_detected proves the harness can tell the two apart",
+      "flag": "no_op_control_detected"
+    },
+    {
+      "finding": "measurement itself was invalid: PYTHONPATH pointed at a previous reviewer's scratch install, so python -m imported a stale same-named package and the mutation was written to a file nobody loaded",
+      "symptom": "10 mutations reported SURVIVED with test_exit 0 while the real installed modules did contain the fixes; two baseline tests failed against a copy the tests never imported",
+      "fix": "import_origin() resolves the module before mutating; a mismatch is disposition SHADOWED_IMPORT and a red flag, not a silent survivor",
+      "flag": "no_shadowed_imports"
+    },
+    {
+      "finding": "remediation8 claimed 'installed, generated and reviewed source digests match'",
+      "truth": "ts23_src/SIMPLE_AGENT.py was CRLF (2103 B, d60e0d93) while the installed module was LF (2052 B, 5f3bc8e5); the receipt carried no ts23_src digest at all",
+      "fix": "the build receipt now records sha256_raw and sha256_lf for each reviewed source plus installed_sha256_lf, and a reviewed_source_bound flag; byte difference is disclosed instead of argued away",
+      "value_this_round": "reviewed_source_bound = true for all three programs after the rebuild"
+    },
+    {
+      "finding": "probe coverage was an enumeration, not a derivation (PROBE_ARGS had 1/1/3 entries)",
+      "fix": "7 probe cases for ts23-review (success, budget 1, budget 0, empty queue, empty queue with budget 0, missing file, directory) and 3 for each of the other two"
+    },
+    {
+      "finding": "crash_shaped was computed and never used (dead heuristic)",
+      "fix": "removed; crash is decided by the probe's traceback field alone"
+    }
+  ],
+  "declared_limits_kept": [
+    "The generated oracle still recomputes its expectation with the same primitives the implementation uses, so a definitional drift between SCOPE and code can only be caught by the hand-written contract tests. This round moved four such drifts into contract tests; it did not remove the structural risk.",
+    "Fenced blocks, setext headings and mid-read changes stay declared out of scope; the ninth review checked them and found them consistent, so the exclusion did not hide a defect.",
+    "The no-op control proves the harness distinguishes NOT_A_CHANGE from SURVIVED; it cannot prove that no other substitution is behaviourally inert, because inertness is not computable from text."
+  ],
+  "measurement": {
+    "mutations_total": 37,
+    "subjects": 36,
+    "control_entries": 1,
+    "caught": 36,
+    "survived": 0,
+    "not_a_change": 1,
+    "false_reds": 0,
+    "crashes_counted_as_evidence": 0,
+    "restored_byte_identical": "36/36",
+    "baseline_all_pass": true,
+    "flags_all_true": true,
+    "exit_code": 0,
+    "environment": "PYTHONDONTWRITEBYTECODE=1, PYTHONPATH unset, harness asserts the imported module path before mutating"
+  },
+  "claim_ceiling": "M2 is NOT declared passed by this file. This is the maker's remediation of a failed review; whether the contract now holds is for an independent reviewer to decide."
+}

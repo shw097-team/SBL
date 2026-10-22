@@ -785,6 +785,24 @@
       "impact": "長任務在最貴的時間點被丟棄；車道看似一致，實際仍有一條綁定住在 config.yaml，不在 registry/assignment 裡。",
       "fix": "① config.yaml delegation → opencode-go/deepseek-v4.1-flash（用 main.py config set，並讀回驗證）；② effective_wiring.delegation 記錄 provider/model、applied_at、理由與量測來源；③ assignment.revision 改為『鏡射 registry epoch』（32），不再當計數器；projection binding 與封印同步；④ 車道四套件 159 passed / 90 subtests。",
       "lesson": "每個『車道』只要有一處綁定住在車道檔案之外（config.yaml、CI、啟動腳本），rebind 就必須把那些住處列成清單逐項量測，否則一致性只是表面。"
+    },
+    {
+      "id": "TT-R14-051",
+      "severity": "critical",
+      "title": "同名套件被 PYTHONPATH 搶先載入，讓變異測試量到不存在的東西",
+      "detail": "第 9 輪審查者在 Temp 的 scratch 安裝殘留 C:/Users/user/AppData/Local/Temp/ts23_r9/pkgs，並透過 PYTHONPATH 進入這個 shell。harness 把變異寫進 site-packages，但 python -m 實際載入 scratch 的舊副本，於是 10 筆變異記成 SURVIVED、2 筆 baseline 紅，而真正安裝的模組其實已含修正。",
+      "action": "量測儀器必須先解析『會被載入的那個檔案』再動手：import_origin() 讀 python -m 的 __file__，與 site-packages 目標不符即 SHADOWED_IMPORT 並觸發紅旗，不得當成 survivor。",
+      "round": "R14",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "TT-R14-052",
+      "severity": "high",
+      "title": "probe 的 ok 定義把『答錯』誤判成『崩潰』",
+      "detail": "變異改變 exit code（2→7）或把輸出寫到 stdout 時，probe 以 expected exit 與 stdout_empty 判斷，於是 ok=False，caught 永遠不成立；三筆其實已被測試抓到的變異因此記成 SURVIVED。",
+      "action": "probe 只判斷『沒有 traceback 且成功呼叫能解析出 JSON』；正確性交給測試。expected exit 與形狀只留作 conforms 報告欄，不參與 caught。",
+      "round": "R14",
+      "opened_at": "2026-10-22"
     }
   ]
 }

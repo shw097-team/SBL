@@ -1,7 +1,7 @@
 {
-  "schema": "SBL-R14-TS23-MUTATION-CHECK/7",
-  "answers_review": "ts23_review7.json - 14 in-scope survivors, C03/C04 false catches, G06 coverage overclaim",
-  "method": "one textual substitution in the INSTALLED module; probe every invocation; cache purged; crash never counts",
+  "schema": "SBL-R14-TS23-MUTATION-CHECK/8",
+  "answers_review": "ts23_review9.json - 6 attempts, 4 survived; false-CAUGHT via unprobed error path; no NOT_A_CHANGE disposition; digest gate not bound to the reviewed source",
+  "method": "one textual substitution in the INSTALLED module; every invocation the tests use is probed with its expected status, so a crash on an error path is a crash; cache purged; a no-op edit has its own disposition and no flag can hide it",
   "results": [
     {
       "kind": "CLI_TOOL",
@@ -16,16 +16,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "17 != 20",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -42,16 +75,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 7,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 7,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": false,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "7 != 2 : an input error must exit 2",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": false,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -68,16 +134,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'partial\\n' != ''",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -94,16 +193,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "{'bytes': 0, 'newlines': 4, 'path': 'C:\\\\Pr[160 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -120,16 +252,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "{'bytes': 28, 'newlines': 4, 'path': 'C:\\\\P[161 chars]000'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -146,16 +311,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "0 != 3 : a lone CR is a line terminator",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -172,16 +370,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "{'bytes': 0, 'newlines': 1, 'path': 'C:\\\\Pr[165 chars]855'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[165 chars]855'}",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -198,16 +429,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "1 != 2 : LF then CR is two terminators",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -224,16 +488,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "{'bytes': 28, 'newlines': 0, 'path': 'C:\\\\P[161 chars]051'} != {'path': 'C:\\\\Projects\\\\Agent_Workspace\\\\_r[161 chars]051'}",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -250,16 +547,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'Tabbed' not found in ['two  spaces', 'InFence', '① circle'] : a tab is a valid separator",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -276,16 +606,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[294 chars]on'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -302,16 +665,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'two  spaces' not found in ['Tabbed', 'two spaces', 'InFence', '① circle'] : internal spaces are preserved, only the ends are trimmed",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -328,16 +724,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'① circle' not found in ['Tabbed', 'two  spaces', 'InFence', '1 circle'] : no Unicode normalisation",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -354,16 +783,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'Alpha'}, {'[334 chars]ix'}] != [{'line': 1, 'level': 1, 'text': 'Alpha'}, {'[335 chars]ix'}]",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -380,16 +842,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'' unexpectedly found in ['Tabbed', 'two  spaces', '', 'InFence', '① circle'] : an empty heading text is not a heading",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -406,16 +901,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'wrong' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[58 chars]d.md'",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -432,16 +960,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 0,
+            "expected_exit": 2,
+            "json": true,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 0,
+            "expected_exit": 2,
+            "json": true,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": false,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: [{'level': 1, 'line': 1, 'text': 'One'}] != [{'line': 1, 'level': 1, 'text': 'One'}, {'li[72 chars]ee'}]",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": false,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -458,16 +1019,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
-      "assertion_message": "1792645916758444500 != 1792645916638861500 : a rewrite of identical bytes still moves the mtime, so this proves read-only",
+      "assertion_message": "1792654786972176500 != 1792654786873481200 : a rewrite of identical bytes still moves the mtime, so this proves read-only",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -484,16 +1078,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'BOMHeading' unexpectedly found in ['BOMHeading', 'Real']",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -510,7 +1137,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -520,7 +1151,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -528,16 +1177,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "0 != 2 :",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -554,16 +1250,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: ['Gamma\\t##'] != ['Gamma']",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -580,16 +1309,49 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'two  spaces' not found in ['Tabbed', 'two spaces', 'InFence', '① circle'] : internal spaces are preserved, only the ends are trimmed",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -606,7 +1368,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -616,7 +1382,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -624,16 +1408,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: [0, 0] != [5765, 5776]",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -650,7 +1481,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -660,7 +1495,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -668,16 +1521,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: ['00000000000000000000000000000000000000000[88 chars]000'] != ['1ae8aaf22407a4657a666054ba3558330f8c9f4df[88 chars]e71']",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -694,7 +1594,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -704,7 +1608,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -712,16 +1634,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "Lists differ: ['wrong', 'wrong'] != ['C:\\\\Projects\\\\Agent_Workspace\\\\SBL\\\\READM[94 chars]son']",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -738,7 +1707,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -748,7 +1721,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -756,16 +1747,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "0 != 1",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -782,7 +1820,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -792,7 +1834,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -800,16 +1860,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "999 != 1",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -826,7 +1933,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -836,7 +1947,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -844,16 +1973,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'BUDGET' != 'QUEUE_EXHAUSTED'",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -870,7 +2046,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -880,7 +2060,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -888,16 +2086,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -914,7 +2159,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -924,7 +2173,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -932,16 +2199,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 0,
+            "expected_exit": 2,
+            "json": true,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 0,
+            "expected_exit": 2,
+            "json": true,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": false,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "0 != 2",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": false,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -958,7 +2272,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -968,7 +2286,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -976,16 +2312,63 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": true,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "0 != 2 : an unreadable entry must not be skipped",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     },
@@ -1002,7 +2385,11 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -1012,7 +2399,25 @@
               "1"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
           },
           {
@@ -1020,16 +2425,416 @@
               "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
             ],
             "exit": 0,
-            "answered": true,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
             "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 7,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 7,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
           }
         ],
-        "ok": true
+        "ok": true,
+        "conforms": false,
+        "crashing": false
       },
       "test_exit": 1,
       "assertion_message": "7 != 2 : ERR_INPUT: queue must be a JSON array of paths",
       "caught": true,
+      "disposition": "CAUGHT",
       "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": false,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "CONTROL",
+      "mutation": "a literal no-op edit, to prove the harness can tell 'not a change' from 'not caught'",
+      "provenance": "round9 no-op",
+      "applied": false,
+      "caught": false,
+      "disposition": "NOT_A_CHANGE",
+      "note": "the substitution does not change the source, so it tests nothing"
+    },
+    {
+      "kind": "SIMPLE_AGENT",
+      "mutation": "the record echoes the queue entry instead of the resolved path",
+      "provenance": "round9 resolved-path",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
+          }
+        ],
+        "ok": true,
+        "conforms": true,
+        "crashing": false
+      },
+      "test_exit": 1,
+      "assertion_message": "'contract-resolved.md' != 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packe[38 chars]d.md'",
+      "caught": true,
+      "disposition": "CAUGHT",
+      "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "SIMPLE_AGENT",
+      "mutation": "the budget never stops the run before it starts",
+      "provenance": "round9 budget-precedence",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "1"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\workspace_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\ts23_empty_queue.json",
+              "--max-steps",
+              "0"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\absent-for-probe.json"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\absent-for-probe.json'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox'\n"
+          }
+        ],
+        "ok": true,
+        "conforms": true,
+        "crashing": false
+      },
+      "test_exit": 1,
+      "assertion_message": "'QUEUE_EXHAUSTED' != 'BUDGET'",
+      "caught": true,
+      "disposition": "CAUGHT",
+      "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "a Unicode space is treated as trimmable whitespace",
+      "provenance": "round9 nbsp-trim",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
+          }
+        ],
+        "ok": true,
+        "conforms": true,
+        "crashing": false
+      },
+      "test_exit": 1,
+      "assertion_message": "Lists differ: ['Delta'] != ['Delta\\xa0']",
+      "caught": true,
+      "disposition": "CAUGHT",
+      "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
+      "false_red": false,
+      "restored_byte_identical": true
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "a Unicode line separator splits a line and eats the rest of the text",
+      "provenance": "round9 separator",
+      "applied": true,
+      "mutant_ran_and_answered": true,
+      "probe": {
+        "runs": [
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\headings.md"
+            ],
+            "exit": 0,
+            "expected_exit": 0,
+            "json": true,
+            "expected_json": true,
+            "traceback": false,
+            "stdout_empty": false,
+            "tail": ""
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests\\absent-for-probe.md"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests\\\\absent-for-probe.md'\n"
+          },
+          {
+            "args": [
+              "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts23_sandbox\\SBL\\ts23_tests"
+            ],
+            "exit": 2,
+            "expected_exit": 2,
+            "json": false,
+            "expected_json": false,
+            "traceback": false,
+            "stdout_empty": true,
+            "tail": "ERR_INPUT: [Errno 13] Permission denied: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\SBL\\\\ts23_tests'\n"
+          }
+        ],
+        "ok": true,
+        "conforms": true,
+        "crashing": false
+      },
+      "test_exit": 1,
+      "assertion_message": "Lists differ: ['A'] != ['A\\u2028B']",
+      "caught": true,
+      "disposition": "CAUGHT",
+      "crash_not_evidence": false,
+      "mutant_crashed": false,
+      "mutant_conforms": true,
       "false_red": false,
       "restored_byte_identical": true
     }
@@ -1039,42 +2844,46 @@
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.977s\n\nOK\n"
+      "tail": "test_census_and_missing_input (__main__.Behavior.test_census_and_missing_input) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 1.156s\n\nOK\n"
     },
     "test_cli_extra.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "est_input_error_writes_nothing_and_prints_no_traceback) ... ok\ntest_read_only_even_when_the_rewrite_would_be_identical (__main__.Contract.test_read_only_even_when_the_rewrite_would_be_identical) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.305s\n\nOK\n"
+      "tail": "est_input_error_writes_nothing_and_prints_no_traceback) ... ok\ntest_read_only_even_when_the_rewrite_would_be_identical (__main__.Contract.test_read_only_even_when_the_rewrite_would_be_identical) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.430s\n\nOK\n"
     },
     "test_skill.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.488s\n\nOK\n"
+      "tail": "test_heading_inventory_and_bundle (__main__.Behavior.test_heading_inventory_and_bundle) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.595s\n\nOK\n"
     },
     "test_skill_extra.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "nal_tab_is_preserved (__main__.Contract.test_internal_tab_is_preserved) ... ok\ntest_tab_separated_closing_sequence_is_stripped (__main__.Contract.test_tab_separated_closing_sequence_is_stripped) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.573s\n\nOK\n"
+      "tail": "d (__main__.Contract.test_tab_separated_closing_sequence_is_stripped) ... ok\ntest_unicode_line_separators_do_not_split_a_line (__main__.Contract.test_unicode_line_separators_do_not_split_a_line) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 1.298s\n\nOK\n"
     },
     "test_agent.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.625s\n\nOK\n"
+      "tail": "test_two_step_limit_and_hashes (__main__.Behavior.test_two_step_limit_and_hashes) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.837s\n\nOK\n"
     },
     "test_agent_extra.py": {
       "exit": 0,
       "assertion": false,
       "message": "",
-      "tail": "ull_queue_records_every_digest) ... ok\ntest_zero_and_negative_budget_review_nothing_and_are_budget_limited (__main__.Contract.test_zero_and_negative_budget_review_nothing_and_are_budget_limited) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.768s\n\nOK\n"
+      "tail": "ull_queue_records_every_digest) ... ok\ntest_zero_and_negative_budget_review_nothing_and_are_budget_limited (__main__.Contract.test_zero_and_negative_budget_review_nothing_and_are_budget_limited) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 1.340s\n\nOK\n"
     }
   },
   "flags": {
     "all_caught": true,
     "no_false_reds": true,
+    "no_crash_counted": true,
+    "all_mutations_are_real_changes": true,
+    "no_op_control_detected": true,
+    "no_shadowed_imports": true,
     "all_applied": true,
     "all_restored": true,
     "baseline_all_pass": true

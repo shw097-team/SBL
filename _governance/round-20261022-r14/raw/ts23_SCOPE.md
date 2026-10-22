@@ -25,8 +25,12 @@ asserts its own precondition before it asserts the program's answer.
 
 - A heading is a line starting with 1 to 6 `#` characters, followed by **at least one space or tab**, followed by text.
   `#NoSpace` is not a heading; a tab is a valid separator.
-- Leading and trailing whitespace of the text is trimmed; **internal whitespace is preserved** (`##  two  spaces  ` ->
-  `two  spaces`).
+- Leading and trailing **ASCII space or tab** is trimmed; **internal whitespace is preserved** (`##  two  spaces  ` ->
+  `two  spaces`). Nothing else is whitespace here: U+00A0, U+3000 and every other Unicode space is content, so
+  `## Gamma\u00a0` -> `Gamma\u00a0`, not `Gamma`.
+- A line is delimited by LF, CRLF or CR **only**. U+2028, U+2029, NEL (U+0085), VT (U+000B) and FF (U+000C) are content,
+  because the census in `ts23-newline` counts exactly those three terminators and the two programs must agree on the same
+  bytes: `# A\u2028B` -> text `A\u2028B`, not `A`.
 - An empty text after trimming is **not** a heading (`## ` alone is ignored).
 - 7 or more `#` characters is not a heading. That line is ignored, not an error.
 - An ATX **closing sequence** - an ASCII space or tab, then one or more `#` at end of line - is removed: a Unicode
@@ -47,9 +51,13 @@ asserts its own precondition before it asserts the program's answer.
   queue** therefore reports `steps 0, remaining 0, reviews [], halt_reason QUEUE_EXHAUSTED` - nothing was queued, so nothing
   was budget-limited.
 - A queue that is not a JSON array exits **2**. An entry that cannot be read exits **2**; nothing is silently skipped.
-  In both cases stderr carries `ERR_INPUT` and stdout stays empty.
-- A queue longer than the step limit reports `BUDGET`; a queue shorter than the limit reports `QUEUE_EXHAUSTED`. Both
-  apply to non-empty queues; an empty queue is `QUEUE_EXHAUSTED`.
+  In both cases stderr carries `ERR_INPUT` and stdout stays empty. "Cannot be read" includes a **directory** and a
+  permission-denied file, not only a path that does not exist: a program that special-cases `FileNotFoundError` alone is
+  wrong on those inputs.
+- A queue longer than the step limit reports `BUDGET`; a queue shorter than the limit reports `QUEUE_EXHAUSTED`.
+- **Precedence:** a step limit of zero or less reports `BUDGET` **even when the queue is empty**, because the limit stopped
+  the run before anything could be read. The empty-queue rule above applies only when the limit is one or more. This
+  resolves the contradiction between the two clauses: budget decides first, the queue decides second.
 
 ## Out of scope, deliberately
 
