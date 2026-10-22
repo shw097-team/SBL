@@ -765,6 +765,16 @@
       "fix": "本輪選擇不強改池：把 pool 還原成 rev 18（rank-1 = openai-codex/gpt-6.1-sol）讓 136 個 dispatch 測試全綠，並把落差寫進 TT。要真正讓檢查者由 deepseek 服務，必須先讓 identity gate 帶上 opencode-go 這條 arm（憑證 + relay + usage receipt 三件），再單獨一輪把池 rank-1 移上去。",
       "lesson": "模型方案要在『能服務』的平面上驗證；把宣告改綠不算把工作改綠。",
       "resolution": "第二個動作解掉了落差：pool 的 DEFAULT 是旗標（role/default/automatic_selection），不是陣列順序，所以先前把 deepseek 移到第 0 位沒有作用。改為：rank 重新編號 1..5、deepseek = DEFAULT/首選（default 與 automatic_selection 為 true）、gpt-6.1-sol 降為 FALLBACK1、其餘各降一級且無任何 arm 被刪。之後 test_lane_dispatch_ao_guard + test_lane_policy = 142 passed/90 subtests（含先前紅的 E11a/E11b/E11d），全套件 PYTHONPATH=src 下 646 passed/90 subtests/exit 0。宣稱上限：本機量測；檢查者由 deepseek 服務是池與派工旗標的結果，尚未有真實 turn 的 usage 收據佐證。"
+    },
+    {
+      "id": "TT-R14-049",
+      "title": "PLAN 由 GPT 改 deepseek 後，PLAN 與 VERIFY 同模型：宣告而非掩蓋",
+      "severity": "high",
+      "status": "CLOSED",
+      "finding": "Owner 2026-10-22：GPT 配額將盡，GPT 6.1 SOL-MEDIUM（OpenAI OAuth）改為 DEEPSEEK V4.1 FLASH（OpenCode Go）。PLAN 一旦移到 deepseek，就與 VERIFY/SECURITY 同一個 canonical identity，模型軸的 SoD 分離消失。同時，先前那條『PLAN 不得宣告在 session-tier 模型上』的不變式立刻轉紅。",
+      "impact": "若不處理，只有兩條路：偷偷放寬不變式（等於假宣稱分離），或讓測試長期紅（等於沒有守衛）。兩者都不可接受。",
+      "fix": "① registry/assignment/pool/projection 全部改綁 deepseek，gpt-6.1-sol 降為 fallback1 不刪除；epoch 31→32、revision→32；自我封印最後釘。② sod_invariants.pairs 對 PLAN/VERIFY 不再宣稱 distinct；新增 SOD006-C6 OPEN_OWNER_ORDERED 明寫『模型分離依 owner 命令不存在，保留的是流程、車道、證據路徑分離』。③ 隔離不變式改為『有宣告且宣告指名同一模型才放行』，未宣告的移動仍然紅。④ 車道四套件 159 passed / 90 subtests。",
+      "lesson": "模型方案變更必然改變 SoD 事實；正確做法是把新的碰撞寫成宣告並讓守衛只放行有宣告的情況，不是把守衛調鬆。"
     }
   ]
 }
