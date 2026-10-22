@@ -1,0 +1,311 @@
+{
+  "schema": "SBL_HANDOVER/1",
+  "generated_utc": "2026-10-22T17:50:49Z",
+  "round": "round-20261022-r15_2",
+  "complete": false,
+  "claim_ceiling": "candidate package only; nothing applied to sbl_core; no lifecycle qualification receipts; independent_acceptance NOT_RUN; release BLOCKED",
+  "heads": {
+    "round_local": "9d92ea211f0b7b66090e680f6d01ecf79c936fff",
+    "round_branch": "evidence/r15_2-20261022",
+    "hgk_head_at_handover": "b9d02bb97a3437be3a5c6f664c8c3356c5565e97",
+    "hgk_note": "shared control plane with a live sibling round; head moves"
+  },
+  "paths": {
+    "round_worktree": "C:/Projects/Agent_Workspace/_r152_ev",
+    "round_tree": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2",
+    "hgk": "C:/Projects/Agent_Workspace/HG-KSEOS",
+    "sibling_round": "C:/Projects/Agent_Workspace/HG-KSEOS/var/W2-MATRIX-CLOSURE-20261023"
+  },
+  "roles": {
+    "PLAN": {
+      "actor": "SBL-Commander & PLAN",
+      "lane": "PLAN",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "required_rank": 2,
+      "applies_to": [
+        "research",
+        "analysis",
+        "root-cause",
+        "decision",
+        "planning"
+      ],
+      "evidence": "a receipts/dispatch/PLAN*.json with ok=true and nonce_present=true"
+    },
+    "EXECUTE": {
+      "actor": "SBL-EXECUTE & Codex bounded writer",
+      "lane": "EXECUTE",
+      "provider_model": "opencode-go/deepseek-v4.1-flash",
+      "required_rank": 1,
+      "applies_to": [
+        "product-write",
+        "candidate-proposal",
+        "bounded-writer"
+      ],
+      "evidence": "a receipts/dispatch/EXECUTE*.json with ok=true and nonce_present=true",
+      "previous_provider_model": "opencode-go/minimax-m3.1-flash-free",
+      "substitution": "Owner order 2026-10-23: minimax-m3.1-flash-free returns 410 Gone (deprecated at provider); EXECUTE is rebound to opencode-go/deepseek-v4.1-flash at rank 1."
+    },
+    "VERIFY": {
+      "actor": "SBL-Acceptance Challenge & Independent Acceptance Officer & VERIFY & SECURITY",
+      "lane": "VERIFY_SECURITY",
+      "provider_model": "openai-codex/gpt-6.1-sol",
+      "required_rank": 2,
+      "applies_to": [
+        "verification",
+        "acceptance",
+        "security-review",
+        "challenge"
+      ],
+      "evidence": "a receipts/dispatch/VERIFY*.json with ok=true and nonce_present=true"
+    }
+  },
+  "pool_revision": 21,
+  "counts": {
+    "queue": {
+      "DONE": 15,
+      "PARKED": 6
+    },
+    "W": {
+      "DONE": 4,
+      "NOT_RUN": 2,
+      "PARTIAL": 12
+    },
+    "C": {
+      "DONE": 3,
+      "NOT_RUN": 9,
+      "PARTIAL": 13
+    },
+    "E": {
+      "PARTIAL": 5,
+      "NOT_RUN": 4
+    },
+    "M": {
+      "PARTIAL": 1,
+      "NOT_RUN": 3
+    },
+    "tt": {
+      "total": 25,
+      "hard_blocker": 0,
+      "resolved_measured": 6,
+      "contained": 2
+    },
+    "receipts": 30
+  },
+  "parked": [
+    {
+      "id": "W02.policy",
+      "reason": "OWNER_DECISION",
+      "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active",
+      "request": "PRINCIPAL_REQUESTS/W02.policy.md"
+    },
+    {
+      "id": "W12.swof",
+      "reason": "OWNER_DECISION",
+      "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
+      "request": "PRINCIPAL_REQUESTS/W12.swof.md"
+    },
+    {
+      "id": "W13.hosts",
+      "reason": "HOST_PENDING",
+      "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence",
+      "request": "PRINCIPAL_REQUESTS/W13.hosts.md"
+    },
+    {
+      "id": "W15.release",
+      "reason": "OWNER_DECISION",
+      "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
+      "request": "PRINCIPAL_REQUESTS/W15.release.md"
+    },
+    {
+      "id": "W16.perf",
+      "reason": "OWNER_DECISION",
+      "owner_action": "name the reference workload and accept or reject the observed thresholds",
+      "request": "PRINCIPAL_REQUESTS/W16.perf.md"
+    },
+    {
+      "id": "W15.gate_proposal",
+      "reason": "LANE_RECEIPT_RED",
+      "owner_action": "HGK owner: apply workers/candidate_proposals/w15_gate/proposal.diff (git apply --check returns 0) and approve the DELIVERY_READY guard",
+      "request": "PRINCIPAL_REQUESTS/W15.release.md"
+    }
+  ],
+  "tt_open": [
+    {
+      "id": "TT-R15.2-LEDGER-DIVERGENCE",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-VERIFY-LANE-SOD006-C6",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-FABRIC-ACTIVE-POLICY-UNRESOLVED",
+      "severity": "BLOCKER"
+    },
+    {
+      "id": "TT-R15.2-SWOF-W3-ABSENT",
+      "severity": "BLOCKER"
+    },
+    {
+      "id": "TT-R15.2-CHATGPT-HOST-PENDING",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-KANBAN-DISPATCH-BLOCKED",
+      "severity": "INFO"
+    },
+    {
+      "id": "TT-R15.2-OPENSPEC-STRICT-FAIL",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-GSTACK-NOFIT",
+      "severity": "MEDIUM"
+    },
+    {
+      "id": "TT-R15.2-R14-EVIDENCE-GAP",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-FRONTDOOR-SANCTIONED-DRIFT",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-HGK-EXECUTE-CWD-ESCAPE",
+      "severity": "CRITICAL_CONTAINED_IN_ONE_REPO_CLASS_OPEN"
+    },
+    {
+      "id": "TT-R15.2-DELIVERY-GATE-IGNORES-FAILED",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-INTAKE-PRE-ADMISSION-ONLY",
+      "severity": "MEDIUM"
+    },
+    {
+      "id": "TT-R15.2-PROJECT-PROLIFERATION",
+      "severity": "MEDIUM"
+    },
+    {
+      "id": "TT-R15.2-PRODUCT-WINDOWS-TEST-ARGLEN",
+      "severity": "MEDIUM"
+    },
+    {
+      "id": "TT-R15.2-SOURCE-CORPUS-DUP-NAME",
+      "severity": "LOW"
+    },
+    {
+      "id": "TT-R15.2-EXECUTE-LANE-BYPASSED",
+      "severity": "HIGH"
+    },
+    {
+      "id": "TT-R15.2-HGK-PYTHON-BINDING",
+      "severity": "MEDIUM"
+    },
+    {
+      "id": "TT-R15.2-LANE-WROTE-CONTROL-PLANE",
+      "severity": "CRITICAL_CONTAINED"
+    }
+  ],
+  "green_artefacts": [
+    "workers/candidate_proposals/w06_kinds2/ (kind_matrix + diff rc=0 + 25 tests re-run)",
+    "workers/candidate_proposals/w15_gate/ (diff rc=0 vs HG-KSEOS)",
+    "workers/candidate_proposals/w11_continuation/ (6 tests)"
+  ],
+  "next_actions": [
+    "Q2 M4 measured semantic proposal (no inferred total)",
+    "Q3 M2 isolated mutation->repair->regression chain",
+    "Q5 local half: 5 tools / 8 verbs / digests / doctor 3.12.13 / loader probes",
+    "apply-or-park w06 kinds + w15 gate diffs (owner)",
+    "use the five owner packets once: W02, W12, W13, W15, W16",
+    "Q7 qualify checker or print LOCAL_REVIEW_ONLY"
+  ],
+  "verification_commands": [
+    "python \"$R/tools/continuation_guard.py\"",
+    "python \"$R/tools/mandate_gate.py\" audit",
+    "python \"$R/tools/rebuild_package.py\""
+  ],
+  "receipts_tail": [
+    {
+      "receipt": "VERIFY_close6.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 35.45,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_final.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 101.29,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_gpt61sol.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 19.62,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_gpt61sol_judgement.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 19.89,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_nonleading.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": false,
+      "nonce": false,
+      "secs": 98.34,
+      "model": null
+    },
+    {
+      "receipt": "VERIFY_nonleading2.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 115.92,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_wo6.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 45.94,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_wo6b.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 32.0,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_workorders.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 73.43,
+      "model": "gpt-6.1-sol"
+    },
+    {
+      "receipt": "VERIFY_workorders2.json",
+      "lane": "VERIFY_SECURITY",
+      "ok": true,
+      "nonce": true,
+      "secs": 67.96,
+      "model": "gpt-6.1-sol"
+    }
+  ],
+  "handover_doc": "HANDOVER_R15_2_20261023.md"
+}
