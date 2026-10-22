@@ -242,7 +242,7 @@
     {
       "id": "W15.gate_proposal",
       "owner_class": "AGENT",
-      "status": "DONE",
+      "status": "PARKED",
       "denominator_ref": "W15/C23",
       "next_action": "re-emit the DELIVERY_READY guard diff and run its four behavioural tests",
       "resume_cmd": "python \"_governance/round-20261022-r15_2/tools/build_gate_proposal.py\" && set \"UV_CACHE_DIR=C:/Users/user/AppData/Local/Temp/r152/uvcache\" && uv run --python 3.11 --with pytest pytest -q -p no:cacheprovider workers/candidate_proposals/w15_gate/test_gate_candidate.py",
@@ -254,7 +254,25 @@
       "satisfiable_by": "AGENT",
       "required_field": null,
       "required_lane": "EXECUTE",
-      "lane_bypassed": true
+      "lane_bypassed": true,
+      "parked_reason": "LANE_RECEIPT_RED",
+      "owner_action": "HGK owner: apply workers/candidate_proposals/w15_gate/proposal.diff (git apply --check returns 0) and approve the DELIVERY_READY guard",
+      "artefact_verified_by_orchestrator": true,
+      "lane_attempts": {
+        "count": 2,
+        "detail": [
+          {
+            "run": "410 Gone (dead arm)",
+            "secs": 9.21
+          },
+          {
+            "run": "timeout after self-dispatch loop",
+            "secs": 540.05
+          }
+        ]
+      },
+      "note": "the bounded writer produced a valid diff (apply --check rc=0) and a VERDICT.json whose before/after matches the live file, then tried to dispatch the lane again, polled, and hit the 540s timeout. Artefact verified independently; receipt stays red and the item stays PARKED.",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md"
     },
     {
       "id": "W13.tools",

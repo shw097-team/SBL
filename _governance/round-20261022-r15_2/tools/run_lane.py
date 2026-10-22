@@ -43,6 +43,9 @@ def main() -> int:
     open(stamped, "w", encoding="utf-8", newline=chr(10)).write(
         "NONCE: " + nonce + chr(10) + chr(10)
         + "Begin your reply with exactly this token on its own line: " + nonce + chr(10) + chr(10)
+        + "HARD RULES: do the work in this turn. Do NOT dispatch, spawn or poll another lane or agent "
+          "(no lane-dispatch, no sub-agent, no waiting loop). If a step would require another lane, write that "
+          "in your output and stop." + chr(10) + chr(10)
         + brief_text)
     brief = stamped
     out = os.path.join(R, "receipts", "dispatch", f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}.json")

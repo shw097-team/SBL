@@ -536,12 +536,43 @@
         "MANDATE_R15_2.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/config/lane-route-slots.candidate.json#revision21"
       ]
+    },
+    {
+      "tt_id": "TT-R15.2-EXECUTE-SELF-DISPATCH-LOOP",
+      "kind": "CR",
+      "severity": "RESOLVED_MEASURED",
+      "subject": "The bounded writer tried to dispatch the lane again and burned its own timeout",
+      "observed": {
+        "lane": "EXECUTE",
+        "arm": "opencode-go/deepseek-v4.1-flash",
+        "secs": 540.05,
+        "ok": false,
+        "nonce_present": false,
+        "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+        "stdout_evidence": "agent_message: 'The EXECUTE lane is now running against the brief. Let me poll it.'",
+        "artefacts_written_before_loop": [
+          "proposal.diff",
+          "VERDICT.json",
+          "EVIDENCE.json"
+        ],
+        "artefact_check": {
+          "cmd": "git apply --check proposal.diff",
+          "rc": 0
+        }
+      },
+      "conflict": "a lane whose job is bounded writing can spend its whole budget re-entering the dispatcher; the work was finished before the loop, so the timeout measured the wrong thing",
+      "decision": "BRIEF_HARD_RULE",
+      "resolution": "run_lane now injects HARD RULES: no lane dispatch, no sub-agent, no polling loop; write artefacts and stop.",
+      "evidence": [
+        "receipts/dispatch/EXECUTE__BRIEF4.json",
+        "workers/candidate_proposals/w15_gate/"
+      ]
     }
   ],
   "counts": {
-    "total": 21,
+    "total": 22,
     "hard_blocker": 0,
-    "resolved_measured": 3,
+    "resolved_measured": 4,
     "contained": 1
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",

@@ -35,14 +35,14 @@
       {
         "rank": 1,
         "provider": "opencode-go",
-        "model": "minimax-m3.1-flash-free",
+        "model": "deepseek-v4.1-flash",
         "requirement": "none",
         "ok": true,
         "detail": "key-auth arm: no human-attended identity"
       }
     ],
     "degraded": false,
-    "required_arm": "opencode-go/minimax-m3.1-flash-free"
+    "required_arm": "opencode-go/deepseek-v4.1-flash"
   },
   "authorization": {
     "checked": false
@@ -54,7 +54,7 @@
   "output_dir_policy": {
     "mode": "explicit-path",
     "derived": null,
-    "existing": false
+    "existing": true
   },
   "repair_precondition": {
     "checked": false
@@ -67,23 +67,23 @@
     {
       "rank": 1,
       "provider": "opencode-go",
-      "model": "minimax-m3.1-flash-free",
-      "transport_model": "opencode-go/minimax-m3.1-flash-free",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
       "sandbox": "danger-full-access",
       "reasoning_effort": null,
-      "exit": 1,
-      "timed_out": false,
-      "seconds": 9.21,
+      "exit": "TIMEOUT",
+      "timed_out": true,
+      "seconds": 540.05,
       "nonce_present": false,
-      "nonce_present_raw_stdout": false,
+      "nonce_present_raw_stdout": true,
       "nonce_source": "item.completed/agent_message",
-      "usage_rows_after_offset": 6,
-      "usage_offset": 31028873,
-      "usage_provider": null,
-      "usage_model": null,
-      "usage_status": 410,
-      "usage_receipt_ok": false,
-      "usage_receipt_reason": "usage status is not 200: 410",
+      "usage_rows_after_offset": 73,
+      "usage_offset": 31115364,
+      "usage_provider": "opencode-go",
+      "usage_model": "deepseek-v4.1-flash",
+      "usage_status": 200,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "",
       "usage_ledger_rewritten": false,
       "usage_rows_shape_invalid": 0,
       "usage_rows_undecodable": 0,
@@ -99,21 +99,21 @@
       },
       "attempt_log_dir": "C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF4.json.logs",
       "stdout_byte_exact": true,
-      "stdout_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF4.json.logs\\attempt-4904-1792687189-1-stdout.txt",
-      "stdout_bytes": 1641,
-      "stdout_sha256": "3575be493f3d266c77fe2533febe28ea0622ea0d83965e07b888890bccda0414",
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF4.json.logs\\attempt-5840-1792687893-1-stdout.txt",
+      "stdout_bytes": 239357,
+      "stdout_sha256": "db803eb7d4a7f8e1fda6d29ebd0cf94c82c8973d60942035fd231cf417aa1eb1",
       "stderr_byte_exact": true,
-      "stderr_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF4.json.logs\\attempt-4904-1792687189-1-stderr.txt",
-      "stderr_bytes": 220,
-      "stderr_sha256": "3a12f030cf213767b781414bf83fd44dd79ca9af72526cb41f9fa539f955f712",
-      "stdout_tail": "url: http://127.0.0.1:10101/v1/responses)\"}\n{\"type\":\"error\",\"message\":\"unexpected status 410 Gone: Provider error 410: Model minimax-m3.1-flash-free has been deprecated., url: http://127.0.0.1:10101/v1/responses\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"unexpected status 410 Gone: Provider error 410: Model minimax-m3.1-flash-free has been deprecated., url: http://127.0.0.1:10101/v1/responses\"}}\n",
-      "stderr_tail": "Reading additional input from stdin...\n2026-10-22T16:39:51.834626Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: HTTP error: 426 Upgrade Required, url: ws://127.0.0.1:10101/v1/responses\n"
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__BRIEF4.json.logs\\attempt-5840-1792687893-1-stderr.txt",
+      "stderr_bytes": 472,
+      "stderr_sha256": "324b7614aa264acd71646f0753cedc33d742c75e0e450f9a60280f9ed1e1bf7f",
+      "stdout_tail": "s\\\\\\\\native\\\\\\\\powershell\\\\\\\\pwsh.exe\\\" -Command 'python tools/run_lane.py --role EXECUTE --brief workers/codex_exec/_BRIEF4.md --timeout 480; Write-Output \\\"LANE_EXIT=$LASTEXITCODE\\\"'\",\"aggregated_output\":\"\",\"exit_code\":null,\"status\":\"in_progress\"}}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_72\",\"type\":\"agent_message\",\"text\":\"The EXECUTE lane is now running against the brief. Let me poll it.\"}}\n",
+      "stderr_tail": "equired, url: ws://127.0.0.1:10101/v1/responses\n2026-10-22T16:55:53.050140Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid hunk at line 4, '' is not a valid hunk header. Valid hunk headers: '*** Add File: {path}', '*** Delete File: {path}', '*** Update File: {path}'\n"
     }
   ],
   "used_rank": null,
   "used_transport_model": null,
   "used_seconds": null,
-  "generated_utc": "2026-10-22T16:40:00.812945+00:00",
+  "generated_utc": "2026-10-22T17:00:35.988444+00:00",
   "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
   "ok": false,
   "completion_evidence": {
@@ -122,5 +122,8 @@
   "usage_receipt_ok": false,
   "usage_rows_shape_invalid": 0,
   "usage_rows_undecodable": 0,
-  "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED"
+  "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+  "timed_out_arms": [
+    "opencode-go/deepseek-v4.1-flash"
+  ]
 }
