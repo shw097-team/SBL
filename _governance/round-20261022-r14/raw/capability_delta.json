@@ -1,0 +1,1257 @@
+{
+  "schema": "HGK-CAPABILITY-DELTA/1",
+  "generated_at": "2026-10-22T01:45:28.045508Z",
+  "rows": [
+    {
+      "capability": "lane_routing",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/lane_policy.py",
+      "symbol": "route_for_lane",
+      "evidence": "src/hg_kseos/lane_policy.py:def route_for_lane; tests=['test_far_lane_fix_20261015.py', 'test_lane_dispatch_ao_guard.py', 'test_lane_effort_enforcement.py', 'test_lane_guard.py', 'test_lane_policy.py']",
+      "adapter_required": false
+    },
+    {
+      "capability": "lane_admission",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/lane_admission.py",
+      "symbol": "decide_status",
+      "evidence": "src/hg_kseos/lane_admission.py:def decide_status; tests=['test_far_lane_fix_20261015.py', 'test_lane_dispatch_ao_guard.py', 'test_lane_effort_enforcement.py', 'test_lane_guard.py', 'test_lane_policy.py']",
+      "adapter_required": false
+    },
+    {
+      "capability": "workorder_spine",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/spine.py",
+      "symbol": "record_workorder_result",
+      "evidence": "src/hg_kseos/spine.py:def record_workorder_result; tests=[]",
+      "adapter_required": false
+    },
+    {
+      "capability": "lease_exclusion",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/spine.py",
+      "symbol": "acquire_lease",
+      "evidence": "src/hg_kseos/spine.py:def acquire_lease; tests=['test_recovery_release.py']",
+      "adapter_required": false
+    },
+    {
+      "capability": "lifecycle_transitions",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/lifecycle.py",
+      "symbol": "def transition",
+      "evidence": "src/hg_kseos/lifecycle.py:def transition; tests=[]",
+      "adapter_required": false
+    },
+    {
+      "capability": "knowledge_repoint",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/knowledge.py",
+      "symbol": "repoint_source",
+      "evidence": "src/hg_kseos/knowledge.py:def repoint_source; tests=['test_knowledge.py', 'test_knowledge_memory_poison.py', 'test_knowledge_promotion_gate.py']",
+      "adapter_required": false
+    },
+    {
+      "capability": "delta_abi",
+      "state": "REUSE_AS_IS",
+      "module": "src/hg_kseos/capability_delta.py",
+      "symbol": "apply_delta",
+      "evidence": "src/hg_kseos/capability_delta.py:def apply_delta; tests=['test_capability_delta.py']",
+      "adapter_required": false
+    }
+  ],
+  "counts": {
+    "REUSE_AS_IS": 7
+  },
+  "surface": {
+    "total": 197,
+    "counts": {
+      "REUSE_AS_IS": 166,
+      "UNTESTED_SURFACE": 31
+    },
+    "rows": [
+      {
+        "module": "src/hg_kseos/agents.py",
+        "symbol": "join",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/agents.py",
+        "symbol": "ready",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/agents.py",
+        "symbol": "visit",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "budget_decision",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "consume",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "deterministic_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "exact_behavior_set",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "install",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "migration_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "negotiate_mcp",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "prompt_contract",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "provider_compatibility",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "reconcile_release_identity",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "reconcile_sbom",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "remove",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "require",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "require_archive_failure_propagation",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "require_fresh_base",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "resolve_instruction_chain",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "route",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "security_veto",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "select_permission_mode",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "telemetry_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "validate_receiver_packet",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/assurance.py",
+        "symbol": "validate_rollback_pointer",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/bootstrap.py",
+        "symbol": "bootstrap",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/bootstrap.py",
+        "symbol": "clean",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/bootstrap.py",
+        "symbol": "configured_workspace_bindings",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/bootstrap.py",
+        "symbol": "reconcile_tt",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/capability_delta.py",
+        "symbol": "apply_delta",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/capability_delta.py",
+        "symbol": "compute",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/capability_delta.py",
+        "symbol": "receipt",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/capability_delta.py",
+        "symbol": "rollback",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/capability_delta.py",
+        "symbol": "surface",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "build_parser",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "case_run",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "emit",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "project_config",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "run",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/cli.py",
+        "symbol": "spine_for",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/control_validation.py",
+        "symbol": "validate_controls",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/doctor.py",
+        "symbol": "doctor",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "artifact_record",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "artifact_version_relation",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "begin_finalizing",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "final_roots",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "freeze",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "generation_id",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "graph_root_digest",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "identity_conflicts",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "lifecycle_state",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "link_artifact_about",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "link_execution_produced",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "link_requirement_supported",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "link_verification_checks",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "new_id",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "proof_capsule",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_artifact",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_execution",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_requirement",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_runner_summary",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_subject",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "register_verification",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "requirement_supported_by",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "utc_now",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "validate_capsule",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evidence_graph.py",
+        "symbol": "verification_records",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "canary",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "capture_signal",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "classify",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "create_candidate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "fit_gap",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "independent_check",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "promotion_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "qualify",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/evolution.py",
+        "symbol": "status",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/harness.py",
+        "symbol": "digest",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/harness.py",
+        "symbol": "preflight",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/harness.py",
+        "symbol": "run",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/hlpe.py",
+        "symbol": "qualify_hlpe",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "active_memory",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "add_kg_assertion",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "ingest_text",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "promote",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "rebuild",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "remember",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "repoint_source",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "revoke_memory",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "search",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "verify_citation",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/knowledge.py",
+        "symbol": "withdraw_source",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "admission_key",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "decide",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "decide_status",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "load_receipt",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "normalize_identity",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "record_direct_completion",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "record_from_dict",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "record_lane_exercise",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "record_start",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "set_failure",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "to_dict",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_admission.py",
+        "symbol": "write_receipt",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "check_drift",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "check_exclusions",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "check_sod",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "count_checked_sites",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "drift_is_fatal",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "load_registry",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "load_site",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "normalize_model",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "project_policy",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "registry_epoch",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "render_receipt",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "resolve_pointer",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "route_for_lane",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_policy.py",
+        "symbol": "sod_declaration_exemption",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lane_route_resolver.py",
+        "symbol": "load_pool",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_route_resolver.py",
+        "symbol": "receipt",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_route_resolver.py",
+        "symbol": "resolve",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_route_resolver.py",
+        "symbol": "token",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lane_route_resolver.py",
+        "symbol": "used_token",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "admit_requirement",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "admit_workorders",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "begin_repair",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "checkpoint",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "completion_sweep",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "denominator",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "from_dict",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "intake",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "plan",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "rbwi_composite",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "resume",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "start",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "status",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/lifecycle.py",
+        "symbol": "transition",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "atomic_candidate_binding",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "corpus_completeness_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "evidence_reducer",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "monotonic_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "promote_defect_class",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "single_md_embedding_gate",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/meta_gates.py",
+        "symbol": "validate_proof_capsule",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/named_methods.py",
+        "symbol": "evaluate_activation_invariants",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/named_methods.py",
+        "symbol": "invariant_envelope_fields",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/named_methods.py",
+        "symbol": "registry_snapshot",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/named_methods.py",
+        "symbol": "route",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/observability.py",
+        "symbol": "append",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/observability.py",
+        "symbol": "no_progress",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/providers.py",
+        "symbol": "add_internal_fts5",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/providers.py",
+        "symbol": "advance",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/providers.py",
+        "symbol": "import_protected_ledger",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/providers.py",
+        "symbol": "qualify_hermes_core",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/recovery.py",
+        "symbol": "backup_database",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/recovery.py",
+        "symbol": "restore_database",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/release.py",
+        "symbol": "from_dict",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/release.py",
+        "symbol": "reduce",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/repo_intelligence.py",
+        "symbol": "analyze_python_change",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "binding_digest",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "extract_binding",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "find_session_binding",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "load_canonical_binding",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "require_projection_matches",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "resolve_arm",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "validate_binding",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "validate_role_evidence",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/role_binding.py",
+        "symbol": "verify_completion_evidence",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "contains_pii",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "ensure_within",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "network_is_disabled",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "redact_secrets",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "sanitation_findings",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/security.py",
+        "symbol": "verify_artifact_pin",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "acquire_lease",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "bind_workspace",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "close_tt",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "connect",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "create_project",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "create_taskspec",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "create_workorder",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "initialize",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "open_tt",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "record_workorder_result",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "register_evidence",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "register_requirement",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "release_lease",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "resolve_acceptance",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "rollback_workorder",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "snapshot",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "transaction",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/spine.py",
+        "symbol": "transition_requirement",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "canonical_json",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "new_id",
+        "state": "UNTESTED_SURFACE",
+        "tested": false
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "sha256_bytes",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "sha256_file",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "sha256_text",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      },
+      {
+        "module": "src/hg_kseos/util.py",
+        "symbol": "utc_now",
+        "state": "REUSE_AS_IS",
+        "tested": true
+      }
+    ]
+  },
+  "adapter_is_not_a_native_upgrade": true
+}
