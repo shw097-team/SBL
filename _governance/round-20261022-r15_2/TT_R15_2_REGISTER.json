@@ -648,10 +648,44 @@
         "evidence/LANE_ESCAPE_20261023/CONTROL_PLANE_HEAD_AT_0114.txt",
         "kanban.db tasks.status for t_0a223bab and t_60dc110f = blocked"
       ]
+    },
+    {
+      "tt_id": "TT-R15.2-EXECUTE-ARM-DOES-NOT-TERMINATE",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "The owner-mandated EXECUTE arm produces artefacts but never emits a terminal reply",
+      "observed": {
+        "arm": "opencode-go/deepseek-v4.1-flash",
+        "dispatches": [
+          {
+            "brief": "BRIEF4 (W15 guard)",
+            "secs": 540.05,
+            "artefacts": "proposal.diff + VERDICT.json + EVIDENCE.json, all valid"
+          },
+          {
+            "brief": "BRIEF5_Q1 (kind matrix)",
+            "secs": 600.04,
+            "artefacts": "m03_routing.candidate.py only (173 lines, parses)"
+          }
+        ],
+        "both": {
+          "ok": false,
+          "nonce_present": false,
+          "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED"
+        },
+        "shape": "the arm works past its budget and is killed at the cap; it never returns the nonce"
+      },
+      "conflict": "a lane that does the work but cannot terminate turns every dispatch into a timeout, so receipts stay red even when the artefacts are usable - the budget measures the wrong thing",
+      "decision": "BUDGET_RAISED_ONCE_WITH_NARROWED_BRIEF",
+      "resolution": "third dispatch uses 1200s and a four-file minimum-output brief that forbids rewriting the existing candidate; if that also times out the arm is declared unusable for this round and the owner is told (per the standing rule that an unusable mandated model is a stop condition)",
+      "evidence": [
+        "receipts/dispatch/EXECUTE__BRIEF4.json",
+        "receipts/dispatch/EXECUTE__BRIEF5_Q1.json"
+      ]
     }
   ],
   "counts": {
-    "total": 24,
+    "total": 25,
     "hard_blocker": 0,
     "resolved_measured": 5,
     "contained": 2
