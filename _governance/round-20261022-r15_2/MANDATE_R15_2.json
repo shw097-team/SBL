@@ -8,27 +8,50 @@
       "lane": "PLAN",
       "provider_model": "openai-codex/gpt-6.1-sol",
       "required_rank": 2,
-      "applies_to": ["research", "analysis", "root-cause", "decision", "planning"],
+      "applies_to": [
+        "research",
+        "analysis",
+        "root-cause",
+        "decision",
+        "planning"
+      ],
       "evidence": "a receipts/dispatch/PLAN*.json with ok=true and nonce_present=true"
     },
     "EXECUTE": {
       "actor": "SBL-EXECUTE & Codex bounded writer",
       "lane": "EXECUTE",
-      "provider_model": "opencode-go/minimax-m3.1-flash-free",
+      "provider_model": "opencode-go/deepseek-v4.1-flash",
       "required_rank": 1,
-      "applies_to": ["product-write", "candidate-proposal", "bounded-writer"],
-      "evidence": "a receipts/dispatch/EXECUTE*.json with ok=true and nonce_present=true"
+      "applies_to": [
+        "product-write",
+        "candidate-proposal",
+        "bounded-writer"
+      ],
+      "evidence": "a receipts/dispatch/EXECUTE*.json with ok=true and nonce_present=true",
+      "previous_provider_model": "opencode-go/minimax-m3.1-flash-free",
+      "substitution": "Owner order 2026-10-23: minimax-m3.1-flash-free returns 410 Gone (deprecated at provider); EXECUTE is rebound to opencode-go/deepseek-v4.1-flash at rank 1."
     },
     "VERIFY": {
       "actor": "SBL-Acceptance Challenge & Independent Acceptance Officer & VERIFY & SECURITY",
       "lane": "VERIFY_SECURITY",
       "provider_model": "openai-codex/gpt-6.1-sol",
       "required_rank": 2,
-      "applies_to": ["verification", "acceptance", "security-review", "challenge"],
+      "applies_to": [
+        "verification",
+        "acceptance",
+        "security-review",
+        "challenge"
+      ],
       "evidence": "a receipts/dispatch/VERIFY*.json with ok=true and nonce_present=true"
     }
   },
-  "orchestrator_exempt": ["measurement", "file-plumbing", "package-build", "queue-maintenance", "test-execution"],
+  "orchestrator_exempt": [
+    "measurement",
+    "file-plumbing",
+    "package-build",
+    "queue-maintenance",
+    "test-execution"
+  ],
   "violation_policy": "a work item whose role is in a role above may not be marked DONE without the matching receipt; the gate exits non-zero and names the item",
   "honest_ceiling": "This makes violation detectable and blocking. It cannot make a model obey; it can make disobedience unshippable."
 }

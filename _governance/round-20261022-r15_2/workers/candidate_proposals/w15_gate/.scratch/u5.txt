@@ -1,0 +1,28 @@
+diff --git "a/C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\workers\\candidate_proposals\\w15_gate\\.scratch/a/src/hg_kseos/lifecycle.py" "b/C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\workers\\candidate_proposals\\w15_gate\\.scratch/b/src/hg_kseos/lifecycle.py"
+index 926a16e..1dcf00a 100644
+--- "a/C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\workers\\candidate_proposals\\w15_gate\\.scratch/a/src/hg_kseos/lifecycle.py"
++++ "b/C:\\Projects\\Agent_Workspace\\_r152_ev\\_governance\\round-20261022-r15_2\\workers\\candidate_proposals\\w15_gate\\.scratch/b/src/hg_kseos/lifecycle.py"
+@@ -167,21 +167,21 @@ class ProjectLifecycleController:
+         if to_state not in VALID_TRANSITIONS.get(state, set()):
+             raise LifecycleError(f"ERR_ILLEGAL_TRANSITION {state}->{to_state}")
+         # CS-A D4: project-level DELIVERED must fail while required workorders
+         # are still open (created/admitted/executing). Wave/subset closure is
+         # recorded via checkpoints, not by claiming project delivery.
+-        if to_state == "DELIVERED":
++        if to_state in ("DELIVERY_READY", "DELIVERED"):
+             with self.spine.connect() as conn:
+                 open_rows = conn.execute(
+                     "SELECT COUNT(*) FROM workorders w JOIN taskspecs t ON t.taskspec_id=w.taskspec_id "
+                     "JOIN requirements r ON r.requirement_id=t.requirement_id "
+                     "WHERE r.project_id=? AND w.state NOT IN ('VERIFIED','ROLLED_BACK','CANCELLED')",
+                     (project_id,),
+                 ).fetchone()[0]
+             if open_rows:
+                 raise LifecycleError(
+-                    f"ERR_PENDING_WORK_CANNOT_DELIVER {project_id}: {open_rows} required workorders open")
++                    f"ERR_PENDING_WORK_CANNOT_DELIVER {project_id}: {open_rows} required workorders open (refused at {to_state})")
+         with self.spine.transaction() as conn:
+             row = conn.execute("SELECT run_id, attempt_budget, attempts_used FROM project_lifecycles WHERE project_id=?",
+                                (project_id,)).fetchone()
+             run_id, budget, used = row
+             conn.execute("UPDATE project_lifecycles SET state=?, updated_at=? WHERE project_id=?",

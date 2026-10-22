@@ -35,6 +35,16 @@ def main() -> int:
     nonce = (sys.argv[sys.argv.index("--nonce") + 1] if "--nonce" in sys.argv
              else f"{m['lane']}-R152-{time.strftime('%H%M%S')}-{abs(hash(brief)) % 9999:04d}")
     tmo = int(sys.argv[sys.argv.index("--timeout") + 1]) if "--timeout" in sys.argv else 560
+    # The lane's contract is that the model echoes the nonce. A brief that never asks for it fails the receipt for a
+    # reason that has nothing to do with the work — measured: 358s of real analysis, 166KB stdout, ok=False purely
+    # because no nonce was echoed. So the instruction is injected, not remembered.
+    brief_text = open(brief, encoding="utf-8").read()
+    stamped = os.path.join(os.path.dirname(brief), "_" + os.path.basename(brief))
+    open(stamped, "w", encoding="utf-8", newline=chr(10)).write(
+        "NONCE: " + nonce + chr(10) + chr(10)
+        + "Begin your reply with exactly this token on its own line: " + nonce + chr(10) + chr(10)
+        + brief_text)
+    brief = stamped
     out = os.path.join(R, "receipts", "dispatch", f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}.json")
     cmd = [sys.executable, "scripts/hgk-lane-dispatch.py", "--lane", m["lane"], "--prompt", brief,
            "--nonce", nonce, "--require-arm", m["provider_model"], "--force-rank", str(m["required_rank"]),

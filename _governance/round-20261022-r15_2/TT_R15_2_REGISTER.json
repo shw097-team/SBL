@@ -509,12 +509,39 @@
       "owner": "HGK Native Owner",
       "next_legal_step": "Pin the interpreter in the entrypoint (shebang/launcher/pyproject requires-python) so doctor cannot run on an unsupported one.",
       "far_recommendation": "Fail loudly at import time rather than at doctor time: the doctor is the messenger."
+    },
+    {
+      "tt_id": "TT-R15.2-EXECUTE-ARM-DEPRECATED",
+      "kind": "CR",
+      "severity": "RESOLVED_MEASURED",
+      "subject": "The mandated EXECUTE model was deprecated at the provider mid-round",
+      "observed": {
+        "lane": "EXECUTE",
+        "arm": "opencode-go/minimax-m3.1-flash-free",
+        "provider_error": "410 Gone: Model minimax-m3.1-flash-free has been deprecated.",
+        "receipt": "receipts/dispatch/EXECUTE__BRIEF4.json",
+        "secs": 9.21,
+        "relay_models_total": 92,
+        "relay_minimax_ids": 0,
+        "earlier_successes": [
+          "EXECUTE_wo04b ok=true 344.03s",
+          "EXECUTE_wo04c ok=true 133.13s"
+        ]
+      },
+      "conflict": "the mandated arm stopped existing between two dispatches; a lane that worked at 00:06 was gone by 00:40, so 'the lane is proven' is a statement with an expiry date",
+      "decision": "OWNER_ORDERED_SUBSTITUTION",
+      "resolution": "Owner order 2026-10-23: EXECUTE rebound to opencode-go/deepseek-v4.1-flash rank 1; minimax retained as rank-2 fallback marked not dispatchable. Pool revision 21 records before/after.",
+      "evidence": [
+        "receipts/dispatch/EXECUTE__BRIEF4.json",
+        "MANDATE_R15_2.json",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/config/lane-route-slots.candidate.json#revision21"
+      ]
     }
   ],
   "counts": {
-    "total": 20,
+    "total": 21,
     "hard_blocker": 0,
-    "resolved_measured": 2,
+    "resolved_measured": 3,
     "contained": 1
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
