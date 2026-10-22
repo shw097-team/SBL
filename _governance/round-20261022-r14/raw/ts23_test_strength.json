@@ -1,0 +1,35 @@
+{
+  "schema": "SBL-R14-TS23-MUTATION-CHECK/1",
+  "note": "Each mutation replaces the installed module's main() with a wrong implementation, runs the installed behavioural test, then restores the file and verifies the digest. A surviving mutation is a coverage hole and is reported as caught=false.",
+  "results": [
+    {
+      "kind": "CLI_TOOL",
+      "mutation": "census reports zero for a non-empty file",
+      "test": "test_cli.py",
+      "test_exit": 1,
+      "caught": true,
+      "restored_byte_identical": true,
+      "tail": "ine 1044, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Projects\\\\Agent_Workspace\\\\_r14_packet\\\\raw\\\\ts23_sandbox\\\\fixture.md'\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "kind": "AGENT_SKILL",
+      "mutation": "headings are fixture constants regardless of input",
+      "test": "test_skill.py",
+      "test_exit": 1,
+      "caught": true,
+      "restored_byte_identical": true,
+      "tail": "_sandbox\\venv\\Lib\\site-packages\\ts23_headings\\__init__.py\", line 11, in main\n    return {'path': str(p), 'headings': [{'line':1,'level':1,'text':'One'},{'line':3,'level':2,'text':'Two'},{'line':4,'level':3,'text':'Three'}]}\n                        ^\nNameError: name 'p' is not defined\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.081s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "kind": "SIMPLE_AGENT",
+      "mutation": "halt_reason wrong and a negative byte count",
+      "test": "test_agent.py",
+      "test_exit": 1,
+      "caught": true,
+      "restored_byte_identical": true,
+      "tail": "alt_reason': 'WRONG', 'reviews': [{'path': str(q), 'bytes': -999, 'sha256': 'x'*64} for q in queue[:2]]}\n                                                                                                                                       ^^^^^\nNameError: name 'queue' is not defined\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.088s\n\nFAILED (failures=1)\n"
+    }
+  ],
+  "all_caught": true,
+  "all_restored": true
+}

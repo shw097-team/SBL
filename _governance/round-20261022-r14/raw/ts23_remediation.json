@@ -1,0 +1,31 @@
+{
+  "schema": "SBL-R14-TS23-REMEDIATION/1",
+  "answers_review": "ts23_independent_review.json (verdict FAIL on checks 2 and 3)",
+  "changes": [
+    {
+      "finding": "check 3 - every captured RED run failed with 'No module named ...', a collection error rather than a behavioural red",
+      "root_cause": "the build harness asserted the missing-module error on purpose: `assert 'No module named' in red['stderr']`",
+      "fix": "the RED phase now writes a placeholder package that has __init__ and __main__ and runs (main returns 0, prints nothing). The test therefore executes the program and fails on the expected output. The harness now asserts the opposite: `assert 'No module named' not in red['stderr']`.",
+      "evidence": "all three programs: RED exit 1 with AssertionError ('program produced no output'), GREEN exit 0",
+      "note": "the first attempt still errored (json.loads on empty output), so each test now asserts the output is non-empty before parsing - an AssertionError instead of a JSONDecodeError."
+    },
+    {
+      "finding": "check 2 - all three shipped tests also passed against deliberately broken implementations",
+      "fix": "three test bodies strengthened: (a) census now also censuses an EMPTY file exactly, so a constant answer fails; (b) headings are checked against a SECOND document whose expected inventory is computed from that document, and the result must differ from the first document's; (c) the two-step limiter now asserts halt_reason == 'BUDGET', that every byte count is a non-negative int, and that every digest is 64 hex characters.",
+      "evidence": "ts23_test_strength.json - each mutation is applied to the INSTALLED module, the installed test is run, the file is restored and its digest re-checked: 3/3 caught, 3/3 restored byte-identical",
+      "mutations": ["census reports zero for a non-empty file", "headings are fixture constants regardless of input", "halt_reason wrong and a negative byte count"]
+    },
+    {
+      "finding": "check 5 caveat - the sandbox venv was not hermetic (system-site-packages enabled)",
+      "fix": "the venv is created WITHOUT system site-packages and the build toolchain (setuptools, wheel) is installed into it explicitly; pyvenv.cfg now records include-system-site-packages = false",
+      "evidence": "ts23_sandbox/venv/pyvenv.cfg and a full rebuild in which all three programs install, run, pass their installed tests and report their installed locations inside that venv",
+      "disclosure": "the toolchain install uses the network; that is stated in the build log label rather than being hidden"
+    }
+  ],
+  "unchanged_findings": [
+    "checks 1, 4 and 5 passed in the first review and are untouched by these edits",
+    "the requirement is still one small local tool set, not a general engine"
+  ],
+  "claim_ceiling": "The remediation addresses the three named defects with reproducible evidence. It does not make M2 pass: M2 needs a SECOND independent read of the remediated artefacts, and the maker cannot supply that for itself.",
+  "next_step": "fresh independent review of the remediated build; on PASS the workorder can be re-recorded, on FAIL the causes are named again"
+}
