@@ -142,3 +142,28 @@ one-hunk fix, and the suite went 227/2 → 227/0.
 
 Re-gate the delivery state (section 11 defect), make intake revisable to `PLAN_READY`, and merge the one-hunk Windows
 fix on the product line. Those three are owner actions, all reversible, all small.
+
+## 8. Third iteration: the denominator is the deliverable
+
+### 8.1 The stop I kept repeating
+
+Three times I reported a number that was true and useless: "6/6 work orders VERIFIED", "PARTIAL", "release blocked".
+Each was measured against whatever denominator happened to be in front of me. The command declares 18 work packages, 25
+check runs, 9 capabilities and 4 milestones; I never wrote that list down until now. A completion claim without a
+declared denominator is not wrong, it is unfalsifiable — and unfalsifiable is worse, because it reads as diligence.
+
+### 8.2 What declaring it changed immediately
+
+Within one pass the denominator exposed three things no amount of extra verification would have found:
+
+1. HG-KSEOS conformance **passes only under an interpreter the host does not default to** — so "conformance PASS" was
+   an artefact of which python I happened to invoke.
+2. The product implements **5 of 8 kinds**, which no test result reveals because the missing three simply have no test.
+3. `39 mode gates` is not a prose claim: it is `13 GATE_IDS × 3 MODES`, and it is arithmetically closed — while the
+   *semantic* denominator for M4 is recorded as UNMEASURED, so M4 is unclaimable in principle.
+
+### 8.3 Rule carried forward
+
+**Write the denominator before the first verdict, and measure each item at least once.** Then a PARTIAL is informative:
+it says 4 of 18 done rather than "mostly done with gaps". The cost of the rule is one parsing pass; the cost of skipping
+it is three rounds of self-congratulation that an owner has to unwind.

@@ -485,10 +485,34 @@
       "next_legal_step": "Route future producing steps through `hgk-lane-dispatch.py --lane EXECUTE` with a declared write-set, and keep the orchestrator to planning, guarding and recording.",
       "far_recommendation": "Keep the guard, move the hands: the orchestrator should never be the one writing the artefact it later checks, and the lane already proves it can do it inside a write-set.",
       "severity_note": "the acceptance evidence is unaffected; the provenance claim is what was wrong"
+    },
+    {
+      "tt_id": "TT-R15.2-HGK-PYTHON-BINDING",
+      "kind": "CR",
+      "severity": "MEDIUM",
+      "subject": "HG-KSEOS native conformance fails on the host default interpreter",
+      "observed": {
+        "default_python": "3.11.17",
+        "doctor_verdict": "FAIL",
+        "blocking": [
+          "python_supported"
+        ],
+        "supported_python": "3.12.13",
+        "doctor_verdict_supported": "PASS",
+        "receipts": [
+          "receipts/admission/hgk_doctor.txt",
+          "receipts/admission/hgk_doctor_py312.json"
+        ]
+      },
+      "conflict": "Every earlier conformance claim on this host is only true under a non-default interpreter. A verdict that depends on which python you happen to run is not a verdict about the product.",
+      "decision": "PROPOSED_PIN",
+      "owner": "HGK Native Owner",
+      "next_legal_step": "Pin the interpreter in the entrypoint (shebang/launcher/pyproject requires-python) so doctor cannot run on an unsupported one.",
+      "far_recommendation": "Fail loudly at import time rather than at doctor time: the doctor is the messenger."
     }
   ],
   "counts": {
-    "total": 19,
+    "total": 20,
     "hard_blocker": 0,
     "resolved_measured": 2,
     "contained": 1

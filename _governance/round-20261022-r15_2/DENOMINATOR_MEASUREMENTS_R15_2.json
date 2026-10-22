@@ -1,0 +1,104 @@
+{
+  "schema": "SBL_R15_2_DENOMINATOR_MEASUREMENTS/1",
+  "measurements": [
+    {
+      "item": "50 parents / 149 children",
+      "source": "SBL/evidence_ledger/child_outcome_ledger.json",
+      "observed": {
+        "parents": 50,
+        "children": 149
+      },
+      "closed": true
+    },
+    {
+      "item": "441 identities",
+      "source": "SBL/evidence_ledger/source_identity_441_ledger.json",
+      "observed": {
+        "donors": 6,
+        "slots": 24,
+        "methods": 25,
+        "named_identities": 386
+      },
+      "arithmetic": "6 + 24 + 25 + 386 = 441",
+      "closed": true
+    },
+    {
+      "item": "38 surfaces",
+      "source": "SBL/evidence_ledger/surface_c001_c038_ledger.json",
+      "observed": {
+        "surfaces": 38
+      },
+      "closed": true
+    },
+    {
+      "item": "39 mode gates",
+      "source": "sbl_core/modes.py",
+      "observed": {
+        "GATE_IDS": 13,
+        "MODES": 3,
+        "product": 39
+      },
+      "arithmetic": "13 gate ids x 3 modes = 39",
+      "closed": true
+    },
+    {
+      "item": "8 kinds",
+      "source": "sbl_core/m03_routing.py DEFAULT_POLICY",
+      "observed": [
+        "CLI_TOOL",
+        "BROWN_PATCH",
+        "SKILL",
+        "AGENT_OS",
+        "AI_SYSTEM"
+      ],
+      "count": 5,
+      "declared": 8,
+      "closed": false,
+      "gap": "3 declared kinds have no policy row"
+    },
+    {
+      "item": "DOC semantic total",
+      "source": "SBL/_governance/round-20261022-r14/raw/ts27_denominator.json",
+      "observed": {
+        "semantic_total_state": "UNMEASURED",
+        "units": 20,
+        "packet_inventory": 1743
+      },
+      "closed": false,
+      "note": "UNKNOWN is not absent; the denominator is missing, so M4 cannot be claimed"
+    },
+    {
+      "item": "product suite",
+      "source": "pytest junit reports",
+      "observed": {
+        "all_tests": 227,
+        "failures": 0,
+        "skipped": 4,
+        "w0607_subset": {
+          "tests": 79,
+          "failures": 0,
+          "seconds": 4.67
+        }
+      },
+      "closed": true
+    },
+    {
+      "item": "HG-KSEOS conformance",
+      "source": "receipts/admission/hgk_doctor_py312.json",
+      "observed": {
+        "verdict": "PASS",
+        "python": "3.12.13",
+        "blocking": [],
+        "host_default": {
+          "python": "3.11.17",
+          "verdict": "FAIL",
+          "blocking": [
+            "python_supported"
+          ]
+        }
+      },
+      "closed": true,
+      "note": "conformance is interpreter-bound on this host"
+    }
+  ]
+}

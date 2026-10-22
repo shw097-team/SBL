@@ -398,3 +398,50 @@ Real and adversarial, with the numbers in section 2 and 12: 43 self-check claims
 independent challenge verdict of `FAIL` with 7 blocking findings, and then the defects those passes exposed — four
 counting errors, two Windows portability defects, one ledger scope error, three packaging scope errors. Independence
 remains **lane-level only**: the checker and the writer share host and session (`SOD006-C6` still open).
+
+## 14. The denominator the command actually declares, and what is left
+
+Section 11-13 reported against six work orders. The command declares far more, and a verdict is only as meaningful as
+the denominator it is stated against. `DENOMINATOR_R15_2.json` now declares it and `DENOMINATOR_MEASUREMENTS_R15_2.json`
+holds the arithmetic.
+
+| set | total | DONE | PARTIAL | NOT_RUN |
+|---|---|---|---|---|
+| WorkPackages W00–W17 | 18 | 4 | 7 | 7 |
+| CheckRuns C00–C24 | 25 | 3 | 11 | 11 |
+| E-series E01–E09 | 9 | 0 | 5 | 4 |
+| Milestones M1–M4 | 4 | 0 (PASSED) | 1 | 3 |
+
+### 14.1 What moved in this pass
+
+- **W01 / C01**: `hg-kseos doctor` returns **PASS** — under Python **3.12.13**. Under the host default 3.11.17 it returns
+  **FAIL** with `blocking: ["python_supported"]`. Both receipts are kept. Every earlier conformance statement on this
+  host is therefore interpreter-bound, which is a defect, not a footnote (`TT-R15.2-HGK-PYTHON-BINDING`).
+- **W06 / C17**: 79 tests green across `modes`, `core_modules`, `gj03_bridge`, `e2e/rollback`, `e2e/gj02_patch`. The
+  kinds denominator is **not** met: `DEFAULT_POLICY` implements 5 kinds (`CLI_TOOL`, `BROWN_PATCH`, `SKILL`,
+  `AGENT_OS`, `AI_SYSTEM`) against a declared 8.
+- **W07 / C12**: patch and rollback paths pass; the full FirstFail → bounded repair → full regression loop is still not
+  exercised end to end, so PARTIAL.
+- **W14 / C18 / C24**: four denominators closed arithmetically — 50 parents / 149 children; 441 = 6 donors + 24 slots +
+  25 methods + 386 identities; 38 surfaces; **39 mode gates = 13 `GATE_IDS` × 3 `MODES`** (read from the code, not the
+  prose). The fifth does not close: 5 of 8 kinds.
+
+### 14.2 Why M4 cannot be claimed by anyone yet
+
+`SBL/_governance/round-20261022-r14/raw/ts27_denominator.json` records `semantic_total_state: UNMEASURED`, 20 units,
+1,743 structural packets, and a claim ceiling that says so in its own words. "DOC 全語義" has no denominator, so no
+percentage, no FULL, and no M4 — not because work failed but because the measuring instrument does not exist yet.
+
+### 14.3 The remaining 7 work packages, sorted by who can close them
+
+| class | items | why |
+|---|---|---|
+| **agent-executable next** | W05 (PIPD 8 skills / 19 contracts / 13 CLI), W11 (standing-grant FAR resume) | no external principal needed; both are bounded build work with tests |
+| **owner-blocked** | W02 (Fabric active policy disposition), W12 (SWOF W3 admission), W15 (release control), W16 (B0/B1/B2 performance baseline ownership) | each needs an owner decision or an owner-issued baseline that an agent may not manufacture |
+| **host-blocked** | W13 (five tools, three reproducible ZIPs, three private ChatGPT hosts) | `HOST_PENDING`: no host-issued IDs, no private-plugin schema |
+
+### 14.4 Verdict, restated against the real denominator
+
+`PARTIAL` — 4 of 18 work packages done, 0 of 9 E-series capabilities done, 0 of 4 milestones passed, release blocked.
+The six VERIFIED work orders were real, and they are a subset. Anyone reading only section 11 would over-estimate this
+round by a wide margin; that is exactly why this section exists.
