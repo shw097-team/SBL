@@ -33,15 +33,15 @@
 | **D-04** 語義分母 UNKNOWN | DOC-02 L128 / DOC-04 L99 / DOC-12 L7829 自述；4738/4589/1341 三種計數並存 | DOC-02 C01–C09；DOC-08 | GAP | **DEFER（Owner trigger）** | 分階段 taxonomy + dedup/alias + Owner 簽分母；**在此之前禁止任何完成百分比** | PIPD Source Owner | L |
 | **D-05** 五工具端到端鏈未證 | stack `14 components / STANDALONE_ONLY / host NOT_INSTALLED`；harness `HOST_PENDING / native_effect NOT_GRANTED` | DOC-12 C-001..038 | BLOCKER（需授權） | **DECIDE：編入 HGK 專項 WO** | 一個 admitted WO 貫穿 dispatcher→writer→checker→readback；不是再量的問題 | HGK issuer + Hermes Owner | M |
 | **D-06** Commander/Challenge 兩薄 adapter 未接 | PLAN/VERIFY 車道可服務，但無 SP `invocation_id` | DOC-04 C15；DOC-08 C40；DOC-10 | BLOCKER（需授權） | **DECIDE：編入同一 WO（與 D-05 合併）** | pre-handoff / pre-spawn 兩個接點 + `required==served` + SP 收據 | Commander/Challenge Owner | M |
-| **D-07** R9-02 獨立 Checker 無 scratch | 無 isolated writable scratch 授權 | DOC-08 C39–C42 | BLOCKER | **DECIDE：Owner 一次授權** | 授權一個 checker-only 可寫根（候選唯讀）→ 跑一次並留 raw | lane Owner | S |
-| **D-08** 他人 untracked 測試 9 模組 | HGK dirty tree：9 測試模組 + 2 `.bak` + `tests/w3_solution/` + 1 modified | DOC-07 C44；DOC-11 | DEBT | **DECIDE：二選一（建議收編）** | 由作者確認後以獨立 commit 收編，或在 `var/` 隔離；**禁止本回合名義 stage** | HGK Test Owner | S |
+| **D-07** R9-02 獨立 Checker 無 scratch | 無 isolated writable scratch 授權 | DOC-08 C39–C42 | BLOCKER | **DECIDE：Owner 一次授權** → **已授權 2026-10-23（`DEC-R12-D07-O2-20261023`）：CLOSED-GUARD** —— grant 已落地（scope+expiry+subject digest，候選唯讀，subject 凍結 `origin/main@dc5428f2`）；granted scratch 內全套 SBL suite 218 passed / 2 skipped / 0 failed，pin `CONTROL_PACKAGE_PINNED`，subject tree 不變；**R9-02 驗收回合本身仍 OPEN** | 授權一個 checker-only 可寫根（候選唯讀）→ 跑一次並留 raw（已做，見 `O2_D07_CHECKER_SCRATCH_GRANT.md` + `o2_checker_scratch/`） | lane Owner | S |
+| **D-08** 他人 untracked 測試 9 模組 | HGK dirty tree：9 測試模組 + 2 `.bak` + `tests/w3_solution/` + 1 modified | DOC-07 C44；DOC-11 | DEBT | **DECIDE：二選一（建議收編）** → **已裁決 2026-10-23：收編（ADOPT）已執行** —— 9 模組皆 tracked（`7d9b64b`/`9fa79dd`），`.bak` 隔離保留於 `var/quarantine/bak-20261022/tests/`，modified 測試原樣留檔 `db68ee4`；R9-05 乾淨 checkout 對齊仍 PARTIAL（無完成百分比，D-04 ceiling）；見 `O3_D08_ADOPTION_RECORD.md` | 由作者確認後以獨立 commit 收編，或在 `var/` 隔離；**禁止本回合名義 stage**（已按收編路徑執行） | HGK Test Owner | S |
 | **D-09** `_repo_head()` CWD 缺陷 | `lifecycle.py:462` 的 `git rev-parse HEAD` **未帶 `cwd=`／`-C`**，繼承 launcher CWD；`line 463` 把非零 exit 轉成 `""`（靜默失敗）；`_repo_head()` 本身不吞例外，但 **caller `admit_requirement()` 在 `line 606–607` 把 `InvariantViolation` 吞掉**。callers 在 `line 383/604` | DOC-05 C19 | GAP | **DECIDE：HGK 專項 WO 修（26 行 diff + 2 個測試函式／6 cases 已於記憶體套用驗證 RED→GREEN，repo 未改）** | 先 RED（target≠CWD、例外上拋）→ 最小修 → 受影響 regression | HGK project Owner | S |
 | **D-10** conformance 指令不可照抄 | `--timeout=900` 不存在；`hg_kseos` 未安裝進 venv；18F/16F 分母不可互比 | DOC-00 R03（證據誠實） | DEBT | **DECIDE：文件化 + CI guard** | 在 repo 記下唯一可重跑指令與前置；CI 固定同一條 | HGK Docs Owner | XS |
-| **D-11** 車道宣告面互斥 | epoch 29 PLAN rank1=minimax vs mandate PLAN=gpt | DOC-04 C15（角色分離） | DEBT（已用 mandate chain 覆蓋） | **DECIDE：兩個選項交 Owner** | (a) epoch 30 rebind 同步 90 個 pin；或 (b) 書面承認逐輪 mandate chain | Owner + HGK issuer | S/M |
+| **D-11** 車道宣告面互斥 | epoch 29 PLAN rank1=minimax vs mandate PLAN=gpt —— **已被事件取代**：epoch 30/31/32 rebind 已於 2026-10-22 帶 WO 紀律落地（`924af95`/`bb67397`/`c3727d4`），2026-10-23 實測宣告面 routing 軸與 owner 令一致 | DOC-04 C15（角色分離） | ~~DEBT~~ → **CLOSED_SUPERSEDED_BY_EVENTS** | **DECIDED（DEC-R12-D11-O1-20261023）：(a)+(b) 並用為常態** —— binding 變更走 issuer rebind（宣告面必須追上，含敘述欄位），mandate chain 為每輪斷言／證據層 | 殘餘 **D-11b**：rev32 `sod.*` 敘述散文 stale 且被 projection `expected` 釘死（gate 綠但宣告面自我矛盾）→ issuer 一個 commit 同步改散文＋pin；見 `D11_O1_LANE_DECLARATION_DECISION.md` | Owner + HGK issuer | S |
 | **D-12** 三 ChatGPT 私人 Plugin 0/3 | 無 Host-issued id | DOC-12 C-016..018 | BLOCKER（外部） | **DEFER（Host 權限）** | Host 授權後 3×create/install/@invoke/deny/uninstall | Host Owner | M |
 | **D-13** 441/149/38 runtime 逐項 | 只有 identity/ledger，無 per-item runtime | DOC-06 C33.2；DOC-01 C05 | GAP | **DEFER（順序裁決）** | **不得先做**：須在 D-05/D-06 通了之後才有意義 | OSS/Native Owner | L |
-| **D-14** CR-PLUGIN-SCHEMA-AUTHORITY | `NOBJ-017` 為 `PROHIBITED`，與 ChatGPT 插件封裝實務衝突 | DOC-06；DOC-12 | BLOCKER（法位） | **DECIDE：Owner 一次裁決** | 明文選定合規封裝面，並記錄例外；不得由 agent 解禁 | Product/Host Owner | XS |
-| **D-15** CR-GPTB-KP-R04 極性 | 多處 `MUST NOT` 與正向語義相衝 | KP01/KP04（support 層） | OBS | **DECIDE：承認 polarity，不改 DOC** | 開 CR 記錄，KP 不得覆寫 DOC | Knowledge Owner | XS |
+| **D-14** CR-PLUGIN-SCHEMA-AUTHORITY | `NOBJ-017` 為 `PROHIBITED`，與 ChatGPT 插件封裝實務衝突 | DOC-06；DOC-12 | BLOCKER（法位） | **DECIDE：Owner 一次裁決** → **已裁決 2026-10-23（O-4）：選定 ChatGPT private GPT（GA, DOC-12 C36.3）為合規封裝面**；`NOBJ-017`（Agent Plugins 1.0 WD）**維持 PROHIBITED**（例外已記錄，未由 agent 解禁）；C-016..C-018 仍 `HOST_PENDING`；見 `O4_NOBJ017_EXCEPTION_RECORD.md` + `O4_NOBJ017_exception.json` | 明文選定合規封裝面，並記錄例外；不得由 agent 解禁（已按此執行） | Product/Host Owner | XS |
+| **D-15** CR-GPTB-KP-R04 極性 | 多處 `MUST NOT` 與正向語義相衝 | KP01/KP04（support 層） | OBS | **DECIDE：承認 polarity，不改 DOC** → **已裁決 2026-10-23（O-5）：承認並記 CR** —— `CR-GPTB-KP-R04-POLARITY.md` 已落地（source unchanged，0 DOC/KP 檔被改），20/20 R04 維持 `POLARITY_UNVERIFIED` 隔離，DOC 為上位；KP corpus 加列交 Knowledge Owner（7 份位元組相同副本，canonical 未指定） | 開 CR 記錄，KP 不得覆寫 DOC（已做） | Knowledge Owner | XS |
 | **D-16** SWOF W3 未授予 | 無 ACK/permit | DOC-07；DOC-13 | OBS | **NO-ACTION（維持 shadow）** | PREW3_SHADOW 一律 NO_EFFECT | SWOF Owner | XS |
 | **D-17** TPM/Commander 候選包路徑壞 | 兩者 README 指向不存在的 packaged skill 路徑（`subagent/SKILLS_PRACTICALITY.md` 逐檔核對） | DOC-12 C-001/C-002 | DEBT | **DECIDE：先修 package layout 再談落地** | 選定 direct-skill 或 portable-plugin layout 之一並驗證；不得兩者混用 | SP Packaging Owner | S |
 | **D-18** `sbl-stack` doctor 顯示 live-source digest drift | 已部署 stack 的 **14 個元件中 13 個 digest 不符**（子代理實跑 `doctor`）；operator 文件漏列必要參數 | DOC-12 C-033；DOC-13 | DEBT | **DECIDE：由 owner 對齊 pins 並補指令文件** | 重跑 doctor 到 0 mismatch；補 `--root/--target` 必要參數 | Stack Owner | S |
@@ -53,11 +53,11 @@
 
 | # | 決策 | 選項 | FAR 建議 | 若未決的後果 |
 |---|---|---|---|---|
-| O-1 | PLAN 車道宣告面 | (a) epoch 30 rebind（同步 90 pin）／(b) 常態 mandate chain | **(b) 先做**：本回合已用 chain 成功服務三次；rebind 留待有 WO 時一次做 | drift 永久存在，每輪都要人工覆蓋 |
-| O-2 | Checker scratch（R9-02） | 授權／不授權 | **授權**，範圍限 checker 專用根、候選唯讀 | 獨立驗收永遠停在 `INCONCLUSIVE` |
-| O-3 | untracked 測試收編（D-08） | 收編／隔離／丟棄 | **收編**（它們是本機車道與 validator 的真實覆蓋） | conformance 分母永遠不可比 |
-| O-4 | Plugin schema 法位（D-14） | 選合規封裝／維持禁止 | **選合規封裝並記例外** | 三 Plugin 永久 `HOST_PENDING` |
-| O-5 | KP-R04 polarity（D-15） | 承認衝突／改 KP | **承認並記 CR** | 每輪重複爭論 |
+| O-1 | PLAN 車道宣告面 | (a) epoch 30 rebind（同步 90 pin）／(b) 常態 mandate chain | **已裁決 2026-10-23（DEC-R12-D11-O1-20261023）：拒絕二選一** —— (a) 已於 2026-10-22 三次執行（epoch 30/31/32，WO 紀律）；常態規則＝**rebind-on-order**（binding 變更必須讓宣告面追上）＋ mandate chain 作為每輪斷言／證據層；原「(b) 先做」建議 **SUPERSEDED**。殘餘 D-11b 交 issuer | —（決策已落；D-11b 由 issuer 一個 commit 關閉，見 `D11_O1_LANE_DECLARATION_DECISION.md`） |
+| O-2 | Checker scratch（R9-02） | 授權／不授權 | **已裁決 2026-10-23：已授權**（`DEC-R12-D07-O2-20261023`，24h expiry，scope 限 checker scratch round root，候選唯讀，subject digest guard） | —（決策已落；R9-02 驗收回合本身仍 OPEN，見 `O2_D07_CHECKER_SCRATCH_GRANT.md`） |
+| O-3 | untracked 測試收編（D-08） | 收編／隔離／丟棄 | **已裁決 2026-10-23：收編（ADOPT）已執行** —— 9 模組 tracked，misattribution 關閉（作者不從 git 歷史推定） | —（決策已落；R9-05 乾淨 checkout 對齊仍 PARTIAL，見 `O3_D08_ADOPTION_RECORD.md`） |
+| O-4 | Plugin schema 法位（D-14） | 選合規封裝／維持禁止 | **已裁決 2026-10-23：選 ChatGPT private GPT（GA, DOC-12 C36.3）並記例外**；NOBJ-017 維持 PROHIBITED | —（決策已落；三 Plugin 仍 `HOST_PENDING`，見 `O4_NOBJ017_EXCEPTION_RECORD.md`） |
+| O-5 | KP-R04 polarity（D-15） | 承認衝突／改 KP | **已裁決 2026-10-23：承認並記 CR，不改 KP** | —（決策已落；標準答案固化於 `CR-GPTB-KP-R04-POLARITY.md`，後續回合引用不再重辯） |
 
 ---
 

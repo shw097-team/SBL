@@ -13,11 +13,33 @@ Status legend: `[x]` done and read back · `[ ]` open, owner named · `[!]` bloc
 
 ## Owner decisions requested
 
-- [!] O-1 PLAN lane declaration vs owner mandate: either rebind epoch 30 or accept a per-round mandate chain.
-- [!] O-2 grant an isolated writable scratch root to the checker (unblocks R9-02).
-- [!] O-3 adopt the nine untracked HGK test modules under their authors' approval (or isolate them under `var/`).
-- [!] O-4 plugin schema authority: pick the compliant packaging surface and record the exception to NOBJ-017.
-- [!] O-5 record the GPTB KP R04 polarity conflict as a CR; do not edit the KP.
+- [x] O-1 PLAN lane declaration vs owner mandate — DECIDED 2026-10-23 (`DEC-R12-D11-O1-20261023`):
+      rebind-on-order is the standing rule for binding changes (already executed as registry epochs
+      30/31/32 under WO discipline on 2026-10-22); the per-round mandate chain stays as the
+      assertion/evidence layer (`required_arm == served_arm` receipts), not a substitute for the
+      declaration. Residual D-11b: rev-32 `sod.*` narrative prose is stale and pinned by projection
+      `expected` values — one issuer commit must move prose + pins together.
+      Record: `_governance/round-20261021-r12-far/D11_O1_LANE_DECLARATION_DECISION.md`.
+- [x] O-2 GRANTED 2026-10-23 (`DEC-R12-D07-O2-20261023`): checker-only scratch round root, candidate
+      read-only, subject frozen at origin/main@dc5428f2 (225 files, rollup eb5325d4…), 24h expiry,
+      digest guard discriminates. Full SBL suite 218 passed / 2 skipped / 0 failed inside the granted
+      scratch; control-package pin CONTROL_PACKAGE_PINNED; subject tree unchanged. R9-02 acceptance
+      round itself still OPEN. Record: `_governance/round-20261021-r12-far/O2_D07_CHECKER_SCRATCH_GRANT.md`.
+- [x] O-3 untracked test adoption (D-08): ADOPTED 2026-10-23 under the FAR R12 owner decision — all
+      9 modules tracked (first tracking commits `7d9b64b`/`9fa79dd`), `.bak` quarantined to
+      `var/quarantine/bak-20261022/tests/`, modified test preserved unreviewed at `db68ee4`. R9-05
+      clean-checkout parity stays PARTIAL (no percentage, D-04 ceiling). Record:
+      HG-KSEOS `docs/ADOPTION-D08-O3-UNTRACKED-TESTS-20261023.md` @ `f380719`, mirrored at
+      `_governance/round-20261021-r12-far/O3_D08_ADOPTION_RECORD.md`.
+- [x] O-4 plugin schema authority: chosen surface = ChatGPT private GPT (GA, DOC-12 C36.3);
+      NOBJ-017 (Agent Plugins 1.0 WD) stays PROHIBITED; C-016..C-018 remain HOST_PENDING.
+      See CR-PLUGIN-SCHEMA-AUTHORITY + `_governance/round-20261021-r12-far/O4_NOBJ017_EXCEPTION_RECORD.md`.
+- [x] O-5 KP-R04 polarity (D-15): ACKNOWLEDGED 2026-10-23 via CR-GPTB-KP-R04-POLARITY — recorded,
+      0 DOC/KP source files modified; 20/20 R04 rows stay quarantined `POLARITY_UNVERIFIED`, DOC is
+      the upper authority; KP corpus + `19_KP_INDEX_CROSSWALK` row deferred to Knowledge Owner
+      (7 byte-identical corpus copies, canonical not designated). Record:
+      `_governance/round-20261021-r12-far/CR-GPTB-KP-R04-POLARITY.md` (origin
+      `evidence/r12-20261021-far@72ee999`, mirrored here byte-identical).
 
 ## HGK work orders required (not started)
 

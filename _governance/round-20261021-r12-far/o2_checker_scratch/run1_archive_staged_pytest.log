@@ -1,0 +1,135 @@
+...........................................FF........................... [ 32%]
+............................................ssF..........F.............. [ 65%]
+...ss................................................................... [ 98%]
+....                                                                     [100%]
+================================== FAILURES ===================================
+_______________ test_bind_repo_context_positive_reads_real_repo _______________
+
+    def test_bind_repo_context_positive_reads_real_repo():
+        ctx = bind_repo_context(REPO_ROOT)
+        assert len(ctx.head) == 40
+>       assert ctx.tracked_files > 0
+E       AssertionError: assert 0 > 0
+E        +  where 0 = RepoContextDTO(root='C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f', head='cda8cd0eff41aca37c08a364233207f8f1140f59', tracked_files=0, dirty=True).tracked_files
+
+tests\test_core_modules.py:137: AssertionError
+_________________ test_bind_repo_context_negative_not_a_repo __________________
+
+    def test_bind_repo_context_negative_not_a_repo():
+        outside = tempfile.mkdtemp(prefix="sbl-not-a-repo-")
+        try:
+>           with pytest.raises(SBLError) as caught:
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE SBLError
+
+tests\test_core_modules.py:145: Failed
+________________ test_git_applies_lf_to_the_shipped_text_files ________________
+
+    def test_git_applies_lf_to_the_shipped_text_files():
+        """`git check-attr` must report eol:lf for every shipped text type.
+    
+        A file that merely CONTAINS the string "eol=lf" proves nothing: the checker
+        rewrote every rule to `eol=crlf` and this assertion still passed before.
+        """
+        attrs = REPO / ".gitattributes"
+        assert attrs.exists(), ".gitattributes is missing: a Windows checkout rewrites the tree to CRLF"
+        tracked = [f for f in _git("ls-files").splitlines() if Path(f).suffix.lower() in SHIPPED_TEXT]
+>       assert tracked, "no shipped text files were found to check"
+E       AssertionError: no shipped text files were found to check
+E       assert []
+
+tests\test_reproducible_build.py:73: AssertionError
+_______________ test_two_independent_builds_are_byte_identical ________________
+
+    def test_two_independent_builds_are_byte_identical():
+        """The suite must ASSERT the actual property, end to end.
+    
+        The independent checker (VERIFY_SECURITY lane, R7 round 2) showed that a
+        mutation replacing `DEFAULT_SOURCE_DATE_EPOCH` with wall-clock `time.time()`
+        leaves the whole suite GREEN while destroying reproducibility: the two builds
+        differ (wheel `f182f0cd...` vs `0d26e23b...`, `identical=false`).
+    
+        That mutant survived because every other test in this file asserts a LOCAL
+        property (a rule is present, a normalisation changes a file, a timestamp is
+        constant) and none of them builds anything twice. A local property can hold
+        while the global property fails. This test builds twice and compares bytes.
+    
+        The two builds run as SEPARATE PROCESSES, because that is how the claim is
+        used: an in-process comparison reuses one clock reading and cannot see a
+        clock-derived epoch (see test_source_date_epoch_is_pinned_across_processes).
+        """
+        import hashlib
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+        import unittest
+    
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            digests = []
+            for i in (1, 2):
+                out = root / f"dist{i}"
+                r = subprocess.run(
+                    [sys.executable, str(REPO / "tools" / "build_reproducible.py"),
+                     "--commit", "HEAD", "--outdir", str(out)],
+                    capture_output=True, text=True, timeout=1800, cwd=str(REPO),
+                )
+                if r.returncode != 0:
+                    # A SKIP here is only legitimate when the BUILD BACKEND is
+                    # genuinely absent from this environment. A product defect that
+                    # happens to make the build fail must be a FAILURE, not a skip:
+                    # a blanket skip on any nonzero exit lets a broken build hide
+                    # behind an unavailable backend, and the independent checker
+                    # (R7 round 4) called exactly this out as fail-open.
+                    combined = (r.stdout or "") + (r.stderr or "")
+                    # The marker list must match what the builder ACTUALLY says
+                    # when the backend is missing. The builder's resolver raises
+                    # SystemExit("no interpreter with the 'build' package was
+                    # found. Install it with 'pip install build', or point
+                    # SBL_BUILD_PYTHON at an interpreter that has it. (Checked:
+                    # ...)"), so a marker list that only knows the bare
+                    # "No module named build" would turn an environment gap into a
+                    # product failure -- which is exactly what the D1 repair was
+                    # meant to prevent, and exactly what it did on CI, where the
+                    # runner has no build backend installed. A marker that does not
+                    # match reality is worse than no marker at all.
+                    backend_missing = any(
+                        marker in combined
+                        for marker in (
+                            "no interpreter with the 'build' package was found",
+                            "no interpreter with the build backend",
+                            "No module named build",
+                            "cannot be directly executed",
+                            "unable to find the build backend",
+                        )
+                    )
+                    if backend_missing:
+                        raise unittest.SkipTest(
+                            "no interpreter with the build backend is available in "
+                            f"this environment: {combined[-400:]}"
+                        )
+>                   raise AssertionError(
+                        "the build FAILED for a reason other than a missing backend "
+                        f"(exit {r.returncode}). A product defect must not be skipped: "
+                        f"{combined[-800:]}"
+                    )
+E                   AssertionError: the build FAILED for a reason other than a missing backend (exit 1). A product defect must not be skipped: cker-scratch\round-20261023-r12o2\candidate-dc5428f\tools\build_reproducible.py", line 266, in main
+E                       export_tree(repo, commit, src)
+E                     File "C:\Projects\Agent_Workspace\HG-KSEOS\var\checker-scratch\round-20261023-r12o2\candidate-dc5428f\tools\build_reproducible.py", line 170, in export_tree
+E                       with tarfile.open(tar_path) as tf:
+E                            ^^^^^^^^^^^^^^^^^^^^^^
+E                     File "C:\Users\user\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\tarfile.py", line 1862, in open
+E                       raise ReadError(f"file could not be opened successfully:\n{error_msgs_summary}")
+E                   tarfile.ReadError: file could not be opened successfully:
+E                   - method gz: ReadError('not a gzip file')
+E                   - method bz2: ReadError('not a bzip2 file')
+E                   - method xz: ReadError('not an lzma file')
+E                   - method tar: ReadError('end of file header')
+
+tests\test_reproducible_build.py:379: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_core_modules.py::test_bind_repo_context_positive_reads_real_repo
+FAILED tests/test_core_modules.py::test_bind_repo_context_negative_not_a_repo
+FAILED tests/test_reproducible_build.py::test_git_applies_lf_to_the_shipped_text_files
+FAILED tests/test_reproducible_build.py::test_two_independent_builds_are_byte_identical

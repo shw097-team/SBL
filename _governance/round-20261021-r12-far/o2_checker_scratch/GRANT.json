@@ -1,0 +1,39 @@
+{
+  "schema": "HGK-CHECKER-SCRATCH-GRANT/1",
+  "granted_at_utc": "2026-10-22T17:29:26.648301+00:00",
+  "expiry_utc": "2026-10-23T17:29:26.648301+00:00",
+  "kanban_task": "t_c7c44c52",
+  "decision": "FAR r12 O-2 = GRANT (D-07); adjudication shape per FAR_R13 sec.3: candidate read-only, independent output root, staged copy for test execution, authorization as scope + expiry + subject digest",
+  "authorization_basis": [
+    "owner standing blanket authorization 2026-10-22 (measure -> adjudicate -> record TT -> continue; only HARD blockers stop)",
+    "FAR_R12 D-07 / O-2: owner one-time grant, scope limited to a checker-only root, candidate read-only",
+    "FAR_R13 sec.3 O-2 adjudication (2026-10-21)"
+  ],
+  "holder_role": "checker (VERIFY lane)",
+  "scope": [
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\tmp\\**",
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\**",
+    "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f\\**"
+  ],
+  "scope_note": "CAND is a disposable byte-copy of the frozen subject for test execution; the verdict binds to the frozen manifest rollup, never to the working copy bytes after mutation",
+  "read_only_surfaces": [
+    "C:/Projects/Agent_Workspace/SBL/** (product repository; no write grant)"
+  ],
+  "subject_digest": {
+    "ref": "origin/main",
+    "commit": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+    "tree": "3f95125c5fe1d5436e1b0a112753d91f5a7e2af7",
+    "rollup_sha256": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+    "file_count": 225
+  },
+  "enforcement": {
+    "mechanism": "explicit grant + sha256 digest guard + temp-root redirection; writes outside scope are DETECTED, not OS-PREVENTED",
+    "os_level_readonly_available": false,
+    "why_not_os_enforced": "measured on this host: codex-lane -s read-only and -s workspace-write refuse every CreateProcess (pwsh.exe -Command pwd -> 'blocked by policy'), so the lane cannot execute under an OS read-only sandbox; house recipe is full access + before/after digest guard",
+    "guard_rule": "recompute the frozen rollup after every checker run; ANY mismatch voids the verdict and is a defect report against the run, not against the subject",
+    "temp_redirection": "TMP/TEMP/TMPDIR + SBL_TEST_TMP all pointed inside the granted root for every child process; PYTHONDONTWRITEBYTECODE=1; pytest -p no:cacheprovider"
+  },
+  "lane_caveat": "grant is role-based (checker), not model-based. Current VERIFY lane arm is opencode-go/deepseek-v4.1-flash, the SAME model as PLAN (SOD006-C6 OPEN_OWNER_ORDERED): process/lane/evidence-path separation only; model-axis independence is NOT claimed",
+  "expiry_rule": "expired grants are void; re-grant is one record, no subsystem change",
+  "claim_ceiling": "local grant record, candidate-only; this is not a Permit, not an acceptance, not an independent-checker verdict"
+}

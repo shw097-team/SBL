@@ -1,0 +1,78 @@
+{
+  "schema": "SBL-FAR-R12-O4-NOBJ017-EXCEPTION/1",
+  "task_id": "t_0d384783",
+  "decision_id": "O-4",
+  "deviation_id": "D-14",
+  "cr_id": "CR-PLUGIN-SCHEMA-AUTHORITY",
+  "round": "FAR-r12-swarm",
+  "recorded": "2026-10-23T00:00:00+08:00",
+  "status": "CANDIDATE_ONLY",
+  "decision_basis": [
+    "R13 CR-PLUGIN-SCHEMA-AUTHORITY = DECIDED_BY_OWNER_PREAUTHORIZATION",
+    "R14 CR-R14S12-PLUGIN-SCHEMA = ADJUDICATED_FOR_SURFACE_SELECTION (current, 2026-10-22)"
+  ],
+  "packaging_authority": {
+    "chosen_surface": "ChatGPT private GPT (GA)",
+    "chosen_surface_clause": "DOC-12 C36.3",
+    "chosen_surface_kind": "lawful non-draft host surface",
+    "rejected_surface": "Agent Plugins 1.0 Working Draft (agent-plugins.org/schemas/1.0.0)",
+    "rejected_surface_named_object": "NOBJ24/NOBJ-017",
+    "rejected_reason": "NOBJ-017 is a QUARANTINED/PROHIBITED draft; not adopted, not shipped, not installed, not validated"
+  },
+  "nobj017_exception": {
+    "named_object": "NOBJ24/NOBJ-017",
+    "name": "Agent Plugins 1.0 Working Draft",
+    "frozen_disposition": "PROHIBITED",
+    "disposition_changed": false,
+    "de_prohibited_by_agent": false,
+    "source": "DOC-06:L317",
+    "ledger_evidence": "SBL/evidence_ledger/source_identity_441_ledger.json:513-518",
+    "reading_position": "B1 ($schema = host ingestion metadata only; NOBJ-017 stays PROHIBITED)",
+    "capability_upgraded_to_host_accepted": false
+  },
+  "affected_surfaces": [
+    { "locator": "DOC-12#C-016", "status": "HOST_PENDING" },
+    { "locator": "DOC-12#C-017", "status": "HOST_PENDING" },
+    { "locator": "DOC-12#C-018", "status": "HOST_PENDING" }
+  ],
+  "conflict": {
+    "requirement_capability": "SP_HOST_INSTALL_REQUEST",
+    "requirement_acceptances": ["ACC-SP_HOST_INSTALL_REQUEST", "ACC-TOOL_TPM_SP"],
+    "requirement_locators": ["DOC-12#C-016", "DOC-12#C-017", "DOC-12#C-018"],
+    "contract_evidence": "contracts/SBL_C0_C9_CONTRACT-R9.json:589-606,1805-1839",
+    "summary": "DOC-12 C-016..C-018 require the three SPs to install/invoke/uninstall in a host harness; the only marketplace packaging available is the NOBJ-017 prohibited draft, so a lawful non-draft surface (ChatGPT private GPT/GA) is selected instead"
+  },
+  "reversal_condition": "Official non-draft verifiable Host packaging surface appears -> owner opens NEW CR and re-runs C-016..C-018 create->install->@invoke->deny->uninstall lifecycle",
+  "claim_ceiling": {
+    "host_install_claimed": false,
+    "host_issued_id_claimed": false,
+    "native_effect_claimed": false,
+    "three_of_three_installed_claimed": false,
+    "control_package_pin_regressed": false,
+    "externally_accepted": false,
+    "verifier_gate_passed": false,
+    "note": "candidate-only; locally verified against source this round; not externally accepted; no independent-checker run this round"
+  },
+  "evidence": [
+    "SBL/evidence_ledger/source_identity_441_ledger.json:513-518 (NOBJ-017 PROHIBITED)",
+    "_r12_docs/contracts/SBL_C0_C9_CONTRACT-R9.json:589-606,1805-1839 (C-016..C-018 surfaces)",
+    "_r12_docs/_governance/round-20261021-r13-native/CR-PLUGIN-SCHEMA-AUTHORITY.md (decision; identical copy at _r13_far/)",
+    "_r14_ev/_governance/round-20261022-r14/SBL_R14_TT_CR_REGISTER.json (CR = HOST_PENDING)",
+    "_r14s12_ev/SBL_R14S12_TT_CR.json (surface selection adjudicated; draft stays QUARANTINED)"
+  ],
+  "landing_edit_for_synthesizer": {
+    "tasks_md": {
+      "path": "openspec/changes/far-r12-20261021/tasks.md",
+      "line": 19,
+      "from": "- [!] O-4 plugin schema authority: pick the compliant packaging surface and record the exception to NOBJ-017.",
+      "to": "- [x] O-4 plugin schema authority: chosen surface = ChatGPT private GPT (GA, DOC-12 C36.3); NOBJ-017 (Agent Plugins 1.0 WD) stays PROHIBITED; C-016..C-018 remain HOST_PENDING. See CR-PLUGIN-SCHEMA-AUTHORITY + O4_NOBJ017_EXCEPTION_RECORD."
+    },
+    "far_study": {
+      "path": "_governance/round-20261021-r12-far/FAR_DEVIATION_STUDY.md",
+      "row": "D-14",
+      "action": "set FAR 裁決 cell to decided; point to CR-PLUGIN-SCHEMA-AUTHORITY"
+    },
+    "applied_by_worker": false,
+    "reason_not_applied": "_r12_docs is on shared branch evidence/r13-20261021-native; four sibling workers close O-1/O-2/O-3/O-5 against the same tasks.md; landing is the synthesizer's job (t_5f76be91)"
+  }
+}
