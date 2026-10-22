@@ -77,7 +77,6 @@
       {
         "receipt": "receipts/dispatch/EXECUTE_wo04b.json",
         "ok": true,
-        "net_effect": "EXEC_RECEIPT.json survives; `_run_receipt.ps1` was removed by the next dispatch (wo04c), so the net addition is 1 file, not 2 — the checker caught this and the earlier wording was wrong",
         "guard_provenance": "EXECUTE_wo04b.json itself reports subject_mutation=not_guarded and completion_evidence.checked=false, so the dispatcher does NOT guarantee the write-set; the zero-outside-writes claim rests on the round's own external before/after snapshot (guard_exec2_before/after), which is a weaker instrument and is labelled as such",
         "write_effect": {
           "survives": [
@@ -125,7 +124,7 @@
         "over_32767": true
       }
     },
-    "disclosure": "the EXECUTE lane executed the bounded write and produced the absolute-path measurement; the guard that bounded it is external to the dispatcher, and the helper script it created did not survive the next dispatch. Both facts are stated rather than smoothed over.",
+    "disclosure": "the EXECUTE lane executed the bounded write and produced the absolute-path measurement. The helper script it created was removed inside that same dispatch, so one file survives. The guard that bounded the write is external to the dispatcher, which itself reports subject_mutation=not_guarded. Both facts are stated rather than smoothed over.",
     "number_reconciliation": {
       "37693": "path characters only",
       "37733": "path characters + 40-character prefix (round measurement)",
