@@ -1,0 +1,50 @@
+{
+  "workorder": "WO-TS-20261022-05",
+  "objective": "Run deterministic acceptance, raw evidence and independent checks",
+  "capc": {
+    "lint": {
+      "receipt": "receipts/CAPC_lint.json",
+      "sha256": "1f1029e72ba9bc5942a2862d1fb9bd9e13f6da30fda77187ea6efe16299e92c3",
+      "exit_code_zero": true,
+      "verdict": "PROMPT_COMPILE_PASS"
+    },
+    "activation": {
+      "receipt": "receipts/CAPC_activation.json",
+      "sha256": "46f05146a66bc2f2fdad6bced5d075a5a847454eb43761639cede3f2addf21c0",
+      "exit_code_zero": true,
+      "verdict": "PROMPT_COMPILE_PASS"
+    },
+    "acceptance": {
+      "receipt": "receipts/CAPC_acceptance.json",
+      "sha256": "15825ea38ca310b73cecd6efe954a002a083c36f54746d6c21faa98ba36385a8",
+      "exit_code_zero": true,
+      "verdict": "PROMPT_COMPILE_PASS"
+    },
+    "compile": {
+      "receipt": "receipts/CAPC_compile.json",
+      "sha256": "f64e1f22c7ab5aca0cbab93941773f2a5aed6b89988db3dc3fcd051cce35516a",
+      "exit_code_zero": true,
+      "verdict": "PROMPT_COMPILE_PASS"
+    }
+  },
+  "capc_all_exit_zero": true,
+  "dispatch_receipts": [
+    "EXECUTE_guarded.json",
+    "EXECUTE_minimax.json",
+    "EXECUTE_minimax_cwd.json",
+    "PLAN_dispatch.json",
+    "PLAN_gpt-6.1-sol_openai-codex.json",
+    "PLAN_gpt61sol.json",
+    "PLAN_openai-codex_gpt-6.1-sol.json",
+    "VERIFY_final.json",
+    "VERIFY_gpt61sol.json",
+    "VERIFY_gpt61sol_judgement.json",
+    "VERIFY_nonleading.json",
+    "VERIFY_nonleading2.json",
+    "VERIFY_wo6.json",
+    "VERIFY_workorders.json",
+    "VERIFY_workorders2.json"
+  ],
+  "independent_check_caveat": "the checker principal is a distinct lane/model but the same host and session; SOD006-C6 stays open",
+  "generated_utc": "2026-10-22T14:07:26Z"
+}

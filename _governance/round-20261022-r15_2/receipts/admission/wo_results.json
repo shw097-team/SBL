@@ -1,0 +1,89 @@
+{
+  "project_id": "sbl-r152-continuation-20261022",
+  "checker_principal": "codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2",
+  "write_results": [
+    {
+      "workorder": "WO-TS-20261022-01",
+      "verdict": "FAIL",
+      "ok": true,
+      "reason": "native intake covers 14 of 24 frozen documents; the 10 PIPD_LS documents are absent, so 'admit the provided source corpus' is not established",
+      "spine_result": "{'verdict': 'FAIL', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-01/source_inventory.json', 'receipts/dispatch/VERIFY_workorders2.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022-02",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "24 ledger rows, 24 distinct source ids, 24 distinct sha256; checker re-derived the counts independently",
+      "spine_result": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-02/source_ledger.json', 'receipts/dispatch/VERIFY_workorders2.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022-03",
+      "verdict": "FAIL",
+      "ok": true,
+      "reason": "no RAG/KG ingestion was implemented in this round; the objective is unmet and no evidence bundle exists",
+      "spine_result": "{'verdict': 'FAIL', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['TT_R15_2_REGISTER.json', 'DECISION_PACK_R15_2.md']}"
+    },
+    {
+      "workorder": "WO-TS-20261022-04",
+      "verdict": "FAIL",
+      "ok": true,
+      "reason": "core product surface changes require a product write permit which HG-KSEOS has not issued; nothing was written",
+      "spine_result": "{'verdict': 'FAIL', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['TT_R15_2_REGISTER.json', 'DECISION_PACK_R15_2.md']}"
+    },
+    {
+      "workorder": "WO-TS-20261022-05",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "all four CAPC receipts carry PROMPT_COMPILE_PASS and exit_code 0; checker parsed the raw receipts",
+      "spine_result": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-05/acceptance.json', 'receipts/dispatch/VERIFY_workorders2.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022-06",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "independent enumeration: 199 files on disk, 199 manifest paths, zero undeclared, zero missing",
+      "spine_result": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-06/exact_set_readback.json', 'receipts/dispatch/VERIFY_wo6.json']}"
+    }
+  ],
+  "transitions": {
+    "EXECUTING": "OK",
+    "VERIFYING": "OK",
+    "EVOLUTION_REVIEW": "OK",
+    "RELEASE_REDUCING": "OK",
+    "DELIVERY_READY": "OK"
+  },
+  "final_state": "DELIVERY_READY",
+  "pending_workorders": null,
+  "spine_readback": [
+    {
+      "workorder_id": "WO-TS-20261022-01",
+      "state": "FAILED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"evidence/WO-TS-20261022-01/source_inventory.json\",\"receipts/dispatch/VE"
+    },
+    {
+      "workorder_id": "WO-TS-20261022-02",
+      "state": "VERIFIED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"evidence/WO-TS-20261022-02/source_ledger.json\",\"receipts/dispatch/VERIF"
+    },
+    {
+      "workorder_id": "WO-TS-20261022-03",
+      "state": "FAILED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"TT_R15_2_REGISTER.json\",\"DECISION_PACK_R15_2.md\"],\"verdict\":\"FAIL\"}"
+    },
+    {
+      "workorder_id": "WO-TS-20261022-04",
+      "state": "FAILED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"TT_R15_2_REGISTER.json\",\"DECISION_PACK_R15_2.md\"],\"verdict\":\"FAIL\"}"
+    },
+    {
+      "workorder_id": "WO-TS-20261022-05",
+      "state": "VERIFIED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"evidence/WO-TS-20261022-05/acceptance.json\",\"receipts/dispatch/VERIFY_w"
+    },
+    {
+      "workorder_id": "WO-TS-20261022-06",
+      "state": "VERIFIED",
+      "result": "{\"checker\":\"codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2\",\"evidence_refs\":[\"evidence/WO-TS-20261022-06/exact_set_readback.json\",\"receipts/dispatch/"
+    }
+  ]
+}

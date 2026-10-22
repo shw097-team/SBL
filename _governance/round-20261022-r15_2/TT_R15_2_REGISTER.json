@@ -356,15 +356,70 @@
         "class_open": true,
         "needs": "an owner attestation over all governed repos with a timestamped pre-image"
       }
+    },
+    {
+      "tt_id": "TT-R15.2-DELIVERY-GATE-IGNORES-FAILED",
+      "kind": "CR",
+      "severity": "HIGH",
+      "subject": "Project lifecycle reaches DELIVERY_READY with FAILED work orders",
+      "observed": {
+        "project_id": "sbl-r152-final2-20261022b",
+        "state": "DELIVERY_READY",
+        "workorders": {
+          "VERIFIED": 4,
+          "FAILED": 2
+        },
+        "transition_receipts": "receipts/admission/final_wo_results.json",
+        "guard_that_did_fire_elsewhere": "ERR_PENDING_WORK_CANNOT_DELIVER exists for open rows but did not fire for FAILED rows"
+      },
+      "conflict": "lifecycle.py blocks DELIVERED while required work orders are *open*, but it counts VERIFIED/FAILED alike as closed, so a project with 2 FAILED work orders still reads DELIVERY_READY. A reader who trusts the state name would conclude the opposite of the truth.",
+      "decision": "PROPOSED_REOPEN",
+      "owner": "HGK Native Owner",
+      "next_legal_step": "Make the delivery gate require zero FAILED work orders (or rename the state to DELIVERY_BLOCKED when any exist).",
+      "far_recommendation": "Rename before you re-gate: a state whose name asserts readiness while the rows say FAILED is worse than a missing state."
+    },
+    {
+      "tt_id": "TT-R15.2-INTAKE-PRE-ADMISSION-ONLY",
+      "kind": "TT",
+      "severity": "MEDIUM",
+      "subject": "Native intake cannot be extended after SOURCE_ADMISSION",
+      "observed": {
+        "error": "ERR_INTAKE_STATE WORKORDERS_ADMITTED",
+        "receipt": "receipts/admission/native_intake2.json",
+        "consequence": "correcting a source-coverage gap forced a whole new project and a new set of work orders"
+      },
+      "conflict": "A discovery mistake is unrecoverable inside the project; the only fix is to abandon the project and re-admit.",
+      "decision": "PROPOSED_OWNER_REVIEW",
+      "owner": "HGK Native Owner",
+      "next_legal_step": "Allow intake revision before PLAN_READY (with a recorded revision number), or document that source binding must be final at creation.",
+      "far_recommendation": "Allow revision up to PLAN_READY; abandonment-and-re-admit leaves orphan projects in the spine, which is what happened here."
+    },
+    {
+      "tt_id": "TT-R15.2-PROJECT-PROLIFERATION",
+      "kind": "OBSERVATION",
+      "severity": "MEDIUM",
+      "subject": "Four projects created for one subject; three are residue",
+      "observed": {
+        "sbl-r15-2-20261022": "WORKORDERS_ADMITTED (CLI advanced past admission, no work orders created)",
+        "sbl-r152-continuation-20261022": "DELIVERY_READY with 3 FAILED work orders",
+        "sbl-r152-final-20261022": "PLAN_READY, idle (taskspec id collision forced a rename)",
+        "sbl-r152-final2-20261022b": "DELIVERY_READY, the project of record",
+        "receipt": "receipts/admission/final_wo_results.json"
+      },
+      "conflict": "The spine now holds four lifecycle rows for one subject. A later reader cannot tell which one is the subject of record without reading this register.",
+      "decision": "PROPOSED_OWNER_CLEANUP",
+      "owner": "HGK Native Owner",
+      "next_legal_step": "Cancel or annotate the three residue projects with a pointer to the project of record; do not delete rows.",
+      "far_recommendation": "Annotate rather than delete: the residue is the honest record of the exploration, and deleting it would make the state look cleaner than the process was."
     }
   ],
   "counts": {
-    "total": 13,
+    "total": 16,
     "hard_blocker": 0,
     "resolved_measured": 1,
     "contained": 1
   },
-  "round_state": "LANES_BOUND_AND_EXERCISED_NO_NATIVE_WORKORDER",
+  "round_state": "NATIVE_ADMISSION_EXECUTED_4_OF_6_VERIFIED",
   "stop_reason": null,
   "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion.",
   "ao_review": {
@@ -380,5 +435,17 @@
       "AO-F07"
     ],
     "response": "STATUS_R15_2.md §10"
+  },
+  "native_plane": {
+    "project_of_record": "sbl-r152-final2-20261022b",
+    "state": "DELIVERY_READY (not DELIVERED)",
+    "workorders": {
+      "WO-TS-20261022b-01": "VERIFIED",
+      "WO-TS-20261022b-02": "VERIFIED",
+      "WO-TS-20261022b-03": "FAILED",
+      "WO-TS-20261022b-04": "FAILED",
+      "WO-TS-20261022b-05": "VERIFIED",
+      "WO-TS-20261022b-06": "VERIFIED"
+    }
   }
 }

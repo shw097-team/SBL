@@ -1,0 +1,100 @@
+{
+  "project_id": "sbl-r152-final2-20261022b",
+  "checker_principal": "codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2",
+  "results": [
+    {
+      "workorder": "WO-TS-20261022b-01",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "checker rehashed all 24 frozen sources and confirmed the native intake covers 24/24 with zero uncovered",
+      "spine": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022b-01/intake_coverage.json', 'receipts/dispatch/VERIFY_final.json']"
+    },
+    {
+      "workorder": "WO-TS-20261022b-02",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "24 ledger entries, 24 distinct hashes, all NORMATIVE; checker re-derived the counts",
+      "spine": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-02/source_ledger.json', 'receipts/dispatch/VERIFY_final.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022b-03",
+      "verdict": "FAIL",
+      "ok": true,
+      "reason": "no RAG/KG ingestion exists; the checker found no bundle and marked the objective unevidenced",
+      "spine": "{'verdict': 'FAIL', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['TT_R15_2_REGISTER.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022b-04",
+      "verdict": "FAIL",
+      "ok": true,
+      "reason": "the core product surface needs a product write permit HG-KSEOS has not issued; nothing was written",
+      "spine": "{'verdict': 'FAIL', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['TT_R15_2_REGISTER.json', 'DECISION_PACK_R15_2.md']}"
+    },
+    {
+      "workorder": "WO-TS-20261022b-05",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "four CAPC receipts with PROMPT_COMPILE_PASS and exit_code 0; checker verified the receipt hashes",
+      "spine": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-05/acceptance.json', 'receipts/dispatch/VERIFY_final.json']}"
+    },
+    {
+      "workorder": "WO-TS-20261022b-06",
+      "verdict": "PASS",
+      "ok": true,
+      "reason": "checker enumerated 214 files against 214 manifest paths, zero undeclared, zero missing",
+      "spine": "{'verdict': 'PASS', 'checker': 'codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2', 'evidence_refs': ['evidence/WO-TS-20261022-06/exact_set_readback.json', 'receipts/dispatch/VERIFY_wo6b.json'"
+    }
+  ],
+  "transitions": {
+    "EXECUTING": "OK",
+    "VERIFYING": "OK",
+    "EVOLUTION_REVIEW": "OK",
+    "RELEASE_REDUCING": "OK",
+    "DELIVERY_READY": "OK"
+  },
+  "final_state": "DELIVERY_READY",
+  "spine_readback": [
+    {
+      "workorder_id": "WO-TS-20261022b-01",
+      "state": "VERIFIED"
+    },
+    {
+      "workorder_id": "WO-TS-20261022b-02",
+      "state": "VERIFIED"
+    },
+    {
+      "workorder_id": "WO-TS-20261022b-03",
+      "state": "FAILED"
+    },
+    {
+      "workorder_id": "WO-TS-20261022b-04",
+      "state": "FAILED"
+    },
+    {
+      "workorder_id": "WO-TS-20261022b-05",
+      "state": "VERIFIED"
+    },
+    {
+      "workorder_id": "WO-TS-20261022b-06",
+      "state": "VERIFIED"
+    }
+  ],
+  "project_states": [
+    {
+      "project_id": "sbl-r15-2-20261022",
+      "state": "WORKORDERS_ADMITTED"
+    },
+    {
+      "project_id": "sbl-r152-continuation-20261022",
+      "state": "DELIVERY_READY"
+    },
+    {
+      "project_id": "sbl-r152-final-20261022",
+      "state": "PLAN_READY"
+    },
+    {
+      "project_id": "sbl-r152-final2-20261022b",
+      "state": "DELIVERY_READY"
+    }
+  ]
+}

@@ -232,3 +232,62 @@ was **replaced with a real artefact** — no finding is answered with prose alon
 told the answer, refusal receipts, kanban reasons, CAPC exit codes). What cannot be manufactured is an owner signature,
 a native WorkOrder/Permit, an independent principal, or a promoted model pool — so `native_run`, `independent_acceptance`
 and `release` stay `NOT_RUN` / `BLOCKED`.
+
+## 11. Native admission actually happened, and the control plane delivered its own verdict
+
+The previous sections stopped at "no WorkOrder exists". That was my failure, not the control plane's: HG-KSEOS has a
+native lifecycle (`hg_kseos.lifecycle.ProjectLifecycleController`) that derives TaskSpecs and issues WorkOrders. It was
+used for real. Three facts must be stated plainly before the table:
+
+1. **Four projects now exist in the spine.** Exploration left `sbl-r15-2-20261022` (WORKORDERS_ADMITTED, no WOs),
+   `sbl-r152-continuation-20261022` (DELIVERY_READY, 3 FAILED), `sbl-r152-final-20261022` (PLAN_READY, idle) and the
+   project of record `sbl-r152-final2-20261022b` (DELIVERY_READY, 4 VERIFIED / 2 FAILED). Only the last one is the
+   subject. The others are residue and are filed as `TT-R15.2-PROJECT-PROLIFERATION`.
+2. **Intake is pre-admission only** (`ERR_INTAKE_STATE` once the project passes SOURCE_ADMISSION), which is why the
+   first project could never cover the PIPD corpus and a clean re-admission was required
+   (`TT-R15.2-INTAKE-PRE-ADMISSION-ONLY`).
+3. **`DELIVERY_READY` does not mean delivered.** The lifecycle reached that state while two work orders were FAILED
+   (`TT-R15.2-DELIVERY-GATE-IGNORES-FAILED`). The round therefore does **not** advance to `DELIVERED`.
+
+### Project of record
+
+| field | value |
+|---|---|
+| project_id | `sbl-r152-final2-20261022b` |
+| sources admitted natively | 30 hashes bound before admission; all 24 frozen documents covered (24/24, zero uncovered) |
+| work orders issued by HG-KSEOS | `WO-TS-20261022b-01 … -06` (6) |
+| checker principal | `codex-lane:openai-codex/gpt-6.1-sol@VERIFY_SECURITY-rank2` (distinct from the writer value `codex`, satisfying `ERR_WORKORDER_SELF_REVIEW`) |
+| final lifecycle state | `DELIVERY_READY` (not `DELIVERED`) |
+
+### Work order results, as the spine now holds them
+
+| WO | objective | verdict | checker's own re-derivation |
+|---|---|---|---|
+| 01 | inventory, hash and admit the source corpus | **VERIFIED** | rehashed all 24 frozen sources; native intake covers 24/24, zero uncovered |
+| 02 | canonical source ledger | **VERIFIED** | 24 entries, 24 distinct hashes, all NORMATIVE |
+| 03 | RAG/KG ingestion | **FAILED** | no bundle exists — the objective is unevidenced |
+| 04 | core product surface with tests | **FAILED** | needs a product write permit HG-KSEOS has not issued |
+| 05 | deterministic acceptance + raw evidence | **VERIFIED** | four CAPC receipts, `PROMPT_COMPILE_PASS`, exit 0, hashes match |
+| 06 | package + exact-set readback | **VERIFIED** | 214 files on disk vs 214 manifest paths, zero undeclared, zero missing |
+
+Receipts: `receipts/admission/native_admit_final2.json`, `receipts/admission/final_wo_results.json`,
+`receipts/dispatch/VERIFY_final.json`, `receipts/dispatch/VERIFY_wo6b.json`, `evidence/WO_EVIDENCE_INDEX.json`,
+`evidence/WO-TS-20261022b-01/intake_coverage.json`.
+
+### Why 03 and 04 are FAILED and not "in progress"
+
+- **03** needs an actual RAG/KG ingestion pipeline over 24 admitted documents. Nothing was built. A FAILED verdict with
+  an empty evidence set is the only truthful record.
+- **04** needs writes to the product surface. No product write permit exists, and this round will not write product
+  source to make a work order look closed.
+
+### Why the round stops here without DELIVERED
+
+`DELIVERED` would assert a delivery that two FAILED work orders contradict, and the release gate additionally needs an
+owner seal. The control plane's own `DELIVERY_READY` is therefore recorded as **not equal to delivered**, and the
+discrepancy is filed rather than exploited.
+
+### Verdict
+
+`PARTIAL` — and now it is the control plane's verdict as much as mine: 4 of 6 admitted work orders VERIFIED by a
+distinct checker principal, 2 FAILED with reasons, release BLOCKED, `DELIVERED` withheld.
