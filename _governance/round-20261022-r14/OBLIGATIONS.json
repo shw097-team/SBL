@@ -159,54 +159,76 @@
     {
       "id": "R14-TS13",
       "title": "八 PIPD Skills＋Native Writer E02/M2",
-      "state": "BLOCKED_SOFT",
-      "next_action": "PIPD bundle Owner must enforce the 7 declared-only refusals in the three skills' input schemas",
+      "state": "PARTIAL",
+      "next_action": "PIPD bundle Owner enforces the two remaining semantic-only refusals (pipd-assurance-tqaep NEG-001, pipd-package-project NEG-001)",
       "evidence": [
         "raw/ts13_pipd_skills.json",
         "HG-KSEOS scripts/pipd_skills_conformance.py"
       ],
       "depends_on": [],
-      "note": "Measured all eight official skills: 8/8 discoverable with version+name matching the directory, 8/8 ACCEPT cases validate against their own input schema AND their declared output validates against the output schema (24 POS cases). Refusals: 5 skills enforce all 4 negatives at the schema; pipd-execution-contract enforces 0/4, pipd-assurance-tqaep 2/4, pipd-package-project 3/4 - their deny path is declared, not mechanical. Fixing that means editing PIPD's own schemas, which belongs to the PIPD bundle Owner, so this item is BLOCKED_SOFT with the exact case ids, not silently greened."
+      "note": "CORRECTED measurement: the first harness run checked only the INPUT schema and reported 7 declared-only refusals (pipd-execution-contract 0/4). Re-measured across BOTH schemas: 30 of 32 REFUSE cases are schema-enforced (execution-contract's four are all output-side: output.required/const/minItems/not). Only 2 remain semantic-only: pipd-assurance-tqaep NEG-001 (first_fail=semantic.distinct) and pipd-package-project NEG-001 (first_fail=semantic.claim_gate). 6 skills PASS, 2 PARTIAL; 24/24 ACCEPT cases valid on both sides."
     },
     {
       "id": "R14-TS14",
       "title": "TPM／Guided SPEC E02/M2",
-      "state": "OPEN",
-      "next_action": "TPM/Guided SPEC: plain-language requirement to source-bound PI/PD proposal",
-      "evidence": [],
-      "depends_on": []
+      "state": "DONE",
+      "next_action": "",
+      "evidence": [
+        "raw/ts14_guided_spec.json",
+        "raw/ts14_guided_spec.md",
+        "raw/ts14_pi_pkg.json",
+        "HG-KSEOS scripts/pi_compile_h0.py"
+      ],
+      "depends_on": [],
+      "note": "Guided spec from a plain-language requirement that is not prefabricated (novelty search over 8,954 readable PIPD files found no matching feature phrase): JTBD/FUO/GoalCard/Decision/NFR + 5 atoms with 5 atomic ACC/NEG pairs, atoms validated by jsonschema (ok, 0 errors, 5 malformed controls rejected), human internal fields required = 0, agent-derived contract fields = 161 (29 in the PI input). GoalCard is NOT specified in DOC-01/02 and is labelled a local proposal. The compiled PI-PKG validates against PIPD's own output schema with a negative control that the same schema rejects (ts14_pi_pkg.json)."
     },
     {
       "id": "R14-TS15",
       "title": "通用真 Engine／One Core E05/M2",
-      "state": "OPEN",
-      "next_action": "One Core engine: three new requirement kinds really generated, installed and used",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "wire the engine so AGENT_SKILL and SIMPLE_AGENT kinds resolve instead of SBL_E_UNKNOWN_KIND",
+      "evidence": [
+        "raw/ts15_engine_readiness.md"
+      ],
+      "depends_on": [],
+      "note": "Measured against the code: SBLM01..06 have real callable modules, but there is no complete wired engine and the kinds AGENT_SKILL and SIMPLE_AGENT return SBL_E_UNKNOWN_KIND. Fixtures existing is explicitly not counted as the engine working."
     },
     {
       "id": "R14-TS16",
       "title": "Bounded Fix／Recovery E05/M2",
-      "state": "OPEN",
-      "next_action": "bounded fix/recovery: inject a real defect, red-green, rollback bytes, zero new failures",
-      "evidence": [],
-      "depends_on": []
+      "state": "DONE",
+      "next_action": "",
+      "evidence": [
+        "raw/ts16_bounded_fix.json",
+        "raw/ts16_bounded_fix.md",
+        "raw/final_r14_full13.log"
+      ],
+      "depends_on": [],
+      "note": "Real red->green in a disposable copy (never the original): injected an inverted holder predicate in acquire_lease (spine.py:122), tests/test_spine.py::test_dual_writer_is_rejected went 1 failed -> 1 passed, rollback restored the defect byte-for-byte (sha256 before/after identical) and reproduced red again, full copied suite 581 passed / 25 failed / 1 skipped / 90 subtests with an IDENTICAL failure set before and after (zero new failures - the copy was not green to begin with and this says so). Original repo verified clean: 744 tracked-file hashes unchanged. Disclosures: the subagent's first hook wrote 12 files to a sibling scratch-w3 outside the sandbox (now quarantined under var/quarantine, not deleted) and the repair path ignored the attempt budget - fixed in this round with ERR_REPAIR_BUDGET_EXHAUSTED plus a test."
     },
     {
       "id": "R14-TS17",
       "title": "TQAEP／Independent Challenge E07/M2",
-      "state": "OPEN",
-      "next_action": "TQAEP 12x8 applicability matrix with POS/NEG/ADV and a different-principal checker",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "run the matrix with a real checker principal; today 0 of 96 cells are runtime-qualified",
+      "evidence": [
+        "raw/ts17_tqaep_matrix.csv",
+        "raw/ts17_tqaep_summary.md"
+      ],
+      "depends_on": [],
+      "note": "96 unique TestClass x skill rows built; 32 cells are exercised through 56 existing schema cases, 64 are asserted only, 0 are runtime-qualified. Important correction: DOC-08's normative matrix is 12 TestClass x 8 OracleType, NOT 12 x 8 skills - the skills matrix here is a reviewer projection and the original oracle cells are preserved separately. No invented legal exclusions."
     },
     {
       "id": "R14-TS18",
       "title": "SourceBound G-KNOW E02/M2",
-      "state": "OPEN",
-      "next_action": "source-bound G-KNOW: anchors, NRTV/unknown, injection and cross-source conflict negatives",
-      "evidence": [],
-      "depends_on": []
+      "state": "PARTIAL",
+      "next_action": "close the three unenforced knowledge negatives (citation hash, CJK injection promotion, cross-source conflict)",
+      "evidence": [
+        "raw/ts18_gknow_negatives.json",
+        "raw/ts18_gknow_negatives.md"
+      ],
+      "depends_on": [],
+      "note": "Measured: 14/14 DOC byte-range anchors resolve by real seek/read; an unknown query abstains (ABSTAIN_NO_GROUNDING) and is reported UNKNOWN. UNENFORCED, with loci: (b) verify_citation accepts changed source bytes (knowledge.py:175-185 checks stored citation status only) although repoint_source does reject drift with ERR_REPOINT_SHA_DRIFT; (d) the injection filter is regex-based (security.py:18-24) - English text is quarantined but CJK authority-escalation text stays promotable; (e) contradictory cross-source assertions persist with no runtime conflict flag."
     },
     {
       "id": "R14-TS19",
@@ -248,10 +270,10 @@
       "id": "R14-TS22",
       "title": "M1 Native 指揮鏈里程碑",
       "state": "BLOCKED",
-      "next_action": "compile a real PI-PKG for a frozen source subject (H0), then re-run scripts/m1_gate_packet.py",
+      "next_action": "Owner signs the packet (4/4 levels measured); no agent may supply that signature",
       "evidence": [
         "raw/ts22_m1_gate_packet.json",
-        "HG-KSEOS scripts/m1_gate_packet.py"
+        "raw/ts14_pi_pkg.json"
       ],
       "depends_on": [
         "R14-TS03",
@@ -262,7 +284,7 @@
         "R14-TS08",
         "R14-TS09"
       ],
-      "note": "Packet assembled and measured: H1 (CAPC C0-C9) met, H2 (identity/repo/permit, 10/10 probe with six deny properties) met, H3 (independent observer + dynamic checker) met, H0 (PIPD source/PI) NOT met - no PI-PKG has ever been compiled for a real subject, and eight existing skills are not a PI. Verdict M1_NOT_READY (3/4). The packet is deliberately unsigned: M1 is an Owner Gate and an agent must not supply the other principal's signature."
+      "note": "Packet now 4/4: H0 is backed by a PI-PKG compiled from the TS14 guided spec and validated against PIPD's own output schema WITH a negative control the same schema rejects (an earlier H0 pass came from a filename match and was a false green - corrected). H1 CAPC receipt, H2 native probe 10/10 with six deny properties, H3 independent observer + dynamic checker. Verdict M1_GATE_PACKET_READY_FOR_OWNER, signed=false: M1 is an Owner Gate and self-signing is the one thing this round forbids."
     },
     {
       "id": "R14-TS23",

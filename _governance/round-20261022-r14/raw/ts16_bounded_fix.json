@@ -1,0 +1,319 @@
+{
+  "schema": "SBL-TS16-RED-GREEN/1",
+  "verdict": "PARTIAL_SANDBOX_RED_GREEN_PROVEN_NATIVE_LOOP_NOT_QUALIFIED",
+  "defect": {
+    "path": "src/hg_kseos/spine.py",
+    "line": 122,
+    "function": "SharedSpine.acquire_lease",
+    "change": "existing[\"holder\"] != holder -> existing[\"holder\"] == holder",
+    "effect": "A different holder can overwrite an unexpired lease; same-holder renewal can be refused.",
+    "sha256": {
+      "before_sha256": "024a3068fc37444bd5b1750947f2bce3e3d58c592dd6d15832fdc6dbaf1215d1",
+      "defect_sha256": "453855d7aaf3257610fa86dcda973799e24161373bf4e7920d8c256301733430",
+      "line": 122,
+      "replacement": "!= to =="
+    }
+  },
+  "first_fail": {
+    "invariant": "UNEXPIRED_LEASE_HAS_ONE_HOLDER",
+    "earliest_broken_link": "acquire_lease existing-holder comparison at line 122, before leases UPSERT",
+    "test_id": "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected",
+    "observed": "AssertionError: LeaseConflict not raised",
+    "cause": "The injected inverted predicate bypasses the dual-writer refusal."
+  },
+  "repair_cone": [
+    {
+      "path": "src/hg_kseos/spine.py",
+      "lines": "122",
+      "symbol": "SharedSpine.acquire_lease",
+      "patch": "Restore == to !=; one line, one operator character changed."
+    }
+  ],
+  "red": {
+    "exit_code": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "failed_ids": [
+      "tests.test_spine.SharedSpineTests::test_dual_writer_is_rejected"
+    ],
+    "raw_output_lines": [
+      "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected FAILED [100%]",
+      "________________ SharedSpineTests.test_dual_writer_is_rejected ________________",
+      "FAILED tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected - AssertionError: LeaseConflict not raised",
+      "============================== 1 failed in 0.50s =============================="
+    ],
+    "raw_log": "ts16_red.log",
+    "junit_xml": "ts16_red.xml"
+  },
+  "green": {
+    "exit_code": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "failed_ids": [],
+    "raw_output_lines": [
+      "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [100%]",
+      "============================== 1 passed in 0.41s =============================="
+    ],
+    "raw_log": "ts16_green.log",
+    "junit_xml": "ts16_green.xml"
+  },
+  "rollback_byte_identical": true,
+  "rollback": {
+    "repair_preimage_sha256": "453855d7aaf3257610fa86dcda973799e24161373bf4e7920d8c256301733430",
+    "rollback_sha256": "453855d7aaf3257610fa86dcda973799e24161373bf4e7920d8c256301733430",
+    "repair_rollback_byte_identical": true,
+    "baseline_preimage_sha256": "024a3068fc37444bd5b1750947f2bce3e3d58c592dd6d15832fdc6dbaf1215d1",
+    "final_restore_sha256": "024a3068fc37444bd5b1750947f2bce3e3d58c592dd6d15832fdc6dbaf1215d1",
+    "baseline_restore_byte_identical": true
+  },
+  "new_failures": 0,
+  "new_failure_ids": [],
+  "suite": {
+    "passed": 581,
+    "failed": 25,
+    "skipped": 1
+  },
+  "baseline_suite": {
+    "passed": 581,
+    "failed": 25,
+    "skipped": 1
+  },
+  "failed_id_sets_equal": true,
+  "stages": {
+    "baseline_target": {
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failed_ids": [],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [100%]",
+        "============================== 1 passed in 0.37s =============================="
+      ],
+      "raw_log": "ts16_baseline_target.log",
+      "junit_xml": "ts16_baseline_target.xml"
+    },
+    "baseline_full": {
+      "exit_code": 1,
+      "passed": 581,
+      "failed": 25,
+      "skipped": 1,
+      "failed_ids": [
+        "tests.test_autonomy_evolution.CliEntrypointTests::test_evolution_status_cli",
+        "tests.test_autonomy_evolution.CliEntrypointTests::test_project_start_cli",
+        "tests.test_autonomy_evolution.LifecycleIntegrationTests::test_checkpoint_resume_idempotent",
+        "tests.test_autonomy_evolution.LifecycleIntegrationTests::test_workorders_admitted_via_spine",
+        "tests.test_autonomy_evolution.LifecycleStateMachineTests::test_full_forward_path",
+        "tests.test_autonomy_evolution.LifecycleStateMachineTests::test_repair_loop",
+        "tests.test_c2_case_run.CaseRunCliTests::test_r4_only_allowed_files_changed",
+        "tests.test_cs_a_gate_repair.D2ProjectScopedRequirementTests::test_existing_req_001_collision_avoided",
+        "tests.test_cs_a_gate_repair.D2ProjectScopedRequirementTests::test_requirement_id_is_project_scoped",
+        "tests.test_cs_a_gate_repair.D4PendingWorkCannotDeliverTests::test_delivered_allowed_when_workorders_terminal",
+        "tests.test_cs_a_gate_repair.D4PendingWorkCannotDeliverTests::test_delivered_rejected_when_workorders_open",
+        "tests.test_cs_a_gate_repair.D5OrdinaryUserFlowTests::test_start_to_admit_no_spine_workaround",
+        "tests.test_cs_a_gate_repair.D6DenominatorTests::test_denominator_materializes_full_project",
+        "tests.test_far_lane_fix_20261015.TestP0PinAssert::test_current_pin_verifies",
+        "tests.test_far_lane_fix_20261015.TestP0PinAssert::test_digest_mismatch_is_typed_not_a_spawn",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_owner_order_mandate_resolves",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_verify_security_mandate_resolves",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_wrong_model_in_pool_refuses",
+        "tests.test_final_md_section_u_semantics.FinalMdSectionUSemanticTests::test_fixture_a_end_to_end_against_real_validator",
+        "tests.w3_solution.test_code_page_independence::test_invalid_utf8_child_bytes_do_not_change_preflight_classification",
+        "tests.w3_solution.test_mandatory_defects::test_preflight_cleanup_failure_changes_return_code_and_is_recorded",
+        "tests.w3_solution.test_receipt_schema::test_preflight_receipt_carries_all_additive_fields",
+        "tests.w3_solution.test_receipt_schema::test_served_model_is_null_when_no_turn_is_served",
+        "tests.w3_solution.test_served_vs_declared_identity::test_primary_acceptance_long_lane_mismatch_fails_closed_with_receipt",
+        "tests.w3_solution.test_served_vs_declared_identity::test_vacuous_pass_control_unreadable_banner_fails_closed"
+      ],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [ 79%]",
+        "== 25 failed, 581 passed, 1 skipped, 90 subtests passed in 157.91s (0:02:37) =="
+      ],
+      "raw_log": "ts16_baseline_full.log",
+      "junit_xml": "ts16_baseline_full.xml"
+    },
+    "red": {
+      "exit_code": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "failed_ids": [
+        "tests.test_spine.SharedSpineTests::test_dual_writer_is_rejected"
+      ],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected FAILED [100%]",
+        "________________ SharedSpineTests.test_dual_writer_is_rejected ________________",
+        "FAILED tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected - AssertionError: LeaseConflict not raised",
+        "============================== 1 failed in 0.50s =============================="
+      ],
+      "raw_log": "ts16_red.log",
+      "junit_xml": "ts16_red.xml"
+    },
+    "green": {
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failed_ids": [],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [100%]",
+        "============================== 1 passed in 0.41s =============================="
+      ],
+      "raw_log": "ts16_green.log",
+      "junit_xml": "ts16_green.xml"
+    },
+    "rollback_red": {
+      "exit_code": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "failed_ids": [
+        "tests.test_spine.SharedSpineTests::test_dual_writer_is_rejected"
+      ],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected FAILED [100%]",
+        "________________ SharedSpineTests.test_dual_writer_is_rejected ________________",
+        "FAILED tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected - AssertionError: LeaseConflict not raised",
+        "============================== 1 failed in 0.53s =============================="
+      ],
+      "raw_log": "ts16_rollback_red.log",
+      "junit_xml": "ts16_rollback_red.xml"
+    },
+    "replay_green": {
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "failed_ids": [],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [100%]",
+        "============================== 1 passed in 0.34s =============================="
+      ],
+      "raw_log": "ts16_replay_green.log",
+      "junit_xml": "ts16_replay_green.xml"
+    },
+    "green_full": {
+      "exit_code": 1,
+      "passed": 581,
+      "failed": 25,
+      "skipped": 1,
+      "failed_ids": [
+        "tests.test_autonomy_evolution.CliEntrypointTests::test_evolution_status_cli",
+        "tests.test_autonomy_evolution.CliEntrypointTests::test_project_start_cli",
+        "tests.test_autonomy_evolution.LifecycleIntegrationTests::test_checkpoint_resume_idempotent",
+        "tests.test_autonomy_evolution.LifecycleIntegrationTests::test_workorders_admitted_via_spine",
+        "tests.test_autonomy_evolution.LifecycleStateMachineTests::test_full_forward_path",
+        "tests.test_autonomy_evolution.LifecycleStateMachineTests::test_repair_loop",
+        "tests.test_c2_case_run.CaseRunCliTests::test_r4_only_allowed_files_changed",
+        "tests.test_cs_a_gate_repair.D2ProjectScopedRequirementTests::test_existing_req_001_collision_avoided",
+        "tests.test_cs_a_gate_repair.D2ProjectScopedRequirementTests::test_requirement_id_is_project_scoped",
+        "tests.test_cs_a_gate_repair.D4PendingWorkCannotDeliverTests::test_delivered_allowed_when_workorders_terminal",
+        "tests.test_cs_a_gate_repair.D4PendingWorkCannotDeliverTests::test_delivered_rejected_when_workorders_open",
+        "tests.test_cs_a_gate_repair.D5OrdinaryUserFlowTests::test_start_to_admit_no_spine_workaround",
+        "tests.test_cs_a_gate_repair.D6DenominatorTests::test_denominator_materializes_full_project",
+        "tests.test_far_lane_fix_20261015.TestP0PinAssert::test_current_pin_verifies",
+        "tests.test_far_lane_fix_20261015.TestP0PinAssert::test_digest_mismatch_is_typed_not_a_spawn",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_owner_order_mandate_resolves",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_verify_security_mandate_resolves",
+        "tests.test_far_lane_fix_20261015.TestP1MandateConsumer::test_wrong_model_in_pool_refuses",
+        "tests.test_final_md_section_u_semantics.FinalMdSectionUSemanticTests::test_fixture_a_end_to_end_against_real_validator",
+        "tests.w3_solution.test_code_page_independence::test_invalid_utf8_child_bytes_do_not_change_preflight_classification",
+        "tests.w3_solution.test_mandatory_defects::test_preflight_cleanup_failure_changes_return_code_and_is_recorded",
+        "tests.w3_solution.test_receipt_schema::test_preflight_receipt_carries_all_additive_fields",
+        "tests.w3_solution.test_receipt_schema::test_served_model_is_null_when_no_turn_is_served",
+        "tests.w3_solution.test_served_vs_declared_identity::test_primary_acceptance_long_lane_mismatch_fails_closed_with_receipt",
+        "tests.w3_solution.test_served_vs_declared_identity::test_vacuous_pass_control_unreadable_banner_fails_closed"
+      ],
+      "raw_output_lines": [
+        "tests/test_spine.py::SharedSpineTests::test_dual_writer_is_rejected PASSED [ 79%]",
+        "== 25 failed, 581 passed, 1 skipped, 90 subtests passed in 204.43s (0:03:24) =="
+      ],
+      "raw_log": "ts16_green_full.log",
+      "junit_xml": "ts16_green_full.xml"
+    }
+  },
+  "limits": {
+    "schema": "TS16-LOCAL-LOOP/1",
+    "claim_ceiling": "SANDBOX_MEASUREMENT_NOT_NATIVE_ADMISSION",
+    "attempt_limit": 1,
+    "filesystem_repair_attempts": 1,
+    "elapsed_lease_seconds": 0.07800000000133878,
+    "lease_ttl_seconds": 60,
+    "released": {
+      "schema": "HGK-LEASE-RELEASE/1",
+      "released": true,
+      "resource_id": "TS16-SPINE-FILE",
+      "holder": "sandbox-writer",
+      "released_at": "2026-10-22T02:12:27.434364Z",
+      "revocation_scope": "FORWARD_ONLY"
+    },
+    "negative_lease_refusals": {
+      "released": "ERR_LEASE_REQUIRED:TS16-SPINE-FILE",
+      "expired": "ERR_LEASE_EXPIRED:TS16-EXPIRED",
+      "foreign": "ERR_LEASE_REQUIRED:TS16-FOREIGN"
+    },
+    "next_plan_action": "STOP_ESCALATE",
+    "checkpoint": {
+      "checkpoint_id": "CK-DRYRUN-7A02B274",
+      "state": "REPAIRING",
+      "payload": {
+        "project_id": "TS16-LOCAL-DRYRUN",
+        "run_id": "RUN-E0CE5D89",
+        "state": "REPAIRING",
+        "current_workorder": null,
+        "attempt_budget": 1,
+        "attempts_used": 1,
+        "evidence_refs": [
+          "ts16_red.log"
+        ]
+      }
+    },
+    "resume": {
+      "project_id": "TS16-LOCAL-DRYRUN",
+      "resumed_state": "REPAIRING",
+      "checkpoint_id": "CK-DRYRUN-7A02B274",
+      "first_unfinished": "PROJECT_CREATED",
+      "payload": {
+        "project_id": "TS16-LOCAL-DRYRUN",
+        "run_id": "RUN-E0CE5D89",
+        "state": "REPAIRING",
+        "current_workorder": null,
+        "attempt_budget": 1,
+        "attempts_used": 1,
+        "evidence_refs": [
+          "ts16_red.log"
+        ]
+      }
+    },
+    "fixed_sha256": "024a3068fc37444bd5b1750947f2bce3e3d58c592dd6d15832fdc6dbaf1215d1",
+    "native_budget_probe": {
+      "attempt_budget": 1,
+      "attempts_used": 2,
+      "over_budget_was_refused": false,
+      "filesystem_writes": 0
+    },
+    "native_checkpoint_limit": "resume validates project_id but does not recompute payload digest; checkpoint replaces intent_json"
+  },
+  "original_integrity": {
+    "head_before": "3dfaebc5c1d2ffe7d1782f3027bd25b54a557f2b",
+    "head_after": "3dfaebc5c1d2ffe7d1782f3027bd25b54a557f2b",
+    "head_unchanged": true,
+    "status_porcelain": "",
+    "tracked_file_count": 744,
+    "tracked_bytes_unchanged": true,
+    "changed_paths": [],
+    "initial_preflight_head": "3dab083a92032153750b04f805e410f748a407a2",
+    "freshness_note": "HEAD changed between initial inspection and copy; no original writes performed by this worker. Copy-time HEAD is measured baseline."
+  },
+  "limitations": [
+    "Full copied suite is not green: baseline and final both have 25 failures. Missing ignored var/worktrees resources and relocated Windows launcher/dirty-snapshot checks affect the copy. No attribution to original conformance is claimed.",
+    "Initial copied W3 conftest pytest_configure created scratch/scratch-w3/pytest outside the exact sandbox at 2026-10-22T02:05:15Z, before HGK_SOLUTION_SCRATCH was set. This is a write-scope violation; the empty directories were left untouched, not silently deleted. Later runs set HGK_SOLUTION_SCRATCH inside sandbox.",
+    "Initial incomplete-copy run retained as ts16_baseline_initial.*: 76 failed, 530 passed, 1 skipped, 90 subtests passed. Baseline was re-established after copying genuine ignored evidence and fixing scratch relocation.",
+    "Runtime-only ROOT/temp relocation in ts16_pytest_runner.py; no test assertion or source edits. Same runner used for compared baseline/final.",
+    "Repair budget enforced by SBL BoundedRepair plan and local runner; inherited HGK begin_repair permits 2 attempts with budget 1 in an isolated no-file-write probe.",
+    "Native checkpoint/resume is exercised but not byte-recovery authority: REPAIRING resumes first_unfinished PROJECT_CREATED and resume does not recompute checkpoint digest.",
+    "Manual copy-back is rollback implementation; SharedSpine.rollback_workorder records state, it does not restore file bytes. No native WorkOrder, signed Owner permit, distinct-principal acceptance, or live effect claimed."
+  ]
+}

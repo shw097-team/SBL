@@ -1,0 +1,1302 @@
+{
+  "schema": "SBL-TS14-GUIDED-SPEC/1",
+  "requirement_utterance": "Before I archive a release handoff folder, show me which acceptance checks would lose their only evidence file if I removed it.",
+  "requirement_origin": "AGENT_SELECTED_HYPOTHETICAL_USER_SENTENCE_PER_TEST_NOT_HUMAN_INTERVIEW",
+  "not_prefabricated_evidence": {
+    "root": "C:\\Projects\\Agent_Workspace\\PIPD",
+    "excluded_directories": [
+      ".git",
+      ".hgk",
+      ".venv",
+      "__pycache__",
+      "node_modules"
+    ],
+    "readable_utf8_files": 8954,
+    "skipped_count": 4373,
+    "queries": {
+      "Before I archive a release handoff folder, show me which acceptance checks would lose their only evidence file if I removed it.": [],
+      "Before I archive a release handoff folder": [],
+      "only evidence file": [],
+      "handoff folder": [],
+      "evidence-loss-preview": [],
+      "evidence loss": []
+    },
+    "reason": "New counterfactual archive/removal impact preview for release-evidence consumers, not the existing PI compilation fixtures. No matching utterance or searched feature phrases in the readable product tree. Generic trace/orphan checks are reused constraints, not evidence that this product requirement already exists.",
+    "limit": "Lexical evidence in PIPD only; not a proof of semantic novelty across all repos or binary/generated files. Initial unrestricted traversal failed on .hgk/.../lib64 (WinError 1920); recovered by excluding generated .hgk and other listed directories."
+  },
+  "atoms": [
+    {
+      "req_id": "REQ-INTENT",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder.",
+      "risk_guard": "A counterfactual classification never authorizes deletion or declares a release safe."
+    },
+    {
+      "req_id": "REQ-KNOWLEDGE",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE.",
+      "risk_guard": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives."
+    },
+    {
+      "req_id": "REQ-VERIFY",
+      "source_clause": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN.",
+      "risk_guard": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage."
+    },
+    {
+      "req_id": "REQ-DELIVER",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification.",
+      "risk_guard": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance."
+    },
+    {
+      "req_id": "REQ-GOVERN",
+      "source_clause": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical.",
+      "risk_guard": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority."
+    }
+  ],
+  "acc_neg_pairs": [
+    {
+      "atom_index": 0,
+      "req_id": "REQ-INTENT",
+      "acc_id": "ACC-TS14-01",
+      "neg_id": "NEG-TS14-01",
+      "positive": "Given check C1 references one verified candidate-bound file inside folder F; when preview F; then C1=WOULD_LOSE_ONLY_EVIDENCE.",
+      "negative": "Given the same C1 but add one verified candidate-bound file outside F; when preview F; then C1 must not be WOULD_LOSE_ONLY_EVIDENCE.",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder.",
+      "risk_guard": "A counterfactual classification never authorizes deletion or declares a release safe.",
+      "observed": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "atom_index": 1,
+      "req_id": "REQ-KNOWLEDGE",
+      "acc_id": "ACC-TS14-02",
+      "neg_id": "NEG-TS14-02",
+      "positive": "Given C2 has one verified candidate-bound file outside F; when preview F; then C2=RETAINS_EVIDENCE.",
+      "negative": "Given C2 outside-file reference has a foreign candidate digest; when preview F; then it must not be counted as usable retained evidence.",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE.",
+      "risk_guard": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives.",
+      "observed": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "atom_index": 2,
+      "req_id": "REQ-VERIFY",
+      "acc_id": "ACC-TS14-03",
+      "neg_id": "NEG-TS14-03",
+      "positive": "Given C3 has an unresolved evidence locator; when preview F; then C3=UNKNOWN.",
+      "negative": "Given the same unresolved locator; when a preview returns RETAINS_EVIDENCE; then reject that result as unsafe.",
+      "source_clause": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN.",
+      "risk_guard": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage.",
+      "observed": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "atom_index": 3,
+      "req_id": "REQ-DELIVER",
+      "acc_id": "ACC-TS14-04",
+      "neg_id": "NEG-TS14-04",
+      "positive": "Given C1,C2,C3; when preview F; then the report contains all three ids, textual classifications and their used evidence locators.",
+      "negative": "Given the same input; when the report omits C3 because it is UNKNOWN; then reject the report as incomplete.",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification.",
+      "risk_guard": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance.",
+      "observed": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "atom_index": 4,
+      "req_id": "REQ-GOVERN",
+      "acc_id": "ACC-TS14-05",
+      "neg_id": "NEG-TS14-05",
+      "positive": "Given recorded before digests of F and referenced files; when preview F; then all after digests equal before digests.",
+      "negative": "Given a preview implementation that deletes one evidence file; when checking after digests; then reject the implementation and retain the failed no-effect evidence.",
+      "source_clause": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "owner": "PIPD-EC",
+      "acceptance_cue": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical.",
+      "risk_guard": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority.",
+      "observed": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    }
+  ],
+  "schema_validation": {
+    "ok": true,
+    "errors": [],
+    "validator": "python jsonschema 4.26.0",
+    "draft": "https://json-schema.org/draft/2020-12/schema",
+    "schema_path": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-pi-compile\\schemas\\input.schema.json",
+    "schema_sha256": "af5a04e7a63ec4d1412f7f8aa8a54727ee837d89f54d27f972b76724793b7d75",
+    "validated_target": "pi_compile_input (full envelope); each atoms item also validated against original atoms.items subschema",
+    "atoms_validated": 5,
+    "per_atom_errors": [
+      {
+        "index": 0,
+        "errors": []
+      },
+      {
+        "index": 1,
+        "errors": []
+      },
+      {
+        "index": 2,
+        "errors": []
+      },
+      {
+        "index": 3,
+        "errors": []
+      },
+      {
+        "index": 4,
+        "errors": []
+      }
+    ],
+    "negative_schema_checks": [
+      {
+        "mutation": "remove atoms[0].source_clause",
+        "rejected": true,
+        "errors": [
+          "'source_clause' is a required property"
+        ]
+      },
+      {
+        "mutation": "remove atoms[0].owner",
+        "rejected": true,
+        "errors": [
+          "'owner' is a required property"
+        ]
+      },
+      {
+        "mutation": "remove atoms[0].acceptance_cue",
+        "rejected": true,
+        "errors": [
+          "'acceptance_cue' is a required property"
+        ]
+      },
+      {
+        "mutation": "remove atoms[0].risk_guard",
+        "rejected": true,
+        "errors": [
+          "'risk_guard' is a required property"
+        ]
+      },
+      {
+        "mutation": "replace required PIPD-EC owner with TPM-SP",
+        "rejected": true,
+        "errors": [
+          "'PIPD-EC' was expected"
+        ]
+      }
+    ],
+    "native_compile_invoked": false
+  },
+  "human_fields_required": 0,
+  "internal_fields_derived": 161,
+  "claim_ceiling": "SOURCE_BOUND_GUIDED_PROPOSAL_AND_LOCAL_JSONSCHEMA_VALIDATED_ONLY; NOT_NATIVE_PI_PD; NOT_HOST_INVOKED; NOT_INDEPENDENTLY_ACCEPTED; NO_PRODUCT_EFFECT",
+  "sources": {
+    "DOC-01": {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\SBL\\SBL_PIPD-LS-PKG\\SBL_PIPD-LS-PKG_DOC-01.md",
+      "sha256": "43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "spans": [
+        {
+          "section": "C05.1/U05-U13",
+          "start_line": 768,
+          "end_line": 786,
+          "text": "## C05.1 五十個父項原意與 Writer 邊界（Source→Parent）\n\n此 **50 行**保留從全 DOC §4.2 回溯的原義、真 Owner、原始狀態以及原 primary DOC；DOC-01 持有「產品效果和使用者理解的 read projection」，下表 `primary_doc` 非 DOC-01 者不得因包含在本章就轉移 Writer。對原始 `EXTERNAL_OPEN` 必照實保留，避免讀者誤把產品憲章說明當實裝收據。\n\n| parent_id | source_intent | canonical_owner | original_state | owner_doc | source_locator | DOC01_product_projection |\n| --- | --- | --- | --- | --- | --- | --- |\n| U01 | SBL 是獨立品牌，名稱不與 SWOF GENIE Lifecycle 混同 | SBL_PRODUCT_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L570; Master:L5504 | PRODUCT_PRIMARY |\n| U02 | SBL 有 TPM-SP、Commander-SP、External Challenge-SP 三個獨立 SP | SBL_ARCHITECT_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L571; Master:L5505 | PRODUCT_PRIMARY |\n| U03 | Web GPT 三 SP 各自可真正安裝、掛載、調用 | SBL_ARCHITECT_OWNER | EXTERNAL_OPEN | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L572; Master:L5506 | PRODUCT_PRIMARY |\n| U04 | TPM-SP 保留 PIPD-LS-SP 原標準和 Repo，並可讓原用戶單獨使用 | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L573; Master:L5507 | PRODUCT_PRIMARY |\n| U05 | TPM-SP Product Manager 釐清 JTBD、FUO、MVP／Non-goals | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L574; Master:L5508 | PRODUCT_PRIMARY |\n| U06 | TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L575; Master:L5509 | PRODUCT_PRIMARY |\n| U07 | TPM-SP Technical Program Manager 建任務 DAG、里程碑、風險、交接 | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L576; Master:L5510 | PRODUCT_PRIMARY |\n| U08 | TPM-SP Quick/Guided/Critical 依難度動態問答 | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L577; Master:L5511 | PRODUCT_PRIMARY |\n| U09 | TPM 使用 BMAD 引導和主動 Help／教練式探索 | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L578; Master:L5512 | PRODUCT_PRIMARY |\n| U10 | TPM 使用 Matt Grilling/Domain Modeling/Spec/Tickets 分工 | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L579; Master:L5513 | PRODUCT_PRIMARY |\n| U11 | TPM 保留來源／Assumptions／Decision Ledger | TPM_PRODUCT_PIPD_OWNER | CLOSED_DESIGN_ONLY_RUNTIME_UNVERIFIED | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L580; Master:L5514 | PRODUCT_PRIMARY |\n| U12 | TPM 實際編譯相容 PIPD PI 規格包 | TPM_PRODUCT_PIPD_OWNER | EXTERNAL_OPEN | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L581; Master:L5515 | PRODUCT_PRIMARY |\n| U13 | TPM 實際編譯 PD 環境／施工準備包 | TPM_PRODUCT_PIPD_OWNER | EXTERNAL_OPEN | DOC-01 | SBL_PIPD-LS-PKG_必須涵蓋的設計規劃、設計原意、用戶需求、痛點／目標／功能／定位與 Primary Kinds 完整分類(1).md:L582; Master:L5516 | PRODUCT_PRIMARY |"
+        },
+        {
+          "section": "C05.2/U06.1-U06.4",
+          "start_line": 849,
+          "end_line": 852,
+          "text": "| U06.1 | U06 | TPM-SP Systems Engineer 建模 Domain | TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR | SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L3691@8e8327dbc53be8a1722d1cd5cdafd240cd9bb358218efaae13689827b80986cb | TPM_PRODUCT_PIPD_OWNER / DOC-01 | sp.tpm_ref.u06_1 / DISTINCT_SP_PRINCIPAL; source parent `U06` unchanged; child_id=U06.1; source_sha bound | `ChildOutcome{child_id:\"U06.1\",path:\"sp.tpm_ref.u06_1\",value,source_sha,owner,status}`；「TPM-SP Systems Engineer 建模 Domain」不得以 `U06` 其餘子項的 receipt 代用 | Given `U06` 原義「TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR」、合法 subject SHA 與 `TPM-SP Systems Engineer 建模 Domain` 的 domain input；When `U06.1` 產生 `sp.tpm_ref.u06_1`；Then consumer 只接受本 child 的 typed value 與 versioned reference | 移除/偽造 `sp.tpm_ref.u06_1`、讓 sibling `U06` 其他 child 補位 → `TPM_PRINCIPAL_MISSING`（U06.1 專屬 NACK），本 child `NO_EFFECT` | ACC-U06.1 / TEST-U06.1-POS + TEST-U06.1-NEG / EExp-U06.1 / DEL-U06.1 | `PROPOSED_NOT_OWNER_RATIFIED` |\n| U06.2 | U06 | NFR | TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR | SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L3692@8e8327dbc53be8a1722d1cd5cdafd240cd9bb358218efaae13689827b80986cb | TPM_PRODUCT_PIPD_OWNER / DOC-01 | req.u06.NFR.u06_2 / MATCH_SOURCE_PARENT_AND_OWNER; source parent `U06` unchanged; child_id=U06.2; source_sha bound | `ChildOutcome{child_id:\"U06.2\",path:\"req.u06.NFR.u06_2\",value,source_sha,owner,status}`；「NFR」不得以 `U06` 其餘子項的 receipt 代用 | Given `U06` 原義「TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR」、合法 subject SHA 與 `NFR` 的 domain input；When `U06.2` 產生 `req.u06.NFR.u06_2`；Then consumer 只接受本 child 的 typed value 與 versioned reference | 移除/偽造 `req.u06.NFR.u06_2`、讓 sibling `U06` 其他 child 補位 → `CHILD_FIELD_MISSING_U06_2`（U06.2 專屬 NACK），本 child `NO_EFFECT` | ACC-U06.2 / TEST-U06.2-POS + TEST-U06.2-NEG / EExp-U06.2 / DEL-U06.2 | `SOURCE_CONTEXT_FRAGMENT_OWNER_HOLD` |\n| U06.3 | U06 | Architecture | TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR | SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L3693@8e8327dbc53be8a1722d1cd5cdafd240cd9bb358218efaae13689827b80986cb | TPM_PRODUCT_PIPD_OWNER / DOC-01 | req.u06.Architecture.u06_3 / MATCH_SOURCE_PARENT_AND_OWNER; source parent `U06` unchanged; child_id=U06.3; source_sha bound | `ChildOutcome{child_id:\"U06.3\",path:\"req.u06.Architecture.u06_3\",value,source_sha,owner,status}`；「Architecture」不得以 `U06` 其餘子項的 receipt 代用 | Given `U06` 原義「TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR」、合法 subject SHA 與 `Architecture` 的 domain input；When `U06.3` 產生 `req.u06.Architecture.u06_3`；Then consumer 只接受本 child 的 typed value 與 versioned reference | 移除/偽造 `req.u06.Architecture.u06_3`、讓 sibling `U06` 其他 child 補位 → `CHILD_FIELD_MISSING_U06_3`（U06.3 專屬 NACK），本 child `NO_EFFECT` | ACC-U06.3 / TEST-U06.3-POS + TEST-U06.3-NEG / EExp-U06.3 / DEL-U06.3 | `SOURCE_CONTEXT_FRAGMENT_OWNER_HOLD` |\n| U06.4 | U06 | ADR (L5509) | TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR | SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L3694@8e8327dbc53be8a1722d1cd5cdafd240cd9bb358218efaae13689827b80986cb | TPM_PRODUCT_PIPD_OWNER / DOC-01 | req.u06.ADR.u06_4 / MATCH_SOURCE_PARENT_AND_OWNER; source parent `U06` unchanged; child_id=U06.4; source_sha bound | `ChildOutcome{child_id:\"U06.4\",path:\"req.u06.ADR.u06_4\",value,source_sha,owner,status}`；「ADR」不得以 `U06` 其餘子項的 receipt 代用 | Given `U06` 原義「TPM-SP Systems Engineer 建模 Domain、NFR、Architecture、ADR」、合法 subject SHA 與 `ADR` 的 domain input；When `U06.4` 產生 `req.u06.ADR.u06_4`；Then consumer 只接受本 child 的 typed value 與 versioned reference | 移除/偽造 `req.u06.ADR.u06_4`、讓 sibling `U06` 其他 child 補位 → `CHILD_FIELD_MISSING_U06_4`（U06.4 專屬 NACK），本 child `NO_EFFECT` | ACC-U06.4 / TEST-U06.4-POS + TEST-U06.4-NEG / EExp-U06.4 / DEL-U06.4 | `SOURCE_CONTEXT_FRAGMENT_OWNER_HOLD` |"
+        },
+        {
+          "section": "C05.4",
+          "start_line": 1003,
+          "end_line": 1007,
+          "text": "## C05.4 Applicability／正負反證與 C05 SPEC\n\n每個子原子套用 `ProductKind × Mode × Host × UserRisk × Permission` 的適用性判定，不能把 `Unknown` 寫成 N/A；跨 DOC `owner_doc` 永遠以原生 Writer 優先。由 DOC-01 使用者角度測 `ExpectedExperience`，由 DOC-03/08 等原生負責正式 PI 與 Oracle：`positive=合法欄位+同候選 hash+正確 viewer`, `negative=missing child/wrong consumer/foreign SHA`, `edge=不適用僅有 Owner 明示理由`, `security=unauthorized SideEffect must deny/no residue`。\n\n`input_schema=SourceParent+SourceChild+Mode+Kind; output_schema=RequirementAtomLedger+ApplicabilityRef; preconditions=50 parent and 149 authoritative child IDs resolvable; error=COMPOUND_ATOM_MISSING; first_fail=SOURCE_MISSING→COMPOUND_ATOM_MISSING; owner=SBL-R009 (editorial), SBL Product Owner (product), individual canonical owner (writer); consumer=DOC-03/08/09; positive_fixture=POS-C05 all IDs distinct and typed; negative_fixture=NEG-C05 U20.WorkOrder absent; rollback_or_no_effect=no effect`。正式 closure 須獨立 Reviewer 核對來源片段與本表；本輪不宣稱已完成 semantics-level exhaustive audit。"
+        },
+        {
+          "section": "C08.1-C08.2",
+          "start_line": 1098,
+          "end_line": 1119,
+          "text": "## C08.1 PersonaJTBDValueMap／可訪問性／隱私\n\n使用者首次輸入只要 `goal`、已知來源或目標 Repository（可用時）；系統先辨識已知資訊，不要求使用者從技術品牌挑選工具。每個 persona 都定義已知資訊、心理模型、允許風險、有效 FUO 與 NO_FIT，不將初心者引去 Native W3 Permission 流程。隱私預設：不把路徑、secrets 或 repo contents 送到未經批准第三方；示範記錄以 SHA、脫敏欄位承載，不記錄 token。\n\n| persona | JTBD | FUO_observable | no_fit/stop | journey | kind |\n| --- | --- | --- | --- | --- | --- |\n| Independent Dev / small team | 現有或空 repo；想從 goal 取得可用 CLI | clean install + sbl-todo --json list | source missing / no-write | GJ01,GJ02 | CLI_TOOL |\n| Product Owner / newcomer | 說明對象與完成結果、不需先學工具 | 可審 ProductIntent 和具體 demo | 缺授權禁止代批准 | GJ01 | CLI_TOOL |\n| Brownfield maintainer | 在現有 HEAD 做最小可回退變更 | affected diff, regression, revert | untracked/foreign scope | GJ02 | CLI_TOOL |\n| Host Operator | 啟用 Skill/Agent 並知道何時不啟用 | positive trigger+negative nontrigger+uninstall | 未有 EffectiveLoad | GJ03 | AGENT_SKILL/SIMPLE_AGENT |\n| QA / Risk owner | 確認實測不是 mock/自簽 | raw evidence path and fails | Maker-checker collision | GJ01/02/03 | CROSS |\n| SWOF Native integrator | 需合法兼容而非 SBL 私改 Native | versioned NativeRef + reject path | unapproved native effect | GJ02/03 | GENIE/GENIE.md read-only |\n\n<a id=\"sbl-doc01-sec-037\"></a>\n### C08.1.1 不同使用者的差異化資訊密度\n\n新手在 Quick 模式看見「能做／不能做／下一個唯一必要動作」；工程師可展開 exact source SHA、schema、受控變更清單；QA 可讀 raw evidence expectations 與 negative fixtures。無障礙模式不得依賴顏色單獨傳達 `HOLD`，機器版欄位必保留文字狀態。\n\n<a id=\"sbl-doc01-sec-038\"></a>\n## C08.2 Quick／Guided／Critical + QuestionCandidate\n\nRisk = `effect × irreversibility × uncertainty × source_gap` 的**設計分類**，不是官方風險計分器。`Quick` 條件：已知 goal/kind/source、風險低、無效果授權缺口，直接產 typed proposal，不替用戶寫 repo；`Guided`：最少一個具高資訊增益的缺失，按 `information_gain` 排序只問最必要項，其餘可推進的部分正常輸出；`Critical`：涉及 Native、外部 publish、secret、不可逆或 Owner conflict 時拒絕未授權效果並引導批准。`QuestionCandidate{question_key,reason,information_gain,already_answered_source,required_owner,answer_effect,risk_class,route}`，同 `question_key+source_sha` 回答後不重問，來源變更可使問答失效並明示 why。"
+        },
+        {
+          "section": "C08.2B-C08.3",
+          "start_line": 1148,
+          "end_line": 1171,
+          "text": "#### C08.2B QuestionGate decision table\n\n| input state | deterministic action | failure/visible text |\n|---|---|---|\n| Empty goal or no source | ask exactly one necessary goal question, do not compile | `INTENT_MISSING`：「請描述您第一件想完成的事。」 |\n| Answer known at same SHA | skip and show cited chosen answer; no re-question | `QUESTION_DUPLICATE_SUPPRESSED` |\n| Several necessary questions | rank by risk and FUO-blocking field; one at a time, bounded max from Owner policy | `QUESTION_BUDGET_HOLD` if no legal limit |\n| Permission-risk or secret requested | stop, show scope, Principal and choice to decline | `HITL_REQUIRED`：「若不授權，只交付唯讀計畫。」 |\n| Unsupported Kind/Host | render NO_FIT with legal alternative or no available alternative | `NO_FIT`：「目前無法在此宿主使用，可匯出設計稿。」 |\n| Source changed/new version | invalidate only affected answers, compare hash before re-ask | `SOURCE_STALE` with changed fields |\n\nR05 對此表只負責消費，不能另設不相容的 QuestionGate。`Privacy`：不要求用戶貼 secrets；對不可追溯問題回答只記 category/decision，不保存隱私原文。\n\n<a id=\"sbl-doc01-sec-039\"></a>\n### C08.2B｜資訊增益、資料最少化與 Accessibility 具體可拒收標準\n\n`Quick` 僅問必須知道的不可推定資訊，不得以「預設同意」推定外部效果；`Guided` 用帶來源的候選選項說明收益/風險/退出，若答案在 SourceInventory 已有 owner-approved 版本則跳過；`Critical` 只對世界效果、不可逆風險、權限與重大設計衝突請求明確人類選擇。每個 QuestionCandidate 須附 `why_now、source_lookup_evidence、expected_information_gain、required_by_gate、cancel_path`，可被使用者拒答後安全結束。\n\nUI/CLI 消費者須能以鍵盤/純文字完成回答，錯誤訊息可讀且提供下一步、視覺警示有非顏色替代；向模型送出資料前依敏感分類遮蔽、權限最小化、同意可撤銷。測試反例：無視已答而多次提問、無授權向第三方傳源、行動失敗只回「完成」、以無障礙障礙阻止 NO_FIT，均不達 FUO。\n\n\n## C08.3 產品級 FUOVerificationExpectation 與 C08 SPEC\n\n`input_schema=Persona+Goal+KnownAnswerDigest; output_schema=QuestionLedger+FUOVerificationExpectation; preconditions=valid source/risk; error=RISK_ROUTE_DOWNGRADE|UNNECESSARY_QUESTION; first_fail=PRODUCT_INTENT_INCOMPLETE; owner=SBL Product Owner/TPM-SP PM; consumer=DOC-03/08; positive_fixture=POS-C08 missing path one high-info question; negative_fixture=NEG-C08 high-risk user redirected Quick; rollback_or_no_effect=no effect`。對每條預期 FUO 明確填 `command/host/environment/input/stdout_schema/exit_checker/negative/expected_raw_receipt_locator`，`observed_raw_receipt` 本輪均為 `NOT_EXECUTED`。網路資料、PM 假設不可當作消費者真使用成功。"
+        },
+        {
+          "section": "R09.3-R09.4",
+          "start_line": 2458,
+          "end_line": 2465,
+          "text": "## R09.3 ProductCharterSPEC 與標準 SPEC／ACC／TEST／EExp／DEL 實例\n\n`SBL-PROP-SPEC-C01` 要求顯式 brand/ref/FUO、`ACC-C01` 比較同源 hash/客群與 NO_FIT、`TEST-C01-POS` 合法 enum + role；`TEST-C01-NEG` 用 GENIE_PRODUCT 身分冒名而被拒；`EExp-C01` = 未來收據格式/Checker、`DEL-C01` = ProductIntent 被 DOC-02 讀取的 checksum-tagged bundle。所有 Example 均 `NOT_EXECUTED`，`SBL-PROP` 不可寫回 PIPD Canonical Registry。具體 fixture catalogue 見下。\n\n<a id=\"sbl-doc01-sec-087\"></a>\n## R09.4 AcceptanceFixtureCatalog：40 個不同 Given／When／Then 與 RawEvidenceExpectation\n\n以下 **40 件都是設計 fixture**，不是已執行的測試。每個 ID 具獨立前置輸入、刺激、可觀察成功/錯誤及拒絕 side effect；`POS-Cxx` 是對產品場景提案的預期，不是正式 Native Oracle。`SEC` 需確實觀察 denied tool/effect；`EDGE` 需留下 bounded stop/read-only continuation。由 DOC-08 與有效 Checker 執行，缺相異 principal/原始回執則 `NOT_QUALIFIED`。"
+        },
+        {
+          "section": "R09.6",
+          "start_line": 2688,
+          "end_line": 2695,
+          "text": "## R09.6 DEC-001～030 裁決路由與 ConflictResolutionLedger\n\n以全 DOC §8A 表格**原來語義**為唯一候選路由基準，不以機械循環方式改派。`DEC-004`/`DEC-005` 的 Product Owner 主責要保留；`DEC-006` 可能影響三模式與 MVP（需核上游欄位）；`DEC-011` 牽涉 PIPD Oracle；`DEC-021` SWOF Native ModeGate；`DEC-025` assurance；`DEC-030` evolution。所有候選在未經原 Owner 批准前都 `OWNER_RATIFICATION_REQUIRED`。對無法解析的欄位保留 literal 和 source_locator。\n\n| decision | source_ref | Q | sub_id | semantic_decision | source_owner_doc | DOC01_impact | status |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| DEC-001 | `SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L4034` | Q01 | Q01.a | 產品候選基線以 SBL v2.0r1（2026-10-15）、十冊 vol-01～10、六控制文件 r1、原十問 r1 為 immutable design candidate。逐檔 SHA-256、實際位元數、來源行號與有效性結論落入 SourceInventory；PIPD/DOC、SWOF PI/PD 與 HGK 原生版本僅保留 Owner-scope | SBL_PIPD-LS-PKG_整合校正10問_回答(4).md:L2183 | CROSS_READER_PRODUCT | OWNER_RATIFICATION_REQUIRED |\n| DEC-002 | `SBL_PIPD-LS-PKG_全DOC藍圖(8).md:L4035` | Q01 | Q01.b | 採分域 HOLD：SBL 討論、SPEC 提案、負例與文件編制可續行；任何依缺失 Profile/GRP、未核准 Schema/Oracle、Native Gate 的 PI acceptance、PD、effect/release promotion 一律 BLOCK。若同一候選牽涉兩法域，對交集作用域採較嚴格 gate。升級成全域 HOLD 的條件為連產 | SBL_PIPD-LS-PKG_整合校正10問_回答(4).md:L2185 | CROSS_READER_PRODUCT | OWNER_RATIFICATION_REQUIRED |"
+        }
+      ],
+      "GoalCard_literal_hits": 0
+    },
+    "DOC-02": {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\SBL\\SBL_PIPD-LS-PKG\\SBL_PIPD-LS-PKG_DOC-02.md",
+      "sha256": "4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+      "spans": [
+        {
+          "section": "r2 shared FirstFail rules",
+          "start_line": 74,
+          "end_line": 86,
+          "text": "### r2 全冊共用型別與嚴格 FirstFail 規則\n\n| 順序 | Predicate | FirstFail | 本次具體雙錯處理 |\n| --- | --- | --- | --- |\n| 1 | Authority family 缺/兩 CURRENT 衝突 | `AUTHORITY_UNKNOWN`/`AUTHORITY_CONFLICT` | 即使 SourceRef 缺欄，也先報 authority invalid |\n| 2 | path traversal / symlink root escape | `PATH_TRAVERSAL` | 與 Schema 錯同時存在先拒絕越界路徑 |\n| 3 | source SHA/owner/clause identity 不一致 | `SOURCE_IDENTITY_MISMATCH` | SourceRef 現有 hash + 錯 Owner → identity NACK |\n| 4 | JSON Schema required/enum 缺 | `SCHEMA_REQUIRED` | missing clause_id + 已知合法 hash → schema NACK |\n| 5 | scope/token/SoD 不足 | `PERMISSION_DENIED` | RepoContext 合法但沒有 Permit 不執行 |\n| 6 | epoch/HEAD/Host pin 過期 | `STALE_SUBJECT` | 只失效 affected readers |\n| 7 | 關鍵欄位語義分母欠缺 | `CLAUSE_DENOMINATOR_OPEN` | adopted 子項不計空分母 PASS |\n| 8 | Test/Trace orphan 或 evidence 重用 | `TRACE_ORPHAN` | 回滾至 source exact hash 的可讀版本 |\n| 9 | 作者自我提高 Claim | `CLAIM_ESCALATION_DENIED` | Independent checker receipt 缺即 HOLD |"
+        },
+        {
+          "section": "C17.3",
+          "start_line": 1739,
+          "end_line": 1749,
+          "text": "## C17.3｜P4 八 Skill typed spine\n\n**r2 功能責任／來源判準**：八個 Skill 各自完整 typed input/output + first-fail，不能共用單一摘要。精確 Audit SourceRef=`AUDIT_SBL_PIPD-LS-PKG_DOC-02_實質藍圖正文_全量破壞性審查_2026-10-18_r1(1).md:L223;sha256:864813a91c559b01e8ff78f1f47d8025d42194329d7f86b13bd761036cf5742d`；本節仍必經上位原來源而不是以 Audit 取代產品 Source。此節所有決策是 SBL SOURCE/READER 設計投影；Owner 屬 `SBL-R007; PIPD DOC00/01 and Skill Writers external`，未取得正式 Native Writer 授權時只能 `DESIGN_CANDIDATE`。\n\n**已回讀之實質 SourceSpan**：`SBL_PIPD-LS-PKG_DOC-02_藍圖+skeleton.md:L385`，SHA-256=`b008439f1b83029f0b5cd4b00a98048b2e356e05132ce52d16fc9c5c5d314068`；本行為 `**工程目標／邊界**` 所引出的正文敘述，非章標或純索引。`clause_id=SBL-D02-BP-R2-C17.3-L385` 僅屬本地 SBL 候選定位 ID，不是假冒 PIPD Canonical Clause。候選義務的原有語氣須由正式 Source Owner 判定，故 SourceRef polarity 只記來源觀測 `FACT`。\n\n**輸入與精確解析**：`{skill:\"pipd-authority-source\",families:[{name:\"F1_FOO\",manifest_sha256:\"h\",files:[\"a.md\"]}]}`。來源先檢 `SourceClauseRef.family/path/sha256/start_line/end_line/clause_id/polarity`，再檢此節本域欄位；任何入參資料不能成為修改 Native Schema/Permit 的隱性指令。\n\n**專屬資料轉換／決策程序（本次工程修補提案）**：八 Skill 僅經各自輸入 Schema 和 precondition：Intent→Authority/Source→Profile→PI→Repo PD→ECP→TQAEP→Claim；每一輸出帶原 Skill Namespace，任何階段缺真輸入直接 FIRST_FAIL，不以文字模擬原生 compiler。 每個 `read/transform` 皆保存 `source_ref`, `subject_hash`, `mode`, `Owner`, `freshness_epoch` 與 `no_effect=true`；若需 Native compiler、world effect 或正式簽收，生成受限提案而非自行 mint token/receipt。\n\n**輸出、實體序列與下游**：`READ_ONLY_INPUT → VALIDATE_C17_3 → SOURCE_DESIGN_PROJECTION`，合法結果 `SkillRoute:{schema:\"urn:pipd:skill:pipd-authority-source:input:1\",executed:false}`，具有 `subject_hash/schema_version/source_ref/owner/affected_scope/status/first_fail/no_effect=true`；向 `PIPD Source Owner` 提供不可丟欄位的 typed SourceEnvelope。不存在 Owner receipt 時填 `native_qualification=NOT_EXECUTED`，不能寫 `PASS`。"
+        },
+        {
+          "section": "R02-04.1",
+          "start_line": 4633,
+          "end_line": 4653,
+          "text": "## R02-04.1｜Decomposition invariants\n\n**r2 功能責任／來源判準**：逐 child 索引需接上上位 U01–U50／149 子項。精確 Audit SourceRef=`AUDIT_SBL_PIPD-LS-PKG_DOC-02_實質藍圖正文_全量破壞性審查_2026-10-18_r1(1).md:L241;sha256:864813a91c559b01e8ff78f1f47d8025d42194329d7f86b13bd761036cf5742d`；本節仍必經上位原來源而不是以 Audit 取代產品 Source。此節所有決策是 SBL SOURCE/READER 設計投影；Owner 屬 `SBL-R007 (projection only); substantive native writer at receiver`，未取得正式 Native Writer 授權時只能 `DESIGN_CANDIDATE`。\n\n**已回讀之實質 SourceSpan**：`SBL_PIPD-LS-PKG_DOC-02_藍圖+skeleton.md:L625`，SHA-256=`b008439f1b83029f0b5cd4b00a98048b2e356e05132ce52d16fc9c5c5d314068`；本行為 `**工程目標／邊界**` 所引出的正文敘述，非章標或純索引。`clause_id=SBL-D02-BP-R2-R02-04.1-L625` 僅屬本地 SBL 候選定位 ID，不是假冒 PIPD Canonical Clause。候選義務的原有語氣須由正式 Source Owner 判定，故 SourceRef polarity 只記來源觀測 `FACT`。\n\n**輸入與精確解析**：`{parent:\"U50\",child_ids:[\"U50.1\",\"U50.2\",\"U50.3\"]}`。來源先檢 `SourceClauseRef.family/path/sha256/start_line/end_line/clause_id/polarity`，再檢此節本域欄位；任何入參資料不能成為修改 Native Schema/Permit 的隱性指令。\n\n**專屬資料轉換／決策程序（本次工程修補提案）**：把 parent `每個 Slot 各有 Host probe、POS、NEG` 拆成 24×3 obligation，將 EACH 量詞鎖進 Parent；OR 節點允許有界替代，AND 節點不得以任一子項完成判通過。 每個 `read/transform` 皆保存 `source_ref`, `subject_hash`, `mode`, `Owner`, `freshness_epoch` 與 `no_effect=true`；若需 Native compiler、world effect 或正式簽收，生成受限提案而非自行 mint token/receipt。\n\n**輸出、實體序列與下游**：`READ_ONLY_INPUT → VALIDATE_R02_04_1 → SOURCE_DESIGN_PROJECTION`，合法結果 `ChildIndex:{all_preserved:true,owner:\"DOC-12\"}`，具有 `subject_hash/schema_version/source_ref/owner/affected_scope/status/first_fail/no_effect=true`；向 `DOC-12` 提供不可丟欄位的 typed SourceEnvelope。不存在 Owner receipt 時填 `native_qualification=NOT_EXECUTED`，不能寫 `PASS`。\n\n**本節唯一拒收路徑與安全反證**：若「remove U50.2 only」，先以 `SUBREQUIREMENT_LOSS` `NACK`；必驗 `expected.output` 的欄位語義，而非只比「SUCCESS」字串。**本節 EDGE**：「U50.1 present but `U50.2` truncated; expose missing truth as HOLD」→ `HOLD_AFFECTED_ONLY` 或具名受影拒收；**本節 SEC**：「U50 child ID reuse under new owner without provenance; block trace merge」→ `PERMISSION_DENIED`／專屬邊界阻斷。此 SEC overlay 不代替上述本域 `SUBREQUIREMENT_LOSS` 的 NEG oracle。\n\n**四條獨立行為測試的可觀測差異（設計 fixtures；非已執行收據）**：\n\n| Fixture | 具體輸入差異 | 要求的可觀察欄位／第一失敗 | Effect / 權限 |\n| --- | --- | --- | --- |\n| `POS-R02-04.1` | `{parent:\"U50\",child_ids:[\"U50.1\",\"U50.2\",\"U50.3\"]}`；相應 SourceRef exact SHA、Owner 與版本有效 | `ChildCoverageCount and missing_ids` 實際結構及 `R02-04.1` 功能結果，不以 ACK 字串替代 | `no_effect=true` |\n| `NEG-R02-04.1` | remove U50.2 only | `NACK.first_fail=SUBREQUIREMENT_LOSS`；禁止輸出正常結構 | `effects=[]` |\n| `EDGE-R02-04.1` | U50.1 present but `U50.2` truncated; expose missing truth as HOLD | `HOLD_AFFECTED_ONLY` 或本節版本衝突的 exact NACK；保留原來 SHA | 不擴大到無關 DOC |"
+        },
+        {
+          "section": "R02-04.3",
+          "start_line": 4951,
+          "end_line": 4963,
+          "text": "## R02-04.3｜Bidirectional Trace\n\n**r2 功能責任／來源判準**：Trace graph 根據實際 SPEC 構建，修補錯碼 edge。精確 Audit SourceRef=`AUDIT_SBL_PIPD-LS-PKG_DOC-02_實質藍圖正文_全量破壞性審查_2026-10-18_r1(1).md:L243;sha256:864813a91c559b01e8ff78f1f47d8025d42194329d7f86b13bd761036cf5742d`；本節仍必經上位原來源而不是以 Audit 取代產品 Source。此節所有決策是 SBL SOURCE/READER 設計投影；Owner 屬 `SBL-R007 (projection only); substantive native writer at receiver`，未取得正式 Native Writer 授權時只能 `DESIGN_CANDIDATE`。\n\n**已回讀之實質 SourceSpan**：`SBL_PIPD-LS-PKG_DOC-02_藍圖+skeleton.md:L649`，SHA-256=`b008439f1b83029f0b5cd4b00a98048b2e356e05132ce52d16fc9c5c5d314068`；本行為 `**工程目標／邊界**` 所引出的正文敘述，非章標或純索引。`clause_id=SBL-D02-BP-R2-R02-04.3-L649` 僅屬本地 SBL 候選定位 ID，不是假冒 PIPD Canonical Clause。候選義務的原有語氣須由正式 Source Owner 判定，故 SourceRef polarity 只記來源觀測 `FACT`。\n\n**輸入與精確解析**：`{atom:\"AT-D02-001\",section:\"C03.1\",spec:\"SPEC-D02-001\"}`。來源先檢 `SourceClauseRef.family/path/sha256/start_line/end_line/clause_id/polarity`，再檢此節本域欄位；任何入參資料不能成為修改 Native Schema/Permit 的隱性指令。\n\n**專屬資料轉換／決策程序（本次工程修補提案）**：雙向 TraceGraph 實體邊 `SourceSpan→Clause→Parent→Child→SPEC→TEST→DELIVER`；驗每 Child 有可追溯 Parent、每 adopted Child 至少一個 SPEC+TEST，孤兒或 stale SHA 都拒閉合。 每個 `read/transform` 皆保存 `source_ref`, `subject_hash`, `mode`, `Owner`, `freshness_epoch` 與 `no_effect=true`；若需 Native compiler、world effect 或正式簽收，生成受限提案而非自行 mint token/receipt。\n\n**輸出、實體序列與下游**：`READ_ONLY_INPUT → VALIDATE_R02_04_3 → SOURCE_DESIGN_PROJECTION`，合法結果 `TraceGraph:{typed_edge:true,source_exact:true}`，具有 `subject_hash/schema_version/source_ref/owner/affected_scope/status/first_fail/no_effect=true`；向 `DOC-09` 提供不可丟欄位的 typed SourceEnvelope。不存在 Owner receipt 時填 `native_qualification=NOT_EXECUTED`，不能寫 `PASS`。\n\n**本節唯一拒收路徑與安全反證**：若「bind R02-00.1 to TruthTicket SPEC-D02-021」，先以 `SPEC_SEMANTIC_MISBIND` `NACK`；必驗 `expected.output` 的欄位語義，而非只比「SUCCESS」字串。**本節 EDGE**：「two SPEC edges to different section semantics; require typed predicate check」→ `HOLD_AFFECTED_ONLY` 或具名受影拒收；**本節 SEC**：「graph includes orphan atom with fake EExp receipt; reject trace closure」→ `PERMISSION_DENIED`／專屬邊界阻斷。此 SEC overlay 不代替上述本域 `SPEC_SEMANTIC_MISBIND` 的 NEG oracle。"
+        },
+        {
+          "section": "ChangeImpactGraph/ADR/Rollback & No-effect",
+          "start_line": 10648,
+          "end_line": 10679,
+          "text": "## ChangeImpactGraph／ADR／Rollback & No-effect\n\n**版本影響演算法**：1) source bytes/sha/owner/supersession/epoch 對比；2) 找 `SourceClause→ChildAtoms→SPEC→TEST→EvidenceExpectation→Consumer` 反向依賴；3) 受影 scope 內 reopen Ticket／標失效；4) 計算每個 Consumer ACK 是否過期；5) 不受影的純研究及只讀分析照常保留；6) 是否需要再次 Native qualification 由該域 Owner 判定。hash 改變不直接等於實質義變，但以前的 evidence 不能不核對便跨候選重用。\n\n```json\n{\n  \"schema_version\": \"SBL-PROJECTION@1\",\n  \"change_event\": {\n    \"change_type\": \"SOURCE_HASH_CHANGED\",\n    \"old_sha\": \"b008439f1b83029f0b5cd4b00a98048b2e356e05132ce52d16fc9c5c5d314068\",\n    \"new_sha\": \"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\",\n    \"owner\": \"SBL Product Owner\",\n    \"confirmed_semantic_delta\": null,\n    \"status\": \"DESIGNED_NOT_EXECUTED\"\n  },\n  \"impact_edges\": [\n    \"DOC-03.SourceClause\",\n    \"DOC-09.TestEvidence\",\n    \"DOC-12.Deliver\",\n    \"DOC-13.Requal\"\n  ],\n  \"read_only_allowed\": true,\n  \"pi_acceptance_allowed\": false,\n  \"rollback\": {\n    \"restore_prior_source_projection_digest\": \"b008439f1b83029f0b5cd4b00a98048b2e356e05132ce52d16fc9c5c5d314068\",\n    \"world_effect_rollback\": \"NATIVE_OWNER_ONLY\",\n    \"executed\": false\n  }\n}\n```\n\n**ADR-D02-001（reuse-first）**：以 existing OpenSpec/Spec Kit 等方法的可驗產物做薄翻譯，避免自造 Spec 循環；前提是它們不變為 PIPD/HGK 唯一 Writer。**ADR-D02-002（hash-first）**：任何清冊和 ReaderACK 以 exact content hash+epoch 為身份，friendly name 只是可變顯示名。**ADR-D02-003（HOLD affected-only）**：`CR-ORACLE-001` 只阻斷受影 PI acceptance；`N14` 阻斷正式全包分冊核准；Profile 缺失阻斷 Native freeze；不強制刪掉仍合格的唯讀設計。**ADR-D02-004（security by rejection）**：外部來源全視為 data，禁止將 source body/issue comment 擢升成指令。"
+        },
+        {
+          "section": "Eight PIPD P4 Skills Typed IO",
+          "start_line": 10790,
+          "end_line": 10803,
+          "text": "### 八項 PIPD P4 Skills 的 Typed IO、不可交換前置條件與實質拒收\n\n| Skill | 輸入條件（Native Schema） | 轉換／正式 Writer | 輸出 | 專屬拒收與命中反例 | Consumer |\n| --- | --- | --- | --- | --- | --- |\n| `pipd-route-intake` | `goal` 非空、`sources[].rel` 解析在 allowed root | PIPD-EC deterministic | `IntentCard@1` + atom ids | 無源 locator／`..`→拒收，不可直接從 prose PI | `pipd-pi-compile` |\n| `pipd-authority-source` | `families[].name/manifest_sha256/files[].rel` 有效、owner/current 無衝突 | PIPD Source Owner | `SourceFreezeManifest@1` + AuthorityBinding | manifest 非 SHA、family 空、rank 衝突→`AUTHORITY_UNKNOWN` | 全 native compilers |\n| `pipd-profile-tailor` | LITE/STANDARD/ASSURED、九 canonical axes unique、provider_off_required | PIPD Profile Owner | `ProfileBinding@1` | Lite+provider-off 必升 Standard，維度超 ceiling 升 ASSURED，不可降級 | PI compiler |\n| `pipd-pi-compile` | 已凍結 IntentCard、effective Profile、至少一個 `source_clause/owner/acceptance_cue/risk_guard` Atom | PIPD-EC deterministic | `PI-PKG@1`, stable semantic contract, bound acceptance, TraceLinks | 0 Atom、`_profile_meta` 未宣告 sidecar、oracle_source 衝突→拒收；P4 字面 DOC03 DOMAIN_ORACLES 仍列 CR | PD binder |\n| `pipd-pd-bind` | PI ref、真 RepoContext(root/head/tracked_files/currentness/writable_scope) | PIPD PD Native Owner | `PD-PKG@1`, affected-only late binding | null RepoContext、`**` writable、root escape→拒收，STALE 不洗為 FRESH | ECP owner |\n| `pipd-execution-contract` | Bound PD + same PI，legal bounded scope | PIPD/ECP Native Owner | `ConstructionContract@1` + ECP | token_required=true、at-most-once、retries max1/backoff none、readback residue、rollback required；缺一拒收 | HGK/ECP/TQAEP |\n| `pipd-assurance-tqaep` | traced PI、ECP、maker≠checker、非 SELF_ATTESTED raw checker receipt | PIPD/TQAEP Owner + external checker | `TQAEP@1` per Atom POS/NEG/Oracle | same maker checker、缺 trace、虛 receipt→拒收；不能由 SBL 自己頒 INDEPENDENT_PASS | Independent Checker |\n| `pipd-package-project` | 非空 bundle + allowed eight-rung claims + producer；LOCAL_QUALIFIED+ 需 independent approval | PIPD Package Owner | ClaimCeiling + EvidenceExpectation + TraceClosure | 空包、孤兒/錯 hash edge、無 checker 升 Claim→拒收 | DOC-12/Release Owner |\n\n**Oracle 權責衝突現況**：P4 `pipd-pi-compile` 字面 `oracle_source=DOC-03 DOMAIN_ORACLES`，原 PIPD DOC-07 的 Verification/Oracle/Fixture Reference 又明示 Oracle 法位。`CR-ORACLE-001=OPEN`，目前可先做無 Oracle 最終准出之 schema 設計；不可代 PIPD 的兩個 Writer 決定遷移或 alias。"
+        }
+      ],
+      "GoalCard_literal_hits": 0
+    },
+    "ORDER": {
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\attachments\\SBL_R14_POST_R13_HERMES_HGK_FABRIC_FULL_PRODUCT_COMMAND_PROMPT_2026-10-22.md",
+      "sha256": "6fa44f5570032acd767942a922ff256995bdc287531084f3183cc54e410e12ce"
+    },
+    "TPM-SKILL": {
+      "path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\tpm-sp\\SKILL.md",
+      "sha256": "e944c44d3494243c627968b29a190de05fd676948e61e07013288d39d7898cb9"
+    },
+    "PI-SCHEMA": {
+      "path": "C:\\Projects\\Agent_Workspace\\PIPD\\skills\\pipd-pi-compile\\schemas\\input.schema.json",
+      "sha256": "af5a04e7a63ec4d1412f7f8aa8a54727ee837d89f54d27f972b76724793b7d75"
+    }
+  },
+  "seed_source": {
+    "id": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a",
+    "text": "Before I archive a release handoff folder, show me which acceptance checks would lose their only evidence file if I removed it.",
+    "authority": "Proposed product need, not an existing DOC clause or user approval"
+  },
+  "intent_proposal_body": {
+    "kind": "LOCAL_INTENT_PROPOSAL_NOT_NATIVE_INTENTCARD",
+    "requirement_utterance": "Before I archive a release handoff folder, show me which acceptance checks would lose their only evidence file if I removed it.",
+    "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a"
+  },
+  "pi_compile_input": {
+    "intent": {
+      "subject_id": "INTENT-1ad0559eb3051503",
+      "content_hash": "1ad0559eb3051503edd7df6338d632904eee716e4875a2c8be8a34c00e912c0d"
+    },
+    "profile": "STANDARD",
+    "atoms": [
+      {
+        "req_id": "REQ-INTENT",
+        "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "owner": "PIPD-EC",
+        "acceptance_cue": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder.",
+        "risk_guard": "A counterfactual classification never authorizes deletion or declares a release safe."
+      },
+      {
+        "req_id": "REQ-KNOWLEDGE",
+        "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+        "owner": "PIPD-EC",
+        "acceptance_cue": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE.",
+        "risk_guard": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives."
+      },
+      {
+        "req_id": "REQ-VERIFY",
+        "source_clause": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+        "owner": "PIPD-EC",
+        "acceptance_cue": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN.",
+        "risk_guard": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage."
+      },
+      {
+        "req_id": "REQ-DELIVER",
+        "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "owner": "PIPD-EC",
+        "acceptance_cue": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification.",
+        "risk_guard": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance."
+      },
+      {
+        "req_id": "REQ-GOVERN",
+        "source_clause": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+        "owner": "PIPD-EC",
+        "acceptance_cue": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical.",
+        "risk_guard": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority."
+      }
+    ],
+    "goal": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files."
+  },
+  "proposal": {
+    "jtbd": {
+      "value": "When preparing to archive release handoff material, a maintainer wants to identify acceptance checks that would lose their sole usable evidence so they can preserve it before removal.",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "atom_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    "fuo": {
+      "value": "Given a local acceptance-to-evidence mapping and proposed folder, receive a report that distinguishes sole-evidence loss, retained alternatives and unresolved evidence, with source files unchanged.",
+      "source_clause": "DOC-01/C08.3:L1169-L1171@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "atom_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "command": "PROPOSED: evidence-loss-preview --mapping <local-mapping> --remove-folder <folder>",
+      "host": "Local CLI; proposed, not installed",
+      "environment": "Read-only approved local input mapping and evidence roots; no network",
+      "input": "Candidate digest, check ids, evidence locators/digests, proposed folder",
+      "stdout_schema": "Rows: check_id, classification, evidence_locators; textual status NO_CHECKS for empty input",
+      "exit_checker": "Proposed: 0 for fully resolved report, 2 when any UNKNOWN or NO_CHECKS; product owner ratification pending",
+      "negative": "ACC/NEG pair list below",
+      "expected_raw_receipt_locator": "Future isolated checker output: input digests, stdout, exit, before/after evidence digests; not present",
+      "observed_raw_receipt": "NOT_EXECUTED"
+    },
+    "goalcard": {
+      "goal": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files.",
+      "persona": "Release handoff maintainer",
+      "mvp": "Read-only counterfactual evidence-loss report for a supplied local mapping",
+      "success": "Each check classified by usable retained evidence, unresolved entries explicit, no source bytes changed",
+      "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+      "status": "LOCAL_SUMMARY_NOT_CANONICAL_GOALCARD",
+      "definition_limit": "GoalCard not specified in DOC-01; GoalCard not specified in DOC-02 (literal full-file scans both zero). This local summary shape is agent-proposed, not a cited DOC schema."
+    },
+    "decisions": [
+      {
+        "id": "DEC-TS14-01",
+        "status": "PROPOSED_OWNER_RATIFICATION_REQUIRED",
+        "decision": "Keep the first useful slice read-only and accept an explicit local mapping; do not discover or delete release assets automatically.",
+        "alternatives": "Automatic archive operation rejected because the seed asks for a preview, not permission for effects.",
+        "consequence": "Mapping completeness remains explicit; no claim that all acceptance checks in the world are known.",
+        "source_clause": "DOC-01/C05.1/U11:L784@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/R09.6:L2688-L2695@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "atom_indices": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": "ADR-TS14-01",
+        "status": "PROPOSED_OWNER_RATIFICATION_REQUIRED",
+        "decision": "Use candidate-bound evidence locators and digest-checked local resolution, then evaluate a counterfactual folder-removal predicate per check.",
+        "alternatives": "Filename-only matching rejected because stale/foreign files could falsely appear to preserve evidence.",
+        "consequence": "Missing or stale identity yields UNKNOWN; no automatic release gate override.",
+        "source_clause": "DOC-01/C05.2/U06.4:L852@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/ChangeImpactGraph/ADR/Rollback & No-effect:L10648-L10679@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+        "atom_indices": [
+          0,
+          1,
+          2
+        ]
+      }
+    ],
+    "nfr": [
+      {
+        "id": "NFR-TS14-01",
+        "value": "No source/evidence mutations: compare before/after byte digests.",
+        "source_clause": "DOC-01/C05.2/U06.2:L850@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "atom_index": 4
+      },
+      {
+        "id": "NFR-TS14-02",
+        "value": "Coverage integrity: each input check id appears once, including UNKNOWN; classifications and provenance readable without color.",
+        "source_clause": "DOC-01/C05.2/U06.2:L850@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "atom_index": 3
+      }
+    ],
+    "pd_proposal": {
+      "status": "HOLD_UNBOUND_DESIGN_ONLY",
+      "domain": "AcceptanceCheck -> candidate-bound EvidenceFile; ProposedRemovalFolder is a what-if input, not an authorized action",
+      "proposed_components": "Local mapping reader -> identity/path resolver -> per-check classifier -> plain-text report",
+      "repo_context": null,
+      "bound_pi_reference": null,
+      "future_write_scope": "UNVERIFIED: implementation/test paths require target-repo discovery and separate Native WorkOrder; no write path authorized here",
+      "binding_gate": "PIPD PD Owner must supply real root/head/tracked_files/currentness/writable_scope from discovery and compiled PI ref. Do not fabricate HEAD or PI-PKG identity.",
+      "source_clause": "DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    "handoff": {
+      "goal": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files.",
+      "non_goals": [
+        "Actually archive/delete files",
+        "Approve a release or mint PI/PD/ECP/Permit",
+        "Infer completeness from missing or stale evidence"
+      ],
+      "assumptions": [
+        "Agent selected this hypothetical user need as requested; it is not a recorded human product interview.",
+        "STANDARD is an agent-proposed profile value, not an effective Native ProfileBinding.",
+        "Local mapping and candidate digest are future runtime inputs; none fabricated here."
+      ],
+      "acceptance": "acc_neg_pairs: one positive and one discriminating negative for each atom index",
+      "open_questions": [
+        "Product owner must ratify this proposed MVP, command and exit policy before implementation.",
+        "Target product repo and mapping format are not yet selected; discovery and Native PD admission remain required.",
+        "CR-ORACLE-001 remains an upstream authority gap; JSON Schema success cannot close it."
+      ],
+      "sources": [
+        "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a",
+        "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+      ],
+      "exact_current_write_scope": [
+        "C:/Projects/Agent_Workspace/_r14_packet/raw/ts14_*"
+      ],
+      "next": "Route proposal to PIPD Source/Profile/PI Writer, then PD Owner; do not execute product changes."
+    }
+  },
+  "field_accounting": {
+    "counting_unit": "scalar/null leaf occurrence in canonical pi_compile_input + proposal + acc_neg_pairs; root atoms alias and report metadata excluded",
+    "pi_input_internal_leaf_fields": 29,
+    "all_internal_leaf_fields": 161,
+    "human_supplied_internal_fields": 0,
+    "human_supplied_product_fields": 0,
+    "agent_selected_utterance_count": 1,
+    "human_followup_questions": 0,
+    "authority_values_invented": 0,
+    "explanation": "Agent proposed design values and derived schema fields; unknown Native refs remain null/HOLD. The human supplied task instructions, local source paths and an output schema, not an IntentCard, ProfileBinding, atom owner, clause locator or acceptance contract. This proves no human internal-field entry in this bounded authored run, not a deployed guided-intake UX."
+  },
+  "field_derivation_ledger": [
+    {
+      "path": "/pi_compile_input/intent/subject_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "INTENT-1ad0559eb3051503"
+    },
+    {
+      "path": "/pi_compile_input/intent/content_hash",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "1ad0559eb3051503edd7df6338d632904eee716e4875a2c8be8a34c00e912c0d"
+    },
+    {
+      "path": "/pi_compile_input/profile",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "STANDARD"
+    },
+    {
+      "path": "/pi_compile_input/atoms/0/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-INTENT"
+    },
+    {
+      "path": "/pi_compile_input/atoms/0/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/pi_compile_input/atoms/0/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/pi_compile_input/atoms/0/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder."
+    },
+    {
+      "path": "/pi_compile_input/atoms/0/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "A counterfactual classification never authorizes deletion or declares a release safe."
+    },
+    {
+      "path": "/pi_compile_input/atoms/1/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-KNOWLEDGE"
+    },
+    {
+      "path": "/pi_compile_input/atoms/1/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/pi_compile_input/atoms/1/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/pi_compile_input/atoms/1/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE."
+    },
+    {
+      "path": "/pi_compile_input/atoms/1/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives."
+    },
+    {
+      "path": "/pi_compile_input/atoms/2/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-VERIFY"
+    },
+    {
+      "path": "/pi_compile_input/atoms/2/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/pi_compile_input/atoms/2/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/pi_compile_input/atoms/2/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN."
+    },
+    {
+      "path": "/pi_compile_input/atoms/2/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage."
+    },
+    {
+      "path": "/pi_compile_input/atoms/3/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-DELIVER"
+    },
+    {
+      "path": "/pi_compile_input/atoms/3/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/pi_compile_input/atoms/3/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/pi_compile_input/atoms/3/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification."
+    },
+    {
+      "path": "/pi_compile_input/atoms/3/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance."
+    },
+    {
+      "path": "/pi_compile_input/atoms/4/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-GOVERN"
+    },
+    {
+      "path": "/pi_compile_input/atoms/4/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/pi_compile_input/atoms/4/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/pi_compile_input/atoms/4/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical."
+    },
+    {
+      "path": "/pi_compile_input/atoms/4/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority."
+    },
+    {
+      "path": "/pi_compile_input/goal",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files."
+    },
+    {
+      "path": "/proposal/jtbd/value",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "When preparing to archive release handoff material, a maintainer wants to identify acceptance checks that would lose their sole usable evidence so they can preserve it before removal."
+    },
+    {
+      "path": "/proposal/jtbd/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/jtbd/atom_indices/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 0
+    },
+    {
+      "path": "/proposal/jtbd/atom_indices/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 1
+    },
+    {
+      "path": "/proposal/jtbd/atom_indices/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 2
+    },
+    {
+      "path": "/proposal/fuo/value",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given a local acceptance-to-evidence mapping and proposed folder, receive a report that distinguishes sole-evidence loss, retained alternatives and unresolved evidence, with source files unchanged."
+    },
+    {
+      "path": "/proposal/fuo/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C08.3:L1169-L1171@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/fuo/atom_indices/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 0
+    },
+    {
+      "path": "/proposal/fuo/atom_indices/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 1
+    },
+    {
+      "path": "/proposal/fuo/atom_indices/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 2
+    },
+    {
+      "path": "/proposal/fuo/atom_indices/3",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 3
+    },
+    {
+      "path": "/proposal/fuo/atom_indices/4",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 4
+    },
+    {
+      "path": "/proposal/fuo/command",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PROPOSED: evidence-loss-preview --mapping <local-mapping> --remove-folder <folder>"
+    },
+    {
+      "path": "/proposal/fuo/host",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Local CLI; proposed, not installed"
+    },
+    {
+      "path": "/proposal/fuo/environment",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Read-only approved local input mapping and evidence roots; no network"
+    },
+    {
+      "path": "/proposal/fuo/input",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Candidate digest, check ids, evidence locators/digests, proposed folder"
+    },
+    {
+      "path": "/proposal/fuo/stdout_schema",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Rows: check_id, classification, evidence_locators; textual status NO_CHECKS for empty input"
+    },
+    {
+      "path": "/proposal/fuo/exit_checker",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Proposed: 0 for fully resolved report, 2 when any UNKNOWN or NO_CHECKS; product owner ratification pending"
+    },
+    {
+      "path": "/proposal/fuo/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC/NEG pair list below"
+    },
+    {
+      "path": "/proposal/fuo/expected_raw_receipt_locator",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Future isolated checker output: input digests, stdout, exit, before/after evidence digests; not present"
+    },
+    {
+      "path": "/proposal/fuo/observed_raw_receipt",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED"
+    },
+    {
+      "path": "/proposal/goalcard/goal",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files."
+    },
+    {
+      "path": "/proposal/goalcard/persona",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Release handoff maintainer"
+    },
+    {
+      "path": "/proposal/goalcard/mvp",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Read-only counterfactual evidence-loss report for a supplied local mapping"
+    },
+    {
+      "path": "/proposal/goalcard/success",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Each check classified by usable retained evidence, unresolved entries explicit, no source bytes changed"
+    },
+    {
+      "path": "/proposal/goalcard/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/goalcard/status",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "LOCAL_SUMMARY_NOT_CANONICAL_GOALCARD"
+    },
+    {
+      "path": "/proposal/goalcard/definition_limit",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "GoalCard not specified in DOC-01; GoalCard not specified in DOC-02 (literal full-file scans both zero). This local summary shape is agent-proposed, not a cited DOC schema."
+    },
+    {
+      "path": "/proposal/decisions/0/id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DEC-TS14-01"
+    },
+    {
+      "path": "/proposal/decisions/0/status",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PROPOSED_OWNER_RATIFICATION_REQUIRED"
+    },
+    {
+      "path": "/proposal/decisions/0/decision",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Keep the first useful slice read-only and accept an explicit local mapping; do not discover or delete release assets automatically."
+    },
+    {
+      "path": "/proposal/decisions/0/alternatives",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Automatic archive operation rejected because the seed asks for a preview, not permission for effects."
+    },
+    {
+      "path": "/proposal/decisions/0/consequence",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Mapping completeness remains explicit; no claim that all acceptance checks in the world are known."
+    },
+    {
+      "path": "/proposal/decisions/0/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.1/U11:L784@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/R09.6:L2688-L2695@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/decisions/0/atom_indices/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 3
+    },
+    {
+      "path": "/proposal/decisions/0/atom_indices/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 4
+    },
+    {
+      "path": "/proposal/decisions/1/id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ADR-TS14-01"
+    },
+    {
+      "path": "/proposal/decisions/1/status",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PROPOSED_OWNER_RATIFICATION_REQUIRED"
+    },
+    {
+      "path": "/proposal/decisions/1/decision",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Use candidate-bound evidence locators and digest-checked local resolution, then evaluate a counterfactual folder-removal predicate per check."
+    },
+    {
+      "path": "/proposal/decisions/1/alternatives",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Filename-only matching rejected because stale/foreign files could falsely appear to preserve evidence."
+    },
+    {
+      "path": "/proposal/decisions/1/consequence",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Missing or stale identity yields UNKNOWN; no automatic release gate override."
+    },
+    {
+      "path": "/proposal/decisions/1/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.2/U06.4:L852@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/ChangeImpactGraph/ADR/Rollback & No-effect:L10648-L10679@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/proposal/decisions/1/atom_indices/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 0
+    },
+    {
+      "path": "/proposal/decisions/1/atom_indices/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 1
+    },
+    {
+      "path": "/proposal/decisions/1/atom_indices/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 2
+    },
+    {
+      "path": "/proposal/nfr/0/id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NFR-TS14-01"
+    },
+    {
+      "path": "/proposal/nfr/0/value",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "No source/evidence mutations: compare before/after byte digests."
+    },
+    {
+      "path": "/proposal/nfr/0/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.2/U06.2:L850@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/nfr/0/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 4
+    },
+    {
+      "path": "/proposal/nfr/1/id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NFR-TS14-02"
+    },
+    {
+      "path": "/proposal/nfr/1/value",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Coverage integrity: each input check id appears once, including UNKNOWN; classifications and provenance readable without color."
+    },
+    {
+      "path": "/proposal/nfr/1/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.2/U06.2:L850@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/nfr/1/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 3
+    },
+    {
+      "path": "/proposal/pd_proposal/status",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "HOLD_UNBOUND_DESIGN_ONLY"
+    },
+    {
+      "path": "/proposal/pd_proposal/domain",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AcceptanceCheck -> candidate-bound EvidenceFile; ProposedRemovalFolder is a what-if input, not an authorized action"
+    },
+    {
+      "path": "/proposal/pd_proposal/proposed_components",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Local mapping reader -> identity/path resolver -> per-check classifier -> plain-text report"
+    },
+    {
+      "path": "/proposal/pd_proposal/repo_context",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": null
+    },
+    {
+      "path": "/proposal/pd_proposal/bound_pi_reference",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": null
+    },
+    {
+      "path": "/proposal/pd_proposal/future_write_scope",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "UNVERIFIED: implementation/test paths require target-repo discovery and separate Native WorkOrder; no write path authorized here"
+    },
+    {
+      "path": "/proposal/pd_proposal/binding_gate",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD PD Owner must supply real root/head/tracked_files/currentness/writable_scope from discovery and compiled PI ref. Do not fabricate HEAD or PI-PKG identity."
+    },
+    {
+      "path": "/proposal/pd_proposal/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/proposal/handoff/goal",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files."
+    },
+    {
+      "path": "/proposal/handoff/non_goals/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Actually archive/delete files"
+    },
+    {
+      "path": "/proposal/handoff/non_goals/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Approve a release or mint PI/PD/ECP/Permit"
+    },
+    {
+      "path": "/proposal/handoff/non_goals/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Infer completeness from missing or stale evidence"
+    },
+    {
+      "path": "/proposal/handoff/assumptions/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Agent selected this hypothetical user need as requested; it is not a recorded human product interview."
+    },
+    {
+      "path": "/proposal/handoff/assumptions/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "STANDARD is an agent-proposed profile value, not an effective Native ProfileBinding."
+    },
+    {
+      "path": "/proposal/handoff/assumptions/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Local mapping and candidate digest are future runtime inputs; none fabricated here."
+    },
+    {
+      "path": "/proposal/handoff/acceptance",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "acc_neg_pairs: one positive and one discriminating negative for each atom index"
+    },
+    {
+      "path": "/proposal/handoff/open_questions/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Product owner must ratify this proposed MVP, command and exit policy before implementation."
+    },
+    {
+      "path": "/proposal/handoff/open_questions/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Target product repo and mapping format are not yet selected; discovery and Native PD admission remain required."
+    },
+    {
+      "path": "/proposal/handoff/open_questions/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "CR-ORACLE-001 remains an upstream authority gap; JSON Schema success cannot close it."
+    },
+    {
+      "path": "/proposal/handoff/sources/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a"
+    },
+    {
+      "path": "/proposal/handoff/sources/1",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/proposal/handoff/sources/2",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/proposal/handoff/exact_current_write_scope/0",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "C:/Projects/Agent_Workspace/_r14_packet/raw/ts14_*"
+    },
+    {
+      "path": "/proposal/handoff/next",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Route proposal to PIPD Source/Profile/PI Writer, then PD Owner; do not execute product changes."
+    },
+    {
+      "path": "/acc_neg_pairs/0/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 0
+    },
+    {
+      "path": "/acc_neg_pairs/0/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-INTENT"
+    },
+    {
+      "path": "/acc_neg_pairs/0/acc_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC-TS14-01"
+    },
+    {
+      "path": "/acc_neg_pairs/0/neg_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NEG-TS14-01"
+    },
+    {
+      "path": "/acc_neg_pairs/0/positive",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given check C1 references one verified candidate-bound file inside folder F; when preview F; then C1=WOULD_LOSE_ONLY_EVIDENCE."
+    },
+    {
+      "path": "/acc_neg_pairs/0/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given the same C1 but add one verified candidate-bound file outside F; when preview F; then C1 must not be WOULD_LOSE_ONLY_EVIDENCE."
+    },
+    {
+      "path": "/acc_neg_pairs/0/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/acc_neg_pairs/0/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/acc_neg_pairs/0/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder."
+    },
+    {
+      "path": "/acc_neg_pairs/0/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "A counterfactual classification never authorizes deletion or declares a release safe."
+    },
+    {
+      "path": "/acc_neg_pairs/0/observed",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "path": "/acc_neg_pairs/1/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 1
+    },
+    {
+      "path": "/acc_neg_pairs/1/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-KNOWLEDGE"
+    },
+    {
+      "path": "/acc_neg_pairs/1/acc_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC-TS14-02"
+    },
+    {
+      "path": "/acc_neg_pairs/1/neg_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NEG-TS14-02"
+    },
+    {
+      "path": "/acc_neg_pairs/1/positive",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given C2 has one verified candidate-bound file outside F; when preview F; then C2=RETAINS_EVIDENCE."
+    },
+    {
+      "path": "/acc_neg_pairs/1/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given C2 outside-file reference has a foreign candidate digest; when preview F; then it must not be counted as usable retained evidence."
+    },
+    {
+      "path": "/acc_neg_pairs/1/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/acc_neg_pairs/1/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/acc_neg_pairs/1/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE."
+    },
+    {
+      "path": "/acc_neg_pairs/1/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives."
+    },
+    {
+      "path": "/acc_neg_pairs/1/observed",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "path": "/acc_neg_pairs/2/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 2
+    },
+    {
+      "path": "/acc_neg_pairs/2/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-VERIFY"
+    },
+    {
+      "path": "/acc_neg_pairs/2/acc_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC-TS14-03"
+    },
+    {
+      "path": "/acc_neg_pairs/2/neg_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NEG-TS14-03"
+    },
+    {
+      "path": "/acc_neg_pairs/2/positive",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given C3 has an unresolved evidence locator; when preview F; then C3=UNKNOWN."
+    },
+    {
+      "path": "/acc_neg_pairs/2/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given the same unresolved locator; when a preview returns RETAINS_EVIDENCE; then reject that result as unsafe."
+    },
+    {
+      "path": "/acc_neg_pairs/2/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/acc_neg_pairs/2/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/acc_neg_pairs/2/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN."
+    },
+    {
+      "path": "/acc_neg_pairs/2/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage."
+    },
+    {
+      "path": "/acc_neg_pairs/2/observed",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "path": "/acc_neg_pairs/3/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 3
+    },
+    {
+      "path": "/acc_neg_pairs/3/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-DELIVER"
+    },
+    {
+      "path": "/acc_neg_pairs/3/acc_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC-TS14-04"
+    },
+    {
+      "path": "/acc_neg_pairs/3/neg_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NEG-TS14-04"
+    },
+    {
+      "path": "/acc_neg_pairs/3/positive",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given C1,C2,C3; when preview F; then the report contains all three ids, textual classifications and their used evidence locators."
+    },
+    {
+      "path": "/acc_neg_pairs/3/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given the same input; when the report omits C3 because it is UNKNOWN; then reject the report as incomplete."
+    },
+    {
+      "path": "/acc_neg_pairs/3/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f"
+    },
+    {
+      "path": "/acc_neg_pairs/3/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/acc_neg_pairs/3/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification."
+    },
+    {
+      "path": "/acc_neg_pairs/3/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance."
+    },
+    {
+      "path": "/acc_neg_pairs/3/observed",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    },
+    {
+      "path": "/acc_neg_pairs/4/atom_index",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": 4
+    },
+    {
+      "path": "/acc_neg_pairs/4/req_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "REQ-GOVERN"
+    },
+    {
+      "path": "/acc_neg_pairs/4/acc_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "ACC-TS14-05"
+    },
+    {
+      "path": "/acc_neg_pairs/4/neg_id",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NEG-TS14-05"
+    },
+    {
+      "path": "/acc_neg_pairs/4/positive",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given recorded before digests of F and referenced files; when preview F; then all after digests equal before digests."
+    },
+    {
+      "path": "/acc_neg_pairs/4/negative",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "Given a preview implementation that deletes one evidence file; when checking after digests; then reject the implementation and retain the failed no-effect evidence."
+    },
+    {
+      "path": "/acc_neg_pairs/4/source_clause",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035"
+    },
+    {
+      "path": "/acc_neg_pairs/4/owner",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "PIPD-EC"
+    },
+    {
+      "path": "/acc_neg_pairs/4/acceptance_cue",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical."
+    },
+    {
+      "path": "/acc_neg_pairs/4/risk_guard",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority."
+    },
+    {
+      "path": "/acc_neg_pairs/4/observed",
+      "origin": "AGENT_DERIVED_OR_EXPLICIT_UNKNOWN",
+      "value": "NOT_EXECUTED_PRODUCT_TEST_DESIGN_ONLY"
+    }
+  ]
+}

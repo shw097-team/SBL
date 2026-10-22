@@ -1,0 +1,228 @@
+# TS18 — source-bound knowledge negatives
+
+Claim ceiling: PARTIAL_MEASURED_COMPONENT_PROBES_ONLY; NOT_SOURCEBOUND_RUNTIME_QUALIFIED; NOT_PI_PD_ADMITTED
+
+Command: `PYTHONDONTWRITEBYTECODE=1 PYTHONIOENCODING=utf-8 python C:/Projects/Agent_Workspace/_r14_packet/raw/ts17_ts18_measure.py`
+
+All state changes isolated to ts18_* evidence fixtures/DB. Canonical HGK/PIPD/DOC sources read-only; no git invoked. Synthetic malicious/conflict payloads are test inputs, never product authority.
+
+## a-doc-byte-range — MEASURED
+14/14 actual file seek/read equality proofs. Derived byte index only. KnowledgeFactory.ingest_text does not validate file existence or anchor; accepted nonexistent path/anchor. Therefore physical ranges proven, runtime anchor refusal UNENFORCED.
+
+```json
+{
+  "range_reads": [
+    {
+      "doc": "DOC-00",
+      "anchor": "# R00｜文件身份、五分鐘讀者卡與本輪讀取資格",
+      "start": 2828,
+      "end": 2890,
+      "range_sha256": "52291ea0f86904c2568915be136a83d0833e5e68a57602a599be40c262133698",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-01",
+      "anchor": "# R00｜文件身分、來源讀回與 DOC-00 消費入口",
+      "start": 18916,
+      "end": 18974,
+      "range_sha256": "12836658176d5341bf6207de2faf4810800034377ecc3d309125c1d02ad9ad54",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-02",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-02》｜2026-10-19 r2 HIGH-RETENTION AUDIT-PATCHED FULL-REPAIR FULL-SUBSTANTIVE-BODY",
+      "start": 0,
+      "end": 109,
+      "range_sha256": "a665cd8ea5461c2609de1911008f5e3c233cea08c0dadda10942f63156445994",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-03",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-03》｜2026-10-19 r2 HIGH-RETENTION AUDIT-PATCHED FULL-REPAIR FULL SUBSTANTIVE BODY（作者端）",
+      "start": 0,
+      "end": 124,
+      "range_sha256": "7bfa9c0e4dc46f862f7d05179ae6652a32ffe974c0db969bed2e0d5d725a7e7c",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-04",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-04》｜完整實質設計正文（2026-10-19 r4）",
+      "start": 899,
+      "end": 975,
+      "range_sha256": "d854eb987ea21dc557261b6996a73df9335e0796e481d49969c1a017c156f897",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-05",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-05》｜Repo 晚綁定、PD 十件、施工契約、Claim Ceiling 與 DEV／OPS ECP：全量實質設計正文",
+      "start": 1094,
+      "end": 1229,
+      "range_sha256": "6895272584c53277e96b988e45c5d0955d967610f2a52902f24a2b292ff37a35",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-06",
+      "anchor": "# C32｜六個方法 Donor／24 核心能力：用途、能力吸收與可退場",
+      "start": 10175,
+      "end": 10255,
+      "range_sha256": "e90173606561fdd9822011c2cc6e4d8973b16a533bd31dada5d4174e65e65623",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-07",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-07》｜Security, Human Approval, Token & Trust Boundaries — 全量實質設計正文",
+      "start": 0,
+      "end": 112,
+      "range_sha256": "0f72e25fad0925528f64c2440447b2693dfbf808f1ff8751e5854b515d62a805",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-08",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-08》｜Acceptance／Verification／TQAEP／Oracle Registry／Independent Challenge — r4 全量審查導向實質修補正文",
+      "start": 0,
+      "end": 152,
+      "range_sha256": "68811a8516384efe537b3927bb538cfc0ce683ffa5855406ac1277ea38342ee8",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-09",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-09》｜Evidence Trace / Ledger / Deliver — AUDIT F01–F28 融合升級實質正文（r4）",
+      "start": 3125,
+      "end": 3244,
+      "range_sha256": "590c89066b152adfb7bf26b111e9c2506212d5644a695a628bb32acced2a262f",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-10",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-10》｜GENIEMAKER／Builder／四 Host／G-KNOW／HLPE／OROCHI／RAG：全量實質設計正文",
+      "start": 1118,
+      "end": 1240,
+      "range_sha256": "db452767f1de41181a3c4fb9b0979581eb7cbbb23ee4f16776655ed0312b230e",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-11",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-11》｜2026-10-19 r2 高保留破壞性審查升級修補實質正文",
+      "start": 0,
+      "end": 95,
+      "range_sha256": "c9f06dd042dd90a53250524d55587fe922c9ac8fd9adc1c2fb940170cc834446",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-12",
+      "anchor": "# 《SBL_PIPD-LS-PKG_DOC-12》｜2026-10-20 r2 HIGH-RETENTION AUDIT-PATCHED FULL REPAIR／全量實質正文",
+      "start": 0,
+      "end": 108,
+      "range_sha256": "add1c459a114faf556033764721aec89840a324093946d56179082d05def809c",
+      "read_equal": true
+    },
+    {
+      "doc": "DOC-13",
+      "anchor": "# R00｜DOC-13 文件身份、權威邊界與工程閱讀入口",
+      "start": 1510,
+      "end": 1573,
+      "range_sha256": "d991948055f81a932dd9ae9b490e12c4bfe0e4cd8c4c48f3a5f313db4c0b5dca",
+      "read_equal": true
+    }
+  ],
+  "invalid_anchor_ingest": {
+    "source_id": "SRC-a1a122ae4f10aa1d0324",
+    "unit_id": "UNIT-169779fd187e34f0835f",
+    "candidate_id": "CAND-a13e1c0e8570b65d",
+    "sanitation": "CLEAN",
+    "findings": []
+  }
+}
+```
+
+## b-citation-source-hash — UNENFORCED
+verify_citation knowledge.py:175-185 checks stored citation/status only; changed file bytes still accepted. ERR_CITATION_INVALID rejects wrong citation string. repoint_source:250-251 DOES refuse hash mismatch with InvariantViolation ERR_REPOINT_SHA_DRIFT; pointer-move protection is not live citation verification.
+
+```json
+{
+  "live_file_drift_verify_citation": {
+    "returned": true
+  },
+  "wrong_citation": {
+    "exception": "GroundingFailure",
+    "error": "ERR_CITATION_INVALID:DOC-7f6cfbe31303f067e949"
+  },
+  "repoint_same_path_hash_drift": {
+    "exception": "InvariantViolation",
+    "error": "ERR_REPOINT_SHA_DRIFT:SRC-52291ea0f86904c25689"
+  }
+}
+```
+
+## c-unknown-nrtv — MEASURED
+GroundingFailure ABSTAIN_NO_GROUNDING is the runtime abstention; UNKNOWN is this report mapping, not a native return token. Tested corpus contains all 14 real DOC headings, not all body clauses. No unseen fact inferred; no claim of full semantic NRTV enforcement.
+
+```json
+{
+  "exception": "GroundingFailure",
+  "error": "ABSTAIN_NO_GROUNDING:R14_UNSEEN_NRTV_FACT_7C1E09"
+}
+```
+
+## d-prompt-injection-pipd — UNENFORCED
+security.py:18-24 regex sanitation -> ingest_text quarantine -> promote ERR_CANDIDATE_NOT_PROMOTABLE is measured for literal English poison. CJK authority-escalation directive remains CLEAN/promotable. No PI/PD source-admission enforcement is implemented in KnowledgeFactory; promotion of knowledge is not Native PI/PD binding. Cannot claim poison-proof PI/PD source boundary.
+
+```json
+{
+  "literal_poison": {
+    "source_id": "SRC-ad409c537a779873ffa5",
+    "unit_id": "UNIT-8fe0c6993d8655c2a374",
+    "candidate_id": "CAND-d0c78ee0221e5ef8",
+    "sanitation": "QUARANTINED",
+    "findings": [
+      "PROMPT_INJECTION:ignore\\s+(?:all\\s+)?(?:previous|prior)\\s+instructions"
+    ]
+  },
+  "literal_promotion": {
+    "exception": "InvariantViolation",
+    "error": "ERR_CANDIDATE_NOT_PROMOTABLE"
+  },
+  "cjk_oblique": {
+    "source_id": "SRC-5fde9716a53ddec33f9e",
+    "unit_id": "UNIT-8cf3580bb133b8bb6474",
+    "candidate_id": "CAND-d25d77c263c543f3",
+    "sanitation": "CLEAN",
+    "findings": []
+  },
+  "cjk_oblique_promotion": {
+    "returned": "DOC-ef5c35d9ea159c9793e3"
+  }
+}
+```
+
+## e-cross-source-conflict — UNENFORCED
+Both contradictory synthetic assertions persisted under separate real DOC-heading provenance. add_kg_assertion knowledge.py:147-173 validates active source/nonempty fields only, no contradiction classifier or conflict flag. Harness observes contradiction; runtime does not surface a typed conflict. Not an assertion that real DOC-00 and DOC-01 conflict.
+
+```json
+{
+  "accepted_edges": [
+    "EDGE-28058f3c0ea8cac3904e",
+    "EDGE-9be999808566ccef3d67"
+  ],
+  "readback": [
+    {
+      "edge_id": "EDGE-28058f3c0ea8cac3904e",
+      "source_doc_id": "DOC-8b9939cdd5299fa67212",
+      "subject": "R14_SYNTHETIC_SUBJECT",
+      "predicate": "allowed",
+      "object": "TRUE",
+      "created_at": "2026-10-22T02:05:33.961069Z"
+    },
+    {
+      "edge_id": "EDGE-9be999808566ccef3d67",
+      "source_doc_id": "DOC-fd6ccdae70012f002fc5",
+      "subject": "R14_SYNTHETIC_SUBJECT",
+      "predicate": "allowed",
+      "object": "FALSE",
+      "created_at": "2026-10-22T02:05:33.997747Z"
+    }
+  ]
+}
+```
+
+Source pins and byte ranges: ts18_sources_and_anchors.json. Byte ranges are half-open UTF-8 bytes. No encoding errors. Full runtime anchoring, live citation hash, native PI/PD poison admission and conflict detection remain unqualified. DB evidence is reproducible in a fresh ts18_* DB; rerunning in same DB is not designed to be idempotent.

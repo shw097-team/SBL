@@ -1,0 +1,145 @@
+{
+  "schema": "SBL-TS14-PI-PKG-COMPILE/1",
+  "ok": true,
+  "errors": [],
+  "negative_control": "REJECTED",
+  "pi_pkg": {
+    "subject_id": "PI-6f3eb2a638ba6a3a",
+    "content_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+    "version": "1",
+    "schema_version": "PI-PKG@1",
+    "stable_semantic_contract": {
+      "contract": "stable",
+      "profile_binding": {
+        "profile": "STANDARD",
+        "axes": [
+          "intent",
+          "knowledge",
+          "verification",
+          "release"
+        ],
+        "vetoes": [
+          "no_evidence_for_acceptance",
+          "release_handoff_without_readback"
+        ],
+        "artifact_depth": "L3_INTEGRATION_RUNTIME",
+        "assurance": [
+          "independent_checker_required",
+          "raw_evidence_per_acceptance"
+        ]
+      },
+      "atoms": [
+        {
+          "req_id": "REQ-INTENT",
+          "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L1109@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+          "owner": "PIPD-EC",
+          "acceptance_cue": "For each acceptance check with resolvable evidence references, classify WOULD_LOSE_ONLY_EVIDENCE exactly when every usable evidence file for that check is inside the proposed removal folder.",
+          "risk_guard": "A counterfactual classification never authorizes deletion or declares a release safe.",
+          "subject_id": "ATOM-c4360cf2f75bf35c",
+          "content_hash": "c4360cf2f75bf35c11babef06beaf74605a246b0e57ddf43eee758fb3de282fd",
+          "version": "1",
+          "schema_version": "RequirementAtom@1"
+        },
+        {
+          "req_id": "REQ-KNOWLEDGE",
+          "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+          "owner": "PIPD-EC",
+          "acceptance_cue": "For a check with at least one usable evidence file outside the proposed folder, classify RETAINS_EVIDENCE.",
+          "risk_guard": "Count only resolvable evidence bound to that check and the same candidate digest; unrelated or stale files are not alternatives.",
+          "subject_id": "ATOM-d4985200fba9ff8c",
+          "content_hash": "d4985200fba9ff8c4b5859222e2083a8945d8460ffcab5f7c871d17b2de67f63",
+          "version": "1",
+          "schema_version": "RequirementAtom@1"
+        },
+        {
+          "req_id": "REQ-VERIFY",
+          "source_clause": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L4633-L4653@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+          "owner": "PIPD-EC",
+          "acceptance_cue": "For a check whose evidence reference cannot be resolved or candidate identity cannot be verified, classify UNKNOWN.",
+          "risk_guard": "Never convert unresolved evidence into RETAINS_EVIDENCE or claim complete coverage.",
+          "subject_id": "ATOM-695aae18e590bd32",
+          "content_hash": "695aae18e590bd32e795589b14c83d901da06ff1c4688b4d1cfc4666e97675e2",
+          "version": "1",
+          "schema_version": "RequirementAtom@1"
+        },
+        {
+          "req_id": "REQ-DELIVER",
+          "source_clause": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112-L1114@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+          "owner": "PIPD-EC",
+          "acceptance_cue": "Emit a plain-text-readable report row for every input acceptance-check id, including its classification and the evidence locators used for that classification.",
+          "risk_guard": "Do not omit UNKNOWN rows; a zero-input report must explicitly state NO_CHECKS rather than imply release acceptance.",
+          "subject_id": "ATOM-fef532f584a448e8",
+          "content_hash": "fef532f584a448e876b0475716a0b44b44662049cbf9d6797a411aa538c5c60f",
+          "version": "1",
+          "schema_version": "RequirementAtom@1"
+        },
+        {
+          "req_id": "REQ-GOVERN",
+          "source_clause": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L1749@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/Eight PIPD P4 Skills Typed IO:L10790-L10803@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+          "owner": "PIPD-EC",
+          "acceptance_cue": "The preview leaves the proposed removal folder and all referenced evidence files byte-identical.",
+          "risk_guard": "No delete/archive/write to source or evidence, no release promotion, no external upload; product implementation requires separate authority.",
+          "subject_id": "ATOM-d1b4a454973e58b6",
+          "content_hash": "d1b4a454973e58b67e7b4b27e0fc28b5c0b70d87775021f30ecc5733a3d663b3",
+          "version": "1",
+          "schema_version": "RequirementAtom@1"
+        }
+      ],
+      "goal": "Preview which acceptance checks lose their only usable evidence under a proposed release-handoff folder removal, without changing files."
+    },
+    "acceptance": {
+      "mode": "bound",
+      "oracle_source": "DOC-03 DOMAIN_ORACLES"
+    },
+    "trace": [
+      {
+        "from_type": "PI-PKG",
+        "from_id": "PI-6f3eb2a638ba6a3a",
+        "from_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+        "to_type": "RequirementAtom",
+        "to_id": "ATOM-c4360cf2f75bf35c",
+        "to_hash": "c4360cf2f75bf35c11babef06beaf74605a246b0e57ddf43eee758fb3de282fd",
+        "rationale": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1:L1098-L"
+      },
+      {
+        "from_type": "PI-PKG",
+        "from_id": "PI-6f3eb2a638ba6a3a",
+        "from_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+        "to_type": "RequirementAtom",
+        "to_id": "ATOM-d4985200fba9ff8c",
+        "to_hash": "d4985200fba9ff8c4b5859222e2083a8945d8460ffcab5f7c871d17b2de67f63",
+        "rationale": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-02/R02-04.3:L495"
+      },
+      {
+        "from_type": "PI-PKG",
+        "from_id": "PI-6f3eb2a638ba6a3a",
+        "from_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+        "to_type": "RequirementAtom",
+        "to_id": "ATOM-695aae18e590bd32",
+        "to_hash": "695aae18e590bd32e795589b14c83d901da06ff1c4688b4d1cfc4666e97675e2",
+        "rationale": "DOC-02/R02-04.3:L4951-L4963@sha256:4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035; DOC-02/R02-04.1:L46"
+      },
+      {
+        "from_type": "PI-PKG",
+        "from_id": "PI-6f3eb2a638ba6a3a",
+        "from_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+        "to_type": "RequirementAtom",
+        "to_id": "ATOM-fef532f584a448e8",
+        "to_hash": "fef532f584a448e876b0475716a0b44b44662049cbf9d6797a411aa538c5c60f",
+        "rationale": "AGENT-SELECTED-UTTERANCE/1@sha256:ddcdbaf82b9b2b85fe4c6dd03ae05ab4857cbea4389dc597fac8574773c49a3a; DOC-01/C08.1.1:L1112"
+      },
+      {
+        "from_type": "PI-PKG",
+        "from_id": "PI-6f3eb2a638ba6a3a",
+        "from_hash": "6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+        "to_type": "RequirementAtom",
+        "to_id": "ATOM-d1b4a454973e58b6",
+        "to_hash": "d1b4a454973e58b67e7b4b27e0fc28b5c0b70d87775021f30ecc5733a3d663b3",
+        "rationale": "DOC-01/C05.4:L1003-L1007@sha256:43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f; DOC-02/C17.3:L1739-L17"
+      }
+    ]
+  },
+  "input_digest": "sha256:6f3eb2a638ba6a3a85e834a2f9c3be2f36ecd2e672575561866573039fa08409",
+  "compiled_from": "_r14_packet\\raw\\ts14_guided_spec.json",
+  "claim_ceiling": "PI compiled and schema-valid; not admitted by PIPD, not executed"
+}

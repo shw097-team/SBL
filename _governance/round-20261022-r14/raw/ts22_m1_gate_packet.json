@@ -1,6 +1,6 @@
 {
   "schema": "SBL-R14-TS22-M1-GATE/1",
-  "at_utc": "2026-10-22T02:03:27.491852Z",
+  "at_utc": "2026-10-22T02:31:35.052839Z",
   "gate": "M1_NATIVE_CHAIN_READY",
   "levels": [
     {
@@ -8,9 +8,12 @@
       "name": "PIPD source/PI",
       "schema_present": true,
       "schema_sha256": "4ae7d32a4ad04b6878a17ddac42b36e085f3485f2ad9f8cd60840dbd74149e71",
-      "pi_instances_found": [],
-      "met": false,
-      "gap": "no compiled PI-PKG for a real subject exists; the eight skills' existence is not H0, and no PI has been compiled against a frozen source"
+      "pi_receipt": "ts14_pi_pkg.json",
+      "pi_subject_id": "PI-6f3eb2a638ba6a3a",
+      "pi_schema_valid": true,
+      "negative_control": "REJECTED",
+      "met": true,
+      "gap": null
     },
     {
       "level": "H1",
@@ -55,15 +58,10 @@
       "gap": null
     }
   ],
-  "levels_met": 3,
+  "levels_met": 4,
   "levels_total": 4,
-  "verdict": "M1_NOT_READY",
-  "open_gaps": [
-    {
-      "level": "H0",
-      "gap": "no compiled PI-PKG for a real subject exists; the eight skills' existence is not H0, and no PI has been compiled against a frozen source"
-    }
-  ],
+  "verdict": "M1_GATE_PACKET_READY_FOR_OWNER",
+  "open_gaps": [],
   "signed": false,
   "signer": null,
   "why_unsigned": "M1 is an Owner Gate. An agent may assemble and measure the packet; it may not supply the other principal's signature, and this round forbids self-promotion.",

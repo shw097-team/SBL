@@ -1,6 +1,6 @@
 {
   "schema": "SBL-R14-TS13-PIPD-SKILLS/1",
-  "at_utc": "2026-10-22T02:01:28.214625Z",
+  "at_utc": "2026-10-22T02:32:10.249799Z",
   "official_count": 8,
   "rows": [
     {
@@ -386,10 +386,8 @@
     {
       "skill": "pipd-execution-contract",
       "root_exists": true,
-      "verdict": "PARTIAL",
-      "findings": [
-        "4/4 refusals are declared, not schema-enforced"
-      ],
+      "verdict": "PASS",
+      "findings": [],
       "has_skill_md": true,
       "version": 1,
       "declared_owner": "PIPD (ConstructionContract) / PIPD-ECP semantics (ECP)",
@@ -419,14 +417,14 @@
           "id": "NEG-001",
           "kind": "NEG",
           "expect": "REFUSE",
-          "state": "UNENFORCED",
+          "state": "SCHEMA_ENFORCED",
           "why": ""
         },
         {
           "id": "NEG-002",
           "kind": "NEG",
           "expect": "REFUSE",
-          "state": "UNENFORCED",
+          "state": "SCHEMA_ENFORCED",
           "why": ""
         },
         {
@@ -440,33 +438,33 @@
           "id": "EDGE-002",
           "kind": "EDGE",
           "expect": "REFUSE",
-          "state": "UNENFORCED",
+          "state": "SCHEMA_ENFORCED",
           "why": ""
         },
         {
           "id": "SEC-001",
           "kind": "SEC",
           "expect": "REFUSE",
-          "state": "UNENFORCED",
+          "state": "SCHEMA_ENFORCED",
           "why": ""
         }
       ],
       "case_counts": {
         "PASS": 3,
-        "UNENFORCED": 4
+        "SCHEMA_ENFORCED": 4
       },
       "pos_total": 3,
       "pos_pass": 3,
       "refuse_total": 4,
-      "refuse_enforced": 0,
-      "refuse_unenforced": 4
+      "refuse_enforced": 4,
+      "refuse_unenforced": 0
     },
     {
       "skill": "pipd-assurance-tqaep",
       "root_exists": true,
       "verdict": "PARTIAL",
       "findings": [
-        "2/4 refusals are declared, not schema-enforced"
+        "1/4 refusals are declared, not schema-enforced"
       ],
       "has_skill_md": true,
       "version": 1,
@@ -525,20 +523,20 @@
           "id": "SEC-001",
           "kind": "SEC",
           "expect": "REFUSE",
-          "state": "UNENFORCED",
+          "state": "SCHEMA_ENFORCED",
           "why": ""
         }
       ],
       "case_counts": {
         "PASS": 3,
-        "UNENFORCED": 2,
-        "SCHEMA_ENFORCED": 2
+        "UNENFORCED": 1,
+        "SCHEMA_ENFORCED": 3
       },
       "pos_total": 3,
       "pos_pass": 3,
       "refuse_total": 4,
-      "refuse_enforced": 2,
-      "refuse_unenforced": 2
+      "refuse_enforced": 3,
+      "refuse_unenforced": 1
     },
     {
       "skill": "pipd-package-project",
@@ -621,8 +619,8 @@
     }
   ],
   "summary": {
-    "PASS": 5,
-    "PARTIAL": 3,
+    "PASS": 6,
+    "PARTIAL": 2,
     "FAIL": 0
   },
   "claim_ceiling": "discover/bind/invoke are measured at the schema and frontmatter level; a refusal that the schema does not enforce is reported UNENFORCED and never counted as a pass"

@@ -444,6 +444,75 @@
         "raw/ts27_denominator_proposal.md",
         "raw/ts27_denominator.json"
       ]
+    },
+    {
+      "id": "TT-R14-023",
+      "title": "My own TS13 harness under-measured refusals by checking one side of the contract",
+      "first_broken_link": "the harness validated each REFUSE case only against the INPUT schema and reported pipd-execution-contract as 0/4 enforced; all four of its negatives are OUTPUT-side (output.required/const/minItems/not)",
+      "earliest_owner": "round orchestrator (measurement author)",
+      "required_authority": "none",
+      "repair_cone": "a refusal is schema-enforced if either side rejects it; re-measured 30/32 enforced, 2 semantic-only (tqaep NEG-001, package-project NEG-001)",
+      "status": "CLOSED",
+      "closed_by": "scripts/pipd_skills_conformance.py",
+      "evidence": [
+        "raw/ts13_pipd_skills.json"
+      ]
+    },
+    {
+      "id": "TT-R14-024",
+      "title": "Input-valid atoms can be uncompilable: the PI input and output contracts disagree",
+      "first_broken_link": "TS14 atoms passed the input schema, but the output schema additionally requires per-atom subject_id/content_hash/version/schema_version, pins acceptance to mode=bound + DOC-03 DOMAIN_ORACLES, and fixes every trace row to PI-PKG->RequirementAtom",
+      "earliest_owner": "PIPD bundle Owner",
+      "required_authority": "schema owner (reported, not changed)",
+      "repair_cone": "document that the compile step assigns the atom envelope, or require it in the input schema; until then 'atoms validate' must never be read as 'PI compiles'",
+      "status": "OPEN_REPORTED",
+      "blocking": [
+        "R14-TS14"
+      ],
+      "evidence": [
+        "raw/ts14_pi_pkg.json"
+      ]
+    },
+    {
+      "id": "TT-R14-025",
+      "title": "begin_repair ignored the attempt budget that every other path enforces",
+      "first_broken_link": "lifecycle.begin_repair incremented repair_count/attempts_used without reading attempt_budget, while attempt() and checkpoint() both check it; measured 2 repairs at budget 1",
+      "earliest_owner": "HGK lifecycle owner",
+      "required_authority": "none (bounded native fix)",
+      "repair_cone": "refuse with ERR_REPAIR_BUDGET_EXHAUSTED once attempts_used >= attempt_budget, with a regression test",
+      "status": "CLOSED",
+      "closed_by": "HG-KSEOS 8e602eb",
+      "evidence": [
+        "raw/final_r14_full13.log"
+      ]
+    },
+    {
+      "id": "TT-R14-026",
+      "title": "A subagent wrote outside its sandbox (disclosed, quarantined)",
+      "first_broken_link": "the TS16 hook inherited a W3 test path and created 12 files under a sibling scratch/scratch-w3 at the workspace root instead of the designated sandbox",
+      "earliest_owner": "round orchestrator (delegation scope)",
+      "required_authority": "none",
+      "repair_cone": "scope every hook with an absolute scratch root and verify before running; the stray tree is quarantined under HG-KSEOS/var/quarantine, not deleted, and no scope-compliance PASS is claimed for that run",
+      "status": "CLOSED_QUARANTINED",
+      "closed_by": "var/quarantine/scratch-w3-from-ts16-subagent-20261022",
+      "evidence": [
+        "raw/ts16_bounded_fix.md"
+      ]
+    },
+    {
+      "id": "TT-R14-027",
+      "title": "Three knowledge negatives are declared but not enforced",
+      "first_broken_link": "verify_citation accepts changed source bytes (knowledge.py:175-185 checks stored status only) though repoint_source raises ERR_REPOINT_SHA_DRIFT; the injection filter is regex-only (security.py:18-24) so CJK authority-escalation text remains promotable; contradictory cross-source assertions persist unflagged",
+      "earliest_owner": "HGK knowledge owner",
+      "required_authority": "none (bounded native fix)",
+      "repair_cone": "hash-verify the cited bytes on read, make the injection gate language-independent, and raise a typed conflict on contradictory assertions",
+      "status": "OPEN_DOCUMENTED",
+      "blocking": [
+        "R14-TS18"
+      ],
+      "evidence": [
+        "raw/ts18_gknow_negatives.json"
+      ]
     }
   ]
 }
