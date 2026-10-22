@@ -141,10 +141,11 @@
       "evidence": [
         "raw/ts11_receipts.json",
         "raw/ts11_SUMMARY.md",
-        "raw/ts11_build_output/"
+        "raw/ts11_build_output/",
+        "raw/ts11_thirdparty_scans.json"
       ],
       "depends_on": [],
-      "note": "Three SP ZIPs built twice each with fixed metadata and byte-identical sha256 (tpm 7 members/4,268 B, commander 7/4,307, external-challenge 8/5,917), CRC + extraction + member digests re-verified, zero secret hits. SBOM, licence inventory and secret scan are SELF-AUTHORED: syft/pip-licenses/detect-secrets/trivy/grype all absent from PATH (recorded per tool). Positive/negative regex controls passed on synthetic input. Not a release qualification and not host installation."
+      "note": "Three SP ZIPs built twice each with fixed metadata and byte-identical sha256 (tpm 7 members/4,268 B, commander 7/4,307, external-challenge 8/5,917), CRC + extraction + member digests re-verified, zero secret hits. SBOM, licence inventory and secret scan are SELF-AUTHORED: syft/pip-licenses/detect-secrets/trivy/grype all absent from PATH (recorded per tool). Positive/negative regex controls passed on synthetic input. Not a release qualification and not host installation. BASIS CHANGED: two of the five named scanners are pip-installable and were installed and run - detect-secrets 1.5.0 over the six SP ZIPs and their unpacked members: 0 findings (a first run over the whole build output reported 37 high-entropy hits, all inside our own SBOM/licence JSON sha256 values, which is scanning our own report and was excluded); pip-licenses over 144 installed distributions with a licence classification (MIT 32 / BSD-3-Clause 23 / MIT License 23 / Apache 18+15 ...). Still absent: syft (SBOM), trivy and grype (vulnerabilities) - so NO dependency vulnerability claim of any kind is made for this round."
     },
     {
       "id": "R14-TS12",
@@ -396,15 +397,19 @@
     {
       "id": "R14-TS30",
       "title": "M4 FULL Contract＋恢復式終止",
-      "state": "OPEN",
-      "next_action": "M4 full contract verdict - only a different checker plus owner HITL may sign SBL_FULL_PRODUCT_PASS",
-      "evidence": [],
+      "state": "BLOCKED",
+      "next_action": "M4 cannot pass while M2 is NOT_PASSED and M3 is BLOCKED; re-issue after those two move",
+      "evidence": [
+        "raw/ts30_m4_verdict.json",
+        "raw/ts30_m4_verdict.md"
+      ],
       "depends_on": [
         "R14-TS27",
         "R14-TS28",
         "R14-TS29",
         "R14-TS22"
-      ]
+      ],
+      "note": "Verdict ISSUED, gate NOT passed: BLOCKED, computed from the ledger rather than argued. M1 SIGNED (4/4 under owner authorization), M2 NOT_PASSED (dogfood works, no independent acceptance), M3 BLOCKED (no W3), M4 therefore BLOCKED. 14 residual rows, each named with the principal who can close it. No semantic percentage is quoted because the TS27 denominator is unsigned."
     }
   ]
 }

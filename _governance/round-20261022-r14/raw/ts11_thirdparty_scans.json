@@ -1,0 +1,52 @@
+{
+  "schema": "SBL-R14-TS11-THIRDPARTY/1",
+  "at_utc": "2026-10-22T03:17:09.998593Z",
+  "change_of_basis": "The earlier TS11 report said no third-party scanner existed on this host and produced SELF-AUTHORED results. That was true of the five named tools, but two of them are pip-installable, so they were installed and run: detect-secrets and pip-licenses. The self-authored results are now a fallback, not the primary evidence.",
+  "tools": {
+    "detect-secrets": {
+      "version": "1.5.0",
+      "scope": "the six SP ZIPs and their unpacked members",
+      "findings_on_deliverable": 0,
+      "noise_disclosure": "a first run over the whole build output reported 37 'Hex High Entropy String' hits, ALL of them inside the SBOM/licence JSON this round generated - i.e. its own sha256 values. Scanning a scanner's own report is noise; the scoped run over the deliverable found 0."
+    },
+    "pip-licenses": {
+      "version": "pip-licenses 5.5.5",
+      "scope": "installed distributions in the working interpreter",
+      "distributions": 144,
+      "top_licences": [
+        [
+          "MIT",
+          32
+        ],
+        [
+          "BSD-3-Clause",
+          23
+        ],
+        [
+          "MIT License",
+          23
+        ],
+        [
+          "Apache Software License",
+          18
+        ],
+        [
+          "Apache-2.0",
+          15
+        ],
+        [
+          "BSD License",
+          9
+        ]
+      ],
+      "limits": "metadata classification, not legal analysis"
+    }
+  },
+  "still_absent": {
+    "syft": "no SBOM generator (the CycloneDX-shaped file is self-authored)",
+    "trivy": "no vulnerability database scan",
+    "grype": "no vulnerability database scan",
+    "consequence": "no dependency-vulnerability claim of any kind can be made for this round"
+  },
+  "claim_ceiling": "Two of five supply-chain checks are now third-party and both pass on the deliverable; SBOM and vulnerability scanning remain unavailable, so the release is still not qualified."
+}

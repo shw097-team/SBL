@@ -1,0 +1,166 @@
+{
+  "schema": "SBL-R14-TS30-M4-VERDICT/1",
+  "issued_at_utc": "2026-10-22T03:15:40.875554Z",
+  "verdict": "BLOCKED",
+  "counts": {
+    "BLOCKED": 3,
+    "BLOCKED_SOFT": 1,
+    "DONE": 17,
+    "OPEN": 1,
+    "PARTIAL": 9
+  },
+  "total": 31,
+  "milestones": {
+    "M1": {
+      "status": "SIGNED",
+      "evidence": "raw/ts22_m1_gate_packet.json",
+      "note": "4/4 levels measured; signed under the Owner's explicit authorization"
+    },
+    "M2": {
+      "status": "NOT_PASSED",
+      "evidence": "raw/ts23_live_wo.json",
+      "note": "the dogfood change works and was re-run here, but no independent principal accepted it; the live spine records WO-R14-TS23-M2-TRIAD verdict FAIL"
+    },
+    "M3": {
+      "status": "BLOCKED",
+      "evidence": "raw/ts24_w3_route_out.json",
+      "note": "no W3 permit exists by field signature (0 hits); route-out written, nothing claimed"
+    },
+    "M4": {
+      "status": "BLOCKED",
+      "evidence": "this verdict",
+      "note": "cannot pass while M2 is not passed and M3 is blocked"
+    }
+  },
+  "residual": [
+    {
+      "id": "R14-TS10",
+      "state": "PARTIAL",
+      "title": "五工具獨立 Host 部署 E06/M1",
+      "residual": "vendor commands load/invoke/upgrade/rollback do not exist; a local wrapper is not the tool",
+      "owner": "SBL tooling owner (four vendor verbs do not exist)"
+    },
+    {
+      "id": "R14-TS11",
+      "state": "PARTIAL",
+      "title": "三 SP ZIP 正式可分發 E06/M1/M4",
+      "residual": "no third-party scanner on this host: SBOM/licence/secret results are self-authored",
+      "owner": "host owner (install a third-party scanner set)"
+    },
+    {
+      "id": "R14-TS12",
+      "state": "BLOCKED_SOFT",
+      "title": "三私人 ChatGPT Plugin 正式資格 E06/M4",
+      "residual": "a CR must grant the plugin schema/host authority; until then the three surfaces stay HOST_PENDING",
+      "owner": "host owner (three plugin surfaces HOST_PENDING)"
+    },
+    {
+      "id": "R14-TS13",
+      "state": "PARTIAL",
+      "title": "八 PIPD Skills＋Native Writer E02/M2",
+      "residual": "PIPD bundle Owner enforces the two remaining semantic-only refusals (pipd-assurance-tqaep NEG-001, pipd-package-project NEG-001)",
+      "owner": "PIPD bundle owner (two schema-only negatives)"
+    },
+    {
+      "id": "R14-TS17",
+      "state": "PARTIAL",
+      "title": "TQAEP／Independent Challenge E07/M2",
+      "residual": "66 rows stay DECLARED_ONLY; 2 negatives are accepted by their own schemas (PIPD bundle owner)",
+      "owner": "PIPD bundle owner + suite owner (66 declared-only rows)"
+    },
+    {
+      "id": "R14-TS19",
+      "state": "PARTIAL",
+      "title": "50 Parent／149 Child 全程追溯 M4",
+      "residual": "upstream historical pointers cite files absent on this host; nothing can make them verifiable here",
+      "owner": "document archive owner (upstream 全DOC藍圖(8).md absent on this host)"
+    },
+    {
+      "id": "R14-TS20",
+      "state": "PARTIAL",
+      "title": "441 source identities／OSS 導入 M4",
+      "residual": "411 rows cite SpecBuild_整合工程總藍圖_v2.0r1(1).md which is absent; and the inventory's digest column is not per-row",
+      "owner": "document archive owner (upstream SpecBuild v2.0r1(1).md absent) + inventory author (single digest column)"
+    },
+    {
+      "id": "R14-TS23",
+      "state": "PARTIAL",
+      "title": "M2 隔離 SWOF 型 Dogfood 里程碑 E08",
+      "residual": "M2 needs an independent principal to accept the dogfood change; the maker cannot supply that for itself",
+      "owner": "independent reviewer / Owner (M2 acceptance never happened)"
+    },
+    {
+      "id": "R14-TS25",
+      "state": "BLOCKED",
+      "title": "**第一次真正 SWOF 受治理變更** E09/M3",
+      "residual": "SWOF Native Owner must issue a W3 permit (or typed NACK) before any governed SWOF change can exist",
+      "owner": "SWOF Native Owner (no W3 permit)"
+    },
+    {
+      "id": "R14-TS26",
+      "state": "BLOCKED",
+      "title": "M3 正式接續里程碑",
+      "residual": "depends on TS25, which depends on a W3 permit",
+      "owner": "SWOF Native Owner (depends on TS25)"
+    },
+    {
+      "id": "R14-TS27",
+      "state": "BLOCKED",
+      "title": "全 DOC 語義分母／M4",
+      "residual": "PIPD Source Owner signs the denominator (proposal is ready and unsigned)",
+      "owner": "PIPD Source Owner (semantic denominator unsigned)"
+    },
+    {
+      "id": "R14-TS28",
+      "state": "PARTIAL",
+      "title": "發行、供應鏈與 GitHub 每輪證據 E06/E07",
+      "residual": "publish the new evidence files, then re-run the blob readback so identical>6",
+      "owner": "release owner (candidate branch has no remote)"
+    },
+    {
+      "id": "R14-TS29",
+      "state": "PARTIAL",
+      "title": "R12/R13 積欠逐項閉合",
+      "residual": "D-19 canonical bundle needs an owner-defined canonical list; CR plugin authority stays host-pending",
+      "owner": "SBL owner (D-19 needs an owner-defined canonical list) + host owner (CR authority)"
+    },
+    {
+      "id": "R14-TS30",
+      "state": "OPEN",
+      "title": "M4 FULL Contract＋恢復式終止",
+      "residual": "M4 full contract verdict - only a different checker plus owner HITL may sign SBL_FULL_PRODUCT_PASS",
+      "owner": "unassigned"
+    }
+  ],
+  "claim_ceiling": "M4 is NOT passed. SBL_FULL_PRODUCT is NOT complete, no semantic completion percentage may be quoted (TS27 denominator unsigned), and no DOC-00..13 semantic acceptance is claimed. What is claimed: 17 obligations closed with their own receipts, M1 signed, one real WorkOrder chain executed end to end, and every remaining gap named with its owner.",
+  "next_owner_action": [
+    {
+      "id": "R14-TS12",
+      "state": "BLOCKED_SOFT",
+      "title": "三私人 ChatGPT Plugin 正式資格 E06/M4",
+      "residual": "a CR must grant the plugin schema/host authority; until then the three surfaces stay HOST_PENDING",
+      "owner": "host owner (three plugin surfaces HOST_PENDING)"
+    },
+    {
+      "id": "R14-TS25",
+      "state": "BLOCKED",
+      "title": "**第一次真正 SWOF 受治理變更** E09/M3",
+      "residual": "SWOF Native Owner must issue a W3 permit (or typed NACK) before any governed SWOF change can exist",
+      "owner": "SWOF Native Owner (no W3 permit)"
+    },
+    {
+      "id": "R14-TS26",
+      "state": "BLOCKED",
+      "title": "M3 正式接續里程碑",
+      "residual": "depends on TS25, which depends on a W3 permit",
+      "owner": "SWOF Native Owner (depends on TS25)"
+    },
+    {
+      "id": "R14-TS27",
+      "state": "BLOCKED",
+      "title": "全 DOC 語義分母／M4",
+      "residual": "PIPD Source Owner signs the denominator (proposal is ready and unsigned)",
+      "owner": "PIPD Source Owner (semantic denominator unsigned)"
+    }
+  ]
+}
