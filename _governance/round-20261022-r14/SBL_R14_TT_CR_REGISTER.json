@@ -254,6 +254,46 @@
         "raw/toolchain_pin.before.json",
         "raw/toolchain_pin.after.json"
       ]
+    },
+    {
+      "id": "TT-R14-011",
+      "title": "KANBAN/SWARM were instantiated but never used as execution surfaces (R11-R14)",
+      "first_broken_link": "board DB readback: swarm roots are 'done' while every worker card is 'ready'/'todo' and assignee is 'default'; no delegate_task children in R13/R14, so nothing was ever claimed or completed",
+      "earliest_owner": "round orchestrator (self-inflicted)",
+      "required_authority": "none",
+      "repair_cone": "claim and complete the cards as the work lands, and require real parallel children for a SWARM claim; gate the round on child done-rate, not on the root card",
+      "status": "OPEN_BEING_REPAIRED",
+      "blocking": [
+        "R14-TS01"
+      ],
+      "evidence": [
+        "FAR_R14_3_SURFACES_AND_STOPPING.md"
+      ]
+    },
+    {
+      "id": "TT-R14-012",
+      "title": "OPENSPEC change was invalid because it had no delta spec",
+      "first_broken_link": "openspec validate --strict -> 'No deltas found'; only proposal.md and tasks.md existed",
+      "earliest_owner": "round orchestrator (self-inflicted)",
+      "required_authority": "none",
+      "repair_cone": "specs/<capability>/spec.md with ADDED requirements + a Scenario each; strict-valid is the only proof of enablement",
+      "status": "CLOSED",
+      "closed_by": "candidate/r14-openspec-20261022 (deltaCount=3, valid)",
+      "evidence": [
+        "FAR_R14_3_SURFACES_AND_STOPPING.md"
+      ]
+    },
+    {
+      "id": "TT-R14-013",
+      "title": "GSTACK recorded as NOT_SELECTED while it is simply not installed",
+      "first_broken_link": "bun --version -> command not found; gstack generation and execution both require bun",
+      "earliest_owner": "round orchestrator",
+      "required_authority": "none (install is an owner action)",
+      "repair_cone": "record NOT_INSTALLED_IN_ENV; writing an absence as a choice is evidence distortion and hides a missing capability",
+      "status": "CORRECTED",
+      "evidence": [
+        "FAR_R14_3_SURFACES_AND_STOPPING.md"
+      ]
     }
   ]
 }
