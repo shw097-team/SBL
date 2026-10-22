@@ -211,15 +211,18 @@
     },
     {
       "id": "TT-R14-008",
-      "title": "5 far_lane_fix pin assertions + matrix_d M07/M08 still encode the pre-rebind mandate digest",
+      "title": "The far_lane_fix reds were a STALE CODEX TOOLCHAIN PIN, not an owner oracle",
       "first_broken_link": "TestP0PinAssert pins a registry/assignment digest that the R14 rebind necessarily changes; matrix_d M07/M08 pin require-arm semantics",
       "earliest_owner": "HGK Owner",
       "required_authority": "owner decision to re-pin or to keep the old pin as a historical oracle",
       "repair_cone": "decide whether the pin oracle moves with the mandate; if it does, update pin + evidence in one change, never silently",
-      "status": "OPEN",
+      "status": "CORRECTED_AND_FIXED",
       "blocking": [
         "R14-TS02"
-      ]
+      ],
+      "closed_by": "toolchain re-pin (see raw/toolchain_pin.*.json)",
+      "resolution": "Measured, not assumed: all five reds (P0 x2, P1 x3) read var/FAR-LANE-REUSE-RCA-20261015/sources/task_local_toolchain.json, which pinned codex 0.162.0-alpha.17.2 @ 9614f1d9... / sha e98c516f.... The installed binary is now 0.163.0-alpha.11 @ 6257d9e8... / sha 00c0f1e4..., so the verifier refused before mandate resolution. Re-measured and re-pinned (golden values only; no semantic change), updated the test's hard-coded expected sha, and the file went 5 failed -> 11 passed. This was environment drift, NOT an assertion on the old mandate - my R14 note said otherwise and was wrong.",
+      "residual": "What IS an owner decision: matrix_d M07/M08 and the dispatcher pre-spawn case. They expect exit 3 for a required arm that is absent from a fixture pool, while the dispatcher returns 4 with the typed code ERR_LANE_REQUIRED_ARM_ABSENT. Note the test itself asserts the mandated EXECUTE arm is opencode-go/minimax-m3.1-flash-free, i.e. the R14 mandate - so this is an exit-code contract question, not a mandate question."
     },
     {
       "id": "TT-R14-009",
@@ -237,6 +240,20 @@
         "raw/checker_final5.json"
       ],
       "observed": "git ls-files tests/test_lane_guard.py -> 0; the checker reported 'Available 3 files ... test_lane_guard.py missing'"
+    },
+    {
+      "id": "TT-R14-010",
+      "title": "Codex app updates silently invalidate the lane toolchain pin",
+      "first_broken_link": "var/FAR-LANE-REUSE-RCA-20261015/sources/task_local_toolchain.json pins a versioned codex.exe path+sha; the app rotating its bin/<hash>/ directory turns 5 green tests red with no source change",
+      "earliest_owner": "HGK Owner",
+      "required_authority": "none - measurement, but the pin refresh should be routine, not archaeology",
+      "repair_cone": "re-measure codex.exe on a schedule or on any lane failure, and treat 'stale pin' as the first hypothesis before blaming an oracle",
+      "status": "OPEN_PREVENTION",
+      "blocking": [],
+      "evidence": [
+        "raw/toolchain_pin.before.json",
+        "raw/toolchain_pin.after.json"
+      ]
     }
   ]
 }
