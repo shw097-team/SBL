@@ -1,0 +1,124 @@
+{
+  "schema": "R14-TS28-RELEASE/1",
+  "measured_at_utc": "2026-10-22T02:59:34.843545+00:00",
+  "status": "PARTIAL_BLOCKED_REMOTE_CANDIDATE",
+  "claim_ceiling": "SELF_AUTHORED_LOCAL_SUPPLY_CHAIN_PACKET; PINNED_EVIDENCE_REMOTE_READBACK_ONLY; NO_M3; NO_SEMANTIC_COMPLETENESS; HOST_PENDING; NO_EXTERNAL_ACCEPTANCE",
+  "candidate_sha": "726ccc8f68e4c6583d484943fc0c4ec26537a2f5",
+  "evidence_sha": "fac7c260372cb16e095cc14c41a3fdc3f95b6a75",
+  "remote_output": [
+    {
+      "command": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "ls-remote",
+        "https://github.com/shw097-team/SBL.git",
+        "refs/heads/codex/hgk-final-closure-002"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0,
+      "expected": "726ccc8f68e4c6583d484943fc0c4ec26537a2f5",
+      "observed": null,
+      "status": "NOT_ADVERTISED"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "credential.helper=",
+        "ls-remote",
+        "https://github.com/shw097-team/SBL.git",
+        "refs/heads/evidence/r14-20261022-native"
+      ],
+      "stdout": "fac7c260372cb16e095cc14c41a3fdc3f95b6a75\trefs/heads/evidence/r14-20261022-native",
+      "stderr": "",
+      "exit_code": 0,
+      "expected": "fac7c260372cb16e095cc14c41a3fdc3f95b6a75",
+      "observed": "fac7c260372cb16e095cc14c41a3fdc3f95b6a75",
+      "status": "PASS"
+    }
+  ],
+  "remote_artifact_readback_counts": {
+    "BYTE_IDENTICAL": 6,
+    "DIFFERENT_BYTES": 50,
+    "ABSENT_AT_PINNED_EVIDENCE": 251
+  },
+  "digest_manifest": "ts28_digest_manifest.json",
+  "digest_manifest_sha256": "72a92c1a11c45c191e255e195a5ec8972aa1ce3f329b4233ff6c70d0b3b1936c",
+  "digest_entry_count": 322,
+  "secret_scan": {
+    "artifact": "ts28_secret_scan.json",
+    "label": "SELF_AUTHORED_NO_THIRD_PARTY_SCANNER",
+    "literal_hits": 28,
+    "token_shaped_hits": 0,
+    "credential_file_excluded": true,
+    "literal_zero_hit_expectation_met": false
+  },
+  "licence_inventory": {
+    "artifact": "ts28_licence_inventory.json",
+    "label": "SELF_AUTHORED_NO_THIRD_PARTY_SCANNER",
+    "notice": "Package metadata inventory only, NOT a licence scan, legal determination, dependency-resolution proof, or review of licence files. Missing metadata is null. Hashes cover METADATA/PKG-INFO bytes only, not wheels or entire installed packages.",
+    "environment_counts": {
+      "HG-KSEOS": 194,
+      "SBL-install": 3
+    }
+  },
+  "sbom": {
+    "artifact": "ts28_sbom.json",
+    "label": "SELF_AUTHORED_NO_THIRD_PARTY_SCANNER",
+    "components": 513,
+    "format": "CycloneDX-shaped, not third-party schema-validated",
+    "package_hash_scope": "METADATA/PKG-INFO only"
+  },
+  "release_note": "SBL_R14_RELEASE_NOTE.md",
+  "packet_release_note_alias": "ts28_SBL_R14_RELEASE_NOTE.md",
+  "publication": {
+    "ts28_pushed": false,
+    "reason": "No configured candidate remote and candidate ref absent from supplied remote; avoid publishing unscanned full HGK history or racing coordinated parent evidence publication."
+  },
+  "blockers": [
+    "Candidate SHA not confirmed on supplied remote: exact ls-remote returned no ref.",
+    "Literal zero-hit expectation not met: harmless task substrings and existing scanner rule declarations match; all file/line findings disclosed.",
+    "Existing evidence tip does not contain all measured local packet artifacts; see exact remote readback counts and per-path statuses.",
+    "New TS28 packet requires coordinated publication and fresh remote blob readback."
+  ],
+  "summary_table": [
+    {
+      "check": "Independent local SHA bindings",
+      "result": "PASS"
+    },
+    {
+      "check": "Evidence ref remote equality",
+      "result": "PASS"
+    },
+    {
+      "check": "Candidate ref remote equality",
+      "result": "NOT_ADVERTISED"
+    },
+    {
+      "check": "Digest inventory",
+      "result": "PASS_EXACT_LOCAL_SNAPSHOT"
+    },
+    {
+      "check": "Secret token-shape and wrapper check",
+      "result": "PASS_SELF_AUTHORED"
+    },
+    {
+      "check": "Literal zero-hit expectation",
+      "result": "NOT_MET_DISCLOSED"
+    },
+    {
+      "check": "Licence inventory",
+      "result": "SELF_AUTHORED_METADATA_NOT_SCAN"
+    },
+    {
+      "check": "SBOM",
+      "result": "SELF_AUTHORED_NO_THIRD_PARTY_SCANNER"
+    },
+    {
+      "check": "TS28 remote publication",
+      "result": "NOT_DONE"
+    }
+  ]
+}

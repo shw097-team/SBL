@@ -1,0 +1,129 @@
+{
+  "schema": "SBL-R14-TS29-DEBT-CLOSURE/1",
+  "at_utc": "2026-10-22T02:53:03.443998Z",
+  "items": [
+    {
+      "id": "D-17 skill layout",
+      "state": "CLOSED",
+      "detail": {
+        "tpm-sp": {
+          "root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\tpm-sp",
+          "skill_md": true,
+          "files": [
+            "README.md",
+            "SKILL.md",
+            "plugin.json"
+          ]
+        },
+        "commander-sp": {
+          "root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\commander-sp",
+          "skill_md": true,
+          "files": [
+            "README.md",
+            "SKILL.md",
+            "plugin.json"
+          ]
+        },
+        "external-challenge-sp": {
+          "root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\external-challenge-sp",
+          "skill_md": true,
+          "files": [
+            "README.md",
+            "SKILL.md",
+            "plugin.json",
+            "references"
+          ]
+        },
+        "sbl-stack": {
+          "root": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\skills\\sbl\\sbl-stack",
+          "skill_md": true,
+          "files": [
+            "SKILL.md"
+          ]
+        }
+      },
+      "note": "every SP skill root carries SKILL.md at the root; the earlier 'wrong layout' claim is checked per skill rather than in aggregate"
+    },
+    {
+      "id": "D-18 live 13/14 drift",
+      "state": "CLOSED",
+      "detail": {
+        "ok": true,
+        "problems": [],
+        "components": 14
+      },
+      "note": "closed by uninstall->install re-pin (TT-R14-021); doctor re-measured here",
+      "evidence": "raw/ts10_lifecycle/doctor.after.json"
+    },
+    {
+      "id": "D-19 canonical bundle",
+      "state": "MEASURED",
+      "detail": {
+        "capability_delta": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\capability_delta.json",
+        "pipd_skill_bundles": 8,
+        "sbl_stack_component_count": 14
+      },
+      "note": "the canonical bundle question is answered by what the doctor resolves, not by a README"
+    },
+    {
+      "id": "R13 18 conformance fails",
+      "state": "CLOSED",
+      "detail": {
+        "suite": "0 failed / 607 passed / 90 subtests",
+        "log": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\final_r14_full13.log"
+      },
+      "note": "each of the 18 was closed by measurement in R14; the log is the receipt"
+    },
+    {
+      "id": "O-R13-001 nonce",
+      "state": "CLOSED",
+      "detail": {
+        "checker_nonce_receipts": [
+          "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\checker_final7.json"
+        ]
+      },
+      "note": "the R14 checker runs carry the nonce in their prompt and the transcript echoes it"
+    },
+    {
+      "id": "CR plugin schema authority",
+      "state": "OPEN",
+      "detail": {
+        "cr": "C:\\Projects\\Agent_Workspace\\_r13_far\\CR-PLUGIN-SCHEMA-AUTHORITY.md"
+      },
+      "note": "a CR exists but granting the authority is the host owner's act; three surfaces stay HOST_PENDING (TS12)"
+    },
+    {
+      "id": "R13 self-review / replay / expired typed deny",
+      "state": "CLOSED",
+      "detail": {
+        "probe": "C:\\Projects\\Agent_Workspace\\_r14_packet\\raw\\ts03_probe_after_gapfix.json",
+        "properties": [
+          "maker_checker_separation",
+          "anti_replay",
+          "expiry_enforced"
+        ]
+      },
+      "note": "all three are SATISFIED in the 10-property native probe"
+    },
+    {
+      "id": "SP identity ids in the chain",
+      "state": "CLOSED",
+      "detail": {
+        "workorders": [
+          {
+            "workorder_id": "WO-R14-TS15-KINDS",
+            "state": "VERIFIED",
+            "result_json": "{\"checker\":\"openai-codex/gpt-6.1-sol\",\"evidence_refs\":[\"raw/ts15_sbl_full2.log\",\"raw/ts15_wo.json\",\"SBL candidate/r14-ts15-kinds 10d510f\"],\"verdict\":\"PASS\"}"
+          }
+        ]
+      },
+      "note": "SP invocation receipts carry the invocation id plus the chain ids (TS06/TS07)"
+    }
+  ],
+  "counts": {
+    "CLOSED": 6,
+    "MEASURED": 1,
+    "OPEN": 1
+  },
+  "claim_ceiling": "CLOSED means an artifact on disk supports it now, not that a previous round said so. OPEN items stay open even where a plan exists."
+}
