@@ -1,0 +1,136 @@
+{
+  "schema": "SBL_R15_2_REPAIR_REPORT/1",
+  "round": "round-20261022-r15_2",
+  "task_id": "SBL-R15.2-CONTINUATION-20261022",
+  "worker": "workers/selfrepair/",
+  "scope_editable": [
+    "ROUND_MANIFEST.json",
+    "TT_R15_2_REGISTER.json"
+  ],
+  "method": "Recomputed from the filesystem and JSON contents with python/hashlib: every manifest entry re-hashed (size+sha256), every disk file enumerated, and every path cited inside TT_R15_2_REGISTER.json resolved against disk. No value taken from a prior claim.",
+  "edits": [
+    {
+      "file": "TT_R15_2_REGISTER.json",
+      "field": "counts.hard_blocker",
+      "old": 0,
+      "new": 3,
+      "reason": "counts must equal the items array: three items carry severity BLOCKER (TT-R15.2-NATIVE-ISSUER-UNBOUND, TT-R15.2-FABRIC-ACTIVE-POLICY-UNRESOLVED, TT-R15.2-SWOF-W3-ABSENT). total/resolved_measured/contained already reconciled (13/1/1) and were left untouched."
+    },
+    {
+      "file": "TT_R15_2_REGISTER.json",
+      "field": "items[TT-R15.2-CODEX-CLI-UNUSABLE].receipt_missing",
+      "old": null,
+      "new": [
+        "workers/codex_lane/home"
+      ],
+      "reason": "this RESOLVED_MEASURED entry's next_legal_step cites the two rendered profiles under workers/codex_lane/home; that directory does not exist anywhere in the round. Citation preserved verbatim, absence recorded as required instead of being edited away. Every other receipt it cites (workers/codex/RECEIPT.json, workers/codex_lane/log_execute.log, log_verify.log, log_writer.log, log_checker.log, workers/codex_writer/EXECUTE_WRITER_RECEIPT.md) is present."
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "file_count",
+      "old": 151,
+      "new": 154,
+      "reason": "file_count must equal the number of entries in files[]; entries were rebuilt to match disk."
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "excluded",
+      "old": null,
+      "new": [
+        {
+          "path": "ROUND_MANIFEST.json",
+          "reason": "self-referential: an entry cannot contain the digest of the file that contains it"
+        }
+      ],
+      "reason": "152 files existed on disk against 151 listed; the only unlisted file was the manifest itself. Declaring the exclusion makes the count auditable instead of leaving a silent one-file gap."
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "files[+EVOLUTION_R15_2.md]",
+      "old": null,
+      "new": {
+        "path": "EVOLUTION_R15_2.md",
+        "bytes": 4146,
+        "sha256": "2bf9c70fd63af1fca8a49b5ad1bf892cf2549f8904f081ab09b20a67c3f07e40"
+      },
+      "reason": "file exists on disk but was absent from the manifest (late-written artefact)"
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "files[+TASK_PLAN_R15_2.md]",
+      "old": null,
+      "new": {
+        "path": "TASK_PLAN_R15_2.md",
+        "bytes": 6742,
+        "sha256": "14f88a7b78670b87e6fcb5b04351f514790b161ac521741bb46bc8a98e6c099c"
+      },
+      "reason": "file exists on disk but was absent from the manifest (late-written artefact)"
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "files[TT_R15_2_REGISTER.json].bytes",
+      "old": 20875,
+      "new": 20945,
+      "reason": "file changed on disk (sha256 also updated); stale byte count"
+    },
+    {
+      "file": "ROUND_MANIFEST.json",
+      "field": "files[TT_R15_2_REGISTER.json].sha256",
+      "old": "ee005c8b6697beab179555fd9c357efdd2d00c1f044c7d6c9028154e632fb46d",
+      "new": "954aefd3258cc17582d0a894b56c674af6a3f5b68cd2bd5553e4d8860203f952",
+      "reason": "digest of the repaired file; manifest must describe the file as it now stands"
+    }
+  ],
+  "manifest": {
+    "before_files": 151,
+    "after_files": 154,
+    "added": [
+      "EVOLUTION_R15_2.md",
+      "TASK_PLAN_R15_2.md",
+      "workers/selfrepair/REPAIR_REPORT.json"
+    ],
+    "removed": []
+  },
+  "tt_counts_before": {
+    "total": 13,
+    "hard_blocker": 0,
+    "resolved_measured": 1,
+    "contained": 1
+  },
+  "tt_counts_after": {
+    "total": 13,
+    "hard_blocker": 3,
+    "resolved_measured": 1,
+    "contained": 1
+  },
+  "missing_receipts": [
+    "workers/codex_lane/home"
+  ],
+  "missing_receipt_details": [
+    {
+      "tt_id": "TT-R15.2-CODEX-CLI-UNUSABLE",
+      "paths": [
+        "workers/codex_lane/home"
+      ],
+      "note": "severity RESOLVED_MEASURED retained; the closure logs it does cite are all present, so the missing path is a dangling reference to the reference profiles, not the basis of the severity."
+    }
+  ],
+  "verified_no_change": {
+    "tt_item_count": 13,
+    "tt_severities": {
+      "HIGH": 6,
+      "BLOCKER": 3,
+      "INFO": 1,
+      "RESOLVED_MEASURED": 1,
+      "MEDIUM": 1,
+      "CRITICAL_CONTAINED": 1
+    },
+    "tt_entries_deleted": 0,
+    "tt_severities_softened": 0,
+    "receipt_paths_invented": 0,
+    "manifest_entries_removed": [],
+    "note": "every pre-existing manifest entry was re-hashed in place; the only new entries are files that already existed on disk"
+  },
+  "note": "Manifest entries are ordered by ASCII sort of path and serialized with 2-space indent to match the pre-existing byte style.",
+  "self_reference_note": "This report's own manifest entry is not listed as an edit because an edit record would have to state the digest of the file containing it. Order was: write this report, hash it, then add its entry to ROUND_MANIFEST.json. Its bytes/sha256 are authoritative in that manifest entry."
+}

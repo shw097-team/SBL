@@ -12,11 +12,11 @@ release: `BLOCKED`
 | # | Item | Verdict | Raw evidence |
 |---|---|---|---|
 | 1 | Source freeze of the 24 normative documents (10 PIPD + 14 SBL) byte-level | `MATCH 24/24` | `SOURCE_FREEZE.json`, `counts` block |
-| 2 | Official CAPC bundle located, complete (SKILL + 7 references + schema + script + tests) | `BUNDLE_COMPLETE` | `SOURCE_FREEZE.json.compiler_bundle[10]` |
+| 2 | Official CAPC bundle located and hashed: 10 entries (1 SKILL + 6 references + 1 schema + 1 script + 1 test) | `BUNDLE_COMPLETE` | `SOURCE_FREEZE.json.compiler_bundle[10]` |
 | 3 | Official CAPC `lint` | `PROMPT_COMPILE_PASS`, 0 errors | `receipts/CAPC_lint.json` |
 | 4 | Official CAPC `activation` | `PROMPT_COMPILE_PASS`, 0 errors | `receipts/CAPC_activation.json` |
 | 5 | Official CAPC `acceptance` | `PROMPT_COMPILE_PASS`, 0 errors | `receipts/CAPC_acceptance.json` |
-| 6 | Official CAPC `compile` | `PROMPT_COMPILE_PASS`, 0 errors, `contract_sha256=414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3` | `receipts/CAPC_compile.json`, `output/compiler-receipt.json`, `output/thin-prompt.md` (20,799 chars) |
+| 6 | Official CAPC `compile` | `PROMPT_COMPILE_PASS`, 0 errors, `contract_sha256=414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3` | `receipts/CAPC_compile.json`, `output/compiler-receipt.json`, `output/thin-prompt.md` (20,799 bytes / 20,715 chars) |
 | 7 | Model plan probe, three lanes against the local relay | PLAN `gpt-6.1-sol` HTTP 200 served `gpt-6.1-sol`; EXECUTE `opencode-go/minimax-m3.1-flash-free` HTTP 200 served same; VERIFY `gpt-6.1-sol` HTTP 200 | `receipts/model_PLAN.*`, `receipts/model_EXECUTE.*`, `receipts/model_VERIFY.*` |
 | 8 | Hermes Kanban real board and 18 cards (W00..W17) | board `sbl-r15-2-20261022` created, 18 cards created and blocked | `receipts/kanban_create_board.txt`, `receipts/kanban_cards.txt` |
 | 9 | R14 obligation ledger read from the native evidence branch | 31 items read, status distribution recorded | `R14_LEDGER_READBACK.json` |
@@ -61,6 +61,10 @@ Expected: four exit-0, one `contract_sha256`, `PROMPT_COMPILE_PASS`.
 
 ## 7. Execution addendum — the stipulated model plan was actually exercised (and stopped on a hard blocker)
 
+> **PARTLY WITHDRAWN.** Three statements in this section are false and are withdrawn in §10:
+> the claim that `-s read-only` refuses every spawn, the claim that relay 10101 does not serve
+> `/v1/responses`, and the claim that the sha256 guard framed the write. Read §10 before quoting §7.
+
 This section supersedes any earlier wording that implied the three arms were only probed. All rows below are backed by
 raw files under `receipts/` and `workers/`.
 
@@ -69,11 +73,11 @@ raw files under `receipts/` and `workers/`.
 | PLAN = GPT 6.1 SOL-MEDIUM | `gpt-6.1-sol` via relay `/v1/chat/completions`, full 18-package brief; returned 13,028 chars / 4,858 completion tokens incl. a 35-edge DAG | `receipts/PLAN_commander_dag.json`, `.content.json`, `.http` | REAL RUN (served id matched) |
 | VERIFY / SECURITY = GPT 6.1 SOL | `gpt-6.1-sol` adversarial review of this very status + TT + contract summary; returned 4,364 chars / 2,279 tokens with HIGH findings, including a real contradiction inside TT-R15.2-LEDGER-DIVERGENCE | `receipts/VERIFY_challenge_gpt61sol.*` | REAL RUN — but NOT an AO pass, and not the registry-bound checker arm |
 | EXECUTE = Codex CLI + MiniMax M3.1 Flash | `codex.exe` 0.163.0-alpha.11 really launched (`codex exec ... -s read-only --ephemeral`), reached a model, exit 0 — then every `CreateProcess` was rejected by host policy, so it could read nothing | `workers/codex/RECEIPT.json` | **HARD BLOCKER** |
-| VERIFY carrier = Codex CLI | same binary, same spawn rejection; relay also lacks `/v1/responses` (404) and direct upstream returns 401 `api.responses.write` | `workers/codex/RECEIPT.json` | **HARD BLOCKER** |
+| VERIFY carrier = Codex CLI | same binary, same spawn rejection; relay also lacks `/v1/responses` (404) — **withdrawn, see §10 W-2**; direct upstream returns 401 `api.responses.write` | `workers/codex/RECEIPT.json` | **HARD BLOCKER (superseded, see §8/§10)** |
 | SWARM | 4 parallel leaf workers (delegation `deleg_7b546db6`), 62 artefacts | `WORKER_RECEIPTS.json` | REAL RUN (workers inherit `deepseek-v4.1-flash`, not a lane model) |
 | KANBAN | board `sbl-r15-2-20261022`, 18 cards, all blocked `NO_NATIVE_WORKORDER_PERMIT` | `receipts/kanban_cards.txt` | REAL (no dispatch) |
 | OPENSPEC | `openspec validate --strict --all --no-interactive` exit 1 — pre-existing change `far-r12-20261021` has no delta specs | `workers/openspec/RECEIPT.json` | FAIL (real repo defect) |
-| GSTACK | 24 probes, no provider anywhere; `~/.gstack` is state residue only | `workers/gstack/NOFIT_OR_RECEIPT.json` | NOFIT |
+| GSTACK | 23 probes recorded (`probe_count=23`, 22 checked), no provider anywhere; `~/.gstack` is state residue only | `workers/gstack/NOFIT_OR_RECEIPT.json` | NOFIT |
 
 ### Stop reason (per the user's own rule)
 
@@ -104,6 +108,8 @@ valid. It is not a Codex result and must never be cited as one.
 
 ## 8. Correction — both stipulated Codex arms DO work (this supersedes the stop in §7)
 
+> **PARTLY WITHDRAWN.** The `-s read-only` rule and the guard claim in this section are wrong; see §10.
+
 §7 stopped the round on the belief that Codex CLI could not execute anything on this host. **That was wrong.** The
 worker invoked `codex.exe` with `--ignore-user-config` (throwing away the proven lane home) and `-s read-only` (which
 on this host refuses every process spawn). Reusing the established HGK recipe makes both stipulated arms run end to
@@ -133,6 +139,9 @@ the two arms are now demonstrated carriers with a demonstrated bounded write and
 is a strictly larger evidence base than §7 claimed, and still not a PASS.
 
 ## 9. All three stipulated arms now run through the sanctioned HGK dispatcher
+
+> **Amended by §10**: the PLAN arm also ran with cwd = HG-KSEOS (only EXECUTE was re-pinned), and the
+> checker in this section was circular. The non-circular re-run is `receipts/dispatch/VERIFY_nonleading2.json`.
 
 The models are no longer invoked by hand. Every arm below went through
 `HG-KSEOS/scripts/hgk-lane-dispatch.py` against pool `config/lane-route-slots.candidate.json` rev 20, with
@@ -170,3 +179,56 @@ the file landed in the evidence worktree instead. Filed as `TT-R15.2-HGK-EXECUTE
 `independent_acceptance NOT_RUN` — the checker shares this host and session (SOD006-C6 open). `release BLOCKED`.
 What changed is that the role→model binding the user mandated is now demonstrated **through the lane plane**, with the
 orchestrating session model demonstrably different from all three lane models.
+
+## 10. Response to the adversarial acceptance review (AO-F01 … AO-F14)
+
+An independent Acceptance-Officer pass (`workers/aochallenge/AO_CHALLENGE.json`, verdict `FAIL`) found 7 blocking
+defects in this round's own evidence. It was right about all of them. What follows is what was **withdrawn** and what
+was **replaced with a real artefact** — no finding is answered with prose alone.
+
+### Withdrawn statements (they were false)
+
+| # | Statement that was made | Why it was false | Now |
+|---|---|---|---|
+| W-1 | "`-s read-only` refuses every process spawn on this host, so `-s danger-full-access` is mandatory" | The round's own VERIFY dispatch ran with `"sandbox": "read-only"` and its stdout contains `command_execution` items with `exit_code: 0` (`receipts/dispatch/VERIFY_nonleading2.json`). Read-only spawns fine. | Withdrawn. The real cause of the original failure is `--ignore-user-config`, which discards the proven sealed home (including the Windows sandbox helper resolution). |
+| W-2 | "relay 10101 does not serve the Responses API (404)" | 10101 returns 200 for `/v1/responses` (minimax). The 404 belonged to a different adapter attempt inside `workers/codex/RECEIPT.json`. | Withdrawn. The front-door drift (`TT-R15.2-FRONTDOOR-SANCTIONED-DRIFT`) is the actual blocker on that path. |
+| W-3 | "guard `MODIFIED=0 REMOVED=0` outside the write set … the guard is what makes full access acceptable" | `guard_before.txt` and `guard_after.txt` are byte-identical 106-line lists and **exclude** the write set, so an addition — the only effect a writer produces — could never be seen. | Replaced by `tools/tree_guard.py` + `receipts/guard2/{before,after,diff}.json`. |
+
+### Replacements (new artefacts)
+
+- **Whole-tree two-sided guard**: `tools/tree_guard.py` walks the round tree with **no write-set exclusion**, hashes
+  every file, records `git status`/HEAD for five repositories, and diffs both directions. The guarded run
+  (`receipts/dispatch/EXECUTE_guarded.json`, `ok=true`, `cwd` pinned, 114.7 s) produced
+  `receipts/guard2/diff.json`: **added 6, removed 0, modified 0**, of which exactly one is writer-authored
+  (`workers/codex_lane/WRITER_RECEIPT_2.md`) and five are harness/dispatch artefacts. `repo_drift` shows the evidence
+  worktree only; **HG-KSEOS, Fabric and SBL show zero drift**.
+- **Non-circular checker**: `receipts/dispatch/VERIFY_nonleading2.json` — the brief contains no expected verdict and no
+  output schema, only a liveness nonce. The checker worked out its own evidence standard, compared the two snapshots
+  itself (160 → 166 files, 6 additions, 0 modifications, 0 removals), attributed the writer file and named the five
+  harness artefacts. Its decision: **accept within the recorded snapshot scope; an unrestricted "nothing else was
+  touched" is not proven.** That is the correct, bounded reading.
+- **Refusal receipts** (AO-F11): `receipts/dispatch/PLAN_dispatch.json` (`--require-arm gpt-6.1-sol` →
+  `ERR_LANE_REQUIRED_ARM_ABSENT`) and `receipts/dispatch/PLAN_gpt-6.1-sol_openai-codex.json` (the `@` form → same
+  refusal). Both were already on disk; §9 simply failed to cite them.
+- **Kanban reasons** (AO-F08): the 18 cards now carry a real block reason written into the board
+  (`receipts/kanban_after_block.txt`), not just prose. Kind resolves to `needs_input` because there is no open parent
+  to wait on.
+- **CAPC exit codes** (AO-F12): every `receipts/CAPC_*.json` now ends with `# exit_code: 0`.
+- **Reproducible profiles** (AO-F10): the two layered profiles are committed at
+  `workers/codex_lane/profiles/{exe,ver}.config.toml` (no credentials, base_url only).
+
+### Findings that remain open (no agent may close these)
+
+| # | Open item | Who must act |
+|---|---|---|
+| AO-F03 | §3 says VERIFY is bound to deepseek at assignment revision 32 and that selecting gpt-6.1-sol is a silent rebinding; §9 then selected it. The only authority for that selection is the owner's standing instruction in this session — which is real, but the pool is still `CANDIDATE` and the assignment still says deepseek. | HGK Model Pool Owner: promote the pool / update revision 32, or withdraw the run. |
+| AO-F05 | Three TT decisions were written as if closed by the agent (`NOFIT_ACCEPTED`, `RESOLVED_BY_REUSE_OF_PROVEN_LANE`, `CONTAINED_AND_DISCLOSED`). | Corrected in the register to `PROPOSED_*`; an owner signature is still required. |
+| AO-F06 | The CWD-escape "before" inventory was written *after* the dispatch started, so it is not a pre-image and cannot exclude a create-then-delete inside the same full-access window. Containment is proven for tracked files only. | Downgraded to `CONTAINED_IN_ONE_REPO_CLASS_OPEN`; needs an owner attestation. |
+| AO-F14 | The subject changed under the review (self-repair edited TT and manifest mid-review). | This section and the final manifest are written **after** the repairs; the freeze digest is in `ROUND_MANIFEST.json`. |
+
+### Verdict
+
+`PARTIAL`. The load-bearing controls now exist and are observable (guard that can see additions, checker that was not
+told the answer, refusal receipts, kanban reasons, CAPC exit codes). What cannot be manufactured is an owner signature,
+a native WorkOrder/Permit, an independent principal, or a promoted model pool — so `native_run`, `independent_acceptance`
+and `release` stay `NOT_RUN` / `BLOCKED`.

@@ -2,7 +2,7 @@
   "schema": "SBL_R15_2_TT_REGISTER/1",
   "round": "round-20261022-r15_2",
   "task_id": "SBL-R15.2-CONTINUATION-20261022",
-  "claim_ceiling": "LOCAL_READ_ONLY_ADJUDICATION; no TT here is closed by an agent",
+  "claim_ceiling": "LOCAL_READ_ONLY_ADJUDICATION; every decision field is a PROPOSAL (PROPOSED_*) — no TT here is closed by an agent. Only an owner signature closes one.",
   "items": [
     {
       "tt_id": "TT-R15.2-LEDGER-DIVERGENCE",
@@ -19,7 +19,7 @@
         "obligations_count": 31,
         "obligations_sha256_receipt": "R14_LEDGER_READBACK.json",
         "branch": "evidence/r14-20261022-native",
-        "commit": "from R14_LEDGER_READBACK.json.source_commit",
+        "commit": "e6623ba1e9a4a477d07048cd3a5a906f33d6029d",
         "evidence_blob_readback": {
           "EVIDENCE_PRESENT": 20,
           "EVIDENCE_PARTIAL": 10,
@@ -36,7 +36,8 @@
             "R14-TS14",
             "R14-TS24"
           ]
-        }
+        },
+        "commit_source": "R14_LEDGER_READBACK.json.source_commit (substituted; the earlier value was an unrendered template string)"
       },
       "conflict": "The R15.2 command text quotes the R14 checkpoint as 21 DONE / 5 PARTIAL / 4 BLOCKED / 1 SOFT. The machine-readable OBLIGATIONS.json on the same branch reports 17 DONE / 9 PARTIAL / 1 BLOCKED_SOFT / 4 BLOCKED. Neither may be used as a verdict until the per-item candidate raw is recomputed.",
       "decision": "OPEN",
@@ -134,11 +135,12 @@
       "observed": {
         "board": "sbl-r15-2-20261022",
         "cards": 18,
-        "state": "all blocked with reason NO_NATIVE_WORKORDER_PERMIT",
+        "state": "18 cards, all status=blocked; the block reason NO_NATIVE_WORKORDER_PERMIT is now written into the board (receipts/kanban_after_block.txt), kind=needs_input because no open parent exists",
         "receipts": [
           "receipts/kanban_create_board.txt",
           "receipts/kanban_cards.txt"
-        ]
+        ],
+        "reason_written_to_board": true
       },
       "conflict": "None: blocking every card is the correct fail-closed state when no permit exists. The board proves claims/leases are not invented.",
       "decision": "NO_ACTION",
@@ -166,7 +168,7 @@
         "receipt": "workers/codex/RECEIPT.json"
       },
       "conflict": "The stipulated plan requires EXECUTE via Codex CLI + MiniMax M3.1 Flash and VERIFY/SECURITY via Codex CLI + GPT 6.1 SOL. On this host Codex CLI reaches a model but cannot spawn any process, and the local relay does not serve the Responses API Codex requires. Therefore 2 of the 3 stipulated arms cannot be executed as specified, and a Codex bounded write would be unverifiable even if a permit existed.",
-      "decision": "RESOLVED_BY_REUSE_OF_PROVEN_LANE",
+      "decision": "PROPOSED_RESOLVED_BY_REUSE_OF_PROVEN_LANE",
       "owner": "none — closed by measurement",
       "next_legal_step": "Adopt the working_recipe as the lane standard; keep the two rendered profiles under workers/codex_lane/home as the reference.",
       "far_recommendation": "Never hand-write a CODEX_HOME or a sandbox flag again: copy the sealed home, layer only the model route, and always run with danger-full-access plus a before/after sha256 guard. The guard is what makes full access acceptable.",
@@ -174,14 +176,13 @@
       "working_recipe": {
         "codex_home": "an isolated copy of the sealed home C:/Users/user/AppData/Local/HG-KSEOS/codex-hermes",
         "profile": "layered -p <name> with model_provider base_url http://127.0.0.1:10101/v1, wire_api = responses, requires_openai_auth = false",
-        "sandbox": "-s danger-full-access (mandatory on this host; read-only sandbox blocks all spawns)",
+        "sandbox": "-s danger-full-access (NOT because read-only is broken: read-only spawns fine under the sealed home — see receipts/dispatch/VERIFY_nonleading2.json. The original failure was --ignore-user-config, which discards the proven home.)",
         "model_ids": {
           "execute": "opencode-go/minimax-m3.1-flash-free",
           "verify": "gpt-6.1-sol"
         },
         "never": [
           "--ignore-user-config",
-          "-s read-only",
           "a fabricated base config.toml"
         ]
       },
@@ -217,7 +218,8 @@
           "overclaims": [],
           "log": "workers/codex_lane/log_checker.log"
         }
-      }
+      },
+      "decision_note": "proposed by the round; requires an owner signature"
     },
     {
       "tt_id": "TT-R15.2-OPENSPEC-STRICT-FAIL",
@@ -249,10 +251,11 @@
         "receipt": "workers/gstack/NOFIT_OR_RECEIPT.json"
       },
       "conflict": "The contract names gstack as a donor method. No licensed provider exists on this host, so no role-review invocation can be produced.",
-      "decision": "NOFIT_ACCEPTED",
+      "decision": "PROPOSED_NOFIT_ACCEPTED",
       "owner": "Method Owner",
       "next_legal_step": "Install a licensed gstack provider, or accept the local reviewer checklist as the substitute (still not an independent AO).",
-      "far_recommendation": "Accept the substitute for this round; keep disposition DONOR_ONLY so nothing downstream depends on it."
+      "far_recommendation": "Accept the substitute for this round; keep disposition DONOR_ONLY so nothing downstream depends on it.",
+      "decision_note": "proposed by the round; requires an owner signature"
     },
     {
       "tt_id": "TT-R15.2-R14-EVIDENCE-GAP",
@@ -276,7 +279,21 @@
         "receipts": [
           "workers/r14ledger/per_item.json",
           "workers/r14ledger/SUMMARY.json"
-        ]
+        ],
+        "populations": {
+          "done_items_with_gaps": [
+            "R14-TS09",
+            "R14-TS14",
+            "R14-TS18",
+            "R14-TS21",
+            "R14-TS24"
+          ],
+          "already_non_done_missing_paths": [
+            "R14-TS10",
+            "R14-TS11"
+          ],
+          "note": "the earlier suspect_items list mixed these two populations"
+        }
       },
       "conflict": "5 of the 17 items marked DONE in OBLIGATIONS.json do not have every declared evidence artefact present in evidence/r14-20261022-native. A DONE state without its evidence blob is not reproducible.",
       "decision": "OPEN",
@@ -310,7 +327,7 @@
     {
       "tt_id": "TT-R15.2-HGK-EXECUTE-CWD-ESCAPE",
       "kind": "CR",
-      "severity": "CRITICAL_CONTAINED",
+      "severity": "CRITICAL_CONTAINED_IN_ONE_REPO_CLASS_OPEN",
       "subject": "EXECUTE lane wrote into the HG-KSEOS governed repo because --cwd was not pinned",
       "observed": {
         "what_happened": "The first sanctioned EXECUTE dispatch omitted --cwd, so the dispatcher ran codex with cwd = C:/Projects/Agent_Workspace/HG-KSEOS and the bounded writer created HG-KSEOS/workers/codex_lane/EXEC_DISPATCH_RECEIPT.md (154 bytes) inside a governed repo with no permit.",
@@ -327,10 +344,18 @@
         "re_dispatch": "with --cwd pinned to the round directory the same lane finished ok=True in 20.94s with the nonce present and the file landed in the evidence worktree"
       },
       "conflict": "A dispatcher default (cwd = repo root) plus a writer that obeys its cwd turns a read-only-intended round into a governed-repo write. Nothing in the lane refused it: the lane was happy to write to HG-KSEOS, which is exactly the effect the round must never take without a permit.",
-      "decision": "CONTAINED_AND_DISCLOSED",
+      "decision": "PROPOSED_CONTAINED_AND_DISCLOSED",
       "owner": "HGK Native Owner (dispatcher default) + this round (invocation mistake)",
       "next_legal_step": "Make --cwd mandatory (or default it to 'refuse unless given') in hgk-lane-dispatch.py, and have every dispatch assert `git -C <each governed repo> status --porcelain` is unchanged before and after.",
-      "far_recommendation": "Fail closed on a missing --cwd: a lane that can write anywhere is not a bounded lane. Until the dispatcher enforces it, every caller must pass --cwd plus the two-sided git-status guard, and any run that omits it should be treated as an unauthorised effect even when it 'worked'."
+      "far_recommendation": "Fail closed on a missing --cwd: a lane that can write anywhere is not a bounded lane. Until the dispatcher enforces it, every caller must pass --cwd plus the two-sided git-status guard, and any run that omits it should be treated as an unauthorised effect even when it 'worked'.",
+      "decision_note": "proposed by the round; requires an owner signature",
+      "containment_state": {
+        "scope": "HG-KSEOS tracked tree only",
+        "pre_image": "ABSENT — the 'before' inventory was written after the dispatch started (13:26:43Z vs 13:20:56Z start), so a create-then-delete inside the window cannot be excluded",
+        "readback": "git status empty, HEAD 1760fb4 unchanged (re-verified at review time)",
+        "class_open": true,
+        "needs": "an owner attestation over all governed repos with a timestamped pre-image"
+      }
     }
   ],
   "counts": {
@@ -341,5 +366,19 @@
   },
   "round_state": "LANES_BOUND_AND_EXERCISED_NO_NATIVE_WORKORDER",
   "stop_reason": null,
-  "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion."
+  "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion.",
+  "ao_review": {
+    "receipt": "workers/aochallenge/AO_CHALLENGE.json",
+    "verdict": "FAIL",
+    "blocking": [
+      "AO-F01",
+      "AO-F02",
+      "AO-F03",
+      "AO-F04",
+      "AO-F05",
+      "AO-F06",
+      "AO-F07"
+    ],
+    "response": "STATUS_R15_2.md §10"
+  }
 }

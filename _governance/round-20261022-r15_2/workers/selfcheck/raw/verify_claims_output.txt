@@ -1,0 +1,164 @@
+=== MANIFEST INTEGRITY ===
+{
+ "files_declared": 154,
+ "files_on_disk": 156,
+ "sha_mismatches": [],
+ "declared_list_len": 154,
+ "files_byte_and_sha_ok": 154,
+ "missing_on_disk": [],
+ "byte_mismatches": [],
+ "on_disk_not_declared": [
+  "ROUND_MANIFEST.json",
+  "workers/aochallenge/AO_CHALLENGE.json"
+ ],
+ "manifest_sha256": "0090d47be148ed00c6b9fa1634735f0adfa8f7c45b586a11f36bf2ff24030e08",
+ "manifest_mtime_utc": "2026-10-22T13:32:15.786047Z",
+ "note": "ROUND_MANIFEST.json was rewritten by another process at 21:32:15 +0800 while this check ran: an earlier read in the same session declared file_count=151 with 151 entries, the current file declares 154 and 2 file(s) on disk are not declared: ['ROUND_MANIFEST.json', 'workers/aochallenge/AO_CHALLENGE.json']. All figures below are pinned to manifest_sha256; every declared entry matches on bytes and sha256."
+}
+[VERIFIED    ] C01: Source freeze of 24 normative documents (10 PIPD + 14 SBL) MATCH 24/24
+      expected=expected=24, match=24, PIPD=10, SBL=14, all MATCH
+      observed=documents_expected=24, documents_match=24, mismatch=0, missing=0, PIPD=10, SBL=14, statuses=['MATCH']
+[MISMATCH    ] C02: Official CAPC bundle complete: SKILL + 7 references + schema + script + tests (SOURCE_FREEZE.json.compiler_bundle[10])
+      expected=10 entries, but the enumerated components sum to 11 (1+7+1+1+1)
+      observed=compiler_bundle has 10 entries = 1 SKILL + 6 references(.md) + 1 schema + 1 script + 1 test; the prose enumeration sums to 11
+[VERIFIED    ] C03: Official CAPC lint: PROMPT_COMPILE_PASS, 0 errors
+      expected=PROMPT_COMPILE_PASS, 0 errors
+      observed=verdict=PROMPT_COMPILE_PASS, error_count=0
+[VERIFIED    ] C04: Official CAPC activation: PROMPT_COMPILE_PASS, 0 errors
+      expected=PROMPT_COMPILE_PASS, 0 errors
+      observed=verdict=PROMPT_COMPILE_PASS, error_count=0
+[VERIFIED    ] C05: Official CAPC acceptance: PROMPT_COMPILE_PASS, 0 errors
+      expected=PROMPT_COMPILE_PASS, 0 errors
+      observed=verdict=PROMPT_COMPILE_PASS, error_count=0
+[VERIFIED    ] C06: CAPC compile PROMPT_COMPILE_PASS 0 errors, contract_sha256=414005c1...828ef3
+      expected=PROMPT_COMPILE_PASS, 0, 414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3
+      observed=verdict=PROMPT_COMPILE_PASS, error_count=0, contract_sha256=414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3
+[VERIFIED    ] C07: output/compiler-receipt.json and output/thin-prompt.md exist
+      expected=both present
+      observed=compiler-receipt.json verdict=PROMPT_COMPILE_PASS contract_sha256=414005c1b8c1322b...; thin-prompt.md present, bytes=20799
+[MISMATCH    ] C08: output/thin-prompt.md is (20,799 chars)
+      expected=20,799 characters
+      observed=20715 characters, 20799 bytes (20,799 is the byte size, not the character count)
+[VERIFIED    ] C09: PLAN probe HTTP 200, relay served gpt-6.1-sol
+      expected=HTTP=200, model=gpt-6.1-sol
+      observed=PLAN gpt-6.1-sol HTTP=200; response model=gpt-6.1-sol
+[VERIFIED    ] C10: EXECUTE probe HTTP 200, relay served opencode-go/minimax-m3.1-flash-free
+      expected=HTTP=200, model=opencode-go/minimax-m3.1-flash-free
+      observed=EXECUTE opencode-go/minimax-m3.1-flash-free HTTP=200; response model=opencode-go/minimax-m3.1-flash-free
+[VERIFIED    ] C11: VERIFY probe HTTP 200, relay served gpt-6.1-sol
+      expected=HTTP=200, model=gpt-6.1-sol
+      observed=VERIFY gpt-6.1-sol HTTP=200; response model=gpt-6.1-sol
+[VERIFIED    ] C12: Hermes Kanban board sbl-r15-2-20261022 with 18 cards W00..W17
+      expected=18 card lines and 18 board rows
+      observed=18 card lines W00..W17 in kanban_cards.txt; 18 tasks in the board DB (kanban.db), status_dist=[('blocked', 18)]
+[MISMATCH    ] C23: 18 cards, all blocked `NO_NATIVE_WORKORDER_PERMIT`
+      expected=block reason recorded as NO_NATIVE_WORKORDER_PERMIT
+      observed=18/18 tasks have status=blocked (true), but task_events reason='initial_status' and 0 rows contain the identifier NO_NATIVE_WORKORDER_PERMIT; task bodies read 'No native WorkOrder/Permit exists on this host, so this card cannot be dispatched.'
+[VERIFIED    ] C13: R14 obligation ledger: 31 items read
+      expected=31
+      observed=obligations_count=31, len(items)=31, state_distribution={'DONE': 17, 'PARTIAL': 9, 'BLOCKED_SOFT': 1, 'BLOCKED': 4}
+[VERIFIED    ] C26: Only 12 of 17 R14 DONE items have all declared evidence present (20 PRESENT / 10 PARTIAL / 1 MISSING across 31)
+      expected=12/17 and 20/10/1 of 31
+      observed=done_items_all_evidence_present=12/17, by_classification={'EVIDENCE_PRESENT': 20, 'EVIDENCE_PARTIAL': 10, 'EVIDENCE_MISSING': 1}, items_total=31
+[VERIFIED    ] C14: PLAN returned 13,028 chars
+      expected=13028
+      observed=len(content)=13028
+[VERIFIED    ] C15: PLAN used 4,858 completion tokens
+      expected=4858
+      observed=usage.completion_tokens=4858
+[VERIFIED    ] C16: PLAN produced a 35-edge DAG
+      expected=35
+      observed=len(dag_edges)=35
+[VERIFIED    ] C17: VERIFY returned 4,364 chars
+      expected=4364
+      observed=len(content)=4364
+[VERIFIED    ] C18: VERIFY used 2,279 completion tokens
+      expected=2279
+      observed=usage.completion_tokens=2279
+[VERIFIED    ] C19: codex.exe 0.163.0-alpha.11 launched with -s read-only --ephemeral, reached a model, exit 0, every CreateProcess rejected
+      expected=0.163.0-alpha.11, exit 0, spawn blocked by policy
+      observed=binary_version=codex-cli 0.163.0-alpha.11, exit_code=0, blocked_by=windows_sandbox_process_spawn_policy (reproduced identically...
+[MISMATCH    ] C20: relay also lacks /v1/responses (404)
+      expected=404 from /v1/responses
+      observed=/v1/responses answers on 10101: minimax http=200, gpt-6.1-sol http=400 'Input must be a list'; the only 404 on record is workers/codex/RECEIPT.json failed_attempts[0] ('websocket 426 then 404 Not found for account'), and §9 runs subsequently use /v1/responses over websocket (426 Upgrade Required)
+[VERIFIED    ] C21: 4 parallel leaf workers, delegation deleg_7b546db6
+      expected=4 workers, deleg_7b546db6
+      observed=workers=4, delegation_id=deleg_7b546db6, receipts=4
+[VERIFIED    ] C22: 62 artefacts
+      expected=62
+      observed=sum(file_count)=62 ([26, 24, 7, 5]), listed files=62
+[VERIFIED    ] C24: openspec validate --strict --all --no-interactive exit 1; far-r12-20261021 has no delta specs
+      expected=exit 1, far-r12-20261021 delta failure
+      observed=exit_code=1, items 1/2 passed, failed=['far-r12-20261021']
+[MISMATCH    ] C25: GSTACK: 24 probes, no provider anywhere
+      expected=24 probes
+      observed=probe_count=23, len(checked)=22, verdict=NO_PROVIDER_INSTALLED (no-provider part is true)
+[VERIFIED    ] C27: workers/codex/raw/independent_check.json: 28/28 manifest files byte- and sha256-match, 0 mismatches, CONTRACT.json valid
+      expected=28/28/28, [], true
+      observed=label=INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC, declared=28, actual=28, checked_ok=28, mismatches=[], contract_parses=True (note: it audited the then-current 28-file manifest, not the 151-file manifest shipped now)
+[VERIFIED    ] C28: pwsh -Command 'echo SHELL_GATE_OK' succeeded in 391ms
+      expected=391ms
+      observed=log line: succeeded in 391ms / SHELL_GATE_OK
+[VERIFIED    ] C29: created exactly workers/codex_writer/EXECUTE_WRITER_RECEIPT.md
+      expected=one new file at that path
+      observed=file present (353 bytes), write_set line matches its own path, model line = opencode-go/minimax-m3.1-flash-free
+[VERIFIED    ] C30: guard MODIFIED=0 REMOVED=0 outside the write set
+      expected=MODIFIED=0 REMOVED=0
+      observed=run2.log: '['GUARD MODIFIED=0 REMOVED=0 ADDED=0', 'GUARD_VERDICT ONLY_ADDITIONS_IN_WRITE_SET']'; guard_before/after identical=True (sha256 e227024973f5), both 'files=106' and ADDED=0 — the guard frames an unchanged tree, so it cannot itself evidence the addition
+[VERIFIED    ] C31: Codex VERIFY exit 0; audit returned {"verdict":"PASS","addition_only":true,"overclaims":[]}
+      expected=PASS / true / [] and exit 0
+      observed=checker JSON present with verdict=PASS, addition_only=true, overclaims=[]; log_verify.log ends '[lane] exit=0'
+[VERIFIED    ] C32: Raw logs log_execute/log_verify/log_writer/log_checker + guard_before/guard_after exist
+      expected=all present
+      observed=6/6 present, sizes=[2688, 1917, 7002, 208473, 10948, 10948]
+[VERIFIED    ] C33: Sealed front door on 10100 refuses with ERR_EXEC_FRONTDOOR_SANCTIONED_DRIFT (deepseek-v4.1-flash pinned vs minimax declared)
+      expected=that error code
+      observed=stderr log carries decision=REFUSE, error_code=ERR_EXEC_FRONTDOOR_SANCTIONED_DRIFT, detail names deepseek-v4.1-flash vs minimax-m3.1-flash-free
+[VERIFIED    ] C34: All arms via HG-KSEOS/scripts/hgk-lane-dispatch.py against config/lane-route-slots.candidate.json rev 20
+      expected=script present, revision 20
+      observed=dispatcher present=True, pool revision=20
+[VERIFIED    ] C35: PLAN rank 2, required arm openai-codex/gpt-6.1-sol, served gpt-6.1-sol, nonce yes, PASS, 18.3s
+      expected=rank 2, gpt-6.1-sol, nonce, PASS, 18.3
+      observed=ok=True, rank=2, model=gpt-6.1-sol, nonce_present=True, seconds=18.3, required_arm=openai-codex/gpt-6.1-sol
+[VERIFIED    ] C36: EXECUTE rank 1, arm opencode-go/minimax-m3.1-flash-free, served same, nonce, PASS, 20.9s
+      expected=rank 1, same model, nonce, PASS, 20.9
+      observed=ok=True, rank=1, served=opencode-go/minimax-m3.1-flash-free, nonce_present=True, seconds=20.94 (prose 20.9 = truncation of 20.94)
+[VERIFIED    ] C37: VERIFY_SECURITY rank 2, required arm openai-codex/gpt-6.1-sol, served gpt-6.1-sol, nonce, PASS, 19.9s
+      expected=rank 2, gpt-6.1-sol, nonce, PASS, 19.9
+      observed=ok=True, rank=2, model=gpt-6.1-sol, nonce_present=True, seconds=19.89 (prose 19.9 = rounding of 19.89), served_arm=openai-codex/gpt-6.1-sol
+[VERIFIED    ] C38: --require-arm gpt-6.1-sol alone returns ERR_LANE_REQUIRED_ARM_ABSENT
+      expected=ERR_LANE_REQUIRED_ARM_ABSENT
+      observed=code=ERR_LANE_REQUIRED_ARM_ABSENT, required_arm=gpt-6.1-sol, ok=False
+[VERIFIED    ] C39: a run with no nonce in an agent message cannot pass even at exit 0
+      expected=exit 0 with nonce_present=false
+      observed=exit=0, nonce_present=False, nonce_present_raw_stdout=False
+[VERIFIED    ] C40: VERIFY returned {"nonce":"VERIFY-NONCE-3D90F2B6","receipt_present":true,"lines":4,...,"verdict":"PASS"}
+      expected=nonce VERIFY-NONCE-3D90F2B6, lines 4, PASS
+      observed=judgement receipt carries the quoted JSON (nonce/lines/verdict/receipt_present all present after unescaping); EXEC_DISPATCH_RECEIPT.md actually has 4 lines
+[VERIFIED    ] C41: First EXECUTE dispatch omitted --cwd (ran in HG-KSEOS), created HG-KSEOS/workers/codex_lane/EXEC_DISPATCH_RECEIPT.md, then timed out (300s, ok=False)
+      expected=ok=False, TIMEOUT ~300s, cwd HG-KSEOS
+      observed=ok=False, exit=TIMEOUT, seconds=300.04, cwd=C:\Projects\Agent_Workspace\HG-KSEOS; incident captures before/after with HEAD and sha256
+[VERIFIED    ] C42: untracked workers/ removed, git status --porcelain empty, HEAD unchanged at 1760fb4
+      expected=clean tree at 1760fb4
+      observed=after-capture: workers/ absent, git status empty, HEAD=1760fb443ab284c52c46a6b49f573e2a180530e6
+[VERIFIED    ] C43: Re-dispatched with --cwd pinned: same lane finished ok=True in 20.9s and the file landed in the evidence worktree
+      expected=ok=True, 20.9s, file in round dir
+      observed=ok=True, seconds=20.94, cwd=C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2, receipt file present in round
+
+=== SUMMARY ===
+{
+ "summary": {
+  "verified": 38,
+  "mismatch": 5,
+  "unverifiable": 0
+ },
+ "mismatch_ids": [
+  "C02",
+  "C08",
+  "C23",
+  "C20",
+  "C25"
+ ],
+ "unverifiable_ids": []
+}
+wrote C:\Projects\Agent_Workspace\_r152_ev\_governance\round-20261022-r15_2\workers/selfcheck/CHECK_REPORT.json

@@ -1,0 +1,14 @@
+# Layered profile over the sealed home (no credentials; reproducibility artefact).
+model = "opencode-go/minimax-m3.1-flash-free"
+model_provider = "hgk_relay"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+web_search = "disabled"
+
+[model_providers.hgk_relay]
+name = "HGK-Shared-Relay-10101"
+base_url = "http://127.0.0.1:10101/v1"
+wire_api = "responses"
+requires_openai_auth = false
+request_max_retries = 0
+stream_max_retries = 0

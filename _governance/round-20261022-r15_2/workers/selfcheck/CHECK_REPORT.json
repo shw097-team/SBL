@@ -1,0 +1,425 @@
+{
+  "schema": "SBL_R15_2_SELFCHECK_REPORT/1",
+  "generated_utc": "2026-10-22T13:45:00Z",
+  "subject": "STATUS_R15_2.md",
+  "round": "round-20261022-r15_2",
+  "method": "python3 + os.path.getsize + hashlib.sha256 + sqlite3 (read-only) against the round directory; prose never used as a source",
+  "claims": [
+    {
+      "id": "C01",
+      "status_text": "§1 row 1",
+      "claim": "Source freeze of 24 normative documents (10 PIPD + 14 SBL) MATCH 24/24",
+      "source_file": "SOURCE_FREEZE.json",
+      "verdict": "VERIFIED",
+      "observed": "documents_expected=24, documents_match=24, mismatch=0, missing=0, PIPD=10, SBL=14, statuses=['MATCH']",
+      "expected": "expected=24, match=24, PIPD=10, SBL=14, all MATCH"
+    },
+    {
+      "id": "C02",
+      "status_text": "§1 row 2",
+      "claim": "Official CAPC bundle complete: SKILL + 7 references + schema + script + tests (SOURCE_FREEZE.json.compiler_bundle[10])",
+      "source_file": "SOURCE_FREEZE.json",
+      "verdict": "MISMATCH",
+      "observed": "compiler_bundle has 10 entries = 1 SKILL + 6 references(.md) + 1 schema + 1 script + 1 test; the prose enumeration sums to 11",
+      "expected": "10 entries, but the enumerated components sum to 11 (1+7+1+1+1)"
+    },
+    {
+      "id": "C03",
+      "status_text": "§1 lint",
+      "claim": "Official CAPC lint: PROMPT_COMPILE_PASS, 0 errors",
+      "source_file": "receipts/CAPC_lint.json",
+      "verdict": "VERIFIED",
+      "observed": "verdict=PROMPT_COMPILE_PASS, error_count=0",
+      "expected": "PROMPT_COMPILE_PASS, 0 errors"
+    },
+    {
+      "id": "C04",
+      "status_text": "§1 activation",
+      "claim": "Official CAPC activation: PROMPT_COMPILE_PASS, 0 errors",
+      "source_file": "receipts/CAPC_activation.json",
+      "verdict": "VERIFIED",
+      "observed": "verdict=PROMPT_COMPILE_PASS, error_count=0",
+      "expected": "PROMPT_COMPILE_PASS, 0 errors"
+    },
+    {
+      "id": "C05",
+      "status_text": "§1 acceptance",
+      "claim": "Official CAPC acceptance: PROMPT_COMPILE_PASS, 0 errors",
+      "source_file": "receipts/CAPC_acceptance.json",
+      "verdict": "VERIFIED",
+      "observed": "verdict=PROMPT_COMPILE_PASS, error_count=0",
+      "expected": "PROMPT_COMPILE_PASS, 0 errors"
+    },
+    {
+      "id": "C06",
+      "status_text": "§1 compile",
+      "claim": "CAPC compile PROMPT_COMPILE_PASS 0 errors, contract_sha256=414005c1...828ef3",
+      "source_file": "receipts/CAPC_compile.json",
+      "verdict": "VERIFIED",
+      "observed": "verdict=PROMPT_COMPILE_PASS, error_count=0, contract_sha256=414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3",
+      "expected": "PROMPT_COMPILE_PASS, 0, 414005c1b8c1322bb5fc2d429e6e8e6944d43f21bb66ba01148e168f86828ef3"
+    },
+    {
+      "id": "C07",
+      "status_text": "§1 row 6 evidence",
+      "claim": "output/compiler-receipt.json and output/thin-prompt.md exist",
+      "source_file": "output/compiler-receipt.json",
+      "verdict": "VERIFIED",
+      "observed": "compiler-receipt.json verdict=PROMPT_COMPILE_PASS contract_sha256=414005c1b8c1322b...; thin-prompt.md present, bytes=20799",
+      "expected": "both present"
+    },
+    {
+      "id": "C08",
+      "status_text": "§1 row 6",
+      "claim": "output/thin-prompt.md is (20,799 chars)",
+      "source_file": "output/thin-prompt.md",
+      "verdict": "MISMATCH",
+      "observed": "20715 characters, 20799 bytes (20,799 is the byte size, not the character count)",
+      "expected": "20,799 characters"
+    },
+    {
+      "id": "C09",
+      "status_text": "§1 row 7",
+      "claim": "PLAN probe HTTP 200, relay served gpt-6.1-sol",
+      "source_file": "receipts/model_PLAN.json,.http",
+      "verdict": "VERIFIED",
+      "observed": "PLAN gpt-6.1-sol HTTP=200; response model=gpt-6.1-sol",
+      "expected": "HTTP=200, model=gpt-6.1-sol"
+    },
+    {
+      "id": "C10",
+      "status_text": "§1 row 7",
+      "claim": "EXECUTE probe HTTP 200, relay served opencode-go/minimax-m3.1-flash-free",
+      "source_file": "receipts/model_EXECUTE.json,.http",
+      "verdict": "VERIFIED",
+      "observed": "EXECUTE opencode-go/minimax-m3.1-flash-free HTTP=200; response model=opencode-go/minimax-m3.1-flash-free",
+      "expected": "HTTP=200, model=opencode-go/minimax-m3.1-flash-free"
+    },
+    {
+      "id": "C11",
+      "status_text": "§1 row 7",
+      "claim": "VERIFY probe HTTP 200, relay served gpt-6.1-sol",
+      "source_file": "receipts/model_VERIFY.json,.http",
+      "verdict": "VERIFIED",
+      "observed": "VERIFY gpt-6.1-sol HTTP=200; response model=gpt-6.1-sol",
+      "expected": "HTTP=200, model=gpt-6.1-sol"
+    },
+    {
+      "id": "C12",
+      "status_text": "§1 row 8",
+      "claim": "Hermes Kanban board sbl-r15-2-20261022 with 18 cards W00..W17",
+      "source_file": "receipts/kanban_cards.txt + kanban.db",
+      "verdict": "VERIFIED",
+      "observed": "18 card lines W00..W17 in kanban_cards.txt; 18 tasks in the board DB (kanban.db), status_dist=[('blocked', 18)]",
+      "expected": "18 card lines and 18 board rows"
+    },
+    {
+      "id": "C23",
+      "status_text": "§7 KANBAN row",
+      "claim": "18 cards, all blocked `NO_NATIVE_WORKORDER_PERMIT`",
+      "source_file": "receipts/kanban_cards.txt + kanban.db",
+      "verdict": "MISMATCH",
+      "observed": "18/18 tasks have status=blocked (true), but task_events reason='initial_status' and 0 rows contain the identifier NO_NATIVE_WORKORDER_PERMIT; task bodies read 'No native WorkOrder/Permit exists on this host, so this card cannot be dispatched.'",
+      "expected": "block reason recorded as NO_NATIVE_WORKORDER_PERMIT"
+    },
+    {
+      "id": "C13",
+      "status_text": "§1 row 9",
+      "claim": "R14 obligation ledger: 31 items read",
+      "source_file": "R14_LEDGER_READBACK.json",
+      "verdict": "VERIFIED",
+      "observed": "obligations_count=31, len(items)=31, state_distribution={'DONE': 17, 'PARTIAL': 9, 'BLOCKED_SOFT': 1, 'BLOCKED': 4}",
+      "expected": "31"
+    },
+    {
+      "id": "C26",
+      "status_text": "§7 new blocker",
+      "claim": "Only 12 of 17 R14 DONE items have all declared evidence present (20 PRESENT / 10 PARTIAL / 1 MISSING across 31)",
+      "source_file": "workers/r14ledger/SUMMARY.json",
+      "verdict": "VERIFIED",
+      "observed": "done_items_all_evidence_present=12/17, by_classification={'EVIDENCE_PRESENT': 20, 'EVIDENCE_PARTIAL': 10, 'EVIDENCE_MISSING': 1}, items_total=31",
+      "expected": "12/17 and 20/10/1 of 31"
+    },
+    {
+      "id": "C14",
+      "status_text": "§7 PLAN row",
+      "claim": "PLAN returned 13,028 chars",
+      "source_file": "receipts/PLAN_commander_dag.json",
+      "verdict": "VERIFIED",
+      "observed": "len(content)=13028",
+      "expected": "13028"
+    },
+    {
+      "id": "C15",
+      "status_text": "§7 PLAN row",
+      "claim": "PLAN used 4,858 completion tokens",
+      "source_file": "receipts/PLAN_commander_dag.json",
+      "verdict": "VERIFIED",
+      "observed": "usage.completion_tokens=4858",
+      "expected": "4858"
+    },
+    {
+      "id": "C16",
+      "status_text": "§7 PLAN row / §8 bonus row",
+      "claim": "PLAN produced a 35-edge DAG",
+      "source_file": "receipts/PLAN_commander_dag.content.json",
+      "verdict": "VERIFIED",
+      "observed": "len(dag_edges)=35",
+      "expected": "35"
+    },
+    {
+      "id": "C17",
+      "status_text": "§7 VERIFY row",
+      "claim": "VERIFY returned 4,364 chars",
+      "source_file": "receipts/VERIFY_challenge_gpt61sol.json",
+      "verdict": "VERIFIED",
+      "observed": "len(content)=4364",
+      "expected": "4364"
+    },
+    {
+      "id": "C18",
+      "status_text": "§7 VERIFY row",
+      "claim": "VERIFY used 2,279 completion tokens",
+      "source_file": "receipts/VERIFY_challenge_gpt61sol.json",
+      "verdict": "VERIFIED",
+      "observed": "usage.completion_tokens=2279",
+      "expected": "2279"
+    },
+    {
+      "id": "C19",
+      "status_text": "§7 EXECUTE/VERIFY carrier rows",
+      "claim": "codex.exe 0.163.0-alpha.11 launched with -s read-only --ephemeral, reached a model, exit 0, every CreateProcess rejected",
+      "source_file": "workers/codex/RECEIPT.json",
+      "verdict": "VERIFIED",
+      "observed": "binary_version=codex-cli 0.163.0-alpha.11, exit_code=0, blocked_by=windows_sandbox_process_spawn_policy (reproduced identically...",
+      "expected": "0.163.0-alpha.11, exit 0, spawn blocked by policy"
+    },
+    {
+      "id": "C20",
+      "status_text": "§7 VERIFY carrier row",
+      "claim": "relay also lacks /v1/responses (404)",
+      "source_file": "workers/frontdoor/raw/responses_probe.txt + workers/codex/RECEIPT.json",
+      "verdict": "MISMATCH",
+      "observed": "/v1/responses answers on 10101: minimax http=200, gpt-6.1-sol http=400 'Input must be a list'; the only 404 on record is workers/codex/RECEIPT.json failed_attempts[0] ('websocket 426 then 404 Not found for account'), and §9 runs subsequently use /v1/responses over websocket (426 Upgrade Required)",
+      "expected": "404 from /v1/responses"
+    },
+    {
+      "id": "C21",
+      "status_text": "§7 SWARM row",
+      "claim": "4 parallel leaf workers, delegation deleg_7b546db6",
+      "source_file": "WORKER_RECEIPTS.json",
+      "verdict": "VERIFIED",
+      "observed": "workers=4, delegation_id=deleg_7b546db6, receipts=4",
+      "expected": "4 workers, deleg_7b546db6"
+    },
+    {
+      "id": "C22",
+      "status_text": "§7 SWARM row",
+      "claim": "62 artefacts",
+      "source_file": "WORKER_RECEIPTS.json",
+      "verdict": "VERIFIED",
+      "observed": "sum(file_count)=62 ([26, 24, 7, 5]), listed files=62",
+      "expected": "62"
+    },
+    {
+      "id": "C24",
+      "status_text": "§7 OPENSPEC row",
+      "claim": "openspec validate --strict --all --no-interactive exit 1; far-r12-20261021 has no delta specs",
+      "source_file": "workers/openspec/RECEIPT.json",
+      "verdict": "VERIFIED",
+      "observed": "exit_code=1, items 1/2 passed, failed=['far-r12-20261021']",
+      "expected": "exit 1, far-r12-20261021 delta failure"
+    },
+    {
+      "id": "C25",
+      "status_text": "§7 GSTACK row",
+      "claim": "GSTACK: 24 probes, no provider anywhere",
+      "source_file": "workers/gstack/NOFIT_OR_RECEIPT.json",
+      "verdict": "MISMATCH",
+      "observed": "probe_count=23, len(checked)=22, verdict=NO_PROVIDER_INSTALLED (no-provider part is true)",
+      "expected": "24 probes"
+    },
+    {
+      "id": "C27",
+      "status_text": "§7 self-check cross-reference",
+      "claim": "workers/codex/raw/independent_check.json: 28/28 manifest files byte- and sha256-match, 0 mismatches, CONTRACT.json valid",
+      "source_file": "workers/codex/raw/independent_check.json",
+      "verdict": "VERIFIED",
+      "observed": "label=INDEPENDENT_HERMES_CHECK_NOT_CODEX_EXEC, declared=28, actual=28, checked_ok=28, mismatches=[], contract_parses=True (note: it audited the then-current 28-file manifest, not the 151-file manifest shipped now)",
+      "expected": "28/28/28, [], true"
+    },
+    {
+      "id": "C28",
+      "status_text": "§8 EXECUTE row",
+      "claim": "pwsh -Command 'echo SHELL_GATE_OK' succeeded in 391ms",
+      "source_file": "workers/codex_lane/log_execute.log",
+      "verdict": "VERIFIED",
+      "observed": "log line: succeeded in 391ms / SHELL_GATE_OK",
+      "expected": "391ms"
+    },
+    {
+      "id": "C29",
+      "status_text": "§8 EXECUTE row",
+      "claim": "created exactly workers/codex_writer/EXECUTE_WRITER_RECEIPT.md",
+      "source_file": "workers/codex_writer/EXECUTE_WRITER_RECEIPT.md + log_writer.log",
+      "verdict": "VERIFIED",
+      "observed": "file present (353 bytes), write_set line matches its own path, model line = opencode-go/minimax-m3.1-flash-free",
+      "expected": "one new file at that path"
+    },
+    {
+      "id": "C30",
+      "status_text": "§8 EXECUTE row",
+      "claim": "guard MODIFIED=0 REMOVED=0 outside the write set",
+      "source_file": "workers/codex_lane/run2.log, guard_before.txt, guard_after.txt",
+      "verdict": "VERIFIED",
+      "observed": "run2.log: '['GUARD MODIFIED=0 REMOVED=0 ADDED=0', 'GUARD_VERDICT ONLY_ADDITIONS_IN_WRITE_SET']'; guard_before/after identical=True (sha256 e227024973f5), both 'files=106' and ADDED=0 — the guard frames an unchanged tree, so it cannot itself evidence the addition",
+      "expected": "MODIFIED=0 REMOVED=0"
+    },
+    {
+      "id": "C31",
+      "status_text": "§8 VERIFY row",
+      "claim": "Codex VERIFY exit 0; audit returned {\"verdict\":\"PASS\",\"addition_only\":true,\"overclaims\":[]}",
+      "source_file": "workers/codex_lane/log_checker.log + log_verify.log",
+      "verdict": "VERIFIED",
+      "observed": "checker JSON present with verdict=PASS, addition_only=true, overclaims=[]; log_verify.log ends '[lane] exit=0'",
+      "expected": "PASS / true / [] and exit 0"
+    },
+    {
+      "id": "C32",
+      "status_text": "§8 raw logs",
+      "claim": "Raw logs log_execute/log_verify/log_writer/log_checker + guard_before/guard_after exist",
+      "source_file": "workers/codex_lane/",
+      "verdict": "VERIFIED",
+      "observed": "6/6 present, sizes=[2688, 1917, 7002, 208473, 10948, 10948]",
+      "expected": "all present"
+    },
+    {
+      "id": "C33",
+      "status_text": "§8 front-door drift",
+      "claim": "Sealed front door on 10100 refuses with ERR_EXEC_FRONTDOOR_SANCTIONED_DRIFT (deepseek-v4.1-flash pinned vs minimax declared)",
+      "source_file": "workers/frontdoor/raw/health_retry.txt",
+      "verdict": "VERIFIED",
+      "observed": "stderr log carries decision=REFUSE, error_code=ERR_EXEC_FRONTDOOR_SANCTIONED_DRIFT, detail names deepseek-v4.1-flash vs minimax-m3.1-flash-free",
+      "expected": "that error code"
+    },
+    {
+      "id": "C34",
+      "status_text": "§9 intro",
+      "claim": "All arms via HG-KSEOS/scripts/hgk-lane-dispatch.py against config/lane-route-slots.candidate.json rev 20",
+      "source_file": "HG-KSEOS (outside round)",
+      "verdict": "VERIFIED",
+      "observed": "dispatcher present=True, pool revision=20",
+      "expected": "script present, revision 20"
+    },
+    {
+      "id": "C35",
+      "status_text": "§9 PLAN lane",
+      "claim": "PLAN rank 2, required arm openai-codex/gpt-6.1-sol, served gpt-6.1-sol, nonce yes, PASS, 18.3s",
+      "source_file": "receipts/dispatch/PLAN_gpt61sol.json(+.attempts.ndjson)",
+      "verdict": "VERIFIED",
+      "observed": "ok=True, rank=2, model=gpt-6.1-sol, nonce_present=True, seconds=18.3, required_arm=openai-codex/gpt-6.1-sol",
+      "expected": "rank 2, gpt-6.1-sol, nonce, PASS, 18.3"
+    },
+    {
+      "id": "C36",
+      "status_text": "§9 EXECUTE lane",
+      "claim": "EXECUTE rank 1, arm opencode-go/minimax-m3.1-flash-free, served same, nonce, PASS, 20.9s",
+      "source_file": "receipts/dispatch/EXECUTE_minimax_cwd.json(+.attempts.ndjson)",
+      "verdict": "VERIFIED",
+      "observed": "ok=True, rank=1, served=opencode-go/minimax-m3.1-flash-free, nonce_present=True, seconds=20.94 (prose 20.9 = truncation of 20.94)",
+      "expected": "rank 1, same model, nonce, PASS, 20.9"
+    },
+    {
+      "id": "C37",
+      "status_text": "§9 VERIFY lane",
+      "claim": "VERIFY_SECURITY rank 2, required arm openai-codex/gpt-6.1-sol, served gpt-6.1-sol, nonce, PASS, 19.9s",
+      "source_file": "receipts/dispatch/VERIFY_gpt61sol_judgement.json(+.attempts.ndjson)",
+      "verdict": "VERIFIED",
+      "observed": "ok=True, rank=2, model=gpt-6.1-sol, nonce_present=True, seconds=19.89 (prose 19.9 = rounding of 19.89), served_arm=openai-codex/gpt-6.1-sol",
+      "expected": "rank 2, gpt-6.1-sol, nonce, PASS, 19.9"
+    },
+    {
+      "id": "C38",
+      "status_text": "§9 gate refusals",
+      "claim": "--require-arm gpt-6.1-sol alone returns ERR_LANE_REQUIRED_ARM_ABSENT",
+      "source_file": "receipts/dispatch/PLAN_dispatch.json",
+      "verdict": "VERIFIED",
+      "observed": "code=ERR_LANE_REQUIRED_ARM_ABSENT, required_arm=gpt-6.1-sol, ok=False",
+      "expected": "ERR_LANE_REQUIRED_ARM_ABSENT"
+    },
+    {
+      "id": "C39",
+      "status_text": "§9 gate refusals",
+      "claim": "a run with no nonce in an agent message cannot pass even at exit 0",
+      "source_file": "receipts/dispatch/PLAN_openai-codex_gpt-6.1-sol.json.attempts.ndjson",
+      "verdict": "VERIFIED",
+      "observed": "exit=0, nonce_present=False, nonce_present_raw_stdout=False",
+      "expected": "exit 0 with nonce_present=false"
+    },
+    {
+      "id": "C40",
+      "status_text": "§9 VERIFY judgement block",
+      "claim": "VERIFY returned {\"nonce\":\"VERIFY-NONCE-3D90F2B6\",\"receipt_present\":true,\"lines\":4,...,\"verdict\":\"PASS\"}",
+      "source_file": "receipts/dispatch/VERIFY_gpt61sol_judgement.json + workers/codex_lane/EXEC_DISPATCH_RECEIPT.md",
+      "verdict": "VERIFIED",
+      "observed": "judgement receipt carries the quoted JSON (nonce/lines/verdict/receipt_present all present after unescaping); EXEC_DISPATCH_RECEIPT.md actually has 4 lines",
+      "expected": "nonce VERIFY-NONCE-3D90F2B6, lines 4, PASS"
+    },
+    {
+      "id": "C41",
+      "status_text": "§9 incident",
+      "claim": "First EXECUTE dispatch omitted --cwd (ran in HG-KSEOS), created HG-KSEOS/workers/codex_lane/EXEC_DISPATCH_RECEIPT.md, then timed out (300s, ok=False)",
+      "source_file": "receipts/dispatch/EXECUTE_minimax.json(+.attempts.ndjson) + receipts/incidents/",
+      "verdict": "VERIFIED",
+      "observed": "ok=False, exit=TIMEOUT, seconds=300.04, cwd=C:\\Projects\\Agent_Workspace\\HG-KSEOS; incident captures before/after with HEAD and sha256",
+      "expected": "ok=False, TIMEOUT ~300s, cwd HG-KSEOS"
+    },
+    {
+      "id": "C42",
+      "status_text": "§9 incident containment",
+      "claim": "untracked workers/ removed, git status --porcelain empty, HEAD unchanged at 1760fb4",
+      "source_file": "receipts/incidents/20261022_HGK_UNAUTHORIZED_WRITE_after.txt",
+      "verdict": "VERIFIED",
+      "observed": "after-capture: workers/ absent, git status empty, HEAD=1760fb443ab284c52c46a6b49f573e2a180530e6",
+      "expected": "clean tree at 1760fb4"
+    },
+    {
+      "id": "C43",
+      "status_text": "§9 incident re-dispatch",
+      "claim": "Re-dispatched with --cwd pinned: same lane finished ok=True in 20.9s and the file landed in the evidence worktree",
+      "source_file": "receipts/dispatch/EXECUTE_minimax_cwd.json",
+      "verdict": "VERIFIED",
+      "observed": "ok=True, seconds=20.94, cwd=C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2, receipt file present in round",
+      "expected": "ok=True, 20.9s, file in round dir"
+    }
+  ],
+  "summary": {
+    "verified": 38,
+    "mismatch": 5,
+    "unverifiable": 0
+  },
+  "mismatch_ids": [
+    "C02",
+    "C08",
+    "C23",
+    "C20",
+    "C25"
+  ],
+  "unverifiable_ids": [],
+  "manifest_integrity": {
+    "files_declared": 154,
+    "files_on_disk": 156,
+    "sha_mismatches": [],
+    "declared_list_len": 154,
+    "files_byte_and_sha_ok": 154,
+    "missing_on_disk": [],
+    "byte_mismatches": [],
+    "on_disk_not_declared": [
+      "ROUND_MANIFEST.json",
+      "workers/aochallenge/AO_CHALLENGE.json"
+    ],
+    "manifest_sha256": "0090d47be148ed00c6b9fa1634735f0adfa8f7c45b586a11f36bf2ff24030e08",
+    "manifest_mtime_utc": "2026-10-22T13:32:15.786047Z",
+    "note": "ROUND_MANIFEST.json was rewritten by another process at 21:32:15 +0800 while this check ran: an earlier read in the same session declared file_count=151 with 151 entries, the current file declares 154 and 2 file(s) on disk are not declared: ['ROUND_MANIFEST.json', 'workers/aochallenge/AO_CHALLENGE.json']. All figures below are pinned to manifest_sha256; every declared entry matches on bytes and sha256."
+  }
+}
