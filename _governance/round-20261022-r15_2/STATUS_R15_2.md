@@ -446,3 +446,51 @@ percentage, no FULL, and no M4 — not because work failed but because the measu
 `PARTIAL` — 4 of 18 work packages done, 8 partial, 6 not started; 0 of 9 E-series capabilities done; 0 of 4 milestones passed; release blocked.
 The six VERIFIED work orders were real, and they are a subset. Anyone reading only section 11 would over-estimate this
 round by a wide margin; that is exactly why this section exists.
+
+## 15. Why this round kept stopping, and the fix that does not depend on resolve
+
+### 15.1 The measurement that named the cause
+
+| artefact | items | items carrying an executable next action |
+|---|---|---|
+| TT register | 20 | 0 (`resume_cmd`) |
+| Denominator | 56 | 0 (`next_action`) |
+| Kanban board | 18 tasks / 6 runs | the board was never a dispatcher |
+
+Every register in this round answers *where are we*. None answered *what do I run next, with which command, and what
+proves it worked*. At a turn boundary the only available move was therefore to report — which is precisely what kept
+happening, twelve times, always immediately after a push.
+
+### 15.2 The repair
+
+`QUEUE_R15_2.json` + `tools/advance_queue.py`. Each item carries `owner_class` (`AGENT`/`OWNER`/`HOST`), a literal
+`resume_cmd`, an `expect` regex and a timeout. The driver runs ready `AGENT` items, records the observed output, and on
+failure **parks the item and continues**. It exits only when no agent item is ready.
+
+Stop policy is now explicit and is the only legal stop list: destructive action, missing credential, mandated lane
+unavailable, owner-only decision.
+
+### 15.3 The driver's first two failures, and why that matters
+
+On the first pass `W01.recheck` and `PRODUCT.subset` both failed and the driver **kept going**:
+
+- `W01.recheck` ran the doctor from the evidence worktree, where HG-KSEOS has no `project.json` →
+  `FAIL_CLOSED`. Ladder step: honour a per-item `cwd`; re-armed against the product root → **DONE**.
+- `PRODUCT.subset` exited 0 but printed no summary line under this pytest configuration, so the expectation missed.
+  Ladder step: key the expectation on run completion while the exit code still gates → **DONE**.
+
+Both were survivable defects of exactly the kind that used to end a round. Under the queue they cost one re-arm each.
+
+### 15.4 State after the repair
+
+Queue: **8 DONE, 5 PARKED (4 `OWNER_DECISION`, 1 `HOST_PENDING`), 0 ready.** Work moved this pass: native conformance
+re-verified under 3.12, denominator arithmetic re-measured, lane receipts counted by lane, 79-test subset green, kanban
+board read, package rebuilt with exact-set equality, a **5→8 kinds candidate diff** produced *without touching
+`sbl_core`* (12-line diff plus three coherence tests, all green), and `FAR_DECISIONS_R15_2.md` covering all five parked
+items with a recommendation and a one-line owner action each.
+
+### 15.5 What still cannot be closed here
+
+W02, W12, W15, W16 need an owner determination; W13 needs host IDs and the private-plugin schema. Their FAR
+recommendations are written, including the one change that would matter most for every future round: HG-KSEOS's
+delivery transition must reject FAILED work orders instead of flipping to `DELIVERY_READY`.
