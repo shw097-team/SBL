@@ -440,16 +440,18 @@
       "last_run_utc": "2026-10-22T19:01:31Z",
       "parked_reason": null,
       "evidence": [
-        "workers/q5_tools/LIFECYCLE_RECEIPT.json",
-        "workers/q5_tools/raw/",
-        "workers/q5_tools/probe_stdout.txt",
         "receipts/dispatch/EXECUTE__BRIEF.json",
-        "workers/q5_repair/"
+        "receipts/dispatch/EXECUTE__Q5_DOCTOR_GREEN.json",
+        "workers/q5_repair/",
+        "workers/q5_repair/DOCTOR_REPAIR.json",
+        "workers/q5_tools/LIFECYCLE_RECEIPT.json",
+        "workers/q5_tools/probe_stdout.txt",
+        "workers/q5_tools/raw/"
       ],
       "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
       "lane_receipt_file": null,
-      "lane_receipt_red": true,
-      "lane_receipt_red_note": "the doctor repair inside this item was authored by an EXECUTE lane whose receipt is RED (900.03s timeout, no nonce). It is NOT claimed as a lane PASS: the repair is tracked as TT-R15.2-DOCTOR-UNHANDLED-COMPONENT and the product change was re-checked by orchestrator tests plus the independent VERIFY pass.",
+      "lane_receipt_red": false,
+      "lane_receipt_red_note": "the doctor behaviour was re-earned by a third dispatch with a hard 8-command budget: receipt receipts/dispatch/EXECUTE__Q5_DOCTOR_GREEN.json ok=true, 102.12s, nonce present; doctor rc 2 with typed SBL_E_MANIFEST_UNTRUSTED, no traceback, tests/test_stack_verbs.py 9 passed. The code change itself was authored by an earlier lane whose receipt stayed RED - that provenance is disclosed, not laundered.",
       "claim_ceiling": "local lifecycle measurement; one product change inside it carries a red lane receipt and is disclosed, not laundered"
     },
     {

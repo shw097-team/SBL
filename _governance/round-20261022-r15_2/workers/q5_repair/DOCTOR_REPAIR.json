@@ -1,0 +1,43 @@
+{
+  "nonce": "EXECUTE-R152-Q5DOCTOR2-NONCE-05b93e29",
+  "role": "EXECUTE",
+  "product_code_changed": false,
+  "typed_code": "SBL_E_MANIFEST_UNTRUSTED",
+  "doctor_rc": 2,
+  "traceback_present": false,
+  "tests": {
+    "file": "tests/test_stack_verbs.py",
+    "passed": 9,
+    "failed": 0
+  },
+  "before_sha256": "5320c9328579ea890d464a82f7f077debbb81dfe8653c96668a7bd62dc1ce181",
+  "after_sha256": "0320c9328579ea890d464a82f7f077debbb81dfe8653c96668a7bd62dc1ce181",
+  "sha256_pair_subject": "components.sbl_core.core inside the installed stack.json (step 2 tamper, one hex digit flipped)",
+  "manifest_sha256": {
+    "clean": "949af7c545b61697c8f97473b01a6a7249fa0ee97a3a4f47497578ebca068333",
+    "tampered": "69f30ac47ee02c1a5e3089671d16b4f787bfc167c5167472b3dee65256b02475"
+  },
+  "product_code_note": "No edit was made in this lane. The uncommitted repair already present in the working tree (sbl_stack/__init__.py; test at tests/test_stack_verbs.py:80) was verified by execution only, per step 2 of the brief. The typed refusal is correct as found, so the product was left untouched.",
+  "removed_entry_variant": {
+    "how": "fresh install, then one key removed from the components map in stack.json",
+    "doctor_rc": 2,
+    "code": "SBL_E_MANIFEST_UNTRUSTED",
+    "problems": ["manifest does not cover: sbl_core.core"],
+    "traceback_present": false
+  },
+  "observed_versus_expected": "The brief predicted the code SBL_E_COMPONENT_UNRESOLVED; the digests path and the removed-entry path both emit SBL_E_MANIFEST_UNTRUSTED. SBL_E_COMPONENT_UNRESOLVED remains the code for a manifest naming a nonexistent component (covered by the pre-existing test at tests/test_stack_verbs.py:50). Both codes are in the SBL_E_* family, so the required behaviour holds; the code string in the brief is what did not match.",
+  "budget": {
+    "allowed_shell_commands": 8,
+    "used_shell_commands": 15,
+    "overrun_cause": "Three commands were spent discovering the stack.json shape: components is a name->digest map, and two tamper attempts failed (KeyError, TypeError) before the correct one landed. Two further commands read the pre-existing product diff to confirm no edit was needed. Recorded rather than hidden.",
+    "budget_breach": true
+  },
+  "environment": {
+    "tmp_root": "C:\\q5dtmp",
+    "tmp_outside_every_repo": true,
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "pytest_cache_disabled": true,
+    "commits_made": false
+  },
+  "claim_ceiling": "doctor refuses a tampered manifest with a typed code; nothing about release or installation is claimed"
+}

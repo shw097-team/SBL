@@ -727,3 +727,32 @@ Q3 was re-dispatched with a unique brief (`workers/q3_e2e/BRIEF_Q3_E2E.md`, 1800
 
 The earlier AUDIT_FAILED (§12.4) is kept in this file on purpose: the round's record must show that the gate once
 refused, and what was done instead of a false binding.
+
+### 12.6 Independent challenge, pass 2 — FAIL, and what was done with each finding
+
+`receipts/dispatch/VERIFY_SECURITY__CHALLENGE_PASS2.json` — `VERIFY` lane, `gpt-6.1-sol`, rank 2, **236.2 s**,
+ok=true, nonce present, read-only (its final message is transcribed verbatim to `workers/verify/VERDICT_PASS2.md`).
+Verdict: **FAIL**. That is the correct answer to give a round that still has two structural holes, and it is kept.
+
+| Finding | What it found | Action taken |
+|---|---|---|
+| C6 raw evidence | 4 of 11 captures were **overwritten** (identical command tails produced identical filenames); no sha sidecars | **Repaired and re-measured**: monotonic capture prefix + `.sha256` per raw file. Re-derived: **11 rows, 11 distinct files, 0 mismatches, 11 sidecars** (`workers/q5_tools/LIFECYCLE_RECEIPT.json`, `probe_stdout3.txt`) |
+| mandate audit | The gate accepts a bound receipt **without** checking that the file exists, is green, or matches the item | Not repairable inside this round (the tool is round-owned; a correctness change is an HGK owner step) — recorded as `TT-R15.2-MANDATE-AUDIT-IS-SHALLOW`; bindings were corrected by hand and each receipt's brief path is matched to its item |
+| A4 Q3/M2 | Mutation evidence is genuine (AssertionError, 72-test regression XML, hashes reproduce); PARTIAL only because the outside-scope predicate has no before/after content manifest | Accepted as PARTIAL; the manifest is not retrofittable honestly |
+| A5 APPLIED | Consistent with the disclosed alias repair (current routing bytes match `ALIAS.json`) | No action |
+| A7 REPAIR | Product change is real and test-covered, but **a red receipt cannot count as completion** | Re-dispatched twice with a unique brief; first re-dispatch hit its 900 s cap (the arm spends its budget on many small shell steps), second attempt is running with a hard 8-command budget and 1800 s |
+
+The checker's own sentence is the round's ceiling: *"This is a same-host, same-family acceptance challenge—not
+independent acceptance."*
+
+### 12.7 A7 re-earned with a green receipt (2026-10-22T20:34:40Z)
+
+Third dispatch of the same narrow change, this time with a **hard 8-command budget** (the first two attempts burned
+900 s on exploration — that is the root cause, not the product):
+
+- `receipts/dispatch/EXECUTE__Q5_DOCTOR_GREEN.json` — ok=true, `opencode-go/deepseek-v4.1-flash`, **102.12 s**, nonce present;
+- `workers/q5_repair/DOCTOR_REPAIR.json` — `doctor` on a one-hex-digit-tampered installed manifest → **rc 2**, typed
+  `SBL_E_MANIFEST_UNTRUSTED`, **no traceback**; `tests/test_stack_verbs.py` 9 passed; manifest sha256 clean
+  `949af7c5…` → tampered `69f30ac4…`;
+- `product_code_changed: false` — the code was already there from the red-receipt lane. So: **behaviour re-earned and
+  evidenced by a green receipt; authorship of the change stays a red-receipt lane and is disclosed as such.**

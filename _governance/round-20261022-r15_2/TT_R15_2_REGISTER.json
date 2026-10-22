@@ -925,16 +925,47 @@
       "decision": "ENV_EXTRAHEADER",
       "resolution": "tools/push_pat.py patched to the working method and used for the round's push",
       "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-RAW-CAPTURE-OVERWRITE",
+      "kind": "DEFECT",
+      "severity": "HIGH",
+      "subject": "The lifecycle probe named raw captures after the command tail, so identical commands overwrote each other",
+      "observed": {
+        "detected_by": "independent challenge pass 2: 4 of 11 rows carrying raw_path no longer matched file bytes, sha or observation",
+        "cause": "tag = last args joined; healthy doctor/load/invoke and tampered-manifest doctor are invoked more than once",
+        "repair": "monotonic 3-digit prefix per capture + a .sha256 sidecar per raw file",
+        "verified_after": "11 rows, 11 distinct raw files, 0 mismatches, 11 sidecars (re-derived by hashing every file)"
+      },
+      "conflict": "a receipt that points at a raw file which no longer holds what the receipt says is worse than no receipt",
+      "decision": "UNIQUE_CAPTURE_NAMES_PLUS_SIDECAR",
+      "resolution": "probe patched and re-run; the pre-fix receipt is kept for comparison",
+      "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.2-MANDATE-AUDIT-IS-SHALLOW",
+      "kind": "FINDING",
+      "severity": "HIGH",
+      "subject": "mandate_gate audit accepts a bound receipt without checking that the bound file exists, is green, or matches the item",
+      "observed": {
+        "detected_by": "independent challenge pass 2",
+        "statement": "it checks for any green receipt in the lane plus a non-empty binding string",
+        "why_it_matters": "a done item can be bound to another lane's green receipt and the gate stays clean"
+      },
+      "conflict": "the round's stop predicate treats AUDIT_CLEAN as evidence of correct binding",
+      "decision": "RECORD_AND_COMPENSATE",
+      "resolution": "Q3/Q5 bindings were corrected by hand and each receipt's brief path is matched to its item in STATUS §12; the tool change is an HGK owner change and was not made",
+      "status": "OPEN_OWNER_STEP"
     }
   ],
   "counts": {
-    "total": 37,
+    "total": 39,
     "by_status": {
       "null": 25,
-      "OPEN_OWNER_STEP": 5,
+      "OPEN_OWNER_STEP": 6,
       "OPEN_MEASURED": 4,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 2
+      "RESOLVED_MEASURED": 3
     }
   },
   "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",

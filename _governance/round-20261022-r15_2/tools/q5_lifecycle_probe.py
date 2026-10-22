@@ -32,6 +32,9 @@ PY312 = r"C:/Users/user/AppData/Roaming/uv/python/cpython-3.12-windows-x86_64-no
 OUT = r"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/q5_tools"
 
 
+_SEQ = 0
+
+
 def run(cmd: list[str], cwd: str = SBL) -> dict:
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
     full = (p.stdout or "") + (p.stderr or "")
@@ -41,14 +44,23 @@ def run(cmd: list[str], cwd: str = SBL) -> dict:
     import re as _re
     rawdir = os.path.join(OUT, "raw")
     os.makedirs(rawdir, exist_ok=True)
-    tag = _re.sub(r"[^A-Za-z0-9_.-]+", "_", " ".join(cmd[2:]))[:70] or "cmd"
+    global _SEQ
+    _SEQ += 1
+    # Independent challenge (pass 2) found that identical command lines produced identical tags, so a later
+    # invocation overwrote an earlier one's raw capture (4 of 11 rows). A monotonic prefix makes every capture
+    # addressable, and the sidecar lets a reader verify the bytes without trusting this receipt.
+    tag = f"{_SEQ:03d}_" + (_re.sub(r"[^A-Za-z0-9_.-]+", "_", " ".join(cmd[2:]))[:70] or "cmd")
     op = os.path.join(rawdir, tag + ".out")
     with open(op, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(full)
+    sha = hashlib.sha256(full.encode("utf-8")).hexdigest()
+    with open(op + ".sha256", "w", encoding="utf-8", newline="\n") as sf:
+        sf.write(sha + "  " + os.path.basename(op) + "\n")
     return {"cmd": " ".join(cmd), "rc": p.returncode, "observed": " | ".join(tail[-3:])[:400],
             "raw_path": os.path.relpath(op, OUT).replace("\\", "/"),
             "raw_bytes": len(full.encode("utf-8")),
-            "raw_sha256": hashlib.sha256(full.encode("utf-8")).hexdigest(),
+            "raw_sha256": sha,
+            "raw_sha256_sidecar": os.path.relpath(op + ".sha256", OUT).replace("\\", "/"),
             "first_line": tail[0][:200] if tail else "",
             "codes": sorted(set(_re.findall(r"SBL_E_[A-Z_]+", full))),
             "ok_false": '"ok": false' in full,
