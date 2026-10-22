@@ -1,0 +1,36 @@
+{
+  "schema": "HGK-CHECKER-SCRATCH-PROBES/1",
+  "at_utc": "2026-10-22T17:29:54.191968+00:00",
+  "p1_admitted_write": {
+    "result": "ADMITTED",
+    "host_readback_sha256": "51eacbf0eede637f83c405e0f0ce11859a45b16f5cdc803c02381e5d22a7190d",
+    "inside_scope": true
+  },
+  "p2_tmp_redirect": {
+    "argv": [
+      "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+      "-c",
+      "import tempfile, os\np = tempfile.mkstemp(prefix='p2_')[1]\nopen(p, 'w').write('tmp probe')\nprint(p)\n"
+    ],
+    "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f",
+    "exit_code": 0,
+    "duration_s": 0.1,
+    "log": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\p2_tmp_redirect.log",
+    "log_sha256": "8abc7fb83e5f7e6868e63adb395fcbadd0679edc2bdee577a07cbf590e6e21c6",
+    "landed_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\tmp\\p2_n3jlroqf",
+    "inside_granted_root": true
+  },
+  "p3_guard_discrimination": {
+    "mutated_rollup": "6cc4a39072db0fb1e5b25b5defe5ee7a702a45762571fbe211e99335fb5ba346",
+    "restored_rollup": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+    "freeze_rollup": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+    "detects_mutation": true,
+    "restore_verified": true,
+    "verdict": "GUARD_DISCRIMINATES"
+  },
+  "p4_subject_repo_noninterference": {
+    "before_porcelain": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/",
+    "after_porcelain": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/",
+    "unchanged": true
+  }
+}

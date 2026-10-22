@@ -1,0 +1,177 @@
+{
+  "schema": "HGK-O2-D07-BUNDLE/1",
+  "decision_id": "DEC-R12-D07-O2-20261023",
+  "grant": {
+    "schema": "HGK-CHECKER-SCRATCH-GRANT/1",
+    "granted_at_utc": "2026-10-22T17:29:26.648301+00:00",
+    "expiry_utc": "2026-10-23T17:29:26.648301+00:00",
+    "kanban_task": "t_c7c44c52",
+    "decision": "FAR r12 O-2 = GRANT (D-07); adjudication shape per FAR_R13 sec.3: candidate read-only, independent output root, staged copy for test execution, authorization as scope + expiry + subject digest",
+    "authorization_basis": [
+      "owner standing blanket authorization 2026-10-22 (measure -> adjudicate -> record TT -> continue; only HARD blockers stop)",
+      "FAR_R12 D-07 / O-2: owner one-time grant, scope limited to a checker-only root, candidate read-only",
+      "FAR_R13 sec.3 O-2 adjudication (2026-10-21)"
+    ],
+    "holder_role": "checker (VERIFY lane)",
+    "scope": [
+      "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\tmp\\**",
+      "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\**",
+      "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f\\**"
+    ],
+    "scope_note": "CAND is a disposable byte-copy of the frozen subject for test execution; the verdict binds to the frozen manifest rollup, never to the working copy bytes after mutation",
+    "read_only_surfaces": [
+      "C:/Projects/Agent_Workspace/SBL/** (product repository; no write grant)"
+    ],
+    "subject_digest": {
+      "ref": "origin/main",
+      "commit": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+      "tree": "3f95125c5fe1d5436e1b0a112753d91f5a7e2af7",
+      "rollup_sha256": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+      "file_count": 225
+    },
+    "enforcement": {
+      "mechanism": "explicit grant + sha256 digest guard + temp-root redirection; writes outside scope are DETECTED, not OS-PREVENTED",
+      "os_level_readonly_available": false,
+      "why_not_os_enforced": "measured on this host: codex-lane -s read-only and -s workspace-write refuse every CreateProcess (pwsh.exe -Command pwd -> 'blocked by policy'), so the lane cannot execute under an OS read-only sandbox; house recipe is full access + before/after digest guard",
+      "guard_rule": "recompute the frozen rollup after every checker run; ANY mismatch voids the verdict and is a defect report against the run, not against the subject",
+      "temp_redirection": "TMP/TEMP/TMPDIR + SBL_TEST_TMP all pointed inside the granted root for every child process; PYTHONDONTWRITEBYTECODE=1; pytest -p no:cacheprovider"
+    },
+    "lane_caveat": "grant is role-based (checker), not model-based. Current VERIFY lane arm is opencode-go/deepseek-v4.1-flash, the SAME model as PLAN (SOD006-C6 OPEN_OWNER_ORDERED): process/lane/evidence-path separation only; model-axis independence is NOT claimed",
+    "expiry_rule": "expired grants are void; re-grant is one record, no subsystem change",
+    "claim_ceiling": "local grant record, candidate-only; this is not a Permit, not an acceptance, not an independent-checker verdict"
+  },
+  "subject_freeze": {
+    "schema": "HGK-SUBJECT-FREEZE/1",
+    "frozen_at_utc": "2026-10-22T17:29:24.519428+00:00",
+    "subject": {
+      "repository": "C:\\Projects\\Agent_Workspace\\SBL",
+      "ref": "origin/main",
+      "commit": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+      "tree": "3f95125c5fe1d5436e1b0a112753d91f5a7e2af7",
+      "base_context": {
+        "local_main_commit": "bedc11957d4fc2474b249b69d200829272c118ef",
+        "remote_main_readback": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+        "docs_candidate_in_main": true,
+        "note": "local main is stale (bedc119); remote main moved to dc5428f via PR #6..#8; the r12 docs/claims alignment (4519f768) IS an ancestor of remote main"
+      }
+    },
+    "staged_copy": {
+      "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f",
+      "method": "git archive <commit> | tar -x (byte extraction of the frozen tree)",
+      "file_count": 225,
+      "total_bytes": 1609744,
+      "rollup_sha256": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+      "rollup_method": "sha256 of '<relpath> <sha256>' lines joined by LF, sorted by path",
+      "manifest_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\SUBJECT_MANIFEST.csv",
+      "manifest_sha256": "4480c74670c6149a0eb70420fa6852eb5461ea0cdda969d10b608545aa607b7b"
+    },
+    "claim_ceiling": "byte-identity of the staged copy to the frozen git tree at freeze time; NOT an acceptance, NOT owner-signed"
+  },
+  "probes": {
+    "schema": "HGK-CHECKER-SCRATCH-PROBES/1",
+    "at_utc": "2026-10-22T17:29:54.191968+00:00",
+    "p1_admitted_write": {
+      "result": "ADMITTED",
+      "host_readback_sha256": "51eacbf0eede637f83c405e0f0ce11859a45b16f5cdc803c02381e5d22a7190d",
+      "inside_scope": true
+    },
+    "p2_tmp_redirect": {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import tempfile, os\np = tempfile.mkstemp(prefix='p2_')[1]\nopen(p, 'w').write('tmp probe')\nprint(p)\n"
+      ],
+      "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f",
+      "exit_code": 0,
+      "duration_s": 0.1,
+      "log": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\p2_tmp_redirect.log",
+      "log_sha256": "8abc7fb83e5f7e6868e63adb395fcbadd0679edc2bdee577a07cbf590e6e21c6",
+      "landed_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\tmp\\p2_n3jlroqf",
+      "inside_granted_root": true
+    },
+    "p3_guard_discrimination": {
+      "mutated_rollup": "6cc4a39072db0fb1e5b25b5defe5ee7a702a45762571fbe211e99335fb5ba346",
+      "restored_rollup": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+      "freeze_rollup": "eb5325d4abd00aeb3af72eda6f6518f17f7615a011546d4153da2203e0bf26f0",
+      "detects_mutation": true,
+      "restore_verified": true,
+      "verdict": "GUARD_DISCRIMINATES"
+    },
+    "p4_subject_repo_noninterference": {
+      "before_porcelain": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/",
+      "after_porcelain": "?? contracts/SBL_C0_C9_CONTRACT-R9.json\n?? contracts/compiled-r9/",
+      "unchanged": true
+    }
+  },
+  "run_archive_staged_attempt": {
+    "schema": "HGK-SCRATCH-RUN/1",
+    "at_utc": "2026-10-22T17:30:26.229480+00:00",
+    "suite": {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--no-header"
+      ],
+      "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f",
+      "exit_code": 1,
+      "duration_s": 17.7,
+      "log": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\run_pytest_suite.log",
+      "log_sha256": "8172aa6f603dc94cec9b61defc6e865e0366bf3f225bcdca166bcd65cf697469"
+    },
+    "control_package_verify": {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "tools/check_control_package.py",
+        "--verify"
+      ],
+      "cwd": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\candidate-dc5428f",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\checker-scratch\\round-20261023-r12o2\\out\\run_control_package_verify.log",
+      "log_sha256": "9412db7842755f42845a02b6eb8ec9d87e52bdbe6fe192178c5a990bf1c7f12f"
+    }
+  },
+  "run_clone_staged": {
+    "schema": "HGK-SCRATCH-RUN/2",
+    "at_utc": "2026-10-22T17:38:03.851660+00:00",
+    "staged_method": "git clone --no-hardlinks + git checkout <frozen commit> (real .git, so git-dependent tests measure the subject, not the staging method)",
+    "frozen_commit": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+    "head_readback": "dc5428f23d15f0ec56cbc3d25b22f5381fce8771",
+    "tree_dirty_after_run": "",
+    "suite": {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--no-header"
+      ],
+      "cwd": "C:\\Projects\\Agent_Workspace\\_r12o2_checker_scratch\\round-20261023\\staged",
+      "exit_code": 0,
+      "duration_s": 312.7,
+      "log": "C:\\Projects\\Agent_Workspace\\_r12o2_checker_scratch\\round-20261023\\out\\run2_pytest_suite.log",
+      "log_sha256": "b07a283032a337f0b32b2eacc385eb97d853433778310f7963e2ee5a7f4d9dd0"
+    },
+    "control_package_verify": {
+      "argv": [
+        "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\.venv\\Scripts\\python.exe",
+        "tools/check_control_package.py",
+        "--verify"
+      ],
+      "cwd": "C:\\Projects\\Agent_Workspace\\_r12o2_checker_scratch\\round-20261023\\staged",
+      "exit_code": 0,
+      "duration_s": 0.2,
+      "log": "C:\\Projects\\Agent_Workspace\\_r12o2_checker_scratch\\round-20261023\\out\\run2_control_package_verify.log",
+      "log_sha256": "9412db7842755f42845a02b6eb8ec9d87e52bdbe6fe192178c5a990bf1c7f12f"
+    },
+    "subject_tree_unchanged_by_run": true
+  }
+}
