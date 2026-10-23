@@ -1256,6 +1256,32 @@
         "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
         "receipts/dispatch/EXECUTE__DEN-C14_narrow.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-CHALLENGE-BATCH2-WEAK",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T05:59:14Z",
+      "title": "four authored tests earn PARTIALLY_VERIFIED, not VERIFIED",
+      "fact": "DEN-C10: route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285); DEN-C13: defensive-copy test deepcopies the projection first, so alias-returning implementations pass; DEN-C14: simulates an absent target, not an interrupted restore or the commit/ack crash window; DEN-C15: empty holdout accepted -> disjointness is vacuous (KB DOC-13#727)",
+      "remedy": "repair each weakest assertion exactly as the challenge prescribes, then re-run VERIFY; do not promote on tests alone",
+      "owner_needed": false,
+      "evidence": [
+        "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json"
+      ]
+    },
+    {
+      "id": "TT-R15.3-PRODUCT-MISSING-RULES",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T05:59:14Z",
+      "title": "three product rules the KB requires but the code does not expose",
+      "fact": "(a) per-effect Native admission checks (KB R15_1#1400); (b) operation_id + readback/reconciliation for timeout and UNKNOWN/PARTIAL effects (KB R15_1#1418); (c) holdout frozen before candidate generation with independent checker-held truth (KB DOC-13#727, DOC-07#3379 independent_checker_ref)",
+      "remedy": "these are product gaps, not test gaps: each needs an implementation item before its check can be VERIFIED",
+      "owner_needed": true,
+      "evidence": [
+        "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json"
+      ]
     }
   ],
   "counts": {

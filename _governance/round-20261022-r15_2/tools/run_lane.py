@@ -31,7 +31,14 @@ def main() -> int:
     if not os.path.exists(brief):
         print(f"BRIEF_MISSING {brief}")
         return 2
-    m = json.load(open(MANDATE, encoding="utf-8"))["roles"][role]
+    roles = json.load(open(MANDATE, encoding="utf-8"))["roles"]
+    if role not in roles:
+        # the role key is not the lane name (VERIFY -> lane VERIFY_SECURITY); a bare KeyError reads like a broken
+        # lane when it is a typo, so say which keys exist
+        print("UNKNOWN_ROLE %r; mandate role keys: %s (lane names: %s)"
+              % (role, list(roles), [v.get("lane") for v in roles.values()]))
+        return 2
+    m = roles[role]
     nonce = (sys.argv[sys.argv.index("--nonce") + 1] if "--nonce" in sys.argv
              else f"{m['lane']}-R152-{time.strftime('%H%M%S')}-{abs(hash(brief)) % 9999:04d}")
     tmo = int(sys.argv[sys.argv.index("--timeout") + 1]) if "--timeout" in sys.argv else 560

@@ -787,16 +787,16 @@
     {
       "id": "DEN-C10",
       "owner_class": "AGENT",
-      "status": "DONE",
+      "status": "PARTIAL",
       "denominator_ref": "C10",
       "satisfiable_by": "AGENT",
-      "next_action": "none - authored and accepted; independent VERIFY still owed",
+      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
       "resume_cmd": "python _governance/round-20261022-r15_2/tools/run_lane.py --role EXECUTE --brief workers/codex_exec/DEN-C10.md --nonce DEN-C10-AUTHOR-4c2ffe91 --timeout 300",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "assert named-method routing returns the declared method id and a non-empty output for each of the five tool identities; a wrong id must raise a typed NoFit",
       "needs_test": true,
-      "phase": "ACCEPTED",
+      "phase": "REPAIR",
       "author_brief": "workers/codex_exec/DEN-C10.md",
       "expect_artefact": "tests/test_den_c10.py",
       "accept_cmd": "python -m pytest tests/test_den_c10.py -q",
@@ -819,8 +819,22 @@
       "lane_ok": true,
       "lane_nonce": true,
       "lane_model": "opencode-go/deepseek-v4.1-flash",
-      "claim_ceiling": "LOCALLY_VERIFIED__LANE_AUTHORED__TESTS_PASS__NO_INDEPENDENT_ACCEPTANCE",
-      "clobbered_by": "concurrent cron tick at 13:15:29 (read-modify-write); restored manually"
+      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "clobbered_by": "concurrent cron tick at 13:15:29 (read-modify-write); restored manually",
+      "verifier": {
+        "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
+        "lane": "VERIFY_SECURITY",
+        "model": "gpt-6.1-sol",
+        "rank": 2,
+        "ok": true,
+        "secs": 224.54,
+        "earns": "PARTIALLY_VERIFIED",
+        "findings": [
+          "route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285)"
+        ]
+      },
+      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285)",
+      "rearm_ok": true
     },
     {
       "id": "DEN-C13",
@@ -828,17 +842,17 @@
       "status": "PARTIAL",
       "denominator_ref": "C13",
       "satisfiable_by": "AGENT",
-      "next_action": "VERIFY lane re-run to convert PARTIAL to DONE with a nonce-bearing receipt",
+      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "narrow brief: name one surface file + 3-4 behaviours (shape proven by DEN-C10_narrow)",
-      "phase": "TEST",
+      "phase": "REPAIR",
       "author_brief": "workers/codex_exec/DEN-C13.md",
       "accept_cmd": "python -m pytest tests/test_den_c13.py -q",
       "timeout_s": 340,
       "attempts": 0,
       "lesson_ref": "DEN-C10_narrow",
-      "rearm_ok": false,
+      "rearm_ok": true,
       "artefact_sha256": "876ae128baabda4b1127169bde4b65d51778413b6a35587be1655654b48c0da6",
       "accept_result": {
         "rc": 0,
@@ -849,12 +863,26 @@
       "lane_receipt": "EXECUTE__DEN-C13_narrow.json",
       "lane_ok": false,
       "lane_nonce": false,
-      "partial_reason": "artefact authored and its 4 tests pass, but the lane receipt is NOT_GREEN because the model never echoed the nonce (nonce_present=false); a green receipt cannot be claimed",
+      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: defensive-copy test deepcopies the projection first, so alias-returning implementations pass",
       "evidence": [
         "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py"
       ],
-      "claim_ceiling": "ARTEFACT_PRESENT__TESTS_PASS__LANE_RECEIPT_NOT_GREEN__NO_INDEPENDENT_ACCEPTANCE"
+      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "verifier": {
+        "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
+        "lane": "VERIFY_SECURITY",
+        "model": "gpt-6.1-sol",
+        "rank": 2,
+        "ok": true,
+        "secs": 224.54,
+        "earns": "PARTIALLY_VERIFIED",
+        "findings": [
+          "defensive-copy test deepcopies the projection first, so alias-returning implementations pass",
+          "no per-effect Native checks (KB #1400: subject/path/risk/token/lease/policy)",
+          "module-level importorskip can turn coverage into a skip"
+        ]
+      }
     },
     {
       "id": "DEN-C14",
@@ -862,17 +890,17 @@
       "status": "PARTIAL",
       "denominator_ref": "C14",
       "satisfiable_by": "AGENT",
-      "next_action": "VERIFY lane re-run to convert PARTIAL to DONE with a nonce-bearing receipt",
+      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "narrow brief: name one surface file + 3-4 behaviours (shape proven by DEN-C10_narrow)",
-      "phase": "TEST",
+      "phase": "REPAIR",
       "author_brief": "workers/codex_exec/DEN-C14.md",
       "accept_cmd": "python -m pytest tests/test_den_c14.py -q",
       "timeout_s": 340,
       "attempts": 0,
       "lesson_ref": "DEN-C10_narrow",
-      "rearm_ok": false,
+      "rearm_ok": true,
       "artefact_sha256": "f0907f8fd0ac91a9b2fbfebbda9211fbc937c0611f93fdebe50c97e39bed4bc2",
       "accept_result": {
         "rc": 0,
@@ -883,31 +911,73 @@
       "lane_receipt": "EXECUTE__DEN-C14_narrow.json",
       "lane_ok": false,
       "lane_nonce": false,
-      "partial_reason": "artefact authored and its 4 tests pass, but the lane receipt is NOT_GREEN because the model never echoed the nonce (nonce_present=false); a green receipt cannot be claimed",
+      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: simulates an absent target, not an interrupted restore or the commit/ack crash window",
       "evidence": [
         "receipts/dispatch/EXECUTE__DEN-C14_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c14_checkpoint_resume_no_repeat_effect.py"
       ],
-      "claim_ceiling": "ARTEFACT_PRESENT__TESTS_PASS__LANE_RECEIPT_NOT_GREEN__NO_INDEPENDENT_ACCEPTANCE"
+      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "verifier": {
+        "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
+        "lane": "VERIFY_SECURITY",
+        "model": "gpt-6.1-sol",
+        "rank": 2,
+        "ok": true,
+        "secs": 224.54,
+        "earns": "PARTIALLY_VERIFIED",
+        "findings": [
+          "simulates an absent target, not an interrupted restore or the commit/ack crash window",
+          "no operation_id, no readback-after-timeout, no UNKNOWN/PARTIAL reconciliation (KB #1418)"
+        ]
+      }
     },
     {
       "id": "DEN-C15",
       "owner_class": "AGENT",
-      "status": "NEEDS_RECIPE",
+      "status": "PARTIAL",
       "denominator_ref": "C15",
       "satisfiable_by": "AGENT",
-      "next_action": "AUTHOR tests/test_den_c15.py via EXECUTE lane (brief workers/codex_exec/DEN-C15.md)",
+      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
-      "recipe_hint": "narrow brief: name one surface file + 3-4 behaviours (shape proven by DEN-C10_narrow)",
-      "needs_test": true,
-      "phase": "AUTHOR",
-      "author_brief": "workers/codex_exec/DEN-C15.md",
-      "expect_artefact": "tests/test_den_c15.py",
+      "phase": "REPAIR",
       "accept_cmd": "python -m pytest tests/test_den_c15.py -q",
       "timeout_s": 340,
       "attempts": 0,
-      "lesson_ref": "DEN-C10_narrow"
+      "artefact_sha256": "e2d6fd2bdf01d66b63d7eef3f33dcdbff71fb6d4416c81732ccd7b1bb0439dea",
+      "accept_result": {
+        "rc": 0,
+        "tail": [
+          "2 passed in 0.79s"
+        ]
+      },
+      "lane_receipt": "EXECUTE__DEN-C15_narrow2.json",
+      "lane_ok": true,
+      "lane_nonce": true,
+      "lane_model": "opencode-go/deepseek-v4.1-flash",
+      "lane_rank": 1,
+      "lane_seconds": 248.66,
+      "evidence": [
+        "receipts/dispatch/EXECUTE__DEN-C15_narrow2.json",
+        "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c15_evolution_holdout.py"
+      ],
+      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "verifier": {
+        "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
+        "lane": "VERIFY_SECURITY",
+        "model": "gpt-6.1-sol",
+        "rank": 2,
+        "ok": true,
+        "secs": 224.54,
+        "earns": "PARTIALLY_VERIFIED",
+        "findings": [
+          "empty holdout accepted -> disjointness is vacuous (KB DOC-13#727)",
+          "caller-supplied boolean and signature shape do not prove holdout isolation",
+          "no release-promotion boundary check (DOC-07#3379: independent_checker_ref non-empty)"
+        ]
+      },
+      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: empty holdout accepted -> disjointness is vacuous (KB DOC-13#727)",
+      "rearm_ok": true
     },
     {
       "id": "DEN-C19",
@@ -1450,11 +1520,11 @@
     }
   },
   "counts": {
-    "DONE": 34,
+    "DONE": 33,
     "PARKED": 2,
-    "PARTIAL": 5,
+    "PARTIAL": 7,
     "DONE_RECEIPT_RED": 1,
-    "NEEDS_RECIPE": 4,
+    "NEEDS_RECIPE": 3,
     "HOLD": 2,
     "EXPERIENCE_RUN_REQUIRED": 5
   },

@@ -6,8 +6,27 @@ declaration says that lane should be served by?
     python tools/check_lane_consistency.py
     python tools/check_lane_consistency.py --receipts-dir <dir> --declaration <file>
 
-Exit codes: 0 every checked receipt is CONSISTENT; 1 any VIOLATION or NOT_GREEN;
-2 usage/IO/parse error. Exactly one JSON object is printed on stdout.
+Exit codes: 0 every checked receipt is CONSISTENT or SUPERSEDED; 1 any VIOLATION or
+NOT_GREEN; 2 usage/IO/parse error. Exactly one JSON object is printed on stdout.
+
+Supersession (a rebind must not rewrite history)
+-----------------------------------------------
+A receipt's served arm is judged against the pool that was in force when the receipt
+ran, not only against today's pool. When the served arm is absent from the current
+pool AND the receipt predates the pool revision, the receipt is SUPERSEDED: the
+model/provider/rank predicates are reported as historical rather than as live
+faults, and `superseded_by` names the current rank-1 arm. A receipt that serves an
+arm absent from the pool but is dated at or after the pool revision is still a
+VIOLATION -- the rebind only excuses turns taken before it.
+
+Time comes from the receipt's own `generated_utc` (falling back to the receipt file
+mtime) and from the pool file mtime. `classify_arm()` is the pure predicate that
+makes this decision, so it is unit-testable with injected values.
+
+Claim ceiling: the rule compares an arm identity and two timestamps; it does not
+prove the served arm appeared in an earlier revision of the pool file. A receipt
+that served an arm that never existed in any revision but predates the pool is
+indistinguishable from a genuine pre-rebind turn by this rule alone.
 
 Declaration derivation (deliberately explicit, because this drives a pass/fail)
 -----------------------------------------------------------------------------
@@ -43,6 +62,7 @@ import hashlib
 import json
 import os
 import sys
+from datetime import datetime, timezone
 from typing import Any
 
 SCHEMA = "SBL-LANE-CONSISTENCY/1"
@@ -57,6 +77,12 @@ LANE_TOKENS = {
     "PLAN": ("plan_", "plan-", "plan"),
     "VERIFY_SECURITY": ("verify_security", "verify"),
 }
+
+# The three outcomes of the arm predicate. "SUPERSEDED" is not a fault: it says the
+# receipt was honest under a pool revision that has since been replaced.
+CONSISTENT = "CONSISTENT"
+SUPERSEDED = "SUPERSEDED"
+VIOLATION = "VIOLATION"
 
 
 class DeclarationUnusable(Exception):
