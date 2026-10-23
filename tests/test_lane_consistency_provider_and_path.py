@@ -23,6 +23,20 @@ from pathlib import Path
 CHECKER = Path(__file__).resolve().parents[1] / "_governance" / "round-20261022-r15_2" / "tools" / "check_lane_consistency.py"
 
 
+_PAIRS = {"minimax-m3.1-flash-free": {"opencode-go"}}
+
+
+def _with_declared_pairs(checker, pairs=None):
+    """Stand in for the retired-arm list itself, not for the caller's argument.
+
+    B13: the evidence is no longer injectable, so a test that wants a synthetic retired list must replace the loader.
+    That is also the honest shape - it exercises the same path production uses.
+    """
+    chosen = dict(pairs if pairs is not None else _PAIRS)
+    checker.load_prior_pairs_checked = lambda path=None: (chosen, None)
+    return checker
+
+
 def _checker():
     spec = importlib.util.spec_from_file_location("checker_provider_and_path", CHECKER)
     mod = importlib.util.module_from_spec(spec)
@@ -31,7 +45,7 @@ def _checker():
 
 
 def test_a_retired_model_does_not_authorise_an_undeclared_provider():
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     verdict, reason = checker.classify_arm_with_reason(
         "minimax-m3.1-flash-free",
         ["opencode-go/deepseek-v4.1-flash"],       # today's pool
@@ -40,14 +54,13 @@ def test_a_retired_model_does_not_authorise_an_undeclared_provider():
         ["minimax-m3.1-flash-free"],               # retired floor: the bare label the loader also emits
         None,
         served_provider="evil-provider",           # ... but the receipt names an invented provider
-        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
     )
     assert verdict == checker.VIOLATION
     assert reason == checker.REASON_PROVIDER_NOT_RETIRED
 
 
 def test_the_retired_pair_still_earns_the_excuse():
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     assert checker.classify_arm(
         "minimax-m3.1-flash-free",
         ["opencode-go/deepseek-v4.1-flash"],
@@ -55,7 +68,6 @@ def test_the_retired_pair_still_earns_the_excuse():
         "2026-10-20T00:00:00+00:00",
         ["minimax-m3.1-flash-free"],
         served_provider="opencode-go",
-        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
     ) == checker.SUPERSEDED
 
 
@@ -94,7 +106,7 @@ def test_evaluator_level_mtime_cannot_buy_supersession():
 def test_a_qualified_label_cannot_ride_a_retired_model_to_supersession():
     """B8, finding SUPERSESSION_LEAK still open at :647: a receipt naming the arm provider-qualified missed the
     bare-keyed pair map, so the provider was never checked. Both label forms must reach the same guard."""
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     for label in ("minimax-m3.1-flash-free", "opencode-go/minimax-m3.1-flash-free"):
         verdict, reason = checker.classify_arm_with_reason(
             label,
@@ -104,8 +116,7 @@ def test_a_qualified_label_cannot_ride_a_retired_model_to_supersession():
             ["minimax-m3.1-flash-free"],
             None,
             served_provider="evil-provider",
-            prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
-        )
+            )
         assert verdict == checker.VIOLATION, "label %r rode a retired model past the provider guard" % label
         # Which refusal fires depends on the label form, and both are refusals:
         #   bare model + provider=evil-provider          -> the provider never declared this model
@@ -154,7 +165,7 @@ def test_a_label_prefix_that_contradicts_the_provider_field_is_refused():
     The prefix is a provider statement. When the receipt carries both, they must agree; a disagreement is a forged
     identity, not an old arm.
     """
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     verdict, reason = checker.classify_arm_with_reason(
         "evil-provider/minimax-m3.1-flash-free",
         ["opencode-go/deepseek-v4.1-flash"],
@@ -163,7 +174,6 @@ def test_a_label_prefix_that_contradicts_the_provider_field_is_refused():
         ["minimax-m3.1-flash-free"],
         None,
         served_provider="opencode-go",
-        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
     )
     assert verdict == checker.VIOLATION
     assert reason == checker.REASON_ARM_LABEL_PROVIDER_CONFLICT
@@ -171,7 +181,7 @@ def test_a_label_prefix_that_contradicts_the_provider_field_is_refused():
 
 def test_a_qualified_label_with_no_provider_field_still_checks_the_pair():
     """The label alone may state the provider - and then it must still be a provider that declared the arm."""
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     assert checker.classify_arm_with_reason(
         "evil-provider/minimax-m3.1-flash-free",
         ["opencode-go/deepseek-v4.1-flash"],
@@ -180,7 +190,6 @@ def test_a_qualified_label_with_no_provider_field_still_checks_the_pair():
         ["minimax-m3.1-flash-free"],
         None,
         served_provider=None,
-        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
     ) == (checker.VIOLATION, checker.REASON_PROVIDER_NOT_RETIRED)
 
 
@@ -236,7 +245,7 @@ def test_secondary_identity_fields_must_agree_with_the_claim_not_with_each_other
 def test_the_provider_guard_is_on_by_default_not_only_when_a_caller_passes_evidence():
     """B12: omitting prior_pairs returned the weaker rule, so the PUBLIC classifier still excused an undeclared
     provider/model pair. The guard must load its own evidence, and refuse when it cannot."""
-    checker = _checker()
+    checker = _with_declared_pairs(_checker())
     verdict, reason = checker.classify_arm_with_reason(
         "minimax-m3.1-flash-free",
         ["opencode-go/deepseek-v4.1-flash"],

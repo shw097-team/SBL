@@ -610,6 +610,31 @@ def classify_arm_with_reason(
     prior_arms_by_revision: Any = None,
     allow_supersession: bool = True,
     served_provider: Any = None,
+) -> tuple[str, str | None]:
+    """Public rule. The retired-arm PAIR EVIDENCE is not a parameter any more.
+
+    B13 (2026-10-23): a caller could pass `prior_pairs={}` or `None` and the provider guard simply vanished - the seventh
+    shape of the same defect. Evidence that a security decision depends on must not be injectable by the caller: this
+    loads it from the declared list itself and refuses when the list cannot be read.
+    """
+    pairs, problem = load_prior_pairs_checked()
+    if problem:
+        return VIOLATION, REASON_POOL_TIME_NOT_AUTHORITATIVE
+    return _classify_impl(
+        served, pool_arms, receipt_time, pool_time, prior_arms, prior_arms_by_revision,
+        allow_supersession=allow_supersession, served_provider=served_provider, prior_pairs=pairs,
+    )
+
+
+def _classify_impl(
+    served: Any,
+    pool_arms: Any,
+    receipt_time: Any,
+    pool_time: Any,
+    prior_arms: Any = None,
+    prior_arms_by_revision: Any = None,
+    allow_supersession: bool = True,
+    served_provider: Any = None,
     prior_pairs: Any = _EVIDENCE_UNSET,
 ) -> tuple[str, str | None]:
     """Judge one served arm: returns (verdict, sub_reason).
@@ -707,7 +732,6 @@ def classify_arm(
     prior_arms_by_revision: Any = None,
     allow_supersession: bool = True,
     served_provider: Any = None,
-    prior_pairs: Any = _EVIDENCE_UNSET,
 ) -> str:
     """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
 
@@ -716,7 +740,7 @@ def classify_arm(
     """
     return classify_arm_with_reason(
         served, pool_arms, receipt_time, pool_time, prior_arms, prior_arms_by_revision,
-        allow_supersession=allow_supersession, served_provider=served_provider, prior_pairs=prior_pairs,
+        allow_supersession=allow_supersession, served_provider=served_provider,
     )[0]
 
 
@@ -875,7 +899,7 @@ def _evaluate_receipt(
                 usage_ok = isinstance(usage, str) and billed == moved and _agrees
                 usage_note = (f"usage_model={usage!r} vs transport_model={transport!r} "
                               f"vs claimed model={served!r} (all three must name the same arm)")
-            arm_state, arm_reason = classify_arm_with_reason(
+            arm_state, arm_reason = _classify_impl(
                 served, pool_arms, receipt_time, pool_time, prior_arms,
                 prior_arms_by_revision,
                 allow_supersession=allow_supersession,
@@ -941,7 +965,7 @@ def _evaluate_receipt(
             want_provider = arm["provider"]
             call_ok = _provider_ok(attempt.get("provider"), want_provider)
             bill_ok = _provider_ok(attempt.get("usage_provider"), want_provider)
-            provider_state, provider_reason = classify_arm_with_reason(
+            provider_state, provider_reason = _classify_impl(
                 attempt.get("model"), pool_arms, receipt_time, pool_time, prior_arms,
                 allow_supersession=allow_supersession,
                 served_provider=attempt.get("provider"),
