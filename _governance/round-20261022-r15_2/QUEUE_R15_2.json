@@ -545,7 +545,7 @@
       "status": "DONE",
       "denominator_ref": "R15.2 §7.1 / owner question set",
       "required_lane": "PLAN",
-      "satisfiable_by": "PLAN lane (rank 2, openai-codex/gpt-6.1-sol)",
+      "satisfiable_by": "AGENT",
       "next_action": "53-row FAR adjudication produced and corrected after challenge pass 1 (24 over-classed rows) and pass 2 (2 print-only rows)",
       "resume_cmd": "python -c \"import json;d=json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/FAR_DECISIONS_R15_3.json',encoding='utf-8'));print(len(d['rows']))\"",
       "expect": "53",
@@ -553,7 +553,8 @@
         "FAR_DECISIONS_R15_3.json",
         "receipts/dispatch/PLAN__FAR_R15_3_JSON.json"
       ],
-      "lane_receipt_file": "receipts/dispatch/PLAN__FAR_R15_3_JSON.json"
+      "lane_receipt_file": "receipts/dispatch/PLAN__FAR_R15_3_JSON.json",
+      "satisfiable_note": "PLAN lane (rank 2, openai-codex/gpt-6.1-sol)"
     },
     {
       "id": "Q9.openspec_delta_C11",
@@ -561,14 +562,15 @@
       "status": "DONE",
       "denominator_ref": "C11 / W10",
       "required_lane": "EXECUTE",
-      "satisfiable_by": "EXECUTE lane + orchestrator repair",
+      "satisfiable_by": "AGENT",
       "next_action": "delta written for far-r12-20261021, two unsupported clauses removed after challenge pass 1; strict validate 3/0",
       "resume_cmd": "cd /c/Projects/Agent_Workspace/_r152_ev && openspec validate --all --strict",
       "expect": "3 passed, 0 failed",
       "evidence": [
         "openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md"
       ],
-      "lane_receipt_file": "receipts/dispatch/EXECUTE__R153_WRITES.json"
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__R153_WRITES.json",
+      "satisfiable_note": "EXECUTE lane + orchestrator repair"
     },
     {
       "id": "Q10.policy_designation_C02",
@@ -576,7 +578,7 @@
       "status": "DONE",
       "denominator_ref": "C02 / W02",
       "required_lane": "AGENT",
-      "satisfiable_by": "owner standing order 2026-10-23",
+      "satisfiable_by": "OWNER",
       "next_action": "HG-KSEOS/config/active-policy.json binds the declaration digest; front door refuses absent/mismatched/stale designations (7 tests + live REFUSE/BOUND)",
       "resume_cmd": "cd /c/Projects/Agent_Workspace/HG-KSEOS && uv run --python 3.12 --with pytest --with aiohttp pytest -q tests/test_frontdoor_active_policy.py",
       "expect": "7 passed",
@@ -584,7 +586,8 @@
         "HG-KSEOS/config/active-policy.json",
         "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py"
       ],
-      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator"
+      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator",
+      "satisfiable_note": "owner standing order 2026-10-23"
     },
     {
       "id": "Q11.tool_lifecycle_C20",
@@ -592,13 +595,14 @@
       "status": "PARTIAL",
       "denominator_ref": "C20 / W13",
       "required_lane": "orchestrator measurement",
-      "satisfiable_by": "local only; host half needs ChatGPT private host ids",
+      "satisfiable_by": "HOST",
       "next_action": "local half measured: 9 verbs with real exit codes, 2 refusals, root removed; 3 ZIPs byte-identical across two builds. Host half HOST_PENDING",
       "resume_cmd": "python C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/q5_lifecycle_probe/probe.py",
       "expect": "PASS",
       "evidence": [
         "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json"
-      ]
+      ],
+      "satisfiable_note": "local only; host half needs ChatGPT private host ids"
     },
     {
       "id": "Q12.ci_supply_chain_C22",
@@ -606,14 +610,15 @@
       "status": "PARTIAL",
       "denominator_ref": "C22 / W15",
       "required_lane": "EXECUTE + orchestrator repair",
-      "satisfiable_by": "agent",
+      "satisfiable_by": "AGENT",
       "next_action": "actions pinned to real commits, scoped secret-scan hard gate with 3 tests, SBOM inventory step; the advisory step was removed because it violated tests/test_ci_contract.py; no hosted CI run, no provenance attestation",
       "resume_cmd": "cd /c/Projects/Agent_Workspace/_r152_ev && uv run --python 3.11 --with pytest pytest -q tests/test_ci_contract.py tests/test_secret_scan_exclude.py",
       "expect": "8 passed",
       "evidence": [
         ".github/workflows/ci.yml",
         "tests/test_secret_scan_exclude.py"
-      ]
+      ],
+      "satisfiable_note": "agent"
     },
     {
       "id": "Q13.bench_disposition_W16",
@@ -621,14 +626,15 @@
       "status": "DONE",
       "denominator_ref": "C23 / W16",
       "required_lane": "AGENT",
-      "satisfiable_by": "owner standing order 2026-10-23",
+      "satisfiable_by": "OWNER",
       "next_action": "ACCEPT_AS_CEILING recorded: no benefit demonstrable, B0 NOT_COMPARABLE; binds BENCH_AND_TOOLS_R15_2.json digest",
       "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/BENCH_DISPOSITION_R15_3.json',encoding='utf-8'))['evidence_digest'])\"",
       "expect": "a sha256",
       "evidence": [
         "BENCH_DISPOSITION_R15_3.json"
       ],
-      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator"
+      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator",
+      "satisfiable_note": "owner standing order 2026-10-23"
     },
     {
       "id": "Q14.challenge_pass1",
@@ -636,7 +642,7 @@
       "status": "DONE_RECEIPT_RED",
       "denominator_ref": "C05 / W04",
       "required_lane": "VERIFY_SECURITY",
-      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol) — a different model than EXECUTE",
+      "satisfiable_by": "AGENT",
       "next_action": "returned FAIL with 7 findings; 5 repaired, 2 carried (evidence count instability, credential-posture warning)",
       "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/verify_r153/CHALLENGE_PASS1.json',encoding='utf-8'))['verdict'])\"",
       "expect": "FAIL",
@@ -644,7 +650,8 @@
         "workers/verify_r153/CHALLENGE_PASS1.json"
       ],
       "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153.json",
-      "note": "the challenge ran and returned FAIL, but its receipt is ok=false because the model put the nonce in an agent_message the parser did not read as its own line (nonce_present_raw_stdout=true). The item is complete; the lane evidence is red. It is not marked DONE because a DONE item asserts green lane evidence and this one does not have it."
+      "note": "the challenge ran and returned FAIL, but its receipt is ok=false because the model put the nonce in an agent_message the parser did not read as its own line (nonce_present_raw_stdout=true). The item is complete; the lane evidence is red. It is not marked DONE because a DONE item asserts green lane evidence and this one does not have it.",
+      "satisfiable_note": "VERIFY lane (rank 2, gpt-6.1-sol) — a different model than EXECUTE"
     },
     {
       "id": "Q15.challenge_pass2",
@@ -652,14 +659,15 @@
       "status": "DONE",
       "denominator_ref": "C05 / W04",
       "required_lane": "VERIFY_SECURITY",
-      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol)",
+      "satisfiable_by": "AGENT",
       "next_action": "returned FAIL: R1/R2/R4 PASS, R3 FAIL (count mismatch + print-only classes), R5 PARTIAL (count instability); R3/R5 repaired, not re-reviewed",
       "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/verify_r153/CHALLENGE_PASS2.json',encoding='utf-8'))['verdict'])\"",
       "expect": "FAIL",
       "evidence": [
         "workers/verify_r153/CHALLENGE_PASS2.json"
       ],
-      "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_PASS2.json"
+      "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_PASS2.json",
+      "satisfiable_note": "VERIFY lane (rank 2, gpt-6.1-sol)"
     },
     {
       "id": "Q16.kind_lifecycle_C17",
@@ -667,12 +675,13 @@
       "status": "DONE",
       "denominator_ref": "C17 / W06",
       "required_lane": "EXECUTE",
-      "satisfiable_by": "EXECUTE lane (rank 1, deepseek-v4.1-flash) + orchestrator run",
+      "satisfiable_by": "AGENT",
       "next_action": "three kinds with a real lifecycle: CLI_TOOL prepare/apply + writeset refusals, AGENT_SKILL discover/match/load/invoke/unload + provider-off refusal, SIMPLE_AGENT typed NoFit; 6 tests green",
       "lane_receipt_file": "receipts/dispatch/EXECUTE__BRIEF_R153_C17.json",
       "note": "the lane's 350s budget expired before it wrote its receipt (receipt ok=false), but it had already written the test file; the run and the sha256 are recorded in workers/execute_r153/ORCH_VERIFY_C17.json",
       "resume_cmd": "uv run --python 3.11 --with pytest pytest -q tests/test_c17_three_kind_lifecycle.py",
-      "expect": "6 passed"
+      "expect": "6 passed",
+      "satisfiable_note": "EXECUTE lane (rank 1, deepseek-v4.1-flash) + orchestrator run"
     },
     {
       "id": "Q17.native_issuance_C04",
@@ -680,12 +689,13 @@
       "status": "PARTIAL",
       "denominator_ref": "C04 / W01",
       "required_lane": "AGENT",
-      "satisfiable_by": "owner authorised the native issuer; the orchestrator drove it",
+      "satisfiable_by": "AGENT",
       "next_action": "real WorkOrder issued by the Shared Spine, one bounded effect consumed once, replay and expiry refused, readback recorded; residual: execute the workorder to VERIFIED, find or add a revoke path, prove foreign-scope refusal at the effect layer",
       "evidence": [
         "workers/c04_native/C04_EVIDENCE.json"
       ],
-      "note": "three earlier drive attempts left project rows SBL-C04-R153-EFFECT, -68D559 and -876B6A in the spine while the driver was being fixed; they are left in place as audit trail, not deleted"
+      "note": "three earlier drive attempts left project rows SBL-C04-R153-EFFECT, -68D559 and -876B6A in the spine while the driver was being fixed; they are left in place as audit trail, not deleted",
+      "satisfiable_note": "owner authorised the native issuer; the orchestrator drove it"
     }
   ],
   "runs": [
@@ -913,6 +923,24 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-23T03:12:29Z",
+      "steps": 0,
+      "done": 30,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T03:21:35Z",
+      "steps": 0,
+      "done": 30,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -935,5 +963,15 @@
     "DONE_RECEIPT_RED": 1
   },
   "updated_at": "2026-10-23T02:28:05+00:00",
-  "contention_note": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching. Authorised and normal; the round re-probed the arms instead of treating it as a fault (TT-R15.3-AUTHORISED-CONCURRENT-REBIND)."
+  "contention_note": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching. Authorised and normal; the round re-probed the arms instead of treating it as a fault (TT-R15.3-AUTHORISED-CONCURRENT-REBIND).",
+  "satisfiability_enum": {
+    "schema": "SBL_SATISFIABILITY/1",
+    "values": [
+      "AGENT",
+      "EXTERNAL_AO",
+      "HOST",
+      "OWNER"
+    ],
+    "why": "the guard accepts only these four values; a prose value silently became SATISFIABILITY_UNKNOWN, so ten items could never clear the guard. Prose is preserved in satisfiable_note."
+  }
 }

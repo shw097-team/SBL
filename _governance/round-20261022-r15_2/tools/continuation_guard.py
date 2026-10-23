@@ -77,11 +77,24 @@ def main() -> int:
     json.dump(q, open(QUEUE, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
     open(QUEUE, "a", encoding="utf-8", newline="\n").write("\n")
 
+    # Three claims, deliberately never merged. A guard that can only say TERMINAL/NOT_TERMINAL forces the agent to
+    # choose between "keep going forever" and "call an exhausted queue complete"; both are wrong.
+    agent_open = [i["id"] for i in q["items"]
+                  if i.get("satisfiable_by") == "AGENT" and i["status"] not in ("DONE", "DONE_RECEIPT_RED")]
+    claims = {"queue_exhausted": not blockers,
+              "agent_scope_closed": not agent_open,
+              "full_completion": False,
+              "agent_open_ids": agent_open,
+              "note": ("queue_exhausted means no AGENT-actionable item remains; agent_scope_closed means every "
+                       "AGENT-satisfiable item is DONE; full_completion needs the external signatures and the checker "
+                       "authority, so it is false by construction here")}
     if blockers:
-        print(json.dumps({"verdict": "NOT_TERMINAL", "blockers": blockers}, ensure_ascii=False, indent=2))
+        print(json.dumps({"verdict": "NOT_TERMINAL", "claim_level": claims, "blockers": blockers},
+                         ensure_ascii=False, indent=2))
         return 2
 
     proof = {"schema": "SBL_QUEUE_EXHAUSTION_PROOF/1",
+             "claim_level": claims,
              "is_completion_claim": False,
              "r15_2_complete": False,
              "all_open_items_are_issued_requests": True,

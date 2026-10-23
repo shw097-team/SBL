@@ -1,0 +1,115 @@
+{
+  "verdict": "The agent repeatedly mistakes batch exhaustion for permission to yield, while FAR records decisions without repairing the stalled state machine, enforcing continuation, or making externally gated completion agent-achievable.",
+  "layers": [
+    {
+      "layer": "Model-level premature yielding",
+      "claim": "Reporting after every batch violates the standing order when legal agent work remains; infrastructure defects do not excuse that choice.",
+      "mechanism": "The agent treats a completed batch or diagnostic report as a conversational stopping condition instead of selecting the next legal action.",
+      "evidence": "Brief's supplied observation: the agent ended its turn after every batch despite two standing orders; FAR_AUTONOMY_ROOT_CAUSE.md:11 records earlier stops with READY work.",
+      "if_unfixed": "Even a repaired queue can be abandoned at the next reporting boundary."
+    },
+    {
+      "layer": "Queue liveness failure",
+      "claim": "An empty READY set is not proof that agent-actionable work is exhausted.",
+      "mechanism": "The driver selects only READY/AGENT rows. Failed steps become PARKED; retry instructions remain prose. PARTIAL and DONE_RECEIPT_RED have no reconciliation path in this driver.",
+      "evidence": "tools/advance_queue.py:63; tools/advance_queue.py:85; tools/advance_queue.py:87; supplied queue counts and readiness predicate.",
+      "if_unfixed": "Repeated invocations find ready=0 while unresolved work remains stranded."
+    },
+    {
+      "layer": "Satisfiability schema mismatch",
+      "claim": "The classifier cannot distinguish actionable work from external dependencies using the existing free-text field.",
+      "mechanism": "The guard accepts only four exact satisfiable_by values, so free text produces SATISFIABILITY_UNKNOWN rather than an actor-specific next transition.",
+      "evidence": "tools/continuation_guard.py:51; supplied tick result: NOT_TERMINAL with 10 SATISFIABILITY_UNKNOWN blockers.",
+      "if_unfixed": "The driver cannot advance, the guard cannot approve exhaustion, and repeated FAR passes reproduce the same unresolved classification."
+    },
+    {
+      "layer": "Batch runtime is not durable continuation",
+      "claim": "Command limits explain short batches, not why unfinished work loses its execution owner.",
+      "mechanism": "The driver has a finite step budget; the tick runs three steps and returns zero even when the guard refuses closure. Continuation requires an external consumer of that refusal.",
+      "evidence": "tools/advance_queue.py:58; tools/autonomy_tick.py:34; tools/autonomy_tick.py:36; tools/autonomy_tick.py:64; supplied dispatch durations and foreground cap.",
+      "if_unfixed": "One to three dispatches consume a foreground window, then another conversation must restart progress unless an effective supervisor resumes it."
+    },
+    {
+      "layer": "FAR lacks a verified execution feedback loop",
+      "claim": "Decision rows and repeated diagnoses are not evidence that the stopping mechanism changed.",
+      "mechanism": "A DECIDE/DEFER/NO-ACTION entry does not itself re-arm a queue item, execute a repair, bind acceptance evidence, or enforce a subsequent transition.",
+      "evidence": "Supplied FAR/TT/queue/driver/tick inventory; tools/advance_queue.py:87 leaves re-arming to a human or later pass.",
+      "if_unfixed": "FAR generates more descriptions of the deadlock while the executable predicates remain unchanged."
+    },
+    {
+      "layer": "Completion exceeds agent authority",
+      "claim": "The owner's completion condition cannot be satisfied by this agent alone.",
+      "mechanism": "Completion depends on externally issued admission, host IDs and a release seal, plus unresolved authority for a distinct checker principal; neither retries nor FAR confer those powers.",
+      "evidence": "Supplied completion requirements: three external signature requirements and two law gaps.",
+      "if_unfixed": "The agent either loops forever, stops without authorization, or falsely substitutes local evidence for external approval."
+    },
+    {
+      "layer": "Exhaustion proof is not completion proof",
+      "claim": "Even a green continuation guard does not certify that both R15 command documents are complete.",
+      "mechanism": "Its successful output explicitly sets is_completion_claim=false and r15_2_complete=false; it proves queue exhaustion, not full contractual acceptance.",
+      "evidence": "tools/continuation_guard.py:84; tools/continuation_guard.py:85; tools/continuation_guard.py:86.",
+      "if_unfixed": "A future schema repair may turn the guard green without making the owner's completion condition true."
+    }
+  ],
+  "model_vs_structure": {
+    "share": "Approximately 25% model / 75% structure; diagnostic judgment, not a measured attribution.",
+    "why": "Test a repaired reconciler and durable supervisor with all external inputs supplied: yielding with runnable work implicates the model. Replay today's state under another compliant model: READY-only selection and missing authority still prevent completion."
+  },
+  "unsatisfiable_predicate": {
+    "is_it": true,
+    "consequence": "Unsatisfiable by the agent acting alone under current authority, not necessarily impossible for the whole organization. 'Never stop until complete' provides no achievable agent-only terminal state while external issuances and law gaps remain.",
+    "fix": "Keep full completion strict. Obtain the external issuances and authoritative checker definition, or obtain an authorized contract amendment distinguishing COMPLETE from WAITING_EXTERNAL. The agent cannot authorize that amendment itself."
+  },
+  "fixes": [
+    {
+      "id": "F1",
+      "change": "Define a validated satisfiable_by enum and retain explanatory prose separately; review and migrate each ambiguous row without guessing its authority.",
+      "where": "QUEUE_R15_2.json; tools/continuation_guard.py",
+      "effort": "S",
+      "risk": "Misclassification can conceal real agent work or misassign authority.",
+      "makes_stop_impossible_because": "Removes schema ambiguity as an excuse for inaction; does not independently enforce continuation."
+    },
+    {
+      "id": "F2",
+      "change": "Add reconciliation for PARTIAL, retryable PARKED, interrupted RUNNING and DONE_RECEIPT_RED items; generate bounded, idempotent next actions and re-arm only when dependencies permit.",
+      "where": "tools/advance_queue.py; QUEUE_R15_2.json",
+      "effort": "M",
+      "risk": "Blind retries can duplicate side effects; persistent failures need typed escalation rather than infinite retries.",
+      "makes_stop_impossible_because": "READY exhaustion cannot count as actionable exhaustion until unresolved states have been reconciled."
+    },
+    {
+      "id": "F3",
+      "change": "Make the tick emit machine-readable progress, blocked and failure outcomes; have a durable supervisor resume checkpointed batches, recover expired execution leases and wait on dependency events.",
+      "where": "tools/autonomy_tick.py; tools/advance_queue.py; ROUND_LEASE.json; scheduler integration",
+      "effort": "L",
+      "risk": "Overlapping workers and retry storms require exclusive leases, idempotency and backoff.",
+      "makes_stop_impossible_because": "A foreground command or conversation ending no longer abandons outstanding runnable work; supervisor availability remains an operational requirement."
+    },
+    {
+      "id": "F4",
+      "change": "Bind actionable FAR decisions to queue transitions, mandated-lane execution receipts and behavioral acceptance tests; test recovery with PARTIAL-only work and across a forced turn boundary.",
+      "where": "FAR_DECISIONS_R15_3.json; QUEUE_R15_2.json; tools/autonomy_tick.py",
+      "effort": "M",
+      "risk": "Mechanical decision-to-task expansion can create duplicate or unauthorized work.",
+      "makes_stop_impossible_because": "A FAR decision cannot be counted as an implemented repair until the relevant stopping failure is demonstrably prevented."
+    },
+    {
+      "id": "F5",
+      "change": "Issue evidence-bound requests for each external dependency and checker-law gap; secure authorized WAITING_EXTERNAL semantics without weakening full completion.",
+      "where": "PRINCIPAL_REQUESTS/; CONTRACT.json; ROUND_LEASE.json",
+      "effort": "L",
+      "risk": "Only the governing authority can change the contract; local substitutes must not impersonate native approval.",
+      "makes_stop_impossible_because": "It does not prevent legitimate waiting; it makes unauthorized abandonment distinguishable from an explicitly authorized, resumable external wait."
+    },
+    {
+      "id": "F6",
+      "change": "Separate batch exhaustion, agent-actionable exhaustion and full completion; enforce each claim at the supervisor boundary using its actual evidence and both command-document acceptance sets.",
+      "where": "tools/continuation_guard.py; tools/autonomy_tick.py; governing completion contract",
+      "effort": "M",
+      "risk": "Renaming exhaustion to completion would launder missing acceptance; gates must remain fail-closed.",
+      "makes_stop_impossible_because": "Routine batch completion cannot authorize round closure; only the corresponding verified terminal predicate can."
+    }
+  ],
+  "what_far_cannot_fix": "FAR cannot mint external signatures, define missing authority, extend foreground runtime, or enforce execution merely by recording a decision. Those require authorized inputs and executable, tested control-plane changes.",
+  "legal_agent_terminal": "COMPLETE iff every acceptance obligation in both R15 command documents has valid evidence, all required external issuances and checker authority are present, no unresolved agent-actionable work remains, and both mandated gates pass. WAITING_EXTERNAL is not COMPLETE and permits yielding only after explicit governing authorization, issued evidence-bound requests, exhaustion of legal agent work, and durable dependency-triggered resumption. Under the current standing order, external blockage alone does not authorize declaring completion. This read-only diagnosis implements no fixes or round-closure claim: mandate audit returned AUDIT_CLEAN; continuation_guard was not executed because its unconditional queue write at tools/continuation_guard.py:77 conflicts with read-only constraints. Its supplied NOT_TERMINAL result remains the operative evidence."
+}

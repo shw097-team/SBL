@@ -15,6 +15,9 @@ import time
 
 R = r"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2"
 Q = os.path.join(R, "QUEUE_R15_2.json")
+# A step that fails is worth exactly one automatic re-arm; beyond that the failure is a diagnosis, not a retry.
+ATTEMPT_CAP = 3
+REARMABLE = ("STEP_FAILED",)
 LOG = os.path.join(R, "receipts", "queue_runner.log")
 WORKTREE = r"C:/Projects/Agent_Workspace/_r152_ev"
 
@@ -60,7 +63,18 @@ def main() -> int:
     steps = 0
     log(f"=== advance_queue start {time.strftime('%FT%T')} max_steps={max_steps} ===")
     while steps < max_steps:
-        ready = [i for i in q["items"] if i["status"] == "READY" and i["owner_class"] == "AGENT"]
+        # A READY-only predicate starved this queue: 3 PARTIAL and 1 DONE_RECEIPT_RED item were invisible to the
+        # driver forever, and a failed step became PARKED with a prose retry hint nobody read. Selection now also
+        # re-arms unfinished agent work, bounded by an attempt cap so a broken item cannot spin.
+        ready = [
+            i for i in q["items"]
+            if i["owner_class"] == "AGENT"
+            and i.get("satisfiable_by", "AGENT") == "AGENT"
+            and int(i.get("attempts", 0)) < ATTEMPT_CAP
+            and (i["status"] == "READY"
+                 or (i.get("rearm_ok") is True
+                     and i["status"] in ("PARTIAL", "PARKED", "DONE_RECEIPT_RED")))
+        ]
         if not ready:
             log("no AGENT item is READY — stopping (not a failure stop)")
             break
