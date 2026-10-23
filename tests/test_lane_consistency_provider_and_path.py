@@ -231,3 +231,21 @@ def test_secondary_identity_fields_must_agree_with_the_claim_not_with_each_other
     assert out.get("verdict") == checker.VIOLATION, (
         "a self-consistent pair of secondary fields must not pass the receipt")
     assert "claimed model" in blob, "the note must show the comparison that failed"
+
+
+def test_the_provider_guard_is_on_by_default_not_only_when_a_caller_passes_evidence():
+    """B12: omitting prior_pairs returned the weaker rule, so the PUBLIC classifier still excused an undeclared
+    provider/model pair. The guard must load its own evidence, and refuse when it cannot."""
+    checker = _checker()
+    verdict, reason = checker.classify_arm_with_reason(
+        "minimax-m3.1-flash-free",
+        ["opencode-go/deepseek-v4.1-flash"],
+        "2026-10-19T10:00:00+00:00",
+        "2026-10-20T00:00:00+00:00",
+        ["minimax-m3.1-flash-free"],
+        None,
+        served_provider="evil-provider",
+        # prior_pairs deliberately omitted: the default must not be "no check"
+    )
+    assert verdict == checker.VIOLATION
+    assert reason == checker.REASON_PROVIDER_NOT_RETIRED

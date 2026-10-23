@@ -160,6 +160,11 @@ REASON_POOL_TIME_NOT_AUTHORITATIVE = "POOL_TIME_NOT_AUTHORITATIVE"
 REASON_PROVIDER_NOT_RETIRED = "PROVIDER_NOT_RETIRED"
 REASON_ARM_LABEL_PROVIDER_CONFLICT = "ARM_LABEL_PROVIDER_CONFLICT"
 
+# B12 (2026-10-23): the provider guard was OPT-IN. A caller that omitted `prior_pairs` got the old, weaker rule, so
+# the public classifier still excused an undeclared provider/model pair. A guard that must be switched on is not a
+# guard: the default is now "load the evidence myself, and refuse if it cannot be loaded".
+_EVIDENCE_UNSET = object()
+
 # Recorded whenever no `prior_arms_by_revision` mapping could pin the membership.
 REVISION_MEMBERSHIP_UNAVAILABLE = "UNAVAILABLE"
 
@@ -605,7 +610,7 @@ def classify_arm_with_reason(
     prior_arms_by_revision: Any = None,
     allow_supersession: bool = True,
     served_provider: Any = None,
-    prior_pairs: Any = None,
+    prior_pairs: Any = _EVIDENCE_UNSET,
 ) -> tuple[str, str | None]:
     """Judge one served arm: returns (verdict, sub_reason).
 
@@ -634,6 +639,12 @@ def classify_arm_with_reason(
     The verdict stays one of CONSISTENT / SUPERSEDED / VIOLATION; the reason is a
     sub-reason of VIOLATION, never a fourth verdict.
     """
+    if prior_pairs is _EVIDENCE_UNSET:
+        prior_pairs, _pair_problem = load_prior_pairs_checked()
+        if _pair_problem:
+            # Cannot check the provider half of the identity -> nobody gets an excuse.
+            allow_supersession = False
+            prior_pairs = {}
     served_key = _normalise_arm(served)
     # A receipt may record the arm provider-qualified ("opencode-go/minimax-...") or bare. Measured 2026-10-23 (checker
     # finding, qualified label): keying the retired-pair map by the bare model meant the qualified form missed it and an
@@ -696,7 +707,7 @@ def classify_arm(
     prior_arms_by_revision: Any = None,
     allow_supersession: bool = True,
     served_provider: Any = None,
-    prior_pairs: Any = None,
+    prior_pairs: Any = _EVIDENCE_UNSET,
 ) -> str:
     """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
 
