@@ -96,7 +96,7 @@ def main() -> int:
     if extra:
         for arg in extra.split("|"):
             if arg.strip():
-                cmd += ["--codex-arg", arg.strip()]
+                cmd += ["--codex-arg=%s" % arg.strip()]
     env = dict(os.environ, PYTHONPATH="src")
     p = subprocess.run(cmd, cwd=HGK, capture_output=True, text=True, timeout=tmo + 90, env=env)
     tail = ((p.stdout or "") + (p.stderr or "")).strip().splitlines()[-2:]
