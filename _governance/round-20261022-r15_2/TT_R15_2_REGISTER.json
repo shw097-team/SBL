@@ -1393,6 +1393,20 @@
       "fact": "B3C: it first asserts the existence of resolve_permission or resolve_scope on lane_policy",
       "remedy": "exercise the real admission path, or record that no product resolver exists and stop claiming the check",
       "owner_needed": true
+    },
+    {
+      "id": "TT-R15.3-UPSTREAM-CREDENTIAL-401",
+      "severity": "BLOCKER",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T07:07:24Z",
+      "title": "the shared relay rejects every credential on disk",
+      "fact": "401 Invalid credential via 10101 and via the 10100 front door with both OPENCODEGO keys; ws 426/403 fixed separately",
+      "owner_needed": true,
+      "remedy": "the session that owns model supply must restore or rotate the provider credential; lane_watch.py then drains the queue",
+      "evidence": [
+        "TRANSPORT_BLOCKER_R153.json",
+        "receipts/lane_watch.json"
+      ]
     }
   ],
   "counts": {

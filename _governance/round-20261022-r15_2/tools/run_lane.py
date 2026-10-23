@@ -83,6 +83,20 @@ def main() -> int:
            "--nonce", nonce, "--require-arm", m["provider_model"], "--force-rank", str(m["required_rank"]),
            "--pool", "config/lane-route-slots.candidate.json", "--cwd", R, "--timeout", str(tmo),
            "--json-out", out]
+    # The relay base is not always the shared 10101 relay: when the sealed front door is the sanctioned transport
+    # (HGK_LANE_RELAY_BASE=http://127.0.0.1:10100) the lane must be told, otherwise it connects to 10101 and dies on
+    # 426/401 as measured on 2026-10-23.
+    relay_base = os.environ.get("HGK_LANE_RELAY_BASE")
+    if relay_base:
+        cmd += ["--relay-base", relay_base]
+    # codex 0.163-alpha.11 negotiates the responses transport over websocket first; the local relay answers
+    # 426 Upgrade Required and the front door answers 403 on ws://. Measured 2026-10-23. One -c override removes it:
+    #   HGK_LANE_CODEX_ARGS='-c|features.responses_websocket=false'
+    extra = os.environ.get("HGK_LANE_CODEX_ARGS")
+    if extra:
+        for arg in extra.split("|"):
+            if arg.strip():
+                cmd += ["--codex-arg", arg.strip()]
     env = dict(os.environ, PYTHONPATH="src")
     p = subprocess.run(cmd, cwd=HGK, capture_output=True, text=True, timeout=tmo + 90, env=env)
     tail = ((p.stdout or "") + (p.stderr or "")).strip().splitlines()[-2:]

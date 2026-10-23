@@ -25,9 +25,34 @@ receipt -- is NOT history. It is a VIOLATION carrying the sub-reason
 `UNAUTHORIZED_ARM`, however old its receipt claims to be. The same holds for an
 unknown timestamp: a missing time cannot prove the receipt came first.
 
-Time comes from the receipt's own `generated_utc` (falling back to the receipt file
-mtime) and from the pool file mtime. `classify_arm()` is the pure predicate that
-makes this decision, so it is unit-testable with injected values.
+Time policy (a checker must not invent time)
+--------------------------------------------
+Each clock has exactly one admissible source, and every result names it:
+
+* Receipt time, from the receipt body only: `generated_utc`, then
+  `generated_at` / `at_utc` / `generated` / `created_utc` / `timestamp` /
+  `useconds` (an epoch number is accepted when it is plausibly a timestamp). The
+  receipt FILE's mtime is never substituted: an old file would otherwise buy a
+  SUPERSEDED with no timestamp in the receipt at all. No parsable field means
+  UNKNOWN, and UNKNOWN never buys SUPERSEDED (`receipt_time_source` records the
+  field, or is null).
+* Pool effective time, from the pool's own revision record: a top-level
+  `effective_at`, else the `history[]` entry whose `revision`/`rev` matches the
+  declaration's current `revision` (`at_utc` / `at` / `effective_at`). The
+  declaration file's mtime is a last resort and is labelled
+  `pool_time_source: "file_mtime"`; when that label is in force every SUPERSEDED
+  verdict carries `superseded_confidence: "LOW"`, so the weakness is visible
+  rather than flattering the result.
+* Revision membership: an optional `prior_arms_by_revision` mapping
+  (`{revision: [arms]}` or `{revision: {"arms": [...], "at_utc": ...}}`) lets a
+  SUPERSEDED verdict require that the arm was declared by the revision in force
+  at receipt time -- an arm authorised in revision A but dropped in B is a
+  VIOLATION for a receipt issued during B. Without that mapping the RETIRED_ARMS
+  list stays the floor and every SUPERSEDED verdict records
+  `revision_membership: "UNAVAILABLE"`.
+
+`classify_arm()` is the pure predicate that makes this decision, so it is
+unit-testable with injected values.
 
 Claim ceiling: the excuse rests on `RETIRED_ARMS_R153.json`, which is a curated list
 of arms a prior revision declared. An arm missing from that list but genuinely
@@ -105,6 +130,38 @@ REASON_AT_OR_AFTER_POOL = "AT_OR_AFTER_POOL_REVISION"
 RETIRED_ARMS_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "RETIRED_ARMS_R153.json"
 )
+
+# The only receipt fields allowed to supply a receipt time, in precedence order.
+# The receipt file's mtime is deliberately absent: an old file must not become a
+# timestamp the receipt never carried.
+RECEIPT_TIME_FIELDS = (
+    "generated_utc",
+    "generated_at",
+    "at_utc",
+    "generated",
+    "created_utc",
+    "timestamp",
+    "useconds",
+)
+
+# Where a pool's effective time came from. Only "file_mtime" is a fallback, and it
+# is always labelled -- it is a weakness in the input, not something to smooth over.
+POOL_TIME_REVISION_RECORD = "revision_record"
+POOL_TIME_EFFECTIVE_AT = "effective_at"
+POOL_TIME_FILE_MTIME = "file_mtime"
+POOL_TIME_UNKNOWN = "unknown"
+
+# Sub-reason for a served arm that a prior revision declared but the revision in
+# force at receipt time did not: authorised once, but not for this turn.
+REASON_ARM_NOT_IN_RECEIPT_REVISION = "ARM_NOT_IN_RECEIPT_REVISION"
+
+# Recorded whenever no `prior_arms_by_revision` mapping could pin the membership.
+REVISION_MEMBERSHIP_UNAVAILABLE = "UNAVAILABLE"
+
+# Confidence attached to a SUPERSEDED verdict: LOW only because the pool time is
+# an mtime proxy rather than the revision record.
+CONFIDENCE_LOW = "LOW"
+CONFIDENCE_HIGH = "HIGH"
 
 
 class DeclarationUnusable(Exception):
@@ -325,6 +382,188 @@ def _parse_stamp(value: Any) -> datetime | None:
     return parsed
 
 
+# A plausible epoch window (2001-01-01 .. 2100-01-01). Anything outside it is a
+# duration or a counters value, not a timestamp, so it is rejected rather than
+# turned into a 1970 date that would silently predate every pool.
+_EPOCH_FLOOR = 978307200.0
+_EPOCH_CEILING = 4102444800.0
+
+
+def _stamp_from_number(value: Any) -> datetime | None:
+    """Epoch seconds or microseconds -> aware UTC datetime; else None."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    number = float(value)
+    seconds = number / 1_000_000.0 if number > 1e11 else number
+    if not (_EPOCH_FLOOR <= seconds <= _EPOCH_CEILING):
+        return None
+    return datetime.fromtimestamp(seconds, timezone.utc)
+
+
+def _to_stamp(value: Any) -> datetime | None:
+    """Any admissible stamp form -> aware UTC datetime; unparsable -> None."""
+    stamp = _parse_stamp(value)
+    if stamp is not None:
+        return stamp
+    if isinstance(value, str) and value.strip().isdigit():
+        return _stamp_from_number(int(value.strip()))
+    return _stamp_from_number(value)
+
+
+def receipt_time_from_receipt(receipt: dict[str, Any]) -> tuple[str | None, str | None]:
+    """(iso stamp, field name) read ONLY from the receipt body.
+
+    The receipt file's mtime is never a substitute: a checker that accepts it
+    lets an old file buy SUPERSEDED while the receipt itself carries no time at
+    all. An unparsable or absent field returns (None, None) -- UNKNOWN.
+    """
+    for field in RECEIPT_TIME_FIELDS:
+        if field not in receipt:
+            continue
+        stamp = _to_stamp(receipt.get(field))
+        if stamp is not None:
+            return stamp.astimezone(timezone.utc).isoformat(), field
+    return None, None
+
+
+def _decl_revision(decl: dict[str, Any]) -> Any:
+    for key in ("revision", "rev", "pool_revision", "revision_id"):
+        value = decl.get(key)
+        if value is not None and not isinstance(value, (dict, list)):
+            return value
+    return None
+
+
+def _history_stamp(entry: dict[str, Any]) -> datetime | None:
+    """The first usable time on a history/revision record."""
+    for key in ("at_utc", "at", "effective_at", "effective_utc", "at_date"):
+        if key in entry:
+            stamp = _to_stamp(entry.get(key))
+            if stamp is not None:
+                return stamp
+    return None
+
+
+def resolve_pool_time(decl: dict[str, Any], declaration_path: str) -> tuple[str | None, str]:
+    """(iso stamp, source) -- the pool's OWN effective time.
+
+    Order: a top-level `effective_at`, then the `history[]` entry matching the
+    current `revision`, then the declaration file's mtime. The mtime is only a
+    labelled fallback (`pool_time_source: "file_mtime"`), never an equal claim:
+    touching the pool file later must not retroactively excuse receipts.
+    """
+    for key in ("effective_at", "effective_utc"):
+        if key in decl:
+            stamp = _to_stamp(decl.get(key))
+            if stamp is not None:
+                return stamp.isoformat(), POOL_TIME_EFFECTIVE_AT
+
+    revision = _decl_revision(decl)
+    history = decl.get("history")
+    if revision is not None and isinstance(history, list):
+        wanted = str(revision).strip()
+        for entry in history:
+            if not isinstance(entry, dict):
+                continue
+            for key in ("revision", "rev"):
+                if key in entry and str(entry[key]).strip() == wanted:
+                    stamp = _history_stamp(entry)
+                    if stamp is not None:
+                        return stamp.isoformat(), POOL_TIME_REVISION_RECORD
+
+    try:
+        stamp = datetime.fromtimestamp(os.path.getmtime(declaration_path), timezone.utc)
+    except OSError:
+        return None, POOL_TIME_UNKNOWN
+    return stamp.isoformat(), POOL_TIME_FILE_MTIME
+
+
+def _arm_labels(entries: Any) -> set[str]:
+    """Normalised labels (bare and `provider/model`) from a revision's arm entries."""
+    labels: set[str] = set()
+    if isinstance(entries, (str, bytes)):
+        entries = [entries]
+    if not isinstance(entries, (list, tuple, set)):
+        return labels
+    for entry in entries:
+        if isinstance(entry, dict):
+            provider = entry.get("provider")
+            model = entry.get("model") or entry.get("arm")
+            candidates: list[Any] = [model]
+            if isinstance(provider, str) and provider.strip() and model:
+                candidates.append(f"{provider}/{model}")
+            for candidate in candidates:
+                key = _normalise_arm(candidate)
+                if key:
+                    labels.add(key)
+            continue
+        key = _normalise_arm(entry)
+        if key:
+            labels.add(key)
+    return labels
+
+
+def _revision_records(prior_arms_by_revision: Any) -> list[dict[str, Any]]:
+    """Normalise a `{revision: arms}` mapping into ordered records.
+
+    A value may be a plain list of arm labels (no time, so it can never pin the
+    revision in force) or an object carrying `arms`/`ordered_pool` plus
+    `at_utc`/`at`/`effective_at`. Records with no arms are dropped rather than
+    treated as "empty revision", because an empty list would claim knowledge it
+    does not have.
+    """
+    records: list[dict[str, Any]] = []
+    if not isinstance(prior_arms_by_revision, dict):
+        return records
+    for raw_key, value in prior_arms_by_revision.items():
+        if isinstance(value, dict):
+            entries = value.get("arms")
+            if entries is None:
+                entries = value.get("ordered_pool")
+            labels = _arm_labels(entries)
+            stamp = _history_stamp(value)
+        else:
+            labels = _arm_labels(value)
+            stamp = None
+        if not labels:
+            continue
+        records.append({"revision": str(raw_key), "stamp": stamp, "labels": labels})
+    return records
+
+
+def _revision_in_force(
+    records: list[dict[str, Any]], receipt_stamp: datetime | None
+) -> dict[str, Any] | None:
+    """The stamped revision latest at or before the receipt, or None if unknowable."""
+    if receipt_stamp is None:
+        return None
+    stamped = [record for record in records if record["stamp"] is not None]
+    if not stamped:
+        return None
+    eligible = [record for record in stamped if record["stamp"] <= receipt_stamp]
+    if not eligible:
+        return None
+    return max(eligible, key=lambda record: record["stamp"])
+
+
+def revision_membership(
+    served: Any, receipt_time: Any, prior_arms_by_revision: Any
+) -> str:
+    """`"UNAVAILABLE"`, or `"<revision>:PRESENT|ABSENT"` for the revision in force.
+
+    UNAVAILABLE is recorded, not hidden: it says the verdict rests on the
+    RETIRED_ARMS floor alone, which is weaker evidence than a revision record.
+    """
+    records = _revision_records(prior_arms_by_revision)
+    if not records:
+        return REVISION_MEMBERSHIP_UNAVAILABLE
+    in_force = _revision_in_force(records, _to_stamp(receipt_time))
+    if in_force is None:
+        return REVISION_MEMBERSHIP_UNAVAILABLE
+    state = "PRESENT" if _normalise_arm(served) in in_force["labels"] else "ABSENT"
+    return f"{in_force['revision']}:{state}"
+
+
 def _arm_keys(arms: Any) -> set[str]:
     """Normalised labels from any iterable of arm labels (or a single string)."""
     if isinstance(arms, (str, bytes)):
@@ -343,6 +582,7 @@ def classify_arm_with_reason(
     receipt_time: Any,
     pool_time: Any,
     prior_arms: Any = None,
+    prior_arms_by_revision: Any = None,
 ) -> tuple[str, str | None]:
     """Judge one served arm: returns (verdict, sub_reason).
 
@@ -360,6 +600,14 @@ def classify_arm_with_reason(
     unparsable) never buys the excuse either, because a missing timestamp cannot
     prove the receipt came first.
 
+    `prior_arms_by_revision` is the optional membership map. When it pins the
+    revision in force at receipt time, a SUPERSEDED verdict additionally requires
+    that revision to declare the arm: an arm authorised in revision A but absent
+    in B is not excused for a receipt issued during B (sub-reason
+    ARM_NOT_IN_RECEIPT_REVISION). When it is absent or cannot pin a revision, the
+    `prior_arms` floor decides and the caller records the membership as
+    UNAVAILABLE -- the excuse is still granted, but it says what it rests on.
+
     The verdict stays one of CONSISTENT / SUPERSEDED / VIOLATION; the reason is a
     sub-reason of VIOLATION, never a fourth verdict.
     """
@@ -376,9 +624,16 @@ def classify_arm_with_reason(
     pool_stamp = _parse_stamp(pool_time)
     if served_stamp is None or pool_stamp is None:
         return VIOLATION, REASON_UNKNOWN_TIME
-    if served_stamp < pool_stamp:
-        return SUPERSEDED, None
-    return VIOLATION, REASON_AT_OR_AFTER_POOL
+    if served_stamp >= pool_stamp:
+        return VIOLATION, REASON_AT_OR_AFTER_POOL
+
+    # Older than the pool is necessary, not sufficient: the arm must also have
+    # been declared by the revision that was in force when the receipt ran. A
+    # retired arm that was already gone by then is a violation, not history.
+    membership = revision_membership(served_key, receipt_time, prior_arms_by_revision)
+    if membership != REVISION_MEMBERSHIP_UNAVAILABLE and membership.endswith(":ABSENT"):
+        return VIOLATION, REASON_ARM_NOT_IN_RECEIPT_REVISION
+    return SUPERSEDED, None
 
 
 def classify_arm(
@@ -387,6 +642,7 @@ def classify_arm(
     receipt_time: Any,
     pool_time: Any,
     prior_arms: Any = None,
+    prior_arms_by_revision: Any = None,
 ) -> str:
     """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
 
@@ -394,7 +650,7 @@ def classify_arm(
     that function for the rule.
     """
     return classify_arm_with_reason(
-        served, pool_arms, receipt_time, pool_time, prior_arms
+        served, pool_arms, receipt_time, pool_time, prior_arms, prior_arms_by_revision
     )[0]
 
 
@@ -405,6 +661,8 @@ def _evaluate_receipt(
     decl: dict[str, Any],
     pool_time: Any = None,
     prior_arms: Any = None,
+    pool_time_source: str = POOL_TIME_UNKNOWN,
+    prior_arms_by_revision: Any = None,
 ) -> dict[str, Any]:
     lane = receipt.get("lane")
     lane_key = lane.strip() if isinstance(lane, str) else None
@@ -427,15 +685,17 @@ def _evaluate_receipt(
         _top = declared_arms[sorted(declared_arms)[0]]
         rank1_arm = f'{_top["provider"]}/{_top["model"]}'
 
-    # The receipt's own time; the file mtime is the documented fallback.
-    receipt_time: Any = receipt.get("generated_utc")
-    if not isinstance(receipt_time, str) or not receipt_time.strip():
-        try:
-            receipt_time = datetime.fromtimestamp(
-                os.path.getmtime(path), timezone.utc
-            ).isoformat()
-        except OSError:
-            receipt_time = None
+    # The receipt's own time, from the receipt body only. The file mtime is NOT a
+    # fallback: accepting it would let an old file buy SUPERSEDED with no
+    # timestamp in the receipt at all. No parsable field means UNKNOWN, and
+    # UNKNOWN never buys the excuse.
+    receipt_time, receipt_time_source = receipt_time_from_receipt(receipt)
+
+    # A SUPERSEDED verdict bought with an mtime proxy is weaker evidence than one
+    # bought with a revision record, and the payload says so instead of hiding it.
+    superseded_confidence = (
+        CONFIDENCE_LOW if pool_time_source == POOL_TIME_FILE_MTIME else CONFIDENCE_HIGH
+    )
 
     superseded_notes: list[str] = []
     # Sub-reasons behind the VIOLATION verdict. UNAUTHORIZED_ARM means the served
@@ -539,7 +799,8 @@ def _evaluate_receipt(
                 usage_ok = isinstance(usage, str) and billed == moved
                 usage_note = f"usage_model={usage!r} vs transport_model={transport!r}"
             arm_state, arm_reason = classify_arm_with_reason(
-                served, pool_arms, receipt_time, pool_time, prior_arms
+                served, pool_arms, receipt_time, pool_time, prior_arms,
+                prior_arms_by_revision,
             )
             if served_ok:
                 ok = usage_ok
@@ -552,7 +813,8 @@ def _evaluate_receipt(
                 superseded_notes.append(
                     f"rank {rank}: served {served!r} predates the pool revision "
                     f"({receipt_time} < {pool_time}); ranked historical, superseded "
-                    f"by {rank1_arm}"
+                    f"by {rank1_arm} (pool_time_source={pool_time_source}, "
+                    f"confidence={superseded_confidence})"
                 )
                 served_note = (
                     f"served model {served!r} is not the current declared model "

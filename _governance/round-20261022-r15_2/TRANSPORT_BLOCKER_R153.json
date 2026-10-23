@@ -1,0 +1,36 @@
+{
+  "schema": "SBL-TRANSPORT-BLOCKER/1",
+  "at_utc": "2026-10-23T07:07:24Z",
+  "symptom": "every EXECUTE/VERIFY dispatch fails in ~10-13 s",
+  "measured": [
+    {
+      "what": "shared relay POST /v1/chat/completions with OPENCODEGO key shw0968",
+      "result": "HTTP 401"
+    },
+    {
+      "what": "same with key shw097",
+      "result": "HTTP 401"
+    },
+    {
+      "what": "codex client via sealed CODEX_HOME -> 10101",
+      "result": "ws 426 Upgrade Required, then 401"
+    },
+    {
+      "what": "front door on 10100",
+      "result": "was NOT running; started it, /healthz ok, /v1/models 200"
+    },
+    {
+      "what": "codex via 10100 with features.responses_websocket=false",
+      "result": "no more 426; upstream answers 401 Invalid credential"
+    },
+    {
+      "what": "codex via 10100 with either key exported as OPENAI_API_KEY",
+      "result": "401 from the provider"
+    }
+  ],
+  "root_cause": "the provider credential the relay forwards is rejected. Not a key on disk: both OPENCODEGO keys are refused, and the relay is a SHARED resource whose model supply another session is authorised to change.",
+  "second_defect_fixed": "codex 0.163.0-alpha.11 negotiates the responses transport over websocket first; the relay answers 426 and the door answers 403. run_lane now accepts HGK_LANE_CODEX_ARGS, so '-c|features.responses_websocket=false' removes it.",
+  "what_i_did_not_do": "I did not mint, guess or rotate a credential - that is not mine to do.",
+  "machine_in_place": "tools/lane_watch.py probes the relay every 5 minutes for up to 6 hours and, the moment it accepts a request, dispatches the two parked briefs (W08_D1, W08_D2) through the mandated EXECUTE lane and writes a receipt per dispatch",
+  "claim_ceiling": "LANE_TRANSPORT_DOWN__NON_LANE_WORK_CONTINUES"
+}
