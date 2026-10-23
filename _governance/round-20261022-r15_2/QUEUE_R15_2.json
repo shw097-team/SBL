@@ -673,6 +673,19 @@
       "note": "the lane's 350s budget expired before it wrote its receipt (receipt ok=false), but it had already written the test file; the run and the sha256 are recorded in workers/execute_r153/ORCH_VERIFY_C17.json",
       "resume_cmd": "uv run --python 3.11 --with pytest pytest -q tests/test_c17_three_kind_lifecycle.py",
       "expect": "6 passed"
+    },
+    {
+      "id": "Q17.native_issuance_C04",
+      "owner_class": "OWNER_STEP_EXECUTED",
+      "status": "PARTIAL",
+      "denominator_ref": "C04 / W01",
+      "required_lane": "AGENT",
+      "satisfiable_by": "owner authorised the native issuer; the orchestrator drove it",
+      "next_action": "real WorkOrder issued by the Shared Spine, one bounded effect consumed once, replay and expiry refused, readback recorded; residual: execute the workorder to VERIFIED, find or add a revoke path, prove foreign-scope refusal at the effect layer",
+      "evidence": [
+        "workers/c04_native/C04_EVIDENCE.json"
+      ],
+      "note": "three earlier drive attempts left project rows SBL-C04-R153-EFFECT, -68D559 and -876B6A in the spine while the driver was being fixed; they are left in place as audit trail, not deleted"
     }
   ],
   "runs": [
@@ -918,7 +931,7 @@
   "counts": {
     "DONE": 30,
     "PARKED": 2,
-    "PARTIAL": 2,
+    "PARTIAL": 3,
     "DONE_RECEIPT_RED": 1
   },
   "updated_at": "2026-10-23T02:28:05+00:00",

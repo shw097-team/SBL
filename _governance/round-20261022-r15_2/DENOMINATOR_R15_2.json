@@ -264,7 +264,12 @@
     {
       "id": "C04",
       "title": "合法 Native WorkOrder/ECP/Permit 有界效果及 Readback",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "note": "native issuance exercised 2026-10-23 against the live spine: project SBL-C04-R153-A8675E, plan + admit produced workorder WO-TS-A8675E-01 (state CREATED, rollback pointer RB-WO-TS-A8675E-01); one EffectToken consumed once, replay refused ERR_EFFECT_TOKEN_REPLAY, expired refused ERR_EFFECT_TOKEN_EXPIRED; readback sha256 cde982ca8285f170.... Gap: the workorder was never executed to VERIFIED, no revoke path exists on EffectToken, and the foreign-scope refusal is proven at the writeset layer (C17) not at the effect layer.",
+      "evidence": [
+        "workers/c04_native/C04_EVIDENCE.json",
+        "workers/c04_native/drive_c04.py"
+      ]
     },
     {
       "id": "C05",
