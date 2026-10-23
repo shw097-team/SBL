@@ -1345,6 +1345,20 @@
       "fact": "DEN-C13/C14 wrote passing tests but their nonce appears only in an item.completed/command_execution event, so the strict detector reds them - correctly, because a script echoing the brief could fake acknowledgement",
       "remedy": "make the injected instruction impossible to satisfy with an echo (ask for the nonce plus a sentence it must reason out)",
       "owner_needed": false
+    },
+    {
+      "id": "TT-R15.3-POLICY-PROJECTION-ALIASING",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:21:05Z",
+      "title": "lane_policy projection hands out aliases into the registry",
+      "fact": "after mutating one projection's `fallbacks` set, a second independently resolved projection for PLAN showed the injected ('attacker-provider','attacker-model') entry instead of the five declared fallbacks",
+      "remedy": "return defensive copies (deep copy of mutable containers) from the projection; add a regression test",
+      "owner_needed": false,
+      "evidence": [
+        "HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py:419",
+        "EXECUTE__DEN-C13_fix.json"
+      ]
     }
   ],
   "counts": {

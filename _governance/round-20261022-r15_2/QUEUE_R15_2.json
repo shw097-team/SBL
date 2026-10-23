@@ -790,13 +790,13 @@
       "status": "PARTIAL",
       "denominator_ref": "C10",
       "satisfiable_by": "AGENT",
-      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
+      "next_action": "re-challenge with VERIFY",
       "resume_cmd": "python _governance/round-20261022-r15_2/tools/run_lane.py --role EXECUTE --brief workers/codex_exec/DEN-C10.md --nonce DEN-C10-AUTHOR-4c2ffe91 --timeout 300",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "assert named-method routing returns the declared method id and a non-empty output for each of the five tool identities; a wrong id must raise a typed NoFit",
       "needs_test": true,
-      "phase": "REPAIR",
+      "phase": "REVERIFY",
       "author_brief": "workers/codex_exec/DEN-C10.md",
       "expect_artefact": "tests/test_den_c10.py",
       "accept_cmd": "python -m pytest tests/test_den_c10.py -q",
@@ -808,18 +808,18 @@
         "receipts/dispatch/EXECUTE__DEN-C10_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_gstack_named_method_route.py"
       ],
-      "artefact_sha256": "03e56fc62013811c865bb9bbe1efc416325752f1e543a7742b5c90b6df56203b",
+      "artefact_sha256": "e142434c6e3dabffac9c536b6312bc304dca3af80e1f1e04a75b31edde972b94",
       "accept_result": {
         "rc": 0,
         "tail": [
-          "4 passed in 0.05s"
+          "9 passed, 2 xfailed (two files)"
         ]
       },
       "lane_receipt": "EXECUTE__DEN-C10_narrow.json",
       "lane_ok": true,
       "lane_nonce": true,
       "lane_model": "opencode-go/deepseek-v4.1-flash",
-      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "claim_ceiling": "TESTS_STRENGTHENED__PASS__REVERIFY_PENDING",
       "clobbered_by": "concurrent cron tick at 13:15:29 (read-modify-write); restored manually",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
@@ -836,7 +836,10 @@
       "partial_reason": "independent challenge says PARTIALLY_VERIFIED: route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285)",
       "rearm_ok": true,
       "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
-      "stale_parked_cleared": true
+      "stale_parked_cleared": true,
+      "repair_receipt": "EXECUTE__DEN-C10_fix.json",
+      "repair_ok": true,
+      "repair_secs": 124.73
     },
     {
       "id": "DEN-C13",
@@ -844,11 +847,11 @@
       "status": "PARTIAL",
       "denominator_ref": "C13",
       "satisfiable_by": "AGENT",
-      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
+      "next_action": "re-challenge C13 with VERIFY (the aliasing fix changed product code)",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "narrow brief: name one surface file + 3-4 behaviours (shape proven by DEN-C10_narrow)",
-      "phase": "REPAIR",
+      "phase": "REVERIFY",
       "author_brief": "workers/codex_exec/DEN-C13.md",
       "accept_cmd": "python -m pytest tests/test_den_c13.py -q",
       "timeout_s": 340,
@@ -859,18 +862,18 @@
       "accept_result": {
         "rc": 0,
         "tail": [
-          "4 passed"
+          "4 passed, 1 xfailed"
         ]
       },
       "lane_receipt": "EXECUTE__DEN-C13_narrow.json",
       "lane_ok": false,
       "lane_nonce": false,
-      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: defensive-copy test deepcopies the projection first, so alias-returning implementations pass",
+      "partial_reason": "strengthened test exposes a real aliasing defect in the policy projection",
       "evidence": [
         "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py"
       ],
-      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "claim_ceiling": "DEFECT_REPRODUCED_FIXED__TESTS_PASS__REVERIFY_PENDING",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -885,7 +888,15 @@
           "module-level importorskip can turn coverage into a skip"
         ]
       },
-      "stale_running_cleared": true
+      "stale_running_cleared": true,
+      "repair_receipt": "EXECUTE__DEN-C13_fix.json",
+      "repair_ok": true,
+      "repair_secs": 237.53,
+      "new_finding": "the strengthened test FAILS: project() returns aliases into the registry, so mutating one projection rewrites an independent one (an attacker-provider fallback appeared in a second, freshly resolved projection). This is a product defect, not a test defect.",
+      "product_fix_receipt": "EXECUTE__PRODUCT-FIX-projection-aliasing.json",
+      "product_fix_ok": true,
+      "product_fix_secs": 186.66,
+      "product_fix_commit": "HG-KSEOS e8a94e1"
     },
     {
       "id": "DEN-C14",
@@ -893,22 +904,22 @@
       "status": "PARTIAL",
       "denominator_ref": "C14",
       "satisfiable_by": "AGENT",
-      "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
+      "next_action": "re-challenge with VERIFY",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
       "recipe_hint": "narrow brief: name one surface file + 3-4 behaviours (shape proven by DEN-C10_narrow)",
-      "phase": "REPAIR",
+      "phase": "REVERIFY",
       "author_brief": "workers/codex_exec/DEN-C14.md",
       "accept_cmd": "python -m pytest tests/test_den_c14.py -q",
       "timeout_s": 340,
       "attempts": 0,
       "lesson_ref": "DEN-C10_narrow",
       "rearm_ok": true,
-      "artefact_sha256": "f0907f8fd0ac91a9b2fbfebbda9211fbc937c0611f93fdebe50c97e39bed4bc2",
+      "artefact_sha256": "fea34dff3a44c714e8be05978687e24aa39120546b47ad38347b5ade98961b8d",
       "accept_result": {
         "rc": 0,
         "tail": [
-          "4 passed"
+          "9 passed, 2 xfailed (two files)"
         ]
       },
       "lane_receipt": "EXECUTE__DEN-C14_narrow.json",
@@ -919,7 +930,7 @@
         "receipts/dispatch/EXECUTE__DEN-C14_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c14_checkpoint_resume_no_repeat_effect.py"
       ],
-      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "claim_ceiling": "EDIT_LANDED_UNDER_RED_RECEIPT__PASS__REVERIFY_PENDING",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -932,7 +943,10 @@
           "simulates an absent target, not an interrupted restore or the commit/ack crash window",
           "no operation_id, no readback-after-timeout, no UNKNOWN/PARTIAL reconciliation (KB #1418)"
         ]
-      }
+      },
+      "repair_receipt": "EXECUTE__DEN-C14_fix.json",
+      "repair_ok": false,
+      "repair_red_reason": "250.02s cap, nonce=false; the edit still landed (test_resume_requires_operation_identity at :323)"
     },
     {
       "id": "DEN-C15",
@@ -943,7 +957,7 @@
       "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
       "expect": "\"nonce\":\\s*true",
       "coverage_only": true,
-      "phase": "REPAIR",
+      "phase": "REVERIFY",
       "accept_cmd": "python -m pytest tests/test_den_c15.py -q",
       "timeout_s": 340,
       "attempts": 0,
@@ -964,7 +978,7 @@
         "receipts/dispatch/EXECUTE__DEN-C15_narrow2.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c15_evolution_holdout.py"
       ],
-      "claim_ceiling": "TESTS_PASS__INDEPENDENT_VERIFY_PARTIALLY_VERIFIED",
+      "claim_ceiling": "TESTS_STRENGTHENED__GAP_VISIBLE_AS_XFAIL__NO_CONTAMINATION_DETECTOR",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -979,8 +993,11 @@
           "no release-promotion boundary check (DOC-07#3379: independent_checker_ref non-empty)"
         ]
       },
-      "partial_reason": "independent challenge says PARTIALLY_VERIFIED: empty holdout accepted -> disjointness is vacuous (KB DOC-13#727)",
-      "rearm_ok": true
+      "partial_reason": "empty holdout is now rejected and contamination is asserted; the gap is recorded as xfail(strict) because the product has no contamination detector",
+      "rearm_ok": true,
+      "repair_receipt": "EXECUTE__DEN-C15_fix.json",
+      "repair_ok": true,
+      "repair_secs": 153.85
     },
     {
       "id": "DEN-C19",
@@ -1057,7 +1074,8 @@
       "step_a_ok": false,
       "partial_reason": "the checker edit landed under a NOT_GREEN dispatch (same class as C13/C14) and the new checker has not been challenged by VERIFY; 23 of 69 receipts are not green evidence",
       "claim_ceiling": "TESTS_PASS__VIOLATION_ZERO__MEASURED__NOT_INDEPENDENTLY_CHALLENGED",
-      "rearm_ok": false
+      "rearm_ok": false,
+      "step_a_receipt_detail": "ok=false, secs=280.03, nonce=true: the dispatch was cut by the 280s cap, not by a nonce failure; the edit is complete on disk (classify_arm at :306, SUPERSEDED wired at :483/:519/:578, exit rule documented at :9) and its tests pass"
     },
     {
       "id": "DEN-W17",
