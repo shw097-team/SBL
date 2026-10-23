@@ -79,8 +79,53 @@ def classify_dispatch(item: dict, ok: bool, artefact_exists: bool, accept_ok: bo
     return "DONE", "ACCEPTED"
 
 
+
+LOCK = os.path.join(R, "receipts", "advance_queue.lock")
+LOCK_STALE_S = 1800
+
+
+def acquire_lock():
+    """One driver at a time. The 15-minute watchdog and an interactive turn both drive this queue; without this,
+    the second writer's read-modify-write silently reverts the first one's finished items (observed: a DONE item
+    was rolled back to PARKED by a concurrent tick)."""
+    os.makedirs(os.path.dirname(LOCK), exist_ok=True)
+    for _ in range(2):
+        try:
+            fd = os.open(LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, str(os.getpid()).encode())
+            os.close(fd)
+            return True
+        except FileExistsError:
+            try:
+                age = time.time() - os.path.getmtime(LOCK)
+            except OSError:
+                age = 0
+            if age > LOCK_STALE_S:
+                os.unlink(LOCK)
+                continue
+            return False
+    return False
+
+
+def release_lock() -> None:
+    try:
+        os.unlink(LOCK)
+    except OSError:
+        pass
+
+
 def main() -> int:
     max_steps = int(sys.argv[sys.argv.index("--max-steps") + 1]) if "--max-steps" in sys.argv else 6
+    if not acquire_lock():
+        print("another driver holds the queue lock - exiting without touching the queue")
+        return 0
+    try:
+        return _run(max_steps)
+    finally:
+        release_lock()
+
+
+def _run(max_steps: int) -> int:
     q = load()
     steps = 0
     log(f"=== advance_queue start {time.strftime('%FT%T')} max_steps={max_steps} ===")
