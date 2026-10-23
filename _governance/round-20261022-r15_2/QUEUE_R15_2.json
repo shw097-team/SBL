@@ -570,7 +570,10 @@
         "openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md"
       ],
       "lane_receipt_file": "receipts/dispatch/EXECUTE__R153_WRITES.json",
-      "satisfiable_note": "EXECUTE lane + orchestrator repair"
+      "satisfiable_note": "EXECUTE lane + orchestrator repair",
+      "lane_bypassed": [
+        "orchestrator rewrote two delta clauses after challenge pass 1 named them unsupported"
+      ]
     },
     {
       "id": "Q10.policy_designation_C02",
@@ -618,7 +621,10 @@
         ".github/workflows/ci.yml",
         "tests/test_secret_scan_exclude.py"
       ],
-      "satisfiable_note": "agent"
+      "satisfiable_note": "agent",
+      "lane_bypassed": [
+        "orchestrator removed the advisory continue-on-error step after tests/test_ci_contract.py failed"
+      ]
     },
     {
       "id": "Q13.bench_disposition_W16",
@@ -695,7 +701,42 @@
         "workers/c04_native/C04_EVIDENCE.json"
       ],
       "note": "three earlier drive attempts left project rows SBL-C04-R153-EFFECT, -68D559 and -876B6A in the spine while the driver was being fixed; they are left in place as audit trail, not deleted",
-      "satisfiable_note": "owner authorised the native issuer; the orchestrator drove it"
+      "satisfiable_note": "owner authorised the native issuer; the orchestrator drove it",
+      "lane_bypassed": [
+        "orchestrator wrote the drive script and drove the issuer; the owner authorised the issuance, not an EXECUTE write"
+      ]
+    },
+    {
+      "id": "Q18.round_tools_repair",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "F2/F6 root cause",
+      "required_lane": "AGENT",
+      "satisfiable_by": "AGENT",
+      "next_action": "driver re-arm path + three claim levels",
+      "lane_bypassed": [
+        "orchestrator edited tools/advance_queue.py and tools/continuation_guard.py: a control tool the lane cannot test"
+      ],
+      "evidence": [
+        "tools/advance_queue.py",
+        "tools/continuation_guard.py",
+        "FAR_ROOT_CAUSE_STOPPAGE.md"
+      ]
+    },
+    {
+      "id": "Q19.hgk_frontdoor_guard",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "C02 / W02 consumer",
+      "required_lane": "AGENT",
+      "satisfiable_by": "OWNER",
+      "next_action": "fail-closed active-policy binding in the front door",
+      "lane_bypassed": [
+        "orchestrator edited HG-KSEOS/scripts/hgk-exec-model-frontdoor.py + its test: control-plane code outside the SBL product lane"
+      ],
+      "evidence": [
+        "HG-KSEOS/commit 1a6b87c"
+      ]
     }
   ],
   "runs": [
@@ -957,7 +998,7 @@
     }
   },
   "counts": {
-    "DONE": 30,
+    "DONE": 32,
     "PARKED": 2,
     "PARTIAL": 3,
     "DONE_RECEIPT_RED": 1
