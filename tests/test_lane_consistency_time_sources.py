@@ -159,7 +159,11 @@ def test_pool_time_from_file_mtime_can_never_grant_supersession():
 
         high = _evaluate(checker, with_record, pool_time, pool_time_source)
 
-    assert low["verdict"] == checker.VIOLATION, "a file mtime must never buy an excuse"
+    # A file mtime must never buy an excuse. Which refusal it lands in changed on 2026-10-23: the honest label is
+    # UNVERIFIED ("cannot prove it is history") rather than VIOLATION ("proved to be a fault"), and the important half
+    # of the assertion is that SUPERSEDED is unreachable from an mtime.
+    assert low["verdict"] == checker.UNVERIFIED, "a file mtime must never buy an excuse"
+    assert low["verdict"] != checker.SUPERSEDED
     assert low["pool_time_source"] == "file_mtime"
     assert "POOL_TIME_NOT_AUTHORITATIVE" in json.dumps(low, ensure_ascii=False)
 

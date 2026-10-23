@@ -114,6 +114,7 @@ LANE_TOKENS = {
 # receipt was honest under a pool revision that has since been replaced.
 CONSISTENT = "CONSISTENT"
 SUPERSEDED = "SUPERSEDED"
+UNVERIFIED = "UNVERIFIED"
 VIOLATION = "VIOLATION"
 
 # Sub-reason attached to a VIOLATION whose served arm no revision ever declared.
@@ -159,6 +160,7 @@ REASON_ARM_NOT_IN_RECEIPT_REVISION = "ARM_NOT_IN_RECEIPT_REVISION"
 REASON_POOL_TIME_NOT_AUTHORITATIVE = "POOL_TIME_NOT_AUTHORITATIVE"
 REASON_PROVIDER_NOT_RETIRED = "PROVIDER_NOT_RETIRED"
 REASON_ARM_LABEL_PROVIDER_CONFLICT = "ARM_LABEL_PROVIDER_CONFLICT"
+REASON_ARM_IDENTITY_UNVERIFIABLE = "ARM_IDENTITY_UNVERIFIABLE"
 
 # B12 (2026-10-23): the provider guard was OPT-IN. A caller that omitted `prior_pairs` got the old, weaker rule, so
 # the public classifier still excused an undeclared provider/model pair. A guard that must be switched on is not a
@@ -712,6 +714,10 @@ def _classify_impl(
     if isinstance(prior_pairs, dict) and prior_pairs:
         _providers = prior_pairs.get(str(served_bare).lower())
         _prov = _prov_norm
+        if _providers and not _prov:
+            # The arm is retired and the receipt never states a provider anywhere - so the pair cannot be checked
+            # at all. Missing evidence denies (same rule as the unreadable list), it does not acquit.
+            return VIOLATION, REASON_ARM_IDENTITY_UNVERIFIABLE
         if _providers and _prov and _prov.lower() not in _providers:
             # A retired MODEL does not authorise an undeclared PROVIDER: the pair was declared, so the pair is what
             # the excuse needs. Models the list does not know keep the pre-existing path (the bare-label floor).
@@ -800,6 +806,7 @@ def _evaluate_receipt(
     # arm was declared by no revision at all, so it is not history under an older
     # pool: it was never authorized.
     unauthorized: list[str] = []
+    unverifiable: list[str] = []
 
     # R1 -- the lane must have a structural binding in the declaration.
     if declared_arms:
@@ -888,17 +895,24 @@ def _evaluate_receipt(
             served_ok = isinstance(served, str) and served.strip() == want
             transport = attempt.get("transport_model")
             usage = attempt.get("usage_model")
+            _claim = _bare_model(served)
             if not isinstance(transport, str) or not transport.strip():
-                usage_ok = False
-                usage_note = "transport_model is absent, so usage_model cannot be compared"
+                identity_ok = False
+                billing_ok = False
+                usage_note = "transport_model is absent, so no non-ledger identity evidence exists"
             else:
-                billed = _strip_provider_prefix(usage, arm.get("provider"))
-                moved = _strip_provider_prefix(transport, arm.get("provider"))
-                _claim = _bare_model(served)
-                _agrees = (_bare_model(moved) == _claim) and (_bare_model(billed) == _claim)
-                usage_ok = isinstance(usage, str) and billed == moved and _agrees
-                usage_note = (f"usage_model={usage!r} vs transport_model={transport!r} "
-                              f"vs claimed model={served!r} (all three must name the same arm)")
+                identity_ok = _bare_model(transport) == _claim
+                if isinstance(usage, str) and usage.strip():
+                    billed = _strip_provider_prefix(usage, arm.get("provider"))
+                    moved = _strip_provider_prefix(transport, arm.get("provider"))
+                    billing_ok = billed == moved and _bare_model(billed) == _claim
+                    usage_note = (f"usage_model={usage!r} vs transport_model={transport!r} "
+                                  f"vs claimed model={served!r} (all three must name the same arm)")
+                else:
+                    billing_ok = False
+                    usage_note = (f"transport_model={transport!r} names the claimed arm {served!r}; usage_model is "
+                                  f"absent on this transport, so billing is unproven (evidence gap, not a forgery)")
+            usage_ok = identity_ok and billing_ok
             arm_state, arm_reason = _classify_impl(
                 served, pool_arms, receipt_time, pool_time, prior_arms,
                 prior_arms_by_revision,
@@ -947,13 +961,26 @@ def _evaluate_receipt(
                         "; the receipt is dated at or after the pool revision, so the "
                         "rebind does not excuse it"
                     )
+            # R3 carries IDENTITY, R7 carries BILLING EVIDENCE. Folding absence into R3 accused every OAuth receipt -
+            # including the ones this round produced - of forging an arm they had actually served.
+            identity_ok = (served_ok or arm_state == SUPERSEDED) and identity_ok
             _r3 = _predicate(
-                "R3_model_matches_arm", ok, rank,
+                "R3_model_matches_arm", identity_ok, rank,
                 f"{served_note}; {usage_note}",
             )
             if arm_reason:
                 _r3["reason"] = arm_reason
             predicates.append(_r3)
+            predicates.append(_predicate(
+                "R7_billing_evidence", billing_ok, rank, usage_note,
+            ))
+            if not identity_ok and arm_reason in {
+                REASON_POOL_TIME_NOT_AUTHORITATIVE, REASON_ARM_IDENTITY_UNVERIFIABLE,
+            }:
+                unverifiable.append(
+                    f"rank {rank}: served {served!r} differs from the declared arm {want!r}, and the receipt cannot "
+                    f"prove it is history ({arm_reason}); this is neither a pass nor proof of a fault"
+                )
 
         # R4 -- provider consistency (declared provider and the billing provider).
         if arm is None:
@@ -983,8 +1010,11 @@ def _evaluate_receipt(
                     "declared provider is judged as call-vs-bill agreement)"
                 )
             else:
-                provider_ok = call_ok and bill_ok
-                history = ""
+                # Same split as R3: a billing provider that is ABSENT is an evidence gap (R7), a billing provider that
+                # DISAGREES is a mismatch. Only the latter is a violation.
+                _bill_stated = isinstance(attempt.get("usage_provider"), str) and attempt.get("usage_provider").strip()
+                provider_ok = call_ok and (bill_ok if _bill_stated else True)
+                history = "" if _bill_stated else " (usage_provider absent: billing unproven, see R7)"
             _r4 = _predicate(
                 "R4_provider_matches", provider_ok, rank,
                 f"declared provider {want_provider!r}; provider={attempt.get('provider')!r}, "
@@ -1023,15 +1053,19 @@ def _evaluate_receipt(
         if not p["ok"] and p["id"] in {
             "R1_lane_declared", "R2_rank_valid", "R3_model_matches_arm",
             "R4_provider_matches", "R5_no_silent_skip",
+        } and p.get("reason") not in {
+            REASON_POOL_TIME_NOT_AUTHORITATIVE, REASON_ARM_IDENTITY_UNVERIFIABLE,
         }
     ]
     green = bool(attempts) and all(
-        p["ok"] for p in predicates if p["id"] == "R6_nonce_evidence"
+        p["ok"] for p in predicates if p["id"] in {"R6_nonce_evidence", "R7_billing_evidence"}
     )
     if violations:
         verdict = "VIOLATION"
     elif not green:
         verdict = "NOT_GREEN"
+    elif unverifiable:
+        verdict = UNVERIFIED
     elif superseded_notes:
         verdict = SUPERSEDED
     else:
@@ -1048,6 +1082,7 @@ def _evaluate_receipt(
             {p["reason"] for p in violations if p.get("reason")}
         ),
         "unauthorized_arm": unauthorized,
+        "unverifiable": unverifiable,
         "receipt_time": receipt_time,
         "receipt_time_source": receipt_time_source,
         "pool_time": pool_time,
@@ -1080,7 +1115,7 @@ def _payload(
 
 
 def _zero_counts() -> dict[str, int]:
-    return {CONSISTENT: 0, SUPERSEDED: 0, VIOLATION: 0, "NOT_GREEN": 0}
+    return {CONSISTENT: 0, SUPERSEDED: 0, UNVERIFIED: 0, VIOLATION: 0, "NOT_GREEN": 0}
 
 
 def load_prior_pairs_checked(path: str = RETIRED_ARMS_PATH) -> tuple[dict[str, set[str]], str | None]:
@@ -1299,6 +1334,8 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
 
     if counts["VIOLATION"]:
         exit_code, reason = 1, "VIOLATION"
+    elif counts.get(UNVERIFIED):
+        exit_code, reason = 1, "UNVERIFIED"
     elif counts["NOT_GREEN"]:
         exit_code, reason = 1, "NOT_GREEN"
     elif counts[SUPERSEDED]:

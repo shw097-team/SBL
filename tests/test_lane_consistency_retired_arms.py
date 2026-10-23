@@ -58,15 +58,25 @@ def test_an_arm_in_the_current_pool_is_consistent():
 
 
 def test_an_arm_in_prior_arms_with_an_older_receipt_is_superseded():
-    """A genuinely retired arm, served before the rebind, is history."""
-    classify_arm = _checker_module().classify_arm
+    """A genuinely retired arm, served before the rebind, is history - once its provider is stated.
+
+    B13/B14: the pair (model, provider) is what the retired list declares, so a receipt that names the model and no
+    provider anywhere has not said enough to be acquitted. It is refused as ARM_IDENTITY_UNVERIFIABLE; the same
+    receipt with the provider stated is SUPERSEDED.
+    """
+    module = _checker_module()
+    classify_arm = module.classify_arm
     assert classify_arm(
         "opencode-go/minimax-m3.1-flash-free", POOL, BEFORE_POOL, AT_POOL, PRIOR
     ) == "SUPERSEDED"
-    # The bare-model form must match too.
+    # The bare-model form must match too, when the provider is carried separately.
     assert classify_arm(
-        "minimax-m3.1-flash-free", POOL, BEFORE_POOL, AT_POOL, PRIOR
+        "minimax-m3.1-flash-free", POOL, BEFORE_POOL, AT_POOL, PRIOR, served_provider="opencode-go"
     ) == "SUPERSEDED"
+    verdict, reason = module.classify_arm_with_reason(
+        "minimax-m3.1-flash-free", POOL, BEFORE_POOL, AT_POOL, PRIOR
+    )
+    assert (verdict, reason) == (module.VIOLATION, module.REASON_ARM_IDENTITY_UNVERIFIABLE)
 
 
 def test_an_arm_in_neither_list_is_a_violation_named_unauthorized_arm():
