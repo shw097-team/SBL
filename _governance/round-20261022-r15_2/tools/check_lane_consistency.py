@@ -619,12 +619,17 @@ def classify_arm_with_reason(
     sub-reason of VIOLATION, never a fourth verdict.
     """
     served_key = _normalise_arm(served)
-    if served_key is not None and served_key in _arm_keys(pool_arms):
+    # A receipt may record the arm provider-qualified ("opencode-go/minimax-...") or bare. Measured 2026-10-23 (checker
+    # finding, qualified label): keying the retired-pair map by the bare model meant the qualified form missed it and an
+    # undeclared provider rode a retired model to SUPERSEDED. Both forms are resolved to one bare key here.
+    served_bare = served_key.split("/", 1)[1] if (served_key and "/" in served_key) else served_key
+    if served_key is not None and (served_key in _arm_keys(pool_arms) or served_bare in _arm_keys(pool_arms)):
         return CONSISTENT, None
 
     # No declared predecessor, no history to appeal to. This branch is what
     # closes the hole: an arm in neither list is VIOLATION even when very old.
-    if served_key is None or served_key not in _arm_keys(prior_arms):
+    _prior_keys = _arm_keys(prior_arms)
+    if served_key is None or (served_key not in _prior_keys and served_bare not in _prior_keys):
         return VIOLATION, UNAUTHORIZED_ARM
 
     served_stamp = _parse_stamp(receipt_time)
@@ -644,7 +649,7 @@ def classify_arm_with_reason(
         return VIOLATION, REASON_POOL_TIME_NOT_AUTHORITATIVE
 
     if isinstance(prior_pairs, dict) and prior_pairs:
-        _providers = prior_pairs.get(str(served_key).lower())
+        _providers = prior_pairs.get(str(served_bare).lower())
         _prov = _normalise_arm(served_provider) if served_provider else None
         if _providers and _prov and _prov.lower() not in _providers:
             # A retired MODEL does not authorise an undeclared PROVIDER: the pair was declared, so the pair is what

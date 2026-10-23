@@ -89,3 +89,55 @@ def test_evaluator_level_mtime_cannot_buy_supersession():
     blob = json.dumps(out, ensure_ascii=False)
     assert "SUPERSEDED" not in blob, "an mtime-derived pool time must not acquit anyone"
     assert "POOL_TIME_NOT_AUTHORITATIVE" in blob or "VIOLATION" in blob
+
+
+def test_a_qualified_label_cannot_ride_a_retired_model_to_supersession():
+    """B8, finding SUPERSESSION_LEAK still open at :647: a receipt naming the arm provider-qualified missed the
+    bare-keyed pair map, so the provider was never checked. Both label forms must reach the same guard."""
+    checker = _checker()
+    for label in ("minimax-m3.1-flash-free", "opencode-go/minimax-m3.1-flash-free"):
+        verdict, reason = checker.classify_arm_with_reason(
+            label,
+            ["opencode-go/deepseek-v4.1-flash"],
+            "2026-10-19T10:00:00+00:00",
+            "2026-10-20T00:00:00+00:00",
+            ["minimax-m3.1-flash-free"],
+            None,
+            served_provider="evil-provider",
+            prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
+        )
+        assert verdict == checker.VIOLATION, "label %r rode a retired model past the provider guard" % label
+        assert reason == checker.REASON_PROVIDER_NOT_RETIRED
+
+
+def test_evaluator_never_uses_the_receipt_file_mtime_when_the_receipt_has_no_time():
+    """B8, finding TAUTOLOGICAL_TEST still open: the earlier evaluator test supplied generated_utc, so it never
+    exercised the missing-timestamp path. This receipt carries NO time field at all, and its file mtime is ancient."""
+    checker = _checker()
+    with tempfile.TemporaryDirectory() as scratch:
+        decl_path = os.path.join(scratch, "lane-route-solts.json")
+        with open(decl_path, "w", encoding="utf-8") as handle:
+            handle.write("{}")
+        decl = {"lane": "EXECUTE", "revision": "rev-x", "history": [{"revision": "rev-x", "at_utc": "2026-10-20T00:00:00Z"}]}
+        pool_time, pool_time_source = checker.resolve_pool_time(decl, decl_path)
+
+        receipt_path = os.path.join(scratch, "receipt.json")
+        with open(receipt_path, "w", encoding="utf-8") as handle:
+            handle.write("{}")
+        old = datetime(2026, 10, 1, tzinfo=timezone.utc).timestamp()   # file mtime predates the pool: an "old" file
+        os.utime(receipt_path, (old, old))
+
+        receipt = {   # deliberately NO generated_utc / generated_at / at_utc
+            "lane": "EXECUTE",
+            "attempts": [{"rank": 1, "provider": "opencode-go", "model": "minimax-m3.1-flash-free",
+                          "usage_provider": "opencode-go", "exit": 0, "nonce_present": True, "usage_status": 200}],
+        }
+        table = {"EXECUTE": {1: {"provider": "opencode-go", "model": "deepseek-v4.1-flash"}}}
+        out = checker._evaluate_receipt(
+            receipt_path, receipt, table, decl,
+            pool_time=pool_time, prior_arms=["minimax-m3.1-flash-free"],
+            pool_time_source=pool_time_source,
+        )
+    blob = json.dumps(out, ensure_ascii=False)
+    assert "SUPERSEDED" not in blob, "an undated receipt bought an excuse from its file mtime"
+    assert "UNKNOWN_RECEIPT_TIME" in blob
