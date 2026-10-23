@@ -1222,6 +1222,40 @@
         "W08_LANE_CONSISTENCY_RUN.json",
         "W08_MEASUREMENT.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-ESERIES-NOT-TESTABLE",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T05:28:53Z",
+      "title": "E02/E03/E05/E08/E09 are experiences, not testable checks",
+      "fact": "the denominator titles them PIPD/TPM/SPEC, Commander/Challenge, 真建造/修補, SWOF 隔離 Dogfood, W2/W3 首個真 SWOF; each is satisfied by running a cycle, so my earlier recipe of 'author a test' was the wrong remedy and would have produced a fabricated artefact",
+      "remedy": "drive the five cycles in their target repos; record each as an experience receipt with its own evidence",
+      "owner_needed": false
+    },
+    {
+      "id": "TT-R15.3-KANBAN-SWARM-SCOPE",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T05:28:53Z",
+      "title": "C08/C09 surfaces exist only in a dated snapshot directory",
+      "fact": "kanban and swarm implementations live in HG-KSEOS/.hgk/checker-upgrade-20261009/tools/ (kanban_link.sh, kanban_round.sh, kanban_swarm_receipt.py), not in HG-KSEOS/src or scripts; whether a snapshot is in scope for an R15 check is a scope ruling, not a testing choice",
+      "remedy": "external AO or owner rules whether the snapshot counts; if it does, the test targets kanban_swarm_receipt.py",
+      "owner_needed": true
+    },
+    {
+      "id": "TT-R15.3-EXECUTE-NONCE-OMITTED",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T05:41:14Z",
+      "title": "EXECUTE lane intermittently writes the artefact but omits the nonce",
+      "fact": "DEN-C13 and DEN-C14 both produced a passing test file (4 passed each) while their receipts read ok=false, nonce_present=false; DEN-C14 finished in 81s so it was not a timeout",
+      "remedy": "bind authorship evidence to artefact hash + acceptance, and treat nonce absence as a receipt defect rather than evidence of no work; then repair the lane's nonce instruction",
+      "owner_needed": false,
+      "evidence": [
+        "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
+        "receipts/dispatch/EXECUTE__DEN-C14_narrow.json"
+      ]
     }
   ],
   "counts": {
