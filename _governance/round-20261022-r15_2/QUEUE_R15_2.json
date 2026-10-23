@@ -852,15 +852,20 @@
     {
       "id": "DEN-W08",
       "owner_class": "AGENT",
-      "status": "NEEDS_RECIPE",
+      "status": "PARTIAL",
       "denominator_ref": "W08",
       "satisfiable_by": "AGENT",
       "next_action": "author a bounded recipe for workpackages row W08",
       "resume_cmd": "",
       "expect": "",
       "coverage_only": true,
-      "recipe_hint": "author tools/check_lane_consistency.py: for each of PLAN/EXECUTE/VERIFY assert receipt.rank == registry rank, receipt.model == the served arm for that rank, epoch matches the registry epoch, and profile matches the declared arm; any mismatch is a violation",
-      "needs_test": false
+      "recipe_hint": "supersession rule + tests (TT-R15.3-LANE-RECEIPT-SUPERSESSION)",
+      "needs_test": false,
+      "evidence": [
+        "_governance/round-20261022-r15_2/tools/check_lane_consistency.py",
+        "W08_LANE_CONSISTENCY_RUN.json",
+        "W08_MEASUREMENT.json"
+      ]
     },
     {
       "id": "DEN-W17",
@@ -1265,6 +1270,24 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-23T04:57:29Z",
+      "steps": 0,
+      "done": 33,
+      "parked": 4,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T04:59:29Z",
+      "steps": 0,
+      "done": 33,
+      "parked": 4,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -1283,9 +1306,9 @@
   "counts": {
     "DONE": 33,
     "PARKED": 4,
-    "PARTIAL": 2,
+    "PARTIAL": 3,
     "DONE_RECEIPT_RED": 1,
-    "NEEDS_RECIPE": 13
+    "NEEDS_RECIPE": 12
   },
   "updated_at": "2026-10-23T02:28:05+00:00",
   "contention_note": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching. Authorised and normal; the round re-probed the arms instead of treating it as a fault (TT-R15.3-AUTHORISED-CONCURRENT-REBIND).",

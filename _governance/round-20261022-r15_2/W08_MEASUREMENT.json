@@ -1,0 +1,61 @@
+{
+  "schema": "SBL-W08-MEASUREMENT/1",
+  "at_utc": "2026-10-23T04:58:52Z",
+  "declaration_used": "HG-KSEOS/config/lane-route-slots.candidate.json (revision 23, ordered_pool per lane)",
+  "first_attempt_declaration": "HG-KSEOS/config/hermes-codex-lane.json - WRONG INPUT: that file declares only the sealed EXECUTE lane, so it reported 36 violations for PLAN/VERIFY that have no arms there. The pool is the dispatch-time declaration (run_lane passes --pool).",
+  "receipts_checked": 56,
+  "counts": {
+    "CONSISTENT": 38,
+    "VIOLATION": 6,
+    "NOT_GREEN": 12
+  },
+  "violations": [
+    {
+      "receipt": "EXECUTE_guarded.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    },
+    {
+      "receipt": "EXECUTE_minimax.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    },
+    {
+      "receipt": "EXECUTE_minimax_cwd.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    },
+    {
+      "receipt": "EXECUTE_wo04.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    },
+    {
+      "receipt": "EXECUTE_wo04b.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    },
+    {
+      "receipt": "EXECUTE_wo04c.json",
+      "lane": "EXECUTE",
+      "served": "minimax-m3.1-flash-free",
+      "declared_now": "deepseek-v4.1-flash",
+      "class": "PRE_REBIND_HISTORICAL"
+    }
+  ],
+  "violation_explanation": "all six are receipts from before the 2026-10-23 owner-ordered substitution (minimax-m3.1-flash-free was 410-deprecated; deepseek-v4.1-flash took rank 1). They were consistent with the pool in force when they ran, so they are SUPERSEDED, not live faults.",
+  "not_green_class": "12 receipts with no nonce (mostly lane timeouts) - not green, correctly not counted as pass",
+  "verdict": "CURRENT_REGIME_CONSISTENT_WITH_6_SUPERSEDED_PRE_REBIND_RECEIPTS",
+  "gap": "the checker compares every receipt against the CURRENT pool; it needs a supersession rule (receipt time vs pool revision time) so a rebind does not retroactively turn honest receipts red",
+  "claim_ceiling": "LOCALLY_MEASURED__NO_INDEPENDENT_ACCEPTANCE"
+}
