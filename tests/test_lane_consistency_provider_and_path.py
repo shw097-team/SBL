@@ -83,7 +83,7 @@ def test_evaluator_level_mtime_cannot_buy_supersession():
         table = {"EXECUTE": {1: {"provider": "opencode-go", "model": "deepseek-v4.1-flash"}}}
         out = checker._evaluate_receipt(
             os.path.join(scratch, "receipt.json"), receipt, table, decl,
-            pool_time=pool_time, prior_arms=["opencode-go/minimax-m3.1-flash-free"],
+            pool_time=pool_time, prior_arms=["minimax-m3.1-flash-free", "opencode-go/minimax-m3.1-flash-free"],
             pool_time_source=pool_time_source,
         )
     blob = json.dumps(out, ensure_ascii=False)
@@ -182,3 +182,15 @@ def test_a_qualified_label_with_no_provider_field_still_checks_the_pair():
         served_provider=None,
         prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
     ) == (checker.VIOLATION, checker.REASON_PROVIDER_NOT_RETIRED)
+
+
+def test_an_unreadable_pair_map_denies_the_excuse_instead_of_skipping_the_guard(monkeypatch=None):
+    """B10: `load_prior_pairs` returned {} on a read failure, so the provider guard was skipped - fail-open on missing
+    evidence. The checked loader reports the problem and the evaluator turns it into a refusal."""
+    import tempfile as _tf
+    checker = _checker()
+    missing = os.path.join(_tf.gettempdir(), "definitely-not-a-retired-arms-file.json")
+    pairs, problem = checker.load_prior_pairs_checked(missing)
+    assert pairs == {} and problem, "an unreadable list must report a problem, not look empty"
+    ok_pairs, no_problem = checker.load_prior_pairs_checked()
+    assert no_problem is None and ok_pairs, "the real list must load cleanly for the other tests to mean anything"

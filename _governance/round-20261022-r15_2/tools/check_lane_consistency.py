@@ -734,10 +734,10 @@ def _evaluate_receipt(
     #   * a pool time taken from a file mtime can never grant an excuse;
     #   * a retired MODEL never authorises an undeclared PROVIDER - the pair is the authorisation.
     allow_supersession = pool_time_source != POOL_TIME_FILE_MTIME
-    try:
-        prior_pairs = load_prior_pairs()
-    except Exception:  # noqa: BLE001 - a missing list degrades to the pre-existing behaviour, loudly noted below
-        prior_pairs = set()
+    prior_pairs, pair_problem = load_prior_pairs_checked()
+    if pair_problem:
+        # Fail CLOSED: if the retired-arm list cannot be read as pairs, nobody gets an excuse this run.
+        allow_supersession = False
 
     # A SUPERSEDED verdict bought with an mtime proxy is weaker evidence than one
     # bought with a revision record, and the payload says so instead of hiding it.
@@ -1028,6 +1028,40 @@ def _payload(
 
 def _zero_counts() -> dict[str, int]:
     return {CONSISTENT: 0, SUPERSEDED: 0, VIOLATION: 0, "NOT_GREEN": 0}
+
+
+def load_prior_pairs_checked(path: str = RETIRED_ARMS_PATH) -> tuple[dict[str, set[str]], str | None]:
+    """Same read as `load_prior_pairs`, but it also says WHY the map is empty.
+
+    B10 (2026-10-23): the pair map returned {} both when the retired list declared no providers AND when the file
+    could not be read, so a read failure skipped the provider guard entirely - fail-open on missing evidence. A caller
+    that cannot tell "nothing to check" from "could not check" will always be exploited; this one can.
+    """
+    try:
+        with open(path, "rb") as handle:
+            data = json.loads(handle.read().decode("utf-8-sig"))
+    except OSError as exc:
+        return {}, "cannot read retired-arm list %s: %s" % (path, exc)
+    except Exception as exc:  # noqa: BLE001
+        return {}, "cannot parse retired-arm list %s: %s" % (path, exc)
+    if not isinstance(data, dict):
+        return {}, "retired-arm list %s is not a JSON object" % path
+    pairs: dict[str, set[str]] = {}
+    for entry in (data.get("arms") or []):
+        if not isinstance(entry, dict):
+            continue
+        label = entry.get("arm")
+        provider = entry.get("provider")
+        if not isinstance(label, str) or not label.strip():
+            continue
+        label = label.strip()
+        if "/" in label:
+            prov, bare = label.split("/", 1)
+        else:
+            prov, bare = (provider if isinstance(provider, str) else None), label
+        if isinstance(prov, str) and prov:
+            pairs.setdefault(bare.strip().lower(), set()).add(prov.strip().lower())
+    return pairs, None
 
 
 def load_prior_pairs(path: str = RETIRED_ARMS_PATH) -> dict[str, set[str]]:
