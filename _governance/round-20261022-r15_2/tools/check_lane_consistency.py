@@ -340,6 +340,21 @@ def _provider_ok(value: Any, declared: str) -> bool:
     return False
 
 
+def _bare_model(value: Any) -> str | None:
+    """The model part of any identity label: `provider/model` and `model` reduce to the same bare name.
+
+    B11 (2026-10-23): R3 compared `usage_model` against `transport_model` and stopped there, so a receipt whose two
+    secondary fields both said NEVER-DECLARED-MODEL was self-consistent and bought an excuse for a retired arm. Two
+    fields agreeing with each other is not evidence that either equals the arm actually claimed.
+    """
+    if not isinstance(value, str):
+        return None
+    text = value.strip().lower()
+    if not text:
+        return None
+    return text.split("/", 1)[1] if "/" in text else text
+
+
 def _strip_provider_prefix(model: Any, provider: Any) -> Any:
     """`opencode-go/deepseek-v4.1-flash` and `deepseek-v4.1-flash` are one arm."""
     if not isinstance(model, str):
@@ -844,8 +859,11 @@ def _evaluate_receipt(
             else:
                 billed = _strip_provider_prefix(usage, arm.get("provider"))
                 moved = _strip_provider_prefix(transport, arm.get("provider"))
-                usage_ok = isinstance(usage, str) and billed == moved
-                usage_note = f"usage_model={usage!r} vs transport_model={transport!r}"
+                _claim = _bare_model(served)
+                _agrees = (_bare_model(moved) == _claim) and (_bare_model(billed) == _claim)
+                usage_ok = isinstance(usage, str) and billed == moved and _agrees
+                usage_note = (f"usage_model={usage!r} vs transport_model={transport!r} "
+                              f"vs claimed model={served!r} (all three must name the same arm)")
             arm_state, arm_reason = classify_arm_with_reason(
                 served, pool_arms, receipt_time, pool_time, prior_arms,
                 prior_arms_by_revision,

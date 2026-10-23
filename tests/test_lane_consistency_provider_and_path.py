@@ -194,3 +194,40 @@ def test_an_unreadable_pair_map_denies_the_excuse_instead_of_skipping_the_guard(
     assert pairs == {} and problem, "an unreadable list must report a problem, not look empty"
     ok_pairs, no_problem = checker.load_prior_pairs_checked()
     assert no_problem is None and ok_pairs, "the real list must load cleanly for the other tests to mean anything"
+
+
+def test_secondary_identity_fields_must_agree_with_the_claim_not_with_each_other():
+    """B11: transport_model and usage_model both saying NEVER-DECLARED-MODEL is self-consistent, and that self
+    consistency was enough to excuse a retired arm. All identity-bearing fields must name the claimed arm."""
+    checker = _checker()
+    with tempfile.TemporaryDirectory() as scratch:
+        decl_path = os.path.join(scratch, "decl.json")
+        with open(decl_path, "w", encoding="utf-8") as handle:
+            handle.write("{}")
+        decl = {"lane": "EXECUTE", "revision": "rev-9", "history": [{"revision": "rev-9", "at_utc": "2026-10-20T00:00:00Z"}]}
+        pool_time, pool_time_source = checker.resolve_pool_time(decl, decl_path)
+        receipt = {
+            "lane": "EXECUTE",
+            "generated_utc": "2026-10-19T00:00:00Z",
+            "attempts": [{
+                "rank": 1,
+                "provider": "opencode-go",
+                "model": "minimax-m3.1-flash-free",          # the claim: a retired arm
+                "transport_model": "NEVER-DECLARED-MODEL",   # both secondary fields agree with each other
+                "usage_model": "NEVER-DECLARED-MODEL",       # ... and with nothing else
+                "usage_provider": "opencode-go",
+                "exit": 0, "nonce_present": True, "usage_status": 200,
+            }],
+        }
+        table = {"EXECUTE": {1: {"provider": "opencode-go", "model": "deepseek-v4.1-flash"}}}
+        out = checker._evaluate_receipt(
+            os.path.join(scratch, "r.json"), receipt, table, decl,
+            pool_time=pool_time, prior_arms=["minimax-m3.1-flash-free"],
+            pool_time_source=pool_time_source,
+        )
+    blob = json.dumps(out, ensure_ascii=False)
+    # The arm itself is legitimately retired, so a historical verdict is fine - what must not survive is a PASS.
+    assert "NEVER-DECLARED-MODEL" in blob
+    assert out.get("verdict") == checker.VIOLATION, (
+        "a self-consistent pair of secondary fields must not pass the receipt")
+    assert "claimed model" in blob, "the note must show the comparison that failed"
