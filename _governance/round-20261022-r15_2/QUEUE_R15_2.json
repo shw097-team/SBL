@@ -749,7 +749,9 @@
       "next_action": "author a bounded recipe for checkruns row C08",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "author tests/test_kanban_transitions.py: Ready->Claim only by one claimant, a second claim refused with a typed code, lease expiry returns the card to Ready, heartbeat extends the lease once and refuses after expiry",
+      "needs_test": true
     },
     {
       "id": "DEN-C09",
@@ -760,7 +762,9 @@
       "next_action": "author a bounded recipe for checkruns row C09",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "author a fan-in checker: N dispatched workers, assert len(returned)==N with per-worker receipt digests, and that a missing worker makes the fan-in verdict PARTIAL not PASS",
+      "needs_test": true
     },
     {
       "id": "DEN-C10",
@@ -771,7 +775,9 @@
       "next_action": "author a bounded recipe for checkruns row C10",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "assert named-method routing returns the declared method id and a non-empty output for each of the five tool identities; a wrong id must raise a typed NoFit",
+      "needs_test": true
     },
     {
       "id": "DEN-C13",
@@ -782,7 +788,9 @@
       "next_action": "author a bounded recipe for checkruns row C13",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "scan receipts/dispatch/*.json: assert every dispatch cites a standing-scope id, no receipt contains an owner-approval escalation, and no lane used a credential outside its declared arm",
+      "needs_test": true
     },
     {
       "id": "DEN-C14",
@@ -793,7 +801,9 @@
       "next_action": "author a bounded recipe for checkruns row C14",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "resume a checkpoint mid-effect and assert the effect token is consumed once, replay returns ERR_EFFECT_TOKEN_REPLAY, and the world file digest is unchanged",
+      "needs_test": true
     },
     {
       "id": "DEN-C15",
@@ -804,7 +814,9 @@
       "next_action": "author a bounded recipe for checkruns row C15",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "assert a candidate cannot promote without an independent holdout run whose subject digest equals the candidate, and that a sandbox-only run yields SANDBOX_ONLY not PROMOTED",
+      "needs_test": true
     },
     {
       "id": "DEN-C19",
@@ -844,7 +856,9 @@
       "next_action": "author a bounded recipe for workpackages row W08",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "author tools/check_lane_consistency.py: for each of PLAN/EXECUTE/VERIFY assert receipt.rank == registry rank, receipt.model == the served arm for that rank, epoch matches the registry epoch, and profile matches the declared arm; any mismatch is a violation",
+      "needs_test": false
     },
     {
       "id": "DEN-W17",
@@ -855,7 +869,9 @@
       "next_action": "author a bounded recipe for workpackages row W17",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "build a crosswalk from the R14 TS/CHK ids to this round's evidence pointers and assert every id has a pointer or an explicit NOT_RUN",
+      "needs_test": true
     },
     {
       "id": "DEN-E02",
@@ -866,7 +882,9 @@
       "next_action": "author a bounded recipe for eseries row E02",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "drive one ordinary-language requirement through TPM-SP then PIPD-LS then a SPEC artefact; evidence = the three artefacts plus the routing receipts",
+      "needs_test": true
     },
     {
       "id": "DEN-E03",
@@ -877,7 +895,9 @@
       "next_action": "author a bounded recipe for eseries row E03",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "one plan from Commander-SP, one independent challenge from Challenge-SP with a named finding, and the commander's disposition of that finding",
+      "needs_test": true
     },
     {
       "id": "DEN-E05",
@@ -888,7 +908,9 @@
       "next_action": "author a bounded recipe for eseries row E05",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "induce a bounded failure on a candidate, repair it within the writeset, and show the pre/post test counts",
+      "needs_test": true
     },
     {
       "id": "DEN-E08",
@@ -899,7 +921,9 @@
       "next_action": "author a bounded recipe for eseries row E08",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "shadow-only dry run per SWOF_SHADOW_AUTHORIZATION_R15_3.json; assert zero writes to the SWOF repo",
+      "needs_test": true
     },
     {
       "id": "DEN-E09",
@@ -910,7 +934,9 @@
       "next_action": "author a bounded recipe for eseries row E09",
       "resume_cmd": "",
       "expect": "",
-      "coverage_only": true
+      "coverage_only": true,
+      "recipe_hint": "not runnable until the W3 subject binding is decided; keep NOT_RUN with the TT reference",
+      "needs_test": true
     }
   ],
   "runs": [
@@ -1204,6 +1230,15 @@
     },
     {
       "at": "2026-10-23T04:15:29Z",
+      "steps": 0,
+      "done": 32,
+      "parked": 4,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T04:27:29Z",
       "steps": 0,
       "done": 32,
       "parked": 4,

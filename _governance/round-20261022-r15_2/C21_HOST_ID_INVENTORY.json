@@ -24,9 +24,31 @@
     "portable_schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
   },
   "blocker": {
-    "code": "HOST_AUTOMATION_NOT_REACHABLE_FROM_THIS_SESSION",
-    "detail": "the CLI browser stops at a Cloudflare interstitial on chatgpt.com/plugins ('請稍候...'); no CDP endpoint answered on 127.0.0.1:9222; the proven R5Y path needs FDA foreground desktop control over the logged-in Chrome profile",
-    "what_would_clear_it": "a foreground FDA/cua-driver session (owner present or explicitly unattended), or a CDP-enabled Chrome profile"
+    "code": "HUMAN_CONSENT_PROMPT_TIMED_OUT",
+    "detail": "the desktop action `set_value` on Chrome's address bar (element 5, Navigate to chatgpt.com/plugins) was refused: the approval prompt timed out with no user response. Per the computer-use contract a timed-out prompt is a refusal, not a retry hint - no retry, no rephrase, no alternative route was attempted.",
+    "attempted": [
+      {
+        "n": 1,
+        "action": "list_windows",
+        "result": "chrome.exe pid 15152 / window 329196"
+      },
+      {
+        "n": 2,
+        "action": "capture ax",
+        "result": "Chrome fronted; the active tab is already a logged-in ChatGPT page (sidebar has 外掛程式)"
+      },
+      {
+        "n": 3,
+        "action": "click element=39",
+        "result": "refused: wrapper defect `unknown argument element_index` (documented); re-captured"
+      },
+      {
+        "n": 4,
+        "action": "set_value element=5 -> https://chatgpt.com/plugins",
+        "result": "BLOCKED: approval timed out; treated as refusal"
+      }
+    ],
+    "what_would_clear_it": "the owner approves the desktop-action prompt when it appears (it is per-action), then the run continues: 外掛程式 -> 新增 -> 上傳外掛程式封存檔 -> native 檔案名稱(N) dialog (type the absolute zip path, Return) -> 新增外掛程式 -> 安裝 -> read the returned Plugin_... id and the settings readback"
   },
   "human_only": [
     "identity verification",
@@ -81,5 +103,6 @@
       "invocation_ref": null
     }
   ],
-  "recorded_at": "2026-10-23T03:59:55Z"
+  "recorded_at": "2026-10-23T03:59:55Z",
+  "recorded_at_2": "2026-10-23T04:30:54Z"
 }

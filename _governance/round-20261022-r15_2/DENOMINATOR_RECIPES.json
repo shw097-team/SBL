@@ -1,0 +1,110 @@
+{
+  "schema": "SBL-DENOMINATOR-RECIPES/1",
+  "note": "a recipe is a command with an expectation. Where the check needs a test that does not exist yet, the entry is a build instruction, not a command - recording a command that cannot fail honestly would be a false green.",
+  "recipes": {
+    "C08": {
+      "next_action": "no kanban test exists in this repo",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "author tests/test_kanban_transitions.py: Ready->Claim only by one claimant, a second claim refused with a typed code, lease expiry returns the card to Ready, heartbeat extends the lease once and refuses after expiry",
+      "check_title": "Kanban Ready/Claim/Lease/Heartbeat",
+      "state": "NEEDS_TEST"
+    },
+    "C09": {
+      "next_action": "no swarm fan-in harness exists",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "author a fan-in checker: N dispatched workers, assert len(returned)==N with per-worker receipt digests, and that a missing worker makes the fan-in verdict PARTIAL not PASS",
+      "check_title": "Swarm worker raw returns, 100% fan-in",
+      "state": "NEEDS_TEST"
+    },
+    "C10": {
+      "next_action": "no gstack test exists",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "assert named-method routing returns the declared method id and a non-empty output for each of the five tool identities; a wrong id must raise a typed NoFit",
+      "check_title": "Gstack named methods truly routed",
+      "state": "NEEDS_TEST"
+    },
+    "C13": {
+      "next_action": "receipts carry policy fields but nothing asserts them",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "scan receipts/dispatch/*.json: assert every dispatch cites a standing-scope id, no receipt contains an owner-approval escalation, and no lane used a credential outside its declared arm",
+      "check_title": "FAR standing scope: no routine HITL, no privilege escalation",
+      "state": "NEEDS_TEST"
+    },
+    "C14": {
+      "next_action": "effect-token replay is proven in C04 only",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "resume a checkpoint mid-effect and assert the effect token is consumed once, replay returns ERR_EFFECT_TOKEN_REPLAY, and the world file digest is unchanged",
+      "check_title": "Hermes checkpoint resume does not duplicate world effects",
+      "state": "NEEDS_TEST"
+    },
+    "C15": {
+      "next_action": "no evolution harness exists",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "assert a candidate cannot promote without an independent holdout run whose subject digest equals the candidate, and that a sandbox-only run yields SANDBOX_ONLY not PROMOTED",
+      "check_title": "Evolution sandbox / independent holdout / legal promotion",
+      "state": "NEEDS_TEST"
+    },
+    "W08": {
+      "next_action": "the check is mechanical today",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "author tools/check_lane_consistency.py: for each of PLAN/EXECUTE/VERIFY assert receipt.rank == registry rank, receipt.model == the served arm for that rank, epoch matches the registry epoch, and profile matches the declared arm; any mismatch is a violation",
+      "check_title": "Three lanes Required/Served + Registry/Rank/Epoch/Profile jointly consistent",
+      "state": "NEEDS_TEST"
+    },
+    "W17": {
+      "next_action": "needs the R14 evidence index",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "build a crosswalk from the R14 TS/CHK ids to this round's evidence pointers and assert every id has a pointer or an explicit NOT_RUN",
+      "check_title": "In-place R14 31 TS/31 CHK + E01-E09 + M1-M4 final ruling",
+      "state": "NEEDS_TEST"
+    },
+    "E02": {
+      "next_action": "needs a natural-language requirement through TPM-SP -> PIPD -> SPEC",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "drive one ordinary-language requirement through TPM-SP then PIPD-LS then a SPEC artefact; evidence = the three artefacts plus the routing receipts",
+      "check_title": "PIPD / TPM / SPEC end-to-end",
+      "state": "NEEDS_TEST"
+    },
+    "E03": {
+      "next_action": "needs a real Commander-SP -> Challenge-SP exchange",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "one plan from Commander-SP, one independent challenge from Challenge-SP with a named finding, and the commander's disposition of that finding",
+      "check_title": "Commander / Challenge round trip",
+      "state": "NEEDS_TEST"
+    },
+    "E05": {
+      "next_action": "needs a build that fails then is repaired",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "induce a bounded failure on a candidate, repair it within the writeset, and show the pre/post test counts",
+      "check_title": "Real build / repair",
+      "state": "NEEDS_TEST"
+    },
+    "E08": {
+      "next_action": "blocked by the W3 deferral (owner ruling)",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "shadow-only dry run per SWOF_SHADOW_AUTHORIZATION_R15_3.json; assert zero writes to the SWOF repo",
+      "check_title": "SWOF-shaped isolation dogfood",
+      "state": "NEEDS_TEST"
+    },
+    "E09": {
+      "next_action": "blocked by the W3 deferral (owner ruling)",
+      "resume_cmd": "",
+      "expect": "",
+      "recipe_hint": "not runnable until the W3 subject binding is decided; keep NOT_RUN with the TT reference",
+      "check_title": "W2/W3 first real SWOF change",
+      "state": "NEEDS_TEST"
+    }
+  }
+}
