@@ -1052,22 +1052,29 @@
       "status": "RESOLVED_MEASURED"
     },
     {
-      "tt_id": "TT-R15.3-CONCURRENT-ROUND-MANDATE-CONFLICT",
+      "tt_id": "TT-R15.3-AUTHORISED-CONCURRENT-REBIND",
       "kind": "CR",
-      "severity": "BLOCKER",
-      "status": "OPEN_OWNER_DECISION",
-      "subject": "two owner orders dated 2026-10-23 disagree about the PLAN and VERIFY lanes",
+      "severity": "INFO",
+      "status": "RESOLVED_MEASURED",
+      "subject": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md while this round was dispatching: normal, expected behaviour, not an anomaly",
       "observed": {
-        "this_session_order": "PLAN = GPT 6.1 SOL-MEDIUM (OpenAI OAuth); EXECUTE = DEEPSEEK V4.1 FLASH; VERIFY/SECURITY = GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
-        "sibling_round": "HG-KSEOS/var/R15-MODEL-FALLBACK-20261023/MANDATE_R15.json",
-        "sibling_declares": "all three lanes = opencode-go/deepseek-v4.1-flash",
-        "sibling_wrote_at_local": "2026-10-23T10:01:12 (AGENTS.md, config/hermes-codex-lane.json, hermes.json, lane-route-slots.candidate.json, lane-routing-registry.yaml, model-lane-assignment.json)",
-        "measured_effect_on_this_round": "none: PLAN and VERIFY dispatched at rank 2 openai-codex/gpt-6.1-sol with usage_status 200 after the rewrite",
-        "designation_consequence": "config/active-policy.json binds the post-rewrite bytes (a3df959d...), so the active policy currently declares deepseek on all lanes"
+        "authorised_by": "owner, in another session (declared provider/fallback supply and rank changes)",
+        "written_at_local": "2026-10-23T10:01:12",
+        "files": [
+          "AGENTS.md",
+          "config/hermes-codex-lane.json",
+          "config/hermes.json",
+          "config/lane-route-slots.candidate.json",
+          "config/lane-routing-registry.yaml",
+          "config/model-lane-assignment.json"
+        ],
+        "effect_on_this_round": "none: PLAN and VERIFY dispatched at rank 2 openai-codex/gpt-6.1-sol with usage_status 200 after the rebind; EXECUTE ran at rank 1 opencode-go/deepseek-v4.1-flash",
+        "designation_consequence": "config/active-policy.json binds the post-rebind bytes (a3df959d...), which is the correct behaviour: the designated policy is whatever the control plane is actually serving"
       },
-      "why_it_matters": "the same owner-day produced two role tables; a lane rebind that lands while another round cites the other table makes every receipt look non-conforming",
-      "owner_action": "state which table governs today, or declare the fallback table authoritative and let this round re-designate the policy",
-      "not_done": "not reverted, not overwritten: the sibling round is live and its files are its own"
+      "owner_action": "none",
+      "not_done": "not reverted, not overwritten: the sibling round is live and its files are its own",
+      "ruling": "a sanctioned rebind is environment truth. The round must re-probe the arms before citing a lane and must re-designate the policy after a rebind; it must not revert or freeze another session's authorised work",
+      "why_it_matters": "the guard exists so an unannounced rebind cannot be followed *silently*: the front door refuses a stale designation until someone re-designates"
     },
     {
       "tt_id": "TT-R15.3-RECEIPT-NAME-COLLISION",
@@ -1167,8 +1174,7 @@
       "OPEN_OWNER_STEP": 8,
       "OPEN_MEASURED": 7,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 6,
-      "OPEN_OWNER_DECISION": 1,
+      "RESOLVED_MEASURED": 7,
       "REPAIRED_DISCLOSED": 2
     }
   },
