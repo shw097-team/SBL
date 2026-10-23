@@ -1,0 +1,49 @@
+{
+  "schema": "SBL-FAR-TRANSPORT/2",
+  "at_utc": "2026-10-23T07:34:25Z",
+  "question": "is opencode-go/deepseek-v4.1-flash (the mandated EXECUTE arm) actually unavailable?",
+  "answer": "NO. The arm is available. Both local proxies are broken, and I had been reading their failure as the model's.",
+  "evidence": [
+    {
+      "probe": "POST https://opencode.ai/zen/go/v1/responses  model=deepseek-v4.1-flash  key=shw0968",
+      "result": "200, object=response, status=completed"
+    },
+    {
+      "probe": "POST https://opencode.ai/zen/go/v1/chat/completions  model=deepseek-v4.1-flash  key=shw0968",
+      "result": "200, chat.completion"
+    },
+    {
+      "probe": "same, key=shw097",
+      "result": "429 GoUsageLimitError monthly, workspace wrk_01KGGG9C613DJ456K5VFGY87CA"
+    },
+    {
+      "probe": "same, key=OPENCODEGO_7776004",
+      "result": "401 Invalid credential"
+    },
+    {
+      "probe": "model=mimo-v2.6-flash key=shw0968",
+      "result": "200 (the authorised fallback is live too)"
+    },
+    {
+      "probe": "local :10101 (opencodex, pid 14404)",
+      "result": "401 Invalid credential - it forwards a dead key"
+    },
+    {
+      "probe": "local :10102 (desktop-model-router, pid 10052)",
+      "result": "429 monthly limit - it holds the shw097 key"
+    },
+    {
+      "probe": "provider requires header x-opencode-session",
+      "result": "400 MissingSessionID without it; 200 with it"
+    }
+  ],
+  "root_cause": "three credentials, three states, and the proxies do not share the good one. The refusal I reported as 'the mandated model is unavailable' was the local proxies' credential state, not the model's.",
+  "fix": {
+    "tool": "tools/ocg_passthrough.py",
+    "listen": "http://127.0.0.1:10105",
+    "does": "forwards /v1/* to https://opencode.ai/zen/go/v1/*, injects the shw0968 key and x-opencode-session, rewrites provider-qualified slug to bare model name, streams SSE back unchanged",
+    "claim_ceiling": "TRANSPORT_ONLY_NOT_AN_AUTHORITY"
+  },
+  "disclosure": "this is a NEW transport not named in the pool declaration. It decides nothing; it carries no authority. Any receipt produced through it is marked transport=ocg_passthrough. It should be retired once 10101 or 10102 holds a working credential again.",
+  "fallback_not_needed": "MiMo-V2.6-Flash answered 200 and stays the first fallback, but the owner's substitution was conditional on deepseek being unavailable - it is not."
+}

@@ -91,8 +91,15 @@ def main() -> int:
     # ws://127.0.0.1:10101/responses and http://127.0.0.1:10101/responses, burns seven upgrade retries and dies
     # (measured 2026-10-23: eight dispatches, each ~12 s, all with the identical URL). The front door refuses the
     # path without /v1 for the same reason. Default it here so no call site can get it wrong again.
-    if relay_base:
+    if relay_base and not os.environ.get("HGK_LANE_HUMAN_HOME"):
         cmd += ["--relay-base", relay_base]
+    # THE OAUTH LANE. The sealed home has no auth.json, so whatever a relay answers it pays for itself: measured
+    # 2026-10-23, :10101 returned 200 for gpt-6.1-sol with a bogus bearer token AND with no auth header at all, which
+    # is why the owner's OpenAI OAuth account showed no consumption while PLAN/VERIFY receipts were green. Pointing
+    # the lane at the human home makes codex present the owner's own OAuth token to the ChatGPT backend.
+    human_home = os.environ.get("HGK_LANE_HUMAN_HOME")
+    if human_home:
+        cmd += ["--codex-home", human_home, "--allow-human-home-transport"]
     # codex 0.163-alpha.11 negotiates the responses transport over websocket first; the local relay answers
     # 426 Upgrade Required and the front door answers 403 on ws://. Measured 2026-10-23. One -c override removes it:
     #   HGK_LANE_CODEX_ARGS='-c|features.responses_websocket=false'

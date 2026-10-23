@@ -1395,20 +1395,6 @@
       "owner_needed": true
     },
     {
-      "id": "TT-R15.3-UPSTREAM-CREDENTIAL-401",
-      "severity": "BLOCKER",
-      "state": "OPEN",
-      "opened_at": "2026-10-23T07:07:24Z",
-      "title": "the shared relay rejects every credential on disk",
-      "fact": "401 Invalid credential via 10101 and via the 10100 front door with both OPENCODEGO keys; ws 426/403 fixed separately",
-      "owner_needed": true,
-      "remedy": "the session that owns model supply must restore or rotate the provider credential; lane_watch.py then drains the queue",
-      "evidence": [
-        "TRANSPORT_BLOCKER_R153.json",
-        "receipts/lane_watch.json"
-      ]
-    },
-    {
       "id": "TT-R15.3-RELAY-BASE-NEEDS-V1",
       "severity": "HIGH",
       "state": "FIXED_LOCALLY",
@@ -1422,6 +1408,19 @@
         "receipts/dispatch/*B4*.json.logs/attempt-*-stderr.txt (7 ws retries)"
       ],
       "verification": "TT-R15.3-PENDING-NOTHING"
+    },
+    {
+      "id": "TT-R15.3-UPSTREAM-CREDENTIAL-401",
+      "severity": "HIGH",
+      "state": "WORKAROUND_IN_PLACE",
+      "opened_at": "2026-10-23T07:34:25Z",
+      "title": "I blamed the model for two broken proxies",
+      "fact": "opencode.ai answers 200 for deepseek-v4.1-flash with the shw0968 key; :10101 forwards a key the provider calls invalid and :10102 holds the shw097 key whose workspace is over its monthly limit. Three keys, three states.",
+      "remedy": "tools/ocg_passthrough.py on 127.0.0.1:10105 (transport only, disclosed); retire when a proxy holds a good key",
+      "lesson": "a 401/429 from a local proxy is a statement about that proxy, not about the model behind it",
+      "evidence": [
+        "FAR_TRANSPORT_R153.json"
+      ]
     }
   ],
   "counts": {

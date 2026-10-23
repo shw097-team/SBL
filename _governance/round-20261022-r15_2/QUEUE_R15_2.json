@@ -844,7 +844,7 @@
     {
       "id": "DEN-C13",
       "owner_class": "AGENT",
-      "status": "RUNNING",
+      "status": "PARTIAL",
       "denominator_ref": "C13",
       "satisfiable_by": "AGENT",
       "next_action": "re-challenge C13 with VERIFY (the aliasing fix changed product code)",
@@ -896,12 +896,18 @@
       "product_fix_receipt": "EXECUTE__PRODUCT-FIX-projection-aliasing.json",
       "product_fix_ok": true,
       "product_fix_secs": 186.66,
-      "product_fix_commit": "HG-KSEOS e8a94e1"
+      "product_fix_commit": "HG-KSEOS e8a94e1",
+      "notes": [
+        {
+          "at": "2026-10-23T07:37:54Z",
+          "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        }
+      ]
     },
     {
       "id": "DEN-C14",
       "owner_class": "AGENT",
-      "status": "RUNNING",
+      "status": "PARTIAL",
       "denominator_ref": "C14",
       "satisfiable_by": "AGENT",
       "next_action": "re-challenge with VERIFY",
@@ -946,7 +952,13 @@
       },
       "repair_receipt": "EXECUTE__DEN-C14_fix.json",
       "repair_ok": false,
-      "repair_red_reason": "250.02s cap, nonce=false; the edit still landed (test_resume_requires_operation_identity at :323)"
+      "repair_red_reason": "250.02s cap, nonce=false; the edit still landed (test_resume_requires_operation_identity at :323)",
+      "notes": [
+        {
+          "at": "2026-10-23T07:37:54Z",
+          "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        }
+      ]
     },
     {
       "id": "DEN-C15",
@@ -997,7 +1009,13 @@
       "rearm_ok": true,
       "repair_receipt": "EXECUTE__DEN-C15_fix.json",
       "repair_ok": true,
-      "repair_secs": 153.85
+      "repair_secs": 153.85,
+      "notes": [
+        {
+          "at": "2026-10-23T07:37:54Z",
+          "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        }
+      ]
     },
     {
       "id": "DEN-C19",
@@ -1050,7 +1068,7 @@
         "receipts/dispatch/EXECUTE__DEN-W08_B.json",
         "C:/Projects/Agent_Workspace/_r152_ev/tests/test_lane_consistency_supersession.py"
       ],
-      "phase": "REVIEW",
+      "phase": "REVERIFY",
       "artefact_sha256": "1a1ba0413b1789b5eba1b5a856100f9481b3856a6994618c09e585637e70f13f",
       "measurement": {
         "checker": "tools/check_lane_consistency.py",
@@ -1073,9 +1091,15 @@
       "step_a_receipt": "EXECUTE__DEN-W08_A.json",
       "step_a_ok": false,
       "partial_reason": "the checker edit landed under a NOT_GREEN dispatch (same class as C13/C14) and the new checker has not been challenged by VERIFY; 23 of 69 receipts are not green evidence",
-      "claim_ceiling": "TESTS_PASS__VIOLATION_ZERO__MEASURED__NOT_INDEPENDENTLY_CHALLENGED",
+      "claim_ceiling": "CHECKER_REPAIRED_TESTS_GREEN__EXECUTE_RECEIPTS_RED_NO_MODEL_IDENTITY__ACCEPTANCE_PENDING",
       "rearm_ok": false,
-      "step_a_receipt_detail": "ok=false, secs=280.03, nonce=true: the dispatch was cut by the 280s cap, not by a nonce failure; the edit is complete on disk (classify_arm at :306, SUPERSEDED wired at :483/:519/:578, exit rule documented at :9) and its tests pass"
+      "step_a_receipt_detail": "ok=false, secs=280.03, nonce=true: the dispatch was cut by the 280s cap, not by a nonce failure; the edit is complete on disk (classify_arm at :306, SUPERSEDED wired at :483/:519/:578, exit rule documented at :9) and its tests pass",
+      "notes": [
+        {
+          "at": "2026-10-23T07:41:10Z",
+          "note": "three checker repairs landed under red receipts: supersession retirement, retired-arms narrowing, time sources. 10 tests pass (supersession + retired_arms + time_sources). The receipts are red because the shim transport cannot give the wrapper a served-arm identity, so the wrapper reports model=null and ok=false. Red receipt + green product = PARTIAL, not DONE."
+        }
+      ]
     },
     {
       "id": "DEN-W17",

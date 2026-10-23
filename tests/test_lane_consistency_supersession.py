@@ -11,10 +11,15 @@ predicate, they do not re-describe it.
 from __future__ import annotations
 
 import importlib.util
+import json
 
 CHECKER = (
     r"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2"
     r"/tools/check_lane_consistency.py"
+)
+RETIRED_ARMS = (
+    r"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2"
+    r"/RETIRED_ARMS_R153.json"
 )
 
 
@@ -49,14 +54,32 @@ def test_an_arm_in_the_pool_is_consistent_whatever_the_times_say():
 
 
 def test_an_arm_absent_from_the_pool_and_older_than_it_is_superseded():
-    """A receipt that predates the rebind is history, not a live fault."""
+    """A genuinely retired arm, served before the rebind, is history, not a fault.
+
+    The never-declared case -- an arm no revision ever authorised -- now belongs to
+    test_lane_consistency_retired_arms.py, where it is a VIOLATION.
+    """
     classify_arm = _classify_arm()
-    assert classify_arm("anthropic/claude-opus-legacy", POOL, BEFORE_POOL, AT_POOL) == (
-        "SUPERSEDED"
-    )
+
+    with open(RETIRED_ARMS, encoding="utf-8") as handle:
+        retired = [entry["arm"] for entry in json.load(handle)["arms"]]
+    assert retired, "RETIRED_ARMS_R153.json must name at least one retired arm"
+    arm = retired[0]
+
+    # The shared POOL above predates the rebind and still lists this arm. What the
+    # pool serves now is what remains once the retired arm is removed -- in both
+    # label forms, so the bare model cannot slip back in as "live".
+    retired_labels = {arm, arm.split("/", 1)[-1]}
+    pool_now = [label for label in POOL if label not in retired_labels]
+    assert arm not in pool_now, f"{arm!r} is still in the pool this test passes in"
+
+    assert classify_arm(arm, pool_now, BEFORE_POOL, AT_POOL, retired) == "SUPERSEDED"
     # A minute earlier still counts, so this really is the strict "<" boundary.
-    assert classify_arm("anthropic/claude-opus-legacy", POOL,
-                        "2026-10-19T23:59:59+00:00", AT_POOL) == "SUPERSEDED"
+    assert classify_arm(arm, pool_now, "2026-10-19T23:59:59+00:00", AT_POOL,
+                        retired) == "SUPERSEDED"
+    # At or after the rebind the same retired arm is no longer history.
+    assert classify_arm(arm, pool_now, AT_POOL, AT_POOL, retired) == "VIOLATION"
+    assert classify_arm(arm, pool_now, AFTER_POOL, AT_POOL, retired) == "VIOLATION"
 
 
 def test_an_arm_absent_from_the_pool_and_dated_at_or_after_it_is_a_violation():

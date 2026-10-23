@@ -942,7 +942,10 @@ def _evaluate_receipt(
         ),
         "unauthorized_arm": unauthorized,
         "receipt_time": receipt_time,
+        "receipt_time_source": receipt_time_source,
         "pool_time": pool_time,
+        "pool_time_source": pool_time_source,
+        "superseded_confidence": superseded_confidence,
     }
 
 
@@ -1090,15 +1093,11 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
             detail="no lane receipts found; an empty set is not evidence of consistency",
         ), 2
 
-    # The pool revision time is the declaration file's own mtime: the pool "in
-    # force" is the file that was passed in, and an edit to it is the rebind.
-    pool_time: str | None = None
-    try:
-        pool_time = datetime.fromtimestamp(
-            os.path.getmtime(declaration), timezone.utc
-        ).isoformat()
-    except OSError:
-        pool_time = None
+    # The pool "in force" is the file that was passed in, and an edit to it is the
+    # rebind -- but the TIME comes from the pool's OWN revision record. The file
+    # mtime is only a labelled last resort, and every SUPERSEDED verdict built on
+    # it says so (receipts may not invent a time by touching the file either).
+    pool_time, pool_time_source = resolve_pool_time(decl, declaration)
 
     # Without the retired-arm list every unknown arm would read as superseded
     # again, so an unreadable list is an IO error, not an empty allow-list.
@@ -1112,7 +1111,10 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
         ), 2
 
     results = [
-        _evaluate_receipt(path, receipt, table, decl, pool_time, prior_arms)
+        _evaluate_receipt(
+            path, receipt, table, decl, pool_time, prior_arms,
+            pool_time_source=pool_time_source,
+        )
         for path, receipt in receipts
     ]
     counts = _zero_counts()
@@ -1137,6 +1139,7 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
         declaration=declaration, receipts_dir=receipts_dir,
         declared_lanes=sorted(table), skipped_files=skipped_files,
         pool_time=pool_time,
+        pool_time_source=pool_time_source,
         retired_arms_path=os.path.abspath(RETIRED_ARMS_PATH),
         prior_arms=prior_arms,
         unauthorized_arm_receipts=unauthorized_count,
