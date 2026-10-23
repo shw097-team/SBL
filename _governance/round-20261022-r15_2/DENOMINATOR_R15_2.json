@@ -276,7 +276,7 @@
       "title": "Codex CLI 獨立 Challenge/AO/原始正反對抗",
       "status": "PARTIAL",
       "evidence": "four challenge passes executed as real lanes (receipts PASS2/PASS3/PASS4 with served_arm gpt-6.1-sol, nonces, read-only): pass1 FAIL, pass2 FAIL (C6 overwrite + A7 provenance), pass3 C6 PASS + A7 narrowed, pass4 authorship resolved; no checker-owned test execution is possible on this host (TT-R15.2-CHECKER-SANDBOX-NO-TEMP) and the principal is same-family",
-      "note": "challenge pass 1 executed and returned FAIL with 7 rows + 7 findings; its two actionable defects were repaired; independent principal separation is NOT established (authority: Fabric FABRIC/control/SOD_POLICY.yaml:8, FABRIC/assurance/ACCEPTANCE_SCHEMA.yaml:11)",
+      "note": "principal_separation clause + offline enforcer + 11 negative tests landed; acceptance-officer recheck pending",
       "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
@@ -361,21 +361,23 @@
     {
       "id": "C19",
       "title": "W2→W3 許可+SWOF 真變更真 PR",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "note": "owner-attested W3 authorization recorded, PENDING_SCOPE_CONFIRMATION (no frozen subject triple)"
     },
     {
       "id": "C20",
       "title": "五工具及三 ZIP 雙建/doctor/effective-load",
       "status": "PARTIAL",
-      "note": "local half measured 2026-10-23: 5 tool identities (3 packaged SPs + sbl_harness + sbl_stack), 9 verbs with real exit codes (install/doctor/status/load/invoke/upgrade/rollback/uninstall), unknown-mode and same-manifest refusals, uninstall removes the root, and two independent ZIP builds are byte-identical; host half still absent (no host-issued plugin id)",
+      "note": "local build + lifecycle verbs; host half of C21 still pending",
       "evidence": "local half measured: 8 verbs invoked on sbl-stack (5 PASS, deny typed rc2, upgrade NOOP rc2, rollback no-preimage rc2), three ZIPs built twice with equal digests, hgk doctor PASS on 3.12.13, uninstall readback clean; no host-issued plugin id",
       "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C21",
       "title": "三 ChatGPT Private Plugins 官方三個不同 Host ID",
-      "status": "NOT_RUN",
-      "evidence": "three distinct official private-host ids still absent (HOST_PENDING)"
+      "status": "PARTIAL",
+      "evidence": "three distinct official private-host ids still absent (HOST_PENDING)",
+      "note": "three bundles frozen with digests; host-issued ids pending an FDA foreground session"
     },
     {
       "id": "C22",
@@ -393,8 +395,8 @@
     {
       "id": "C24",
       "title": "全部適用 hard gates/Owner/Human Release Claim",
-      "status": "PARTIAL",
-      "note": "denominator partially closed; semantic total still UNMEASURED; external admissions and release absent",
+      "status": "PARKED",
+      "note": "owner: seal after every other item passes; explicitly not a blocker",
       "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     }
   ],

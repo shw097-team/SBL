@@ -1,0 +1,132 @@
+{
+  "citation_base": "C:/Projects/Agent_Workspace/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/SBL/SBL_PIPD-LS-PKG",
+  "citations_used": [
+    "SBL_PIPD-LS-PKG_DOC-00.md#14",
+    "SBL_PIPD-LS-PKG_DOC-01.md#16",
+    "SBL_PIPD-LS-PKG_DOC-05.md#17",
+    "SBL_PIPD-LS-PKG_DOC-05.md#6078",
+    "SBL_PIPD-LS-PKG_DOC-05.md#6080",
+    "SBL_PIPD-LS-PKG_DOC-05.md#6083",
+    "SBL_PIPD-LS-PKG_DOC-07.md#45",
+    "SBL_PIPD-LS-PKG_DOC-07.md#79",
+    "SBL_PIPD-LS-PKG_DOC-07.md#132",
+    "SBL_PIPD-LS-PKG_DOC-07.md#2391",
+    "SBL_PIPD-LS-PKG_DOC-07.md#2400",
+    "SBL_PIPD-LS-PKG_DOC-07.md#3254",
+    "SBL_PIPD-LS-PKG_DOC-07.md#3394",
+    "SBL_PIPD-LS-PKG_DOC-09.md#1532",
+    "SBL_PIPD-LS-PKG_DOC-11.md#969",
+    "SBL_PIPD-LS-PKG_DOC-11.md#982",
+    "SBL_PIPD-LS-PKG_DOC-12.md#149",
+    "SBL_PIPD-LS-PKG_DOC-12.md#1746",
+    "SBL_PIPD-LS-PKG_DOC-12.md#1828",
+    "SBL_PIPD-LS-PKG_DOC-12.md#2079",
+    "SBL_PIPD-LS-PKG_DOC-12.md#2083",
+    "SBL_PIPD-LS-PKG_DOC-12.md#2085",
+    "SBL_PIPD-LS-PKG_DOC-13.md#20",
+    "SBL_PIPD-LS-PKG_DOC-13.md#715",
+    "SBL_PIPD-LS-PKG_DOC-13.md#720",
+    "SBL_PIPD-LS-PKG_DOC-13.md#721",
+    "SBL_PIPD-LS-PKG_DOC-13.md#723"
+  ],
+  "q1": {
+    "verdict": "EXTEND",
+    "why": "DOC-07#3254 defines independent_checker_ref as a nonempty string, not a principal-registry object. DOC-07#3394 requires that reference for RELEASE_PROMOTION alongside release_owner_ref and artifact_digest. A pinned registry, controller resolution and grant ancestry can strengthen reference validation without changing that schema. However, the implementation uses independent_checker_identity without an explicit binding to independent_checker_ref, leaving two disconnected interfaces. The extension must not substitute identity admissibility for an actual independent-checker receipt.",
+    "sod_filter_or_law": "The sod_trust row is a lexical search filter, not the source of normative authority: DOC-07#2391 explicitly limits its counts and relevance. But this does not make separation of duties optional. DOC-07#132 independently requires two distinct principals and rejects maker==checker or self-attested checker receipts with TQ_SOD. DOC-07#79 also says role profiles do not establish distinct logged-in identities.",
+    "edit": "Append to principal_separation:\n  canonical_checker_reference: independent_checker_ref\n  checker_reference_rule: 'Preserve independent_checker_ref as the nonempty string defined in SBL DOC-07. Resolve it to a checker evidence record binding the exact subject, checker principal, grant IDs and pinned registry digest. independent_checker_identity is the resolved principal identity, not a replacement reference.'\n  release_promotion_rule: 'RELEASE_PROMOTION retains release_owner_ref, artifact_digest and independent_checker_ref. Identity admissibility is necessary but never sufficient for independent acceptance or release.'\n  authority_boundary: 'This local enforcement extension does not issue Native policy, permits, checker acceptance or release authority.'",
+    "implementation_findings": [
+      "SOD_POLICY.yaml#40 requires frozen subject binding; principals.json#80 and #90 contain grants without subject fields. The checker only compares a grant subject when present, at check_principal_separation.py#147.",
+      "SOD_POLICY.yaml#44 requires source-receipt and snapshot digests, but the attestation records omit them. check_principal_separation.py#54 checks trust-root membership, revocation and expiry, not those evidence bindings.",
+      "SOD_POLICY.yaml#48 rejects missing parents and untrusted roots. check_principal_separation.py#69 silently ends traversal for a missing parent and does not validate grant roots; it compares producer principal IDs, not controller-equivalent grantors.",
+      "The registry permits model-name aliases at principals.json#51. Such an alias can resolve an existing principal, but cannot itself prove a separate controller under DOC-07#79.",
+      "The positive test at test_principal_separation.py#55 expects admissibility using the current subjectless grants. The suite therefore does not establish compliance with the policy's exact-subject requirement."
+    ]
+  },
+  "q2": {
+    "verdict": "CONSISTENT_IF_SEPARATE_STATUS_AXES",
+    "why": "INADMISSIBLE with acceptance_effect=NOT_ESTABLISHED is a reasonable local admissibility result; the cited KB does not prescribe those exact enum names. NOT_EXECUTED describes execution status, not the outcome of an identity check that actually ran. DOC-00#14, DOC-05#17 and DOC-13#20 use NOT_EXECUTED. The brief's DOC-01 locator is not an exact match: DOC-01#16 says independent_checker: NOT_PERFORMED.",
+    "edit": "Keep identity_admissibility, independent_checker execution status and acceptance_effect separate. Use NOT_EXECUTED/NOT_PERFORMED only when independent checking was not performed. Reject same-principal or self-attested checking with a KB-grounded TQ_SOD reason, as in DOC-07#132. On any failed predicate, emit claim_ceiling='IDENTITY_SEPARATION_NOT_ESTABLISHED; NO_ACCEPTANCE_OR_RELEASE_AUTHORITY'. Do not emit the current unconditional claim that the identities are distinct and attested on failure.",
+    "implementation_ref": "C:/Projects/Agent_Workspace/_r152_ev/tools/check_principal_separation.py#165"
+  },
+  "q3": {
+    "verdict": "VALID_AS_INERT_PENDING_RECORD_NOT_NATIVE_ADMISSION",
+    "conditions_missed": [
+      "Mode must be determined through DOC-11 and SWOF Native ModeGate, not the local authorization record: DOC-13#715.",
+      "PREW3_SHADOW requires a Native W2 frozen readset, exact hashes and a zero-write workspace: DOC-13#720.",
+      "Loop C requires Owner-provided frozen corpus/plan ABI/schema checksums and a SWOFShadowResult containing readset_hash, expected_vs_observed, mismatch, unknown and zero_write: DOC-13#723.",
+      "The mapping REQ→Receiver→EffectIntent→RAW expectation and rollback feasibility must be examined and returned to DOC-11/SWOF Owner: DOC-13#723.",
+      "SWOF_CONNECTED requires actual W3 Native admission, valid token/ECP/receiver and rollback, not merely owner scope confirmation: DOC-13#721.",
+      "W3 candidate execution starts separately after external formal approval; shadow compatibility PASS cannot become Native Effect PASS: DOC-13#723.",
+      "Native stage/version/schema semantics require signed Owner Binding and actual Receiver evidence. DOC-05#6078 applies the unresolved-stage HOLD to W3 itself; #6080 is specifically W5, not an interchangeable W3 contract. DOC-05#6083 requires version, digest, scope, token and freshness validation."
+    ],
+    "edit": "Retain PENDING_SCOPE_CONFIRMATION and permitted_effects=[]. Replace what_unblocks_activation with: 'Scope confirmation advances only the authorization request. Native activation additionally requires verified external authority, exact-subject scope, Native StageSemanticBinding, DOC-11/SWOF ModeGate, applicable W2/ShadowResult evidence, valid token/ECP/receiver, rollback and actual Native admission/receiver receipts. Missing or unobserved requirements retain HOLD.' Replace policy_basis with: 'Local principal registration does not establish SWOF Native admission authority or waive Native signature/binding requirements.'",
+    "why": "The null subject and null signature do not violate the KB while the record remains inert. The contradiction is its proposed activation shortcut: one more owner message is not sufficient to satisfy DOC-13#721 or DOC-05#6083. The current revocation-on-supersession statement is also not evidence of an operational rollback plan."
+  },
+  "q4": {
+    "verdict": "DIFFERENT_OBJECTS_NO_PLUGIN_ID_AUTHORITY_FROM_THIS_LOCATOR",
+    "why": "DOC-11#969 explicitly describes an idempotency_key in an adapter candidate containing work_order_ref, one_ecp_ref and effect intent. It does not define a ChatGPT plugin identifier. DOC-11#982 further says schema correctness cannot replace Native Binding/signature. C21's own field names distinguish plugin IDs from installation receipts, so conflation is not proven in that JSON; citing DOC-11#969 as authority for plugin installation identity would nevertheless be incorrect.",
+    "c21_may_claim": "A local inventory records three bundle/manifest digests, null host/plugin identifiers, null installation/readback/invocation receipts and a reported browser/CDP blocker. Preserve the bounded pending ceiling. Double-build reproducibility and the R5Y precedent are recorded assertions, not independently re-established by this read-only audit. C21_HOST_ID_INVENTORY.json#22, #26 and #47.",
+    "c21_may_not": "It may not equate a plugin ID with an idempotency key, infer installation or HostABI qualification from a ZIP/hash, or claim successful invocation, Native admission or release. DOC-12#1828 requires actual install/FUO and qualified HostABI evidence within the applicable release intersection.",
+    "edit": "Add identifier_kind='host_plugin_installation_id' and native_idempotency_key_ref=null as distinct concepts. State explicitly: 'DOC-11 idempotency_key vocabulary does not define or qualify this plugin identifier.'"
+  },
+  "q5": {
+    "authority_doc": "SBL_PIPD-LS-PKG_DOC-12.md#1824",
+    "deferral_ok": true,
+    "why": "DOC-12 D12-06 governs the SBL release decision. DOC-12#149 reserves publishing to the external Native Owner/RepoAdmin; #2083 reserves NATIVE_APPROVED to the Native Release Owner after trusted exact-subject evidence. Deferring release while retaining BLOCKED does not invert the stated order: DOC-12#1746 places release/rollback after hash, provenance, scope, installation and cleanup checks. Deferral cannot waive the seal or mark release ready: #2079 forbids release without signed approval and independent checking, and #2085 requires publication permission and other applicable prerequisites.",
+    "locator_correction": "C24 is a local round/checkrun identifier here, not the KB's release chapter. The KB's actual C24 is LEDGER in DOC-09#1532.",
+    "edit": "Replace DEFERRED_BY_OWNER_NOT_A_BLOCKER with DEFERRED_BY_OWNER__RELEASE_REMAINS_BLOCKED. Record that deferral permits only separately authorized non-release work; it does not satisfy any applicable ReleaseGate predicate."
+  },
+  "corrections": [
+    {
+      "file": "C:/Projects/Agent_Workspace/Fabric/FABRIC/control/SOD_POLICY.yaml",
+      "what": "Bind independent_checker_identity to canonical independent_checker_ref; preserve Native authority boundaries.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-07.md#3394"
+    },
+    {
+      "file": "C:/Projects/Agent_Workspace/Fabric/FABRIC/assurance/principals.json",
+      "what": "Supply verified attestation evidence and exact-subject grants; do not treat lane/model labels as identity proof.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-07.md#79"
+    },
+    {
+      "file": "C:/Projects/Agent_Workspace/_r152_ev/tools/check_principal_separation.py",
+      "what": "Enforce declared subject, evidence and ancestry rules; emit a failure-specific claim ceiling.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-07.md#132"
+    },
+    {
+      "file": "C:/Projects/Agent_Workspace/_r152_ev/tests/test_principal_separation.py",
+      "what": "Add missing-subject, broken-parent, untrusted-root, controller-alias and evidence-binding refusal cases.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-12.md#2083"
+    },
+    {
+      "file": "C:/Projects/Agent_Workspace/Fabric/FABRIC/assurance/admissions/W3/W3-SWOF-R153-01.owner-attested.json",
+      "what": "Remove scope-only activation shortcut; retain HOLD until Native admission prerequisites are evidenced.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-13.md#721"
+    },
+    {
+      "file": "C21_HOST_ID_INVENTORY.json",
+      "what": "Distinguish plugin installation IDs from native idempotency keys and qualify recorded evidence assertions.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-11.md#969"
+    },
+    {
+      "file": "QUEUE_R15_2.json",
+      "what": "Clarify DEN-C24 deferral as non-release scheduling only; release remains blocked.",
+      "why_cited": "SBL_PIPD-LS-PKG_DOC-12.md#2079"
+    }
+  ],
+  "unresolved_in_kb": [
+    "The cited checker-reference schema does not prescribe the proposed principal registry, controller attestation protocol or grant-ancestry representation.",
+    "The inspected Native-stage table explicitly leaves actual SWOF W3/W4/W5 versions and schemas unresolved pending Owner Binding.",
+    "DOC-11#969 does not establish the ChatGPT plugin installation-ID contract or authenticate the claimed R5Y precedent.",
+    "The inspected release rules do not prescribe an artifact literally named C24 release seal; the local seal must be mapped to Native release approval and receipts."
+  ],
+  "execution": {
+    "mode": "PLAN_STATIC_DOCUMENT_REVIEW",
+    "files_modified": false,
+    "tests_run": false,
+    "delegation": "None. Product corrections require EXECUTE; independent acceptance requires VERIFY. Neither was dispatched.",
+    "mandate_check": "ALLOWED",
+    "mandate_audit": "AUDIT_CLEAN; checked 53",
+    "continuation_guard": "Failed with exit 1: PermissionError attempting to write QUEUE_R15_2.json at tools/continuation_guard.py#77 in the read-only workspace. No terminal verdict was obtained; the gate was not edited or bypassed."
+  },
+  "claim_ceiling": "SOURCE_BOUNDED_PLAN_REVIEW_ONLY. Corrections are proposals, not applied fixes. No independent acceptance, test PASS, authenticated principal separation, Native W3 admission, host installation, release seal or round completion is established."
+}

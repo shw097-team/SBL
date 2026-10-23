@@ -1,0 +1,134 @@
+{
+  "clause": {
+    "yaml": "principal_separation:\n  schema: FABRIC-PRINCIPAL-SEPARATION/1\n  enforcement: mandatory_fail_closed\n  principal_registry: assurance/principals.json\n  registry_trust: locally_pinned_owner_attested_snapshot\n  identity_key: principal_id\n  identity_semantics: one_stable_id_per_attested_controller_not_per_alias_session_role_or_model\n  required_roles:\n    producer_identity: maker\n    independent_checker_identity: final_checker\n  subject_binding: [candidate_sha256, environment_sha256, abi_sha256]\n  principal_record_required:\n    - principal_id\n    - controller_id\n    - aliases\n    - grants\n    - attestation\n  grant_required:\n    - grant_id\n    - role\n    - subject\n    - authority_principal_id\n    - delegation_parent_grant_id\n    - valid_from\n    - expires_at\n    - revoked\n  attestation_required:\n    - attestor_principal_id\n    - source_receipt_ref\n    - source_receipt_sha256\n    - registry_snapshot_sha256\n    - attested_at\n    - expires_at\n    - revoked\n  delegation_rule: reject_if_checker_grant_ancestry_contains_any_producer_principal_or_controller\n  resolution_rule: reject_missing_ambiguous_duplicate_or_conflicting_identity_records\n  ancestry_rule: reject_missing_parent_cycle_or_untrusted_root\n  binding_rule: verdict_and_all_grants_must_match_exact_frozen_subject\n  admissibility:\n    predicate: all_principal_separation_predicates_true\n    failure: INADMISSIBLE\n    acceptance_effect: NOT_ESTABLISHED\n    success: IDENTITY_SEPARATION_ADMISSIBLE\n    success_is_not_acceptance: true\n  claim_ceiling: 'The two identities are distinct and attested; checker competence and independence in intent are not established.'\n",
+    "enforced_by": "PROPOSED, not implemented: tools/check_principal_separation.py::check_verdict(verdict, registry_snapshot, pinned_snapshot_sha256, local_receipts, evaluation_time). Read local files only; no network. Return structured predicate results and evidence digests; nonzero exit on any failed or unknown predicate. Every PASS-admission caller must require this result for the exact verdict digest, subject and pinned registry snapshot, not merely populate identity strings.",
+    "predicates": [
+      "P1: Validate strict schemas, rejecting duplicate JSON/YAML keys, unknown schema versions, missing required values and malformed digests. Recompute the registry snapshot SHA-256 and compare it with an owner-approved digest pinned outside verdict-controlled input.",
+      "P2: Resolve producer_identity and independent_checker_identity through the pinned registry. Each resolves to exactly one active principal record. Aliases, sessions, model labels and role labels cannot create a new controller identity.",
+      "P3: producer.principal_id != checker.principal_id AND producer.controller_id != checker.controller_id. Apply this comparison to every producer recorded for a multi-producer candidate.",
+      "P4: Both records have owner-attested identity mappings with existing local source receipts whose recomputed digests match; attestors must be admitted by the locally pinned authority policy. A receipt hash proves byte binding, not the truth of an identity assertion.",
+      "P5: The producer has a valid maker grant and the checker a valid final_checker grant for the exact candidate/environment/ABI tuple. Evaluation time is explicitly supplied; require valid_from <= verdict_time <= evaluation_time < expires_at and reject revoked records, grants or attestations.",
+      "P6: Walk the checker's complete grant ancestry to a trusted root. Reject missing parents, cycles, scope expansion, expired or revoked ancestors, or any ancestor issued by or acting for a producer principal/controller. A null parent is accepted only for a direct grant from a pinned root authority.",
+      "P7: Recompute candidate, environment and ABI descriptor digests from local frozen inputs; require exact equality with verdict, grants and attestations. Require the checker receipt to bind its verdict digest and resolved principal.",
+      "P8: All P1-P7 must be true. False, unknown, unavailable or conflicting evidence makes the verdict INADMISSIBLE and the acceptance claim NOT_ESTABLISHED. Passing establishes only identity-separation admissibility."
+    ],
+    "principal_record_fields": [
+      "principal_id: stable opaque canonical identifier",
+      "controller_id: owner-attested identifier of the effective controlling principal; shared across aliases or delegated automation under that controller",
+      "aliases: explicit identity strings, unique across the pinned registry",
+      "grants[]: grant_id, role, exact subject tuple, authority_principal_id, delegation_parent_grant_id, valid_from, expires_at, revoked",
+      "attestation: attestor_principal_id, source_receipt_ref, source_receipt_sha256, registry_snapshot_sha256, attested_at, expires_at, revoked",
+      "Registry envelope: schema, version, frozen_at, records and approved authority roots; its expected digest is pinned separately to avoid self-authentication"
+    ],
+    "inadmissible_when": [
+      "Checker and producer resolve to the same principal or controller, including different aliases, sessions or model names for that controller.",
+      "Either principal record is missing, unresolved, ambiguous, untrusted, expired, revoked or lacks a locally verifiable attestation receipt.",
+      "The final_checker role is held by direct or transitive delegation from a producer, including delegation through an intermediary or a producer-controlled principal."
+    ],
+    "claim_ceiling": "The two identities are distinct and attested; checker competence and independence in intent are not established."
+  },
+  "w3": {
+    "artefact": "PROPOSED: Fabric/FABRIC/assurance/admissions/W3/<admission_id>.owner-attested.json",
+    "fields": [
+      "schema: FABRIC-W3-OWNER-ATTESTED-AUTHORIZATION/1",
+      "admission_id, revision, previous_record_sha256",
+      "authorization_kind: OWNER_ATTESTED_RUNTIME_RECORDED",
+      "issuer_claimed_principal_id, issuer_claimed_role: SWOF_DOMAIN_OWNER, authority_basis: OWNER_CHAT_SELF_ATTESTATION",
+      "source_conversation_id, source_message_id, source_message_sha256, source_message_timestamp, exact_authorization_excerpt",
+      "scope_confirmation_receipt_ref: an actual owner message binding the frozen subject and permissions; absent confirmation means PENDING_SCOPE_CONFIRMATION, not ACTIVE",
+      "subject: candidate_sha256, environment_sha256, abi_sha256; environment and ABI descriptors must be frozen local files",
+      "authorized_operations, explicitly_forbidden_operations, permitted_effects, rollback_conditions",
+      "recorded_by_runtime_identity, recorded_at, not_before, expires_at",
+      "signature: null; signature_status: NOT_CRYPTOGRAPHICALLY_SIGNED",
+      "status: PENDING_SCOPE_CONFIRMATION | ACTIVE_OWNER_ATTESTED | EXPIRED | REVOKED | SUPERSEDED",
+      "policy_basis: policy digest and explicit permission for this attestation class; if policy requires a cryptographic owner signature, retain SIGNED_ADMISSION_NOT_ESTABLISHED",
+      "supersedes_authorization_refs: explicitly identify any earlier shadow-only authorization being replaced; preserve its original bytes and history",
+      "superseded_by, supersession_receipt_ref, revocation_receipt_ref",
+      "claim_ceiling: OWNER_ATTESTED_W3_AUTHORIZATION_RUNTIME_RECORDED; NOT_CRYPTOGRAPHICALLY_SIGNED; NOT_PROOF_OF_DOMAIN_OWNERSHIP; NOT_NATIVE_EXECUTION_OR_ACCEPTANCE"
+    ],
+    "ttl": "Proposed maximum 24 hours from the owner's subject-bound authorization timestamp, not from delayed recording. Require not_before <= evaluation_time < expires_at; expire immediately on candidate/environment/ABI change or owner revocation. Renewal requires a new owner receipt; do not silently extend. This TTL is a proposed policy choice, not an observed existing rule.",
+    "may_not": [
+      "Invent a signature, private key, certificate, owner message, message identifier, timestamp or authenticated ownership proof.",
+      "Treat the brief's report of owner authorization as a substitute for capturing the actual owner message and its exact scope.",
+      "Convert a general W3 authorization into permission for an unspecified candidate, environment, ABI or production effect.",
+      "Treat an earlier shadow-only record as native admission or silently overwrite its restrictions.",
+      "Activate this attestation under an unchanged policy that accepts only signed admissions.",
+      "Treat authorization as evidence that W3 ran successfully or that C19/M3 passed."
+    ],
+    "verdict_if_superseded": "After a real signature is verified under the approved local trust policy, check issuer authority, exact subject, scope, validity and explicit replacement linkage. Append a supersession event and make the signed successor the sole effective authorization for that admission lineage; the original evaluates SUPERSEDED_NOT_EFFECTIVE and remains historical evidence. Invalid or unrelated signatures do not supersede anything. A changed subject requires a new admission. Prevent two concurrently effective authorizations for the same lineage."
+  },
+  "c21": {
+    "steps": [
+      "1. Treat the supplied R5Y private-path result as historical precedent, not a new installation receipt. Freeze a three-row bundle inventory with bundle ID, ZIP SHA-256, manifest SHA-256, version and expected shortDescription. Keep secrets out of upload packages. Official OpenAI documentation describes ZIP upload, but does not establish that this account exposes the historical private-upload controls. ([developers.openai.com](https://developers.openai.com/plugins/deploy/submission))",
+      "2. Confirm the intended authenticated host account/workspace, authorized private-upload scope and permitted test effects. Capture account/workspace evidence without exporting credentials. If identity verification, authentication or consent requires human input, stop at that boundary.",
+      "3. Use the supplied FDA/cua-driver precedent: attempt background automation first; record capabilities and structured results. Escalate to foreground only after a recorded background_unavailable result and any required user consent. Prefer semantic controls, zero mouse input and no focus theft where possible.",
+      "4. Open the supplied chatgpt.com/plugins entry point and inspect live controls. If the historical sidebar Plugins -> Add -> Upload archive path is present, use it. If absent, record HOST_PATH_UNAVAILABLE with account, time and UI evidence; do not invent controls or silently substitute public submission.",
+      "5. For one frozen bundle, invoke Upload archive. In the native file dialog, use UIA set_value for the absolute ZIP path followed by Invoke on Open. Confirm the selected filename and bind the upload action receipt to the frozen ZIP digest.",
+      "6. Invoke Add plugin only in the authorized private flow. Capture the exact host-returned URL and plugin ID from the resulting page or host response; never construct an ID from the historical example, package name or hash. Record the creation receipt and plugin detail readback.",
+      "7. Install that returned plugin and capture the install confirmation. Installation and new-chat use are separate steps in official OpenAI documentation. ([learn.chatgpt.com](https://learn.chatgpt.com/docs/plugins))",
+      "8. Open Settings or the Installed list and capture the installed plugin identity, version when exposed, and manifest shortDescription. Match these against the frozen bundle and host-created detail page; shortDescription alone is not a unique binding. The official Plugins documentation identifies the Installed row as the installed-plugin readback surface. ([learn.chatgpt.com](https://learn.chatgpt.com/docs/plugins))",
+      "9. Start a new real chat in the same account/workspace. Select the installed plugin through the @ menu and send a uniquely marked, bounded test prompt. Capture the full relevant invocation transcript and actual skill/tool execution evidence, not merely an assistant assertion. Explicit @ selection is documented by OpenAI. ([learn.chatgpt.com](https://learn.chatgpt.com/docs/plugins))",
+      "10. Execute an authorized positive case and a harmless negative case expected to fail closed. Capture observed outputs, error/refusal codes and effect checks. Missing execution evidence, unexpected effects or a failed negative test leaves the cell NOT_ESTABLISHED.",
+      "11. Produce a per-bundle evidence index binding the frozen ZIP, host ID, install receipt, installed-list readback and invocation results to one account/workspace and timeline. A cell is admissible only when every required evidence item is present, consistent and accepted by the checker.",
+      "12. Repeat independently for each remaining bundle. Preserve each host-issued ID exactly as returned and require three distinct IDs for the three-bundle C21 target. Never reuse the R5Y example ID as evidence for a new bundle."
+    ],
+    "evidence_fields": [
+      "schema, evidence_id, round_id, bundle_id, bundle_version, bundle_inventory_sha256",
+      "zip_path, zip_sha256, manifest_sha256, expected_shortDescription",
+      "host_returned_url, host_returned_plugin_id, host_creation_receipt_ref, host_creation_receipt_sha256",
+      "upload_action_receipt_ref linking the selected frozen ZIP to the host-created plugin detail",
+      "install_receipt_ref, install_receipt_sha256, install_status, installed_at",
+      "settings_or_installed_list_readback_ref, readback_sha256, observed_plugin_id_or_detail_link, observed_version_if_exposed, observed_shortDescription",
+      "invocation_conversation_id, invocation_message_ids, invocation_transcript_ref, invocation_transcript_sha256, selected_plugin_identity, test_nonce",
+      "positive_case_expected_and_observed, negative_case_expected_and_observed, skill_execution_receipt_ref, effect_check_receipt_ref",
+      "host_account_subject, workspace_or_tenant_id, account_identity_readback_ref; no authentication secrets",
+      "created_at_utc, installed_at_utc, readback_at_utc, invoked_at_utc, evidence_captured_at_utc",
+      "driver_name_and_version, background_attempt_receipt_ref, background_unavailable_receipt_ref_if_applicable, foreground_consent_ref_if_applicable",
+      "producer_identity, independent_checker_identity, checker_verdict_ref, principal_registry_sha256, evidence_index_sha256",
+      "cell_verdict, missing_evidence, claim_ceiling; use explicit missing values, never fabricated receipts"
+    ],
+    "human_only": [
+      "Developer/person/business identity verification and associated identity assertions.",
+      "Brand artwork approval.",
+      "Public submission/publication and any new distribution authorization.",
+      "Password, MFA, CAPTCHA and consent challenges that require the account holder; do not bypass or impersonate.",
+      "Any foreground interaction for which the owner has not authorized automation."
+    ],
+    "claim_ceiling_one_of_three": "At most C21_PARTIAL_1_OF_3, and only after that bundle has a complete admissible host-issued-ID, install, readback and execution evidence chain. The other two remain HOST_PENDING or NOT_ESTABLISHED. No aggregate C21 PASS, no public publication claim, no all-host or all-bundle claim. Installation alone, without execution evidence, supports only ONE_BUNDLE_INSTALLED_UNVERIFIED."
+  },
+  "tests": [
+    {
+      "file": "PROPOSED: tests/test_principal_separation.py",
+      "asserts": "Distinct attested controllers with trusted direct grants and matching frozen subject pass identity admissibility only; same principal, alias-equivalent controller, missing record and direct/transitive producer delegation each fail closed."
+    },
+    {
+      "file": "PROPOSED: tests/test_principal_separation.py",
+      "asserts": "Reject duplicate keys/IDs, ambiguous aliases, altered snapshots or receipts, untrusted attestors, expired/revoked grants, unknown ancestry, cycles, subject mismatch and stale or replayed verdict bindings; the acceptance caller cannot bypass the check."
+    },
+    {
+      "file": "PROPOSED: tests/test_w3_owner_attestation.py",
+      "asserts": "Missing real source receipt or subject confirmation remains pending; signature is null; exact subject binding and explicit policy support are mandatory; expiry occurs at 24 hours, and mutation/revocation invalidates authorization without implying execution."
+    },
+    {
+      "file": "PROPOSED: tests/test_w3_supersession.py",
+      "asserts": "A valid same-subject signed replacement becomes the single effective authorization; retain original history; reject invalid, expired, unrelated or wrong-subject replacements and duplicate active lineage heads."
+    },
+    {
+      "file": "PROPOSED: tests/test_c21_evidence.py",
+      "asserts": "Reject fabricated/reused historical IDs, incomplete chains, account/workspace mismatch, ambiguous bundle binding, absent actual invocation and failed negative cases. One admissible bundle yields PARTIAL_1_OF_3, never aggregate PASS."
+    }
+  ],
+  "ordering": "Land and wire C05/M1's principal-separation policy and offline checker first, because neither W3 nor C21 evidence may acquire an admissible checker verdict merely by naming a different identity. Then record subject-bound W3 authorization under an explicitly approved attestation policy and execute the C21 private-host procedure; these two issuance paths need not depend on one another. This turn provides proposals only: no files were written, tests implemented, authorization issued, host installed or acceptance declared. PLAN gate returned ALLOWED; mandate audit returned AUDIT_CLEAN for 53 items. continuation_guard.py was inspected but not run because it unconditionally writes the queue and can write proofs, conflicting with this read-only session. No gate was changed. Implementation or independent verification would require its mandated lane; no lane was dispatched.",
+  "do_not_claim": [
+    "The referenced Fabric policy/schema files were inspected: they were not found at the supplied workspace-relative paths; the proposed extension is based on the brief and still requires merge/schema compatibility checking.",
+    "Proposed script and test paths already exist or their checks have passed.",
+    "Different names, model instances, sessions or role labels prove distinct controlling principals.",
+    "Offline attestation proves identity truth, checker competence, independence in intent or third-party certification.",
+    "An owner chat statement is a cryptographic signature or independently verified domain ownership.",
+    "Owner authorization alone changes a signed-only admission policy or proves native execution.",
+    "The historical private-upload UI is available to this account today; official documentation supports general upload/install/invocation, not this account's access to that exact private path.",
+    "The R5Y host-issued example ID is a receipt for any current bundle.",
+    "One installed bundle proves three-bundle acceptance, successful execution, public availability or release.",
+    "The round is complete, the continuation guard is green, or any gap is closed by this plan."
+  ]
+}
