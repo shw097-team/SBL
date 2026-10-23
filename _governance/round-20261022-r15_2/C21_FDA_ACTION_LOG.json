@@ -1,0 +1,34 @@
+{
+  "schema": "SBL-C21-FDA-ACTION-LOG/1",
+  "at_utc": "2026-10-23T04:47:37Z",
+  "session": "c21-r153",
+  "driver": "cua-driver.exe call <tool> --json",
+  "chrome": {
+    "pid": 15152,
+    "window_id": 2295894
+  },
+  "invariants": [
+    "background-first on every input",
+    "single foreground escalation: one Return to commit the URL",
+    "native 開啟 dialog driven by UIA set_value + Invoke (no mouse, no focus theft)",
+    "no credential, identity or payment control was touched"
+  ],
+  "flow": [
+    "set_value 網址與搜尋列 -> chatgpt.com/plugins (Return escalated to foreground)",
+    "click 新增 (ExpandCollapsePattern) -> MenuItem 上傳外掛程式封存檔",
+    "click 點選上傳 -> native 開啟 dialog (pid varies per attempt)",
+    "set_value 檔案名稱(N) = absolute zip path -> Invoke 開啟(O)",
+    "click 新增外掛程式 -> host returns /plugins/Plugin_<id>",
+    "click 安裝外掛程式 -> settings list shows the plugin"
+  ],
+  "observed_friction": [
+    "the wrapper's element-index argument is rejected (`unknown argument element_index`); the CLI element_token route works",
+    "the Created-plugin URL can lag one snapshot behind; re-read the address bar before concluding creation failed",
+    "substring matching on '新增' hits 新增新的專案 - match the exact label"
+  ],
+  "host_ids": {
+    "sbl-commander-sp": "Plugin_69dd1cac627c8191ab46fb465555aa22",
+    "sbl-tpm-sp": "Plugin_43c6e757a0d8819183dc3486d166c24f",
+    "sbl-external-challenge-sp": "Plugin_2ac58bf7ca888191b24ba74c22e352fb"
+  }
+}

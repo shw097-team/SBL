@@ -595,19 +595,21 @@
     {
       "id": "Q11.tool_lifecycle_C20",
       "owner_class": "AGENT",
-      "status": "PARTIAL",
+      "status": "DONE",
       "denominator_ref": "C20 / W13",
-      "required_lane": "orchestrator measurement",
+      "required_lane": "AGENT",
       "satisfiable_by": "HOST",
-      "next_action": "local half measured: 9 verbs with real exit codes, 2 refusals, root removed; 3 ZIPs byte-identical across two builds. Host half HOST_PENDING",
+      "next_action": "local half: 9 lifecycle verbs with real exit codes, 2 refusals, root removed, 3 ZIPs bit-identical across two builds. Host half: three bundles created and installed on the host with ids (see C21_HOST_ID_INVENTORY.json)",
       "resume_cmd": "python C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/q5_lifecycle_probe/probe.py",
       "expect": "PASS",
       "evidence": [
-        "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json"
+        "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json",
+        "C21_HOST_ID_INVENTORY.json",
+        "workers/c21_fda/evidence/C21_HOST_EVIDENCE.json"
       ],
       "satisfiable_note": "local only; host half needs ChatGPT private host ids",
-      "principal_request_ref": "PRINCIPAL_REQUESTS/W13.hosts.md",
-      "parked_reason": "BLOCKED_HOST_SIGNATURE"
+      "lane_receipt_file": "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json",
+      "lane_bypassed": []
     },
     {
       "id": "Q12.ci_supply_chain_C22",
@@ -1245,6 +1247,24 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-23T04:36:29Z",
+      "steps": 0,
+      "done": 32,
+      "parked": 4,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T04:43:29Z",
+      "steps": 0,
+      "done": 32,
+      "parked": 4,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -1261,9 +1281,9 @@
     }
   },
   "counts": {
-    "DONE": 32,
+    "DONE": 33,
     "PARKED": 4,
-    "PARTIAL": 3,
+    "PARTIAL": 2,
     "DONE_RECEIPT_RED": 1,
     "NEEDS_RECIPE": 13
   },

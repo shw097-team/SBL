@@ -1,0 +1,243 @@
+<!-- https://chatgpt.com/plugins/Plugin_43c6e757a0d8819183dc3486d166c24f captured 2026-10-23T04:46:22Z -->
+- Window "sbl-tpm-sp | ChatGPT 外掛程式 - Google Chrome"
+  - Pane "sbl-tpm-sp | ChatGPT 外掛程式 - 高記憶體用量 - 833 MB - Google Chrome - 駿"
+          - [0] Button "最小化" [id=view_1 actions=[invoke]]
+          - [1] Button "還原" [id=view_3 actions=[invoke]]
+          - [2] Button "關閉" [id=view_4 actions=[invoke]]
+              - [3] Button "返回" [id=view_1001 actions=[invoke]]
+              - Button "往前"
+              - [4] Button "重新載入" [id=view_1003 actions=[invoke]]
+                - [5] Button "查看網站資訊" [id=view_1011 actions=[invoke]]
+                - [6] Edit "網址與搜尋列" [value="chatgpt.com/plugins/Plugin_43c6e757a0d8819183dc3486d166c24f" id=view_1012 help="問問 Google 或輸入網址" actions=[set_value,text]]
+                  - [7] Button "縮放比例：125%" [actions=[invoke]]
+                  - [8] Button "將此分頁加入書籤" [actions=[invoke]]
+                - [9] Button "SubBatch - B站字幕批量下载工具
+需要這個網站的存取權限" [id=view_1009 actions=[expand]]
+                - [10] Button "SaveAI Popup
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [11] Button "ChatGPT 匯出工具 - ChatGPT 轉換為 PDF、MD 等
+有權存取這個網站" [id=view_1009 actions=[expand]]
+                - [12] Button "擴充功能" [id=view_1006 actions=[expand]]
+              - [13] Button "控管你的音樂、影片等項目" [actions=[expand]]
+              - [14] Button "駿" [id=view_1018 actions=[expand]]
+              - [15] Button "Chrome" [id=view_1007 actions=[expand]]
+            - ToolBar "書籤"
+              - [16] Button "應用程式" [id=view_1028 actions=[invoke]]
+              - ToolBar "已儲存的分頁群組"
+                - [17] Button "分頁群組" [actions=[expand]]
+              - Separator "分隔線"
+              - [18] Button "工具" [id=view_1028 actions=[expand]]
+              - [19] Button "Fun" [id=view_1028 actions=[expand]]
+              - [20] Button "Text Blaze Dashboard" [id=view_1028 actions=[invoke]]
+              - [21] Button "Google 文件" [id=view_1028 actions=[invoke]]
+              - [22] Button "ChatGPT" [id=view_1028 actions=[invoke]]
+              - [23] Button "Gemini" [id=view_1028 actions=[invoke]]
+              - [24] Button "shw097-team repositories" [id=view_1028 actions=[invoke]]
+              - [25] Button "opencode" [id=view_1028 actions=[invoke]]
+              - [26] Button "PokéSurvivor – Juego Pokémon free online estilo Survivor.io" [id=view_1028 actions=[invoke]]
+              - [27] Document "sbl-tpm-sp | ChatGPT 外掛程式" [value="https://chatgpt.com/plugins/Plugin_43c6e757a0d8819183dc3486d166c24f" id=RootWebArea actions=[set_value,text,scroll]]
+                - [28] Group [actions=[invoke]]
+                  - [29] Group [actions=[invoke]]
+                    - [30] Hyperlink "跳至內容" [value="https://chatgpt.com/plugins/Plugin_43c6e757a0d8819183dc3486d166c24f#_R_7er7l8aqn75cched5hlb5_" actions=[invoke,set_value]]
+                    - [31] Button "切換模式，目前模式：ChatGPT" [id=radix-_r_ls_ actions=[expand]]
+                    - [32] Button "搜尋" [actions=[invoke]]
+                    - [33] Button "隱藏側邊欄" [actions=[expand]]
+                    - Group "對話紀錄"
+                      - [34] Button "新對話" [actions=[invoke]]
+                      - [35] Button "已排程" [actions=[invoke]]
+                      - [36] Button "檔案庫" [actions=[invoke]]
+                      - [37] Button "外掛程式" [actions=[invoke]]
+                      - [38] Button "探索" [id=radix-_R_16atqdakrll8aqn75cched5hlb5_ actions=[expand]]
+                      - [39] Button "已釘選" [actions=[expand]]
+                          - ListItem "台股當沖高潛力個股要素 SPEC"
+                            - [40] Group "台股當沖高潛力個股要素 SPEC" [actions=[invoke]]
+                              - [41] Hyperlink "台股當沖高潛力個股要素 SPEC" [value="https://chatgpt.com/g/g-p-6aab88a3a5248191b2d1f0124a72b732/c/6ad61043-dc70-83ee-9d63-76ec1e914c19" actions=[invoke,set_value]]
+                              - [42] Button "對話動作" [id=radix-_r_gf_ actions=[expand]]
+                              - [43] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "驗收_SBL"
+                            - [44] Group "驗收_SBL" [actions=[invoke]]
+                              - [45] Hyperlink "驗收_SBL" [value="https://chatgpt.com/g/g-p-6abdc83932e48191881bc188388ab194/c/6ad7197e-1d04-83e8-b389-b45865770e94" actions=[invoke,set_value]]
+                              - [46] Button "對話動作" [id=radix-_r_gm_ actions=[expand]]
+                              - [47] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "指揮-2_SBL"
+                            - [48] Group "指揮-2_SBL" [actions=[invoke]]
+                              - [49] Hyperlink "指揮-2_SBL" [value="https://chatgpt.com/g/g-p-6abdc83932e48191881bc188388ab194/c/6ad80bf6-e510-83e8-acf2-e74280789565" actions=[invoke,set_value]]
+                              - [50] Button "對話動作" [id=radix-_r_gt_ actions=[expand]]
+                              - [51] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "指揮-R15_SBL"
+                            - [52] Group "指揮-R15_SBL" [actions=[invoke]]
+                              - [53] Hyperlink "指揮-R15_SBL" [value="https://chatgpt.com/g/g-p-6abdc83932e48191881bc188388ab194/c/6ad8d93b-16a8-83ee-8704-657420e5f9ef" actions=[invoke,set_value]]
+                              - [54] Button "對話動作" [id=radix-_r_h4_ actions=[expand]]
+                              - [55] Button "取消釘選對話" [actions=[invoke]]
+                          - ListItem "SWOF_StoryForge_Novel_Factory(副2)「市場總監」PROFILE TEAMSWOF-NIIF × SBL 四方協作(副2)S-SFNF(副1)S-SFNFSWOF-NIIF × SWOF-SWNMF_藍圖顯示更多"
+                            - [56] Button "SWOF_StoryForge_Novel_Factory" [actions=[expand]]
+                              - [57] Button "SWOF_StoryForge_Novel_Factory 的專案動作" [id=radix-_r_ha_ actions=[expand]]
+                              - [58] Group [actions=[invoke]]
+                                - [59] Button "在 SWOF_StoryForge_Novel_Factory 中開始新對話" [actions=[invoke]]
+                              - List "SWOF_StoryForge_Novel_Factory 中的對話"
+                                - ListItem "(副2)「市場總監」PROFILE TEAM"
+                                  - [60] Group "(副2)「市場總監」PROFILE TEAM" [actions=[invoke]]
+                                    - [61] Hyperlink "(副2)「市場總監」PROFILE TEAM" [value="https://chatgpt.com/g/g-p-6ad5c427eea48191b1bb37317de95c26/c/6ad8e1ef-c5b0-83ec-ad1d-c0d542815e20" actions=[invoke,set_value]]
+                                    - [62] Button "對話動作" [id=radix-_r_mj_ actions=[expand]]
+                                    - [63] Button "釘選對話" [actions=[invoke]]
+                                - ListItem "SWOF-NIIF × SBL 四方協作"
+                                  - [64] Group "SWOF-NIIF × SBL 四方協作" [actions=[invoke]]
+                                    - [65] Hyperlink "SWOF-NIIF × SBL 四方協作" [value="https://chatgpt.com/g/g-p-6ad5c427eea48191b1bb37317de95c26/c/6ad8b6b1-f518-83e8-818e-aee8fd2c2293" actions=[invoke,set_value]]
+                                    - [66] Button "對話動作" [id=radix-_r_mp_ actions=[expand]]
+                                    - [67] Button "釘選對話" [actions=[invoke]]
+                                - ListItem "(副2)S-SFNF"
+                                  - [68] Group "(副2)S-SFNF" [actions=[invoke]]
+                                    - [69] Hyperlink "(副2)S-SFNF" [value="https://chatgpt.com/g/g-p-6ad5c427eea48191b1bb37317de95c26/c/6ad8d8df-3060-83e8-b831-74db6e28b75f" actions=[invoke,set_value]]
+                                    - [70] Button "對話動作" [id=radix-_r_mv_ actions=[expand]]
+                                    - [71] Button "釘選對話" [actions=[invoke]]
+                                - ListItem "(副1)S-SFNF"
+                                  - [72] Group "(副1)S-SFNF" [actions=[invoke]]
+                                    - [73] Hyperlink "(副1)S-SFNF" [value="https://chatgpt.com/g/g-p-6ad5c427eea48191b1bb37317de95c26/c/6ad6259a-4ed4-83e8-82b5-6af1049d7b07" actions=[invoke,set_value]]
+                                    - [74] Button "對話動作" [id=radix-_r_n5_ actions=[expand]]
+                                    - [75] Button "釘選對話" [actions=[invoke]]
+                                - ListItem "SWOF-NIIF × SWOF-SWNMF_藍圖"
+                                  - [76] Group "SWOF-NIIF × SWOF-SWNMF_藍圖" [actions=[invoke]]
+                                    - [77] Hyperlink "SWOF-NIIF × SWOF-SWNMF_藍圖" [value="https://chatgpt.com/g/g-p-6ad5c427eea48191b1bb37317de95c26/c/6ad62995-bbc4-83e8-98e8-2ca6fdb95dae" actions=[invoke,set_value]]
+                                    - [78] Button "對話動作" [id=radix-_r_nb_ actions=[expand]]
+                                    - [79] Button "釘選對話" [actions=[invoke]]
+                                - ListItem "顯示更多"
+                                  - [80] Button "顯示更多" [actions=[invoke]]
+                          - ListItem "指揮官"
+                            - [81] Button "指揮官" [actions=[expand]]
+                              - [82] Button "指揮官 的專案動作" [id=radix-_r_hi_ actions=[expand]]
+                              - [83] Group [actions=[invoke]]
+                                - [84] Button "在 指揮官 中開始新對話" [actions=[invoke]]
+                          - ListItem "SWOF_SQS-THC升級"
+                            - [85] Button "SWOF_SQS-THC升級" [actions=[expand]]
+                              - [86] Button "SWOF_SQS-THC升級 的專案動作" [id=radix-_r_ho_ actions=[expand]]
+                              - [87] Group [actions=[invoke]]
+                                - [88] Button "在 SWOF_SQS-THC升級 中開始新對話" [actions=[invoke]]
+                          - ListItem "文檔收斂合併工具"
+                            - [89] Button "文檔收斂合併工具" [actions=[expand]]
+                              - [90] Button "文檔收斂合併工具 的專案動作" [id=radix-_r_hu_ actions=[expand]]
+                              - [91] Group [actions=[invoke]]
+                                - [92] Button "在 文檔收斂合併工具 中開始新對話" [actions=[invoke]]
+                        - [93] Button "專案" [actions=[expand]]
+                        - [94] Button "專案側邊欄選項" [id=radix-_r_i2_ actions=[expand]]
+                        - [95] Button "新增新的專案" [actions=[invoke]]
+                          - ListItem "SBL專案"
+                            - [96] Button "SBL專案" [actions=[expand]]
+                              - [97] Button "SBL專案 的專案動作" [id=radix-_r_ie_ actions=[expand]]
+                              - [98] Group [actions=[invoke]]
+                                - [99] Button "在 SBL專案 中開始新對話" [actions=[invoke]]
+                          - ListItem "PIPD-實作指揮官 & 驗收官"
+                            - [100] Button "PIPD-實作指揮官 & 驗收官" [actions=[expand]]
+                              - [101] Button "PIPD-實作指揮官 & 驗收官 的專案動作" [id=radix-_r_ik_ actions=[expand]]
+                              - [102] Group [actions=[invoke]]
+                                - [103] Button "在 PIPD-實作指揮官 & 驗收官 中開始新對話" [actions=[invoke]]
+                          - ListItem "ECP & TQAEP Plugin-03"
+                            - [104] Button "ECP & TQAEP Plugin-03" [actions=[expand]]
+                              - [105] Button "ECP & TQAEP Plugin-03 的專案動作" [id=radix-_r_iq_ actions=[expand]]
+                              - [106] Group [actions=[invoke]]
+                                - [107] Button "在 ECP & TQAEP Plugin-03 中開始新對話" [actions=[invoke]]
+                          - ListItem "PGX"
+                            - [108] Button "PGX" [actions=[expand]]
+                              - [109] Button "PGX 的專案動作" [id=radix-_r_j0_ actions=[expand]]
+                              - [110] Group [actions=[invoke]]
+                                - [111] Button "在 PGX 中開始新對話" [actions=[invoke]]
+                          - ListItem "CCPS & AMC_ZOP + SRRF × SREM 具身 AI／機器人"
+                            - [112] Button "CCPS & AMC_ZOP + SRRF × SREM 具身 AI／機器人" [actions=[expand]]
+                              - [113] Button "CCPS & AMC_ZOP + SRRF × SREM 具身 AI／機器人 的專案動作" [id=radix-_r_j6_ actions=[expand]]
+                              - [114] Group [actions=[invoke]]
+                                - [115] Button "在 CCPS & AMC_ZOP + SRRF × SREM 具身 AI／機器人 中開始新對話" [actions=[invoke]]
+                          - ListItem "顯示更多"
+                            - [116] Button "顯示更多" [actions=[invoke]]
+                        - [117] Button "最近項目" [actions=[expand]]
+                        - [118] Button "對話側邊欄選項" [id=radix-_r_ja_ actions=[expand]]
+                        - [119] Button "篩選對話與工作" [id=radix-_r_jd_ actions=[expand]]
+                        - [120] Button "新對話" [actions=[invoke]]
+                          - ListItem "帝牙盧卡培養研究報告"
+                            - [121] Group "帝牙盧卡培養研究報告" [actions=[invoke]]
+                              - [122] Hyperlink "帝牙盧卡培養研究報告" [value="https://chatgpt.com/c/6ada3ac3-1c6c-83ec-9301-c5bb45caea28" actions=[invoke,set_value]]
+                              - [123] Button "對話動作" [id=radix-_r_jl_ actions=[expand]]
+                              - [124] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "調查模型異常"
+                            - [125] Group "調查模型異常" [actions=[invoke]]
+                              - [126] Hyperlink "調查模型異常" [value="https://chatgpt.com/c/6ada39c9-0984-83ec-b660-d85347e0bf57" actions=[invoke,set_value]]
+                              - [127] Button "對話動作" [id=radix-_r_jr_ actions=[expand]]
+                              - [128] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "Hermes 任務清單診斷"
+                            - [129] Group "Hermes 任務清單診斷" [actions=[invoke]]
+                              - [130] Hyperlink "Hermes 任務清單診斷" [value="https://chatgpt.com/c/6ada25f9-c194-83ee-aa4d-fe694b8e90a1" actions=[invoke,set_value]]
+                              - [131] Button "對話動作" [id=radix-_r_k1_ actions=[expand]]
+                              - [132] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "Pokesurvivor前十變動分析"
+                            - [133] Group "Pokesurvivor前十變動分析" [actions=[invoke]]
+                              - [134] Hyperlink "Pokesurvivor前十變動分析" [value="https://chatgpt.com/c/6ad722e4-df18-83ee-b372-576ef63c4cd7" actions=[invoke,set_value]]
+                              - [135] Button "對話動作" [id=radix-_r_k7_ actions=[expand]]
+                              - [136] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "福建九連聖筊能否橫行"
+                            - [137] Group "福建九連聖筊能否橫行" [actions=[invoke]]
+                              - [138] Hyperlink "福建九連聖筊能否橫行" [value="https://chatgpt.com/c/6ad9857e-1914-83ec-9c54-9b8e5f59b4c5" actions=[invoke,set_value]]
+                              - [139] Button "對話動作" [id=radix-_r_kd_ actions=[expand]]
+                              - [140] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "連山複合模型織構分析"
+                            - [141] Group "連山複合模型織構分析" [actions=[invoke]]
+                              - [142] Hyperlink "連山複合模型織構分析" [value="https://chatgpt.com/c/6ad975dc-6c0c-83ec-a4c7-9bd5098dfe41" actions=[invoke,set_value]]
+                              - [143] Button "對話動作" [id=radix-_r_kj_ actions=[expand]]
+                              - [144] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "模型方案比較報告"
+                            - [145] Group "模型方案比較報告" [actions=[invoke]]
+                              - [146] Hyperlink "模型方案比較報告" [value="https://chatgpt.com/c/6ad830fb-93b4-83ee-85f4-daa3e23ff0b1" actions=[invoke,set_value]]
+                              - [147] Button "對話動作" [id=radix-_r_kp_ actions=[expand]]
+                              - [148] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "香港功夫片比較"
+                            - [149] Group "香港功夫片比較" [actions=[invoke]]
+                              - [150] Hyperlink "香港功夫片比較" [value="https://chatgpt.com/c/6ad79c34-d670-83ee-8c9e-a1aa7ea2186f" actions=[invoke,set_value]]
+                              - [151] Button "對話動作" [id=radix-_r_kv_ actions=[expand]]
+                              - [152] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "格鬥家等級分析"
+                            - [153] Group "格鬥家等級分析" [actions=[invoke]]
+                              - [154] Hyperlink "格鬥家等級分析" [value="https://chatgpt.com/c/6ad738e0-36f8-83ee-8688-9397d6410df8" actions=[invoke,set_value]]
+                              - [155] Button "對話動作" [id=radix-_r_l5_ actions=[expand]]
+                              - [156] Button "釘選對話" [actions=[invoke]]
+                          - ListItem "設定意圖卡資料"
+                            - [157] Group "設定意圖卡資料" [actions=[invoke]]
+                              - [158] Hyperlink "設定意圖卡資料" [value="https://chatgpt.com/c/6acef5b8-56d0-83e8-80bb-38d3f78606d7" actions=[invoke,set_value]]
+                              - [159] Button "對話動作" [id=radix-_r_lb_ actions=[expand]]
+                              - [160] Button "釘選對話" [actions=[invoke]]
+                    - [161] Button "開啟個人檔案選單" [id=radix-_R_8mjdakrll8aqn75cched5hlb5_ actions=[expand]]
+                    - [162] Text "鬼人馬" [actions=[text]]
+                    - [163] Text "Plus" [actions=[text]]
+                    - [164] Separator [actions=[invoke]]
+                        - Group "導覽路徑"
+                          - [165] Hyperlink "外掛程式" [value="https://chatgpt.com/plugins" actions=[invoke,set_value]]
+                            - [166] Text "sbl-tpm-sp" [actions=[text]]
+                      - Text "sbl-tpm-sp 你的雲端外掛程式"
+                        - [167] Button "你的雲端外掛程式" [actions=[invoke]]
+                          - Image "你的雲端外掛程式"
+                      - [168] Group [id=plugin-description actions=[invoke,scroll]]
+                        - [169] Text "By 鬼人馬 • TPM-SP specialised principal (product-manager): one Agent Skill packaged for portable host ingestion" [actions=[text]]
+                      - [170] Button "更多操作" [id=radix-_r_li_ actions=[expand]]
+                      - [171] Hyperlink "管理" [value="https://chatgpt.com/settings/plugins-settings/Plugin_43c6e757a0d8819183dc3486d166c24f" actions=[invoke,set_value]]
+                      - [172] Button "在對話中試用" [actions=[invoke]]
+                    - Text "技能 1"
+                    - [173] Button "tpm-sp TPM-SP product manager — clarify JTBD, FUO, MVP and non-goals, then compile a bounded PI/PD hand-off" [actions=[invoke]]
+                    - Text "資訊"
+                      - ListItem "開發者"
+                        - [174] Text "開發者" [actions=[text]]
+                      - [175] Text "鬼人馬" [actions=[text]]
+                      - ListItem "類別"
+                        - [176] Text "類別" [actions=[text]]
+                      - [177] Text "Other" [actions=[text]]
+                      - ListItem "版本"
+                        - [178] Text "版本" [actions=[text]]
+                      - [179] Text "0.1.1rc1" [actions=[text]]
+                      - ListItem "網站"
+                        - [180] Text "網站" [actions=[text]]
+                      - [181] Text "無法取得" [actions=[text]]
+                  - [182] Group [actions=[invoke]]
+                  - Image "如要為缺少說明的圖片取得說明，請開啟內容選單。"
+                  - [183] Group [actions=[invoke]]
+                - Group "text-blaze-integration"
+                  - [184] Text "{"extensionEnabled":true,"text":true}" [actions=[text]]
+              - [185] Button "分頁搜尋" [actions=[expand]]
+                - [186] TabItem "sbl-tpm-sp | ChatGPT 外掛程式 - 高記憶體用量 - 833 MB" [id=view_20 actions=[select]]
+                  - [187] Button "關閉" [actions=[invoke]]
+            - [188] Button "新分頁" [actions=[invoke]]
+              - [189] Button "開啟 Chrome 內建 Gemini" [actions=[invoke]]
