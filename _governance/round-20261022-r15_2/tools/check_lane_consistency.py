@@ -158,6 +158,7 @@ REASON_ARM_NOT_IN_RECEIPT_REVISION = "ARM_NOT_IN_RECEIPT_REVISION"
 # so this source may never grant the excuse - it can only ever produce a VIOLATION.
 REASON_POOL_TIME_NOT_AUTHORITATIVE = "POOL_TIME_NOT_AUTHORITATIVE"
 REASON_PROVIDER_NOT_RETIRED = "PROVIDER_NOT_RETIRED"
+REASON_ARM_LABEL_PROVIDER_CONFLICT = "ARM_LABEL_PROVIDER_CONFLICT"
 
 # Recorded whenever no `prior_arms_by_revision` mapping could pin the membership.
 REVISION_MEMBERSHIP_UNAVAILABLE = "UNAVAILABLE"
@@ -623,6 +624,15 @@ def classify_arm_with_reason(
     # finding, qualified label): keying the retired-pair map by the bare model meant the qualified form missed it and an
     # undeclared provider rode a retired model to SUPERSEDED. Both forms are resolved to one bare key here.
     served_bare = served_key.split("/", 1)[1] if (served_key and "/" in served_key) else served_key
+    served_prefix = served_key.split("/", 1)[0] if (served_key and "/" in served_key) else None
+    # B9 (2026-10-23): stripping the prefix to one bare key let a receipt label itself `evil-provider/minimax-...`
+    # while its provider field said `opencode-go`. The prefix is a claim about the provider, so when both exist they
+    # must agree - otherwise the label is forging the arm's identity and nothing about it may be excused.
+    _prov_norm = _normalise_arm(served_provider)
+    if served_prefix and _prov_norm and served_prefix != _prov_norm:
+        return VIOLATION, REASON_ARM_LABEL_PROVIDER_CONFLICT
+    if served_prefix and not _prov_norm:
+        _prov_norm = served_prefix   # the label is the only provider statement the receipt made
     if served_key is not None and (served_key in _arm_keys(pool_arms) or served_bare in _arm_keys(pool_arms)):
         return CONSISTENT, None
 
@@ -650,7 +660,7 @@ def classify_arm_with_reason(
 
     if isinstance(prior_pairs, dict) and prior_pairs:
         _providers = prior_pairs.get(str(served_bare).lower())
-        _prov = _normalise_arm(served_provider) if served_provider else None
+        _prov = _prov_norm
         if _providers and _prov and _prov.lower() not in _providers:
             # A retired MODEL does not authorise an undeclared PROVIDER: the pair was declared, so the pair is what
             # the excuse needs. Models the list does not know keep the pre-existing path (the bare-label floor).

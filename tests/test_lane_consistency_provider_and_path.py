@@ -107,7 +107,12 @@ def test_a_qualified_label_cannot_ride_a_retired_model_to_supersession():
             prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
         )
         assert verdict == checker.VIOLATION, "label %r rode a retired model past the provider guard" % label
-        assert reason == checker.REASON_PROVIDER_NOT_RETIRED
+        # Which refusal fires depends on the label form, and both are refusals:
+        #   bare model + provider=evil-provider          -> the provider never declared this model
+        #   opencode-go/model + provider=evil-provider   -> the label and the provider field contradict each other
+        expected = (checker.REASON_PROVIDER_NOT_RETIRED if "/" not in label
+                    else checker.REASON_ARM_LABEL_PROVIDER_CONFLICT)
+        assert reason == expected, "label %r refused for %r, expected %r" % (label, reason, expected)
 
 
 def test_evaluator_never_uses_the_receipt_file_mtime_when_the_receipt_has_no_time():
@@ -141,3 +146,39 @@ def test_evaluator_never_uses_the_receipt_file_mtime_when_the_receipt_has_no_tim
     blob = json.dumps(out, ensure_ascii=False)
     assert "SUPERSEDED" not in blob, "an undated receipt bought an excuse from its file mtime"
     assert "UNKNOWN_RECEIPT_TIME" in blob
+
+
+def test_a_label_prefix_that_contradicts_the_provider_field_is_refused():
+    """B9: `evil-provider/minimax-...` with provider=opencode-go was reduced to the bare model and excused.
+
+    The prefix is a provider statement. When the receipt carries both, they must agree; a disagreement is a forged
+    identity, not an old arm.
+    """
+    checker = _checker()
+    verdict, reason = checker.classify_arm_with_reason(
+        "evil-provider/minimax-m3.1-flash-free",
+        ["opencode-go/deepseek-v4.1-flash"],
+        "2026-10-19T10:00:00+00:00",
+        "2026-10-20T00:00:00+00:00",
+        ["minimax-m3.1-flash-free"],
+        None,
+        served_provider="opencode-go",
+        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
+    )
+    assert verdict == checker.VIOLATION
+    assert reason == checker.REASON_ARM_LABEL_PROVIDER_CONFLICT
+
+
+def test_a_qualified_label_with_no_provider_field_still_checks_the_pair():
+    """The label alone may state the provider - and then it must still be a provider that declared the arm."""
+    checker = _checker()
+    assert checker.classify_arm_with_reason(
+        "evil-provider/minimax-m3.1-flash-free",
+        ["opencode-go/deepseek-v4.1-flash"],
+        "2026-10-19T10:00:00+00:00",
+        "2026-10-20T00:00:00+00:00",
+        ["minimax-m3.1-flash-free"],
+        None,
+        served_provider=None,
+        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
+    ) == (checker.VIOLATION, checker.REASON_PROVIDER_NOT_RETIRED)
