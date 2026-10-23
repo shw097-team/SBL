@@ -801,9 +801,9 @@
       "expect_artefact": "tests/test_den_c10.py",
       "accept_cmd": "python -m pytest tests/test_den_c10.py -q",
       "timeout_s": 340,
-      "attempts": 1,
-      "last_result": "rc=1 secs=301.75 expect=miss\n    LANE_TOUCHED_CONTROL_PLANE (0 new entries) -> C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\receipts\\dispatch\\EXECUTE__DEN-C10.control_plane_delta.json\n    dispatch_exit= 3\n    WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.\n    WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: credential posture could not be decided (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); CONTINUING (a detector fault must not become a lane outage; L1 remains the structural control; INCONCLUSIVE is NOT a pass).\n    {\"lane\": \"EXECUTE\", \"ok\": false, \"secs\": 300.03, \"nonce\": false, \"model\": null, \"rank\": null, \"receipt\": \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\\\receipts\\\\dispatch\\\\EXECUTE__DEN-C10.json\"}",
-      "last_run_utc": "2026-10-23T05:25:33Z",
+      "attempts": 2,
+      "last_result": "TIMEOUT after 340s",
+      "last_run_utc": "2026-10-23T06:06:23Z",
       "evidence": [
         "receipts/dispatch/EXECUTE__DEN-C10_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_gstack_named_method_route.py"
@@ -835,7 +835,8 @@
       },
       "partial_reason": "independent challenge says PARTIALLY_VERIFIED: route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285)",
       "rearm_ok": true,
-      "gstack_note": "gstack has no executable on this host (CAPABILITY_SURFACE_R153.json): this test verifies hg_kseos.named_methods routing, so C10 cannot be VERIFIED as a gstack check"
+      "parked_reason": "STEP_FAILED",
+      "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it"
     },
     {
       "id": "DEN-C13",

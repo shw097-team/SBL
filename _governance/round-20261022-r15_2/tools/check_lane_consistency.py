@@ -272,11 +272,81 @@ def _predicate(pid: str, ok: bool, rank: Any, note: str) -> dict[str, Any]:
     return {"id": pid, "ok": bool(ok), "rank": rank, "note": note}
 
 
+def _normalise_arm(value: Any) -> str | None:
+    """A comparable arm label, or None when there is no usable value."""
+    if not isinstance(value, str):
+        return None
+    text = value.strip().lower()
+    return text or None
+
+
+def _parse_stamp(value: Any) -> datetime | None:
+    """ISO-8601 string (or datetime) -> aware UTC datetime; None stays None.
+
+    None, "" and anything unparsable return None. A naive stamp is read as UTC,
+    because every receipt in this workspace writes UTC.
+    """
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, str) and value.strip():
+        text = value.strip()
+        if text.endswith(("Z", "z")):
+            text = text[:-1] + "+00:00"
+        try:
+            parsed = datetime.fromisoformat(text)
+        except ValueError:
+            return None
+    else:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
+def classify_arm(
+    served: Any,
+    pool_arms: Any,
+    receipt_time: Any,
+    pool_time: Any,
+) -> str:
+    """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
+
+    Pure: no IO, no clock, no globals. `pool_arms` is any iterable of arm labels
+    (bare model or `provider/model`; the caller passes both forms so an alias
+    cannot masquerade as a rebind). Matching is exact on the normalised label.
+
+    A served arm that is absent from the pool is SUPERSEDED only when the receipt
+    is strictly older than the pool revision. An unknown time (None or
+    unparsable) never buys that excuse: it is a VIOLATION, because a missing
+    timestamp cannot prove the receipt came first.
+    """
+    served_key = _normalise_arm(served)
+    keys: set[str] = set()
+    if isinstance(pool_arms, (str, bytes)):
+        pool_arms = [pool_arms]
+    for entry in pool_arms or ():
+        key = _normalise_arm(entry)
+        if key:
+            keys.add(key)
+
+    if served_key is not None and served_key in keys:
+        return CONSISTENT
+
+    served_stamp = _parse_stamp(receipt_time)
+    pool_stamp = _parse_stamp(pool_time)
+    if served_stamp is None or pool_stamp is None:
+        return VIOLATION
+    if served_stamp < pool_stamp:
+        return SUPERSEDED
+    return VIOLATION
+
+
 def _evaluate_receipt(
     path: str,
     receipt: dict[str, Any],
     table: dict[str, dict[int, dict[str, Any]]],
     decl: dict[str, Any],
+    pool_time: Any = None,
 ) -> dict[str, Any]:
     lane = receipt.get("lane")
     lane_key = lane.strip() if isinstance(lane, str) else None
@@ -286,6 +356,30 @@ def _evaluate_receipt(
 
     predicates: list[dict[str, Any]] = []
     declared_arms = table.get(lane_key or "", None)
+
+    # The pool in force today: every declared arm in both label forms, plus the
+    # rank-1 arm that a superseded receipt is reported as having been replaced by.
+    pool_arms: list[str] = []
+    rank1_arm: str | None = None
+    if declared_arms:
+        for _rank in sorted(declared_arms):
+            _declared = declared_arms[_rank]
+            pool_arms.append(_declared["model"])
+            pool_arms.append(f'{_declared["provider"]}/{_declared["model"]}')
+        _top = declared_arms[sorted(declared_arms)[0]]
+        rank1_arm = f'{_top["provider"]}/{_top["model"]}'
+
+    # The receipt's own time; the file mtime is the documented fallback.
+    receipt_time: Any = receipt.get("generated_utc")
+    if not isinstance(receipt_time, str) or not receipt_time.strip():
+        try:
+            receipt_time = datetime.fromtimestamp(
+                os.path.getmtime(path), timezone.utc
+            ).isoformat()
+        except OSError:
+            receipt_time = None
+
+    superseded_notes: list[str] = []
 
     # R1 -- the lane must have a structural binding in the declaration.
     if declared_arms:
@@ -382,10 +476,27 @@ def _evaluate_receipt(
                 moved = _strip_provider_prefix(transport, arm.get("provider"))
                 usage_ok = isinstance(usage, str) and billed == moved
                 usage_note = f"usage_model={usage!r} vs transport_model={transport!r}"
-            ok = served_ok and usage_ok
+            arm_state = classify_arm(served, pool_arms, receipt_time, pool_time)
             if served_ok:
+                ok = usage_ok
                 served_note = f"served model {served!r} equals declared arm at rank {rank}"
+            elif arm_state == SUPERSEDED:
+                # The arm matched the pool in force at receipt time; the rebind
+                # must not turn that turn red. A billing mismatch is still live,
+                # so the usage comparison keeps its own verdict.
+                ok = usage_ok
+                superseded_notes.append(
+                    f"rank {rank}: served {served!r} predates the pool revision "
+                    f"({receipt_time} < {pool_time}); ranked historical, superseded "
+                    f"by {rank1_arm}"
+                )
+                served_note = (
+                    f"served model {served!r} is not the current declared model "
+                    f"{want!r} at rank {rank}; SUPERSEDED -- the receipt predates the "
+                    f"pool revision, so this is history, not a live fault"
+                )
             else:
+                ok = served_ok and usage_ok
                 served_note = f"served model {served!r} is not the declared model {want!r} at rank {rank}"
             predicates.append(_predicate(
                 "R3_model_matches_arm", ok, rank,
@@ -402,10 +513,27 @@ def _evaluate_receipt(
             want_provider = arm["provider"]
             call_ok = _provider_ok(attempt.get("provider"), want_provider)
             bill_ok = _provider_ok(attempt.get("usage_provider"), want_provider)
+            provider_state = classify_arm(
+                attempt.get("model"), pool_arms, receipt_time, pool_time
+            )
+            if provider_state == SUPERSEDED:
+                # Historical arm: the declared provider of this rank is today's,
+                # so the honest test is the receipt's own call/bill agreement --
+                # a billing mismatch stays a live fault even for an old turn.
+                called = _normalise_arm(attempt.get("provider"))
+                billed = _normalise_arm(attempt.get("usage_provider"))
+                provider_ok = called is not None and called == billed
+                history = (
+                    " (historical: this receipt predates the pool revision, so the "
+                    "declared provider is judged as call-vs-bill agreement)"
+                )
+            else:
+                provider_ok = call_ok and bill_ok
+                history = ""
             predicates.append(_predicate(
-                "R4_provider_matches", call_ok and bill_ok, rank,
+                "R4_provider_matches", provider_ok, rank,
                 f"declared provider {want_provider!r}; provider={attempt.get('provider')!r}, "
-                f"usage_provider={attempt.get('usage_provider')!r}",
+                f"usage_provider={attempt.get('usage_provider')!r}{history}",
             ))
 
         # R6 -- evidence of a real green turn; a failure here is NOT_GREEN, not
@@ -446,6 +574,8 @@ def _evaluate_receipt(
         verdict = "VIOLATION"
     elif not green:
         verdict = "NOT_GREEN"
+    elif superseded_notes:
+        verdict = SUPERSEDED
     else:
         verdict = "CONSISTENT"
 
@@ -454,6 +584,10 @@ def _evaluate_receipt(
         "lane": lane,
         "predicates": predicates,
         "verdict": verdict,
+        "superseded": superseded_notes,
+        "superseded_by": rank1_arm if superseded_notes else None,
+        "receipt_time": receipt_time,
+        "pool_time": pool_time,
     }
 
 
@@ -481,7 +615,7 @@ def _payload(
 
 
 def _zero_counts() -> dict[str, int]:
-    return {"CONSISTENT": 0, "VIOLATION": 0, "NOT_GREEN": 0}
+    return {CONSISTENT: 0, SUPERSEDED: 0, VIOLATION: 0, "NOT_GREEN": 0}
 
 
 def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
@@ -552,7 +686,20 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
             detail="no lane receipts found; an empty set is not evidence of consistency",
         ), 2
 
-    results = [_evaluate_receipt(path, receipt, table, decl) for path, receipt in receipts]
+    # The pool revision time is the declaration file's own mtime: the pool "in
+    # force" is the file that was passed in, and an edit to it is the rebind.
+    pool_time: str | None = None
+    try:
+        pool_time = datetime.fromtimestamp(
+            os.path.getmtime(declaration), timezone.utc
+        ).isoformat()
+    except OSError:
+        pool_time = None
+
+    results = [
+        _evaluate_receipt(path, receipt, table, decl, pool_time)
+        for path, receipt in receipts
+    ]
     counts = _zero_counts()
     for result in results:
         counts[result["verdict"]] += 1
@@ -561,6 +708,8 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
         exit_code, reason = 1, "VIOLATION"
     elif counts["NOT_GREEN"]:
         exit_code, reason = 1, "NOT_GREEN"
+    elif counts[SUPERSEDED]:
+        exit_code, reason = 0, "ALL_CONSISTENT_OR_SUPERSEDED"
     else:
         exit_code, reason = 0, "ALL_CONSISTENT"
 
@@ -568,6 +717,7 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
         sha, len(results), results, counts, reason,
         declaration=declaration, receipts_dir=receipts_dir,
         declared_lanes=sorted(table), skipped_files=skipped_files,
+        pool_time=pool_time,
     )
     return payload, exit_code
 

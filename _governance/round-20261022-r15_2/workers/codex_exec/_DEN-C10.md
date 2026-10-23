@@ -1,8 +1,13 @@
 NONCE: DEN-C10-AUTHOR-4c2ffe91
 
-Begin your reply with exactly this token on its own line: DEN-C10-AUTHOR-4c2ffe91
+Begin your reply with the token above on its own line, followed immediately by ONE sentence in your own words
+naming the exact file you will change and what behaviour you will pin down.
+Do NOT produce the token with a shell command, an echo, a heredoc or by printing the brief back: it must be
+part of your reply text, because a script replaying the brief is not an acknowledgement.
 
-HARD RULES: do the work in this turn. Do NOT dispatch, spawn or poll another lane or agent (no lane-dispatch, no sub-agent, no waiting loop). If a step would require another lane, write that in your output and stop.
+HARD RULES: do the work in this turn. Do NOT dispatch, spawn or poll another lane or agent
+(no lane-dispatch, no sub-agent, no waiting loop). If a step would require another lane, write that
+in your output and stop.
 
 # EXECUTE brief — DEN-C10
 
