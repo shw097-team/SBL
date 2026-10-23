@@ -2,10 +2,61 @@
   "counts": {
     "READY": 0,
     "RUNNING": 0,
-    "DONE": 21,
-    "PARKED": 5,
-    "runs": 18
+    "DONE": 30,
+    "PARKED": 2,
+    "runs": 24
   },
-  "verdict": "QUEUE_EXHAUSTED",
-  "blockers": []
+  "verdict": "NOT_TERMINAL",
+  "blockers": [
+    {
+      "code": "LANE_RECEIPT_MISSING",
+      "id": "Q10.policy_designation_C02",
+      "lane": "orchestrator (owner designation)"
+    },
+    {
+      "code": "LANE_RECEIPT_MISSING",
+      "id": "Q13.bench_disposition_W16",
+      "lane": "orchestrator (owner disposition)"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q8.far_adjudication_r153",
+      "satisfiable_by": "PLAN lane (rank 2, openai-codex/gpt-6.1-sol)"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q9.openspec_delta_C11",
+      "satisfiable_by": "EXECUTE lane + orchestrator repair"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q10.policy_designation_C02",
+      "satisfiable_by": "owner standing order 2026-10-23"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q11.tool_lifecycle_C20",
+      "satisfiable_by": "local only; host half needs ChatGPT private host ids"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q12.ci_supply_chain_C22",
+      "satisfiable_by": "agent"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q13.bench_disposition_W16",
+      "satisfiable_by": "owner standing order 2026-10-23"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q14.challenge_pass1",
+      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol) — a different model than EXECUTE"
+    },
+    {
+      "code": "SATISFIABILITY_UNKNOWN",
+      "id": "Q15.challenge_pass2",
+      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol)"
+    }
+  ]
 }

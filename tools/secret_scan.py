@@ -4,10 +4,19 @@ Scans every tracked file for secrets, credentials and PII shapes that must never
 Exit 0 = clean, exit 1 = hard findings (publication must stop), exit 2 = scanner error.
 
 Usage: python tools/secret_scan.py [--root .] [--json-out evidence/security/SECRET_SCAN.json]
+       python tools/secret_scan.py [--root .] [--exclude GLOB ...] [--json-out ...]
+
+``--exclude`` is how a caller narrows the gate to a *surface* without weakening it. It takes a
+POSIX-style glob matched against the file's path relative to ``--root`` (e.g. ``_governance/**``),
+may be repeated, and is empty by default so a bare run behaves exactly as before. Excluded paths
+are counted in the JSON (``excluded_files``, ``excludes``) instead of disappearing quietly, so an
+exclusion is always visible in the receipt. A file that is not excluded is never made quieter by
+another file's exclusion: the exclusion list is consulted per path, before the file is read.
 """
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
 import os
 import re
@@ -73,8 +82,39 @@ SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "node_modules", "_local", "
 SKIP_SUFFIXES = {".pyc", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".whl", ".exe", ".dll"}
 # The scanner must not scan its own receipts: a finding excerpt stored in a report would
 # re-trigger on the next run and turn the gate into a self-poisoning loop.
-SKIP_RELATIVE = {"evidence/security/SECRET_SCAN.json"}
+SKIP_RELATIVE = {"evidence/security/SECRET_SCAN.json", "evidence/security/SECRET_SCAN_EVIDENCE.json"}
 MASK_KEEP = 3
+# A path glob is interpreted by the host it runs on: Windows path matching is case-insensitive, so
+# an exclusion must be too, or ``_Governance/**`` would slip past ``_governance/**`` there and the
+# exclusion would silently not apply. On a case-sensitive filesystem the glob stays case-sensitive.
+CASE_INSENSITIVE_GLOBS = os.name == "nt"
+
+
+def normalise_relative(path: Path, root: Path) -> str:
+    """The one spelling of a relative path that globs are matched against: forward slashes."""
+
+    return str(path.relative_to(root)).replace("\\", "/")
+
+
+def is_excluded(relative: str, excludes: list[str] | tuple[str, ...]) -> bool:
+    """True when ``relative`` matches any ``--exclude`` glob.
+
+    Matching is whole-path (``fnmatch`` semantics: ``*`` also crosses ``/``), so ``_governance/**``
+    covers a nested file and ``_governance/*.log`` covers only the first level. Nothing here looks
+    at file *content*, which is what keeps an exclusion from being able to hide a finding in a
+    file it does not name.
+    """
+
+    candidate = relative.casefold() if CASE_INSENSITIVE_GLOBS else relative
+    for pattern in excludes:
+        glob = pattern.replace("\\", "/")
+        if not glob:
+            continue
+        if CASE_INSENSITIVE_GLOBS:
+            glob = glob.casefold()
+        if fnmatch.fnmatchcase(candidate, glob):
+            return True
+    return False
 
 
 def iter_files(root: Path):
@@ -97,16 +137,25 @@ def _mask(line: str) -> str:
     return line[:MASK_KEEP] + "***" if len(line) > MASK_KEEP else "***"
 
 
-def scan(root: Path) -> dict:
+def scan(root: Path, excludes: list[str] | tuple[str, ...] = ()) -> dict:
     findings = []
     scanned = 0
+    excluded = 0
+    patterns = [p for p in excludes if p]
     for path in iter_files(root):
-        if str(path.relative_to(root)).replace("\\", "/") in SKIP_RELATIVE:
+        relative = normalise_relative(path, root)
+        if relative in SKIP_RELATIVE:
             continue
+        if is_excluded(relative, patterns):
+            excluded += 1
+            continue
+        # Reported exactly as before (platform separator), so a run without --exclude produces the
+        # same receipt it always did. Only the glob match above is normalised.
+        reported = str(path.relative_to(root))
         try:
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError as exc:  # unreadable file is itself a finding
-            findings.append({"file": str(path.relative_to(root)), "rule": "unreadable", "detail": str(exc)})
+            findings.append({"file": reported, "rule": "unreadable", "detail": str(exc)})
             continue
         scanned += 1
         for lineno, line in enumerate(text.splitlines(), start=1):
@@ -120,7 +169,7 @@ def scan(root: Path) -> dict:
                     break
                 if hit is not None:
                     findings.append({
-                        "file": str(path.relative_to(root)),
+                        "file": reported,
                         "line": lineno,
                         "rule": rule,
                         "excerpt": _mask(line.strip())[:120],
@@ -129,6 +178,10 @@ def scan(root: Path) -> dict:
         "schema": "SBL-SECRET-SCAN/1",
         "root": str(root),
         "files_scanned": scanned,
+        # An exclusion is reported, never silent: a reader of the receipt can tell a scoped gate
+        # from a whole-tree one without knowing the command line.
+        "excluded_files": excluded,
+        "excludes": list(patterns),
         "hard_findings": len(findings),
         "findings": findings,
         "verdict": "CLEAN" if not findings else "BLOCKED",
@@ -140,8 +193,17 @@ def scan(root: Path) -> dict:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
+    ap.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        metavar="GLOB",
+        help="POSIX-style glob on the path relative to --root (e.g. '_governance/**'); repeatable, "
+        "empty by default so an unscoped run is unchanged.",
+    )
     ap.add_argument("--json-out", default="")
     args = ap.parse_args(argv)
+    excludes = [pattern for pattern in args.exclude if pattern]
     root = Path(args.root).resolve()
     # A root that does not exist, or one with nothing scannable in it, measured nothing. Reporting
     # CLEAN there is a false negative on the whole gate (R5-NEW-02).
@@ -149,18 +211,27 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"verdict": "ERROR", "detail": "root is not a directory", "root": str(root)}, ensure_ascii=False))
         return 2
     try:
-        result = scan(root)
+        result = scan(root, excludes)
     except Exception as exc:  # noqa: BLE001
         print(json.dumps({"verdict": "ERROR", "detail": str(exc)}, ensure_ascii=False))
         return 2
     if result["files_scanned"] == 0:
-        print(json.dumps({"verdict": "ERROR", "detail": "no files were scanned", "root": str(root)}, ensure_ascii=False))
+        detail = (
+            "every file was excluded: the exclusions removed the whole scan, which measured nothing"
+            if result["excluded_files"]
+            else "no files were scanned"
+        )
+        print(json.dumps({"verdict": "ERROR", "detail": detail, "root": str(root)}, ensure_ascii=False))
         return 2
     if args.json_out:
         out = Path(args.json_out)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
     print(json.dumps({k: result[k] for k in ("verdict", "files_scanned", "hard_findings")}, ensure_ascii=False))
+    if excludes:
+        # Only printed when exclusions are in force, so an unscoped run's stdout is byte-identical
+        # to what it was before this option existed.
+        print(f"  excluded: {result['excluded_files']} file(s) by {', '.join(excludes)}")
     for f in result["findings"][:20]:
         print(f"  {f['rule']}: {f['file']}:{f.get('line', '?')} :: {f.get('excerpt', '')[:80]}")
     return 0 if result["verdict"] == "CLEAN" else 1

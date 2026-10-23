@@ -1050,19 +1050,129 @@
       "decision": "READBACK_BEFORE_SUMMARY",
       "resolution": "corrected in STATUS 12.11; the rule going forward: every 'repaired' word in a summary must name the probe row or receipt line that shows it",
       "status": "RESOLVED_MEASURED"
+    },
+    {
+      "tt_id": "TT-R15.3-CONCURRENT-ROUND-MANDATE-CONFLICT",
+      "kind": "CR",
+      "severity": "BLOCKER",
+      "status": "OPEN_OWNER_DECISION",
+      "subject": "two owner orders dated 2026-10-23 disagree about the PLAN and VERIFY lanes",
+      "observed": {
+        "this_session_order": "PLAN = GPT 6.1 SOL-MEDIUM (OpenAI OAuth); EXECUTE = DEEPSEEK V4.1 FLASH; VERIFY/SECURITY = GPT 6.1 SOL-MEDIUM (OpenAI OAuth)",
+        "sibling_round": "HG-KSEOS/var/R15-MODEL-FALLBACK-20261023/MANDATE_R15.json",
+        "sibling_declares": "all three lanes = opencode-go/deepseek-v4.1-flash",
+        "sibling_wrote_at_local": "2026-10-23T10:01:12 (AGENTS.md, config/hermes-codex-lane.json, hermes.json, lane-route-slots.candidate.json, lane-routing-registry.yaml, model-lane-assignment.json)",
+        "measured_effect_on_this_round": "none: PLAN and VERIFY dispatched at rank 2 openai-codex/gpt-6.1-sol with usage_status 200 after the rewrite",
+        "designation_consequence": "config/active-policy.json binds the post-rewrite bytes (a3df959d...), so the active policy currently declares deepseek on all lanes"
+      },
+      "why_it_matters": "the same owner-day produced two role tables; a lane rebind that lands while another round cites the other table makes every receipt look non-conforming",
+      "owner_action": "state which table governs today, or declare the fallback table authoritative and let this round re-designate the policy",
+      "not_done": "not reverted, not overwritten: the sibling round is live and its files are its own"
+    },
+    {
+      "tt_id": "TT-R15.3-RECEIPT-NAME-COLLISION",
+      "kind": "CR",
+      "severity": "MEDIUM",
+      "status": "REPAIRED_DISCLOSED",
+      "subject": "run_lane names a receipt after the brief basename, so every EXECUTE brief called BRIEF.md overwrites the last",
+      "observed": {
+        "overwritten": "receipts/dispatch/EXECUTE__BRIEF.json (the 410-Gone minimax receipt, ok=false)",
+        "repair": "working copy preserved as EXECUTE__R153_WRITES.json; the tracked file restored from git HEAD",
+        "rule": "name each brief uniquely (BRIEF_<topic>.md) before dispatch"
+      },
+      "why_it_matters": "an overwritten receipt is lost evidence of a provider withdrawal"
+    },
+    {
+      "tt_id": "TT-R15.3-EVIDENCE-PII-UNSTABLE",
+      "kind": "CR",
+      "severity": "HIGH",
+      "status": "OPEN_MEASURED",
+      "subject": "secret_scan finds hard findings on the published evidence surface, and the count GROWS with every dispatch",
+      "observed": {
+        "measured_series": [
+          {
+            "run": "orchestrator, before new dispatches",
+            "files": 862,
+            "findings": 54,
+            "rules": {
+              "email_address": 52,
+              "assigned_secret": 2
+            }
+          },
+          {
+            "run": "orchestrator, after two EXECUTE dispatches",
+            "files": 713,
+            "findings": 55,
+            "rules": {
+              "email_address": 53,
+              "assigned_secret": 2
+            }
+          },
+          {
+            "run": "independent challenge pass 2",
+            "files": 894,
+            "findings": 56,
+            "rules": {
+              "email_address": 54,
+              "assigned_secret": 2
+            }
+          }
+        ],
+        "why_it_moves": "each lane dispatch writes an attempt log that quotes a task token file name or an address, so the evidence surface grows with the round's own activity",
+        "product_surface": "CLEAN: 0 findings over 172 files (stable across all three runs)",
+        "locations": [
+          "_governance/**/receipts/dispatch/*.logs",
+          "_governance/round-20261022-r15_2/evidence/WO-TS-20261022-03/gknow_index.json",
+          "_governance/**/TT_R15_2_REGISTER.json",
+          "_governance/round-20261021-r12-far/github/pr_create.json"
+        ]
+      },
+      "why_it_matters": "the repository is public and the evidence surface is not static, so a single count is a snapshot, not a property; the gate is scoped to the product surface and the evidence surface is reported as a trend with its cause",
+      "owner_action": "either accept the evidence surface as published-with-PII, or authorise a redaction pass that re-hashes the affected evidence and a rule that stops dispatch logs from quoting credentials paths"
+    },
+    {
+      "tt_id": "TT-R15.3-EXECUTE-RECEIPT-OVERCLAIM",
+      "kind": "CR",
+      "severity": "MEDIUM",
+      "status": "REPAIRED_DISCLOSED",
+      "subject": "EXECUTE receipt #1 declared C11 and C22 closed and recorded a stale ci.yml size",
+      "observed": {
+        "receipt": "workers/execute_r153/EXECUTE_RECEIPT.json",
+        "defect": "lane self-report claimed closure; ci.yml byte size recorded before the second edit (2468 -> 2714)",
+        "authority": "a lane's own claim is not an acceptance; the denominator is updated from my measurements instead"
+      },
+      "why_it_matters": "the cheapest false green is a writer describing its own work as closed"
+    },
+    {
+      "tt_id": "TT-R15.3-CONCURRENCY-UNSAFE-STATUS-ORACLE",
+      "kind": "CR",
+      "severity": "MEDIUM",
+      "status": "OPEN_MEASURED",
+      "subject": "test_probe_does_not_touch_the_protected_repository fails whenever any other writer touches the tree mid-run",
+      "observed": {
+        "full_suite": "260 tests, 1 failed, 4 skipped — the failure was this test",
+        "cause": "it snapshots `git status --porcelain` before and after the probe; the round's own writes (two governance JSONs and a handover) landed between the snapshots",
+        "rerun_alone": "PASS",
+        "diff": "only new untracked governance files appeared; no staged-tree change, no HEAD move"
+      },
+      "why_it_matters": "the oracle cannot separate 'the probe wrote through' from 'someone else wrote'; a true write-through would be indistinguishable from this false positive",
+      "repair_candidate": "snapshot the staged tree and HEAD (already asserted) and compare the *set difference* restricted to paths the probe could touch, or hold a lock for the duration",
+      "owner_action": "none required to continue; a repair changes an existing oracle and belongs to its owner"
     }
   ],
   "counts": {
-    "total": 45,
+    "total": 50,
     "by_status": {
       "null": 25,
       "OPEN_OWNER_STEP": 8,
-      "OPEN_MEASURED": 5,
+      "OPEN_MEASURED": 7,
       "REPAIR_IN_FLIGHT": 1,
-      "RESOLVED_MEASURED": 6
+      "RESOLVED_MEASURED": 6,
+      "OPEN_OWNER_DECISION": 1,
+      "REPAIRED_DISCLOSED": 2
     }
   },
-  "round_state": "ENGINEERING_SCOPE_CLOSED_6_OF_6_VERIFIED_RELEASE_BLOCKED",
+  "round_state": "R15_3_AGENT_SCOPE_ADVANCED_RELEASE_BLOCKED",
   "stop_reason": null,
   "correction_note": "The earlier round_state NO_LEGAL_PROGRESS_PENDING_OWNER_CARRIER_DECISION was based on a wrong conclusion: the Codex carrier works when the proven lane recipe is reused. Corrected by measurement, not by assertion.",
   "ao_review": {
@@ -1101,5 +1211,6 @@
       "chunks": 3033,
       "coverage_gaps": 0
     }
-  }
+  },
+  "round_state_note": "2026-10-23 continuation: FAR R15.3 adjudication (53 rows), C11 repaired to a source-supported delta with strict validate 3/0, C20 local half measured (9 verbs + double-build equal), C22 scoped secret-scan gate with 3 tests, W02 policy designation bound with a fail-closed front-door guard (7 tests), W16 disposition recorded. Release and independent acceptance remain unclaimed."
 }

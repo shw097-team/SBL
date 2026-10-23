@@ -1,0 +1,57 @@
+{
+  "schema": "SBL_CHALLENGE_R15_3_PASS2/1",
+  "verdict": "FAIL",
+  "repaired": [
+    {
+      "id": "R1",
+      "status": "PASS",
+      "observation": "Live startup refused the missing designation with ACTIVE_POLICY_ABSENT. Wrong-path and stale-digest probes refused; the real designation returned BOUND. All seven test bodies passed using an in-memory filesystem; native pytest fixtures were blocked by read-only permissions.",
+      "evidence": "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py:252; python -B scripts/hgk-exec-model-frontdoor.py --active-policy config/__verify_missing_designation_r153_pass2__.json"
+    },
+    {
+      "id": "R2",
+      "status": "PASS",
+      "observation": "The delta no longer mandates revision/dirty-path fields or categorically excludes tree-caused regressions. Its revised obligations are supported by proposal.md/tasks.md. Strict validation independently returned 3 passed, 0 failed.",
+      "evidence": "openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md:23; openspec validate --all --strict"
+    },
+    {
+      "id": "R3",
+      "status": "FAIL",
+      "observation": "W02/W05/W06 samples correctly remain read-only actions and are reclassified. However, only 23 rows carry corrections, versus 24 claimed. W16.perf remains CLOSE_NOW_AGENT; it and W02.policy only print JSON despite action_closes=true and persistence predicates.",
+      "evidence": "FAR_DECISIONS_R15_3.json:764; FAR_DECISIONS_R15_3.json:831; FAR_DECISIONS_R15_3.json:1042"
+    },
+    {
+      "id": "R4",
+      "status": "PASS",
+      "observation": "The advisory step is removed and neither new step swallows failures. All five CI-contract tests passed. Three exclusion test bodies passed with an in-memory filesystem; ordinary pytest execution could not obtain writable scratch space.",
+      "evidence": ".github/workflows/ci.yml:59; python -B -m pytest -s -p no:cacheprovider --noconftest tests/test_ci_contract.py"
+    },
+    {
+      "id": "R5",
+      "status": "PARTIAL",
+      "observation": "C11 DONE is reproduced; C22/W02/C02 remain honestly PARTIAL. Receipt overclaims are disclosed. Scoped scan reproduces 172 files/0 findings, but unscoped scan finds 56, not 55. BENCH_DISPOSITION's evidence digest resolves and matches.",
+      "evidence": "DENOMINATOR_R15_2.json:253; DENOMINATOR_R15_2.json:307; DENOMINATOR_R15_2.json:373; TT_R15_2_REGISTER.json:1108; BENCH_DISPOSITION_R15_3.json:5"
+    }
+  ],
+  "new_findings": [
+    {
+      "category": "claim inflation",
+      "text": "FAR_DECISIONS_R15_3.json:1042 claims 24 corrections and lists W16.perf, but only 23 rows carry correction records. W16.perf remains CLOSE_NOW_AGENT. Both remaining CLOSE_NOW_AGENT actions merely print JSON, contradicting the newly stated persistence rule. Existing output artifacts do not make those named commands persist closure."
+    },
+    {
+      "category": "measurement inconsistency",
+      "text": "Independent read-only secret_scan.scan runs returned CLEAN over 172 product files, with 722 excluded; the unscoped run returned BLOCKED over 894 files with 56 findings: 54 email_address and 2 assigned_secret. TT_R15_2_REGISTER.json:1086 states 55 findings, while its recorded rule counts total only 54. The exact evidence-surface measurement is not reconciled."
+    },
+    {
+      "category": "validation limitation",
+      "text": "Native filesystem-backed tests could not run successfully because no writable temporary directory was available. Seven front-door and three exclusion test bodies passed with filesystem operations replaced by in-memory test doubles; these are not native pytest passes or evidence of a successful hosted CI run."
+    },
+    {
+      "category": "completion gate not established",
+      "text": "mandate_gate.py audit returned AUDIT_CLEAN for 26 items. continuation_guard.py did not produce a verdict: it attempted to rewrite QUEUE_R15_2.json and raised PermissionError at line 77 under the read-only sandbox. No terminal or completion clearance is established."
+    }
+  ],
+  "first_fail": "R3: the correction still leaves print-only commands classified CLOSE_NOW_AGENT with action_closes=true, and its claimed 24 corrected rows do not match the 23 correction records.",
+  "independent_acceptance": "NOT_ESTABLISHED",
+  "ceiling": "This is a read-only repair review, not full acceptance or completion. No inspected authority establishes enforceably distinct checker and writer principals; a lane receipt alone does not do so. Do not claim all row classifications repaired, native fixture suites passed, hosted CI succeeded, whole-tree secret cleanliness, six-edge Fabric policy consumption, or terminal clearance. The benchmark digest matches, but proves neither performance superiority nor B0 comparability."
+}

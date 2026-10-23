@@ -36,10 +36,12 @@
         "C02",
         "C04"
       ],
-      "status": "NOT_RUN",
+      "status": "PARTIAL",
       "evidence": [
         "TT_R15_2_REGISTER.json#TT-R15.2-FABRIC-ACTIVE-POLICY-UNRESOLVED"
-      ]
+      ],
+      "note": "same evidence as C02: designation + fail-closed consumer binding; native six-edge consumption pending",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "W03",
@@ -250,7 +252,9 @@
     {
       "id": "C02",
       "title": "Fabric active RP002 policy 真消費與 PolicyDigest",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "note": "the owner designation now exists (HG-KSEOS/config/active-policy.json, digest a3df959d...) and the front door fails closed on a missing/mismatched designation (7 tests, ABSENT/MISMATCH/DIGEST typed codes); the six-edge Fabric->HGK->WorkOrder->effect chain is still not executed",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C03",
@@ -266,17 +270,23 @@
       "id": "C05",
       "title": "Codex CLI 獨立 Challenge/AO/原始正反對抗",
       "status": "PARTIAL",
-      "evidence": "four challenge passes executed as real lanes (receipts PASS2/PASS3/PASS4 with served_arm gpt-6.1-sol, nonces, read-only): pass1 FAIL, pass2 FAIL (C6 overwrite + A7 provenance), pass3 C6 PASS + A7 narrowed, pass4 authorship resolved; no checker-owned test execution is possible on this host (TT-R15.2-CHECKER-SANDBOX-NO-TEMP) and the principal is same-family"
+      "evidence": "four challenge passes executed as real lanes (receipts PASS2/PASS3/PASS4 with served_arm gpt-6.1-sol, nonces, read-only): pass1 FAIL, pass2 FAIL (C6 overwrite + A7 provenance), pass3 C6 PASS + A7 narrowed, pass4 authorship resolved; no checker-owned test execution is possible on this host (TT-R15.2-CHECKER-SANDBOX-NO-TEMP) and the principal is same-family",
+      "note": "challenge pass 1 executed and returned FAIL with 7 rows + 7 findings; its two actionable defects were repaired; independent principal separation is NOT established (authority: Fabric FABRIC/control/SOD_POLICY.yaml:8, FABRIC/assurance/ACCEPTANCE_SCHEMA.yaml:11)",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C06",
       "title": "R13/R14 独立 AO 回歸與 Immutable fail receipt",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "note": "unchanged: R13/R14 receipts read back, unresolved locators remain; no qualified independent rerun",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C07",
       "title": "三車道 rank/registry/profile/epoch/served 聯合 Gate",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "note": "lane receipts measured 2026-10-23: PLAN rank 2 openai-codex/gpt-6.1-sol (ok, nonce, usage 200), EXECUTE rank 1 opencode-go/deepseek-v4.1-flash (ok, nonce), VERIFY rank 2 gpt-6.1-sol (usage 200, nonce not echoed -> receipt ok=false); a concurrent round rewrote the pool/declaration mid-session (TT-R15.3-CONCURRENT-ROUND-MANDATE-CONFLICT)",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C08",
@@ -296,7 +306,9 @@
     {
       "id": "C11",
       "title": "OpenSpec delta/strict validate 真命令",
-      "status": "NOT_RUN"
+      "status": "DONE",
+      "note": "openspec validate --all --strict = 3 passed / 0 failed after a source-supported delta was written for far-r12-20261021; the delta's two unsupported clauses were removed after challenge pass 1 named them",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C12",
@@ -347,8 +359,9 @@
       "id": "C20",
       "title": "五工具及三 ZIP 雙建/doctor/effective-load",
       "status": "PARTIAL",
-      "note": "3/5 tool bundles, 0 lifecycle verbs",
-      "evidence": "local half measured: 8 verbs invoked on sbl-stack (5 PASS, deny typed rc2, upgrade NOOP rc2, rollback no-preimage rc2), three ZIPs built twice with equal digests, hgk doctor PASS on 3.12.13, uninstall readback clean; no host-issued plugin id"
+      "note": "local half measured 2026-10-23: 5 tool identities (3 packaged SPs + sbl_harness + sbl_stack), 9 verbs with real exit codes (install/doctor/status/load/invoke/upgrade/rollback/uninstall), unknown-mode and same-manifest refusals, uninstall removes the root, and two independent ZIP builds are byte-identical; host half still absent (no host-issued plugin id)",
+      "evidence": "local half measured: 8 verbs invoked on sbl-stack (5 PASS, deny typed rc2, upgrade NOOP rc2, rollback no-preimage rc2), three ZIPs built twice with equal digests, hgk doctor PASS on 3.12.13, uninstall readback clean; no host-issued plugin id",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C21",
@@ -359,7 +372,9 @@
     {
       "id": "C22",
       "title": "受限 CI/SBOM/Provenance/Secrets/Release",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "note": "actions pinned to real commits (11d5960a, a26af69b), scoped secret-scan hard gate CLEAN over 172 product files with 3 exclusion tests, evidence-surface scan BLOCKED with 55 findings recorded as TT-R15.3-EVIDENCE-PII-55; no CI execution, no provenance attestation, no release seal",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     },
     {
       "id": "C23",
@@ -371,7 +386,8 @@
       "id": "C24",
       "title": "全部適用 hard gates/Owner/Human Release Claim",
       "status": "PARTIAL",
-      "note": "denominator partially closed; semantic total UNMEASURED"
+      "note": "denominator partially closed; semantic total still UNMEASURED; external admissions and release absent",
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
     }
   ],
   "eseries": [
@@ -585,7 +601,7 @@
       "total": 4
     }
   },
-  "verdict": "PARTIAL. Checks: DONE 4, NOT_RUN 8, PARTIAL 13, total 25. Milestones: NOT_RUN 1, PARTIAL 3, total 4. M1 stays LOCAL_REVIEW_ONLY: no enforceably distinct checker principal exists (Q7). Release remains BLOCKED on owner-issued policy designation, SWOF W3 admission and host ids.",
+  "verdict": "PARTIAL. Checks: DONE 5 (C00,C01,C03,C11,C12), PARTIAL 15, NOT_RUN 5 (C13,C15,C16,C19,C21) = 25. WorkPackages: DONE 4 (W00,W01,W03,W04), PARTIAL 13, NOT_RUN 1 (W12) = 18. Milestones: 3 PARTIAL / 1 NOT_RUN (M3). M1 stays LOCAL_REVIEW_ONLY: no authority recognises an enforceably distinct checker principal. Release BLOCKED.",
   "generated_note": "statuses are measured against artefacts in this round; NOT_RUN means no attempt was made",
   "checkruns_status_update": {
     "C01": [
@@ -605,5 +621,18 @@
       "denominator partially closed; semantic total UNMEASURED"
     ]
   },
-  "session_note": "2026-10-23 continuation: Q2 denominator measured, Q3 M2 chain executed twice (second run green), Q1 kinds applied + SKILL alias, Q5 local half measured, doctor repair re-authored under a green receipt, four independent challenge passes"
+  "session_note": "2026-10-23 continuation: Q2 denominator measured, Q3 M2 chain executed twice (second run green), Q1 kinds applied + SKILL alias, Q5 local half measured, doctor repair re-authored under a green receipt, four independent challenge passes | 2026-10-23 continuation #2: FAR R15.3 adjudication recorded; C11 closed with a source-supported delta; C20 local half and C22 partial measured with POS+NEG; W02 designation + fail-closed consumer guard; challenge pass 1 FAIL drove 2 repairs (delta clauses, fail-open designation).",
+  "measurements_2026_10_23": {
+    "at": "2026-10-23T02:12:57+00:00",
+    "by": "orchestrator (measurement/plumbing exemption)",
+    "commands": {
+      "openspec_strict": "openspec validate --all --strict -> 3 passed / 0 failed",
+      "lifecycle": "workers/q5_lifecycle_probe/probe.py -> PASS, 9 verbs, 2 refusals, root removed",
+      "zip_double_build": "tools/build_sp_plugins.py x2 -> 3 zips byte-identical",
+      "secret_scan_product": "tools/secret_scan.py --exclude '_governance/**' -> exit 0, 172 files, 0 findings",
+      "secret_scan_evidence": "tools/secret_scan.py --root _governance -> exit 1, 55 findings",
+      "frontdoor_policy": "pytest tests/test_frontdoor_active_policy.py -> 7 passed; start banner BOUND; tampered/absent refused",
+      "product_tests": "uv run --python 3.11 --with pytest pytest -> see r152_tests.log"
+    }
+  }
 }

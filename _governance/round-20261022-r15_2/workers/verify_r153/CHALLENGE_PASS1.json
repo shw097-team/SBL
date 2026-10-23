@@ -1,0 +1,81 @@
+{
+  "schema": "SBL_CHALLENGE_R15_3/1",
+  "verdict": "FAIL",
+  "rows": [
+    {
+      "id": "1",
+      "status": "FAIL",
+      "observation": "Strict validation passes all 3 changes, but the conformance requirement adds unsupported mandatory revision/dirty-path fields and a blanket prohibition on reporting tree-caused differences as regressions. Neither source states those obligations.",
+      "evidence": "openspec validate --all --strict: 3 passed, 0 failed, exit 0; openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md:24 and :37; proposal.md:20; tasks.md:10"
+    },
+    {
+      "id": "2",
+      "status": "FAIL",
+      "observation": "The diff changes more than the two action pins: it adds product scanning, advisory evidence scanning and dependency inventory. YAML parses successfully. Both pins are 40-digit hex, but remote tag verification failed because network access was unavailable.",
+      "evidence": "git diff -- .github/workflows/ci.yml; .github/workflows/ci.yml:58; yaml.safe_load: valid, jobs=['test']; git ls-remote for both actions: failed to connect to github.com:443"
+    },
+    {
+      "id": "3",
+      "status": "PASS",
+      "observation": "All 3 original tests pass with filesystem fixtures intercepted in RAM. Adversarial paths produce BLOCKED with 3 findings: governance-like, nested governance and product files. Windows case variants are excluded as specified; backslash patterns normalize correctly.",
+      "evidence": "Read-only Python harness: TEST_TOTAL scan_tests 3; SCAN_ADVERSARIAL BLOCKED, excluded_files=1, hard_findings=3; BACKSLASH_PATTERN=True; tests/test_secret_scan_exclude.py"
+    },
+    {
+      "id": "4",
+      "status": "PASS",
+      "observation": "Independent reruns reproduce both claimed surfaces: product CLEAN with 0 findings, 172 scanned and 715 excluded; governance BLOCKED with 55 findings across 715 scanned files. JSON receipt output was omitted to preserve read-only execution.",
+      "evidence": "python -B tools/secret_scan.py --exclude '_governance/**': exit 0; python -B tools/secret_scan.py --root _governance: exit 1"
+    },
+    {
+      "id": "5",
+      "status": "PARTIAL",
+      "observation": "All 5 original tests pass in RAM. Missing designation returns ABSENT without refusal; policy_path is ignored and a designation naming another file still returns BOUND. Wrong digest and unreadable designation fail; missing policy raises; uppercase digest binds.",
+      "evidence": "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py:252; :264; :270; read-only harness: TEST_TOTAL policy_tests 5; POLICY_PROBE missing_designation=ABSENT, different_policy_path=BOUND"
+    },
+    {
+      "id": "6",
+      "status": "PASS",
+      "observation": "The named policy exists: 15111 bytes, SHA-256 a3df959dffccf6332d146b7f74d2687a45fe6857506cdd542bb80bbf6325e4d6, exactly matching the designation. The order-text digest also matches. Provenance explicitly says agent-executed, unsigned and designation-only.",
+      "evidence": "HG-KSEOS/config/active-policy.json:3; :4; :6; :12; independent hashlib recomputation: ACTIVE_POLICY_ACTUAL MATCH=True, ORDER_DIGEST_MATCH=True"
+    },
+    {
+      "id": "7",
+      "status": "FAIL",
+      "observation": "Overstated rows: W02,W05,W06,W08,W09,W11,W16,C02,C04,C07,C08,C09,C11,C13,C14,C16,C17,C20,E01,E02,E03,E04,E05,W02.policy,W16.perf. Actions only read/show data or print declarations; none persists the stated closure.",
+      "evidence": "FAR_DECISIONS_R15_3.json:5,19,33,61,75,106,183,217,231,271,283,295,319,331,343,372,384,424,499,511,526,540,556,690,745 respectively"
+    }
+  ],
+  "findings": [
+    {
+      "category": "unearned green",
+      "text": "None found under the specified definition of a positive check that cannot fail: the eight exercised tests include meaningful negative controls. Separately, policy binding is fail-open when the designation is absent, and BOUND does not validate policy_path."
+    },
+    {
+      "category": "scope drift",
+      "text": "No attributable violation of the two bounded writer briefs was established. The CI additions contradict claim 2 but are expressly authorized by those briefs. Both worktrees contain additional dirty files outside their allowlists; without a pre-write baseline, attributing those edits to this writer would be unsupported."
+    },
+    {
+      "category": "evidence that does not resolve",
+      "text": "workers/execute_r153/EXECUTE_RECEIPT.json:22 records ci.yml as 2468 bytes with a digest that no longer matches; the current file is 2714 bytes. The replacement receipt required by workers/execute_r153/_BRIEF_R153_SECSCAN.md, EXECUTE_RECEIPT_2.json, is absent."
+    },
+    {
+      "category": "claim inflation",
+      "text": "workers/execute_r153/EXECUTE_RECEIPT.json:9 declares C11 and C22 closed. DENOMINATOR_R15_2.json:297 and :360 retain both as NOT_RUN. C11 now has syntactic validation evidence but unsupported specification language; C22 has scoped scan evidence, not demonstrated CI execution, provenance, independent acceptance or release closure."
+    },
+    {
+      "category": "independence",
+      "text": "No authority binding this reviewer to an authenticated, enforceably distinct non-maker acceptance principal was found. Fabric/FABRIC/control/SOD_POLICY.yaml:8 requires incompatible-role separation; Fabric/FABRIC/assurance/ACCEPTANCE_SCHEMA.yaml:11 requires independent checker identity. These requirements do not themselves qualify this process. workers/plan_brief/PLAN_ANSWER_Q7_CHECKER.md:27 likewise records distinct principal NOT_ESTABLISHED."
+    },
+    {
+      "category": "verification limits",
+      "text": "The original three scanner and five policy test functions ran with filesystem fixtures intercepted in memory, not through ordinary on-disk pytest fixtures. Remote action-tag verification was unavailable. Policy-byte equality is established for the current file, not an unchanged historical policy baseline."
+    },
+    {
+      "category": "completion gates",
+      "text": "mandate_gate.py check --role VERIFY returned ALLOWED; mandate_gate.py audit returned AUDIT_CLEAN for 26 items. continuation_guard.py was not executed because line 77 unconditionally rewrites QUEUE_R15_2.json, violating the read-only mandate. No terminal-round completion is claimed."
+    }
+  ],
+  "first_fail": "The active-policy binding can be bypassed by removing the designation: check_active_policy returns ABSENT without refusing startup. It also reports BOUND when policy_path names a different file, provided the digest matches the loaded file.",
+  "independent_acceptance": "NOT_ESTABLISHED",
+  "ceiling": "LOCAL_REVIEW_ONLY. The package demonstrates strict OpenSpec syntax validation, scoped scan counts and digest-mismatch rejection. It does not establish fail-closed active-policy designation, fully source-supported specification semantics, closure of every CLOSE_NOW_AGENT row, C22 release readiness, verified remote action-tag identities or independent acceptance."
+}

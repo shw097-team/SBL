@@ -1,0 +1,156 @@
+{
+  "schema": "SBL_Q5_LIFECYCLE_PROBE/1",
+  "claim_ceiling": "local lifecycle probe in a temp root; no host install, no independent acceptance",
+  "root": "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack",
+  "verbs_ok": [
+    "install",
+    "doctor",
+    "status",
+    "load",
+    "invoke"
+  ],
+  "verbs_failed": [],
+  "neg_unknown_mode": {
+    "exit": 2,
+    "refused": true
+  },
+  "neg_same_manifest": {
+    "exit": 1,
+    "refused": true
+  },
+  "uninstall_exit": 0,
+  "root_removed_by_uninstall": true,
+  "all_rows": [
+    {
+      "argv": [
+        "install",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  \"claim_ceiling\": \"STANDALONE_ONLY\",",
+        "  \"host_install_state\": \"NOT_INSTALLED\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "doctor",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  \"claim_ceiling\": \"STANDALONE_ONLY\",",
+        "  \"host_install_state\": \"NOT_INSTALLED\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "status",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  \"claim_ceiling\": \"STANDALONE_ONLY\",",
+        "  \"host_install_state\": \"NOT_INSTALLED\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "load",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  \"components\": 14,",
+        "  \"claim_ceiling\": \"STANDALONE_ONLY\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "invoke",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  \"count\": 39,",
+        "  \"claim_ceiling\": \"STANDALONE_ONLY\"",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "invoke",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack",
+        "--mode",
+        "NOT_A_REAL_MODE"
+      ],
+      "exit": 2,
+      "stdout_tail": [
+        "    ]",
+        "  }",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "upgrade",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack",
+        "--manifest",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack\\manifest.json"
+      ],
+      "exit": 1,
+      "stdout_tail": [],
+      "stderr_tail": [
+        "    return io.open(self, mode, buffering, encoding, errors, newline)",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\q5lc_ozb44_49\\\\stack\\\\manifest.json'"
+      ]
+    },
+    {
+      "argv": [
+        "rollback",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 2,
+      "stdout_tail": [
+        "    \"target\": \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\q5lc_ozb44_49\\\\stack\"",
+        "  }",
+        "}"
+      ],
+      "stderr_tail": []
+    },
+    {
+      "argv": [
+        "uninstall",
+        "--root",
+        "C:\\Users\\user\\AppData\\Local\\Temp\\q5lc_ozb44_49\\stack"
+      ],
+      "exit": 0,
+      "stdout_tail": [
+        "  ],",
+        "  \"empty\": true",
+        "}"
+      ],
+      "stderr_tail": []
+    }
+  ],
+  "verdict": "PASS"
+}

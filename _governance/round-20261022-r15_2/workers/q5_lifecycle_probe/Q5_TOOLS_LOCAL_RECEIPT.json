@@ -1,0 +1,42 @@
+{
+  "schema": "SBL_Q5_TOOLS_LOCAL_RECEIPT/2",
+  "item": "Q5 / W13 / C20 (local half)",
+  "measured_at_local": "2026-10-23T09:36+08:00",
+  "claim_ceiling": "local build + local lifecycle in a temp root. Not a host install; no plugin id exists; C21 stays HOST_PENDING.",
+  "tool_identities": [
+    {"id": "Tool-1", "name": "TPM-SP", "form": "portable ZIP + manifest", "evidence": "sbl_sp/manifests/tpm_sp.json, sbl-tpm-sp-0.1.1rc1.zip"},
+    {"id": "Tool-2", "name": "Commander-SP", "form": "portable ZIP + manifest", "evidence": "sbl_sp/manifests/commander_sp.json, sbl-commander-sp-0.1.1rc1.zip"},
+    {"id": "Tool-3", "name": "External Challenge-SP", "form": "portable ZIP + manifest", "evidence": "sbl_sp/manifests/external_challenge_sp.json, sbl-external-challenge-sp-0.1.1rc1.zip"},
+    {"id": "Tool-4", "name": "HGK harness adapter", "form": "sbl_harness CLI", "evidence": "sbl_harness/ (imports green in the product test suite)"},
+    {"id": "Tool-5", "name": "Full SBL stack", "form": "sbl_stack CLI", "evidence": "workers/q5_lifecycle_probe/receipt.json"}
+  ],
+  "double_build": {
+    "command": "python tools/build_sp_plugins.py --out-dir <A|B> --json-out <A|B>/index.json",
+    "rc": {"A": 0, "B": 0},
+    "sha256": {
+      "sbl-commander-sp-0.1.1rc1.zip": "8b0254b1ebac05e0f003f30142fbe39fed9ddde1d24cccd317f4b57f785539f3",
+      "sbl-external-challenge-sp-0.1.1rc1.zip": "cc75169932dc1cc57b3270f40612ee334edace5b0c9eae9537bd071af0b59413",
+      "sbl-tpm-sp-0.1.1rc1.zip": "f82ec3f53b79a4d326980eb247dc084e8e9cc17bf9acdbb0f2bd3a210dd014b6"
+    },
+    "byte_equal_across_builds": true,
+    "schema_violations": [],
+    "skill_violations": []
+  },
+  "lifecycle": {
+    "receipt": "workers/q5_lifecycle_probe/receipt.json",
+    "verbs_exercised": ["install", "doctor", "status", "load", "invoke", "upgrade", "rollback", "uninstall"],
+    "positive_exits": {"install": 0, "doctor": 0, "status": 0, "load": 0, "invoke": 0, "rollback": 0, "uninstall": 0},
+    "negative_controls": {
+      "invoke_unknown_mode": {"exit": 2, "refused": true},
+      "upgrade_same_manifest": {"exit": 1, "refused": true}
+    },
+    "uninstall_removed_root": true,
+    "host_install_state": "NOT_INSTALLED",
+    "standalone_only": true
+  },
+  "what_this_does_not_establish": [
+    "no host-issued plugin id, so C21 is not satisfied",
+    "no effective load inside a real host loader, so C20's host half is not satisfied",
+    "the three ZIPs are packaging evidence, not installations"
+  ]
+}

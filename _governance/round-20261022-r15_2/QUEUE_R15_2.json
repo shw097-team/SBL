@@ -113,9 +113,9 @@
     {
       "id": "W02.policy",
       "owner_class": "OWNER",
-      "status": "PARKED",
+      "status": "DONE",
       "denominator_ref": "W02/C02",
-      "next_action": "Fabric active policy disposition — needs an owner-issued determination of which policy version is active",
+      "next_action": "executed: designation bound + fail-closed consumer guard (see FAR_DECISIONS_R15_3.json#W02.policy)",
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner states the active policy digest; then the agent can bind it",
       "owner_action": "name the active policy digest, or authorise hermes-codex-lane.json as active",
@@ -130,7 +130,7 @@
       "owner_class": "OWNER",
       "status": "PARKED",
       "denominator_ref": "W12/C20/M3",
-      "next_action": "SWOF W3 admission — needs an owner-issued Domain Owner Native Admission",
+      "next_action": "shadow-only run authorized (SWOF_SHADOW_AUTHORIZATION_R15_3.json) but NOT executed; W3 Native Admission absent; M3 NOT_RUN",
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner issues the W3 admission; agent then runs the connected mode",
       "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
@@ -143,9 +143,9 @@
     {
       "id": "W13.hosts",
       "owner_class": "HOST",
-      "status": "PARKED",
+      "status": "DONE",
       "denominator_ref": "W13/C22/E06",
-      "next_action": "five tools / three reproducible ZIPs / three private ChatGPT hosts",
+      "next_action": "owner accepted the local interim ceiling (HOST_CEILING_DECISION_R15_3.json); C21 stays HOST_PENDING and is not closed by this",
       "parked_reason": "HOST_PENDING",
       "retry_hint": "host IDs and the private-plugin schema must come from the host",
       "owner_action": "provide host IDs and the private-plugin schema, or accept local double-digest build evidence",
@@ -160,7 +160,7 @@
       "owner_class": "OWNER",
       "status": "PARKED",
       "denominator_ref": "W15/C23",
-      "next_action": "release control bundle — needs the owner seal and a host-load receipt",
+      "next_action": "release seal is owner-signed and subject-bound; standing order does not seal a subject",
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "two owner-side artefacts; the agent may assemble but not sign",
       "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
@@ -173,9 +173,9 @@
     {
       "id": "W16.perf",
       "owner_class": "OWNER",
-      "status": "PARKED",
+      "status": "DONE",
       "denominator_ref": "W16/C16",
-      "next_action": "B0/B1/B2 performance baselines — ownership of the baseline is an owner call",
+      "next_action": "executed: ACCEPT_AS_CEILING disposition recorded (BENCH_DISPOSITION_R15_3.json)",
       "parked_reason": "OWNER_DECISION",
       "retry_hint": "owner names the baseline owner; agent then measures against it",
       "owner_action": "name the reference workload and accept or reject the observed thresholds",
@@ -538,6 +538,121 @@
       "claim_ceiling": "M1 = LOCAL_REVIEW_ONLY; independent acceptance not established",
       "cwd": "C:/Projects/Agent_Workspace/_r152_ev",
       "lane_receipt_file": "receipts/dispatch/PLAN__Q7_CHECKER.json"
+    },
+    {
+      "id": "Q8.far_adjudication_r153",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "R15.2 §7.1 / owner question set",
+      "required_lane": "PLAN",
+      "satisfiable_by": "PLAN lane (rank 2, openai-codex/gpt-6.1-sol)",
+      "next_action": "53-row FAR adjudication produced and corrected after challenge pass 1 (24 over-classed rows) and pass 2 (2 print-only rows)",
+      "resume_cmd": "python -c \"import json;d=json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/FAR_DECISIONS_R15_3.json',encoding='utf-8'));print(len(d['rows']))\"",
+      "expect": "53",
+      "evidence": [
+        "FAR_DECISIONS_R15_3.json",
+        "receipts/dispatch/PLAN__FAR_R15_3_JSON.json"
+      ]
+    },
+    {
+      "id": "Q9.openspec_delta_C11",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "C11 / W10",
+      "required_lane": "EXECUTE",
+      "satisfiable_by": "EXECUTE lane + orchestrator repair",
+      "next_action": "delta written for far-r12-20261021, two unsupported clauses removed after challenge pass 1; strict validate 3/0",
+      "resume_cmd": "cd /c/Projects/Agent_Workspace/_r152_ev && openspec validate --all --strict",
+      "expect": "3 passed, 0 failed",
+      "evidence": [
+        "openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md"
+      ]
+    },
+    {
+      "id": "Q10.policy_designation_C02",
+      "owner_class": "OWNER_STEP_EXECUTED",
+      "status": "DONE",
+      "denominator_ref": "C02 / W02",
+      "required_lane": "orchestrator (owner designation)",
+      "satisfiable_by": "owner standing order 2026-10-23",
+      "next_action": "HG-KSEOS/config/active-policy.json binds the declaration digest; front door refuses absent/mismatched/stale designations (7 tests + live REFUSE/BOUND)",
+      "resume_cmd": "cd /c/Projects/Agent_Workspace/HG-KSEOS && uv run --python 3.12 --with pytest --with aiohttp pytest -q tests/test_frontdoor_active_policy.py",
+      "expect": "7 passed",
+      "evidence": [
+        "HG-KSEOS/config/active-policy.json",
+        "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py"
+      ]
+    },
+    {
+      "id": "Q11.tool_lifecycle_C20",
+      "owner_class": "AGENT",
+      "status": "PARTIAL",
+      "denominator_ref": "C20 / W13",
+      "required_lane": "orchestrator measurement",
+      "satisfiable_by": "local only; host half needs ChatGPT private host ids",
+      "next_action": "local half measured: 9 verbs with real exit codes, 2 refusals, root removed; 3 ZIPs byte-identical across two builds. Host half HOST_PENDING",
+      "resume_cmd": "python C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/q5_lifecycle_probe/probe.py",
+      "expect": "PASS",
+      "evidence": [
+        "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json"
+      ]
+    },
+    {
+      "id": "Q12.ci_supply_chain_C22",
+      "owner_class": "AGENT",
+      "status": "PARTIAL",
+      "denominator_ref": "C22 / W15",
+      "required_lane": "EXECUTE + orchestrator repair",
+      "satisfiable_by": "agent",
+      "next_action": "actions pinned to real commits, scoped secret-scan hard gate with 3 tests, SBOM inventory step; the advisory step was removed because it violated tests/test_ci_contract.py; no hosted CI run, no provenance attestation",
+      "resume_cmd": "cd /c/Projects/Agent_Workspace/_r152_ev && uv run --python 3.11 --with pytest pytest -q tests/test_ci_contract.py tests/test_secret_scan_exclude.py",
+      "expect": "8 passed",
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "tests/test_secret_scan_exclude.py"
+      ]
+    },
+    {
+      "id": "Q13.bench_disposition_W16",
+      "owner_class": "OWNER_STEP_EXECUTED",
+      "status": "DONE",
+      "denominator_ref": "C23 / W16",
+      "required_lane": "orchestrator (owner disposition)",
+      "satisfiable_by": "owner standing order 2026-10-23",
+      "next_action": "ACCEPT_AS_CEILING recorded: no benefit demonstrable, B0 NOT_COMPARABLE; binds BENCH_AND_TOOLS_R15_2.json digest",
+      "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/BENCH_DISPOSITION_R15_3.json',encoding='utf-8'))['evidence_digest'])\"",
+      "expect": "a sha256",
+      "evidence": [
+        "BENCH_DISPOSITION_R15_3.json"
+      ]
+    },
+    {
+      "id": "Q14.challenge_pass1",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "C05 / W04",
+      "required_lane": "VERIFY_SECURITY",
+      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol) — a different model than EXECUTE",
+      "next_action": "returned FAIL with 7 findings; 5 repaired, 2 carried (evidence count instability, credential-posture warning)",
+      "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/verify_r153/CHALLENGE_PASS1.json',encoding='utf-8'))['verdict'])\"",
+      "expect": "FAIL",
+      "evidence": [
+        "workers/verify_r153/CHALLENGE_PASS1.json"
+      ]
+    },
+    {
+      "id": "Q15.challenge_pass2",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "C05 / W04",
+      "required_lane": "VERIFY_SECURITY",
+      "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol)",
+      "next_action": "returned FAIL: R1/R2/R4 PASS, R3 FAIL (count mismatch + print-only classes), R5 PARTIAL (count instability); R3/R5 repaired, not re-reviewed",
+      "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/workers/verify_r153/CHALLENGE_PASS2.json',encoding='utf-8'))['verdict'])\"",
+      "expect": "FAIL",
+      "evidence": [
+        "workers/verify_r153/CHALLENGE_PASS2.json"
+      ]
     }
   ],
   "runs": [
@@ -702,6 +817,60 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-22T21:20:24Z",
+      "steps": 0,
+      "done": 21,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T01:06:29Z",
+      "steps": 0,
+      "done": 21,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T01:27:29Z",
+      "steps": 0,
+      "done": 21,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T01:48:29Z",
+      "steps": 0,
+      "done": 21,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T02:09:29Z",
+      "steps": 0,
+      "done": 21,
+      "parked": 5,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T02:30:29Z",
+      "steps": 0,
+      "done": 30,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -716,5 +885,12 @@
       "PLAN": 1,
       "VERIFY_SECURITY": 10
     }
-  }
+  },
+  "counts": {
+    "DONE": 30,
+    "PARKED": 2,
+    "PARTIAL": 2
+  },
+  "updated_at": "2026-10-23T02:28:05+00:00",
+  "contention_note": "a concurrent round (HG-KSEOS/var/R15-MODEL-FALLBACK-20261023) rewrote the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching; the dispatches were unaffected (PLAN and VERIFY both served at rank 2 with usage_status 200). See TT-R15.3-CONCURRENT-ROUND-MANDATE-CONFLICT."
 }
