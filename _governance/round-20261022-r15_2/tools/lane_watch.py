@@ -18,7 +18,7 @@ import time
 ROUND = r"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2"
 WORKTREE = r"C:/Projects/Agent_Workspace/_r152_ev"
 KEY = r"C:/Projects/Agent_Workspace/API KEY/shw0968_OPENCODEGO_KEY.txt"
-RELAY = "http://127.0.0.1:10100"
+RELAY = "http://127.0.0.1:10101/v1"
 OUT = os.path.join(ROUND, "receipts", "lane_watch.json")
 POLL_S = 300
 MAX_WAIT_S = 6 * 3600

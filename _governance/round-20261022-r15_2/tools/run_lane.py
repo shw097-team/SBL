@@ -86,7 +86,11 @@ def main() -> int:
     # The relay base is not always the shared 10101 relay: when the sealed front door is the sanctioned transport
     # (HGK_LANE_RELAY_BASE=http://127.0.0.1:10100) the lane must be told, otherwise it connects to 10101 and dies on
     # 426/401 as measured on 2026-10-23.
-    relay_base = os.environ.get("HGK_LANE_RELAY_BASE")
+    relay_base = os.environ.get("HGK_LANE_RELAY_BASE") or "http://127.0.0.1:10101/v1"
+    # The /v1 suffix is not cosmetic. With a bare http://127.0.0.1:10101 the codex client builds
+    # ws://127.0.0.1:10101/responses and http://127.0.0.1:10101/responses, burns seven upgrade retries and dies
+    # (measured 2026-10-23: eight dispatches, each ~12 s, all with the identical URL). The front door refuses the
+    # path without /v1 for the same reason. Default it here so no call site can get it wrong again.
     if relay_base:
         cmd += ["--relay-base", relay_base]
     # codex 0.163-alpha.11 negotiates the responses transport over websocket first; the local relay answers

@@ -1407,6 +1407,21 @@
         "TRANSPORT_BLOCKER_R153.json",
         "receipts/lane_watch.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-RELAY-BASE-NEEDS-V1",
+      "severity": "HIGH",
+      "state": "FIXED_LOCALLY",
+      "opened_at": "2026-10-23T07:22:45Z",
+      "title": "a relay base without /v1 turns every dispatch into seven websocket-retry deaths",
+      "fact": "--relay-base http://127.0.0.1:10101 makes codex build ws://127.0.0.1:10101/responses and http://127.0.0.1:10101/responses; the child logs 7 upgrade failures and exits in ~12 s. Same for 10100: the front door answers ERR_EXEC_FRONTDOOR_ROUTE_REFUSED for path=/responses without /v1. With /v1 the identical brief ran 127.37 s green on gpt-6.1-sol rank 2.",
+      "how_i_misread_it": "I first blamed the websocket feature flag and the sealed home config, edited config.toml twice (singular then plural feature key) - both edits were irrelevant. The URL was wrong, not the transport.",
+      "remedy": "run_lane now defaults --relay-base to http://127.0.0.1:10101/v1 so no call site can omit the suffix",
+      "evidence": [
+        "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_B4_REMEDIATION_SPEC.json (ok)",
+        "receipts/dispatch/*B4*.json.logs/attempt-*-stderr.txt (7 ws retries)"
+      ],
+      "verification": "TT-R15.3-PENDING-NOTHING"
     }
   ],
   "counts": {
