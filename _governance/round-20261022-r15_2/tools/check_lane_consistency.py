@@ -12,21 +12,28 @@ NOT_GREEN; 2 usage/IO/parse error. Exactly one JSON object is printed on stdout.
 Supersession (a rebind must not rewrite history)
 -----------------------------------------------
 A receipt's served arm is judged against the pool that was in force when the receipt
-ran, not only against today's pool. When the served arm is absent from the current
-pool AND the receipt predates the pool revision, the receipt is SUPERSEDED: the
-model/provider/rank predicates are reported as historical rather than as live
-faults, and `superseded_by` names the current rank-1 arm. A receipt that serves an
-arm absent from the pool but is dated at or after the pool revision is still a
-VIOLATION -- the rebind only excuses turns taken before it.
+ran, not only against today's pool. A receipt is SUPERSEDED only when all three
+facts hold: the served arm is absent from the current pool, the served arm IS
+declared by a prior revision (`prior_arms`, loaded from `RETIRED_ARMS_R153.json`),
+and the receipt predates the pool revision. Then the model/provider/rank predicates
+are reported as historical rather than as live faults, and `superseded_by` names the
+current rank-1 arm. A receipt that serves a retired arm but is dated at or after the
+pool revision is still a VIOLATION -- the rebind only excuses turns taken before it.
+
+An arm that no revision ever declared -- a hijacked model, a typo, a hand-edited
+receipt -- is NOT history. It is a VIOLATION carrying the sub-reason
+`UNAUTHORIZED_ARM`, however old its receipt claims to be. The same holds for an
+unknown timestamp: a missing time cannot prove the receipt came first.
 
 Time comes from the receipt's own `generated_utc` (falling back to the receipt file
 mtime) and from the pool file mtime. `classify_arm()` is the pure predicate that
 makes this decision, so it is unit-testable with injected values.
 
-Claim ceiling: the rule compares an arm identity and two timestamps; it does not
-prove the served arm appeared in an earlier revision of the pool file. A receipt
-that served an arm that never existed in any revision but predates the pool is
-indistinguishable from a genuine pre-rebind turn by this rule alone.
+Claim ceiling: the excuse rests on `RETIRED_ARMS_R153.json`, which is a curated list
+of arms a prior revision declared. An arm missing from that list but genuinely
+served by an older revision would read as UNAUTHORIZED_ARM until the list is
+extended; that direction is deliberate -- the list fails closed, so an unknown arm
+is never quietly excused as history.
 
 Declaration derivation (deliberately explicit, because this drives a pass/fail)
 -----------------------------------------------------------------------------
@@ -83,6 +90,21 @@ LANE_TOKENS = {
 CONSISTENT = "CONSISTENT"
 SUPERSEDED = "SUPERSEDED"
 VIOLATION = "VIOLATION"
+
+# Sub-reason attached to a VIOLATION whose served arm no revision ever declared.
+# Not a verdict: the verdict stays VIOLATION so the exit code does not move.
+UNAUTHORIZED_ARM = "UNAUTHORIZED_ARM"
+
+# The other two VIOLATION sub-reasons, kept distinct so the note says which fact
+# failed rather than lumping every red arm together.
+REASON_UNKNOWN_TIME = "UNKNOWN_RECEIPT_TIME"
+REASON_AT_OR_AFTER_POOL = "AT_OR_AFTER_POOL_REVISION"
+
+# The curated list of arms a PRIOR pool revision really declared. It sits next to
+# this tool; retiring an arm means adding it here. Read-only: nothing writes it.
+RETIRED_ARMS_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "RETIRED_ARMS_R153.json"
+)
 
 
 class DeclarationUnusable(Exception):
@@ -303,42 +325,77 @@ def _parse_stamp(value: Any) -> datetime | None:
     return parsed
 
 
+def _arm_keys(arms: Any) -> set[str]:
+    """Normalised labels from any iterable of arm labels (or a single string)."""
+    if isinstance(arms, (str, bytes)):
+        arms = [arms]
+    keys: set[str] = set()
+    for entry in arms or ():
+        key = _normalise_arm(entry)
+        if key:
+            keys.add(key)
+    return keys
+
+
+def classify_arm_with_reason(
+    served: Any,
+    pool_arms: Any,
+    receipt_time: Any,
+    pool_time: Any,
+    prior_arms: Any = None,
+) -> tuple[str, str | None]:
+    """Judge one served arm: returns (verdict, sub_reason).
+
+    Pure: no IO, no clock, no globals. `pool_arms` and `prior_arms` are any
+    iterables of arm labels (bare model or `provider/model`; the caller passes
+    both forms so an alias cannot masquerade as a rebind). Matching is exact on
+    the normalised label.
+
+    `prior_arms` is the only evidence that an arm the current pool no longer
+    serves was ever authorized. A served arm absent from the pool is SUPERSEDED
+    only when it IS in `prior_arms` AND the receipt is strictly older than the
+    pool revision. Absent from both lists is a VIOLATION with sub-reason
+    UNAUTHORIZED_ARM, whatever the timestamp says: an arm no revision declared
+    was never authorized, so it cannot be history. An unknown time (None or
+    unparsable) never buys the excuse either, because a missing timestamp cannot
+    prove the receipt came first.
+
+    The verdict stays one of CONSISTENT / SUPERSEDED / VIOLATION; the reason is a
+    sub-reason of VIOLATION, never a fourth verdict.
+    """
+    served_key = _normalise_arm(served)
+    if served_key is not None and served_key in _arm_keys(pool_arms):
+        return CONSISTENT, None
+
+    # No declared predecessor, no history to appeal to. This branch is what
+    # closes the hole: an arm in neither list is VIOLATION even when very old.
+    if served_key is None or served_key not in _arm_keys(prior_arms):
+        return VIOLATION, UNAUTHORIZED_ARM
+
+    served_stamp = _parse_stamp(receipt_time)
+    pool_stamp = _parse_stamp(pool_time)
+    if served_stamp is None or pool_stamp is None:
+        return VIOLATION, REASON_UNKNOWN_TIME
+    if served_stamp < pool_stamp:
+        return SUPERSEDED, None
+    return VIOLATION, REASON_AT_OR_AFTER_POOL
+
+
 def classify_arm(
     served: Any,
     pool_arms: Any,
     receipt_time: Any,
     pool_time: Any,
+    prior_arms: Any = None,
 ) -> str:
     """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
 
-    Pure: no IO, no clock, no globals. `pool_arms` is any iterable of arm labels
-    (bare model or `provider/model`; the caller passes both forms so an alias
-    cannot masquerade as a rebind). Matching is exact on the normalised label.
-
-    A served arm that is absent from the pool is SUPERSEDED only when the receipt
-    is strictly older than the pool revision. An unknown time (None or
-    unparsable) never buys that excuse: it is a VIOLATION, because a missing
-    timestamp cannot prove the receipt came first.
+    The verdict alone; `classify_arm_with_reason()` carries the sub-reason. See
+    that function for the rule.
     """
-    served_key = _normalise_arm(served)
-    keys: set[str] = set()
-    if isinstance(pool_arms, (str, bytes)):
-        pool_arms = [pool_arms]
-    for entry in pool_arms or ():
-        key = _normalise_arm(entry)
-        if key:
-            keys.add(key)
-
-    if served_key is not None and served_key in keys:
-        return CONSISTENT
-
-    served_stamp = _parse_stamp(receipt_time)
-    pool_stamp = _parse_stamp(pool_time)
-    if served_stamp is None or pool_stamp is None:
-        return VIOLATION
-    if served_stamp < pool_stamp:
-        return SUPERSEDED
-    return VIOLATION
+    return classify_arm_with_reason(
+        served, pool_arms, receipt_time, pool_time, prior_arms
+    )[0]
 
 
 def _evaluate_receipt(
@@ -347,6 +404,7 @@ def _evaluate_receipt(
     table: dict[str, dict[int, dict[str, Any]]],
     decl: dict[str, Any],
     pool_time: Any = None,
+    prior_arms: Any = None,
 ) -> dict[str, Any]:
     lane = receipt.get("lane")
     lane_key = lane.strip() if isinstance(lane, str) else None
@@ -380,6 +438,10 @@ def _evaluate_receipt(
             receipt_time = None
 
     superseded_notes: list[str] = []
+    # Sub-reasons behind the VIOLATION verdict. UNAUTHORIZED_ARM means the served
+    # arm was declared by no revision at all, so it is not history under an older
+    # pool: it was never authorized.
+    unauthorized: list[str] = []
 
     # R1 -- the lane must have a structural binding in the declaration.
     if declared_arms:
@@ -476,7 +538,9 @@ def _evaluate_receipt(
                 moved = _strip_provider_prefix(transport, arm.get("provider"))
                 usage_ok = isinstance(usage, str) and billed == moved
                 usage_note = f"usage_model={usage!r} vs transport_model={transport!r}"
-            arm_state = classify_arm(served, pool_arms, receipt_time, pool_time)
+            arm_state, arm_reason = classify_arm_with_reason(
+                served, pool_arms, receipt_time, pool_time, prior_arms
+            )
             if served_ok:
                 ok = usage_ok
                 served_note = f"served model {served!r} equals declared arm at rank {rank}"
@@ -498,10 +562,32 @@ def _evaluate_receipt(
             else:
                 ok = served_ok and usage_ok
                 served_note = f"served model {served!r} is not the declared model {want!r} at rank {rank}"
-            predicates.append(_predicate(
+                if arm_reason == UNAUTHORIZED_ARM:
+                    unauthorized.append(
+                        f"rank {rank}: served {served!r} appears in neither the "
+                        f"current pool nor any prior revision"
+                    )
+                    served_note += (
+                        f"; UNAUTHORIZED_ARM -- no revision ever declared this arm, "
+                        f"so the rebind cannot excuse it however old the receipt is"
+                    )
+                elif arm_reason == REASON_UNKNOWN_TIME:
+                    served_note += (
+                        "; receipt time is unknown, so it cannot prove it predates "
+                        "the pool revision"
+                    )
+                elif arm_reason == REASON_AT_OR_AFTER_POOL:
+                    served_note += (
+                        "; the receipt is dated at or after the pool revision, so the "
+                        "rebind does not excuse it"
+                    )
+            _r3 = _predicate(
                 "R3_model_matches_arm", ok, rank,
                 f"{served_note}; {usage_note}",
-            ))
+            )
+            if arm_reason:
+                _r3["reason"] = arm_reason
+            predicates.append(_r3)
 
         # R4 -- provider consistency (declared provider and the billing provider).
         if arm is None:
@@ -513,8 +599,8 @@ def _evaluate_receipt(
             want_provider = arm["provider"]
             call_ok = _provider_ok(attempt.get("provider"), want_provider)
             bill_ok = _provider_ok(attempt.get("usage_provider"), want_provider)
-            provider_state = classify_arm(
-                attempt.get("model"), pool_arms, receipt_time, pool_time
+            provider_state, provider_reason = classify_arm_with_reason(
+                attempt.get("model"), pool_arms, receipt_time, pool_time, prior_arms
             )
             if provider_state == SUPERSEDED:
                 # Historical arm: the declared provider of this rank is today's,
@@ -530,11 +616,14 @@ def _evaluate_receipt(
             else:
                 provider_ok = call_ok and bill_ok
                 history = ""
-            predicates.append(_predicate(
+            _r4 = _predicate(
                 "R4_provider_matches", provider_ok, rank,
                 f"declared provider {want_provider!r}; provider={attempt.get('provider')!r}, "
                 f"usage_provider={attempt.get('usage_provider')!r}{history}",
-            ))
+            )
+            if not provider_ok and provider_reason:
+                _r4["reason"] = provider_reason
+            predicates.append(_r4)
 
         # R6 -- evidence of a real green turn; a failure here is NOT_GREEN, not
         # a consistency violation.
@@ -586,6 +675,10 @@ def _evaluate_receipt(
         "verdict": verdict,
         "superseded": superseded_notes,
         "superseded_by": rank1_arm if superseded_notes else None,
+        "violation_reasons": sorted(
+            {p["reason"] for p in violations if p.get("reason")}
+        ),
+        "unauthorized_arm": unauthorized,
         "receipt_time": receipt_time,
         "pool_time": pool_time,
     }
@@ -616,6 +709,55 @@ def _payload(
 
 def _zero_counts() -> dict[str, int]:
     return {CONSISTENT: 0, SUPERSEDED: 0, VIOLATION: 0, "NOT_GREEN": 0}
+
+
+def load_prior_arms(path: str = RETIRED_ARMS_PATH) -> tuple[list[str], str | None]:
+    """Read the retired-arm list: `arms[].arm` labels a prior revision declared.
+
+    Each label is returned in both forms -- `provider/model` and the bare model --
+    for the same reason the current pool is: the checker compares the served model
+    exactly, and a receipt may record either form. Without the expansion a retired
+    `opencode-go/minimax-m3.1-flash-free` would not match a receipt that wrote
+    `minimax-m3.1-flash-free`, and an honestly retired arm would read as
+    UNAUTHORIZED_ARM.
+
+    Returns (arms, problem). A missing or unparsable file returns ([], reason)
+    rather than raising: an unreadable list must not silently restore the old
+    "any old arm is superseded" behaviour, so the caller turns the problem into a
+    hard error instead of carrying on with an empty allow-list.
+    """
+    try:
+        with open(path, "rb") as handle:
+            data = json.loads(handle.read().decode("utf-8-sig"))
+    except OSError as exc:
+        return [], f"cannot read retired-arm list {path}: {exc}"
+    except Exception as exc:  # noqa: BLE001 - any decode failure is one finding
+        return [], f"cannot parse retired-arm list {path}: {exc}"
+    if not isinstance(data, dict):
+        return [], f"retired-arm list {path} is not a JSON object"
+    entries = data.get("arms")
+    if not isinstance(entries, list):
+        return [], f"retired-arm list {path} has no arms[] array"
+    arms: list[str] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        label = entry.get("arm")
+        if not isinstance(label, str) or not label.strip():
+            continue
+        label = label.strip()
+        if label not in arms:
+            arms.append(label)
+        paid_by = entry.get("provider")
+        if "/" in label:
+            bare = label.split("/", 1)[1]
+            if bare and bare not in arms:
+                arms.append(bare)
+        elif isinstance(paid_by, str) and paid_by.strip():
+            qualified = f"{paid_by.strip()}/{label}"
+            if qualified not in arms:
+                arms.append(qualified)
+    return arms, None
 
 
 def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
@@ -696,13 +838,28 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
     except OSError:
         pool_time = None
 
+    # Without the retired-arm list every unknown arm would read as superseded
+    # again, so an unreadable list is an IO error, not an empty allow-list.
+    prior_arms, arms_problem = load_prior_arms()
+    if arms_problem:
+        return _payload(
+            sha, 0, [], _zero_counts(), "RETIRED_ARMS_UNREADABLE",
+            declaration=declaration, receipts_dir=receipts_dir,
+            retired_arms_path=os.path.abspath(RETIRED_ARMS_PATH),
+            detail=arms_problem,
+        ), 2
+
     results = [
-        _evaluate_receipt(path, receipt, table, decl, pool_time)
+        _evaluate_receipt(path, receipt, table, decl, pool_time, prior_arms)
         for path, receipt in receipts
     ]
     counts = _zero_counts()
     for result in results:
         counts[result["verdict"]] += 1
+
+    unauthorized_count = sum(
+        1 for result in results if UNAUTHORIZED_ARM in result["violation_reasons"]
+    )
 
     if counts["VIOLATION"]:
         exit_code, reason = 1, "VIOLATION"
@@ -718,6 +875,9 @@ def check(receipts_dir: str = DEFAULT_RECEIPTS_DIR,
         declaration=declaration, receipts_dir=receipts_dir,
         declared_lanes=sorted(table), skipped_files=skipped_files,
         pool_time=pool_time,
+        retired_arms_path=os.path.abspath(RETIRED_ARMS_PATH),
+        prior_arms=prior_arms,
+        unauthorized_arm_receipts=unauthorized_count,
     )
     return payload, exit_code
 

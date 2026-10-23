@@ -1359,6 +1359,40 @@
         "HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py:419",
         "EXECUTE__DEN-C13_fix.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-SUPERSESSION-TIME-SOURCES",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:41:18Z",
+      "title": "the checker takes its revision time from file mtime and falls back to it for missing receipt times",
+      "fact": "B3B reproduced three ways to be excused: missing generated_utc + older file mtime; an arm authorised in revision A but barred in B, judged against C; and a receipt issued after the effective time but before a later file touch (tools/check_lane_consistency.py#372 and #689)",
+      "remedy": "timestamp from receipt data only, effective time from the pool's revision record only, and membership in the revision in force at receipt time",
+      "owner_needed": false,
+      "evidence": [
+        "VERIFY_SECURITY__CHALLENGE_R153_B3B_CHECKER.json",
+        "CHALLENGE_INGEST_B3BC.json"
+      ]
+    },
+    {
+      "id": "TT-R15.3-C15-XFAIL-ABSORBS",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:41:18Z",
+      "title": "C15's whole test is xfail, so it also swallows failures that are not the contamination gap",
+      "fact": "the holdout is installed by the test through SQL and the module-level xfail covers every assertion",
+      "remedy": "split the test: the reachable assertions must run unguarded, only the contamination expectation is xfailed",
+      "owner_needed": false
+    },
+    {
+      "id": "TT-R15.3-C10-NAME-ONLY",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:41:18Z",
+      "title": "C10's repair asserts that a resolver exists rather than exercising admission",
+      "fact": "B3C: it first asserts the existence of resolve_permission or resolve_scope on lane_policy",
+      "remedy": "exercise the real admission path, or record that no product resolver exists and stop claiming the check",
+      "owner_needed": true
     }
   ],
   "counts": {

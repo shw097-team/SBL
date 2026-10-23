@@ -1,0 +1,68 @@
+{
+  "schema": "SBL-CHALLENGE-INGEST/1",
+  "at_utc": "2026-10-23T06:41:18Z",
+  "batch": "B3B (checker) + B3C (tests)",
+  "receipts": {
+    "B3B": {
+      "file": "VERIFY_SECURITY__CHALLENGE_R153_B3B_CHECKER.json",
+      "ok": true,
+      "secs": 71.61,
+      "model": "gpt-6.1-sol",
+      "rank": 2,
+      "verdict": "FAIL"
+    },
+    "B3C": {
+      "file": "VERIFY_SECURITY__CHALLENGE_R153_B3C_TESTS.json",
+      "ok": true,
+      "secs": 137.74,
+      "model": "gpt-6.1-sol",
+      "rank": 2,
+      "verdict": "see per_file"
+    }
+  },
+  "checker_findings_accepted": [
+    {
+      "mode": "arm never declared",
+      "reachable": true,
+      "remedy": "RETIRED_ARMS list (in flight as W08_C)"
+    },
+    {
+      "mode": "missing generated_utc falls back to file mtime",
+      "reachable": true,
+      "remedy": "never substitute mtime for a receipt timestamp; unknown receipt time is VIOLATION"
+    },
+    {
+      "mode": "pool moved twice",
+      "reachable": true,
+      "remedy": "supersession needs membership in the revision in force at receipt time, not the current pool"
+    },
+    {
+      "mode": "declaration mtime treated as revision time",
+      "reachable": true,
+      "remedy": "take the effective time from the pool's own revision record, never from the file's mtime"
+    }
+  ],
+  "tests_findings_accepted": {
+    "C13": {
+      "batch2_answered": true,
+      "earns": "PARTIALLY_VERIFIED",
+      "why": "aliasing regression solid; no per-effect auth (R15_1#1400)"
+    },
+    "C14": {
+      "batch2_answered": true,
+      "earns": "PARTIALLY_VERIFIED",
+      "why": "interrupted restore better; operation_id still xfailed (#1418)"
+    },
+    "C15": {
+      "batch2_answered": false,
+      "earns": "PARTIALLY_VERIFIED",
+      "why": "holdout installed by the test through SQL; the WHOLE test is xfailed so the xfail also absorbs earlier assertion failures; product still initialises an empty holdout (evolution.py#254) and qualifies with caller booleans (#279)"
+    },
+    "C10": {
+      "batch2_answered": false,
+      "earns": "PARTIALLY_VERIFIED",
+      "why": "asserts the existence of resolve_permission/resolve_scope rather than exercising an admission path"
+    }
+  },
+  "claim_ceiling": "TWO_GREEN_CHALLENGES__FINDINGS_ACCEPTED__PRODUCT_GAPS_REMAIN"
+}
