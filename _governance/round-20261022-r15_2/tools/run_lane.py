@@ -100,6 +100,12 @@ def main() -> int:
     human_home = os.environ.get("HGK_LANE_HUMAN_HOME")
     if human_home:
         cmd += ["--codex-home", human_home, "--allow-human-home-transport"]
+    # Identity source. On an OAuth-direct turn the relay writes no usage row, so 'relay-usage' (the default) can only
+    # report model=null and ok=false: the lane that actually pays is the one that looks broken. 'codex-rollout' reads
+    # the arm the codex client recorded for this run/cwd instead. Never silently the other way round.
+    ident_src = os.environ.get("HGK_LANE_IDENTITY_SOURCE")
+    if ident_src:
+        cmd += ["--identity-source", ident_src]
     # codex 0.163-alpha.11 negotiates the responses transport over websocket first; the local relay answers
     # 426 Upgrade Required and the front door answers 403 on ws://. Measured 2026-10-23. One -c override removes it:
     #   HGK_LANE_CODEX_ARGS='-c|features.responses_websocket=false'

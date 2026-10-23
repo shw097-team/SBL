@@ -1,0 +1,91 @@
+"""Two holes the independent checker opened on 2026-10-23, pinned so they cannot reopen.
+
+Finding 1 (SUPERSESSION_LEAK, checker line ~864): a receipt naming the retired MODEL `minimax-m3.1-flash-free` with
+provider AND usage_provider set to an invented provider was reported SUPERSEDED, because the retired list was expanded
+to bare model labels and the historical branch only compared call against bill. A retired model does not authorise an
+undeclared provider.
+
+Finding 2 (MTIME_LABEL_ONLY, checker line ~475): with no revision timestamp, moving the declaration file's mtime turned
+an older receipt from VIOLATION into SUPERSEDED, with only a LOW-confidence label attached. A label is not a control.
+
+Finding 3 (TAUTOLOGICAL_TEST): the previous time-source test handed `None` straight to the pure classifier, so it would
+still pass if the evaluator-level mtime fallback came back. The second test here goes through `_evaluate_receipt`.
+"""
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+CHECKER = Path(__file__).resolve().parents[1] / "_governance" / "round-20261022-r15_2" / "tools" / "check_lane_consistency.py"
+
+
+def _checker():
+    spec = importlib.util.spec_from_file_location("checker_provider_and_path", CHECKER)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_a_retired_model_does_not_authorise_an_undeclared_provider():
+    checker = _checker()
+    verdict, reason = checker.classify_arm_with_reason(
+        "minimax-m3.1-flash-free",
+        ["opencode-go/deepseek-v4.1-flash"],       # today's pool
+        "2026-10-19T10:00:00+00:00",               # older than the pool
+        "2026-10-20T00:00:00+00:00",
+        ["minimax-m3.1-flash-free"],               # retired floor: the bare label the loader also emits
+        None,
+        served_provider="evil-provider",           # ... but the receipt names an invented provider
+        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
+    )
+    assert verdict == checker.VIOLATION
+    assert reason == checker.REASON_PROVIDER_NOT_RETIRED
+
+
+def test_the_retired_pair_still_earns_the_excuse():
+    checker = _checker()
+    assert checker.classify_arm(
+        "minimax-m3.1-flash-free",
+        ["opencode-go/deepseek-v4.1-flash"],
+        "2026-10-19T10:00:00+00:00",
+        "2026-10-20T00:00:00+00:00",
+        ["minimax-m3.1-flash-free"],
+        served_provider="opencode-go",
+        prior_pairs={"minimax-m3.1-flash-free": {"opencode-go"}},
+    ) == checker.SUPERSEDED
+
+
+def test_evaluator_level_mtime_cannot_buy_supersession():
+    """Goes through the evaluator, so restoring an mtime fallback inside it would fail this test."""
+    checker = _checker()
+    with tempfile.TemporaryDirectory() as scratch:
+        decl_path = os.path.join(scratch, "lane-route-slots.candidate.json")
+        with open(decl_path, "w", encoding="utf-8") as handle:
+            handle.write("{}")
+        moved = datetime(2026, 10, 25, tzinfo=timezone.utc).timestamp()
+        os.utime(decl_path, (moved, moved))
+
+        decl = {"lane": "EXECUTE", "revision": "rev-x", "history": []}
+        pool_time, pool_time_source = checker.resolve_pool_time(decl, decl_path)
+        assert pool_time_source == checker.POOL_TIME_FILE_MTIME
+
+        receipt = {
+            "lane": "EXECUTE",
+            "generated_utc": "2026-10-15T00:00:00Z",   # older than the touched file
+            "attempts": [{"rank": 1, "provider": "opencode-go", "model": "minimax-m3.1-flash-free",
+                          "usage_provider": "opencode-go", "exit": 0, "nonce_present": True,
+                          "usage_status": 200}],
+        }
+        table = {"EXECUTE": {1: {"provider": "opencode-go", "model": "deepseek-v4.1-flash"}}}
+        out = checker._evaluate_receipt(
+            os.path.join(scratch, "receipt.json"), receipt, table, decl,
+            pool_time=pool_time, prior_arms=["opencode-go/minimax-m3.1-flash-free"],
+            pool_time_source=pool_time_source,
+        )
+    blob = json.dumps(out, ensure_ascii=False)
+    assert "SUPERSEDED" not in blob, "an mtime-derived pool time must not acquit anyone"
+    assert "POOL_TIME_NOT_AUTHORITATIVE" in blob or "VIOLATION" in blob

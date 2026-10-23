@@ -123,8 +123,14 @@ def _evaluate(checker, declaration, pool_time, pool_time_source):
     )
 
 
-def test_pool_time_from_file_mtime_is_marked_low_confidence():
-    """The revision record earns HIGH; an mtime proxy only ever earns LOW."""
+def test_pool_time_from_file_mtime_can_never_grant_supersession():
+    """An mtime proxy must not acquit anyone: a label on an open hole is not a control.
+
+    The independent checker (2026-10-23, finding MTIME_LABEL_ONLY) showed that with no revision timestamp, moving the
+    declaration file's mtime from Oct 10 to Oct 20 turned an Oct 15 receipt from VIOLATION into SUPERSEDED, with a LOW
+    confidence label attached. This test pins the repair: the mtime path now yields VIOLATION outright, and the
+    revision-record path keeps the excuse.
+    """
     checker = _checker()
 
     with tempfile.TemporaryDirectory() as scratch:
@@ -153,9 +159,9 @@ def test_pool_time_from_file_mtime_is_marked_low_confidence():
 
         high = _evaluate(checker, with_record, pool_time, pool_time_source)
 
-    assert low["verdict"] == checker.SUPERSEDED
+    assert low["verdict"] == checker.VIOLATION, "a file mtime must never buy an excuse"
     assert low["pool_time_source"] == "file_mtime"
-    assert low["superseded_confidence"] == checker.CONFIDENCE_LOW == "LOW"
+    assert "POOL_TIME_NOT_AUTHORITATIVE" in json.dumps(low, ensure_ascii=False)
 
     assert high["verdict"] == checker.SUPERSEDED
     assert high["pool_time_source"] == "revision_record"

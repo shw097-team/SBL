@@ -1363,16 +1363,17 @@
     {
       "id": "TT-R15.3-SUPERSESSION-TIME-SOURCES",
       "severity": "HIGH",
-      "state": "OPEN",
+      "state": "FIXED_LOCALLY",
       "opened_at": "2026-10-23T06:41:18Z",
       "title": "the checker takes its revision time from file mtime and falls back to it for missing receipt times",
       "fact": "B3B reproduced three ways to be excused: missing generated_utc + older file mtime; an arm authorised in revision A but barred in B, judged against C; and a receipt issued after the effective time but before a later file touch (tools/check_lane_consistency.py#372 and #689)",
-      "remedy": "timestamp from receipt data only, effective time from the pool's revision record only, and membership in the revision in force at receipt time",
+      "remedy": "mtime may never grant SUPERSEDED; retired model no longer authorises an undeclared provider",
       "owner_needed": false,
       "evidence": [
         "VERIFY_SECURITY__CHALLENGE_R153_B3B_CHECKER.json",
         "CHALLENGE_INGEST_B3BC.json"
-      ]
+      ],
+      "resolved_at": "2026-10-23T07:56:28Z"
     },
     {
       "id": "TT-R15.3-C15-XFAIL-ABSORBS",
@@ -1421,6 +1422,31 @@
       "evidence": [
         "FAR_TRANSPORT_R153.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-RECEIPT-IDENTITY-SOURCE",
+      "severity": "HIGH",
+      "state": "FIXED_LOCALLY",
+      "opened_at": "2026-10-23T07:43:52Z",
+      "title": "green receipt and OAuth payment are mutually exclusive on this wrapper",
+      "fact": "through the declared relay the receipt is green (model/rank resolved) but the relay pays from its own pool - measured: gpt-6.1-sol answers 200 with a bogus bearer and with no auth header at all. Pointed at chatgpt.com/backend-api/codex the owner's OAuth pays (turn.completed 243,886 in / 1,182 out) but the wrapper writes model=null and ok=false because it only knows how to resolve a served arm from a declared relay.",
+      "options": [
+        "dispatch accepts --identity-source=codex-turn-completed and treats the child's own turn.completed+model as the served-arm evidence",
+        "declare the ChatGPT backend as a sanctioned relay in the pool (supply-plane change)",
+        "accept red receipts on the OAuth lane forever (reject: it makes the honest lane look like the failing lane)"
+      ],
+      "needs": "owner decision; not mine to redefine the identity model",
+      "resolved_at": "2026-10-23T07:56:28Z",
+      "remedy": "hgk-lane-dispatch.py --identity-source codex-rollout (ece8e8a); proven by a green OAuth receipt"
+    },
+    {
+      "id": "TT-R15.3-RECEIPT-PATH-COLLISION",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T07:43:52Z",
+      "title": "two runs of the same brief share one receipt filename, so the second erases the first",
+      "fact": "PLAN__COMMANDER_BUILD_OR_WITHDRAW.json held the green relay receipt at 15:41:44 and was overwritten by the red OAuth receipt at 15:43:22. The green one now exists only in the attempts ndjson and the log dir. A receipt that can be erased by a later run of a different transport is not a receipt.",
+      "remedy": "include transport and a run hash in the receipt filename (e.g. <lane>__<brief>__<relay-slug>__<run>.json)"
     }
   ],
   "counts": {

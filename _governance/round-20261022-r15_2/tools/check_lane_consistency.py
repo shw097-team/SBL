@@ -154,6 +154,10 @@ POOL_TIME_UNKNOWN = "unknown"
 # Sub-reason for a served arm that a prior revision declared but the revision in
 # force at receipt time did not: authorised once, but not for this turn.
 REASON_ARM_NOT_IN_RECEIPT_REVISION = "ARM_NOT_IN_RECEIPT_REVISION"
+# The pool time came from the file mtime, which anyone can move with one touch. A label is not a control,
+# so this source may never grant the excuse - it can only ever produce a VIOLATION.
+REASON_POOL_TIME_NOT_AUTHORITATIVE = "POOL_TIME_NOT_AUTHORITATIVE"
+REASON_PROVIDER_NOT_RETIRED = "PROVIDER_NOT_RETIRED"
 
 # Recorded whenever no `prior_arms_by_revision` mapping could pin the membership.
 REVISION_MEMBERSHIP_UNAVAILABLE = "UNAVAILABLE"
@@ -583,6 +587,9 @@ def classify_arm_with_reason(
     pool_time: Any,
     prior_arms: Any = None,
     prior_arms_by_revision: Any = None,
+    allow_supersession: bool = True,
+    served_provider: Any = None,
+    prior_pairs: Any = None,
 ) -> tuple[str, str | None]:
     """Judge one served arm: returns (verdict, sub_reason).
 
@@ -630,6 +637,20 @@ def classify_arm_with_reason(
     # Older than the pool is necessary, not sufficient: the arm must also have
     # been declared by the revision that was in force when the receipt ran. A
     # retired arm that was already gone by then is a violation, not history.
+    if not allow_supersession:
+        # The pool effective time came from a file mtime. Anyone can move it, so it cannot acquit anyone:
+        # a LOW-confidence label on a SUPERSEDED verdict was a label on an open hole (checker finding
+        # MTIME_LABEL_ONLY, 2026-10-23).
+        return VIOLATION, REASON_POOL_TIME_NOT_AUTHORITATIVE
+
+    if isinstance(prior_pairs, dict) and prior_pairs:
+        _providers = prior_pairs.get(str(served_key).lower())
+        _prov = _normalise_arm(served_provider) if served_provider else None
+        if _providers and _prov and _prov.lower() not in _providers:
+            # A retired MODEL does not authorise an undeclared PROVIDER: the pair was declared, so the pair is what
+            # the excuse needs. Models the list does not know keep the pre-existing path (the bare-label floor).
+            return VIOLATION, REASON_PROVIDER_NOT_RETIRED
+
     membership = revision_membership(served_key, receipt_time, prior_arms_by_revision)
     if membership != REVISION_MEMBERSHIP_UNAVAILABLE and membership.endswith(":ABSENT"):
         return VIOLATION, REASON_ARM_NOT_IN_RECEIPT_REVISION
@@ -643,6 +664,9 @@ def classify_arm(
     pool_time: Any,
     prior_arms: Any = None,
     prior_arms_by_revision: Any = None,
+    allow_supersession: bool = True,
+    served_provider: Any = None,
+    prior_pairs: Any = None,
 ) -> str:
     """Judge one served arm against the pool: CONSISTENT / SUPERSEDED / VIOLATION.
 
@@ -650,7 +674,8 @@ def classify_arm(
     that function for the rule.
     """
     return classify_arm_with_reason(
-        served, pool_arms, receipt_time, pool_time, prior_arms, prior_arms_by_revision
+        served, pool_arms, receipt_time, pool_time, prior_arms, prior_arms_by_revision,
+        allow_supersession=allow_supersession, served_provider=served_provider, prior_pairs=prior_pairs,
     )[0]
 
 
@@ -690,6 +715,14 @@ def _evaluate_receipt(
     # timestamp in the receipt at all. No parsable field means UNKNOWN, and
     # UNKNOWN never buys the excuse.
     receipt_time, receipt_time_source = receipt_time_from_receipt(receipt)
+    # Two controls the checker findings demanded (2026-10-23), both computed once here so every call site inherits them:
+    #   * a pool time taken from a file mtime can never grant an excuse;
+    #   * a retired MODEL never authorises an undeclared PROVIDER - the pair is the authorisation.
+    allow_supersession = pool_time_source != POOL_TIME_FILE_MTIME
+    try:
+        prior_pairs = load_prior_pairs()
+    except Exception:  # noqa: BLE001 - a missing list degrades to the pre-existing behaviour, loudly noted below
+        prior_pairs = set()
 
     # A SUPERSEDED verdict bought with an mtime proxy is weaker evidence than one
     # bought with a revision record, and the payload says so instead of hiding it.
@@ -801,6 +834,9 @@ def _evaluate_receipt(
             arm_state, arm_reason = classify_arm_with_reason(
                 served, pool_arms, receipt_time, pool_time, prior_arms,
                 prior_arms_by_revision,
+                allow_supersession=allow_supersession,
+                served_provider=attempt.get("provider"),
+                prior_pairs=prior_pairs,
             )
             if served_ok:
                 ok = usage_ok
@@ -862,7 +898,10 @@ def _evaluate_receipt(
             call_ok = _provider_ok(attempt.get("provider"), want_provider)
             bill_ok = _provider_ok(attempt.get("usage_provider"), want_provider)
             provider_state, provider_reason = classify_arm_with_reason(
-                attempt.get("model"), pool_arms, receipt_time, pool_time, prior_arms
+                attempt.get("model"), pool_arms, receipt_time, pool_time, prior_arms,
+                allow_supersession=allow_supersession,
+                served_provider=attempt.get("provider"),
+                prior_pairs=prior_pairs,
             )
             if provider_state == SUPERSEDED:
                 # Historical arm: the declared provider of this rank is today's,
@@ -974,6 +1013,37 @@ def _payload(
 
 def _zero_counts() -> dict[str, int]:
     return {CONSISTENT: 0, SUPERSEDED: 0, VIOLATION: 0, "NOT_GREEN": 0}
+
+
+def load_prior_pairs(path: str = RETIRED_ARMS_PATH) -> dict[str, set[str]]:
+    """The retired arms as `provider/model` PAIRS, which is what an excuse actually needs.
+
+    Measured 2026-10-23: a receipt naming the retired model `minimax-m3.1-flash-free` with provider AND usage_provider
+    set to an invented provider was reported SUPERSEDED, because the retired-arm list was expanded to bare model
+    labels and the historical branch only required call/bill agreement. A retired MODEL does not authorise an
+    undeclared PROVIDER: the pair is the authorisation, so the pair is what is checked.
+    """
+    try:
+        with open(path, "rb") as handle:
+            data = json.loads(handle.read().decode("utf-8-sig"))
+    except Exception:  # noqa: BLE001 - the caller already treats an unreadable list as a hard finding
+        return {}
+    pairs: dict[str, set[str]] = {}
+    for entry in (data.get("arms") or []) if isinstance(data, dict) else []:
+        if not isinstance(entry, dict):
+            continue
+        label = entry.get("arm")
+        provider = entry.get("provider")
+        if not isinstance(label, str) or not label.strip():
+            continue
+        label = label.strip()
+        if "/" in label:
+            prov, bare = label.split("/", 1)
+        else:
+            prov, bare = (provider if isinstance(provider, str) else None), label
+        if isinstance(prov, str) and prov:
+            pairs.setdefault(bare.strip().lower(), set()).add(prov.strip().lower())
+    return pairs
 
 
 def load_prior_arms(path: str = RETIRED_ARMS_PATH) -> tuple[list[str], str | None]:

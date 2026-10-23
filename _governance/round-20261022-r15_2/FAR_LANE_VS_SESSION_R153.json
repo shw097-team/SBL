@@ -1,0 +1,50 @@
+{
+  "schema": "SBL-FAR-LANE-VS-SESSION/1",
+  "at_utc": "2026-10-23T07:56:28Z",
+  "question": "why do the mandated lane models fail to serve the round, and how should 'lane model' and 'session interaction model' be separated so PLAN = gpt-6.1-sol (OAuth), EXECUTE = deepseek (opencode-go), VERIFY = gpt-6.1-sol (OAuth) all work and pay from the right account?",
+  "what_was_already_built_and_worked": [
+    "hgk-lane-dispatch.py: lanes -> ordered pools -> forced rank -> per-attempt receipts (real machinery, reused)",
+    "lane_policy.py + config/lane-route-slots.candidate.json: declared arms, transports, revision history",
+    "hgk-exec-model-frontdoor.py: sealed EXECUTE door with active-policy digest binding (BOUND, digest matched)",
+    "scripts/lane_launcher.sh + sealed CODEX_HOME: proven recipe (documented in skill hgk-codex-lane-recipe)"
+  ],
+  "measured_faults": [
+    {
+      "fault": "relay base without /v1",
+      "effect": "7 websocket retries, ~12 s death, 8 dispatches",
+      "fix": "run_lane defaults http://127.0.0.1:10101/v1"
+    },
+    {
+      "fault": "opencode-go key states differ per component",
+      "effect": "shw0968 200 / shw097 429 monthly / 7776004 401; :10101 forwards a dead key, :10102 holds the 429 key",
+      "fix": "tools/ocg_passthrough.py (transport only) on :10105 with the good key; disclosed, retirable"
+    },
+    {
+      "fault": "identity only from the relay ledger",
+      "effect": "OAuth-paid turns report ok=false model=null while relay turns look green but pay from a pool account",
+      "fix": "--identity-source codex-rollout (reads the arm the client itself recorded; still fails on --require-arm mismatch)"
+    }
+  ],
+  "separation_rule": "a LANE MODEL is what the declared pool says must serve a role (arm + rank + transport). A SESSION MODEL is what answers the human in this chat. They are independent: the session may be deepseek-v4.1-flash while every governance decision must still come from the PLAN lane. Nothing may promote a session answer into a lane verdict - that is what mandate_gate.py audit exists to catch.",
+  "low_friction_solution": [
+    "one flag: --identity-source {relay-usage,codex-rollout} (no new subsystem, no new file format)",
+    "one default: run_lane relay base carries /v1",
+    "one transport shim, disclosed and retirable, for the provider whose keys the proxies hold wrong",
+    "no change to the mandate, the pool schema, or the receipt contract"
+  ],
+  "evidence": {
+    "oauth_turn": {
+      "receipt": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_B5_CHECKER_REPAIRS.json",
+      "ok": true,
+      "served_arm": "openai-codex/gpt-6.1-sol",
+      "identity_source": "codex-rollout",
+      "tokens": {
+        "input": 669750,
+        "cached": 597632,
+        "output": 2440
+      }
+    },
+    "plan_decisions": "PLAN_DECISION_R153_C10_C15.json (C10/C13/C15 WITHDRAW, C14 BUILD_LATER)"
+  },
+  "claim_ceiling": "LANE_TRANSPORT_RESTORED__OAUTH_IDENTITY_PROVEN__EXECUTE_RECEIPTS_STILL_RED_WITHOUT_DECLARED_RELAY"
+}
