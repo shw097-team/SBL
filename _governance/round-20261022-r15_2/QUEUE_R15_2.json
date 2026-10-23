@@ -131,7 +131,7 @@
       "status": "PARKED",
       "denominator_ref": "W12/C20/M3",
       "next_action": "shadow-only run authorized (SWOF_SHADOW_AUTHORIZATION_R15_3.json) but NOT executed; W3 Native Admission absent; M3 NOT_RUN",
-      "parked_reason": "OWNER_DECISION",
+      "parked_reason": "BLOCKED_OWNER_SIGNATURE",
       "retry_hint": "owner issues the W3 admission; agent then runs the connected mode",
       "owner_action": "issue the W3 Domain Owner Native Admission, or authorise a shadow-only connected dry run",
       "owner_action_source": "FAR_DECISIONS_R15_2.md",
@@ -161,7 +161,7 @@
       "status": "PARKED",
       "denominator_ref": "W15/C23",
       "next_action": "release seal is owner-signed and subject-bound; standing order does not seal a subject",
-      "parked_reason": "OWNER_DECISION",
+      "parked_reason": "BLOCKED_OWNER_SIGNATURE",
       "retry_hint": "two owner-side artefacts; the agent may assemble but not sign",
       "owner_action": "approve the HG-KSEOS delivery-gate change and issue the release seal",
       "owner_action_source": "FAR_DECISIONS_R15_2.md",
@@ -605,7 +605,9 @@
       "evidence": [
         "workers/q5_lifecycle_probe/Q5_TOOLS_LOCAL_RECEIPT.json"
       ],
-      "satisfiable_note": "local only; host half needs ChatGPT private host ids"
+      "satisfiable_note": "local only; host half needs ChatGPT private host ids",
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W13.hosts.md",
+      "parked_reason": "BLOCKED_HOST_SIGNATURE"
     },
     {
       "id": "Q12.ci_supply_chain_C22",
@@ -737,6 +739,175 @@
       "evidence": [
         "HG-KSEOS/commit 1a6b87c"
       ]
+    },
+    {
+      "id": "DEN-C08",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C08",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C08",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C09",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C09",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C09",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C10",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C10",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C10",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C13",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C13",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C13",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C14",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C14",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C14",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C15",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C15",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for checkruns row C15",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-C19",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C19",
+      "satisfiable_by": "OWNER",
+      "next_action": "author a bounded recipe for checkruns row C19",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true,
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W12.swof.md",
+      "parked_reason": "BLOCKED_OWNER_SIGNATURE"
+    },
+    {
+      "id": "DEN-C24",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "C24",
+      "satisfiable_by": "OWNER",
+      "next_action": "author a bounded recipe for checkruns row C24",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true,
+      "principal_request_ref": "PRINCIPAL_REQUESTS/W15.release.md",
+      "parked_reason": "BLOCKED_OWNER_SIGNATURE"
+    },
+    {
+      "id": "DEN-W08",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "W08",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for workpackages row W08",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-W17",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "W17",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for workpackages row W17",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-E02",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "E02",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for eseries row E02",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-E03",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "E03",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for eseries row E03",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-E05",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "E05",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for eseries row E05",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-E08",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "E08",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for eseries row E08",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
+    },
+    {
+      "id": "DEN-E09",
+      "owner_class": "AGENT",
+      "status": "NEEDS_RECIPE",
+      "denominator_ref": "E09",
+      "satisfiable_by": "AGENT",
+      "next_action": "author a bounded recipe for eseries row E09",
+      "resume_cmd": "",
+      "expect": "",
+      "coverage_only": true
     }
   ],
   "runs": [
@@ -982,6 +1153,24 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-23T03:33:29Z",
+      "steps": 0,
+      "done": 32,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
+    },
+    {
+      "at": "2026-10-23T03:39:10Z",
+      "steps": 0,
+      "done": 32,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -1001,7 +1190,8 @@
     "DONE": 32,
     "PARKED": 2,
     "PARTIAL": 3,
-    "DONE_RECEIPT_RED": 1
+    "DONE_RECEIPT_RED": 1,
+    "NEEDS_RECIPE": 15
   },
   "updated_at": "2026-10-23T02:28:05+00:00",
   "contention_note": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching. Authorised and normal; the round re-probed the arms instead of treating it as a fault (TT-R15.3-AUTHORISED-CONCURRENT-REBIND).",
@@ -1014,5 +1204,57 @@
       "OWNER"
     ],
     "why": "the guard accepts only these four values; a prose value silently became SATISFIABILITY_UNKNOWN, so ten items could never clear the guard. Prose is preserved in satisfiable_note."
+  },
+  "coverage": {
+    "at": "2026-10-23T03:38:20Z",
+    "added": [],
+    "already_covered": [
+      "C02",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "C10",
+      "C13",
+      "C14",
+      "C15",
+      "C16",
+      "C18",
+      "C19",
+      "C20",
+      "C21",
+      "C22",
+      "C23",
+      "C24",
+      "W02",
+      "W05",
+      "W06",
+      "W07",
+      "W08",
+      "W09",
+      "W10",
+      "W11",
+      "W12",
+      "W13",
+      "W14",
+      "W15",
+      "W16",
+      "W17",
+      "E01",
+      "E02",
+      "E03",
+      "E04",
+      "E05",
+      "E06",
+      "E07",
+      "E08",
+      "E09",
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
   }
 }

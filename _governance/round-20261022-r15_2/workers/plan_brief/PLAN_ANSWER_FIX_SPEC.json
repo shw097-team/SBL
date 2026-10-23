@@ -1,0 +1,81 @@
+{
+  "terminal_predicate": {
+    "verdict": "AGENT_QUIESCENT_AWAITING_PRINCIPALS",
+    "predicate": "coverage_current(queue, denominator) AND no_unknown_classifications(queue) AND no_running_items(queue) AND no_runnable_agent_steps(queue, requests) AND every_item_is_either_validly_done_or_request_blocked(queue, requests) AND all_DONE_receipts_are_bound_and_valid(queue) AND no_unresolved_lane_bypass(queue) AND lease_is_fresh_or_closed_by_current_digest_bound_proof(queue). validly_done excludes DONE_RECEIPT_RED. request_blocked requires PARKED, a typed evidenced blocker, a named responsible principal, an actually issued unresolved request identifying the exact unblocking action, and no remaining permitted agent remedy. Retry exhaustion alone does not establish request_blocked. A satisfied request makes its dependent work runnable again.",
+    "why_stop_becomes_legal": "Make this verdict an explicit exception to the standing never-stop order: the agent may end its turn while the scheduler remains installed. It asserts only that permitted agent progress currently requires a principal response, not product completion. Preserve queue_exhausted, agent_scope_closed and full_completion separately; agent_scope_closed requires every AGENT-satisfiable item to be validly DONE, and full_completion remains false while external obligations remain."
+  },
+  "items": [
+    {
+      "id": "A1",
+      "file": "tools/continuation_guard.py",
+      "what": "Recognize the legal quiescent verdict using complete queue coverage, issued requests, valid receipts and a current digest-bound proof.",
+      "lines_of_code": "M",
+      "test": "One table-driven negative-control test: a fully evidenced external wait emits the verdict; independently introduce READY, PARTIAL, DONE_RECEIPT_RED, RUNNING, uncovered denominator work, an unissued request, a satisfied request, stale lease, missing receipt or lane bypass, and each case refuses it.",
+      "risk": "Treating capped retries or missing implementation recipes as external impossibility would manufacture a legal stop.",
+      "needed_because": "L1; prevents L2 and L3 from reappearing as false terminal classifications.",
+      "reject_if": "It suppresses existing blockers, treats red receipts as DONE, accepts a stale proof, or equates this verdict with full completion. Neither gate may be weakened merely to obtain green."
+    },
+    {
+      "id": "A2",
+      "file": "tools/autonomy_tick.py",
+      "what": "Extend the existing tick with an OS lock, reconciliation, bounded advancement, checked subprocess results and resumable checkpoints.",
+      "lines_of_code": "M",
+      "test": "Run two overlapping scheduled ticks with no chat session, interrupt the lock holder, then trigger another tick; prove single-writer behavior, lock release, truthful interrupted-work recovery and eventual advancement.",
+      "risk": "A scheduler process may lack the credentials or executable paths available in the interactive session.",
+      "needed_because": "L4; reuses the existing file instead of adding a service or a second driver.",
+      "reject_if": "It requires an open chat, ignores child failure, launches unbounded children, leaves an orphan command tree or marks interrupted work DONE."
+    },
+    {
+      "id": "A3",
+      "file": "tools/sync_denominator_queue.py",
+      "what": "Reconcile denominator obligations into stable queue IDs using explicit recipes; preserve DONE history and issue typed requests for real blockers.",
+      "lines_of_code": "M",
+      "test": "Reconcile twice, including existing DONE rows, overlapping denominator references, one newly incomplete obligation and one answered request; prove byte-stable replay, exactly one new work row, preserved DONE and request-driven reactivation.",
+      "risk": "Denominator status or overlapping references may be mistaken for receipt-backed completion.",
+      "needed_because": "L2 and L4; eliminates handwritten per-turn task issuance and makes omitted obligations visible.",
+      "reject_if": "It infers commands from prose, copies denominator DONE without validating evidence, resets attempts, resurrects DONE, or parks an unknown recipe without first creating agent-owned planning work."
+    },
+    {
+      "id": "A4",
+      "file": "tools/advance_queue.py",
+      "what": "Reuse bounded re-arm selection; enforce remaining tick time, atomic checkpoints and receipt-backed completion before marking DONE.",
+      "lines_of_code": "M",
+      "test": "Use a mixed queue containing READY, rearmable PARTIAL, rearmable DONE_RECEIPT_RED, valid DONE and capped failures; prove eligible work progresses, DONE stays untouched, capped failures remain visible and timeout never creates DONE.",
+      "risk": "The current success path marks DONE from command exit status, which is insufficient for mandated-lane acceptance.",
+      "needed_because": "L2 and L4; completes the already-landed selection fix without replacing its rearm_ok and attempt-cap rules.",
+      "reject_if": "It raises retry caps to mask failure, re-arms without authorization, declares queue closure from an empty selection, or marks mandated work DONE without its bound evidence."
+    },
+    {
+      "id": "A5",
+      "file": "MANDATE_R15_2.json",
+      "what": "Record exact-patch application as file plumbing, EXECUTE batch authorship and hash-bound independent VERIFY acceptance.",
+      "lines_of_code": "S",
+      "test": "One repair-batch negative control: unchanged EXECUTE patches applied and tested by orchestration retain EXECUTE authorship; one orchestrator-authored product edit or mismatched VERIFY digest blocks DONE.",
+      "risk": "Calling semantic editing file plumbing would erase maker/checker separation.",
+      "needed_because": "L5; separates patch authorship from process execution without granting orchestration product-writing authority.",
+      "reject_if": "It retroactively clears lane_bypassed, reclassifies product changes as AGENT work, accepts unrelated historical receipts or allows the maker to certify acceptance."
+    }
+  ],
+  "repair_class_rule": {
+    "execute_required": "EXECUTE must author every product-semantic change, candidate proposal and test or fixture change that alters acceptance meaning. Send one bounded repair batch with the failing logs, frozen base digest, allowed paths and acceptance specification. EXECUTE returns exact patches, optionally including ordered alternatives against declared base digests; it need not spawn tests. Use the provider/model currently bound in MANDATE_R15_2.json, not the obsolete model in the introductory role table.",
+    "orchestrator_allowed": "Run unchanged tests, collect logs and measurements, maintain queue/request bookkeeping, build packages and apply EXECUTE-authored patches byte-for-byte after checking their base digest. Test selection may follow the existing specification but may not weaken it. Try only pre-authored alternatives; no local semantic repair, assertion weakening or invented patch hunks. One EXECUTE dispatch per bounded batch and one VERIFY dispatch per final candidate replace per-test dispatches. A failure outside the supplied batch requires another EXECUTE batch; no fixed latency is promised.",
+    "evidence": "Bind each item to an EXECUTE receipt containing batch ID, nonce, base digest, patch digest and changed paths. Record orchestration's exact applied patch, resulting tree digest, test command, interpreter/environment, exit code and stdout/stderr. Independent VERIFY reviews the final digest and acceptance evidence, with authority to challenge or rerun, and issues a separate bound receipt. Preserve historical bypass findings until independently resolved; never relabel their author. Existing gate success alone does not establish digest binding."
+  },
+  "scheduler": {
+    "how": "cron",
+    "command": "Windows Task Scheduler: every 2 minutes, run the absolute sys.executable captured at installation with argument C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/tools/autonomy_tick.py; set Start in to the round directory and run independently of the chat session. Each tick: acquire lock, heartbeat, sync denominator and request responses, advance at most 3 work steps, run mandate audit, then run continuation guard.",
+    "lock": "Use a nonblocking Windows OS byte-range lock on receipts/autonomy_tick.lock, held for the whole tick; duplicate invocations exit without writing. Scheduler MultipleInstancesPolicy=IgnoreNew is secondary protection. All queue writers must use the same lock; children operate under the parent's lock. Persist queue updates with atomic replacement. OS process death releases the lock; a leftover lock filename is not ownership.",
+    "budget": "900 seconds wall time and at most 3 work steps per tick; reserve 90 seconds for checkpointing, audit and guard. Clamp every child to the remaining budget and enforce a process-tree deadline. Keep the existing per-item attempt cap of 3 and rearm_ok requirement. Budget expiration checkpoints unfinished work for a later tick; it is not a terminal verdict.",
+    "exit_when": "Exit immediately on lock contention. Otherwise exit after the step/time budget, a gate refusal, an evidenced principal dependency or successful quiescence assessment, always recording the actual outcome. A failing item does not prevent another independent eligible item from running. Keep the recurring task installed during principal waits so answers can reactivate work. Disable it only by explicit owner cancellation or independently verified full completion."
+  },
+  "what_not_to_build": [
+    "A daemon, service, broker, database, distributed queue or new orchestration framework.",
+    "A second autonomy driver when tools/autonomy_tick.py already exists.",
+    "A natural-language task generator or arbitrary command synthesis from denominator titles.",
+    "Unlimited retries, a blanket repair exemption or one lane dispatch per test execution.",
+    "New enums or replacement re-arm logic for migrations already landed.",
+    "Automatic owner signatures, host IDs, release seals or checker authority.",
+    "Gate edits that hide red receipts, historical bypasses, uncovered obligations or stale leases."
+  ],
+  "definition_of_done": "Tell the owner the stop-loop is fixed only after implementation demonstrates, independently of any open chat: complete denominator-to-queue coverage; idempotent replay without DONE resurrection; advancement across scheduled invocations; safe overlap and interrupted-run recovery; bounded, visible retry exhaustion; request-answer reactivation; EXECUTE-authored repairs tested by orchestration and accepted by independent VERIFY on the identical digest; negative controls rejecting false terminals; and both mandatory gates passing on the same locked state snapshot. The new legal-stop policy must be recorded durably, and quiescence must remain explicitly distinct from full product completion. This response is design only: PLAN preflight was ALLOWED and the existing mandate audit reported AUDIT_CLEAN for 38 items. The continuation guard was not executed because its current implementation writes queue/proof files, which this read-only brief forbids. No implementation or acceptance completion is claimed."
+}

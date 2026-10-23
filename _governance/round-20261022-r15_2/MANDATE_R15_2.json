@@ -53,5 +53,18 @@
     "test-execution"
   ],
   "violation_policy": "a work item whose role is in a role above may not be marked DONE without the matching receipt; the gate exits non-zero and names the item",
-  "honest_ceiling": "This makes violation detectable and blocking. It cannot make a model obey; it can make disobedience unshippable."
+  "honest_ceiling": "This makes violation detectable and blocking. It cannot make a model obey; it can make disobedience unshippable.",
+  "repair_class_rule": {
+    "schema": "SBL_REPAIR_CLASS/1",
+    "execute_required": "every product-semantic change: source, tests, fixtures, workflow semantics, specs. EXECUTE authors exact patches against a frozen base digest; it need not spawn tests.",
+    "orchestrator_allowed": [
+      "apply an EXECUTE-authored patch unchanged",
+      "run tests and collect logs",
+      "write governance records (queue, ledger, TT, FAR provenance)",
+      "edit round tooling only with a test in the same commit"
+    ],
+    "evidence": "an orchestrator-applied patch records the EXECUTE receipt and the base digest; an orchestrator-authored product change must be marked lane_bypassed and stays a blocker until EXECUTE re-authors it",
+    "ruled_by": "owner standing order 2026-10-23 (executed by the agent, not signed)",
+    "consequence_for_today": "Q9 and Q12 remain bypassed because their edits changed acceptance meaning; Q17/Q18/Q19 are plumbing under this rule and are recorded, not laundered"
+  }
 }

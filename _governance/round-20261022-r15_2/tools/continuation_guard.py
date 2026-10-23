@@ -79,15 +79,47 @@ def main() -> int:
 
     # Three claims, deliberately never merged. A guard that can only say TERMINAL/NOT_TERMINAL forces the agent to
     # choose between "keep going forever" and "call an exhausted queue complete"; both are wrong.
+    # The legal terminal. Without it the agent must choose between stopping illegally and claiming a completion it
+    # cannot have; both were measured today. Quiescence is a *fourth* claim: every obligation is either done, or
+    # blocked on a named principal with an issued request, and no permitted agent remedy remains.
     agent_open = [i["id"] for i in q["items"]
-                  if i.get("satisfiable_by") == "AGENT" and i["status"] not in ("DONE", "DONE_RECEIPT_RED")]
+                  if i.get("satisfiable_by", "AGENT") == "AGENT"
+                  and i.get("status") not in ("DONE", "DONE_RECEIPT_RED")]
+    unmet = []
+    for i in q["items"]:
+        if i.get("status") == "DONE":
+            continue
+        if i.get("satisfiable_by", "AGENT") == "AGENT":
+            continue
+        if not i.get("parked_reason"):
+            unmet.append({"id": i["id"], "missing": "parked_reason"})
+        ref = i.get("principal_request_ref")
+        if not ref or not os.path.exists(os.path.join(R, ref)):
+            unmet.append({"id": i["id"], "missing": "issued principal request"})
+    bypass = [i["id"] for i in q["items"] if i.get("lane_bypassed")]
+    quiescent = (not agent_open) and (not unmet) and (not bypass)
     claims = {"queue_exhausted": not blockers,
               "agent_scope_closed": not agent_open,
+              "agent_quiescent": quiescent,
               "full_completion": False,
               "agent_open_ids": agent_open,
-              "note": ("queue_exhausted means no AGENT-actionable item remains; agent_scope_closed means every "
-                       "AGENT-satisfiable item is DONE; full_completion needs the external signatures and the checker "
-                       "authority, so it is false by construction here")}
+              "unmet_principal_obligations": unmet,
+              "unresolved_lane_bypass": bypass,
+              "note": ("queue_exhausted: no AGENT-actionable item remains; agent_scope_closed: every AGENT-satisfiable "
+                       "item is DONE; agent_quiescent: nothing is left that the agent is permitted to do, and every "
+                       "open item carries an issued request to a named principal; full_completion needs the external "
+                       "signatures, so it is false by construction")}
+    if quiescent:
+        proof = {"schema": "SBL_AGENT_QUIESCENCE_PROOF/1", "verdict": "AGENT_QUIESCENT_AWAITING_PRINCIPALS",
+                 "is_completion_claim": False, "claim_level": claims,
+                 "why_not_complete": ("agent work is exhausted; the remaining obligations need signatures the agent may "
+                                      "not produce. This is a legal stopping point, not a completion"),
+                 "round_id": lease.get("round_id", "round-20261022-r15_2"),
+                 "observed_at_utc": time.strftime("%FT%TZ", time.gmtime())}
+        out = os.path.join(R, "AGENT_QUIESCENCE_PROOF.json")
+        json.dump(proof, open(out, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=2)
+        print(json.dumps({"verdict": proof["verdict"], "proof": out}, ensure_ascii=False))
+        return 0
     if blockers:
         print(json.dumps({"verdict": "NOT_TERMINAL", "claim_level": claims, "blockers": blockers},
                          ensure_ascii=False, indent=2))

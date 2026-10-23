@@ -23,12 +23,34 @@ def run(script: str, *args: str, timeout: int = 900) -> tuple[int, str]:
 
 def counts() -> dict:
     q = json.load(open(os.path.join(R, "QUEUE_R15_2.json"), encoding="utf-8"))
-    out = {s: sum(1 for i in q["items"] if i["status"] == s) for s in ("READY", "RUNNING", "DONE", "PARKED")}
+    out = {s: sum(1 for i in q["items"] if i["status"] == s)
+           for s in ("READY", "RUNNING", "DONE", "PARKED", "PARTIAL", "NEEDS_RECIPE", "DONE_RECEIPT_RED")}
     out["runs"] = len(q.get("runs") or [])
     return out
 
 
 def main() -> int:
+    # One tick at a time. A scheduler that fires every N minutes will eventually fire twice, and two ticks would
+    # dispatch the same item twice; the lock is the only thing that makes the interval safe.
+    lock = os.path.join(R, "receipts", ".tick.lock")
+    os.makedirs(os.path.dirname(lock), exist_ok=True)
+    try:
+        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError:
+        print("SBL tick: another tick holds the lock; skipping this interval")
+        return 0
+    try:
+        os.write(fd, str(os.getpid()).encode())
+        os.close(fd)
+        return _tick()
+    finally:
+        try:
+            os.remove(lock)
+        except OSError:
+            pass
+
+
+def _tick() -> int:
     before = counts()
     run("heartbeat.py", "tick")
     rc_adv, out_adv = run("advance_queue.py", "--max-steps", "3")
