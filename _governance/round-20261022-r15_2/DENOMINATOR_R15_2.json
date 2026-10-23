@@ -291,7 +291,8 @@
       "title": "三車道 rank/registry/profile/epoch/served 聯合 Gate",
       "status": "PARTIAL",
       "note": "lane receipts measured 2026-10-23: PLAN rank 2 openai-codex/gpt-6.1-sol (ok, nonce, usage 200), EXECUTE rank 1 opencode-go/deepseek-v4.1-flash (ok, nonce), VERIFY rank 2 gpt-6.1-sol (usage 200; pass 2 ok, pass 1 nonce only in raw stdout). An owner-authorised session rebound the pool/declaration mid-session; arms were re-probed, not assumed",
-      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers"
+      "status_source": "measured 2026-10-23 (orchestrator), evidence under _governance/round-20261022-r15_2/workers",
+      "evidence_2026_10_23": "lane identity is now readable from the codex rollout when the lane runs on OAuth direct; VERIFY receipt ok=true served_arm=openai-codex/gpt-6.1-sol. EXECUTE still red: the only transport that reaches opencode-go is an undeclared local shim."
     },
     {
       "id": "C08",
@@ -306,7 +307,10 @@
     {
       "id": "C10",
       "title": "Gstack 具名方法真選路/真輸出",
-      "status": "PARTIAL"
+      "status": "WITHDRAWN",
+      "status_before_withdrawal": "PARTIAL",
+      "claim_ceiling": "ROUTING_ONLY__NAMED_METHOD_CLAIM_WITHDRAWN",
+      "withdrawn_by": "PLAN_COMMANDER_BUILD_OR_WITHDRAW (PLAN_DECISION_R153_C10_C15.json)"
     },
     {
       "id": "C11",
@@ -324,17 +328,25 @@
     {
       "id": "C13",
       "title": "FAR Standing scope 內無 routine HITL 且不可擴權",
-      "status": "NOT_RUN"
+      "status": "WITHDRAWN",
+      "status_before_withdrawal": "NOT_RUN",
+      "claim_ceiling": "NO_STANDING_AUTH_CLAIM__WITHDRAWN",
+      "withdrawn_by": "PLAN_COMMANDER_BUILD_OR_WITHDRAW (PLAN_DECISION_R153_C10_C15.json)"
     },
     {
       "id": "C14",
       "title": "Hermes checkpoint resume 不重複世界效果",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "status_before_withdrawal": "PARTIAL",
+      "claim_ceiling": "SINGLE_ATTEMPT_RESTORE_ONLY__BUILD_LATER"
     },
     {
       "id": "C15",
       "title": "Evolution 沙箱/獨立 holdout/合法 Promotion",
-      "status": "NOT_RUN"
+      "status": "WITHDRAWN",
+      "status_before_withdrawal": "NOT_RUN",
+      "claim_ceiling": "HOLDOUT_UNVERIFIED__WITHDRAWN",
+      "withdrawn_by": "PLAN_COMMANDER_BUILD_OR_WITHDRAW (PLAN_DECISION_R153_C10_C15.json)"
     },
     {
       "id": "C16",
@@ -591,14 +603,15 @@
     "workpackages": {
       "total": 18,
       "DONE": 4,
-      "NOT_RUN": 2,
-      "PARTIAL": 12
+      "PARTIAL": 13,
+      "NOT_RUN": 1
     },
     "checkruns": {
-      "DONE": 4,
-      "NOT_RUN": 8,
-      "PARTIAL": 13,
-      "total": 25
+      "DONE": 8,
+      "PARTIAL": 12,
+      "WITHDRAWN": 3,
+      "NOT_RUN": 1,
+      "PARKED": 1
     },
     "eseries": {
       "total": 9,
@@ -611,7 +624,7 @@
       "total": 4
     }
   },
-  "verdict": "PARTIAL. Checks: DONE 6 (C00,C01,C03,C11,C12,C17), PARTIAL 14, NOT_RUN 5 (C13,C15,C16,C19,C21) = 25. WorkPackages: DONE 4 (W00,W01,W03,W04), PARTIAL 13, NOT_RUN 1 (W12) = 18. Milestones: 3 PARTIAL / 1 NOT_RUN (M3). M1 stays LOCAL_REVIEW_ONLY: no authority recognises an enforceably distinct checker principal. Release BLOCKED.",
+  "verdict": "PARTIAL, measured 2026-10-23. Checks 25: DONE 8, PARTIAL 12, WITHDRAWN 3 (C10 routing-only, C13 standing scope, C15 evolution holdout), NOT_RUN 1 (C16), PARKED 1 (C24). WorkPackages 18: DONE 4, PARTIAL 13, NOT_RUN 1. M1 stays LOCAL_REVIEW_ONLY: the checker principal is not recognised by any authority. Release BLOCKED. R15.2 is NOT complete and this round did not claim it.",
   "generated_note": "statuses are measured against artefacts in this round; NOT_RUN means no attempt was made",
   "checkruns_status_update": {
     "C01": [
@@ -644,5 +657,35 @@
       "frontdoor_policy": "pytest tests/test_frontdoor_active_policy.py -> 7 passed; start banner BOUND; tampered/absent refused",
       "product_tests": "uv run --python 3.11 --with pytest pytest -> see r152_tests.log"
     }
+  },
+  "status_update_2026_10_23_lane_round": {
+    "at_utc": "2026-10-23T08:32:27Z",
+    "checks_now": {
+      "DONE": 8,
+      "PARTIAL": 12,
+      "WITHDRAWN": 3,
+      "NOT_RUN": 1,
+      "PARKED": 1
+    },
+    "withdrawals": {
+      "C10": "ROUTING_ONLY__NAMED_METHOD_CLAIM_WITHDRAWN",
+      "C13": "NO_STANDING_AUTH_CLAIM__WITHDRAWN",
+      "C15": "HOLDOUT_UNVERIFIED__WITHDRAWN"
+    },
+    "reason": "PLAN ruled three claims unbuildable and had them withdrawn rather than left looking like pending work. A withdrawn check is not progress and not a pass; it is a claim that no longer exists.",
+    "r15_2_complete": false,
+    "agent_actionable_remaining": [
+      "C04 native WorkOrder/ECP/Permit bounded effect",
+      "C22 CI/SBOM/Provenance/Release"
+    ],
+    "owner_blocked": [
+      "W02 active policy digest",
+      "W12 SWOF W3 admission",
+      "C19 W2->W3 permit",
+      "C24 hard gates / release",
+      "M3 independent authority",
+      "C21 three-host claim unverified (conflict flagged)"
+    ],
+    "claim_ceiling": "LOCALLY_VERIFIED_PARTIAL__CANDIDATE_ONLY__NO_INDEPENDENT_ACCEPTANCE"
   }
 }
