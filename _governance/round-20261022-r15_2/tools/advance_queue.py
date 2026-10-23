@@ -6,6 +6,7 @@ READY — never because a single step failed.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -57,6 +58,27 @@ def run(item: dict) -> tuple[bool, str]:
     return ok, f"rc={rc} secs={secs} expect={'hit' if ok else 'miss'}\n    " + "\n    ".join(tail)
 
 
+def classify_dispatch(item: dict, ok: bool, artefact_exists: bool, accept_ok: bool | None) -> tuple[str, str]:
+    """Decide the item's next status from three independent facts, per the FAR ruling.
+
+    The facts are never merged: dispatch outcome, artefact existence, acceptance result. A timed-out lane that
+    really wrote the artefact is PARTIAL on the TEST phase (not a pass, not a re-author), because re-authoring
+    over an existing artefact is the blind-mutation retry the mandate forbids.
+    """
+    art = item.get("expect_artefact")
+    if not ok and artefact_exists and art:
+        return "PARTIAL", "ARTEFACT_PRESENT_BUT_DISPATCH_NOT_GREEN"
+    if ok and art and not artefact_exists:
+        return "PARKED", "DISPATCH_GREEN_BUT_ARTEFACT_MISSING"
+    if not ok:
+        return "PARKED", "STEP_FAILED"
+    if art:
+        if accept_ok is True:
+            return "DONE", "ACCEPTED"
+        return "PARTIAL", "ARTEFACT_PRESENT_ACCEPT_FAILED"
+    return "DONE", "ACCEPTED"
+
+
 def main() -> int:
     max_steps = int(sys.argv[sys.argv.index("--max-steps") + 1]) if "--max-steps" in sys.argv else 6
     q = load()
@@ -76,7 +98,21 @@ def main() -> int:
                      and i["status"] in ("PARTIAL", "PARKED", "DONE_RECEIPT_RED")))
         ]
         if not ready:
-            log("no AGENT item is READY — stopping (not a failure stop)")
+            # FAR: zero selected items is not exhaustion while AGENT-satisfiable work is unresolved. Say what remains
+            # and why it was not selected, so an idle tick cannot be mistaken for "nothing left to do".
+            unresolved = [i for i in q["items"]
+                          if i.get("owner_class") == "AGENT" and i["status"] != "DONE"
+                          and i.get("satisfiable_by", "AGENT") == "AGENT"]
+            why = {}
+            for i in unresolved:
+                if int(i.get("attempts", 0)) >= ATTEMPT_CAP:
+                    why.setdefault("ATTEMPT_CAP_REACHED", []).append(i["id"])
+                elif not i.get("resume_cmd"):
+                    why.setdefault("NO_EXECUTABLE_ACTION", []).append(i["id"])
+                else:
+                    why.setdefault("NOT_SELECTED_OTHER", []).append(i["id"])
+            log("no AGENT item is selectable — NOT exhaustion, NOT a failure stop")
+            log(f"    unresolved AGENT work: {len(unresolved)} " + json.dumps(why, ensure_ascii=False))
             break
         item = ready[0]
         steps += 1
@@ -92,15 +128,43 @@ def main() -> int:
         item["attempts"] = int(item.get("attempts", 0)) + 1
         item["last_result"] = detail
         item["last_run_utc"] = time.strftime("%FT%TZ", time.gmtime())
-        if ok:
-            item["status"] = "DONE"
-            log(f"    DONE {item['id']}")
+        art = item.get("expect_artefact")
+        art_exists = bool(art) and os.path.exists(os.path.join(WORKTREE, art))
+        accept_ok = None
+        if ok and art_exists and item.get("accept_cmd"):
+            try:
+                ap = subprocess.run(item["accept_cmd"], shell=True, cwd=WORKTREE, capture_output=True, text=True,
+                                    timeout=int(item.get("accept_timeout_s", 300)))
+                accept_ok = ap.returncode == 0
+                item["accept_result"] = {"rc": ap.returncode,
+                                         "tail": ((ap.stdout or "") + (ap.stderr or "")).strip().splitlines()[-4:]}
+            except subprocess.TimeoutExpired:
+                accept_ok = False
+                item["accept_result"] = {"rc": None, "tail": ["ACCEPT_TIMEOUT"]}
+        status, reason = classify_dispatch(item, ok, art_exists, accept_ok)
+        if art_exists:
+            with open(os.path.join(WORKTREE, art), "rb") as fh:
+                item["artefact_sha256"] = hashlib.sha256(fh.read()).hexdigest()
+        if status != "DONE" and item.get("phase") == "AUTHOR" and art_exists:
+            # the artefact is on disk: the remaining work is TEST, not another authoring dispatch
+            item["phase"] = "TEST"
+            item["resume_cmd"] = item["accept_cmd"]
+            item["expect"] = r"(\d+) passed"
+            item["attempts"] = 0
+        item["status"] = status
+        if status == "DONE":
+            item.pop("parked_reason", None)
+            log(f"    DONE {item['id']} ({reason})")
+        elif status == "PARTIAL":
+            item["rearm_ok"] = True
+            item.pop("parked_reason", None)
+            item["partial_reason"] = reason
+            log(f"    PARTIAL {item['id']} — {reason}; continuing")
         else:
-            item["status"] = "PARKED"
-            item["parked_reason"] = "STEP_FAILED"
+            item["parked_reason"] = reason
             item["retry_hint"] = ("ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays "
                                   "PARKED until a human or a later pass re-arms it")
-            log(f"    PARKED {item['id']} — continuing with the next ready item")
+            log(f"    PARKED {item['id']} — {reason}; continuing with the next ready item")
         save(q)
     q.setdefault("runs", []).append({
         "at": time.strftime("%FT%TZ", time.gmtime()), "steps": steps,
