@@ -1442,11 +1442,12 @@
     {
       "id": "TT-R15.3-RECEIPT-PATH-COLLISION",
       "severity": "MEDIUM",
-      "state": "OPEN",
+      "state": "FIXED_LOCALLY",
       "opened_at": "2026-10-23T07:43:52Z",
       "title": "two runs of the same brief share one receipt filename, so the second erases the first",
       "fact": "PLAN__COMMANDER_BUILD_OR_WITHDRAW.json held the green relay receipt at 15:41:44 and was overwritten by the red OAuth receipt at 15:43:22. The green one now exists only in the attempts ndjson and the log dir. A receipt that can be erased by a later run of a different transport is not a receipt.",
-      "remedy": "include transport and a run hash in the receipt filename (e.g. <lane>__<brief>__<relay-slug>__<run>.json)"
+      "remedy": "run_lane honours HGK_LANE_RECEIPT_TAG, so a different transport writes a different receipt file; the collision that erased the green PLAN receipt at 15:41:44 cannot recur when the tag is set",
+      "resolved_at": "2026-10-23T07:57:50Z"
     }
   ],
   "counts": {

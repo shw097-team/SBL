@@ -73,7 +73,13 @@ def main() -> int:
         stamp_header(nonce)
         + brief_text)
     brief = stamped
-    out = os.path.join(R, "receipts", "dispatch", f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}.json")
+    # A receipt must not be erasable by a later run of the same brief. Measured 2026-10-23: the green relay receipt for
+    # a PLAN brief was overwritten 98 seconds later by a red OAuth run of the SAME brief, because both derived the name
+    # from the brief alone. The tag is what keeps a different transport on a different file.
+    _tag = os.environ.get("HGK_LANE_RECEIPT_TAG", "").strip()
+    _tag = ("__" + "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in _tag)) if _tag else ""
+    out = os.path.join(R, "receipts", "dispatch",
+                       f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}{_tag}.json")
     def hgk_state() -> str:
         q = subprocess.run(["git", "-C", HGK, "status", "--porcelain"], capture_output=True, text=True)
         return (q.stdout or "").strip()
