@@ -1,0 +1,31 @@
+{
+  "schema": "SBL_ORCHESTRATOR_VERIFY/1",
+  "item": "C17",
+  "lane_dispatch": {
+    "receipt": "receipts/dispatch/EXECUTE__BRIEF_R153_C17.json",
+    "ok": false,
+    "reason": "the 350s lane budget expired before the lane wrote its own receipt; the artefact it wrote is real"
+  },
+  "artefact": {
+    "path": "tests/test_c17_three_kind_lifecycle.py",
+    "bytes": 13095,
+    "lines": 312,
+    "sha256": "b79eb2cc2a955df909f2b57ca90d861818e5bccbeda7dafea65f9f2599261d5a"
+  },
+  "run": {
+    "command": "uv run --python 3.11 --with pytest pytest -q tests/test_c17_three_kind_lifecycle.py",
+    "tests": 6,
+    "failed": 0,
+    "skipped": 0
+  },
+  "coverage": {
+    "CLI_TOOL": "bind_repo_context -> prepare -> apply writes inside the writeset and returns a digest (POS); three out-of-writeset shapes refused with SBL_E_WRITE_OUTSIDE_WRITESET and nothing written (NEG)",
+    "AGENT_SKILL": "discover -> match(true/false) -> effective_load -> invoke -> unload (POS); provider-off and unload-before-load refused (NEG)",
+    "SIMPLE_AGENT": "route raises SBL_E_DEFERRED_KIND and constructs no decision (typed NoFit)"
+  },
+  "not_done": [
+    "the other five kinds keep their typed dispositions; that arithmetic is C18's, not C17's",
+    "fallback and rollback are not exercised at kind level in this file"
+  ],
+  "claim_ceiling": "three kinds, real lifecycle, six tests, local only; not a host installation and not an acceptance"
+}

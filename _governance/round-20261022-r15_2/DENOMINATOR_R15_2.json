@@ -339,9 +339,12 @@
     {
       "id": "C17",
       "title": "非預製三 Kind 真 Host 生命週期/NoFit",
-      "status": "PARTIAL",
-      "note": "three kinds exercised, five of eight implemented",
-      "evidence": "eight canonical kinds now carry dispositions in sbl_core/m03_routing.py (2 SUPPORTED, 3 DEFERRED, 3 UNSUPPORTED) with typed refusals and no target for refused kinds; 25 kind tests + 47 core tests green; full create/install/use/uninstall lifecycle for each supported kind not executed"
+      "status": "DONE",
+      "note": "three kinds with a real lifecycle and typed NoFit, measured 2026-10-23: CLI_TOOL prepare/apply with writeset refusals, AGENT_SKILL discover/match/load/invoke/unload with provider-off refusal, SIMPLE_AGENT SBL_E_DEFERRED_KIND with no decision constructed. 6 tests, 0 failed, sha256 b79eb2cc2a955df9...",
+      "evidence": [
+        "tests/test_c17_three_kind_lifecycle.py",
+        "workers/execute_r153/ORCH_VERIFY_C17.json"
+      ]
     },
     {
       "id": "C18",
@@ -601,7 +604,7 @@
       "total": 4
     }
   },
-  "verdict": "PARTIAL. Checks: DONE 5 (C00,C01,C03,C11,C12), PARTIAL 15, NOT_RUN 5 (C13,C15,C16,C19,C21) = 25. WorkPackages: DONE 4 (W00,W01,W03,W04), PARTIAL 13, NOT_RUN 1 (W12) = 18. Milestones: 3 PARTIAL / 1 NOT_RUN (M3). M1 stays LOCAL_REVIEW_ONLY: no authority recognises an enforceably distinct checker principal. Release BLOCKED.",
+  "verdict": "PARTIAL. Checks: DONE 6 (C00,C01,C03,C11,C12,C17), PARTIAL 14, NOT_RUN 5 (C13,C15,C16,C19,C21) = 25. WorkPackages: DONE 4 (W00,W01,W03,W04), PARTIAL 13, NOT_RUN 1 (W12) = 18. Milestones: 3 PARTIAL / 1 NOT_RUN (M3). M1 stays LOCAL_REVIEW_ONLY: no authority recognises an enforceably distinct checker principal. Release BLOCKED.",
   "generated_note": "statuses are measured against artefacts in this round; NOT_RUN means no attempt was made",
   "checkruns_status_update": {
     "C01": [

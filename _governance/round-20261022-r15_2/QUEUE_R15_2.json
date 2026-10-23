@@ -660,6 +660,19 @@
         "workers/verify_r153/CHALLENGE_PASS2.json"
       ],
       "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_PASS2.json"
+    },
+    {
+      "id": "Q16.kind_lifecycle_C17",
+      "owner_class": "AGENT",
+      "status": "DONE",
+      "denominator_ref": "C17 / W06",
+      "required_lane": "EXECUTE",
+      "satisfiable_by": "EXECUTE lane (rank 1, deepseek-v4.1-flash) + orchestrator run",
+      "next_action": "three kinds with a real lifecycle: CLI_TOOL prepare/apply + writeset refusals, AGENT_SKILL discover/match/load/invoke/unload + provider-off refusal, SIMPLE_AGENT typed NoFit; 6 tests green",
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__BRIEF_R153_C17.json",
+      "note": "the lane's 350s budget expired before it wrote its receipt (receipt ok=false), but it had already written the test file; the run and the sha256 are recorded in workers/execute_r153/ORCH_VERIFY_C17.json",
+      "resume_cmd": "uv run --python 3.11 --with pytest pytest -q tests/test_c17_three_kind_lifecycle.py",
+      "expect": "6 passed"
     }
   ],
   "runs": [
@@ -878,6 +891,15 @@
       "owner": 4,
       "host": 1,
       "ready": 0
+    },
+    {
+      "at": "2026-10-23T02:51:29Z",
+      "steps": 0,
+      "done": 29,
+      "parked": 2,
+      "owner": 4,
+      "host": 1,
+      "ready": 0
     }
   ],
   "lane_obligations": {
@@ -894,7 +916,7 @@
     }
   },
   "counts": {
-    "DONE": 29,
+    "DONE": 30,
     "PARKED": 2,
     "PARTIAL": 2,
     "DONE_RECEIPT_RED": 1
