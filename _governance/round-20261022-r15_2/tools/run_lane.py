@@ -20,6 +20,28 @@ HGK = r"C:/Projects/Agent_Workspace/HG-KSEOS"
 MANDATE = os.path.join(R, "MANDATE_R15_2.json")
 
 
+def stamp_header(nonce: str) -> str:
+    """The instruction that makes a nonce mean something.
+
+    Measured: with a plain "begin your reply with this token", two EXECUTE runs satisfied it by echoing the token in a
+    shell command, which the strict detector refuses (a script echoing the brief could fake acknowledgement). Asking
+    for the token AND a one-sentence statement of the change makes an echo insufficient, without loosening the detector.
+    """
+    nl = chr(10)
+    return (nl.join([
+        "NONCE: " + nonce,
+        "",
+        "Begin your reply with the token above on its own line, followed immediately by ONE sentence in your own words",
+        "naming the exact file you will change and what behaviour you will pin down.",
+        "Do NOT produce the token with a shell command, an echo, a heredoc or by printing the brief back: it must be",
+        "part of your reply text, because a script replaying the brief is not an acknowledgement.",
+        "",
+        "HARD RULES: do the work in this turn. Do NOT dispatch, spawn or poll another lane or agent",
+        "(no lane-dispatch, no sub-agent, no waiting loop). If a step would require another lane, write that",
+        "in your output and stop.",
+        "", ""]))
+
+
 def main() -> int:
     if "--role" not in sys.argv or "--brief" not in sys.argv:
         print("usage: run_lane.py --role PLAN|EXECUTE|VERIFY --brief <file> [--nonce N] [--timeout 560]")
@@ -48,11 +70,7 @@ def main() -> int:
     brief_text = open(brief, encoding="utf-8").read()
     stamped = os.path.join(os.path.dirname(brief), "_" + os.path.basename(brief))
     open(stamped, "w", encoding="utf-8", newline=chr(10)).write(
-        "NONCE: " + nonce + chr(10) + chr(10)
-        + "Begin your reply with exactly this token on its own line: " + nonce + chr(10) + chr(10)
-        + "HARD RULES: do the work in this turn. Do NOT dispatch, spawn or poll another lane or agent "
-          "(no lane-dispatch, no sub-agent, no waiting loop). If a step would require another lane, write that "
-          "in your output and stop." + chr(10) + chr(10)
+        stamp_header(nonce)
         + brief_text)
     brief = stamped
     out = os.path.join(R, "receipts", "dispatch", f"{m['lane']}_{os.path.basename(brief).replace('.md', '')}.json")

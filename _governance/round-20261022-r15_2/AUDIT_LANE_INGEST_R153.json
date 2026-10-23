@@ -1,0 +1,66 @@
+{
+  "schema": "SBL-LANE-AUDIT-INGEST/1",
+  "at_utc": "2026-10-23T06:01:27Z",
+  "source": "deleg_359921b2 task-0 (subagent, deepseek-v4.1-flash, 211s, read-only)",
+  "totals": {
+    "receipts_scanned": 69,
+    "green": 45,
+    "red": 24,
+    "duplicate_pairs": 3,
+    "unique_green_estimate": 42
+  },
+  "accepted_findings": [
+    {
+      "id": "DUP_RECEIPTS",
+      "claim": "3 bit-identical receipt pairs inflate the green count",
+      "verified": "accepted (sha256 equal, identical used_seconds)",
+      "effect": "green 45 -> 42 unique"
+    },
+    {
+      "id": "MINIMAX_SIX",
+      "claim": "6 EXECUTE receipts carry minimax as the required arm",
+      "verified": "accepted; timestamps 2026-10-22T13:25-15:03Z predate the 2026-10-23 rebind",
+      "effect": "historical, must be time-bounded in any acceptance document"
+    },
+    {
+      "id": "PLAN_BAD_ARM",
+      "claim": "2 PLAN receipts have non provider/model arm specs and 0 attempts",
+      "verified": "accepted",
+      "effect": "ERR_LANE_REQUIRED_ARM_ABSENT, not a lane fault"
+    },
+    {
+      "id": "AUDIT_COVERAGE",
+      "claim": "mandate_audit_r153.json claims AUDIT_CLEAN (36) while 69 receipts exist",
+      "verified": "accepted; the gate checks queue items, not dispatch receipts",
+      "effect": "the gate's name overstates what it audits"
+    },
+    {
+      "id": "OAUTH_UNPROVEN",
+      "claim": "receipts prove a refreshable credential, not OpenAI OAuth",
+      "verified": "accepted; identity_gate detail says 'non-empty refreshable credential present in codex-accounts.json'",
+      "effect": "the OAuth wording in the mandate is UNPROVEN at the receipt layer"
+    },
+    {
+      "id": "NDJSON_MISMATCH",
+      "claim": "4 receipts have more attempts in .ndjson than in the JSON array",
+      "verified": "accepted",
+      "effect": "retry evidence is not carried into the receipt"
+    }
+  ],
+  "refuted_findings": [
+    {
+      "id": "NONCE_DETECTOR_GAP",
+      "claim": "DEN-C14_narrow and VERIFY_SECURITY__CHALLENGE_R153 were red only because of a normalisation gap",
+      "verified": "REFUTED for DEN-C14_narrow and DEN-C13_narrow: the nonce appears only inside an item.completed/command_execution event, i.e. the model echoed it in a shell command, not in its reply",
+      "why_it_matters": "the detector requires the nonce in an agent message on purpose, so a script echoing the brief cannot fake acknowledgement; widening it would create false greens"
+    }
+  ],
+  "stale_findings": [
+    {
+      "id": "NO_VERIFY_COVERAGE",
+      "claim": "no VERIFY_SECURITY receipt covers today's new tests",
+      "now": "true when audited; since then VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json exists (ok=true, gpt-6.1-sol rank 2, 224.54s) and covers all four files, ruling each PARTIALLY_VERIFIED"
+    }
+  ],
+  "claim_ceiling": "READ_ONLY_AUDIT_INGESTED__EACH_CLAIM_RECHECKED__NOT_INDEPENDENT_ACCEPTANCE"
+}

@@ -1244,20 +1244,6 @@
       "owner_needed": true
     },
     {
-      "id": "TT-R15.3-EXECUTE-NONCE-OMITTED",
-      "severity": "HIGH",
-      "state": "OPEN",
-      "opened_at": "2026-10-23T05:41:14Z",
-      "title": "EXECUTE lane intermittently writes the artefact but omits the nonce",
-      "fact": "DEN-C13 and DEN-C14 both produced a passing test file (4 passed each) while their receipts read ok=false, nonce_present=false; DEN-C14 finished in 81s so it was not a timeout",
-      "remedy": "bind authorship evidence to artefact hash + acceptance, and treat nonce absence as a receipt defect rather than evidence of no work; then repair the lane's nonce instruction",
-      "owner_needed": false,
-      "evidence": [
-        "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
-        "receipts/dispatch/EXECUTE__DEN-C14_narrow.json"
-      ]
-    },
-    {
       "id": "TT-R15.3-CHALLENGE-BATCH2-WEAK",
       "severity": "MEDIUM",
       "state": "OPEN",
@@ -1282,6 +1268,83 @@
       "evidence": [
         "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json"
       ]
+    },
+    {
+      "id": "TT-R15.3-LANE-RECEIPT-DUPLICATES",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "3 bit-identical receipt pairs inflate the green count",
+      "fact": "unique green receipts are 42, not 45",
+      "remedy": "dedupe by sha256 before any acceptance count",
+      "owner_needed": false,
+      "evidence": [
+        "AUDIT_LANE_INGEST_R153.json"
+      ]
+    },
+    {
+      "id": "TT-R15.3-AUDIT-COVERAGE",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "mandate_gate AUDIT_CLEAN counts queue items, not dispatch receipts",
+      "fact": "AUDIT_CLEAN (53) coexists with 69 receipts, 24 red and 6 historical minimax arms",
+      "remedy": "rename the verdict or extend it to receipts; never present it as lane acceptance",
+      "owner_needed": false
+    },
+    {
+      "id": "TT-R15.3-OAUTH-UNPROVEN",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "the mandate says OpenAI OAuth; receipts prove only a refreshable credential",
+      "fact": "identity_gate detail: 'non-empty refreshable credential present in codex-accounts.json'",
+      "remedy": "state the credential class as UNPROVEN, or read it back from the lane home",
+      "owner_needed": true
+    },
+    {
+      "id": "TT-R15.3-SWARM-FANIN-NOT-CONVERGED",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "SWARM surface is real and was used, but its fan-in failed and was recorded as done",
+      "fact": "board r15-fallback-20261023: verifier t_2feb849f recorded done with swarm_gate_verifier.json gate=FAIL; synthesizer t_95750686 blocked with 'entry precondition never held'",
+      "remedy": "a verifier card may not be done on a FAIL gate; re-run the gate before any swarm claim",
+      "owner_needed": false,
+      "evidence": [
+        "deleg_359921b2 task-1",
+        "HG-KSEOS/var/R15-MODEL-FALLBACK-20261023/receipts/"
+      ]
+    },
+    {
+      "id": "TT-R15.3-GSTACK-NOT-IMPLEMENTED",
+      "severity": "HIGH",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "GSTACK is documented and 'CERTIFIED' but has no executable",
+      "fact": "no gstack binary, npm package or skill dir on the host; activation invariants only check that evidence JSON files exist; route('review') returns {route: GSTACK, state: CERTIFIED} from a registry lookup",
+      "remedy": "C10 can never be VERIFIED as a gstack check: it verifies named_methods routing, not gstack",
+      "owner_needed": true
+    },
+    {
+      "id": "TT-R15.3-KANBAN-NOT-WIRED",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "KANBAN exists and was used by the fallback round, but this round drives its own JSON queue",
+      "fact": "board r15-fallback-20261023 has 18 cards, 14 comments, 185 events; QUEUE_R15_2.json is not projected into it",
+      "remedy": "project the queue into a board and let card transitions drive the round, or record why not",
+      "owner_needed": false
+    },
+    {
+      "id": "TT-R15.3-EXECUTE-NONCE-OMITTED",
+      "severity": "MEDIUM",
+      "state": "OPEN",
+      "opened_at": "2026-10-23T06:01:27Z",
+      "title": "EXECUTE models echo the nonce inside a shell command instead of their reply",
+      "fact": "DEN-C13/C14 wrote passing tests but their nonce appears only in an item.completed/command_execution event, so the strict detector reds them - correctly, because a script echoing the brief could fake acknowledgement",
+      "remedy": "make the injected instruction impossible to satisfy with an echo (ask for the nonce plus a sentence it must reason out)",
+      "owner_needed": false
     }
   ],
   "counts": {

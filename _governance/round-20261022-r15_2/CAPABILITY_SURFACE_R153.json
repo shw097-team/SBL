@@ -1,0 +1,44 @@
+{
+  "schema": "SBL-CAPABILITY-SURFACE/1",
+  "at_utc": "2026-10-23T06:02:29Z",
+  "source": "deleg_359921b2 task-1 (subagent, 342s, read-only filesystem probe)",
+  "capabilities": {
+    "KANBAN": {
+      "executable": "hermes_cli.main kanban (module form; the exe trampoline is broken)",
+      "used_this_round": false,
+      "used_by_fallback_round": true,
+      "evidence": "board r15-fallback-20261023: 18 cards, 14 comments, 185 events; 99 boards on the host",
+      "verdict": "ENABLED_AND_USABLE__NOT_WIRED_TO_THIS_ROUND"
+    },
+    "SWARM": {
+      "executable": "kanban swarm verb -> hermes_cli/kanban_swarm.py create_swarm()",
+      "used_this_round": false,
+      "evidence": "graph t_9bc6a960 -> t_963ecdaf/t_7a961e2c -> t_2feb849f (verifier) -> t_95750686 (synthesizer)",
+      "defect": "swarm_gate_verifier.json gate=FAIL but the verifier card is done; the synthesizer is blocked with 'entry precondition never held' - so the recorded 'SWARM surface: done' over-claims",
+      "verdict": "ENABLED__USED__FANIN_NOT_CONVERGED"
+    },
+    "GSTACK": {
+      "executable": null,
+      "evidence": "no gstack binary, npm package or skill directory on the host; activation invariants only check that evidence JSON files exist; route('review') is a registry lookup returning state CERTIFIED",
+      "verdict": "DOCUMENTED_NOT_IMPLEMENTED"
+    },
+    "OPENSPEC": {
+      "executable": "openspec 1.8.0 (npm -g)",
+      "used_this_round": true,
+      "evidence": "openspec validate --all --strict: far-r12-20261021, sbl-r15-2-native-admission, sbl-v01-candidate-build, r15-fallback-mimo-promotion all valid",
+      "drift": "the identity readback points at a temp install dir that no longer exists; the live install is the npm global",
+      "verdict": "ENABLED_AND_USED"
+    }
+  },
+  "corrections_to_my_earlier_report": [
+    {
+      "claim_i_made": "KANBAN 沒有啟用",
+      "correction": "wrong: the fallback round drove board r15-fallback-20261023 and the CLI works; what is missing is that THIS round's queue is not projected into it"
+    },
+    {
+      "claim_i_made": "GSTACK 只有當被測物",
+      "correction": "right, but understated: gstack has no executable at all, so C10 can never be VERIFIED as a gstack check - only as a named_methods routing check"
+    }
+  ],
+  "claim_ceiling": "READ_ONLY_PROBE__NO_ACCEPTANCE"
+}
