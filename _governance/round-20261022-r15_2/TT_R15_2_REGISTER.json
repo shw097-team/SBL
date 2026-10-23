@@ -1448,10 +1448,51 @@
       "fact": "PLAN__COMMANDER_BUILD_OR_WITHDRAW.json held the green relay receipt at 15:41:44 and was overwritten by the red OAuth receipt at 15:43:22. The green one now exists only in the attempts ndjson and the log dir. A receipt that can be erased by a later run of a different transport is not a receipt.",
       "remedy": "run_lane honours HGK_LANE_RECEIPT_TAG, so a different transport writes a different receipt file; the collision that erased the green PLAN receipt at 15:41:44 cannot recur when the tag is set",
       "resolved_at": "2026-10-23T07:57:50Z"
+    },
+    {
+      "tt_id": "TT-R15.3-CHECKER-BRIEF-REPEAT-6X",
+      "kind": "CR",
+      "severity": "HIGH",
+      "status": "LOOP_PAUSED",
+      "subject": "the same lane-consistency challenge brief was dispatched six times and failed six times",
+      "observed": {
+        "dispatches": [
+          "B8 142.89s",
+          "B9 166.38s",
+          "B10 175.18s",
+          "B11 161.95s",
+          "B12 135.17s",
+          "B13 ?"
+        ],
+        "green_receipts": 6,
+        "independent_pass": false,
+        "verdicts": [
+          "FAIL",
+          "FAIL",
+          "FAIL",
+          "FAIL",
+          "FAIL",
+          "FAIL"
+        ]
+      },
+      "conflict": "owner rule: four or more repeats of the same blocked step require root-cause measurement rather than a fifth attempt; six dispatches had already happened.",
+      "decision": "loop paused. Every repair is mine; there is no independent PASS. W08 stays PARTIAL with an explicit ceiling, and the next attempt must not reuse this brief.",
+      "owner": "SBL-Commander",
+      "next_legal_step": "do not send the same brief again. Rewrite the oracle around one declared identity tuple (provider, model, transport) taken from the receipt schema, compare the tuple, and refuse on any missing field - then ask for one fresh brief from a reviewer who has not seen the old one.",
+      "far_recommendation": "the failures are not bad luck: each round found a guard that was optional, string-based, or fail-open on missing evidence. Replace the rule with one declared identity tuple compared whole, then obtain a fresh brief from a reviewer with no history of the old one.",
+      "repairs_landed": [
+        "qualified labels normalised to one key, and refused when the prefix contradicts the provider field",
+        "unreadable retired-arm list fails closed instead of skipping the guard",
+        "R3 compares usage_model AND transport_model to the CLAIMED arm, not to each other",
+        "the pair evidence is no longer a parameter (a caller cannot pass {} to weaken the rule)",
+        "R3 = identity, R7 = billing evidence; absent billing is an evidence gap, disagreeing billing is a violation",
+        "fourth verdict UNVERIFIED so 'cannot prove history' is neither a pass nor a conviction"
+      ],
+      "opened_utc": "2026-10-23T08:28:31Z"
     }
   ],
   "counts": {
-    "OPEN": 1,
+    "OPEN": 16,
     "CLOSED": 0
   },
   "round_state": "R15_3_AGENT_SCOPE_ADVANCED_RELEASE_BLOCKED",
@@ -1494,5 +1535,6 @@
       "coverage_gaps": 0
     }
   },
-  "round_state_note": "2026-10-23 continuation: FAR R15.3 adjudication (53 rows), C11 repaired to a source-supported delta with strict validate 3/0, C20 local half measured (9 verbs + double-build equal), C22 scoped secret-scan gate with 3 tests, W02 policy designation bound with a fail-closed front-door guard (7 tests), W16 disposition recorded. Release and independent acceptance remain unclaimed."
+  "round_state_note": "2026-10-23 continuation: FAR R15.3 adjudication (53 rows), C11 repaired to a source-supported delta with strict validate 3/0, C20 local half measured (9 verbs + double-build equal), C22 scoped secret-scan gate with 3 tests, W02 policy designation bound with a fail-closed front-door guard (7 tests), W16 disposition recorded. Release and independent acceptance remain unclaimed.",
+  "items_count": 73
 }

@@ -852,7 +852,7 @@
     {
       "id": "DEN-C13",
       "owner_class": "AGENT",
-      "status": "RUNNING",
+      "status": "PARKED",
       "denominator_ref": "C13",
       "satisfiable_by": "AGENT",
       "next_action": "re-challenge C13 with VERIFY (the aliasing fix changed product code)",
@@ -881,7 +881,7 @@
         "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py"
       ],
-      "claim_ceiling": "NO_STANDING_AUTH_CLAIM__WITHDRAWN",
+      "claim_ceiling": "NO_STANDING_AUTH_CLAIM__WITHDRAWN_BY_PLAN_DECISION",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -916,12 +916,13 @@
           "evidence": "PLAN_DECISION_R153_C10_C15.json"
         }
       ],
-      "plan_verdict": "WITHDRAW"
+      "plan_verdict": "WITHDRAW",
+      "note": "2026-10-23T08:28:31Z stale RUNNING cleared: no dispatch exists for C13; PLAN ordered WITHDRAW"
     },
     {
       "id": "DEN-C14",
       "owner_class": "AGENT",
-      "status": "RUNNING",
+      "status": "HOLD",
       "denominator_ref": "C14",
       "satisfiable_by": "AGENT",
       "next_action": "re-challenge with VERIFY",
@@ -950,7 +951,7 @@
         "receipts/dispatch/EXECUTE__DEN-C14_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c14_checkpoint_resume_no_repeat_effect.py"
       ],
-      "claim_ceiling": "SINGLE_ATTEMPT_RESTORE_ONLY",
+      "claim_ceiling": "SINGLE_ATTEMPT_RESTORE_ONLY__BUILD_LATER",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -978,7 +979,8 @@
           "evidence": "PLAN_DECISION_R153_C10_C15.json"
         }
       ],
-      "plan_verdict": "BUILD_LATER"
+      "plan_verdict": "BUILD_LATER",
+      "note": "2026-10-23T08:28:31Z stale RUNNING cleared: no dispatch exists for C14; PLAN ordered BUILD_LATER"
     },
     {
       "id": "DEN-C15",
@@ -1117,7 +1119,7 @@
       "step_a_receipt": "EXECUTE__DEN-W08_A.json",
       "step_a_ok": false,
       "partial_reason": "the checker edit landed under a NOT_GREEN dispatch (same class as C13/C14) and the new checker has not been challenged by VERIFY; 23 of 69 receipts are not green evidence",
-      "claim_ceiling": "CHECKER_REPAIRED_TESTS_GREEN__EXECUTE_RECEIPTS_RED_NO_MODEL_IDENTITY__ACCEPTANCE_PENDING",
+      "claim_ceiling": "CHECKER_HARDENED_24_TESTS_GREEN__INDEPENDENT_VERDICT_STILL_FAIL__LOOP_PAUSED_AFTER_6",
       "rearm_ok": false,
       "step_a_receipt_detail": "ok=false, secs=280.03, nonce=true: the dispatch was cut by the 280s cap, not by a nonce failure; the edit is complete on disk (classify_arm at :306, SUPERSEDED wired at :483/:519/:578, exit rule documented at :9) and its tests pass",
       "notes": [
@@ -1125,7 +1127,8 @@
           "at": "2026-10-23T07:41:10Z",
           "note": "three checker repairs landed under red receipts: supersession retirement, retired-arms narrowing, time sources. 10 tests pass (supersession + retired_arms + time_sources). The receipts are red because the shim transport cannot give the wrapper a served-arm identity, so the wrapper reports model=null and ok=false. Red receipt + green product = PARTIAL, not DONE."
         }
-      ]
+      ],
+      "note": "2026-10-23T08:28:31Z six dispatches of the same challenge brief (B8-B13) each found a different hole in the rule; every repair is mine and no independent PASS exists. Paused per the owner's four-repeat rule. See TT-R15.3-CHECKER-BRIEF-REPEAT-6X."
     },
     {
       "id": "DEN-W17",
