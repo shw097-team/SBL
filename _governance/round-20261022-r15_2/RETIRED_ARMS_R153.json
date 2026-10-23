@@ -1,0 +1,20 @@
+{
+  "schema": "SBL-RETIRED-ARMS/1",
+  "at_utc": "2026-10-23T06:37:39Z",
+  "why": "supersession may only excuse an arm that a prior pool revision really declared. Without this list, classify_arm excuses ANY unknown arm that predates the current pool file, so a hijacked model would read as 'superseded' instead of 'never authorized'.",
+  "arms": [
+    {
+      "arm": "opencode-go/minimax-m3.1-flash-free",
+      "was_rank": 1,
+      "lane": "EXECUTE",
+      "in_force_until_revision": 23,
+      "in_force_until": "2026-10-23",
+      "retired_because": "410-deprecated upstream; owner ordered deepseek-v4.1-flash to rank 1",
+      "evidence": [
+        "HG-KSEOS/config/lane-route-slots.candidate.json history (revision 23 entry)",
+        "MANDATE_R15_2.json roles.EXECUTE.prev"
+      ]
+    }
+  ],
+  "rule": "SUPERSEDED only if served arm is in this list AND receipt_time < the time this list retired it; otherwise VIOLATION (UNAUTHORIZED_ARM)"
+}
