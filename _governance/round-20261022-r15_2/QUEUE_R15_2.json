@@ -787,7 +787,7 @@
     {
       "id": "DEN-C10",
       "owner_class": "AGENT",
-      "status": "RUNNING",
+      "status": "PARTIAL",
       "denominator_ref": "C10",
       "satisfiable_by": "AGENT",
       "next_action": "repair the weakest assertion named by the challenge, then re-challenge",
@@ -801,9 +801,9 @@
       "expect_artefact": "tests/test_den_c10.py",
       "accept_cmd": "python -m pytest tests/test_den_c10.py -q",
       "timeout_s": 340,
-      "attempts": 2,
-      "last_result": "TIMEOUT after 340s",
-      "last_run_utc": "2026-10-23T06:06:23Z",
+      "attempts": 3,
+      "last_result": "rc=1 secs=301.83 expect=miss\n    dispatch_exit= 3\n    WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.\n    WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: credential posture could not be decided (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); CONTINUING (a detector fault must not become a lane outage; L1 remains the structural control; INCONCLUSIVE is NOT a pass).\n    {\"lane\": \"EXECUTE\", \"ok\": false, \"secs\": 300.04, \"nonce\": false, \"model\": null, \"rank\": null, \"receipt\": \"C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2\\\\receipts\\\\dispatch\\\\EXECUTE__DEN-C10.json\"}",
+      "last_run_utc": "2026-10-23T06:11:25Z",
       "evidence": [
         "receipts/dispatch/EXECUTE__DEN-C10_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_gstack_named_method_route.py"
@@ -835,8 +835,8 @@
       },
       "partial_reason": "independent challenge says PARTIALLY_VERIFIED: route-only: final_authority in a dict proves no permission boundary; no named-method execution (KB #285)",
       "rearm_ok": true,
-      "parked_reason": "STEP_FAILED",
-      "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it"
+      "retry_hint": "ladder: 1) narrow the command 2) raise timeout_s 3) switch arm; the item stays PARKED until a human or a later pass re-arms it",
+      "stale_parked_cleared": true
     },
     {
       "id": "DEN-C13",
@@ -884,7 +884,8 @@
           "no per-effect Native checks (KB #1400: subject/path/risk/token/lease/policy)",
           "module-level importorskip can turn coverage into a skip"
         ]
-      }
+      },
+      "stale_running_cleared": true
     },
     {
       "id": "DEN-C14",
@@ -1024,17 +1025,39 @@
       "status": "PARTIAL",
       "denominator_ref": "W08",
       "satisfiable_by": "AGENT",
-      "next_action": "author a bounded recipe for workpackages row W08",
-      "resume_cmd": "",
+      "next_action": "challenge the supersession rule and the 23 NOT_GREEN receipts in one VERIFY pass",
       "expect": "",
       "coverage_only": true,
-      "recipe_hint": "supersession rule + tests (TT-R15.3-LANE-RECEIPT-SUPERSESSION)",
-      "needs_test": false,
       "evidence": [
-        "_governance/round-20261022-r15_2/tools/check_lane_consistency.py",
-        "W08_LANE_CONSISTENCY_RUN.json",
-        "W08_MEASUREMENT.json"
-      ]
+        "receipts/dispatch/EXECUTE__DEN-W08_A.json",
+        "receipts/dispatch/EXECUTE__DEN-W08_B.json",
+        "C:/Projects/Agent_Workspace/_r152_ev/tests/test_lane_consistency_supersession.py"
+      ],
+      "phase": "REVIEW",
+      "artefact_sha256": "1a1ba0413b1789b5eba1b5a856100f9481b3856a6994618c09e585637e70f13f",
+      "measurement": {
+        "checker": "tools/check_lane_consistency.py",
+        "declaration": "HG-KSEOS/config/lane-route-slots.candidate.json",
+        "receipts_checked": 69,
+        "counts": {
+          "CONSISTENT": 42,
+          "SUPERSEDED": 4,
+          "VIOLATION": 0,
+          "NOT_GREEN": 23
+        },
+        "note": "4 superseded = the minimax receipts that are still green evidence; the other 2 minimax receipts are timeouts and land in NOT_GREEN first, which is why the count is 4 and not 6"
+      },
+      "lane_receipt": "EXECUTE__DEN-W08_B.json",
+      "lane_ok": true,
+      "lane_nonce": true,
+      "lane_model": "opencode-go/deepseek-v4.1-flash",
+      "lane_rank": 1,
+      "lane_seconds": 142.12,
+      "step_a_receipt": "EXECUTE__DEN-W08_A.json",
+      "step_a_ok": false,
+      "partial_reason": "the checker edit landed under a NOT_GREEN dispatch (same class as C13/C14) and the new checker has not been challenged by VERIFY; 23 of 69 receipts are not green evidence",
+      "claim_ceiling": "TESTS_PASS__VIOLATION_ZERO__MEASURED__NOT_INDEPENDENTLY_CHALLENGED",
+      "rearm_ok": false
     },
     {
       "id": "DEN-W17",
