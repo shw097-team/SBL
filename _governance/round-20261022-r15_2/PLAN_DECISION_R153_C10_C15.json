@@ -1,0 +1,33 @@
+{
+  "schema": "SBL-PLAN-DECISION/1",
+  "at_utc": "2026-10-23T07:42:39Z",
+  "lane": "PLAN",
+  "arm": "openai-codex/gpt-6.1-sol",
+  "receipt": "receipts/dispatch/PLAN__COMMANDER_BUILD_OR_WITHDRAW.json",
+  "transport_disclosure": "this decision was produced while the lane still pointed at http://127.0.0.1:10101/v1, i.e. the relay paid for it, not the owner's OAuth account. A second run against the real backend is in flight; until it returns, this file records the DECISION, not an OAuth consumption claim.",
+  "decisions": [
+    {
+      "id": "C10",
+      "verdict": "WITHDRAW",
+      "ceiling": "routing projection only; no effect-authorization claim, no fail-closed permission enforcement claim"
+    },
+    {
+      "id": "C13",
+      "verdict": "WITHDRAW",
+      "ceiling": "no standing-authorized execution claim; no claim that routine human approval is safely omitted"
+    },
+    {
+      "id": "C14",
+      "verdict": "BUILD_LATER",
+      "slice": "recovery.py:37 - required operation_id, durable binding to backup digest + resolved target, reconcile a completed retry through target digest/integrity readback, reject conflicting bindings, focused tests",
+      "ceiling": "single-attempt restore with input digest validation and SQLite integrity readback only"
+    },
+    {
+      "id": "C15",
+      "verdict": "WITHDRAW",
+      "ceiling": "holdout behaviour unverified; SQL-injected fixture and expected failure are not product evidence"
+    }
+  ],
+  "round_ceiling_after": "retain routing-only and single-attempt restore; withdraw every authorization claim this round cannot substantiate",
+  "effect": "three checks stop pretending: C10/C13/C15 claims are withdrawn rather than left as permanent xfail; C14 keeps a bounded slice that fits one dispatch"
+}

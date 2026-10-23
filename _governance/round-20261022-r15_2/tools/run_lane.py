@@ -91,7 +91,7 @@ def main() -> int:
     # ws://127.0.0.1:10101/responses and http://127.0.0.1:10101/responses, burns seven upgrade retries and dies
     # (measured 2026-10-23: eight dispatches, each ~12 s, all with the identical URL). The front door refuses the
     # path without /v1 for the same reason. Default it here so no call site can get it wrong again.
-    if relay_base and not os.environ.get("HGK_LANE_HUMAN_HOME"):
+    if relay_base and not (os.environ.get("HGK_LANE_HUMAN_HOME") and "HGK_LANE_RELAY_BASE" not in os.environ):
         cmd += ["--relay-base", relay_base]
     # THE OAUTH LANE. The sealed home has no auth.json, so whatever a relay answers it pays for itself: measured
     # 2026-10-23, :10101 returned 200 for gpt-6.1-sol with a bogus bearer token AND with no auth header at all, which

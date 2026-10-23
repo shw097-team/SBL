@@ -819,7 +819,7 @@
       "lane_ok": true,
       "lane_nonce": true,
       "lane_model": "opencode-go/deepseek-v4.1-flash",
-      "claim_ceiling": "TESTS_STRENGTHENED__PASS__REVERIFY_PENDING",
+      "claim_ceiling": "ROUTING_ONLY__AUTHORIZATION_CLAIM_WITHDRAWN",
       "clobbered_by": "concurrent cron tick at 13:15:29 (read-modify-write); restored manually",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
@@ -839,7 +839,15 @@
       "stale_parked_cleared": true,
       "repair_receipt": "EXECUTE__DEN-C10_fix.json",
       "repair_ok": true,
-      "repair_secs": 124.73
+      "repair_secs": 124.73,
+      "plan_verdict": "WITHDRAW",
+      "notes": [
+        {
+          "at": "2026-10-23T07:42:39Z",
+          "note": "PLAN commander verdict WITHDRAW: ROUTING_ONLY__AUTHORIZATION_CLAIM_WITHDRAWN",
+          "evidence": "PLAN_DECISION_R153_C10_C15.json"
+        }
+      ]
     },
     {
       "id": "DEN-C13",
@@ -873,7 +881,7 @@
         "receipts/dispatch/EXECUTE__DEN-C13_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c13_standing_scope_no_routine_hitl.py"
       ],
-      "claim_ceiling": "DEFECT_REPRODUCED_FIXED__TESTS_PASS__REVERIFY_PENDING",
+      "claim_ceiling": "NO_STANDING_AUTH_CLAIM__WITHDRAWN",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -901,8 +909,14 @@
         {
           "at": "2026-10-23T07:37:54Z",
           "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        },
+        {
+          "at": "2026-10-23T07:42:39Z",
+          "note": "PLAN commander verdict WITHDRAW: NO_STANDING_AUTH_CLAIM__WITHDRAWN",
+          "evidence": "PLAN_DECISION_R153_C10_C15.json"
         }
-      ]
+      ],
+      "plan_verdict": "WITHDRAW"
     },
     {
       "id": "DEN-C14",
@@ -936,7 +950,7 @@
         "receipts/dispatch/EXECUTE__DEN-C14_narrow.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c14_checkpoint_resume_no_repeat_effect.py"
       ],
-      "claim_ceiling": "EDIT_LANDED_UNDER_RED_RECEIPT__PASS__REVERIFY_PENDING",
+      "claim_ceiling": "SINGLE_ATTEMPT_RESTORE_ONLY",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -957,8 +971,14 @@
         {
           "at": "2026-10-23T07:37:54Z",
           "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        },
+        {
+          "at": "2026-10-23T07:42:39Z",
+          "note": "PLAN commander verdict BUILD_LATER: SINGLE_ATTEMPT_RESTORE_ONLY",
+          "evidence": "PLAN_DECISION_R153_C10_C15.json"
         }
-      ]
+      ],
+      "plan_verdict": "BUILD_LATER"
     },
     {
       "id": "DEN-C15",
@@ -990,7 +1010,7 @@
         "receipts/dispatch/EXECUTE__DEN-C15_narrow2.json",
         "C:/Projects/Agent_Workspace/HG-KSEOS/tests/test_c15_evolution_holdout.py"
       ],
-      "claim_ceiling": "TESTS_STRENGTHENED__GAP_VISIBLE_AS_XFAIL__NO_CONTAMINATION_DETECTOR",
+      "claim_ceiling": "HOLDOUT_UNVERIFIED__WITHDRAWN",
       "verifier": {
         "receipt": "VERIFY_SECURITY__CHALLENGE_R153_BATCH2.json",
         "lane": "VERIFY_SECURITY",
@@ -1014,8 +1034,14 @@
         {
           "at": "2026-10-23T07:37:54Z",
           "note": "orphan RUNNING cleared by status audit: no driver process held this item"
+        },
+        {
+          "at": "2026-10-23T07:42:39Z",
+          "note": "PLAN commander verdict WITHDRAW: HOLDOUT_UNVERIFIED__WITHDRAWN",
+          "evidence": "PLAN_DECISION_R153_C10_C15.json"
         }
-      ]
+      ],
+      "plan_verdict": "WITHDRAW"
     },
     {
       "id": "DEN-C19",
