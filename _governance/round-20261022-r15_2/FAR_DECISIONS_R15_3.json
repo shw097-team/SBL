@@ -1071,5 +1071,21 @@
       "E05"
     ],
     "pass2_repair": "pass 2 found the block still counted 24 and left two print-only actions in CLOSE_NOW_AGENT; those two are now CLOSED_BY_AGENT with action_closes=false and the mismatch disclosed rather than hidden"
+  },
+  "provenance": {
+    "lane_receipt": "receipts/dispatch/PLAN__FAR_R15_3_JSON.json",
+    "written_at_local": "09:40:15",
+    "attempt": {
+      "rank": 2,
+      "model": "gpt-6.1-sol",
+      "seconds": 474.97,
+      "exit": 0,
+      "nonce_present": true,
+      "nonce_source": "item.completed/agent_message",
+      "usage_status": 200,
+      "output_tokens": 16156
+    },
+    "stdout_sha256": "2fbcd4f0a6be00e70b71f8e3647c0e9f25ec2558e2e8f96dc4e3995f175fc900",
+    "disclosure": "(1) two dispatches of this brief: this one completed in 475s; a retry hit the 420s foreground cap and wrote no receipt, so it is not a second opinion. (2) the receipt's TOP-LEVEL nonce and secs are null while its attempt record has nonce_present=true and seconds=474.97, so it fails its own 'ok and nonce' greenness test although the turn served (TT-R15.3-TOPLEVEL-NONCE-NULL). (3) the audit therefore satisfied the PLAN lane's greenness with the 09:38 probe receipt, not with this one: the binding is real but weaker than a glance suggests."
   }
 }

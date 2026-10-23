@@ -1165,14 +1165,43 @@
       "why_it_matters": "the oracle cannot separate 'the probe wrote through' from 'someone else wrote'; a true write-through would be indistinguishable from this false positive",
       "repair_candidate": "snapshot the staged tree and HEAD (already asserted) and compare the *set difference* restricted to paths the probe could touch, or hold a lock for the duration",
       "owner_action": "none required to continue; a repair changes an existing oracle and belongs to its owner"
+    },
+    {
+      "tt_id": "TT-R15.3-TOPLEVEL-NONCE-NULL",
+      "kind": "CR",
+      "severity": "HIGH",
+      "status": "OPEN_MEASURED",
+      "subject": "the dispatcher's top-level receipt drops nonce and seconds, so a served turn fails its own greenness test",
+      "observed": {
+        "receipt": "receipts/dispatch/PLAN__FAR_R15_3_JSON.json (09:40:15 local)",
+        "top_level": {
+          "ok": true,
+          "nonce": null,
+          "secs": null
+        },
+        "attempt_inside_the_same_file": {
+          "nonce_present": true,
+          "seconds": 474.97,
+          "exit": 0,
+          "usage_status": 200,
+          "usage_receipt_ok": true
+        },
+        "consequence": "mandate_gate counts a receipt green only when ok and nonce, so this served, nonce-bearing, 16k-token adjudication was not green; the audit passed on the earlier 09:38 probe receipt instead",
+        "same_shape_seen": [
+          "VERIFY_SECURITY__CHALLENGE_R153.json: ok=false, nonce=false, nonce_present_raw_stdout=true"
+        ]
+      },
+      "why_it_matters": "a control that discards valid evidence is as dangerous as one that accepts invalid evidence",
+      "repair_candidate": "derive top-level nonce and secs from the attempt that was actually used, and fail the write when the top level disagrees with its own attempt record",
+      "not_done": "not patched here: hgk-lane-dispatch.py is a 2.4k-line control plane and a late-round edit needs its own tests"
     }
   ],
   "counts": {
-    "total": 50,
+    "total": 51,
     "by_status": {
       "null": 25,
       "OPEN_OWNER_STEP": 8,
-      "OPEN_MEASURED": 7,
+      "OPEN_MEASURED": 8,
       "REPAIR_IN_FLIGHT": 1,
       "RESOLVED_MEASURED": 7,
       "REPAIRED_DISCLOSED": 2
