@@ -552,7 +552,8 @@
       "evidence": [
         "FAR_DECISIONS_R15_3.json",
         "receipts/dispatch/PLAN__FAR_R15_3_JSON.json"
-      ]
+      ],
+      "lane_receipt_file": "receipts/dispatch/PLAN__FAR_R15_3_JSON.json"
     },
     {
       "id": "Q9.openspec_delta_C11",
@@ -566,14 +567,15 @@
       "expect": "3 passed, 0 failed",
       "evidence": [
         "openspec/changes/far-r12-20261021/specs/sbl-release-claims/spec.md"
-      ]
+      ],
+      "lane_receipt_file": "receipts/dispatch/EXECUTE__R153_WRITES.json"
     },
     {
       "id": "Q10.policy_designation_C02",
       "owner_class": "OWNER_STEP_EXECUTED",
       "status": "DONE",
       "denominator_ref": "C02 / W02",
-      "required_lane": "orchestrator (owner designation)",
+      "required_lane": "AGENT",
       "satisfiable_by": "owner standing order 2026-10-23",
       "next_action": "HG-KSEOS/config/active-policy.json binds the declaration digest; front door refuses absent/mismatched/stale designations (7 tests + live REFUSE/BOUND)",
       "resume_cmd": "cd /c/Projects/Agent_Workspace/HG-KSEOS && uv run --python 3.12 --with pytest --with aiohttp pytest -q tests/test_frontdoor_active_policy.py",
@@ -581,7 +583,8 @@
       "evidence": [
         "HG-KSEOS/config/active-policy.json",
         "HG-KSEOS/scripts/hgk-exec-model-frontdoor.py"
-      ]
+      ],
+      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator"
     },
     {
       "id": "Q11.tool_lifecycle_C20",
@@ -617,19 +620,20 @@
       "owner_class": "OWNER_STEP_EXECUTED",
       "status": "DONE",
       "denominator_ref": "C23 / W16",
-      "required_lane": "orchestrator (owner disposition)",
+      "required_lane": "AGENT",
       "satisfiable_by": "owner standing order 2026-10-23",
       "next_action": "ACCEPT_AS_CEILING recorded: no benefit demonstrable, B0 NOT_COMPARABLE; binds BENCH_AND_TOOLS_R15_2.json digest",
       "resume_cmd": "python -c \"import json;print(json.load(open(r'C:/Projects/Agent_Workspace/_r152_ev/_governance/round-20261022-r15_2/BENCH_DISPOSITION_R15_3.json',encoding='utf-8'))['evidence_digest'])\"",
       "expect": "a sha256",
       "evidence": [
         "BENCH_DISPOSITION_R15_3.json"
-      ]
+      ],
+      "note": "no lane involved: an owner designation under the standing order, recorded by the orchestrator"
     },
     {
       "id": "Q14.challenge_pass1",
       "owner_class": "AGENT",
-      "status": "DONE",
+      "status": "DONE_RECEIPT_RED",
       "denominator_ref": "C05 / W04",
       "required_lane": "VERIFY_SECURITY",
       "satisfiable_by": "VERIFY lane (rank 2, gpt-6.1-sol) — a different model than EXECUTE",
@@ -638,7 +642,9 @@
       "expect": "FAIL",
       "evidence": [
         "workers/verify_r153/CHALLENGE_PASS1.json"
-      ]
+      ],
+      "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153.json",
+      "note": "the challenge ran and returned FAIL, but its receipt is ok=false because the model put the nonce in an agent_message the parser did not read as its own line (nonce_present_raw_stdout=true). The item is complete; the lane evidence is red. It is not marked DONE because a DONE item asserts green lane evidence and this one does not have it."
     },
     {
       "id": "Q15.challenge_pass2",
@@ -652,7 +658,8 @@
       "expect": "FAIL",
       "evidence": [
         "workers/verify_r153/CHALLENGE_PASS2.json"
-      ]
+      ],
+      "lane_receipt_file": "receipts/dispatch/VERIFY_SECURITY__CHALLENGE_R153_PASS2.json"
     }
   ],
   "runs": [
@@ -887,9 +894,10 @@
     }
   },
   "counts": {
-    "DONE": 30,
+    "DONE": 29,
     "PARKED": 2,
-    "PARTIAL": 2
+    "PARTIAL": 2,
+    "DONE_RECEIPT_RED": 1
   },
   "updated_at": "2026-10-23T02:28:05+00:00",
   "contention_note": "an owner-authorised session rebound the lane declaration, pool and AGENTS.md at 2026-10-23T10:01:12 local while this round was dispatching. Authorised and normal; the round re-probed the arms instead of treating it as a fault (TT-R15.3-AUTHORISED-CONCURRENT-REBIND)."
