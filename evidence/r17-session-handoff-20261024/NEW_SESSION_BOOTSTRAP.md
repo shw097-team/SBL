@@ -5,7 +5,7 @@ Read these in order. Each step has a pass/fail you can check mechanically.
 ## Step 1 — load the machine truth
 
 ```bash
-cd <WORKSPACE>/var/R17-20261023
+cd C:/Projects/Agent_Workspace/var/R17-20261023
 python -c "import json;d=json.load(open('HANDOFF/SESSION_STATE_R17.json'));print(d['handoff_id'],d['queue']['rows'],d['queue']['conservation'])"
 ```
 
