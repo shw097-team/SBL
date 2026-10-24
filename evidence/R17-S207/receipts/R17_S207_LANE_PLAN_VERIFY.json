@@ -1,0 +1,107 @@
+{
+ "schema": "R17_S207_LANE_PLAN_VERIFY/1",
+ "generated_local": "2026-10-24T20:38:30+08:00",
+ "codex_binary": {
+  "path": "C:\\Users\\user\\AppData\\Local\\OpenAI\\Codex\\bin\\8925276705115dea\\codex.exe",
+  "sha256": "c6144bc19b2705f25a40d8488b3d57d17a223c5df3c5f65e3c58d72601956c1e"
+ },
+ "plan": {
+  "home": "C:\\Users\\user\\AppData\\Local\\Temp\\s207plan_home",
+  "exit_ok": true,
+  "nonce_echoed": true,
+  "usage": {
+   "input_tokens": 7698,
+   "cached_input_tokens": 0,
+   "cache_write_input_tokens": 0,
+   "output_tokens": 26,
+   "reasoning_output_tokens": 0
+  },
+  "raw": {
+   "bytes": 610,
+   "sha256": "479ab6ed4a783841d98014f13dffe519e6e4bebf607e1e37b16ce1b9acd7b517",
+   "turns_completed": 1,
+   "error": null
+  },
+  "rollout": {
+   "model": [
+    "gpt-6.1-sol"
+   ],
+   "model_provider": [
+    "hgk_relay"
+   ],
+   "rollout": [
+    "rollout-2026-10-24T20-36-53-01a16de9-fcf5-7cf1-99a5-eec5e43baacc.jsonl"
+   ]
+  }
+ },
+ "verify": {
+  "home": "C:\\Users\\user\\AppData\\Local\\Temp\\s207verify_home",
+  "exit_ok": true,
+  "nonce_echoed": true,
+  "usage": {
+   "input_tokens": 11038,
+   "cached_input_tokens": 0,
+   "cache_write_input_tokens": 0,
+   "output_tokens": 31,
+   "reasoning_output_tokens": 0
+  },
+  "raw": {
+   "bytes": 436,
+   "sha256": "b564169373aaa00708e36c4b455d7ef4b4924f3999ee6efaa55313e687cf6e53",
+   "turns_completed": 1,
+   "error": null
+  },
+  "rollout": {
+   "model": [
+    "gpt-6.1-sol"
+   ],
+   "model_provider": [
+    "hgk_relay"
+   ],
+   "rollout": [
+    "rollout-2026-10-24T20-37-55-01a16dea-ef30-7961-8795-2298df1113df.jsonl"
+   ]
+  }
+ },
+ "served_route": "hgk_relay (http://127.0.0.1:10101/v1, wire_api=responses)",
+ "relay_credential_probe": {
+  "bogus_bearer": {
+   "http": "200",
+   "stream_created": true,
+   "head": "event: response.created\ndata: {\"type\":\"response.created\",\"sequence_number\":0,\"safety_buffering\":false,\"response\":{\"id\":\"resp_0e1edf8bfaee4339016adca6c43c508191a"
+  },
+  "no_auth_header": {
+   "http": "200",
+   "stream_created": true,
+   "head": "event: response.created\ndata: {\"type\":\"response.created\",\"sequence_number\":0,\"safety_buffering\":false,\"response\":{\"id\":\"resp_0fcd62fc113e9f79016adca6c689bc81919"
+  }
+ },
+ "relay_serves_without_credential": true,
+ "sealed_oauth": {
+  "home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+  "auth_sha256": "fe71d47409fd7a78bae9ce742abab43c328bd2fb1cf852888d593fbe0e299bbf",
+  "claims": {
+   "access": {
+    "exp": 1792474873,
+    "iat": 1791610873,
+    "aud": [
+     "https://api.openai.com/v1"
+    ],
+    "iss": "https://auth.openai.com",
+    "exp_utc": "2026-10-20T05:41:13+00:00",
+    "expired": true,
+    "age_days": 4.3
+   },
+   "refresh": "UNDECODABLE"
+  },
+  "structure": [
+   "chatgpt"
+  ]
+ },
+ "sod": {
+  "distinct_checker_principal": false,
+  "why": "both turns were served by the same relay pool and the sealed OAuth credential is expired, so no second paying principal exists on this host"
+ },
+ "claim_ceiling": "LANE_TURNS_EXECUTED_RELAY_SERVED_NOT_OWNER_OAUTH",
+ "open_owner_action": "one interactive `codex` sign-in inside C:/Users/user/AppData/Local/HG-KSEOS/opencodex-hermes is the only legal way to restore owner-paid PLAN/VERIFY; this agent must not handle the token, and `codex login` exposes no device flow"
+}

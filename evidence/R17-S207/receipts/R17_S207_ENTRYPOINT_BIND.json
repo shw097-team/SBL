@@ -1,0 +1,129 @@
+{
+ "schema": "R17_S207_ENTRYPOINT_BIND/1",
+ "generated_local": "2026-10-24T20:33:49+08:00",
+ "job_id": "3602bce285e8",
+ "job_script": "r17_queue_runner.py",
+ "wrapper_path": "C:\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\scripts\\r17_queue_runner.py",
+ "wrapper_sha256": "5638ff66cab6a564afb95f542f9223dbf3b57e668095e6c42ca52d63b1ee208e",
+ "wrapper_references": [
+  "\"\"\"Cron entry point for the R17 queue runner: relays the runner's typed status and exit code honestly.",
+  "could not tell \"nothing legal to do\" from \"the runner is broken\". Now the child's exit code is the wrapper's exit",
+  "from __future__ import annotations",
+  "import json",
+  "import os",
+  "import subprocess",
+  "import sys",
+  "RUNNER = \"C:/Projects/Agent_Workspace/var/R17-20261023/tools/runner.py\"",
+  "proc = subprocess.run([sys.executable, RUNNER, \"--quiet\"], capture_output=True, text=True,",
+  "except subprocess.TimeoutExpired:",
+  "\"detail\": \"runner exceeded 840s (lease TTL is 900s)\"}))",
+  "print(f\"r17_queue_runner child_exit={proc.returncode} stderr={(proc.stderr or '')[-600:]}\")"
+ ],
+ "files": {
+  "tools/runner.py": {
+   "exists": true,
+   "sha256": "3522dfa6ff7de7a7eaeccddc5dd5a49764a89161d80619056f033622f4ed7615",
+   "bytes": 33436
+  },
+  "tools/advance.py": {
+   "exists": true,
+   "sha256": "337e67630663f12bdfebcaf4410e5b7f1963ed288a253d0b89070ab161ec8484",
+   "bytes": 19396
+  },
+  "tools/mission_runner.py": {
+   "exists": true,
+   "sha256": "284757887117f5941d2ff3ca39b96629eceb59aabe036692df7ec9de6d070a98",
+   "bytes": 23096
+  }
+ },
+ "runtime": {
+  "modules": {
+   "advance": {
+    "file": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\tools\\advance.py",
+    "sha256": "337e67630663f12bdfebcaf4410e5b7f1963ed288a253d0b89070ab161ec8484",
+    "names": [
+     "CARDS",
+     "LEDGER",
+     "PROBE_IDS",
+     "QUEUE",
+     "R17",
+     "active_workers",
+     "annotations",
+     "argparse",
+     "classify",
+     "datetime",
+     "decide",
+     "dispatch_allowed",
+     "external_facts",
+     "hashlib",
+     "input_digest",
+     "json",
+     "load",
+     "load_ledger",
+     "main",
+     "os",
+     "rg04_arm",
+     "subprocess",
+     "sys"
+    ]
+   },
+   "runner": {
+    "file": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\tools\\runner.py",
+    "sha256": "3522dfa6ff7de7a7eaeccddc5dd5a49764a89161d80619056f033622f4ed7615",
+    "names": [
+     "DEFAULT_HOME",
+     "DEFAULT_WORKDIR",
+     "DONE_CLASSES",
+     "EFFECT_CLASSES",
+     "EXIT",
+     "KNOWN_DECISIONS",
+     "LEASE_TTL",
+     "MAX_CARDS",
+     "MIN_CHILD_SECONDS",
+     "PENDING_CLAIM_STATES",
+     "READONLY_CLASSES",
+     "RECOMPUTE_TIMEOUT",
+     "REPOS",
+     "RUN_TIMEOUT",
+     "SAFETY_MARGIN",
+     "TOTAL_BUDGET",
+     "acquire",
+     "admit",
+     "annotations",
+     "append_journal",
+     "argparse",
+     "atomic_write_json",
+     "child_timeout",
+     "claim_path",
+     "class_of",
+     "cycle",
+     "datetime",
+     "envelope_changes",
+     "hashlib",
+     "is_parked",
+     "json",
+     "load_claims",
+     "main",
+     "native_admission_verified",
+     "next_fence",
+     "now",
+     "os",
+     "park_card",
+     "parse_snapshot",
+     "paths"
+    ]
+   }
+  },
+  "code_objects": {
+   "advance": {
+    "main": {
+     "sha_of_source": "fb49210357500f758ef37c87d02f158c0be33b9b11def6d721ce95b31439d058",
+     "mentions_ready0": true,
+     "mentions_cursor": true,
+     "lines": 85
+    }
+   },
+   "runner": {}
+  }
+ }
+}

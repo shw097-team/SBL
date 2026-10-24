@@ -1,0 +1,1936 @@
+{
+ "schema": "CAPC-PROMPT-CONTRACT/1",
+ "task_id": "SBL-R17-S2-07-HOST-HOTPATH-POSTSESSION-CONTAINMENT",
+ "source_scan": {
+  "required_source_families": [
+   "PIPD DOC-00..09",
+   "R15.1",
+   "R16",
+   "R17 command set (S1/S2-01/S2-02)",
+   "S2-07 command set",
+   "SBL DOC-00..13",
+   "local receipts under var/R17-20261023"
+  ],
+  "reviewed": [
+   {
+    "source_family": "R17 command set (S1/S2-01/S2-02)",
+    "source_id": "SRC-S204",
+    "locator": "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#0-9",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "SBL DOC-00..13",
+    "source_id": "SRC-SBL-DOC",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/SBL/SBL_PIPD-LS-PKG",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "PIPD DOC-00..09",
+    "source_id": "SRC-PIPD-DOC",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/SBL/SBL_PIPD-LS-PKG",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "R15.1",
+    "source_id": "SRC-R151",
+    "locator": "知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/SBL/SBL_HGK_FABRIC_PIPD_LS_PKG_R15_1_FULL_SUBSTANTIVE_INTEGRATED_REPAIR_REPLACEMENT_2026-10-22.md",
+    "sha256": "UNAVAILABLE",
+    "role": "NORMATIVE",
+    "critical": true
+   },
+   {
+    "source_family": "R16",
+    "source_id": "SRC-R16",
+    "locator": "var/R17-20261023/HANDOFF/SESSION_STATE_R17.json",
+    "sha256": "UNAVAILABLE",
+    "role": "SUPPORT",
+    "critical": false
+   },
+   {
+    "source_family": "local receipts under var/R17-20261023",
+    "source_id": "SRC-RECEIPTS",
+    "locator": "var/R17-20261023/receipts/HOST_JOB_RECEIPT_S203.json",
+    "sha256": "UNAVAILABLE",
+    "role": "SUPPORT",
+    "critical": false
+   },
+   {
+    "source_family": "S2-07 command set",
+    "source_id": "R17-S2-07",
+    "locator": "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md",
+    "sha256": "36becd39c9b887e6eb11820c7c9d382e075c76b1311dd3d5d6a2cb461a978859",
+    "role": "NORMATIVE",
+    "critical": true
+   }
+  ],
+  "missing": [],
+  "normative_claims": [
+   {
+    "claim_id": "NC-1",
+    "text": "the writer stays held until an enforcing sandbox denies an outside write",
+    "source_ids": [
+     "SRC-S204"
+    ],
+    "locators": [
+     "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G03"
+    ]
+   },
+   {
+    "claim_id": "NC-2",
+    "text": "a paused host job may not be self-enabled without owner authorisation",
+    "source_ids": [
+     "SRC-S204"
+    ],
+    "locators": [
+     "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+    ]
+   },
+   {
+    "claim_id": "NC-3",
+    "text": "a model pin or thread.started is not a completed turn",
+    "source_ids": [
+     "SRC-S204"
+    ],
+    "locators": [
+     "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G01"
+    ]
+   }
+  ]
+ },
+ "intent": {
+  "goal": "prove or refuse post-turn host dispatch, bind the real host hot path, keep the containment per-card, and stop mistaking a relay-served lane turn for owner OAuth",
+  "user_expected_outcome": "one measurable continuation claim with its ceiling, a per-card release list, and every remaining blocker named with its owner action",
+  "user_expected_experience": "the report states what was measured, by whom, and what was refused",
+  "explicit_constraints": [
+   "no bulk release of deferred cards",
+   "no owner credential handled by the agent",
+   "no second scheduler or ledger",
+   "relay-served turns are never reported as owner OAuth",
+   "writer hold survives until an OS positive control exists"
+  ],
+  "non_goals": [
+   "closing the mission",
+   "declaring FULL_PRODUCT_ACCEPTED",
+   "relaxing an assertion to make a card green"
+  ],
+  "authorized_mutations": [
+   "additive receipts under var/R17-20261023",
+   "candidate patches under candidate_diffs"
+  ],
+  "forbidden_mutations": [
+   "SBL/HG-KSEOS/Fabric/PIPD tracked files",
+   "another actor's untracked or dirty files",
+   "force push",
+   "editing a test oracle"
+  ],
+  "expected_autonomy": "HIGH",
+  "allowed_hitl": [
+   "host owner sandbox provisioning",
+   "fabric policy designation",
+   "credential rotation"
+  ],
+  "requested_delivery": [
+   "DEL-CAPC-CONTRACT",
+   "DEL-S204-READBACK"
+  ],
+  "active_requirement_ids": [
+   "REQ-POST-TURN-DISPATCH",
+   "REQ-HOTPATH-BIND",
+   "REQ-CONTAINMENT-PER-CARD",
+   "REQ-LANE-PAYER-ATTRIBUTION",
+   "REQ-SANDBOX-POSITIVE-CONTROL"
+  ],
+  "claim_ceiling": "LOCAL"
+ },
+ "authority": {
+  "sources": [
+   {
+    "id": "SRC-S202",
+    "rank": "R1",
+    "path": "R17 S2-02 command",
+    "sha256": "UNAVAILABLE",
+    "locator": "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#0-9",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-DISPATCH",
+    "rank": "R2",
+    "path": "HG-KSEOS/scripts/hgk-lane-dispatch.py",
+    "sha256": "UNAVAILABLE",
+    "locator": ":104-108,1190,2038-2117,2439",
+    "role": "NORMATIVE",
+    "governs": true
+   },
+   {
+    "id": "SRC-FAR",
+    "rank": "R3",
+    "path": "var/R17-20261023/receipts/FAR_S2_N9.json",
+    "sha256": "UNAVAILABLE",
+    "locator": "whole file",
+    "role": "SUPPORT",
+    "governs": false
+   },
+   {
+    "id": "R17-S2-07",
+    "rank": "2",
+    "path": "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md",
+    "sha256": "36becd39c9b887e6eb11820c7c9d382e075c76b1311dd3d5d6a2cb461a978859",
+    "locator": "#0",
+    "role": "NORMATIVE",
+    "governs": true
+   }
+  ],
+  "conflicts": [],
+  "missing_sources": [],
+  "native_control_plane_ids": [
+   "HG-KSEOS"
+  ],
+  "current_control_plane_id": "HG-KSEOS"
+ },
+ "changeset": {
+  "class": "CONTINUATION",
+  "baseline_required": true,
+  "baseline_verified": true,
+  "reuse_prior_pass": false,
+  "affected_domains": [
+   "host cron hot path",
+   "queue containment",
+   "lane payer attribution",
+   "os sandbox qualification"
+  ],
+  "affected_files": [
+   "var/R17-20261023/tools/advance.py",
+   "var/R17-20261023/tools/runner.py"
+  ],
+  "must_not_reopen": [
+   "S2-04 compiled contract bytes",
+   "frozen PI/PD",
+   "the 145 obligation denominator",
+   "another actor's dirty files"
+  ],
+  "scope_expansion_requires_hitl": true,
+  "tracked_mutation": false,
+  "product_mutation_allowed": false
+ },
+ "execution_scope": [
+  {
+   "capability": "CAPC_OFFICIAL_COMPILE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#2.4",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G00",
+    "知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py:1-105"
+   ],
+   "source_disposition": "official local compiler bundle present and self-tested",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "EXECUTE_PREEXEC_SANDBOX_GUARD",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G02",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#4.2",
+    "HG-KSEOS/scripts/hgk-lane-dispatch.py:104-108",
+    "HG-KSEOS/scripts/hgk-lane-dispatch.py:2038-2117",
+    "var/R17-20261023/receipts/FAR_S2_N9.json"
+   ],
+   "source_disposition": "post-hoc digest only; no pre-execution write-set barrier",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "EXECUTE_SANDBOX_MODE_ENFORCING",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G02",
+    "HG-KSEOS/scripts/hgk-lane-dispatch.py:108",
+    "var/R17-20261023/receipts/S2N9_NEG_ATTEMPTS.json",
+    "var/R17-20261023/HOLD_EXECUTE_WRITER.json"
+   ],
+   "source_disposition": "role default is danger-full-access; workspace-write produced no child (exit 124)",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "HGK_LANE_MODEL_ATTRIBUTION",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#4.1",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G03",
+    "var/R17-20261023/receipts/LANE_E2E_TURN2.json"
+   ],
+   "source_disposition": "served model reachable but the lane gate reports ERR_REQUIRED_ARM_NOT_SERVED",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "PIPD_CANONICAL_PROMOTION",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G05",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G06",
+    "var/R17-20261023/OWNER_REQUESTS_S2N9.json#OR-S2N9-06"
+   ],
+   "source_disposition": "candidate patches verified in isolation; canonical write needs a PIPD owner WorkOrder",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "GITHUB_SBL_DRAFT_PUBLISH",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G08",
+    "var/R17-20261023/OWNER_REQUESTS_S2N9.json"
+   ],
+   "source_disposition": "requires a trusted credential broker; no broker proven in-session",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "HOST_SUPERVISOR_CONTINUATION",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": true,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00",
+    "var/R17-20261023/receipts/HOST_JOB_RECEIPT_S203.json",
+    "var/R17-20261023/runner/journal.jsonl"
+   ],
+   "source_disposition": "job exists but state=paused with paused_reason=null; last three ticks IDLE_NO_READY",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "PLAN_OAUTH_PROVISIONING",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G01",
+    "var/R17-20261023/receipts/PLAN_USAGE_RECEIPT_S203.json",
+    "var/R17-20261023/lanes/PLAN_OAUTH_R17-PLAN-OAUTH-S203-1792823920.jsonl"
+   ],
+   "source_disposition": "thread.started then turn.failed: plan type is required; sealed auth expired 2026-10-20",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "VERIFY_DISTINCT_CHECKER",
+   "current_execution_disposition": "DEFERRED_SOURCE_BACKED",
+   "current_profile_selected": false,
+   "canonical_flow_referenced": false,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": false,
+   "action": "DEFER",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G02",
+    "SBL_PIPD-LS-PKG_DOC-09.md:1393"
+   ],
+   "source_disposition": "no second legal checker principal exists on this host yet",
+   "external_method": false,
+   "control_authority": false
+  },
+  {
+   "capability": "POST_TURN_HOST_DISPATCH",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A",
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#8.0"
+   ],
+   "source_disposition": "ACTIVE_REQUIRED",
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "HOTPATH_RUNTIME_BINDING",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#5.3"
+   ],
+   "source_disposition": "ACTIVE_REQUIRED",
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "CONTAINMENT_PER_CARD_RELEASE",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "source_disposition": "ACTIVE_REQUIRED",
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "LANE_PAYER_ATTRIBUTION",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#4.1"
+   ],
+   "source_disposition": "ACTIVE_REQUIRED",
+   "external_method": false,
+   "control_authority": true
+  },
+  {
+   "capability": "OS_SANDBOX_POSITIVE_CONTROL",
+   "current_execution_disposition": "ACTIVE_REQUIRED",
+   "current_profile_selected": true,
+   "canonical_flow_referenced": true,
+   "automatic_route_target": false,
+   "user_experience_required": false,
+   "runtime_required_now": true,
+   "action": "QUALIFY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "source_disposition": "ACTIVE_REQUIRED",
+   "external_method": false,
+   "control_authority": true
+  }
+ ],
+ "runtime_readiness": [
+  {
+   "capability": "CAPC_OFFICIAL_COMPILE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for CAPC_OFFICIAL_COMPILE"
+   ],
+   "acceptance_ids": [
+    "ACC-CAPC_OFFICIAL_COMPILE"
+   ]
+  },
+  {
+   "capability": "EXECUTE_PREEXEC_SANDBOX_GUARD",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "FAIL",
+    "discover": "PASS",
+    "bind": "FAIL",
+    "route": "FAIL",
+    "effective_load": "FAIL",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "FAIL",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for EXECUTE_PREEXEC_SANDBOX_GUARD"
+   ],
+   "acceptance_ids": [
+    "ACC-EXECUTE_PREEXEC_SANDBOX_GUARD"
+   ]
+  },
+  {
+   "capability": "EXECUTE_SANDBOX_MODE_ENFORCING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "FAIL",
+    "doctor_health": "FAIL",
+    "positive_pilot": "OPEN",
+    "negative_security": "FAIL",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for EXECUTE_SANDBOX_MODE_ENFORCING"
+   ],
+   "acceptance_ids": [
+    "ACC-EXECUTE_SANDBOX_MODE_ENFORCING"
+   ]
+  },
+  {
+   "capability": "HGK_LANE_MODEL_ATTRIBUTION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "OPEN",
+    "positive_pilot": "PASS",
+    "negative_security": "FAIL",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for HGK_LANE_MODEL_ATTRIBUTION"
+   ],
+   "acceptance_ids": [
+    "ACC-HGK_LANE_MODEL_ATTRIBUTION"
+   ]
+  },
+  {
+   "capability": "HOST_SUPERVISOR_CONTINUATION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "NOT_APPLICABLE_SOURCE_BACKED",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "FAIL",
+    "doctor_health": "OPEN",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for HOST_SUPERVISOR_CONTINUATION"
+   ],
+   "acceptance_ids": [
+    "ACC-HOST_SUPERVISOR_CONTINUATION"
+   ]
+  },
+  {
+   "capability": "PLAN_OAUTH_PROVISIONING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "FAIL",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "FAIL",
+    "doctor_health": "FAIL",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "close the open stages for PLAN_OAUTH_PROVISIONING"
+   ],
+   "acceptance_ids": [
+    "ACC-PLAN_OAUTH_PROVISIONING"
+   ]
+  },
+  {
+   "capability": "POST_TURN_HOST_DISPATCH",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "RUNTIME_READY",
+   "work_required": [
+    "keep the arm marker; read each new fire from the scheduler ledger"
+   ],
+   "acceptance_ids": [
+    "ACC-POST-TURN-DISPATCH"
+   ]
+  },
+  {
+   "capability": "HOTPATH_RUNTIME_BINDING",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "PASS",
+    "negative_security": "PASS",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "RUNTIME_READY",
+   "work_required": [
+    "keep the binding receipt; re-measure after any tool edit"
+   ],
+   "acceptance_ids": [
+    "ACC-HOTPATH-BIND"
+   ]
+  },
+  {
+   "capability": "CONTAINMENT_PER_CARD_RELEASE",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "one admission receipt per card before release"
+   ],
+   "acceptance_ids": [
+    "ACC-CONTAINMENT-PER-CARD"
+   ]
+  },
+  {
+   "capability": "LANE_PAYER_ATTRIBUTION",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "owner interactive sign-in in the sealed home"
+   ],
+   "acceptance_ids": [
+    "ACC-LANE-PAYER-ATTRIBUTION"
+   ]
+  },
+  {
+   "capability": "OS_SANDBOX_POSITIVE_CONTROL",
+   "required_now": true,
+   "lifecycle": {
+    "identify": "PASS",
+    "pin": "PASS",
+    "install_materialize": "NOT_APPLICABLE_SOURCE_BACKED",
+    "configure": "PASS",
+    "discover": "PASS",
+    "bind": "PASS",
+    "route": "PASS",
+    "effective_load": "PASS",
+    "doctor_health": "PASS",
+    "positive_pilot": "OPEN",
+    "negative_security": "OPEN",
+    "fallback": "PASS",
+    "rollback_uninstall": "PASS",
+    "independent_qualification": "OPEN",
+    "certify": "OPEN",
+    "enable": "OPEN"
+   },
+   "current_verdict": "NOT_READY",
+   "work_required": [
+    "a sandbox mode that executes a child AND denies an outside write"
+   ],
+   "acceptance_ids": [
+    "ACC-SANDBOX-POS-NEG"
+   ]
+  }
+ ],
+ "journeys": [
+  {
+   "journey_id": "J01_SAFE_RESUME",
+   "required": true,
+   "user_goal": "resume R17 without weakening the N9 hold",
+   "expected_visible_result": "a checkpoint plus an explicit list of legal next work",
+   "expected_automatic_behavior": [
+    "read HOLD",
+    "read queue",
+    "refuse writer dispatch"
+   ],
+   "expected_manual_behavior": [
+    "owner decides on sandbox provisioning"
+   ],
+   "allowed_hitl": [
+    "owner approval for sandbox profile"
+   ],
+   "required_capabilities": [
+    "EXECUTE_PREEXEC_SANDBOX_GUARD"
+   ],
+   "negative_behavior": [
+    "dispatch a writer under HOLD"
+   ],
+   "failure_recovery": [
+    "re-issue HOLD",
+    "record typed blocker"
+   ],
+   "source_expectation_ids": [
+    "REQ-N9-CONTAIN"
+   ],
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#9",
+    "var/R17-20261023/HOLD_EXECUTE_WRITER.json"
+   ]
+  },
+  {
+   "journey_id": "J02_NO_UNCONFINED_WRITE",
+   "required": true,
+   "user_goal": "no writer can reach a path outside its write-set",
+   "expected_visible_result": "a denied write with a raw canary hash before and after",
+   "expected_automatic_behavior": [
+    "refuse dangerous mode",
+    "deny outside path"
+   ],
+   "expected_manual_behavior": [
+    "host provisions an enforcing profile"
+   ],
+   "allowed_hitl": [
+    "host owner provisioning"
+   ],
+   "required_capabilities": [
+    "EXECUTE_SANDBOX_MODE_ENFORCING"
+   ],
+   "negative_behavior": [
+    "accept workspace-write name without a child"
+   ],
+   "failure_recovery": [
+    "SANDBOX_NOT_ENFORCED",
+    "keep HOLD"
+   ],
+   "source_expectation_ids": [
+    "REQ-N9-CONTAIN"
+   ],
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G02",
+    "var/R17-20261023/receipts/FAR_S2_N9.json"
+   ]
+  },
+  {
+   "journey_id": "J03_HOST_CONTINUATION",
+   "required": true,
+   "user_goal": "the mission continues without asking the user to say continue",
+   "expected_visible_result": "a second workunit receipt appears after an interim report",
+   "expected_automatic_behavior": [
+    "ack card A",
+    "recompute ready",
+    "dispatch card B"
+   ],
+   "expected_manual_behavior": [
+    "host owner authorises the job"
+   ],
+   "allowed_hitl": [
+    "host owner enable/disable"
+   ],
+   "required_capabilities": [
+    "HOST_SUPERVISOR_CONTINUATION"
+   ],
+   "negative_behavior": [
+    "report and stop while ready is non-zero"
+   ],
+   "failure_recovery": [
+    "typed HOST_CONTINUATION_FAIL",
+    "keep mission open"
+   ],
+   "source_expectation_ids": [
+    "REQ-HOST-CONTINUATION"
+   ],
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00",
+    "var/R17-20261023/runner/journal.jsonl"
+   ]
+  },
+  {
+   "journey_id": "J04_POST_TURN_WAKE",
+   "required": true,
+   "user_goal": "work moves while nobody is chatting",
+   "expected_visible_result": "a dispatched card with a fire time outside every agent turn",
+   "expected_automatic_behavior": [
+    "scheduler fires",
+    "driver gates to the allowlist",
+    "card runs"
+   ],
+   "expected_manual_behavior": [
+    "owner deletes the arm marker when done"
+   ],
+   "allowed_hitl": [
+    "owner approval to widen the allowlist"
+   ],
+   "required_capabilities": [
+    "POST_TURN_HOST_DISPATCH"
+   ],
+   "negative_behavior": [
+    "absence of a fire reported as continuity"
+   ],
+   "failure_recovery": [
+    "HOST_POST_SESSION_FAIL + FAR",
+    "re-arm a fresh card"
+   ],
+   "source_expectation_ids": [
+    "REQ-POST-TURN-DISPATCH"
+   ],
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0"
+   ]
+  },
+  {
+   "journey_id": "J05_CONTAINMENT_RELEASE",
+   "required": true,
+   "user_goal": "deferred cards return one by one, with a reason each",
+   "expected_visible_result": "a per-card admission record",
+   "expected_automatic_behavior": [
+    "classify",
+    "refuse effect classes without a permit"
+   ],
+   "expected_manual_behavior": [
+    "owner grants a native permit for an effect card"
+   ],
+   "allowed_hitl": [
+    "per-card admission"
+   ],
+   "required_capabilities": [
+    "CONTAINMENT_PER_CARD_RELEASE"
+   ],
+   "negative_behavior": [
+    "deleting the arm marker to release everything at once"
+   ],
+   "failure_recovery": [
+    "re-arm the marker",
+    "re-run the containment receipt"
+   ],
+   "source_expectation_ids": [
+    "REQ-CONTAINMENT-PER-CARD"
+   ],
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ]
+  }
+ ],
+ "acceptance": [
+  {
+   "acceptance_id": "ACC-CAPC_OFFICIAL_COMPILE",
+   "subject_id": "CAPC_OFFICIAL_COMPILE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "contract passes lint/activation/acceptance/compile",
+   "negative_fixture": "prose input is refused",
+   "recovery_fixture": "contract removed, compiler re-run clean",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-EXECUTE_PREEXEC_SANDBOX_GUARD",
+   "subject_id": "EXECUTE_PREEXEC_SANDBOX_GUARD",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "in-writeset write lands",
+   "negative_fixture": "outside-canary write is DENIED with no file",
+   "recovery_fixture": "guard disabled leaves HOLD",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-EXECUTE_SANDBOX_MODE_ENFORCING",
+   "subject_id": "EXECUTE_SANDBOX_MODE_ENFORCING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "approved mode starts a child",
+   "negative_fixture": "danger-full-access is refused",
+   "recovery_fixture": "unknown mode fails qualification",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-HGK_LANE_MODEL_ATTRIBUTION",
+   "subject_id": "HGK_LANE_MODEL_ATTRIBUTION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "required==served model with usage row",
+   "negative_fixture": "wrong model or missing nonce is refused",
+   "recovery_fixture": "relay down yields typed RELAY_DOWN",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J01_SAFE_RESUME",
+   "subject_id": "J01_SAFE_RESUME",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "session resumes with HOLD intact",
+   "negative_fixture": "resume with writer blocked is refused",
+   "recovery_fixture": "checkpoint rehydrates",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J02_NO_UNCONFINED_WRITE",
+   "subject_id": "J02_NO_UNCONFINED_WRITE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "bounded write inside writeset",
+   "negative_fixture": "write outside writeset denied",
+   "recovery_fixture": "rollback leaves no artefact",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-N9-CONTAIN",
+   "subject_id": "REQ-N9-CONTAIN",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "HOLD file present and honoured",
+   "negative_fixture": "dispatch attempted under HOLD is refused",
+   "recovery_fixture": "HOLD re-issued",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-CAPC-COMPILE",
+   "subject_id": "REQ-CAPC-COMPILE",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "compile verdict recorded",
+   "negative_fixture": "prose cannot pass",
+   "recovery_fixture": "blocked verdict restored",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL-CAPC-CONTRACT",
+   "subject_id": "DEL-CAPC-CONTRACT",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#8",
+    "attachments/R17 S2-02｜既有 HGK 車道複用、Codex 執行前隔離修復、持久任務接續與全產品 Native 驗收指揮令.md#G09"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "contract json present with hash",
+   "negative_fixture": "hash mismatch is refused",
+   "recovery_fixture": "file regenerated by tool",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-HOST_SUPERVISOR_CONTINUATION",
+   "subject_id": "HOST_SUPERVISOR_CONTINUATION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "after an interim report the host tick dispatches a different workunit with its own raw",
+   "negative_fixture": "a paused job or an invalid owner must not be self-enabled, and no second dispatcher may exist",
+   "recovery_fixture": "lease cancelled mid-card: no replay, state preserved",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-PLAN_OAUTH_PROVISIONING",
+   "subject_id": "PLAN_OAUTH_PROVISIONING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "an official login yields a turn.completed with non-zero usage",
+   "negative_fixture": "a hand-edited planType or an expired token must stay refused",
+   "recovery_fixture": "re-login restores the lane without touching other homes",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J03_HOST_CONTINUATION",
+   "subject_id": "J03_HOST_CONTINUATION",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L5_REAL_LIFECYCLE_SIDE_EFFECT",
+   "positive_fixture": "card A then card B without user prompting",
+   "negative_fixture": "report-only exit is a failure",
+   "recovery_fixture": "host restart resumes from checkpoint",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-HOST-CONTINUATION",
+   "subject_id": "REQ-HOST-CONTINUATION",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "ready_safe>0 implies dispatch",
+   "negative_fixture": "ready_safe>0 with zero workers and a report is a fail",
+   "recovery_fixture": "recompute ready after every ack",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-PLAN-OAUTH",
+   "subject_id": "REQ-PLAN-OAUTH",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L4_FAILURE_RECOVERY",
+   "positive_fixture": "usage recorded from turn.completed",
+   "negative_fixture": "turn.failed is never recorded as zero tokens",
+   "recovery_fixture": "lane parked with a typed blocker",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-DEL-S204-READBACK",
+   "subject_id": "DEL-S204-READBACK",
+   "subject_type": "DELIVERABLE",
+   "source_locators": [
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#8",
+    "attachments/SBL_R17_S2_04_HOST_CONTINUATION_AUTH_REPAIR_NATIVE_RESUME_COMMAND_2026-10-24.md#G00"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "before/after host job readback plus card B raw",
+   "negative_fixture": "a claim without the second card raw is refused",
+   "recovery_fixture": "artefacts regenerated by tooling",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-POST-TURN-DISPATCH",
+   "subject_id": "POST_TURN_HOST_DISPATCH",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "a fire outside every agent turn dispatches a card and leaves its raw artefact",
+   "negative_fixture": "a fire inside an agent turn is not counted",
+   "recovery_fixture": "session truly closed: the count stays 0 until a later readback",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-HOTPATH-BIND",
+   "subject_id": "HOTPATH_RUNTIME_BINDING",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#5.3"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "runtime import resolves the same file and sha the fix was applied to",
+   "negative_fixture": "a fix in an unimported sibling module never counts",
+   "recovery_fixture": "re-bind after any edit; a mismatch blocks all further patches",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-CONTAINMENT-PER-CARD",
+   "subject_id": "CONTAINMENT_PER_CARD_RELEASE",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "each gated card carries class, reason and admission path",
+   "negative_fixture": "bulk release without per-card admission is refused",
+   "recovery_fixture": "delete the marker and the prior ready set returns unchanged",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-LANE-PAYER-ATTRIBUTION",
+   "subject_id": "LANE_PAYER_ATTRIBUTION",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#4.1"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "a lane turn is attributed to the payer that served it",
+   "negative_fixture": "a relay that answers without a credential cannot be reported as owner OAuth",
+   "recovery_fixture": "re-run on owner sign-in and re-attribute",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-SANDBOX-POS-NEG",
+   "subject_id": "OS_SANDBOX_POSITIVE_CONTROL",
+   "subject_type": "CAPABILITY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "pos: a child process runs inside the workspace",
+   "negative_fixture": "neg: the same child cannot write outside it",
+   "recovery_fixture": "no positive control -> hold stays",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-POST-TURN-DISPATCH",
+   "subject_id": "REQ-POST-TURN-DISPATCH",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the requirement's own positive fixture produces its raw receipt",
+   "negative_fixture": "a family-level claim does not close a per-id requirement",
+   "recovery_fixture": "re-run the per-id probe after any source or tool change",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-HOTPATH-BIND",
+   "subject_id": "REQ-HOTPATH-BIND",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the requirement's own positive fixture produces its raw receipt",
+   "negative_fixture": "a family-level claim does not close a per-id requirement",
+   "recovery_fixture": "re-run the per-id probe after any source or tool change",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-CONTAINMENT-PER-CARD",
+   "subject_id": "REQ-CONTAINMENT-PER-CARD",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the requirement's own positive fixture produces its raw receipt",
+   "negative_fixture": "a family-level claim does not close a per-id requirement",
+   "recovery_fixture": "re-run the per-id probe after any source or tool change",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-LANE-PAYER-ATTRIBUTION",
+   "subject_id": "REQ-LANE-PAYER-ATTRIBUTION",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the requirement's own positive fixture produces its raw receipt",
+   "negative_fixture": "a family-level claim does not close a per-id requirement",
+   "recovery_fixture": "re-run the per-id probe after any source or tool change",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-REQ-SANDBOX-POSITIVE-CONTROL",
+   "subject_id": "REQ-SANDBOX-POSITIVE-CONTROL",
+   "subject_type": "REQUIREMENT",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0A"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the requirement's own positive fixture produces its raw receipt",
+   "negative_fixture": "a family-level claim does not close a per-id requirement",
+   "recovery_fixture": "re-run the per-id probe after any source or tool change",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J04_POST_TURN_WAKE",
+   "subject_id": "J04_POST_TURN_WAKE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the journey completes end to end with its visible artefact",
+   "negative_fixture": "a partial path reported as the journey is refused",
+   "recovery_fixture": "re-run the journey from a fresh checkpoint",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  },
+  {
+   "acceptance_id": "ACC-J05_CONTAINMENT_RELEASE",
+   "subject_id": "J05_CONTAINMENT_RELEASE",
+   "subject_type": "JOURNEY",
+   "source_locators": [
+    "attachments/SBL × HG-KSEOS × Fabric × PIPD｜R17 S2-07 真 Host 熱路徑核驗・跨 Session 收據回讀・全量 Native 持久續工指揮令.md#6.0"
+   ],
+   "runtime_required": true,
+   "required_depth": "L3_INTEGRATION_RUNTIME",
+   "positive_fixture": "the journey completes end to end with its visible artefact",
+   "negative_fixture": "a partial path reported as the journey is refused",
+   "recovery_fixture": "re-run the journey from a fresh checkpoint",
+   "raw_evidence_required": true,
+   "independent_checker_required": true,
+   "terminal_states": [
+    "INDEPENDENT_CASE_PASS",
+    "INDEPENDENT_CASE_FAIL",
+    "BLOCKED_EXTERNAL"
+   ]
+  }
+ ],
+ "evidence": [
+  {
+   "gate_id": "G-CAPC-1",
+   "predicate": "official compiler runs the six subcommands on the contract",
+   "expected": "PROMPT_COMPILE_PASS or a typed blocker",
+   "command_or_probe": "prompt_contract_compiler.py lint|activation|acceptance|compile|duplication|hash",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "compiler sha change",
+    "contract change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-N9-MODE",
+   "predicate": "an unqualified sandbox mode is refused before execution",
+   "expected": "dispatch refused, no child",
+   "command_or_probe": "dispatch --sandbox <mode> with canary",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "dispatch sha change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-N9-CANARY",
+   "predicate": "an outside-writeset write is denied with no file",
+   "expected": "DENIED and canary hash unchanged",
+   "command_or_probe": "n9_canary brief with outside path",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "sandbox profile change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-LANE-ATTR",
+   "predicate": "required model equals served model with a usage row and nonce",
+   "expected": "attributed lane receipt",
+   "command_or_probe": "hgk-lane-dispatch with fixed brief and nonce",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "registry epoch change",
+    "relay change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-145",
+   "predicate": "the 145 main ids stay conserved and no row is promoted without receipts",
+   "expected": "146 rows = 145 main + 1 canary; promotions this round = 0",
+   "command_or_probe": "python var/R17-20261023/tools/s2n9_close_turn.py",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "queue change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-TODO-OPEN",
+   "predicate": "the mission todo stays open across a checkpoint boundary",
+   "expected": "OPEN after checkpoint, report, and compaction",
+   "command_or_probe": "todo_list call log",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "full",
+   "invalidation": [
+    "todo tool ABI change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "H01",
+   "predicate": "a different workunit is dispatched after an interim report",
+   "expected": "INDEPENDENT_CASE_PASS",
+   "command_or_probe": "host tick log + card_B_raw",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "host job state change",
+    "contract change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "H02",
+   "predicate": "a paused job with no owner auth is not self-enabled",
+   "expected": "INDEPENDENT_CASE_PASS",
+   "command_or_probe": "job json state + refusal receipt",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "host job state change",
+    "contract change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "A01",
+   "predicate": "an official login produces turn.completed with non-zero usage",
+   "expected": "INDEPENDENT_CASE_PASS",
+   "command_or_probe": "codex exec --json read-only probe",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "host job state change",
+    "contract change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "A02",
+   "predicate": "a hand-edited planType or an expired token stays refused",
+   "expected": "INDEPENDENT_CASE_PASS",
+   "command_or_probe": "two-probe discrimination receipt",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+    "source_hashes": [
+     "host_job:3182d0ab9f99ae60615690c13724bc1b4f15876e56e86fb215d2765744d32c32",
+     "plan_receipt:b4c6e1bbacc29e213605c88a1d811c55b9440bf7f262b47521d029fc92e4d860"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "host job state change",
+    "contract change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S207-1",
+   "predicate": "post-turn fire exists on the scheduler ledger",
+   "expected": "fire row + journal cycle + card artefact",
+   "command_or_probe": "receipts/R17_S207_POSTSESSION.json",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal (not available on this host)",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "source_hashes": [
+     "G-S207-1:2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "tool sha change",
+    "queue change",
+    "job definition change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S207-2",
+   "predicate": "hot path bound by runtime import",
+   "expected": "module __file__ + sha equal to disk",
+   "command_or_probe": "receipts/R17_S207_ENTRYPOINT_BIND.json",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal (not available on this host)",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "source_hashes": [
+     "G-S207-2:2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "tool sha change",
+    "queue change",
+    "job definition change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S207-3",
+   "predicate": "containment holds per card",
+   "expected": "gated 14, dispatchable 0, effect-capable 0",
+   "command_or_probe": "receipts/R17_S207_CONTAINMENT.json",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal (not available on this host)",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "source_hashes": [
+     "G-S207-3:2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "tool sha change",
+    "queue change",
+    "job definition change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S207-4",
+   "predicate": "lane turns attributed to payer",
+   "expected": "relay accepts a bogus bearer",
+   "command_or_probe": "receipts/R17_S207_LANE_PLAN_VERIFY.json",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal (not available on this host)",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "source_hashes": [
+     "G-S207-4:2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "tool sha change",
+    "queue change",
+    "job definition change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  },
+  {
+   "gate_id": "G-S207-5",
+   "predicate": "sandbox has a positive control",
+   "expected": "child executes and outside write denied",
+   "command_or_probe": "receipts/R17_S207_SANDBOX.json",
+   "raw_receipt_required": true,
+   "producer": "hermes-agent (maker)",
+   "independent_checker": "distinct checker principal (not available on this host)",
+   "candidate_binding": {
+    "head": "086a940",
+    "package_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+    "source_hashes": [
+     "G-S207-5:2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9"
+    ]
+   },
+   "tracked_subject": false,
+   "rerun_rule": "affected-only",
+   "invalidation": [
+    "tool sha change",
+    "queue change",
+    "job definition change"
+   ],
+   "terminal_verdict": "INDEPENDENT_CASE_PASS",
+   "runtime_pass_allowed": false,
+   "claim_level": "LOCAL"
+  }
+ ],
+ "termination": {
+  "terminal_states": [
+   "FULL_PRODUCT_ACCEPTED",
+   "CANCELLED_BY_OWNER"
+  ],
+  "non_terminal_pause": [
+   "ACTIVE_BUILD",
+   "CONTAINMENT_HELD_PER_CARD",
+   "DURABLE_WAIT_EXTERNAL",
+   "POST_TURN_DISPATCH_UNVERIFIED",
+   "SAFETY_HOLD_AFFECTED",
+   "SESSION_CHECKPOINTED_NOT_AUTONOMOUS"
+  ],
+  "checkpoint_required": true,
+  "checkpoint_fields": [
+   "completed_gates",
+   "current_candidate",
+   "hotpath_module_sha",
+   "next_work_order",
+   "open_gates",
+   "post_turn_fire_id",
+   "rollback_pointer",
+   "source_hashes",
+   "task_id"
+  ],
+  "retry_budget": 2,
+  "rollback_pointer_required": true
+ },
+ "render_policy": {
+  "control_corpus_restatement": false,
+  "embedded_control_bodies": [],
+  "max_prompt_chars": 24000,
+  "output_language": "zh-TW"
+ }
+}
