@@ -1,0 +1,124 @@
+{
+  "schema": "THREE_KINDS_LIFECYCLE.v1",
+  "order": "REC08_F3D",
+  "root": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\products\\three_kinds",
+  "intents": [
+    {
+      "id": "sbl_line_measure",
+      "kind": "CLI_TOOL",
+      "fuo": "`sbl-line-measure --json FILE` prints lines/words/chars as JSON and exits 2 with a typed code when the file is absent",
+      "source_clause": "SBL_PIPD-LS-PKG_DOC-02:L214"
+    },
+    {
+      "id": "sbl_release_checklist",
+      "kind": "AGENT_SKILL",
+      "fuo": "asking to 'prepare a release checklist from CHANGELOG.md' produces grouped checklist lines, one per input entry, with unknowns marked UNKNOWN",
+      "source_clause": "SBL_PIPD-LS-PKG_DOC-12:L481"
+    },
+    {
+      "id": "sbl_readonly_audit",
+      "kind": "SIMPLE_AGENT",
+      "fuo": "a plan of read/list steps yields a receipt with per-step verdicts; a write step is DENIED and stops the run",
+      "source_clause": "SBL_PIPD-LS-PKG_DOC-05:L902"
+    }
+  ],
+  "total": 17,
+  "passed": 17,
+  "results": [
+    {
+      "label": "three intents are distinct and in V0.1 scope",
+      "verdict": "PASS",
+      "detail": "CLI_TOOL:sbl_line_measure,AGENT_SKILL:sbl_release_checklist,SIMPLE_AGENT:sbl_readonly_audit"
+    },
+    {
+      "label": "CLI built (pyproject+entrypoint)",
+      "verdict": "PASS",
+      "detail": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\products\\three_kinds\\cli\\build\\sbl-line-measure"
+    },
+    {
+      "label": "CLI install",
+      "verdict": "PASS",
+      "detail": [
+        "sbl_line_measure-0.1.0.dist-info"
+      ]
+    },
+    {
+      "label": "CLI --help",
+      "verdict": "PASS",
+      "detail": "exit=0"
+    },
+    {
+      "label": "CLI invoke POS json FUO",
+      "verdict": "PASS",
+      "detail": "{\"lines\": 2, \"words\": 3, \"chars\": 17, \"ok\": true}"
+    },
+    {
+      "label": "CLI NEG missing input typed nonzero",
+      "verdict": "PASS",
+      "detail": "exit=2 code=INPUT_NOT_FOUND"
+    },
+    {
+      "label": "CLI uninstall no residue",
+      "verdict": "PASS",
+      "detail": "residue=False"
+    },
+    {
+      "label": "SKILL install discovered",
+      "verdict": "PASS",
+      "detail": "sbl-release-checklist"
+    },
+    {
+      "label": "SKILL trigger POS",
+      "verdict": "PASS",
+      "detail": "['prepare a release checklist', 'release checklist from changelog']"
+    },
+    {
+      "label": "SKILL nontrigger NEG",
+      "verdict": "PASS",
+      "detail": "ordinary query must not trigger"
+    },
+    {
+      "label": "SKILL procedure + machine contract present",
+      "verdict": "PASS",
+      "detail": "steps=True contract=True"
+    },
+    {
+      "label": "SKILL uninstall no residue",
+      "verdict": "PASS",
+      "detail": "residue=False"
+    },
+    {
+      "label": "AGENT install with allowlist+stop policy",
+      "verdict": "PASS",
+      "detail": "['read_file', 'list_dir']"
+    },
+    {
+      "label": "AGENT POS bounded run",
+      "verdict": "PASS",
+      "detail": "{\"ok\": true, \"stopped\": false, \"stop_code\": null, \"steps\": [{\"step\": 0, \"tool\": \"list_dir\", \"verdict\": \"OK\", \"bytes\": 1}, {\"step\": 1, \"tool\": \"read_file\", \"verdict\": \"OK\", \"bytes\": 5}], \"allowed\": [\"l"
+    },
+    {
+      "label": "AGENT NEG write denied and stopped",
+      "verdict": "PASS",
+      "detail": "{\"exit\": 3, \"stop\": \"STOP_DENIED_TOOL\", \"denied\": \"TOOL_NOT_IN_ALLOWLIST\", \"file_created\": false}"
+    },
+    {
+      "label": "AGENT stop policy caps steps",
+      "verdict": "PASS",
+      "detail": "STOP_STEP_BUDGET"
+    },
+    {
+      "label": "AGENT uninstall no residue",
+      "verdict": "PASS",
+      "detail": "residue=False"
+    }
+  ],
+  "claim_ceiling": "CANDIDATE_TESTED",
+  "not_claimed": [
+    "NATIVE_EFFECT_VERIFIED",
+    "HOST_UAT",
+    "INDEPENDENT_PASS",
+    "RELEASED"
+  ],
+  "finished": "2026-10-24T08:08:29+0800"
+}
