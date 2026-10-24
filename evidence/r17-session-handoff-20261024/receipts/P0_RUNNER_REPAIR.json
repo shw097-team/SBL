@@ -1,0 +1,119 @@
+{
+  "schema": "r17.rec09.p0.runner_repair.v1",
+  "at": "2026-10-24T10:28:18+0800",
+  "mission": "R17_FULL_NATIVE_IMPLEMENTATION",
+  "order": "REC09_FULL_MISSION_ANTI_STOP_2026-10-24",
+  "artefacts": {
+    "runner": {
+      "path": "<WORKSPACE>\\var\\R17-20261023\\tools\\mission_runner.py",
+      "sha256": "9facca1c554a2368cf50c8205c2bc7de113e068565f67fe135c187715fb60c74",
+      "bytes": 21847
+    },
+    "controls": {
+      "path": "<WORKSPACE>\\var\\R17-20261023\\receipts\\P0_RUNNER_CONTROLS.log",
+      "sha256": "db2b3bbb3f495998b0997e133b2643347464fda496bcef728c5aded73478b35e",
+      "passed": 28,
+      "total": 28,
+      "exit": 0
+    }
+  },
+  "defects_repaired": [
+    {
+      "id": "D1",
+      "defect": "queue[:max] starves the tail",
+      "control": "N02",
+      "note": "persisted rotating cursor; 30/30 rows reachable"
+    },
+    {
+      "id": "D2",
+      "defect": "PROBE_* laundered into ADVANCED",
+      "control": "N03",
+      "note": "coverage_only=True, obligation_closed=False by construction"
+    },
+    {
+      "id": "D3",
+      "defect": "owner-only rows mixed into the agent drain",
+      "control": "N04",
+      "note": "OWNER_ONLY_ISOLATED, excluded from every batch"
+    },
+    {
+      "id": "D4",
+      "defect": "one journal per batch",
+      "control": "N05",
+      "note": "per-card atomic receipt + per-card ledger count"
+    },
+    {
+      "id": "D5",
+      "defect": "shell=True on queue text",
+      "control": "N06",
+      "note": "argv + shell=False; grammar outside quotes refused; writeset escape refused"
+    },
+    {
+      "id": "D6",
+      "defect": "return 0 read as mission PASS",
+      "control": "N07/N01",
+      "note": "typed exits; can_terminate() returns ERR_PREMATURE_REPORT_AND_STOP"
+    },
+    {
+      "id": "D7",
+      "defect": "DONE_DOC_RED/DONE_NOFIT read as DONE",
+      "control": "N08",
+      "note": "typed NOT_PRODUCT_DONE hold, never Product DONE"
+    },
+    {
+      "id": "D8",
+      "defect": "selector hid NOT_RUN rows (found while measuring this round)",
+      "control": "N14/N13",
+      "note": "NOT_RUN is re-armable; every row lands in one of five buckets (conservation)"
+    },
+    {
+      "id": "D9",
+      "defect": "phantom command in the action column",
+      "control": "N15",
+      "note": "ERR_ACTION_NOT_A_COMMAND, exit 12, never executed"
+    }
+  ],
+  "selector_measurement": {
+    "pre_fix_ready_reproduced": 6,
+    "hidden_not_run_rows": 72,
+    "post_fix_eligible_ready": 52,
+    "rows": 146,
+    "conservation": {
+      "counted": 146,
+      "rows": 146,
+      "ok": true
+    },
+    "buckets": {
+      "owner_only": 41,
+      "closed": 8,
+      "holds": 3,
+      "blocked": 42
+    }
+  },
+  "dispatch_this_round": {
+    "units_with_receipts": 56,
+    "status_tally": {
+      "RUNNER_FAILED": 51,
+      "MISSING_RUNNER": 2,
+      "ERR_ACTION_NOT_A_COMMAND": 2,
+      "DISPATCH_OK": 1
+    },
+    "dispatch_ok": [
+      "W00"
+    ],
+    "probe_unbound_count": 51,
+    "phantom_command_rows": [
+      "R16-F07",
+      "R16-F14"
+    ]
+  },
+  "claim_ceiling": "LOCAL_RUNNER_REPAIRED_AND_MEASURED",
+  "not_claimed": [
+    "FULL_PRODUCT_ACCEPTED",
+    "NATIVE_EFFECT_VERIFIED",
+    "INDEPENDENT_PASS",
+    "HOST_UAT",
+    "RELEASED"
+  ],
+  "next_legal_action": "close the instrumentation gaps the drain exposed: add real probes for the R14-TS/R14-CHK/DEST/DEL rows and replace the four prose labels with commands"
+}
