@@ -1,0 +1,493 @@
+{
+  "schema": "r17.rec09.unbound_classification.v1",
+  "at": "2026-10-24T10:30:58+0800",
+  "units_seen": 56,
+  "dead_dispatches": 53,
+  "tally": {
+    "OWNER_ONLY_DELETION": 5,
+    "NEEDS_INDEPENDENT_CHECKER": 25,
+    "NEEDS_NATIVE_OR_AO": 21,
+    "NEEDS_EXTERNAL_ORACLE": 2
+  },
+  "rule": "a row is agent-closable only if its oracle is produced inside this workspace; otherwise it is a typed hold naming the principal who can close it",
+  "items": [
+    {
+      "id": "DEL-01",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "OWNER_ONLY_DELETION",
+      "next_actor": "SBL/Repo Owner",
+      "why": "deletion of artefacts is an owner effect; the agent may only prepare the preimage list",
+      "requirement_head": "deliverable 1 from R17 section 9.1",
+      "receipt": ""
+    },
+    {
+      "id": "DEL-02",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "OWNER_ONLY_DELETION",
+      "next_actor": "SBL/Repo Owner",
+      "why": "deletion of artefacts is an owner effect; the agent may only prepare the preimage list",
+      "requirement_head": "deliverable 2 from R17 section 9.1",
+      "receipt": ""
+    },
+    {
+      "id": "DEL-03",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "OWNER_ONLY_DELETION",
+      "next_actor": "SBL/Repo Owner",
+      "why": "deletion of artefacts is an owner effect; the agent may only prepare the preimage list",
+      "requirement_head": "deliverable 3 from R17 section 9.1",
+      "receipt": ""
+    },
+    {
+      "id": "DEL-04",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "OWNER_ONLY_DELETION",
+      "next_actor": "SBL/Repo Owner",
+      "why": "deletion of artefacts is an owner effect; the agent may only prepare the preimage list",
+      "requirement_head": "deliverable 4 from R17 section 9.1",
+      "receipt": ""
+    },
+    {
+      "id": "DEL-06",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "OWNER_ONLY_DELETION",
+      "next_actor": "SBL/Repo Owner",
+      "why": "deletion of artefacts is an owner effect; the agent may only prepare the preimage list",
+      "requirement_head": "deliverable 6 from R17 section 9.1",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK00",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "最新 GitHub/main/R13 evidence 與 local HGK commits 逐別驗 SHA；他人 dirty 未被覆蓋；source, checker, published candidate 分離。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK01",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "14 DOC 的每份 byte/SHA、20 KP/10 vols/兩 Skills 真存在；canonical Compiler 四命令真 exit0 且 C1 North Star/full coverage 反降規；缺 bundle 不通過。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK02",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "HGK conformance 真比對同環境及 18 fail IDs；回合前/後負例必仍有效；0 new fail ≠ 0 fail；每 G0/車道/投影/dirty 有受權 closure。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK03",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "四元組中 `role_binding.scope/expiry/arm`／Lease holder/token/ttl／WO CREATED→VERIFIED/FAILED/replay 的正反；同 Runner 的 H2 Permit 權威、ONE ECP 單一性、被撤銷 no-write、未知結果不雙寫。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK05",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "PLAN/EXECUTE/VERIFY 所需模型真的 `served==required` + usage/nonce/diff digest/exit；rank2 是 Owner mandate、O-R13-001 累犯有新負控；只有模型 200 不能證真修改。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK06",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "PLAN 真 Commander SP invocation 記 exact version、input/output、TaskSpec/WO/Subject；若只 model probe 而未 SP，測試須 fail。Commander 不能自行發 Permit。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK07",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "VERIFY 真 Challenge SP invocation／Codex CLI isolated principal；故意 forged checker/foreign SHA/malicious bundle/partial readback 拒絕，Maker≠Checker。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK08",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "HGK Native delta 的每項變更有獨立 Native WO/issuer、真 concurrency/expiry/replay/rollback、當前 Conformance；只有 Harness doctor 不算升級 HGK。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK09",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "Fabric F0 六步 policy→HGK→Hermes→effect same subject raw join，Fabric YAML 存在不能取代被消費；未批准 write-set no effect。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK10",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "5 工具於合法指定 Host 各 install→doctor→effective-load→invoke/deny→restart→uninstall/residue；Stack 13/14 drift 必找根因，修後 digest mismatch=0。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK11",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "三 ZIP 均 double clean build deterministic SHA、manifest/Skill entry、license/SBOM/secret scan、正式分發資產 URL/digest/download readback；ZIP-only 不等於 Host 安裝。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK13",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "8 PIPD Skills each discover/bind/effective-load/invoke/deny（需要時 Native Writer），正式 PI/PD/ECP/TQAEP 原生收據，source 檔案不算 writer 功能。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK14",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "TPM 從新需求造 SourceBound ACC/ADR/JTBD/FUO，缺原始 Source 不編造，普通人不需懂 Host Tool 名；同版不重問。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK15",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "3 類非預製 CLI/Skill/Minimal Agent 新 Repo 真建造，獨立 Host run 和卸載；sbl-todo fixture or `SKILL.md` 文件不能 PASS。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK16",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "真缺陷注入→最小 repair→新 SHA→受影及全量 regression/rollback/checkpoint；故意 timeout/stale/expired/foreign write 必停止。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK17",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "TQAEP 12×8 的 96 個 cell 逐 applicable 或 legit NA，客觀函數、POS/NEG/ADV、holdout、false±、judge counterbalance，Checker raw execution。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK18",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "CJK anchor 檢索、unknown/source drift、prompt injection/tool poisoning denial；不存在來源不能假 cite。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK19",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "50/149 全 identity 到 source/runtime/current disposition/ACC/raw/owner/checker；沒有實測的 ACTIVE 不得以 ledger 100% 冒充驗收。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK20",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "441=6+24+25+386 每 Identity 雙 disposition，8 PROHIBITED 0 install，selected OSS 真 version/license/invoke/fallback/rollback。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK21",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "38 Surface `C-001..038` 各 legal Host/Kind/current execution/live-load/deny，適用性判斷不以未准入 Host 作假 PASS。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK22",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "M1 Gate：同一 frozen candidate 的 H0–H3、PLAN Commander、Native HGK、VERIFY Challenge、否認 replay/expired/scope 均取得真 receipt；18紅若阻 Scope 必未解；Owner sign。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK23",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "M2 Gate：在隔離環境對新的 SWOF 型需求完成真 code change/test/failure repair/replay/rollback/independent checker；不准寫 SWOF 正式 Repo。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK27",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "上位 Source Owner 建 full semantic denominator，所有適用正式条款全覆蓋/否證/合法例外，不拿 149、441、38、4738、4589、1341 當同一個百分比分母。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK28",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "branch PR/CI、兩個不同候選／evidence SHA、真正遠端下載讀回、secret/PII/SBOM、manifest/release versions；非 Owner 不合併公開 Release。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-CHK29",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_INDEPENDENT_CHECKER",
+      "next_actor": "Independent AO",
+      "why": "R15.1 §15 CheckRun acceptance names an external checker principal; a maker probe cannot close it",
+      "requirement_head": "R12 D17/D18/D19、R13 18 reds/nonce/SP identity/Plugin Schema CR 各具 Owner/FirstFail/Before/After/Checker；不得消去既有失敗分母。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS00",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "讀本機/HGK/Repo 最新狀態、R11 所有子項 acceptance ledger、Git branch、R13 本地兩 Commit＋遠端 `ffd786c8`，保護 7 modified／其他 untracked。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS01",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "逐檔驗 DOC00～13、KP20、設計卷10、Compiler/Challenge 完整 bundle；現行 C0–C9 編譯四階段和必要 duplication，保留真正 exit／hash。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS02",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "以同一新鮮環境重跑全量、列明 13+4+1 每失敗完整 case，按 Owner 分小 WO 修 registry/declared mandate、projection、dirty 邊界，不覆蓋他人檔案；R13 兩切片受影回歸不能退步。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS03",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "逐欄核 project/TaskSpec/WorkOrder + role_binding + lease + record_result 是否滿足唯一 ECP、issuer、scope、TTL、revoke、nonce、H2/partial effect；缺能力經 Owner 最小改 Native，絕不蓋第二系統。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS05",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "真查 pool/registry/assignment/epoch/mandate/probe、rank1/rank2 依合法 Owner；分離 lane/model/session/SP 身份，`ERR_NO_ARM_EMITTED_NONCE` 依原生 runner 修/明確 `NON_FATAL_TOOL_RETURN_BUT_OUTPUT_VERIF",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS06",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "在現有 HGK PLAN pre-handoff 做**真 Commander-SP invocation**／不同主體／版本 pin，產有 source/TaskSpec/WO 的 bounded proposal，不准 SP 自簽 ECP/Permit。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS07",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "既有 VERIFY_SECURITY pre-spawn 真呼叫 Challenge-SP，Codex CLI 隔離 Checker 符合不同 Principal，真獨立 test/negative/Oracle；禁止僅使用同家模型／靜態評論代簽。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS08",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "產「HGK 現存可重用能力/缺失/需升級的 typed ABI」差異，必要修改只走 HGK Root scoped WO；Adapter 的 install/doctor 不抵 Native 升級，增加 replay/expiry/partial-effect/rollback 負例。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS09",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "Fabric contract policy digest→HGK route/admit/WO→Hermes/Codex→actual effect observer，六步同主體真 join；Fabric 只提供治理政策不作第二 issuer。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS13",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "八官方 `pipd-route-intake/authority-source/profile-tailor/pi-compile/pd-bind/execution-contract/assurance-tqaep/package-project` 版本／Host discover/真正 bind/invoke/deny；PI/PD/ECP/TQAEP 只",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS14",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "普通語言全新產品／SWOF 需求→JTBD/FUO/GoalCard／Decision→source-bound PI/PD proposal、ADR/NFR、原子 ACC/NEG；不可要人先填所有內部契約欄。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS15",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "SBLM01..06 真消費功能＋合法 Kind/Host/Mode selector；執行 3 條新需求 `CLI_TOOL / AGENT_SKILL / SIMPLE_AGENT` 新程式生成/真安裝/使用，不得拿 sbl-todo fixture 替代。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS16",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "注入真缺陷→紅→定 FirstFail／RepairCone→授權小修→新 SHA／受影＋全量回歸→checkpoint/replay/rollback；限制 attempt/lease，未知效果不雙寫。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS18",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "14 DOC anchor/source hash/CJK、NRTV/unknown、prompt injection／cross-source conflict、PI/PD 正式來源綁定；Derived index 不改原位。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS19",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "逐 U01～U50 與149子需求的 source locator、適用 Kind/Mode/Host、實作、案例、證據、不同 checker、合法 defer 及 owner；0 orphan。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS20",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "6 donor/24 slots/25 methods/386 identities 各列 frozen/current disposition、Host/Version/License/selected method/native substitute/負控；未選的不可強裝。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS21",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "C-001..C-038` 逐 Host applicability、Source/current status、package、install/effective-load/trigger/deny/uninstall；5工具各獨立受測，5個 NOT_ADMITTED 不強裝。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS22",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "只在 TS02～09 達成 H0/H1/H2/H3、SP真呼叫／Checker dynamic readback 後簽 `M1_NATIVE_CHAIN_READY`；如 18紅有任一阻斷此 scope，須關閉或 Owner 明確隔離且全案保留 OPEN。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS23",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "以未預製 SWOF 類新需求在隔離副本構建/修補，GJ01/02/03 中受影真 E2E；可非正式 SWOF 目標、絕不改 SWOF main；不同 Checker 真驗。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS27",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "用 DOC 定義分類／去重／合法適用性，區分 149/441/38、4738來源記錄、4589不同 ID、1341 ACC link 與全 DOC 語義項；Source Owner 簽 denominator；任何 active orphan 不能 FULL PASS。",
+      "receipt": ""
+    },
+    {
+      "id": "R14-TS29",
+      "dispatch_status": "RUNNER_FAILED",
+      "disposition": "NEEDS_NATIVE_OR_AO",
+      "next_actor": "HGK Native Owner / Independent AO",
+      "why": "R15.1 §15 task acceptance requires native issuer or independent AO receipts",
+      "requirement_head": "D-17 錯 Skill layout、D-18 live 13/14 drift、D-19 canonical bundle、R13 18 fail、O-R13-001 nonce、CR 插件、R13 SelfReview/replay/expired typed deny；最小 cone 與最新回歸。",
+      "receipt": ""
+    },
+    {
+      "id": "R16-F07",
+      "dispatch_status": "ERR_ACTION_NOT_A_COMMAND",
+      "disposition": "NEEDS_EXTERNAL_ORACLE",
+      "next_actor": "named in ROW_AUDIT requirement",
+      "why": "conformance/six-edge style checks whose oracle lives outside this workspace",
+      "requirement_head": "R16 finding R16-F07 remediation",
+      "receipt": ""
+    },
+    {
+      "id": "R16-F14",
+      "dispatch_status": "ERR_ACTION_NOT_A_COMMAND",
+      "disposition": "NEEDS_EXTERNAL_ORACLE",
+      "next_actor": "named in ROW_AUDIT requirement",
+      "why": "conformance/six-edge style checks whose oracle lives outside this workspace",
+      "requirement_head": "R16 finding R16-F14 remediation",
+      "receipt": ""
+    }
+  ],
+  "claim_ceiling": "CLASSIFICATION_ONLY_NO_CLOSURE"
+}
