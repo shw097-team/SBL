@@ -1,0 +1,134 @@
+{
+  "suite": "F3A_SERVED_ARM_IDENTITY",
+  "subject": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\scripts\\hgk-lane-dispatch.py",
+  "subject_head": "086a940",
+  "claim_ceiling": "REPO_PATCH_APPLIED + BEHAVIOURAL_AND_STRUCTURAL_TESTED",
+  "not_claimed": [
+    "NATIVE_EFFECT_VERIFIED",
+    "INDEPENDENT_PASS"
+  ],
+  "total": 24,
+  "passed": 24,
+  "results": [
+    {
+      "label": "A1 bare+provider",
+      "verdict": "PASS",
+      "detail": "opencode-go/deepseek-v4.1-flash"
+    },
+    {
+      "label": "A2 no double prefix",
+      "verdict": "PASS",
+      "detail": "opencode-go/deepseek-v4.1-flash"
+    },
+    {
+      "label": "A3 oauth bare",
+      "verdict": "PASS",
+      "detail": ""
+    },
+    {
+      "label": "A4 foreign provider differs",
+      "verdict": "PASS",
+      "detail": "opencode-go/minimax/minimax-m3.1"
+    },
+    {
+      "label": "A5 empty provider",
+      "verdict": "PASS",
+      "detail": "None"
+    },
+    {
+      "label": "A6 empty model",
+      "verdict": "PASS",
+      "detail": "None"
+    },
+    {
+      "label": "A7 provider==model",
+      "verdict": "PASS",
+      "detail": "None"
+    },
+    {
+      "label": "A8 both None",
+      "verdict": "PASS",
+      "detail": "None"
+    },
+    {
+      "label": "A9 whitespace only",
+      "verdict": "PASS",
+      "detail": "None"
+    },
+    {
+      "label": "A10 unknown model != required",
+      "verdict": "PASS",
+      "detail": "opencode-go/some-unlisted-model"
+    },
+    {
+      "label": "A11 whitespace normalised",
+      "verdict": "PASS",
+      "detail": "'opencode-go/deepseek-v4.1-flash'"
+    },
+    {
+      "label": "A12 partial prefix not accepted",
+      "verdict": "PASS",
+      "detail": "open/opencode-go/x"
+    },
+    {
+      "label": "B1 helper defined once",
+      "verdict": "PASS",
+      "detail": "count=1"
+    },
+    {
+      "label": "B2 no ad-hoc arm composition",
+      "verdict": "PASS",
+      "detail": "[]"
+    },
+    {
+      "label": "B3 comparisons via helper",
+      "verdict": "PASS",
+      "detail": "[]"
+    },
+    {
+      "label": "B4 ERR_ARM_IDENTITY_UNQUALIFIED present",
+      "verdict": "PASS",
+      "detail": ""
+    },
+    {
+      "label": "C1 live relay satisfies required arm",
+      "verdict": "PASS",
+      "detail": "{\"live\": \"opencode-go/deepseek-v4.1-flash\", \"gate\": {\"required_arm\": \"opencode-go/deepseek-v4.1-flash\", \"served_arm\": \"opencode-go/deepseek-v4.1-flash\", \"ok\": true, \"code\": null}}"
+    },
+    {
+      "label": "C2 live served model is bare (no pre-qualification)",
+      "verdict": "PASS",
+      "detail": "deepseek-v4.1-flash"
+    },
+    {
+      "label": "C3 empty provider refused",
+      "verdict": "PASS",
+      "detail": "{\"required_arm\": \"opencode-go/deepseek-v4.1-flash\", \"served_arm\": null, \"ok\": false, \"code\": \"ERR_ARM_IDENTITY_UNQUALIFIED\"}"
+    },
+    {
+      "label": "C4 wrong arm refused",
+      "verdict": "PASS",
+      "detail": "{\"required_arm\": \"opencode-go/deepseek-v4.1-flash\", \"served_arm\": \"opencode-go/minimax-m3.1-flash\", \"ok\": false, \"code\": \"ERR_REQUIRED_ARM_NOT_SERVED\"}"
+    },
+    {
+      "label": "C5 pre-fix double prefix now matches",
+      "verdict": "PASS",
+      "detail": "{\"required_arm\": \"opencode-go/deepseek-v4.1-flash\", \"served_arm\": \"opencode-go/deepseek-v4.1-flash\", \"ok\": true, \"code\": null}"
+    },
+    {
+      "label": "C6 no-nonce is distinct",
+      "verdict": "PASS",
+      "detail": "{\"code\": \"ERR_NO_ARM_EMITTED_NONCE\", \"nonce_absent_arms\": [\"opencode-go/deepseek-v4.1-flash\"]}"
+    },
+    {
+      "label": "C7 timeout keeps generic code but is measured",
+      "verdict": "PASS",
+      "detail": "{\"code\": \"ERR_LANE_ALL_ROUTES_EXHAUSTED\", \"timed_out_arms\": [\"opencode-go/deepseek-v4.1-flash\"]}"
+    },
+    {
+      "label": "C8 nonce-present run is not a nonce failure",
+      "verdict": "PASS",
+      "detail": "{\"code\": \"ERR_LANE_ALL_ROUTES_EXHAUSTED\"}"
+    }
+  ]
+}
