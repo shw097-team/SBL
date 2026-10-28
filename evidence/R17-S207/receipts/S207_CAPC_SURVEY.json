@@ -1,0 +1,106 @@
+{
+  "compiler_path": "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+  "compiler_sha256": "2c282ad6539a465c3b1d751868cab98437a8f35e9728be686117e364a70857d9",
+  "compiler_bytes": 30930,
+  "schema_path": "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/references/prompt-contract.schema.json",
+  "schema_sha256": "cbcc9998cee3ba59f919417aacbc121ab20fc611f1c47c62cafcaa34bbf13612",
+  "schema_bytes": 25671,
+  "python_used": "/c/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python (Python 3.11.17)",
+  "version_string": "none: no --version flag and no __version__/semver in source; content pins are SCHEMA_ID=\"CAPC-PROMPT-CONTRACT/1\", receipt schema \"CAPC-COMPILER-RECEIPT/1\", JSON Schema $id \"urn:capc:prompt-contract:1\"",
+  "help_argv": [
+    "python",
+    "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+    "--help"
+  ],
+  "help_exit": 0,
+  "help_stdout_head": [
+    "usage: prompt_contract_compiler.py [-h]",
+    "                                   {lint,activation,acceptance,render,compile,hash,duplication}",
+    "                                   ...",
+    "",
+    "Validate and render a thin construction-and-acceptance prompt contract.",
+    "",
+    "positional arguments:",
+    "  {lint,activation,acceptance,render,compile,hash,duplication}",
+    "",
+    "options:",
+    "  -h, --help            show this help message and exit",
+    ""
+  ],
+  "help_stderr": "",
+  "lint_help_argv": [
+    "python",
+    "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+    "lint",
+    "--help"
+  ],
+  "lint_help_exit": 0,
+  "lint_help_stdout": [
+    "usage: prompt_contract_compiler.py lint [-h] contract",
+    "",
+    "positional arguments:",
+    "  contract",
+    "",
+    "options:",
+    "  -h, --help  show this help message and exit",
+    ""
+  ],
+  "lint_help_stderr": "",
+  "subcommands": [
+    "lint",
+    "activation",
+    "acceptance",
+    "render",
+    "compile",
+    "hash",
+    "duplication"
+  ],
+  "required_top_level_keys": [
+    "schema",
+    "task_id",
+    "source_scan",
+    "intent",
+    "authority",
+    "changeset",
+    "execution_scope",
+    "runtime_readiness",
+    "journeys",
+    "acceptance",
+    "evidence",
+    "termination",
+    "render_policy"
+  ],
+  "required_top_level_keys_source": "schema.root.required (13, order preserved) == compiler constant REQUIRED_TOP at scripts/prompt_contract_compiler.py:89-103 (same 13 names, set -> order taken from schema). Root additionalProperties=false.",
+  "s204_lint": {
+    "argv": [
+      "python",
+      "C:/Projects/Agent_Workspace/知識庫/工程基座/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler/scripts/prompt_contract_compiler.py",
+      "lint",
+      "C:/Projects/Agent_Workspace/var/R17-20261023/capc/S2-04_contract.json"
+    ],
+    "exit": 0,
+    "stdout_sha256": "9b718dd02a8f35fb25777044885eb03314962cb7b4035722e623c1f0648548f3",
+    "stdout_sha256_lf_normalized": "50d77ca26b1eb028764a62d4bd750f058586a830441947b2201270a10502b457",
+    "stdout_bytes": 80,
+    "stdout_tail_lines_20": [
+      "{",
+      "  \"verdict\": \"PROMPT_COMPILE_PASS\",",
+      "  \"error_count\": 0,",
+      "  \"errors\": []",
+      "}"
+    ],
+    "stderr": "",
+    "verdict": "PROMPT_COMPILE_PASS",
+    "error_count": 0,
+    "wrote_files": false
+  },
+  "notes": [
+    "TWO byte-identical bundle copies exist: 知識庫/工程基座/... (used, task-specified candidate) and 知識庫/實作相關DOC/HG-KSEOS/... Both compiler+script and schema hash identically, so either pins the same artifact. The HG-KSEOS copy additionally carries references/hgk-control-plane-profile.md and sqs-thc-domain-profile.md, so the two directories are NOT fully identical as trees.",
+    "READ-ONLY verified: lint takes the print-only branch (scripts/prompt_contract_compiler.py:644-687). Only 'render --out' (line 682) and 'compile --out-dir' (lines 602,607,620) write. Directory snapshot of var/R17-20261023/capc/ before vs after lint: identical (find diff empty); no file under the bundle is newer than the snapshot. dir mtimes unchanged.",
+    "Baseline is GREEN: S2-04_contract.json lints PROMPT_COMPILE_PASS, error_count 0, exit 0, stderr empty, 80 bytes stdout.",
+    "stdout digest caveat: process stdout is CRLF on this host; stdout_sha256 is over raw bytes (9b718dd0...8548f3), the LF-normalised digest (50d77ca2...b457) is given for cross-platform reproduction. Contract files themselves untouched (hashes on disk unchanged, mtimes still 2026-08-10).",
+    "argparse surface: 7 subcommands (lint, activation, acceptance, render, compile, hash, duplication). All contract-taking subcommands add exactly one positional 'contract'; render adds --out; compile adds required --out-dir; duplication takes positional 'prompt' + required repeatable --source + --threshold 0.25 default + --shingle-size 8 default. No --version, no JSON-schema-file argument (schema is not validated at runtime, lint_contract() is hand-coded).",
+    "Note for the caller's pin: the pre-existing files lint.stdout / s204_lint.json / compiler-receipt.json in capc/ are artifacts of an EARLIER round, not of this survey; they were present before the run and were not touched.",
+    "No modification was made under SBL, HG-KSEOS, Fabric or PIPD; no contract was created. Single file written: this receipt."
+  ]
+}
