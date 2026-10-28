@@ -1,0 +1,185 @@
+{
+ "schema": "GWO-SBL-Manifest@2",
+ "gwo": "GWO-SBL",
+ "isolated_datadir": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\sbl_host\\datadir",
+ "removed_item_id": "T-c31d8ba02c",
+ "checks": {
+  "provision_created_datadir": true,
+  "add_two_items": true,
+  "list1_shows_two_ids": true,
+  "remove_alpha": true,
+  "list2_shows_one_id": true,
+  "uninstall_absent": true,
+  "neg_duplicate_add_refused": true,
+  "neg_remove_missing_refused": true,
+  "neg_uninstall_foreign_refused": true
+ },
+ "negatives": [
+  {
+   "raw_id": "RAW-SBL-NEG-DUP",
+   "rc": 3,
+   "code": "SBL_E_DUPLICATE_TITLE"
+  },
+  {
+   "raw_id": "RAW-SBL-NEG-REMOVE-MISSING",
+   "rc": 4,
+   "code": "SBL_E_BAD_STATE"
+  },
+  {
+   "raw_id": "RAW-SBL-NEG-UNINSTALL-FOREIGN",
+   "rc": 5,
+   "code": "SBL_E_FOREIGN_FILES"
+  }
+ ],
+ "vacuity_control": {
+  "raw_id": "RAW-SBL-VACUITY-UNINSTALL-ABSENT",
+  "rc": 0,
+  "code": null,
+  "note": "uninstall succeeds on a never-existing DataDir, so the positive uninstall check rests on the prior legs having produced state"
+ },
+ "raw_count": 11,
+ "raw_ids": [
+  "RAW-SBL-PROVISION",
+  "RAW-SBL-ADD",
+  "RAW-SBL-ADD2",
+  "RAW-SBL-LIST1",
+  "RAW-SBL-REMOVE",
+  "RAW-SBL-LIST2",
+  "RAW-SBL-UNINSTALL",
+  "RAW-SBL-NEG-DUP",
+  "RAW-SBL-NEG-REMOVE-MISSING",
+  "RAW-SBL-NEG-UNINSTALL-FOREIGN",
+  "RAW-SBL-VACUITY-UNINSTALL-ABSENT"
+ ],
+ "raws_detail": [
+  {
+   "raw_id": "RAW-SBL-PROVISION",
+   "rc": 0,
+   "stdout_sha256": "c38e67989be05329fb68d42458ab3cab0e4892985eb93cdc0d2d459d24e23df0",
+   "stdout_bytes": 105,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": null,
+   "state_sha_after": null,
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-ADD",
+   "rc": 0,
+   "stdout_sha256": "2b283d05d54c7427c0c8347d6737ca0c51d7895bdfb093e891f44a79e88a9201",
+   "stdout_bytes": 150,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": null,
+   "state_sha_after": "5f3a6c8d8680dc6fdd148acba18a574ad0e6ef3ab7f209aabe290234074e0dbd",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-ADD2",
+   "rc": 0,
+   "stdout_sha256": "5222fe36d4755f1c54ffd6f0704f54fdc5031e51bc1cbc868017f0dc4d6bf410",
+   "stdout_bytes": 149,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "5f3a6c8d8680dc6fdd148acba18a574ad0e6ef3ab7f209aabe290234074e0dbd",
+   "state_sha_after": "f850a5ac95a897658206ff35aa5f8dad1d32d31f69f4b2d6706d02fe9b767632",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-LIST1",
+   "rc": 0,
+   "stdout_sha256": "7f783304c1dc774a7ec59a0f17473a6a637522bd83a62a0304df3f52e5a1ad57",
+   "stdout_bytes": 256,
+   "payload_items": 2,
+   "payload_ids": [
+    "T-c31d8ba02c",
+    "T-d116b548f2"
+   ],
+   "state_sha_before": "f850a5ac95a897658206ff35aa5f8dad1d32d31f69f4b2d6706d02fe9b767632",
+   "state_sha_after": "f850a5ac95a897658206ff35aa5f8dad1d32d31f69f4b2d6706d02fe9b767632",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-REMOVE",
+   "rc": 0,
+   "stdout_sha256": "57345ce0d5f69a1c13c42a24f8783fc4630c00e179928967040c5e1a9a8bbccb",
+   "stdout_bytes": 41,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "f850a5ac95a897658206ff35aa5f8dad1d32d31f69f4b2d6706d02fe9b767632",
+   "state_sha_after": "0d47c58610aa9e516163e7260caa463810198142e48c5abe2f9b410d4651c4b6",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-LIST2",
+   "rc": 0,
+   "stdout_sha256": "adf7491b2dc7b001030425b6ab74aff15ff7940613bd193642d5195bbcabf5ad",
+   "stdout_bytes": 146,
+   "payload_items": 1,
+   "payload_ids": [
+    "T-d116b548f2"
+   ],
+   "state_sha_before": "0d47c58610aa9e516163e7260caa463810198142e48c5abe2f9b410d4651c4b6",
+   "state_sha_after": "0d47c58610aa9e516163e7260caa463810198142e48c5abe2f9b410d4651c4b6",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-UNINSTALL",
+   "rc": 0,
+   "stdout_sha256": "afecc6bf1fbb94ab4a4b70deabe5d02d7997eed30545a6b4ece01a3fef579763",
+   "stdout_bytes": 35,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "0d47c58610aa9e516163e7260caa463810198142e48c5abe2f9b410d4651c4b6",
+   "state_sha_after": null,
+   "dir_exists_after": false
+  },
+  {
+   "raw_id": "RAW-SBL-NEG-DUP",
+   "rc": 3,
+   "stdout_sha256": "b3c37ab80177efba834d3fff351d011f232213c4d75daf095ec8e9a8c566c100",
+   "stdout_bytes": 156,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "state_sha_after": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-NEG-REMOVE-MISSING",
+   "rc": 4,
+   "stdout_sha256": "204d4f71de5546ec9a175aca073834e6ea569948cfe1f8b629f1397a535dbe3d",
+   "stdout_bytes": 113,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "state_sha_after": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-NEG-UNINSTALL-FOREIGN",
+   "rc": 5,
+   "stdout_sha256": "dfaff98bf95d5e423ee133cbd646bf06406aeca71f525454a0d4961f18874722",
+   "stdout_bytes": 249,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "state_sha_after": "6ce46a25a080e67d7eb5da04b4224f8258163fc1a116c387521094c2c9f75127",
+   "dir_exists_after": true
+  },
+  {
+   "raw_id": "RAW-SBL-VACUITY-UNINSTALL-ABSENT",
+   "rc": 0,
+   "stdout_sha256": "afecc6bf1fbb94ab4a4b70deabe5d02d7997eed30545a6b4ece01a3fef579763",
+   "stdout_bytes": 35,
+   "payload_items": 0,
+   "payload_ids": [],
+   "state_sha_before": null,
+   "state_sha_after": null,
+   "dir_exists_after": false
+  }
+ ],
+ "raw_count_matches": true,
+ "claim_ceiling": "REAL_LOCAL_HOST_EFFECT in an isolated DataDir; AUTHOR_SIDE, one OS user; 'provision' is a DataDir init, not a package install; no concurrency or crash-durability test",
+ "verdict": "PASS"
+}

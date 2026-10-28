@@ -1,0 +1,32 @@
+{
+ "schema": "B1-OWNER-RULING/1",
+ "at": "2026-10-28T14:41:42",
+ "ruled_by": "OWNER",
+ "registry_sha256": "3deaf0aa61827f67706b7fe2eca15ce8b3425ede3e1d2d381af0472ae5df31cd",
+ "declaration_bindings_sha256": "6acc8d1bc7b12d68ca72b597a7f8940d47bcb93c4b9fc8077ba726354db05ad3",
+ "rulings": [
+  {
+   "id": "PRINCIPAL_SEPARATION_MEASURED",
+   "bound_value": "3/3 distinct OS SIDs; key material held by 1 principal(s)",
+   "decision": "ACCEPTED_AS_SUFFICIENT",
+   "basis": "three distinct OS SIDs satisfy native_admission.py:170-171 PRINCIPAL_SEPARATION; PKG_00..08 contain no load-time requirement for per-principal key material; creating checker/maker keys would cost 2 unlocks + a registry re-sign without changing any measured control. Revisit when a checker principal must sign receipts in its own name."
+  },
+  {
+   "id": "SOURCEFREEZE_DECLARED_HOLD",
+   "bound_value": "9/9 PKG volumes declare formal_sourcefreeze: HOLD (DOC-00 L327-330: READABLE_USER_INPUT;NOT_FORMAL_SOURCEFREEZE)",
+   "decision": "ACCEPTED_AS_DECLARED_HOLD",
+   "basis": "all nine PKG volumes declare formal_sourcefreeze: HOLD and DOC-00 L327-330 marks the upstream sources READABLE_USER_INPUT;NOT_FORMAL_SOURCEFREEZE, so the missing item is an upstream freeze, not a signature. Signing a source_freeze reference over unfrozen bytes would assert a state that does not exist; the HOLD is therefore declared, measured and left open."
+  }
+ ],
+ "authorizes": [
+  "D2 do not create checker/maker keys",
+  "D3 do not sign a sourcefreeze over unfrozen sources",
+  "D4 release stays NOT_RUN",
+  "D5 mission_complete may be computed from these rulings"
+ ],
+ "meaning": "a blocking declaration clears only while its bound_value still equals the measured value; any drift voids this ruling and mission_complete returns to false",
+ "bindings_sha256": "a587491e5936ae8c8947dd77211b3acc16a6a90f71389402997ad66bbcdf8216",
+ "signed_by": "OWNER-B1-412b351937be72a1",
+ "signed_at": "2026-10-28T14:43:36",
+ "signature": "9c23502af59000b6c5e4b7993663f5279aede619d71ab40c93aa24a73b92947606a2a8e2f0c7863af0e11dbdefdfeeaea29a6617b8ae840e68b1053cdbb03602"
+}

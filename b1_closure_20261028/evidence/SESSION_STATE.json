@@ -1,0 +1,197 @@
+{
+ "session": "20261028_114641_43b607",
+ "updated_at": "2026-10-28T13:39:09",
+ "gate_a_signing": {
+  "status": "DONE",
+  "registry_rev": 10,
+  "registry_sha256": "fe20832642cb0f7b",
+  "verify": "OWNER_SIGNATURE_VERIFIED",
+  "rows_signed": 30,
+  "signatures": 31,
+  "root": "711ea4db853c2812",
+  "owner_key_id": "OWNER-B1-d42c654cd1afba80",
+  "unlocks_spent": 1,
+  "references": "DEFERRED_SCOPE_EMPTY",
+  "receipt": "wave1/apply_result.json"
+ },
+ "gate_b_native_trust_root": {
+  "status": "PARTIAL",
+  "installed": "C:/ProgramData/HG-KSEOS/native-admission/registry.json",
+  "loads": "ProtectedRegistry().snapshot() -> ACTIVE, 3 distinct SIDs, 7 approved files",
+  "acl_negative_test": "unprotected copy still refused",
+  "admission_incomplete": [
+   "scope.database_path missing -> CANONICAL_DATABASE",
+   "scope.head is rev9 merkle root, not a git HEAD -> WORKORDER_HEAD/HEAD_CHANGED_BEFORE_COMMIT",
+   "keys[] uses public_hex, kernel needs public_spki_b64 (Ed25519) -> KEY_ALGORITHM",
+   "max_ttl_seconds / task_kinds / revoked_nonces / approval_source absent",
+   "scope.request_sha256 empty -> REQUEST_SCOPE"
+  ]
+ },
+ "corpus": {
+  "cases": 244,
+  "done": 244,
+  "parked": 0,
+  "runner": "wave2/wave2_queue.py --from-catalog --include-children"
+ },
+ "findings": [
+  "D-15 sealed ACL had no read ACE -> admission could not read its trust root",
+  "D-16 assert_protected used Get-Acl; PSModulePath pollution made it a permanent false negative -> now .NET ACL APIs",
+  "D-17 signed_payload does not cover owner_enrollment",
+  "D-18 driver omitted pubkey_id in the root signature -> REFUSED_OWNER_KEY_ID_MISMATCH",
+  "D-19 (reclassified) envelope key == enrolled key d42c654c; 412b3519 is a fingerprint, not a demo key",
+  "D-20 installed trust root is shape-valid but admission-incomplete",
+  "D-21 kernel needs public_spki_b64 for Ed25519 keys",
+  "D-22 active-policy.json has no policy_epoch although the trust plan requires >=1",
+  "D-23 spine DB lacked native_admission_nonces/leases -> any admission would die after the passphrase; fixed by SharedSpine.initialize() with a full backup (919 acceptances preserved)",
+  "D-24 scope.root_identity must be the filesystem identity, not the owner key id (ERR_NATIVE_ROOT_ID)",
+  "D-25 my canon() reimplementation signed different bytes than the kernel canonical (ERR_NATIVE_SIGNATURE); all bytes are now produced by kernel functions",
+  "D-26 lease generation 0 is legal and must not be coerced by `or 1`",
+  "D-27 claim_ceiling/authorization are outside every signature (leaves covers 30 rows + 4 enrollments; signed_payload covers 4 scalars) -> a signed DECLARATION bound to registry_sha256 is the control",
+  "D-28 my folded signing signed a different body than it wrote; declaration_lib now seals and verifies the same bytes, and an edit is detected as BINDINGS_MISMATCH"
+ ],
+ "next_owner_actions": [
+  "decide policy_epoch >=1 and the git-rooted worktree that contains the approved runners",
+  "authorise one elevated rewrite of the native registry as a reviewed revision (no passphrase)",
+  "then one console passphrase run to mint 3 references and admit the first workorder"
+ ],
+ "gate_c_first_native_admission": {
+  "status": "DONE",
+  "event_id": "EVT-NATIVE-6750d9da0820cdcf4bde555d44a599040c1d801c61814e91cb27bbb8decbfbff",
+  "entity": "WO-B1-NATIVE-001",
+  "lease_generation": 0,
+  "database": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\shared-spine\\hg-kseos.db",
+  "receipt": "wave2/NATIVE_ADMISSION_RECEIPT.json"
+ },
+ "gate_c_corpus_native": {
+  "status": "DONE",
+  "events_total": 245,
+  "corpus_targets": 244,
+  "distinct_targets": 245,
+  "nonces": 735,
+  "leases": 245,
+  "receipt": "wave2/CORPUS_NATIVE_RECEIPT.json",
+  "journal": "wave2/corpus_native_journal.jsonl",
+  "counts": {
+   "admitted": 240,
+   "refused": 1,
+   "skipped_done": 3,
+   "case_pass": 240,
+   "case_fail": 0,
+   "ttl_expired": 0
+  },
+  "seconds": 587.8,
+  "catalog_ids": 244,
+  "catalog_duplicates": 0,
+  "note": "one journal row duplicated TQ-B1-A1-SEC (admitted 06:09:47Z, replay-refused 06:09:49Z); DB holds exactly one ADMITTED event per case"
+ },
+ "declaration": {
+  "file": "wave1/DECLARATION_v1.json",
+  "status": "SIGNED_VERIFIED",
+  "verify": "(True,'VERIFIED')",
+  "signed_by": "OWNER-B1-412b351937be72a1",
+  "signed_at": "2026-10-28T14:32:51",
+  "registry_sha_pinned_matches": true,
+  "text_matches_registry": true,
+  "lib": "wave1/declaration_lib.py",
+  "claim_ceiling_edit": "wave1/claim_ceiling_edit.json (before/after + why permitted)"
+ },
+ "gates_now": {
+  "conjunction": "PASS",
+  "sandbox": "PASS",
+  "mission_complete": true,
+  "why_not_complete": [],
+  "mission_complete_blocker": null,
+  "declared": [
+   "ROUTE_INSTALL_REQUIREMENT 30/30 INSTALLED (satisfied)",
+   "EFFECT_IMPLEMENTED_INVENTORY 12/30 (claim_weight none)",
+   "READY_RUNNING_ZERO 0 live",
+   "PRINCIPAL_SEPARATION_MEASURED (owner ruled)",
+   "SOURCEFREEZE_DECLARED_HOLD (owner ruled)"
+  ],
+  "drift_test": "edit bound_value -> mission_complete False (OWNER_RULING_BINDINGS_MISMATCH); restore -> True"
+ },
+ "far_v7": {
+  "file": "FAR_B1_v7_20261028.md",
+  "decisions": {
+   "D1": "replace the two hard-coded residuals with measurements (done, 0 owner actions)",
+   "D2": "do NOT create checker/maker keys (kernel needs 3 distinct SIDs only; 2 unlocks + re-sign otherwise)",
+   "D3": "do NOT sign sourcefreeze (9/9 volumes declare HOLD; DOC-00 marks sources NOT_FORMAL_SOURCEFREEZE)",
+   "D4": "release stays NOT_RUN",
+   "D5": "mission_complete stays false via blocks_mission_completion on unreviewed declarations"
+  },
+  "awaiting_owner_ruling": [
+   "PRINCIPAL_SEPARATION_MEASURED",
+   "SOURCEFREEZE_DECLARED_HOLD"
+  ]
+ },
+ "owner_ruling": {
+  "file": "wave1/OWNER_RULING_v1.json",
+  "verify": "(True,'VERIFIED')",
+  "signed_by": "OWNER-B1-412b351937be72a1",
+  "signed_at": "2026-10-28T14:43:36",
+  "bindings": "a587491e…",
+  "decisions": {
+   "PRINCIPAL_SEPARATION_MEASURED": "ACCEPTED_AS_SUFFICIENT",
+   "SOURCEFREEZE_DECLARED_HOLD": "ACCEPTED_AS_DECLARED_HOLD"
+  }
+ },
+ "claim_ceiling": {
+  "level": "B1_MISSION_COMPLETE_BY_OWN_GATES",
+  "means": [
+   "gates conjunction PASS",
+   "0 residual blockers",
+   "0 unruled blocking declarations"
+  ],
+  "does_not_mean": [
+   "no promotion",
+   "no release (release: NOT_RUN)",
+   "no third-party acceptance",
+   "independent audit is local (r7-style), same machine, same OS user",
+   "RUNNER_COVERAGE 12/30 declared",
+   "formal SourceFreeze remains HOLD upstream"
+  ]
+ },
+ "far_v9": {
+  "file": "FAR_B1_v9_20261028.md",
+  "supersedes": "FAR_B1_v8_20261028.md#D1 (implement 10 routes)",
+  "answers": {
+   "12_of_30_origin": "denominator = runner-registry.json row count; only written requirement is OpenSpec tasks.md L19 (INSTALLED, satisfied 30/30); 18 names are doc-derived but 0 sentences require effect implementation",
+   "pkgs_acceptance": "PKG_08 L45 conjunction PASS + L49 no live READY/RUNNING + L47 G-B + L102-106 GWOs => complete",
+   "sourcefreeze": "only the upstream SBL owner can freeze; option (a) 1 unlock/1 signature/0 byte changes",
+   "d8_ttl": "D-8 is an evidence-quality defect (1 unlock/31 sigs to batch); TTL 3600 is a policy cap, unattended = scheduled unlock + journal resume"
+  },
+  "decisions": {
+   "D1": "route effect coverage is inventory, never a gate",
+   "D2": "do not implement 18 stubs (8 have no real inputs)",
+   "D3": "READY_RUNNING_ZERO measured from status fields only",
+   "D4": "fix D-8 in the next batch re-sign",
+   "D5": "TTL untouched",
+   "D6": "sourcefreeze stays HOLD unless owner freezes (a)"
+  }
+ },
+ "d8_fix": {
+  "status": "DONE",
+  "file": "admission/runners/generic_route_runner.py",
+  "preimage": "preimage-v3/generic_route_runner.py.bak",
+  "before": {
+   "misroutes": 2,
+   "none": 25,
+   "exact": 3
+  },
+  "after": {
+   "exact": 12,
+   "typed_refusal": 18,
+   "misroutes": 0
+  },
+  "registry_sha256": "d70195751a48f15eaa6f…",
+  "registry_rev": 10,
+  "verify": "(True,'OWNER_SIGNATURE_VERIFIED')",
+  "rows_sha_mismatch": 0,
+  "declaration": "re-signed in the same unlock, pins new sha, VERIFIED",
+  "incident": "first STEP 8 pass signed the candidate's cached sha (c1f5d78c) instead of disk (2f6405a3) for 18 rows; root cause: live path signed pf['candidate']['rows'] and G1 never compared row sha to disk. Fixed: rows rebuilt from disk before signing + G1 fails closed on sha_not_on_disk",
+  "unlocks_spent": 2,
+  "signatures_planned": 32,
+  "elevation": 0,
+  "native_trust_root_untouched": "generic_route_runner.py is not in approved_files; all 7 native pins still valid"
+ }
+}

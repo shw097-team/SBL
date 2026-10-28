@@ -1,0 +1,448 @@
+{
+ "schema": "B1.GATES/1",
+ "claim_ceiling": "AUTHOR_SIDE_EXECUTED_SANDBOX",
+ "G-A": {
+  "items": [
+   {
+    "id": "G-A1",
+    "item": "PI/PD/ECP compile + validate PASS over the 13-verb toolchain",
+    "pass": true,
+    "evidence": {
+     "validate": "pipd-run/artifacts/s07_validate_retry.json",
+     "checked_contracts": 4,
+     "checked_source": "pipd-run/artifacts/s07_validate_retry.json#checked (read, not hardcoded)"
+    }
+   },
+   {
+    "id": "G-A2",
+    "item": "declared denominators conserved (independent self-check)",
+    "pass": true,
+    "evidence": {
+     "selfcheck": "108/108",
+     "counted_failures": []
+    }
+   },
+   {
+    "id": "G-A3",
+    "item": "every artifact carries an explicit claim ceiling",
+    "pass": true,
+    "evidence": {
+     "missing": []
+    }
+   },
+   {
+    "id": "G-A4",
+    "item": "runner routes reported honestly (no invented binding)",
+    "pass": true,
+    "evidence": {
+     "blocked": 30,
+     "total": 30,
+     "note": "HOST_BINDINGS.json is the pre-canary snapshot; the S2 canary registered 1 of 30 with a DEMO key, which this gate deliberately does not count as a real binding"
+    }
+   },
+   {
+    "id": "G-A5",
+    "item": "native harness executes every declared case with readback",
+    "pass": true,
+    "evidence": {
+     "cases": {
+      "parent_cases": 120,
+      "child_cases": 124,
+      "pass": 244,
+      "fail": 0
+     },
+     "probes": "4/4"
+    }
+   },
+   {
+    "id": "G-A6",
+    "item": "independent checker receipt present (different principal/ACL)",
+    "pass": true,
+    "evidence": {
+     "status": "CHECKER_VERDICT_PASS",
+     "sod_satisfied": true,
+     "checker_id": "CODEX-VERIFY-GPT61SOL-MEDIUM-b1chk-r7-1793113746",
+     "checker_receipt_sha256": "97496bbb50ec8bebb20d46fa174c0e3c88ba0e00d2be8f2c8def648b41baff5b",
+     "checker_verdict": "PASS",
+     "failed_checks": [],
+     "subject_bound_3_of_3": true,
+     "lane": "VERIFY_SECURITY / openai-codex gpt-6.1-sol (reasoning=medium) via OpenAI OAuth, read-only sandbox",
+     "round": "checker_receipt_codex_r7.json",
+     "why_item_still_unmet": null
+    }
+   }
+  ],
+  "passed": 6,
+  "total": 6,
+  "verdict": "PASS",
+  "rule": "六項合取不降低：任一未達即 HOLD，不得以其他項代償"
+ },
+ "G-B": {
+  "items": [
+   {
+    "id": "G-B1",
+    "item": "revoked external helper token refused before spawn",
+    "pass": true,
+    "evidence": {
+     "raw": "RAW-REVOKE",
+     "gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN",
+     "replay_gate": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN"
+    }
+   },
+   {
+    "id": "G-B2",
+    "item": "native successor self-starts from the durable journal in a DIFFERENT OS PID/session",
+    "pass": true,
+    "evidence": {
+     "successor_pid": 15436,
+     "different_pid": true,
+     "different_session": true,
+     "helper_token_in_successor": false,
+     "ceiling": "Native successor runs as a different OS process with a new session uuid and its own console, reading only the durable journal; SAME OS user (PKG_08 L47 requires a different PID/session, not a different user). Same-user key material remains."
+    }
+   },
+   {
+    "id": "G-B3",
+    "item": "same-subject checker over the issuer/queue/effect raws",
+    "pass": true,
+    "evidence": {
+     "checker": "PASS",
+     "write_denied": true,
+     "source": "artifacts/CHECKER_PRINCIPAL.json",
+     "checker_process_pid": 17940,
+     "subject_bound": [
+      "admission/registry/runner-registry.json",
+      "artifacts/GWO_HGK_EVIDENCE.json",
+      "artifacts/GWO_SBL_EVIDENCE.json",
+      "artifacts/OWNER_CEREMONY.json"
+     ],
+     "checks": {
+      "registry_root_verified": true,
+      "registry_rows": 30,
+      "registry_installed": 30,
+      "gwo_sbl_all_checks": true,
+      "gwo_sbl_negatives_refused": true,
+      "gwo_hgk_signature_self_contained": true,
+      "gwo_hgk_cas": true,
+      "gwo_hgk_lease": true,
+      "gwo_hgk_spine_unchanged": true,
+      "gwo_hgk_effect_restored": true
+     }
+    }
+   }
+  ],
+  "passed": 3,
+  "total": 3,
+  "verdict": "PASS"
+ },
+ "GWO": {
+  "gwos": 3,
+  "pass": 3,
+  "per_gwo": {
+   "GWO-SBL": "PASS",
+   "GWO-HGK": "PASS",
+   "GWO-FABRIC": "PASS"
+  },
+  "verdict": "ALL_THREE_PASS",
+  "g_b": "PASS"
+ },
+ "release_status": "NOT_RUN",
+ "owner_signature_attribution": "CRYPTOGRAPHIC_OWNER_CONTROL",
+ "sourcefreeze_status": "NOT_RUN",
+ "independent_audit": "PASS",
+ "checker": {
+  "lane": "VERIFY_SECURITY",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "credential": "OpenAI OAuth (owner ChatGPT account)",
+  "transport": "direct codex exec with -c model_provider=openai (ChatGPT backend), read-only sandbox",
+  "provenance_conflict": "the receipt's own checker_lane field reads 'VERIFY_SECURITY via HGK lane dispatcher; provider openai-codex'; the round record says direct codex exec. Both strings are preserved; neither is asserted as true because the raw transcript is not in this workspace.",
+  "transport_why": "the HGK dispatcher routes through model_provider=desktop_router (127.0.0.1:10102), which served gpt-6.1-sol as opencode-go/deepseek-v4.1-flash on round 3 -- the maker's own model family, so round 3 was discarded as non-independent (REPORT F-17)",
+  "identity_source": "codex-rollout (model=gpt-6.1-sol, model_provider=openai verified from the session rollout)",
+  "receipt": "pipd-run\\artifacts\\checker_receipt_codex_r7.json",
+  "receipt_sha256": "97496bbb50ec8bebb20d46fa174c0e3c88ba0e00d2be8f2c8def648b41baff5b",
+  "checker_id": "CODEX-VERIFY-GPT61SOL-MEDIUM-b1chk-r7-1793113746",
+  "verdict": "PASS",
+  "failed_checks": [],
+  "checks": [
+   {
+    "id": "C1",
+    "pass": true,
+    "measured": {
+     "atoms": 27,
+     "trace": 27,
+     "unique_atom_ids": 27,
+     "unique_trace_ids": 27,
+     "unique_target_ids": 27,
+     "missing_targets": 0,
+     "unknown_targets": 0
+    },
+    "detail": "27-to-27 bijection; no duplicate atom IDs, trace IDs or target IDs."
+   },
+   {
+    "id": "C2",
+    "pass": true,
+    "measured": {
+     "nonempty_from_id": 27,
+     "nonempty_from_hash": 27,
+     "nonempty_to_id": 27,
+     "nonempty_to_hash": 27,
+     "from_hash_matches": 27,
+     "from_id_matches": 27,
+     "to_hash_matches": 27
+    },
+    "detail": "All endpoints bind the current PI and corresponding atom identities."
+   },
+   {
+    "id": "C3",
+    "pass": true,
+    "measured": {
+     "oracle.id": 27,
+     "oracle.predicate": 27,
+     "failure_condition": 27,
+     "negative_fixture": 27,
+     "polarity": 27,
+     "source_clause.text": 27
+    },
+    "detail": "All required fields are nonempty. Fixture existence and oracle execution were not tested."
+   },
+   {
+    "id": "C4",
+    "pass": true,
+    "measured": {
+     "effect_class_fields": 1,
+     "distribution": {
+      "READ_ONLY_PROBE": 0,
+      "REPOSITORY_WRITE": 1,
+      "HOST_OPERATIONS": 0,
+      "USER_DATA_EFFECT": 0
+     },
+     "unknown_classes": 0,
+     "schema_type": "string",
+     "hard_enum": false,
+     "vocabulary_status": "CANDIDATE_VOCABULARY_PENDING_OWNER"
+    },
+    "detail": "Computed from the single ECP effect_class field. Declared distribution agrees. This does not ratify the candidate vocabulary."
+   },
+   {
+    "id": "C5",
+    "pass": true,
+    "measured": {
+     "binding_fields_present": 2,
+     "issuer_binding": "REQUIRED_BY_EFFECT",
+     "subject_binding": "PI-d8eb96b26242282b",
+     "token_required": true,
+     "permission_schema": {},
+     "user_data_effect_instances": 0
+    },
+    "detail": "Expressible by schema: permission is unconstrained and effect_class accepts USER_DATA_EFFECT. The current issuer is a placeholder, so concrete authenticated USER_DATA_EFFECT authorization is not demonstrated."
+   },
+   {
+    "id": "C6",
+    "pass": true,
+    "measured": {
+     "nonce_present": true,
+     "nonce_strategy": "one_time",
+     "nonce_ttl_s": 300,
+     "nonce_binding": "subject+effect_class",
+     "retries_max": 1,
+     "retries_requires_nonce": true,
+     "idempotency_guarantee": "at_most_once",
+     "idempotency_key": "IDEM-0931a7ae9be129ae",
+     "dedupe_scope": "operation_id"
+    },
+    "detail": "Retrying with a stable operation identity is logically compatible with deduplicated at-most-once effects. Runtime enforcement and retry-window coverage are not proven."
+   },
+   {
+    "id": "C7",
+    "pass": true,
+    "measured": {
+     "ecp_scope": "src/**",
+     "pd_writable_scope": "src/**",
+     "valid_64_hex_hashes": 3,
+     "prefix_qualified_matches": 3,
+     "bare_matches": 0,
+     "subject_ids": {
+      "pi": "PI-d8eb96b26242282b",
+      "ecp": "ECP-014c6d8da8af8c77",
+      "pd": "PD-99806da078886f0c"
+     }
+    },
+    "detail": "Scopes agree. Prefix-qualified reading passes 3/3. Bare equality fails 3/3 and is a mis-stated exam under the supplied convention, not an artifact defect."
+   },
+   {
+    "id": "C8",
+    "pass": true,
+    "measured": {
+     "caller_claims": 8,
+     "probe_verified": 8,
+     "probe_verified_fraction": 1.0,
+     "git_currentness_linked_claims": 7,
+     "filesystem_scope_probed_claims": 1,
+     "merely_host_matched": 0,
+     "readiness": "PREDEV_READY",
+     "degraded": false
+    },
+    "detail": "All eight claims carry bind-time verification evidence. Readiness is consistent with those records. This inspects recorded evidence rather than repeating repository runtime probes."
+   },
+   {
+    "id": "C9",
+    "pass": true,
+    "measured": {
+     "pi": {
+      "explain": true,
+      "derivation_entries": 4,
+      "replay": true,
+      "replay_iterations": 2
+     },
+     "ecp": {
+      "explain": true,
+      "derivation_entries": 5,
+      "replay": true,
+      "replay_iterations": 2
+     }
+    },
+    "detail": "Both retain derivation records. Explain identities reference earlier derivation stages rather than final resealed identities. Replay was not independently reproduced."
+   },
+   {
+    "id": "C10",
+    "pass": true,
+    "measured": {
+     "files_hashed": 3,
+     "hash_observations_per_file": 3,
+     "changed_files": 0,
+     "initial_analysis_and_final_hashes_agree": true
+    },
+    "detail": "No byte change was observed between initial hashing, analysis snapshot and final hashing. Preliminary reads preceded initial hash capture; changes before that capture cannot be excluded."
+   },
+   {
+    "id": "C11",
+    "pass": true,
+    "measured": {
+     "independent_file_sha256_present": 3,
+     "file_sha256_matches": 3,
+     "declared_byte_lengths_match": 3,
+     "recomputed_content_hash_matches": 3,
+     "byte_lengths": {
+      "pi": 48416,
+      "ecp": 1557,
+      "pd": 3064
+     },
+     "in_memory_derivation_stripping": {
+      "pi": {
+       "removed_fields": 2,
+       "changes_content_hash": true,
+       "stripped_content_hash": "e8cc52b85abc10ca1882a6179a887b6bbda29ba5fb7b67c372b717db1b31e726"
+      },
+      "ecp": {
+       "removed_fields": 2,
+       "changes_content_hash": true,
+       "stripped_content_hash": "6d295be0a093ba44c1c49b2c4b57d9bd0dabd60b6ff061d82bfd04a923dbce26"
+      },
+      "pd": {
+       "removed_fields": 0,
+       "changes_content_hash": false
+      }
+     }
+    },
+    "detail": "Current PI/ECP body hashes detect explain/replay stripping when checked against their retained hashes. Body hashing excludes identity fields, trace and _profile_meta; independent byte hashes cover those and formatting. The unsigned provenance sidecar is not an authenticity anchor."
+   }
+  ],
+  "subject_bound_3_of_3": true,
+  "sod_satisfied": true,
+  "sod_note": "different model from the maker (gpt-6.1-sol vs deepseek-v4.1-flash), different credential (owner OAuth, read-only sandbox), maker could not write the receipt -- it was extracted from the lane's own stdout. Still ONE owner: this is a design-record pass, not DOC-05 INDEPENDENT_VERIFIED and not runtime acceptance.",
+  "receipt_extraction": "apply_checker_receipt.py / inline brace-scan; the checker ran read-only and could not write its own receipt"
+ },
+ "landing": {
+  "S1_schema_change": {
+   "status": "LANDED_AND_RECHECKED",
+   "changed_files": [
+    "schemas/ECP.schema.json",
+    "schemas/PI-PKG.schema.json",
+    "src/pipd_ls_sp/pipeline.py",
+    "src/pipd_ls_sp/cli.py"
+   ],
+   "effect_class_vocabulary": "CANDIDATE_VOCABULARY_PENDING_OWNER (deliberately not an enum)",
+   "evidence": "artifacts/S1_EVIDENCE.json",
+   "recheck": "PASS 11/11 bound={'pi': True, 'ecp': True, 'pd': True}"
+  },
+  "S2_registry_canary": {
+   "status": "CANARY_1_OF_30_DEMO_KEY",
+   "routes_unlocked": 1,
+   "routes_still_blocked": 29,
+   "effect_readback_ok": true,
+   "owner_signature_real": false,
+   "evidence": "artifacts/S2_S3_EVIDENCE.json"
+  },
+  "S3_issuer_separation": {
+   "status": "SEPARATE_KEY_MATERIAL_SAME_OS_USER",
+   "negatives_refused": 6,
+   "negatives": [
+    "unsigned row",
+    "tampered executable sha",
+    "nonce replay",
+    "revoked epoch",
+    "subject mismatch",
+    "scope outside vocabulary"
+   ],
+   "not_a_real_second_principal": true
+  }
+ },
+ "mission_complete": true,
+ "why_not_complete": [],
+ "declared_ceilings": [
+  {
+   "id": "ROUTE_INSTALL_REQUIREMENT",
+   "value": "30/30 routes INSTALLED",
+   "requirement": "OpenSpec b1-native-lane-admission tasks.md L19 (cited in FAR11_HOLD_RULINGS.md:16): every route at least INSTALLED before EXECUTION_ADMITTED may be claimed",
+   "satisfied": true,
+   "claim_weight": "satisfies the only written requirement"
+  },
+  {
+   "id": "EFFECT_IMPLEMENTED_INVENTORY",
+   "value": "12/30 routes have a distinct effect runner; the rest are typed refusals",
+   "provenance": "denominator = runner-registry.json row count; no PKG_00..08 requirement and no sentence requiring every route to be effect-implemented",
+   "claim_weight": "none - inventory, not a gap",
+   "not_fixed_by": "implementing the 8 routes whose inputs do not exist (ECP, host load, golden fixtures)"
+  },
+  {
+   "id": "READY_RUNNING_ZERO",
+   "value": "0 live READY / RUNNING item(s)",
+   "measured_from": "artifacts/*.json status|verdict|mission_state fields (never file names)",
+   "satisfied": true,
+   "live": []
+  },
+  {
+   "id": "PRINCIPAL_SEPARATION_MEASURED",
+   "value": "3/3 distinct OS SIDs; key material held by 1 principal(s)",
+   "satisfied": true,
+   "open": "per_principal_keys",
+   "owner_ruling_required": true,
+   "blocks_mission_completion": false,
+   "source": "C:\\ProgramData\\HG-KSEOS\\native-admission\\registry.json",
+   "owner_ruling": {
+    "decision": "ACCEPTED_AS_SUFFICIENT",
+    "signed_by": "OWNER-B1-412b351937be72a1",
+    "signed_at": "2026-10-28T14:43:36"
+   }
+  },
+  {
+   "id": "SOURCEFREEZE_DECLARED_HOLD",
+   "value": "9/9 PKG volumes declare formal_sourcefreeze: HOLD (DOC-00 L327-330: READABLE_USER_INPUT;NOT_FORMAL_SOURCEFREEZE)",
+   "open": "formal freeze of the sources (an upstream act, not a missing signature)",
+   "not_fixable_by": "minting a source_freeze reference over unfrozen bytes",
+   "owner_ruling_required": true,
+   "blocks_mission_completion": false,
+   "source": "input_20261027/*PKG_0[0-8]*.md#front_matter",
+   "owner_ruling": {
+    "decision": "ACCEPTED_AS_DECLARED_HOLD",
+    "signed_by": "OWNER-B1-412b351937be72a1",
+    "signed_at": "2026-10-28T14:43:36"
+   }
+  }
+ ],
+ "sandbox_conjunction": "PASS",
+ "gates_conjunction": "PASS",
+ "mission_complete_blocker": null,
+ "mission_complete_basis": null
+}
