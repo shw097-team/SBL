@@ -1,0 +1,74 @@
+{
+  "schema": "r17.rec09.orphan.reconciliation.v1",
+  "at": "2026-10-24T10:48:18+0800",
+  "operation": "READBACK_ONLY_NO_RERUN",
+  "artefacts": {
+    "probe_script": {
+      "path": "<WORKSPACE>\\var\\R17-20261023\\tools\\probe_c_family.py",
+      "state": "PRESENT",
+      "bytes": 20353,
+      "mtime": "2026-10-24T10:46:06",
+      "sha256": "806ec3508ffd168e84f4d5c50c4b280a2ecd849f4a665d660787d1627225bf56"
+    },
+    "receipt": {
+      "path": "<WORKSPACE>\\var\\R17-20261023\\receipts\\F4_C_FAMILY_PROBES.json",
+      "state": "PRESENT",
+      "bytes": 26303,
+      "mtime": "2026-10-24T10:48:18",
+      "sha256": "85b221fd6e220010d90e701a8aee7c928f259003859a2bc875ed296479659411"
+    }
+  },
+  "parse": "JSON_OK",
+  "entries": {
+    "n": 25,
+    "ids": [
+      "C00",
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09",
+      "C10",
+      "C11",
+      "C12",
+      "C13",
+      "C14",
+      "C15",
+      "C16",
+      "C17",
+      "C18",
+      "C19",
+      "C20",
+      "C21",
+      "C22",
+      "C23",
+      "C24"
+    ],
+    "missing_ids": [],
+    "extra_ids": []
+  },
+  "verdict_counts": {
+    "PROBE_PARTIAL": 18,
+    "PROBE_OK": 3,
+    "PROBE_NO_EFFECT": 3,
+    "PROBE_UNBOUND": 1
+  },
+  "evidence_quality": {
+    "off_topic_evidence_ids": [],
+    "no_evidence_ids": [
+      "C18"
+    ],
+    "existence_only_checks": [],
+    "snapshot_copy_only_ids": [],
+    "rule": "an evidence path must intersect the CheckRun oracle keywords; path existence alone is not a pass (probe evidence_bearing rule)"
+  },
+  "attribution": "RECEIPT_MATCHES_CURRENT_SCRIPT",
+  "effect": "NO_TORN_WRITE",
+  "verdict": "ORPHAN_EFFECT_KNOWN_ARTEFACT_INTACT_BUT_EVIDENCE_QUALITY_DEFECT",
+  "next_legal_action": "re-run probe_c_family.py under the current script revision, then reclassify only the ids whose evidence is off-topic; do not promote any PROBE_* to a closed obligation and do not re-dispatch an effect",
+  "claim_ceiling": "LOCAL_READBACK_ONLY"
+}
