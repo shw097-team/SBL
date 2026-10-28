@@ -124,3 +124,17 @@ redistributed) is `SHIPPED_MATERIAL_INVENTORY.md`.
 WorkOrder, ECP, Permit or ExecutionBinding, and it makes no native or connected
 claim. `PREW3_SHADOW` is `NO_EFFECT`; `SWOF_CONNECTED` refuses without a Native
 Receiver ACK, and no such ACK exists.
+
+
+## B1 closure 2026-10-28
+
+`b1_closure_20261028/` is the evidence index for the FHS-MSC B1 bootstrap-repair round (PKG_00~08) on the SBL side.
+
+- `b1_closure_20261028/EVIDENCE_INDEX.md` — question → file#line → the command that reproduces it
+- `b1_closure_20261028/MANIFEST.json` — per-file bytes + sha256 (the packet is verifiable offline)
+- `b1_closure_20261028/HANDOVER.md` — ten-point orientation for an external reviewer
+
+Claim ceiling (measured, not asserted): `mission_complete true` under `b1_closure_20261028/evidence/GATES.json`
+means the gate conjunction passed, no residual blocker remained, and every blocking declaration was
+owner-ruled. It does **not** mean release (`release: NOT_RUN`), promotion, or third-party acceptance.
+Databases, raw lane output, the owner key envelope and credentials are excluded by design.

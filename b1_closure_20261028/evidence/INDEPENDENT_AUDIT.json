@@ -1,0 +1,56 @@
+{
+ "schema": "IndependentAudit@1",
+ "verdict": "PASS",
+ "auditor": {
+  "lane": "codex exec",
+  "model": "mimo-v2.6-flash",
+  "provider": "opencode-go",
+  "sandbox": "read-only",
+  "rounds": [
+   "v3 (SBL/FABRIC/G-B)",
+   "v4 (HGK narrow re-check)"
+  ],
+  "transcripts": {
+   "v3": "lane_audit_v3.out",
+   "v4": "lane_audit_v4.out"
+  }
+ },
+ "per_gwo": {
+  "GWO-SBL": {
+   "verdict": "PASS",
+   "round": "v3"
+  },
+  "GWO-HGK": {
+   "verdict": "PASS",
+   "round": "v4",
+   "quoted": {
+    "effect_sha": "c8f317e37dbb",
+    "readback_sha": "c8f317e37dbb",
+    "write_sentinel_sha": "52e04ea56f09",
+    "restore_sentinel_sha": "52e04ea56f09",
+    "remove_residue_dir_listing_sha": "4f53cda18c2b"
+   }
+  },
+  "GWO-FABRIC": {
+   "verdict": "PASS",
+   "round": "v3"
+  },
+  "G-B": {
+   "verdict": "PASS",
+   "round": "v3"
+  }
+ },
+ "residual_gaps": [],
+ "transcript_sha256": {
+  "lane_audit_v3.out": "d4ef95861ada50cb5dba768b00f2c92e19232f00c037ee3e738a80ecb781d95b",
+  "lane_audit_v4.out": "069a5b1a3f54d506695d306371e49a6964119d49d02adad43e3d38b9309ae53d"
+ },
+ "history": {
+  "v1": "FAIL (v1 manifests: vacuous checks, no signature bytes)",
+  "v2": "CONDITIONAL (missing raws_detail / tamper transcript)",
+  "v3": "PARTIAL (HGK effect sequence lacked per-step digests)",
+  "v4": "PASS"
+ },
+ "at": "2026-10-28T10:39:39",
+ "claim_ceiling": "AI checker lane (mimo-v2.6-flash, read-only sandbox) over frozen manifests; NOT an external human acceptance, NOT a second OS principal, and it does not attest native host effects beyond the raws it was given"
+}

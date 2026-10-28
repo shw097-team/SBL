@@ -1,0 +1,105 @@
+{
+ "schema": "GWO-HGK-Evidence@2",
+ "gwo": "GWO-HGK",
+ "raw_count": 3,
+ "raw_ids": [
+  "RAW-HGK-EFFECT",
+  "RAW-HGK-ISSUER",
+  "RAW-HGK-QUEUE"
+ ],
+ "raws": {
+  "RAW-HGK-ISSUER": {
+   "raw_id": "RAW-HGK-ISSUER",
+   "workorder_id": "WO-HGK-01",
+   "issuer_key_id": "ISSUER-DEMO-96b68b8b3c3b409e",
+   "issuer_public_hex": "96b68b8b3c3b409e6de36cf65abfd097bc41ba70f2b5d44efe816b69a5376ecf",
+   "body": {
+    "workorder_id": "WO-HGK-01",
+    "taskspec_id": "TS-B1-HGK",
+    "effect_key": "QUEUE_WO",
+    "subject_sha": "1b7bf87b06bafa9f4e2bbfb0029727aa0a4b3ee0197e1cfbaa27c08500bbc770",
+    "nonce": "53df033d5c27cad03c99b524f52f269f",
+    "policy_epoch": 9,
+    "host_id": "DESKTOP-57EO414",
+    "issued_at": "2026-10-28T10:38:03"
+   },
+   "canonical_body_sha256": "7c12c350044eff94fc27c6cef7bf38e1252298c7affd824c57121eaa6dbd1228",
+   "signature_hex": "36dabbc14d4d0241b4e4f489b04a95fbb9f71e6d40a263709756d6bd7fb57460370958f8e3837203bcd051a6012b3747c9147284d37e757846d7807970497b0d",
+   "signature_verified": true,
+   "tamper_rejected": true,
+   "tamper": {
+    "tampered_field": "workorder_id",
+    "original": "WO-HGK-01",
+    "mutated": "WO-HGK-02",
+    "tampered_body_sha256": "373213bd31c73bcba7eb2c649ffa9ad011832e5219937f4e43820ca9e564dbb8",
+    "original_body_sha256": "7c12c350044eff94fc27c6cef7bf38e1252298c7affd824c57121eaa6dbd1228",
+    "verify_original": true,
+    "verify_tampered": false
+   },
+   "verification": "Ed25519 over canonical(json, sort_keys, separators=(',',':'), ensure_ascii=False)",
+   "ceiling": "ISSUER_IS_LOCAL_KEY_NOT_A_SECOND_OS_PRINCIPAL"
+  },
+  "RAW-HGK-QUEUE": {
+   "raw_id": "RAW-HGK-QUEUE",
+   "workorder_id": "WO-HGK-01",
+   "state": "Running",
+   "version": 1,
+   "lease_generation": 1,
+   "lease_first_acquire": "LEASE_ACQUIRED",
+   "lease_second_acquire": "LEASE_HELD",
+   "cas_first_claim_rowcount": 1,
+   "cas_second_claim_rowcount": 0,
+   "cursor_before": 1931,
+   "cursor_after": 1931,
+   "spine_present": true,
+   "spine_sha_before": "3fa3246c54295965d822f36854a3ad209b2f3216fa0e5d45958244459a0ac061",
+   "spine_sha_after": "3fa3246c54295965d822f36854a3ad209b2f3216fa0e5d45958244459a0ac061",
+   "spine_mtime_before": "2026-10-25T10:06:13",
+   "spine_mtime_after": "2026-10-25T10:06:13",
+   "queue_db_path": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\hgk_host\\queue.db",
+   "queue_db_sha256": "d53a8a9d588e8017c539c50a86fe9b90739b33decb3f9ea0c4073152d19d50ef",
+   "spine_path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS\\var\\shared-spine\\hg-kseos.db",
+   "spine_snapshot_sha256": "3fa3246c54295965d822f36854a3ad209b2f3216fa0e5d45958244459a0ac061",
+   "ceiling": "QUEUE_LEDGER_LOCAL_SAME_COLUMNS; PRODUCTION_SPINE_OPENED_MODE=RO_ONLY"
+  },
+  "RAW-HGK-EFFECT": {
+   "raw_id": "RAW-HGK-EFFECT",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\hgk_host\\effect\\effect.txt",
+   "prior_sha": "52e04ea56f09dcc3faec47817416dd759ca815e6b437656db4328bafeb802739",
+   "effect_sha": "c8f317e37dbba4116f0c557e58aff33eef3cbd2222944ad6f8466b5ea8824ed5",
+   "readback_matches_effect": true,
+   "restored_sha": "52e04ea56f09dcc3faec47817416dd759ca815e6b437656db4328bafeb802739",
+   "restored_to_prior": true,
+   "rollback_pointer": "fs:effect.txt@sha256:52e04ea56f09dcc3faec47817416dd759ca815e6b437656db4328bafeb802739",
+   "residue_after": false,
+   "readback_sha": "c8f317e37dbba4116f0c557e58aff33eef3cbd2222944ad6f8466b5ea8824ed5",
+   "sequence": [
+    {
+     "step": "write_sentinel",
+     "sha": "52e04ea56f09dcc3faec47817416dd759ca815e6b437656db4328bafeb802739"
+    },
+    {
+     "step": "apply_effect",
+     "sha": "c8f317e37dbba4116f0c557e58aff33eef3cbd2222944ad6f8466b5ea8824ed5"
+    },
+    {
+     "step": "readback",
+     "ok": true,
+     "sha": "c8f317e37dbba4116f0c557e58aff33eef3cbd2222944ad6f8466b5ea8824ed5"
+    },
+    {
+     "step": "restore_sentinel",
+     "sha": "52e04ea56f09dcc3faec47817416dd759ca815e6b437656db4328bafeb802739"
+    },
+    {
+     "step": "remove_residue",
+     "absent": true,
+     "dir_listing_sha": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+   ],
+   "ceiling": "LOCAL_FS_EFFECT; AUTHOR_SIDE; restoration proven against a pre-written sentinel"
+  }
+ },
+ "verdict": "PASS",
+ "claim_ceiling": "AUTHOR_SIDE: one local issuer key inside the maker's OS user; signature proves key-pair consistency and body integrity, not that a second principal authorised the WO; G-B successor still requires a different OS PID/session"
+}

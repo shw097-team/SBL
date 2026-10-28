@@ -1,0 +1,56 @@
+{
+ "schema": "B1-CLAIM-DECLARATION/1",
+ "declared_at": "2026-10-28",
+ "declared_by": "owner (pending signature) via FAR-B1 v6 option C",
+ "registry_path": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\admission\\registry\\runner-registry.json",
+ "registry_sha256": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b",
+ "registry_rev": 10,
+ "claim_ceiling_corrected": "CANARY_DEMO_KEYS_NOT_OWNER; 6 of 30 routes; native_effect AUTHOR_SIDE_ONLY",
+ "measured": {
+  "rows": 30,
+  "effect_implemented": 12,
+  "owner_key_id": "OWNER-B1-d42c654cd1afba80",
+  "owner_key_is_enrolled_key": true,
+  "native_admission_events": 245,
+  "registry_verified": "OWNER_SIGNATURE_VERIFIED"
+ },
+ "known_stale": [
+  {
+   "field": "authorization.scope",
+   "value": "all 30 route rows + 4 enrollments, registry_rev 9",
+   "why": "historical string from the rev 9 ceremony; not signature-covered, not rewritten"
+  }
+ ],
+ "history": [
+  {
+   "event": "signature_attempt_discarded",
+   "why": "signed body excluded signed_by/signed_at, so the written file could never verify (measured: bindings_match False, InvalidSignature); body re-bound with declaration_lib",
+   "discarded_signature_prefix": "4c31db6708d6eb7c"
+  },
+  {
+   "event": "claim_ceiling_edit",
+   "at": "2026-10-28T14:32:23",
+   "before": "CANARY_DEMO_KEYS_NOT_OWNER; 6 of 30 routes; native_effect AUTHOR_SIDE_ONLY",
+   "after": "OWNER_SIGNED_ROOT (OWNER-B1-d42c654cd1afba80); 12 of 30 routes EFFECT_IMPLEMENTED; native_effect: 245 workorders ADMITTED (WO-B1-NATIVE-001 + 244-case corpus); no promotion, no release",
+   "permitted_because": "not covered by leaves()/signed_payload(); bound by this declaration"
+  },
+  {
+   "event": "registry_rebound",
+   "at": "2026-10-28T15:02:01",
+   "from": "3deaf0aa61827f67706b7fe2eca15ce8b3425ede3e1d2d381af0472ae5df31cd",
+   "to": "d5e63cee56a7474c96773a63079ff187cc6a1beb10b40f9c853ad9a0cce3f84d",
+   "why": "the runner registry was re-signed in the same unlock (D-8 fix); the declaration must not keep pointing at the previous bytes"
+  },
+  {
+   "event": "registry_rebound",
+   "at": "2026-10-28T15:02:55",
+   "from": "d5e63cee56a7474c96773a63079ff187cc6a1beb10b40f9c853ad9a0cce3f84d",
+   "to": "d70195751a48f15eaa6f17f3281a607346903966f813b39dbca1779d4a81d41b",
+   "why": "the runner registry was re-signed in the same unlock (D-8 fix); the declaration must not keep pointing at the previous bytes"
+  }
+ ],
+ "signed_by": "OWNER-B1-412b351937be72a1",
+ "signed_at": "2026-10-28T15:02:55",
+ "bindings_sha256": "9fb04a82efd862e216fa008847b2fde409cc6cffed24f3832eefc5351568c3b9",
+ "signature": "da2730f4b2363f2d024e5ec38e1f5fb071331f4672c7094d66139b5a07665f49655909af773fd5295b11385e06502ccbf3f1016c90645cfae6907aeda9c84802"
+}

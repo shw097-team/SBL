@@ -1,0 +1,71 @@
+{
+ "schema": "G-B-Evidence@1",
+ "gwo": "G-B",
+ "parent": {
+  "pid": 20884,
+  "session_uuid": "448500cefc9f4a138c49e9bc337e6883",
+  "os_session_id": 1
+ },
+ "helper_before": {
+  "token_present": true,
+  "token_sha": "a8fd573a0660f3307af8b258bd09315820c1c84644bc01d6edbf03ba5f21a630",
+  "spawn_authorized": true
+ },
+ "revoke": {
+  "raw_id": "RAW-REVOKE",
+  "token_sha": "a8fd573a0660f3307af8b258bd09315820c1c84644bc01d6edbf03ba5f21a630",
+  "deleted": true,
+  "revoked_epoch": 9,
+  "at": "2026-10-28T10:29:25",
+  "registry_revoked_epochs": []
+ },
+ "pre_spawn_gate": {
+  "decision": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN",
+  "spawned": false
+ },
+ "pre_spawn_gate_replayed_token": {
+  "decision": "REFUSED_REVOKED_TOKEN_REJECTED_BEFORE_SPAWN",
+  "spawned": false
+ },
+ "spawn": {
+  "rc": 0,
+  "elapsed_s": 1.78,
+  "stdout": "{\"ok\": true, \"pid\": 15436, \"session_uuid\": \"002bd7aea27d4ea28de14fe008b671a9\", \"cursor\": 1, \"subject\": \"1b7bf87b06bafa9f4e2bbfb0029727aa0a4b3ee0197e1cfbaa27c08500bbc770\"}",
+  "stderr": "",
+  "successor_pid": 15436,
+  "successor_session_uuid": "002bd7aea27d4ea28de14fe008b671a9",
+  "successor_os_session_id": 1,
+  "different_pid": true,
+  "different_session_uuid": true,
+  "helper_token_present_in_successor": false
+ },
+ "successor": {
+  "schema": "G-B-SuccessorReceipt@1",
+  "pid": 15436,
+  "ppid": 3264,
+  "session_uuid": "002bd7aea27d4ea28de14fe008b671a9",
+  "started_at": "2026-10-28T10:29:26",
+  "host": "DESKTOP-57EO414",
+  "journal": {
+   "row": "WO-HGK-01",
+   "subject_sha": "1b7bf87b06bafa9f4e2bbfb0029727aa0a4b3ee0197e1cfbaa27c08500bbc770",
+   "state": "Running",
+   "version": 1,
+   "cursor": 1
+  },
+  "helper_token_present": false,
+  "effect": {
+   "readback_ok": true,
+   "effect_sha": "79c74cb7b5cb7cf960b3a676db96ebd44d777d1b3402577c3dde5f1378d7b295",
+   "residue": false
+  },
+  "autonomous": true,
+  "credential_source": "durable journal only (no helper token, no parent memory handoff)"
+ },
+ "journal": {
+  "cursor_at_spawn": 1,
+  "cursor_now": 1
+ },
+ "verdict": "PASS",
+ "claim_ceiling": "Native successor runs as a different OS process with a new session uuid and its own console, reading only the durable journal; SAME OS user (PKG_08 L47 requires a different PID/session, not a different user). Same-user key material remains."
+}
