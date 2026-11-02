@@ -19,8 +19,9 @@ python -m unittest tests.test_tqaep_design_positive tests.test_claim_ceiling_sha
 
 Set `PYTHONPATH` to the checkout's `src` or install that original project in an
 isolated environment. New options preserve legacy command defaults. The actual
-CLI has 14 commands (including `repair`); historical descriptions saying 13 are
-not an exact inventory. The canonical registry remains 19 families. The new
+CLI has 13 commands (13 including `repair`; original E7 forbids a 14th);
+historical descriptions saying 14 are not an exact inventory. The canonical
+registry remains 19 families. The new
 schemas are separate Sidecars, not replacement canonical contracts.
 
 This is a local owner candidate, not a merged PIPD main change or a release.

@@ -17,8 +17,9 @@ receiver and authority are available. planned_tqaep does not need a live receipt
 Cases require SHA-pinned POS/NEG/raw schema bytes, applicability and FUO coverage.
 The original Case/Effect registries are not invented from a candidate's own JSON.
 
-Original PIPD main f6335a94157c61da75d92121d14c43feb413e981 exposes 14 commands
-(repair is present), 19 Schema families. Existing canonical $ids are unchanged.
+Original PIPD main f6335a94157c61da75d92121d14c43feb413e981 exposes 13 commands
+(13 including repair; original E7 forbids a 14th), 19 Schema families. Existing
+canonical $ids are unchanged.
 Its compile-tqaep still requires a receipt; compile-ecp remains generic. Therefore
 @2 is a separate author Sidecar. Do not insert @2 fields into canonical objects,
 invent a receipt, or label a Sidecar as original-Reader accepted canonical output.

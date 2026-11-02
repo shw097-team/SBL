@@ -19,8 +19,9 @@ a merged RC, independent acceptance, Host qualification or release.
 - Ordinary-goal implicit Trigger read the actual workflow/source and completed its model turn; process exit timed out (124), retained as transport HOLD.
 - ChatGPT: **PRIVATE_UPDATE_NOT_RUN / EXECUTOR_UNBOUND**; no official update interface here.
 
-Actual PIPD main has **14 commands**, including repair, and **19 canonical Schema
-families**. Original canonical IDs/default live-receipt behavior stay unchanged.
+Actual PIPD main has **13 commands** (13 including repair; original E7 forbids a
+14th), and **19 canonical Schema families**. Original canonical IDs/default
+live-receipt behavior stay unchanged.
 Owner candidate commit: `c7892703da60121c3f3ccb8ae6999ff98c943d3c` (local only). Patch SHA256: `48b8846e37a93813edbcb52145ffd78ab5e70a8f6b0e2980aed9caa25c7fa1d0`.
 
 Source identity retention: original 949 requirements, 192 cells and 282 cases/nodes
