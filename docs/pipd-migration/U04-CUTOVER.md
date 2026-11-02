@@ -69,8 +69,8 @@ or archive, native acceptance, HGK admission, policy effect, release, or an inde
 | item | value |
 |---|---|
 | pull request | [#17](https://github.com/shw097-team/SBL/pull/17) — **draft**; it must not be merged before D1 |
-| head at this record | `7cc0576` |
-| CI | [run 41472781614](https://github.com/shw097-team/SBL/actions/runs/41472781614) — `test (ubuntu)`, `test (windows)`, `pipd-compat` all success |
+| head and CI | this file ships inside the pull request, so the PR head and its Checks tab are the current pair; the run that verified the code above was `test (ubuntu)`, `test (windows)` and `pipd-compat`, all success |
+| this line is not a SHA | a committed SHA inside the same PR is stale by definition; cite the PR, not a snapshot of it |
 | merge | none — `D1` not recorded, so the writer stays with `PIPD-LS-SP` |
 | PIPD side | no change: `main` `aeb0d479`, 4 releases, `archived=false` |
 | FHS side | no change: `CANONICAL_COMPILER_PRE_CUTOVER`, `effect_permission=NONE` |
