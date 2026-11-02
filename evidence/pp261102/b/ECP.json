@@ -1,0 +1,19 @@
+{
+ "claim_ceiling": "DESIGN_ONLY",
+ "consumer_abi": "PIPD.ECP@1",
+ "effect_class": "REPOSITORY_WRITE",
+ "effect_registry_ref": "AUTHOR-OPREG-billing-round-v1#OP-GJ02-ROUND-FIX",
+ "exact_scope": [
+  "src/demo/billing.py"
+ ],
+ "expected_effect": "total() sums exact line amounts and rounds once, half-up",
+ "on_unknown": "RECONCILE_NO_BLIND_RETRY",
+ "operation_id": "OP-GJ02-ROUND-FIX",
+ "original_consumer": "AUTHOR_DERIVED_REPO_CONSUMER_UNBOUND",
+ "pd_digest": "09dc3798c44e3eb00af60d7eda005b5d7a3b4128babf7302fb1c7e9defb11f32",
+ "precondition": "HEAD 70757870ef495b0c3c7193fbf35df1223f8a6566 with the per-line rounding defect present",
+ "readback": "git_diff_and_test_exit",
+ "recoverability": "REVERSIBLE",
+ "schema": "SBL.ECP.INTENT@2",
+ "subject_id": "SUBJ-GJ02-BILLING-ROUNDING"
+}
