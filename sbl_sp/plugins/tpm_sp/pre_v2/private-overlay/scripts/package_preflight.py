@@ -2,9 +2,9 @@
 from pathlib import Path
 import hashlib, json, re, sys, zipfile
 try:
-    from .core import corpus_manifest, read_contained, require
+    from .core import canonical_order, corpus_manifest, read_contained, require
 except ImportError:
-    from core import corpus_manifest, read_contained, require
+    from core import canonical_order, corpus_manifest, read_contained, require
 
 FORBIDDEN=('.git','__pycache__','node_modules','.venv')
 PATTERNS=[rb'github_pat_[A-Za-z0-9_]{30,}',rb'gh[pousr]_[A-Za-z0-9]{30,}',
@@ -36,8 +36,7 @@ def package(root, destination):
         require(fm['name']==skill.parent.name and fm.get('description'),'SKILL_METADATA')
         names.append(fm['name'])
     require(len(names)==14 and len(set(names))==14,'SKILL_DENOMINATOR')
-    for path in sorted(root.rglob('*')):
-        if not path.is_file(): continue
+    for path in canonical_order(root,[p for p in root.rglob('*') if p.is_file()]):
         rel=path.relative_to(root)
         if any(p in FORBIDDEN for p in rel.parts) or path.suffix=='.pyc': continue
         require(path.suffix.lower() not in ('.db','.sqlite','.pem','.key','.pfx'), 'PRIVATE_RUNTIME_FILE')
