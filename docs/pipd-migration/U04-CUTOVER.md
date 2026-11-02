@@ -63,3 +63,14 @@ altered, so it remains the canonical writer without a restore decision.
 
 `U04_CANDIDATE_READY` only. Not claimed: canonical cutover, three-active-repo consolidation, PIPD maintenance exit
 or archive, native acceptance, HGK admission, policy effect, release, or an independent checker verdict.
+
+## 7. Round record
+
+| item | value |
+|---|---|
+| pull request | [#17](https://github.com/shw097-team/SBL/pull/17) — **draft**; it must not be merged before D1 |
+| head at this record | `7cc0576` |
+| CI | [run 41472781614](https://github.com/shw097-team/SBL/actions/runs/41472781614) — `test (ubuntu)`, `test (windows)`, `pipd-compat` all success |
+| merge | none — `D1` not recorded, so the writer stays with `PIPD-LS-SP` |
+| PIPD side | no change: `main` `8a0c852`, 4 releases, `archived=false` |
+| FHS side | no change: `CANONICAL_COMPILER_PRE_CUTOVER`, `effect_permission=NONE` |
