@@ -84,17 +84,21 @@ jobs:
       - name: Independent install without the SBL package
         run: |
           set -eu
+          # Run every check from a directory that is NOT the repository: with cwd at the repo root,
+          # `import sbl_core` succeeds through sys.path[0] and the independence check would be a lie.
           python -m venv "$RUNNER_TEMP/pipd-indep"
           "$RUNNER_TEMP/pipd-indep/bin/pip" install --quiet integrations/pipd/dist/*.whl
+          cd "$RUNNER_TEMP"
           "$RUNNER_TEMP/pipd-indep/bin/python" - <<'PY'
           import pipd_ls_sp
           from pipd_ls_sp import registry
           assert registry.EXPECTED_FAMILIES == 19, registry.EXPECTED_FAMILIES
           print("independent import ok:", pipd_ls_sp.__file__)
           PY
-          "$RUNNER_TEMP/pipd-indep/bin/pipd" --help | head -3
+          "$RUNNER_TEMP/pipd-indep/bin/pipd" --help > "$RUNNER_TEMP/pipd-help.txt"
+          head -3 "$RUNNER_TEMP/pipd-help.txt"
           if "$RUNNER_TEMP/pipd-indep/bin/python" -c "import sbl_core" 2>/dev/null; then
-            echo "U04_2_VIOLATION: the pipd distribution must not require sbl_core" >&2
+            echo "U04_2_VIOLATION: the pipd distribution must not resolve sbl_core outside the repo" >&2
             exit 1
           fi
           echo "U04_2_INDEPENDENT_USE_OK"
