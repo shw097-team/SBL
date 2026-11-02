@@ -1,0 +1,170 @@
+{
+  "schema": "SBL.PrePrimaryCheckRun@1",
+  "run_id": "RUN-20261102-GJ02-01",
+  "candidate_sha": "3a9da65561ab19cad90a6d7cbfb2eae0abf59b87ba565a118790bce5612326a8",
+  "host": "codex-cli 0.164.0 / model deepseek-v4.1-flash via opencode_go / isolated CODEX_HOME",
+  "rows": [
+    {
+      "case_id": "G01",
+      "capability": "Host really uses the package",
+      "original_test_refs": ["T03", "V2-T02"],
+      "result": "PASS",
+      "evidence": [
+        "codex plugin add sbl-tpm-sp@sbl-pre-primary-local -> installed, enabled, 0.3.0-rc.2",
+        "explicit trigger session read plugin files from the installed cache and produced host_notes.md + 3 SPECs",
+        "unrelated goal (create README.md) produced 0 references to sbl-tpm-sp/SKILL.md -> nontrigger held"
+      ],
+      "first_fail": null,
+      "claim_ceiling": "AUTHOR_DESIGN_ONLY",
+      "note": "raw/codex3_events.jsonl (specs), raw/ds_events.jsonl (deepseek tpm-setup), raw/ds_nontrigger2_events.jsonl (nontrigger)"
+    },
+    {
+      "case_id": "G01b",
+      "capability": "Ordinary goal with no plan hints",
+      "original_test_refs": ["T03"],
+      "result": "PASS_WITH_ROUTE_CAVEAT",
+      "evidence": [
+        "goal: fix the rounding defect, do not change test expectations",
+        "exit 0, file changed (2 insertions / 1 deletion), pytest 2 passed, no test expectation edited",
+        "usage: 97k input / 567 output tokens"
+      ],
+      "first_fail": "sandbox workspace-write blocks the WindowsApps pwsh alias; rerun with danger-full-access in the isolated repo",
+      "note": "this session ran on the official route (before the DeepSeek route was wired); the DeepSeek route is evidenced by G01/raw/ds_*"
+    },
+    {
+      "case_id": "G02",
+      "capability": "Source / PI not distorted",
+      "original_test_refs": ["T04", "V2-T03"],
+      "result": "PASS",
+      "evidence": [
+        "intake on tests/test_billing.py produced 17 requirement atoms, each with a real clause span and its own original oracle id",
+        "PI-PKG validated by the original writer; no synthetic REQ-* taxonomy used as an id"
+      ],
+      "first_fail": null
+    },
+    {
+      "case_id": "G03",
+      "capability": "PD late binding to a real repo",
+      "original_test_refs": ["T05"],
+      "result": "PASS",
+      "evidence": [
+        "bind-pd against the sandbox repo recorded HEAD 70757870, branch master, dirty=true with a fresh currentness epoch",
+        "no fabricated HEAD; the dirty flag is the real post-fix working tree"
+      ],
+      "first_fail": null
+    },
+    {
+      "case_id": "G04",
+      "capability": "Effect-specific ECP",
+      "original_test_refs": ["T12", "V2-T04"],
+      "result": "HOLD",
+      "evidence": [
+        "the canonical compile-ecp path produced an ECP without an operation registry, so effect binding stays generic",
+        "the effect-specific path needs a pinned original Operation Registry; none is reachable on this host"
+      ],
+      "first_fail": "EFFECT_REGISTRY_UNBOUND",
+      "claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    {
+      "case_id": "G05",
+      "capability": "Thin governance (READ/DRAFT not blocked by unrelated high-effect gates)",
+      "original_test_refs": ["T13", "V2-T05"],
+      "result": "PASS_SCOPED",
+      "evidence": [
+        "read-only and draft work ran with no grant, no owner prompt and no issuer contact",
+        "the plugin's own adapter tests refuse effect escalation: 186 author tests include the six-effect and UNKNOWN blind-retry negatives"
+      ],
+      "first_fail": null,
+      "note": "no broker exists on this host, so 'no extra gate' is observed, not certified"
+    },
+    {
+      "case_id": "G06",
+      "capability": "Single owner, repeated-question count",
+      "original_test_refs": ["T18", "V2-T06"],
+      "result": "NOT_RUN",
+      "evidence": ["no owner broker or pre-authorization channel is reachable from this host"],
+      "first_fail": "OWNER_BROKER_UNBOUND"
+    },
+    {
+      "case_id": "G07",
+      "capability": "Unattended autonomy (READY -> claim -> effect -> settle)",
+      "original_test_refs": ["T19", "V2-T07"],
+      "result": "NOT_RUN",
+      "evidence": ["no HGK spine/queue/lease endpoint; mandate_gate returns a lane receipt with nonce=None, not a work lease"],
+      "first_fail": "SPINE_UNBOUND"
+    },
+    {
+      "case_id": "G08",
+      "capability": "Recovery / UNKNOWN reconcile",
+      "original_test_refs": ["T20", "V2-T08"],
+      "result": "NOT_RUN",
+      "evidence": ["no worker effect was executed, so there is nothing to reconcile"],
+      "first_fail": "NO_EFFECT_EXECUTED"
+    },
+    {
+      "case_id": "G09",
+      "capability": "Planned TQAEP without a live receipt",
+      "original_test_refs": ["T17", "V2-T03"],
+      "result": "PASS_WITH_CEILING",
+      "evidence": [
+        "canonical compile-tqaep without a receipt refuses: exit 2, code TQ_SOD ('a maker cannot self-attest independence')",
+        "with an arbitrary receipt string the writer emits a TQAEP whose acceptance block says claim_ceiling=TQAEP_DESIGNED, independent_acceptance=NOT_GRANTED, design_time_status=DISTINCT_CHECKER_IDENTITY_RECORDED",
+        "the 25 pre-v2 adapter tests cover fake checker, empty raw and UNKNOWN-no-blind-retry refusals"
+      ],
+      "first_fail": null,
+      "note": "the arbitrary receipt string is accepted only as a design-time record; nothing in this run turns it into a Qualified TQAEP"
+    },
+    {
+      "case_id": "G10",
+      "capability": "TQAEP usability at the same scope",
+      "original_test_refs": ["T21", "V2-T09"],
+      "result": "HOLD",
+      "evidence": ["no protected checker, no live runner and no product consumer FUO on this host"],
+      "first_fail": "ORIGINAL_CHECKER_UNBOUND"
+    },
+    {
+      "case_id": "G11",
+      "capability": "Iteration efficiency / A-B",
+      "original_test_refs": ["T23"],
+      "result": "UNVERIFIED",
+      "evidence": ["no comparable baseline raw for the same goal/source/repo; no savings percentage is claimed"],
+      "first_fail": "NO_COMPARABLE_BASELINE"
+    },
+    {
+      "case_id": "G12",
+      "capability": "Version / rollback",
+      "original_test_refs": ["T24", "V2-T10"],
+      "result": "PASS",
+      "evidence": [
+        "installed 0.3.0-rc.2 -> plugin list: installed, enabled, 0.3.0-rc.2 -> remove -> not installed (cache dir gone) -> reinstall -> installed, enabled",
+        "other marketplaces and the real ~/.codex were never modified"
+      ],
+      "first_fail": null,
+      "note": "raw/plugin_list_installed.txt, raw/plugin_list_removed.txt, raw/plugin_list_final.txt"
+    }
+  ],
+  "additional_findings": [
+    {
+      "id": "FIND-VALIDATE-CLOSURE",
+      "severity": "P2",
+      "finding": "the original PIPD `validate --bundle` returns closure=FULL and checked=3 when the TQAEP is absent, so closure FULL alone does not prove all four objects exist",
+      "evidence": "01_products/pipd/validate_missing.out (checked 3, closure FULL, findings [])",
+      "action": "recorded; not patched (original writer, owner decision)"
+    },
+    {
+      "id": "FIND-HOST-124",
+      "severity": "P1",
+      "finding": "with --sandbox workspace-write on this host, exec_command is rejected because codex resolves pwsh.exe to the WindowsApps store alias; the turn then hangs to a 124 timeout",
+      "evidence": "raw/ds_nontrigger_exit.txt (124) and raw/ds_nontrigger_stderr.txt ('blocked by policy'); the same goal with danger-full-access exits 0 and completes",
+      "action": "recorded as CR-HOST-TRANSPORT; workaround used for this run only"
+    },
+    {
+      "id": "FIND-MODEL-QUOTA",
+      "severity": "P1",
+      "finding": "two of three pooled OpenCode Go keys return 429 GoUsageLimitError and one returns 401; only one key answers 200 for deepseek-v4.1-flash",
+      "evidence": "single-shot /v1/responses probes per key",
+      "action": "route works with the live key; key rotation is an owner action"
+    }
+  ],
+  "totals": {"PASS": 6, "PASS_WITH_CEILING": 2, "HOLD": 3, "NOT_RUN": 3, "UNVERIFIED": 1}
+}

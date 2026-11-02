@@ -1,0 +1,44 @@
+{
+  "schema": "SBL.NativeReceiptRefs@1",
+  "run_id": "RUN-20261102-GJ02-01",
+  "decision": "NATIVE_GOLDEN_HOLD",
+  "reason": "no original protected issuer, work spine, protected checker or publisher is reachable from this host; nothing in this run produced a world effect",
+  "world_effect": {
+    "state": "NOT_RUN",
+    "work_id": null,
+    "operation_id": null,
+    "policy_epoch": null,
+    "preimage": null,
+    "postimage": null,
+    "note": "the sandbox repo change was made by the Codex agent inside an isolated test repo, not by an authorised HGK worker; it is a test fixture, not a governed DEV effect"
+  },
+  "issuer_probe": {
+    "command": "python tools/mandate_gate.py check --role EXECUTE",
+    "repo": "HG-KSEOS",
+    "exit": 0,
+    "output": "PASS EXECUTE: receipt=var/R15-MODEL-FALLBACK-20261023/receipts/EXEC_smoke_receipt.json served_arm=opencode-go/deepseek-v4.1-flash nonce=None",
+    "interpretation": "this is a lane-model receipt for a past round (R15-MODEL-FALLBACK-20261023) with nonce=None. It corroborates the model route; it is NOT a grant for a REPOSITORY_WRITE effect and cannot be consumed as one."
+  },
+  "missing_for_native": [
+    "original Fabric policy epoch and consumer ACK for this scope",
+    "original HGK issuer grant with nonce/TTL for the exact effect, scope and preimage",
+    "work ID, lease and CAS entry on the original shared spine",
+    "original protected checker principal and its RequiredFUO coverage",
+    "original publisher (not applicable to DEV, listed for completeness)"
+  ],
+  "checker": {"state": "UNBOUND", "verdict": null},
+  "fuo": {"state": "NOT_OBSERVED", "items": []},
+  "safe_negatives_that_did_run": [
+    "TQ_SOD refusal when compile-tqaep has no receipt (exit 2)",
+    "design-time acceptance with an arbitrary receipt string is ceilinged at TQAEP_DESIGNED / NOT_GRANTED",
+    "pre-v2 adapter suite refuses fake checker, empty raw, UNKNOWN blind retry (part of 186 author tests)"
+  ],
+  "safe_negatives_that_did_not_run": [
+    "grant replay / double settle",
+    "cross-effect admit",
+    "dual active ECP",
+    "stale preimage at the issuer",
+    "protected checker independence"
+  ],
+  "claim_ceiling": "AUTHOR_DESIGN_ONLY"
+}
