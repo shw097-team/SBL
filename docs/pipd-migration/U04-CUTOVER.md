@@ -133,3 +133,17 @@ inclusion in this baseline.
 | independent distribution | wheel builds from SBL `main` and is exercised in CI on every push; **no public download entry point has been published yet** → `CUTOVER_DELIVERY_HOLD` for that sub-item only |
 | maintenance | feature work on the old compiler stops; the announcement PR carries `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` |
 | archive | not requested: open PRs #26/#22/#20/#19/#15 need disposition first, and archiving requires real admin rights |
+
+## 12. Open PIPD pull requests — disposition (measured against the absorbed tree)
+
+Each row is a decision with its evidence; nothing was closed or merged by the move itself.
+
+| PR | disposition | evidence | next action |
+|---|---|---|---|
+| [#26](https://github.com/shw097-team/PIPD-LS-SP/pull/26) pre-v2 planning adapters | **`TRANSFER_TO_SBL`** | 12 files; its base is `aeb0d479` (the absorbed SHA); no `pre_v2_adapter.py` in SBL; the patch re-applies to `integrations/pipd` and its 3 modules pass 29 tests, 13-verb CLI unchanged | re-open against SBL as a patch over `integrations/pipd` |
+| [#20](https://github.com/shw097-team/PIPD-LS-SP/pull/20) oracle compatibility API | **`TRANSFER_TO_SBL`** | 3 files, +244/−20; no `oracle_compat.py` in SBL; applies cleanly; its test module passes 12 tests; byte-identical to the copy carried inside #22 | re-open against SBL; exactly one of #20/#22 should move |
+| [#19](https://github.com/shw097-team/PIPD-LS-SP/pull/19) front-page limitations | **`TRANSFER_TO_SBL`** | one file, README only; the same present-tense claims are carried verbatim into `integrations/pipd/README.md` and are measurably false there (missing `.hgk` manifest, unresolvable `r5-s4-candidate` ref) | re-apply the README correction in SBL |
+| [#15](https://github.com/shw097-team/PIPD-LS-SP/pull/15) R7-0 validator hardening | **`TRANSFER_TO_SBL`** with an open risk | evidence-only; the hardening it records **never landed** — `DIGEST_BOUND`/`POLARITY_EXPECTED` have zero hits in the absorbed `validate.py`, and the PR's own rebase measurement records rc=1 | **open item:** re-author and re-measure digest binding + oracle polarity on `integrations/pipd/validate.py`; recorded as a real gap, not folded into this cutover |
+| [#22](https://github.com/shw097-team/PIPD-LS-SP/pull/22) R21 FAR | **`HISTORICAL_ONLY`** | 484 files (460 evidence); `mergeable=false`; its code delta conflicts with the absorbed tree and adds the 14th verb `compile-cc`, outside the approved D0 ABI | keep as the round's historical record; no merge |
+
+No `CLOSE_SUPERSEDED` was recorded: none of the five is superseded by the absorption alone.
