@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-pi-compile:input:1",
+  "title": "pipd-pi-compile input",
+  "description": "Owner: PIPD. Consumer: PD binder. A frozen IntentCard reference, the effective profile, and the requirement atoms to compile into PI-PKG (S0 family 06).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^INTENT-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "LITE",
+        "STANDARD",
+        "ASSURED"
+      ]
+    },
+    "atoms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "req_id": {
+            "enum": [
+              "REQ-INTENT",
+              "REQ-KNOWLEDGE",
+              "REQ-VERIFY",
+              "REQ-DELIVER",
+              "REQ-GOVERN"
+            ]
+          },
+          "source_clause": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "const": "PIPD-EC"
+          },
+          "acceptance_cue": {
+            "type": "string",
+            "minLength": 1
+          },
+          "risk_guard": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "req_id",
+          "source_clause",
+          "owner",
+          "acceptance_cue",
+          "risk_guard"
+        ]
+      },
+      "minItems": 1
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "required": [
+    "intent",
+    "profile",
+    "atoms",
+    "goal"
+  ]
+}

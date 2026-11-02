@@ -1,0 +1,17 @@
+{
+ "requirement": "REQ-COLLAPSED-KEYWORD",
+ "kind": "negative",
+ "expectation": "the oracle must REJECT the old five-keyword classifier's collapse of this clause pair",
+ "old_classifier": {
+   "route": "pipeline.intake ATOM_RULES five-axis keyword buckets (pre R-AUD-005)",
+   "buckets": ["REQ-DELIVER/release"],
+   "atoms_emitted": 1,
+   "defect": "兩個不同子句（義務『系統交付發行說明』與禁止『系統不得交付遙測資料』）都命中交付 keyword，被收斂進同一個 REQ-DELIVER keyword bucket"
+ },
+ "expected_atoms": [
+   {"text": "系統交付發行說明", "polarity": "MUST"},
+   {"text": "系統不得交付遙測資料", "polarity": "MUST NOT"}
+ ],
+ "oracle": "clause identity is authoritative: an obligation and its prohibition sharing one keyword must stay two atoms with opposite polarity",
+ "variant": "perturbed: one keyword atom covering both clauses must FAIL"
+}

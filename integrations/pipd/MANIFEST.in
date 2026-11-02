@@ -1,0 +1,7 @@
+# sdist payload. The canonical `schemas/` tree must travel in the sdist, otherwise a build performed
+# from the sdist (pip's normal path for a source distribution) has no registry to mirror into the
+# package and the resulting wheel is not self-sufficient (S4R3-F006). Keep this list minimal: no
+# `tools/**` sweep, no round evidence, no dist/ history.
+include LICENSE
+include NOTICE
+recursive-include schemas *.json

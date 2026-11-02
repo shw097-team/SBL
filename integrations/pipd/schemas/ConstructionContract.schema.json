@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:ConstructionContract:1",
+  "x-s0": {
+    "index": "10",
+    "contract": "ConstructionContract",
+    "materialization": "REQUIRED_NOW",
+    "owner": "PIPD",
+    "consumers": ["HGK adapter"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD. Consumer: HGK adapter.",
+  "additionalProperties": false,
+  "required": [
+    "subject",
+    "writable_scope",
+    "expected_changes",
+    "tests",
+    "rollback",
+    "evidence_expectations",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "subject": {},
+    "writable_scope": {},
+    "expected_changes": {},
+    "tests": {},
+    "rollback": {},
+    "evidence_expectations": {},
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

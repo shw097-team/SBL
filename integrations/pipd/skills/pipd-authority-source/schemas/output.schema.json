@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-authority-source:output:1",
+  "title": "pipd-authority-source output",
+  "description": "Owner: PIPD. Consumer: all compilers/adapters. SourceFreezeManifest plus one AuthorityBinding per family (S0 families 02).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "subject_id": {
+      "type": "string",
+      "pattern": "^SFM-[0-9a-f]{16}$"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "schema_version": {
+      "const": "SourceFreezeManifest@1"
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^F[0-9]_[A-Z0-9_]+$"
+      },
+      "minItems": 1
+    },
+    "digests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "minItems": 1
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "pattern": "^AUTH-[0-9a-f]{16}$"
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "schema_version": {
+            "const": "AuthorityBinding@1"
+          },
+          "source_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority_rank": {
+            "enum": [
+              "R1",
+              "R2"
+            ]
+          },
+          "locator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "supersession": {
+            "const": "CURRENT"
+          },
+          "conflict_state": {
+            "const": "NONE"
+          }
+        },
+        "required": [
+          "subject_id",
+          "content_hash",
+          "version",
+          "schema_version",
+          "source_id",
+          "authority_rank",
+          "locator",
+          "supersession",
+          "conflict_state"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "subject_id",
+    "content_hash",
+    "version",
+    "schema_version",
+    "families",
+    "digests",
+    "bindings"
+  ]
+}

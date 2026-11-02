@@ -1,0 +1,44 @@
+{
+  "schema": "PIPD-PUBLIC-PLUGIN-OWNER-INPUTS/1",
+  "what_this_is": "The four owner inputs that BLOCK the public plugin candidate. The build refuses with a typed, non-zero reason until each is supplied. This file is a template with the exact shape; it is NOT an approval and the agent may not fill it.",
+  "supply_1_derivations": {
+    "where": "packaging/public-plugin/derivations.json",
+    "shape": {
+      "schema": "PIPD-PUBLIC-PLUGIN-DERIVATIONS/1",
+      "derivations": [
+        {
+          "skill": "<one of the eight frozen skill names>",
+          "source_path": "skills/<skill>/SKILL.md",
+          "source_sha256": "<copy the value for that path out of evidence/08_PLUGIN/FROZEN_SOURCE_LEDGER.json; do NOT retype it>",
+          "approved_by": "<the approving owner identity>",
+          "approval_receipt": "<ticket / ADR / message id that records the approval>",
+          "kept_keys": ["name", "description"],
+          "dropped_keys": ["version", "owner", "triggers", "schemas", "references", "tests"]
+        }
+      ]
+    },
+    "why": "Every one of the eight SKILL.md packs carries frontmatter outside the Agent Skills portable set, so a byte-copy projection is impossible. The body is never altered; only the listed keys move into the metadata map.",
+    "count_required": 8
+  },
+  "supply_2_vendor_schema_and_digest": {
+    "where": "packaging/public-plugin/vendor-plugin.schema.json (already a byte copy of the round's download) and the pin field inside packaging/public-plugin/plugin.json -> extensions['com.pipd.s4'].official_schema_sha256",
+    "note": "The pin must equal the sha256 of the byte copy the builder validates against. The builder refuses VENDOR_SCHEMA_DIGEST_MISMATCH otherwise. The vendor's own validator and the Portal scan remain NOT_EXECUTED and are not claimed by this pin."
+  },
+  "supply_3_publisher_identity": {
+    "where": "the publisher record inside packaging/public-plugin/plugin.release.json",
+    "fields": ["name", "identity", "identity_sha256"],
+    "why": "A public listing is attributed to a verified human publisher. No agent may assert that identity."
+  },
+  "supply_4_icons": {
+    "where": "packaging/public-plugin/assets/ (gitignored) and the icon digests pinned in packaging/public-plugin/plugin.json",
+    "current_state": "The candidate generates a deterministic placeholder icon with a stdlib PNG writer so the pipeline is testable end to end. Owner brand assets, and the Portal's icon scan, are NOT supplied and NOT executed.",
+    "pin": "Regenerate or replace, then pin the resulting sha256 in the manifest's icon entry."
+  },
+  "owner_only_acts_after_these": [
+    "choose the plugin SemVer",
+    "create the new immutable release tag and its assets (never rewrite v0.1.1-preview.3)",
+    "perform the Portal draft -> scan -> review -> Publish sequence",
+    "ratify or reject the Stage A/B candidates"
+  ],
+  "claim_ceiling": "MAKER_CANDIDATE_AND_LOCAL_TESTS_ONLY"
+}

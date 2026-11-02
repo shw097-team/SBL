@@ -1,0 +1,560 @@
+PIPD-LS-SP SELF-BOOTSTRAP NEGATIVE CASES (raw captured output)
+root = C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay
+
+PIPD-LS-SP SELF-BOOTSTRAP TRANSCRIPT
+repo   = C:\Projects\Agent_Workspace\PIPD-postrelease-wt
+root   = C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay
+chain  = init -> intake -> compile-pi -> bind-pd -> compile-ecp -> compile-tqaep -> validate
+
+### init: create the isolated workspace via the CLI
+$ pipd init
+[exit 0]
+{
+ "contract_families": 19,
+ "created": [
+  "docs",
+  "schemas",
+  "src",
+  "tests",
+  "dist"
+ ],
+ "root": "C:\\c\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\sb_replay",
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD-postrelease-wt\\schemas",
+  "tried": [
+   "C:\\c\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\sb_replay\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD-postrelease-wt\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+
+### intake: compile clause-bound atoms into an IntentCard
+$ pipd intake --goal 以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成測試驗收與公開交付。 --source examples/self-bootstrap/input/source_clauses.txt --constraint candidate-only, no release --non-goal no PKG/DOC blueprint body copied into this repository
+[exit 0]
+{
+ "atoms": [
+  {
+   "acceptance_cue": "MUST: PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作",
+   "axis": "intent",
+   "owner": "PIPD-EC",
+   "req_id": "REQ-c1b20be60b4487044936",
+   "risk_guard": {
+    "failure_condition": "violate MUST: PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作",
+    "negative_fixture": "fixtures/REQ-c1b20be60b4487044936/negative",
+    "oracle": {
+     "expected": "required",
+     "id": "ORACLE-REQ-c1b20be60b4487044936",
+     "predicate": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作"
+    },
+    "polarity": "MUST"
+   },
+   "source_clause": {
+    "child": 0,
+    "clause_id": "clause-0-32",
+    "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+    "kind": "file",
+    "source_sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_text": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作",
+    "span": [
+     0,
+     32
+    ],
+    "text": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作"
+   }
+  },
+  {
+   "acceptance_cue": "MUST: 編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段",
+   "axis": "intent",
+   "owner": "PIPD-EC",
+   "req_id": "REQ-fa53ea48c1dd65a700a2",
+   "risk_guard": {
+    "failure_condition": "violate MUST: 編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段",
+    "negative_fixture": "fixtures/REQ-fa53ea48c1dd65a700a2/negative",
+    "oracle": {
+     "expected": "required",
+     "id": "ORACLE-REQ-fa53ea48c1dd65a700a2",
+     "predicate": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段"
+    },
+    "polarity": "MUST"
+   },
+   "source_clause": {
+    "child": 0,
+    "clause_id": "clause-34-76",
+    "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+    "kind": "file",
+    "source_sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_text": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段",
+    "span": [
+     34,
+     76
+    ],
+    "text": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段"
+   }
+  },
+  {
+   "acceptance_cue": "MUST NOT: 設計時 TQAEP 不得聲稱獨立驗收",
+   "axis": "verification",
+   "owner": "PIPD-EC",
+   "req_id": "REQ-54a2ab7191e70db31697",
+   "risk_guard": {
+    "failure_condition": "violate MUST NOT: 設計時 TQAEP 不得聲稱獨立驗收",
+    "negative_fixture": "fixtures/REQ-54a2ab7191e70db31697/negative",
+    "oracle": {
+     "expected": "forbidden",
+     "id": "ORACLE-REQ-54a2ab7191e70db31697",
+     "predicate": "設計時 TQAEP 不得聲稱獨立驗收"
+    },
+    "polarity": "MUST NOT"
+   },
+   "source_clause": {
+    "child": 0,
+    "clause_id": "clause-78-96",
+    "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+    "kind": "file",
+    "source_sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_text": "設計時 TQAEP 不得聲稱獨立驗收",
+    "span": [
+     78,
+     96
+    ],
+    "text": "設計時 TQAEP 不得聲稱獨立驗收"
+   }
+  }
+ ],
+ "constraints": [
+  "candidate-only, no release"
+ ],
+ "content_hash": "c80197cd8fe6675be5bf6f23f9e94fe902aaa17c69423406d219f26edf899c5a",
+ "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成測試驗收與公開交付。",
+ "non_goals": [
+  "no PKG/DOC blueprint body copied into this repository"
+ ],
+ "schema_version": "IntentCard@1",
+ "sources": [
+  "examples/self-bootstrap/input/source_clauses.txt"
+ ],
+ "subject_id": "INTENT-c80197cd8fe6675b"
+}
+
+### compile-pi: PI package (LITE)
+$ pipd compile-pi --intent C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\intent.card.json --profile LITE
+[exit 0]
+{
+ "_profile_meta": {
+  "artifact_depth": "L1_SCHEMA_CONTRACT",
+  "assurance": [
+   "deterministic_validator"
+  ],
+  "axes": [
+   "intent",
+   "verification"
+  ],
+  "canonical_truth": "single",
+  "escalated": false,
+  "escalation_reason": null,
+  "profile": "LITE",
+  "requested_profile": "LITE",
+  "risk_assessment": "NOT_ASSESSED",
+  "vetoes": []
+ },
+ "acceptance": {
+  "mode": "bound",
+  "oracle_source": "DOC-03 DOMAIN_ORACLES"
+ },
+ "content_hash": "1b3b61e57cad3299ceac90cc48fb27a4cacfeac25828abc52560b7910780d31f",
+ "schema_version": "PI-PKG@1",
+ "stable_semantic_contract": {
+  "atoms": [
+   {
+    "acceptance_cue": "MUST: PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作",
+    "content_hash": "12e00e93c00a9877607ad4b3baa72c8e1be0a675901d0d81db89e52577091e14",
+    "owner": "PIPD-EC",
+    "req_id": "REQ-c1b20be60b4487044936",
+    "risk_guard": {
+     "failure_condition": "violate MUST: PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作",
+     "negative_fixture": "fixtures/REQ-c1b20be60b4487044936/negative",
+     "oracle": {
+      "expected": "required",
+      "id": "ORACLE-REQ-c1b20be60b4487044936",
+      "predicate": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作"
+     },
+     "polarity": "MUST"
+    },
+    "schema_version": "RequirementAtom@1",
+    "source_clause": {
+     "child": 0,
+     "clause_id": "clause-0-32",
+     "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+     "kind": "file",
+     "source_ref": "SRC-8f4b5290d6af79555dcf",
+     "span": [
+      0,
+      32
+     ],
+     "text": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作"
+    },
+    "subject_id": "ATOM-12e00e93c00a9877",
+    "version": "1"
+   },
+   {
+    "acceptance_cue": "MUST: 編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段",
+    "content_hash": "e87b11651e0c24dd561ba486a53150ddf6d3333724b8282b824825e0d1373c6b",
+    "owner": "PIPD-EC",
+    "req_id": "REQ-fa53ea48c1dd65a700a2",
+    "risk_guard": {
+     "failure_condition": "violate MUST: 編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段",
+     "negative_fixture": "fixtures/REQ-fa53ea48c1dd65a700a2/negative",
+     "oracle": {
+      "expected": "required",
+      "id": "ORACLE-REQ-fa53ea48c1dd65a700a2",
+      "predicate": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段"
+     },
+     "polarity": "MUST"
+    },
+    "schema_version": "RequirementAtom@1",
+    "source_clause": {
+     "child": 0,
+     "clause_id": "clause-34-76",
+     "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+     "kind": "file",
+     "source_ref": "SRC-2475a1cc11f16362791a",
+     "span": [
+      34,
+      76
+     ],
+     "text": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段"
+    },
+    "subject_id": "ATOM-e87b11651e0c24dd",
+    "version": "1"
+   },
+   {
+    "acceptance_cue": "MUST NOT: 設計時 TQAEP 不得聲稱獨立驗收",
+    "content_hash": "eaec01b68631cc92b011f4fd70dab5ec45c784bd728c9f9168340a888f8b1c95",
+    "owner": "PIPD-EC",
+    "req_id": "REQ-54a2ab7191e70db31697",
+    "risk_guard": {
+     "failure_condition": "violate MUST NOT: 設計時 TQAEP 不得聲稱獨立驗收",
+     "negative_fixture": "fixtures/REQ-54a2ab7191e70db31697/negative",
+     "oracle": {
+      "expected": "forbidden",
+      "id": "ORACLE-REQ-54a2ab7191e70db31697",
+      "predicate": "設計時 TQAEP 不得聲稱獨立驗收"
+     },
+     "polarity": "MUST NOT"
+    },
+    "schema_version": "RequirementAtom@1",
+    "source_clause": {
+     "child": 0,
+     "clause_id": "clause-78-96",
+     "file": "examples\\self-bootstrap\\input\\source_clauses.txt",
+     "kind": "file",
+     "source_ref": "SRC-b82285066d4df909d732",
+     "span": [
+      78,
+      96
+     ],
+     "text": "設計時 TQAEP 不得聲稱獨立驗收"
+    },
+    "subject_id": "ATOM-eaec01b68631cc92",
+    "version": "1"
+   }
+  ],
+  "contract": "stable",
+  "goal": "以 HG-KSEOS 治理控制平面實作 PIPD-LS-SP 規格包編譯系統，完成測試驗收與公開交付。",
+  "profile_binding": {
+   "artifact_depth": "L1_SCHEMA_CONTRACT",
+   "assurance": [
+    "deterministic_validator"
+   ],
+   "axes": [
+    "intent",
+    "verification"
+   ],
+   "content_hash": "101ac2efdcdc189fbeecfa4787d43052d8d34fb4cc2db3c8af6ff7f8f62238bc",
+   "profile": "LITE",
+   "schema_version": "ProfileBinding@1",
+   "subject_id": "PB-101ac2efdcdc189f",
+   "version": "1",
+   "vetoes": []
+  },
+  "sources": [
+   {
+    "sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_id": "SRC-8f4b5290d6af79555dcf",
+    "text": "PIPD-LS-SP 必須由 HG-KSEOS 治理控制平面實作"
+   },
+   {
+    "sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_id": "SRC-2475a1cc11f16362791a",
+    "text": "編譯鏈必須包含 intent 到 PI 到 PD 到 ECP 到 TQAEP 的階段"
+   },
+   {
+    "sha256": "6330c15a3709db133f0b68253004720555854321bcaffa3f871b3cda241b971b",
+    "source_id": "SRC-b82285066d4df909d732",
+    "text": "設計時 TQAEP 不得聲稱獨立驗收"
+   }
+  ]
+ },
+ "subject_id": "PI-1b3b61e57cad3299",
+ "trace": [
+  {
+   "content_hash": "d5c16d3b5f30400e18e272230e077740cdd616a5a3e379bae7d49450a39ff9fc",
+   "from_hash": "1b3b61e57cad3299ceac90cc48fb27a4cacfeac25828abc52560b7910780d31f",
+   "from_id": "PI-1b3b61e57cad3299",
+   "from_type": "PI-PKG",
+   "rationale": "PI derives this atom from the frozen intent",
+   "schema_version": "TraceLink@1",
+   "subject_id": "TL-d5c16d3b5f30400e",
+   "to_hash": "12e00e93c00a9877607ad4b3baa72c8e1be0a675901d0d81db89e52577091e14",
+   "to_id": "ATOM-12e00e93c00a9877",
+   "to_type": "RequirementAtom",
+   "version": "1"
+  },
+  {
+   "content_hash": "e9598554bdd4bdc25b0ac1e156320d25b707f76a65e60b5bbae83bca4aa98ed8",
+   "from_hash": "1b3b61e57cad3299ceac90cc48fb27a4cacfeac25828abc52560b7910780d31f",
+   "from_id": "PI-1b3b61e57cad3299",
+   "from_type": "PI-PKG",
+   "rationale": "PI derives this atom from the frozen intent",
+   "schema_version": "TraceLink@1",
+   "subject_id": "TL-e9598554bdd4bdc2",
+   "to_hash": "e87b11651e0c24dd561ba486a53150ddf6d3333724b8282b824825e0d1373c6b",
+   "to_id": "ATOM-e87b11651e0c24dd",
+   "to_type": "RequirementAtom",
+   "version": "1"
+  },
+  {
+   "content_hash": "8bffccc6a4206ee9598e7c6d5fcf14496dce79e04a550b8bd629521520557c6b",
+   "from_hash": "1b3b61e57cad3299ceac90cc48fb27a4cacfeac25828abc52560b7910780d31f",
+   "from_id": "PI-1b3b61e57cad3299",
+   "from_type": "PI-PKG",
+   "rationale": "PI derives this atom from the frozen intent",
+   "schema_version": "TraceLink@1",
+   "subject_id": "TL-8bffccc6a4206ee9",
+   "to_hash": "eaec01b68631cc92b011f4fd70dab5ec45c784bd728c9f9168340a888f8b1c95",
+   "to_id": "ATOM-eaec01b68631cc92",
+   "to_type": "RequirementAtom",
+   "version": "1"
+  }
+ ],
+ "version": "1"
+}
+
+### bind-pd: late-bind PD against a read-only RepoContext
+$ pipd bind-pd --pi C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\pi.json --repo-root C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\pd_context
+[exit 0]
+{
+ "RepoContext": {
+  "branch": null,
+  "caller_claims": {
+   "branch": {
+    "matches_host": true,
+    "value": null,
+    "verified": true
+   },
+   "currentness": {
+    "matches_host": true,
+    "value": "FRESH",
+    "verified": true
+   },
+   "currentness_epoch": {
+    "matches_host": true,
+    "value": "583419010c029946b7d3fd78f7a3112e1e4a1dffefcea85db2dac852bff09c51",
+    "verified": true
+   },
+   "dirty": {
+    "matches_host": true,
+    "value": false,
+    "verified": true
+   },
+   "head": {
+    "matches_host": true,
+    "value": null,
+    "verified": true
+   },
+   "manifest_sha256": {
+    "matches_host": true,
+    "value": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "verified": true
+   },
+   "tracked_files": {
+    "matches_host": true,
+    "value": 0,
+    "verified": true
+   },
+   "writable_scope": {
+    "matches_host": true,
+    "value": "src/**",
+    "verified": false
+   }
+  },
+  "currentness_epoch": "583419010c029946b7d3fd78f7a3112e1e4a1dffefcea85db2dac852bff09c51",
+  "degraded": true,
+  "degraded_reason": "not a git checkout: degraded to filesystem probes (disclosed)",
+  "dirty": false,
+  "dirty_tracked": [],
+  "head": null,
+  "manifest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "probe": "filesystem",
+  "readiness": "PREDEV_READY",
+  "root": "C:\\c\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\sb_replay\\pd_context",
+  "tracked_files": 0
+ },
+ "content_hash": "d90bec6eee7fd830f78acbd66d294f806da9822d1c6b9c3949513c4a3560e835",
+ "currentness": {
+  "claims_verified": [
+   "branch",
+   "currentness",
+   "currentness_epoch",
+   "dirty",
+   "head",
+   "manifest_sha256",
+   "tracked_files"
+  ],
+  "derived_from": "filesystem-probes at bind time",
+  "epoch": "583419010c029946b7d3fd78f7a3112e1e4a1dffefcea85db2dac852bff09c51",
+  "state": "FRESH"
+ },
+ "late_bound_construction_binding": {
+  "binding_scope": "affected_only",
+  "bound_at": "PD",
+  "writable_scope": "src/**",
+  "writable_scope_check": {
+   "authorized": [
+    "src/**",
+    "tests/**",
+    "tools/**",
+    "fixtures/**"
+   ],
+   "findings": [],
+   "requested": [
+    "src/**"
+   ],
+   "subset": true,
+   "verdict": "PASS"
+  }
+ },
+ "schema_version": "PD-PKG@1",
+ "subject_id": "PD-d90bec6eee7fd830",
+ "version": "1"
+}
+
+### compile-ecp: execution contract
+$ pipd compile-ecp --pd C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\pd.json --pi C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\pi.json
+[exit 0]
+{
+ "content_hash": "1f06b3f880be2c21297e2aa4102f748ecb6dc1ec4445273b478812f04230fbcd",
+ "effect_intent": "apply bounded edits inside the writable scope",
+ "idempotency": {
+  "guarantee": "at_most_once",
+  "key": "IDEM-ec2bcbb1c7b4d8ae"
+ },
+ "permission": {
+  "scope": "src/**",
+  "token_required": true
+ },
+ "readback": {
+  "kind": "residue_scan",
+  "required": true
+ },
+ "retries": {
+  "backoff": "none",
+  "max": 1
+ },
+ "rollback": {
+  "pointer": "baseline_commit",
+  "required": true
+ },
+ "schema_version": "ECP@1",
+ "subject_id": "ECP-1f06b3f880be2c21",
+ "version": "1"
+}
+
+### compile-tqaep: design-time separation-of-duties record
+$ pipd compile-tqaep --pi C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\pi.json --ecp C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\ecp.json --maker HERMES-MAKER --checker GLM-5.3-FLASH-AO-LANE --checker-receipt deleg_example/lane-C
+[exit 0]
+{
+ "acceptance": [
+  {
+   "case": "TQAEP_DESIGN_CANDIDATE",
+   "checker_execution_receipt": "deleg_example/lane-C",
+   "checker_identity": "GLM-5.3-FLASH-AO-LANE",
+   "claim_ceiling": "TQAEP_DESIGNED",
+   "design_time_status": "DISTINCT_CHECKER_IDENTITY_RECORDED",
+   "distinct": true,
+   "independent_acceptance": "NOT_GRANTED",
+   "independent_proof_requires": "S5_LIVE_RUNTIME_CHECKER",
+   "maker_identity": "HERMES-MAKER",
+   "note": "design-time candidate only: the checker receipt is a recorded string, not independent verification; a live runtime checker must re-run it before any independent acceptance can be claimed"
+  }
+ ],
+ "content_hash": "4946f4ef45cee5b45fc29103561eeb6a065aa08a43527449117f700f2a0bcf34",
+ "fixtures": [
+  "fixtures/REQ-c1b20be60b4487044936/positive",
+  "fixtures/REQ-fa53ea48c1dd65a700a2/positive",
+  "fixtures/REQ-54a2ab7191e70db31697/positive"
+ ],
+ "oracles": [
+  "TEST-REQ-c1b20be60b4487044936: deterministic assertion on the bound artifact",
+  "TEST-REQ-fa53ea48c1dd65a700a2: deterministic assertion on the bound artifact",
+  "TEST-REQ-54a2ab7191e70db31697: deterministic assertion on the bound artifact"
+ ],
+ "requalification": "affected-only",
+ "schema_version": "TQAEP@1",
+ "subject_id": "TQAEP-4946f4ef45cee5b4",
+ "tests": [
+  {
+   "evidence_expectation": "EVD-REQ-c1b20be60b4487044936",
+   "negative_fixture": "fixtures/REQ-c1b20be60b4487044936/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-c1b20be60b4487044936/positive",
+   "requirement": "REQ-c1b20be60b4487044936",
+   "test_id": "TEST-REQ-c1b20be60b4487044936"
+  },
+  {
+   "evidence_expectation": "EVD-REQ-fa53ea48c1dd65a700a2",
+   "negative_fixture": "fixtures/REQ-fa53ea48c1dd65a700a2/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-fa53ea48c1dd65a700a2/positive",
+   "requirement": "REQ-fa53ea48c1dd65a700a2",
+   "test_id": "TEST-REQ-fa53ea48c1dd65a700a2"
+  },
+  {
+   "evidence_expectation": "EVD-REQ-54a2ab7191e70db31697",
+   "negative_fixture": "fixtures/REQ-54a2ab7191e70db31697/negative",
+   "oracle": "deterministic assertion on the bound artifact",
+   "positive_fixture": "fixtures/REQ-54a2ab7191e70db31697/positive",
+   "requirement": "REQ-54a2ab7191e70db31697",
+   "test_id": "TEST-REQ-54a2ab7191e70db31697"
+  }
+ ],
+ "version": "1"
+}
+
+### validate: schema + semantic invariants over the bundle
+$ pipd validate --bundle C:\c\Users\user\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\cache\scratch\s4post\sb_replay\artifacts\bundle.json
+[exit 0]
+{
+ "checked": 4,
+ "findings": [],
+ "schema_source": {
+  "mode": "SOURCE",
+  "path": "C:\\Projects\\Agent_Workspace\\PIPD-postrelease-wt\\schemas",
+  "tried": [
+   "C:\\c\\Users\\user\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\cache\\scratch\\s4post\\sb_replay\\schemas",
+   "C:\\Projects\\Agent_Workspace\\PIPD-postrelease-wt\\schemas"
+  ]
+ },
+ "verdict": "PASS"
+}
+
+### NEGATIVE: missing source locator
+$ python -c 'pipeline.intake(goal, sources=['examples/self-bootstrap/input/does_not_exist.txt'])'
+{"code": "AUTHORITY_UNKNOWN", "exit": 2, "message": "source locator does not exist: examples/self-bootstrap/input/does_not_exist.txt", "verdict": "FAIL"}
+
+### NEGATIVE: stale RepoContext
+$ pipeline.bind_pd(pi, {root, currentness_epoch='0'*64, currentness='FRESH'})
+{"code": "STALE_PROVIDER", "exit": 2, "message": "stale currentness claim: claimed epoch 0000000000000000... != host-derived 583419010c029946...", "verdict": "FAIL"}
+

@@ -1,0 +1,398 @@
+{
+  "schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+  "families": [
+    {
+      "index": "01",
+      "contract": "ArtifactIdentity",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "all planes"
+      ],
+      "required_fields": [
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version",
+        "supersedes",
+        "invalidates"
+      ],
+      "schema_file": "schemas/ArtifactIdentity.schema.json"
+    },
+    {
+      "index": "02",
+      "contract": "AuthorityBinding",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "all compilers/adapters"
+      ],
+      "required_fields": [
+        "source_id",
+        "authority_rank",
+        "locator",
+        "supersession",
+        "conflict_state",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/AuthorityBinding.schema.json"
+    },
+    {
+      "index": "03",
+      "contract": "RequirementAtom",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "PI compiler/TQAEP"
+      ],
+      "required_fields": [
+        "req_id",
+        "source_clause",
+        "owner",
+        "acceptance_cue",
+        "risk_guard",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/RequirementAtom.schema.json"
+    },
+    {
+      "index": "04",
+      "contract": "ProfileBinding",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "Skills/JIT/HGK"
+      ],
+      "required_fields": [
+        "profile",
+        "axes",
+        "vetoes",
+        "artifact_depth",
+        "assurance",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ProfileBinding.schema.json"
+    },
+    {
+      "index": "05",
+      "contract": "TechnologyAdmission",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "tool/provider adapters"
+      ],
+      "required_fields": [
+        "capability_need",
+        "candidate",
+        "disposition",
+        "pin_license_currentness",
+        "fallback_exit",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version",
+        "technology_id",
+        "external_name",
+        "capability_slot",
+        "license",
+        "immutable_pin"
+      ],
+      "schema_file": "schemas/TechnologyAdmission.schema.json"
+    },
+    {
+      "index": "06",
+      "contract": "PI-PKG",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "PD binder"
+      ],
+      "required_fields": [
+        "stable_semantic_contract",
+        "trace",
+        "acceptance",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/PI-PKG.schema.json"
+    },
+    {
+      "index": "07",
+      "contract": "PD-PKG",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "execution handoff"
+      ],
+      "required_fields": [
+        "RepoContext",
+        "currentness",
+        "late_bound_construction_binding",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/PD-PKG.schema.json"
+    },
+    {
+      "index": "08",
+      "contract": "TraceLink",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD/TQAEP",
+      "consumers": [
+        "validators/checkers"
+      ],
+      "required_fields": [
+        "from_type",
+        "from_id",
+        "from_hash",
+        "to_type",
+        "to_id",
+        "to_hash",
+        "rationale",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/TraceLink.schema.json"
+    },
+    {
+      "index": "09",
+      "contract": "TaskSpecSeed",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "receiver adapter"
+      ],
+      "required_fields": [
+        "goal",
+        "inputs",
+        "outputs",
+        "constraints",
+        "dependencies",
+        "tests",
+        "rollback",
+        "evidence",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/TaskSpecSeed.schema.json"
+    },
+    {
+      "index": "10",
+      "contract": "ConstructionContract",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "HGK adapter"
+      ],
+      "required_fields": [
+        "subject",
+        "writable_scope",
+        "expected_changes",
+        "tests",
+        "rollback",
+        "evidence_expectations",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ConstructionContract.schema.json"
+    },
+    {
+      "index": "11",
+      "contract": "WorkOrderCandidate",
+      "materialization": "REQUIRED_NOW_NONAUTHORITY",
+      "owner": "PIPD",
+      "consumers": [
+        "HGK admission"
+      ],
+      "required_fields": [
+        "candidate_only",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/WorkOrderCandidate.schema.json"
+    },
+    {
+      "index": "12",
+      "contract": "ECP",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD/ECP semantics",
+      "consumers": [
+        "HGK/TQAEP"
+      ],
+      "required_fields": [
+        "effect_intent",
+        "permission",
+        "retries",
+        "idempotency",
+        "readback",
+        "rollback",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ECP.schema.json"
+    },
+    {
+      "index": "13",
+      "contract": "TQAEP",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD/TQAEP semantics",
+      "consumers": [
+        "Independent checker/release"
+      ],
+      "required_fields": [
+        "tests",
+        "oracles",
+        "fixtures",
+        "acceptance",
+        "requalification",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/TQAEP.schema.json"
+    },
+    {
+      "index": "14",
+      "contract": "ExecutionHandoff",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "HGK/other receiver"
+      ],
+      "required_fields": [
+        "receiver",
+        "abi_version",
+        "payload_refs",
+        "ack_nack_state",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ExecutionHandoff.schema.json"
+    },
+    {
+      "index": "15",
+      "contract": "EvidenceExpectation",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD/TQAEP",
+      "consumers": [
+        "HGK/CI/provider"
+      ],
+      "required_fields": [
+        "expected_evidence_type",
+        "producer",
+        "postcondition",
+        "freshness",
+        "claim_effect",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/EvidenceExpectation.schema.json"
+    },
+    {
+      "index": "16",
+      "contract": "ClaimCeiling",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "all planes"
+      ],
+      "required_fields": [
+        "allowed_claims",
+        "forbidden_escalation",
+        "close_conditions",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ClaimCeiling.schema.json"
+    },
+    {
+      "index": "17",
+      "contract": "SurfaceProjectionManifest",
+      "materialization": "REQUIRED_NOW",
+      "owner": "PIPD",
+      "consumers": [
+        "surface compiler"
+      ],
+      "required_fields": [
+        "surface",
+        "source_hashes",
+        "generated_files",
+        "parity_loss",
+        "stale_rule",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/SurfaceProjectionManifest.schema.json"
+    },
+    {
+      "index": "18",
+      "contract": "GENIEProjectionRef",
+      "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S6",
+      "owner": "GENIE adapter",
+      "consumers": [
+        "GENIE compiler"
+      ],
+      "required_fields": [
+        "target_refs",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/GENIEProjectionRef.schema.json"
+    },
+    {
+      "index": "19",
+      "contract": "ExecutionBindingRef",
+      "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S5",
+      "owner": "HGK adapter",
+      "consumers": [
+        "HGK"
+      ],
+      "required_fields": [
+        "receiver_binding_id",
+        "receiver_binding_version",
+        "receiver_binding_hash",
+        "lease",
+        "state",
+        "subject_id",
+        "version",
+        "content_hash",
+        "schema_version"
+      ],
+      "schema_file": "schemas/ExecutionBindingRef.schema.json"
+    }
+  ]
+}

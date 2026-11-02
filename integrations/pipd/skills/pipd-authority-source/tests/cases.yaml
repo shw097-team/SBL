@@ -1,0 +1,151 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-authority-source
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: two source families freeze into one manifest and two bindings
+  input:
+    families:
+    - name: F1_BLUEPRINT
+      manifest_sha256: 208ef5dcd6d218649cb12e62708b736651fdeab4babf4fe3a32e111456bf87a7
+      files:
+      - rel: docs/S0_CONTRACT_SPEC.md
+    - name: F4_DONOR_SKILLS
+      manifest_sha256: c8117fb4271159cc1b0dfc356fb3c9e14a4a702708a39e3cd1c7723242e606ac
+      files:
+      - rel: PROVENANCE.md
+  route:
+    utterance: Freeze the authority for the blueprint and donor source families
+    expect: ROUTE
+  output:
+    subject_id: SFM-ab60515ad4806062
+    content_hash: 5f0c5ee1eca63bfcc7e58e785c5a5005d124d49f131737814c3a901cbeec4278
+    version: '1'
+    schema_version: SourceFreezeManifest@1
+    families:
+    - F1_BLUEPRINT
+    - F4_DONOR_SKILLS
+    digests:
+    - 208ef5dcd6d218649cb12e62708b736651fdeab4babf4fe3a32e111456bf87a7
+    - c8117fb4271159cc1b0dfc356fb3c9e14a4a702708a39e3cd1c7723242e606ac
+    bindings:
+    - subject_id: AUTH-285512eec0c42c4e
+      content_hash: 7305245944858ae0970a8768141b741e44893736f956011a30220c358b88e75b
+      version: '1'
+      schema_version: AuthorityBinding@1
+      source_id: F1_BLUEPRINT
+      authority_rank: R1
+      locator: docs/S0_CONTRACT_SPEC.md
+      supersession: CURRENT
+      conflict_state: NONE
+    - subject_id: AUTH-1f76fde5bed5a312
+      content_hash: b2088d675f00f3380240bee54c3db357b62a72575dc9d98bd0e33bac94839c17
+      version: '1'
+      schema_version: AuthorityBinding@1
+      source_id: F4_DONOR_SKILLS
+      authority_rank: R2
+      locator: PROVENANCE.md
+      supersession: CURRENT
+      conflict_state: NONE
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: single-family freeze is legal
+  input:
+    families:
+    - &id001
+      name: F6_SKELETON
+      manifest_sha256: 8818c9ee060cab8fe713940a243b3cd5f3b8e197cfa77900b650345937b552d0
+      files:
+      - rel: README.md
+  route:
+    utterance: Bind the source family F6_SKELETON into an authority binding
+    expect: ROUTE
+  output: &id002
+    subject_id: SFM-79f2ee240d5394be
+    content_hash: 4b5db7b8382482a284079009a5753110b436a976dd1f13edc366b2b97794dbb0
+    version: '1'
+    schema_version: SourceFreezeManifest@1
+    families:
+    - F6_SKELETON
+    digests:
+    - 8818c9ee060cab8fe713940a243b3cd5f3b8e197cfa77900b650345937b552d0
+    bindings:
+    - subject_id: AUTH-7e09ff6d7d1bfb51
+      content_hash: b5fc8f9691f5ea6657d0fdfed3a1d544e034d83dfc7e439fbfac6ce26eedd65f
+      version: '1'
+      schema_version: AuthorityBinding@1
+      source_id: F6_SKELETON
+      authority_rank: R1
+      locator: README.md
+      supersession: CURRENT
+      conflict_state: NONE
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.required
+  rationale: a family without a manifest digest cannot be frozen
+  input:
+    families:
+    - name: F1_BLUEPRINT
+      files:
+      - rel: docs/S0_CONTRACT_SPEC.md
+  route:
+    utterance: What time is it in Berlin?
+    expect: NO_ROUTE
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.pattern
+  rationale: a manifest digest that is not 64-hex is rejected
+  input:
+    families:
+    - name: F1_BLUEPRINT
+      manifest_sha256: abc123
+      files:
+      - rel: docs/S0_CONTRACT_SPEC.md
+  route:
+    utterance: Play some music for me
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal freeze: one family, one file, one binding'
+  input:
+    families:
+    - *id001
+  route:
+    utterance: Freeze the authority for one source family
+    expect: ROUTE
+  output: *id002
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.minItems
+  rationale: an empty file list is an empty family
+  input:
+    families:
+    - name: F1_BLUEPRINT
+      manifest_sha256: 208ef5dcd6d218649cb12e62708b736651fdeab4babf4fe3a32e111456bf87a7
+      files: []
+  route:
+    utterance: Order a pizza for the team
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.not
+  rationale: file locators must not traverse out of the admitted root
+  input:
+    families:
+    - name: F7_ARCHIVE
+      manifest_sha256: 8652663de289f204ae4a3cd4adc7ee66639efdd35b09996c37a2fab9014a2b5c
+      files:
+      - rel: ../openspec/archive/sealed.zip
+  route:
+    utterance: Freeze the authority for the sealed archive family
+    expect: ROUTE

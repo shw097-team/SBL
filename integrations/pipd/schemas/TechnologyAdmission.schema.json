@@ -1,0 +1,174 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:pipd:s0:TechnologyAdmission:1",
+ "x-s0": {
+  "index": "05",
+  "contract": "TechnologyAdmission",
+  "materialization": "REQUIRED_NOW",
+  "owner": "PIPD",
+  "consumers": ["tool/provider adapters"]
+ },
+ "type": "object",
+ "description": "Owner: PIPD. Consumer: tool/provider adapters. Tightened from the untyped `{}` shape found in review: every field now carries a type and the source's 24-column design record (PKG-00 §9.2) is representable without additionalProperties loss.",
+ "additionalProperties": false,
+ "required": [
+  "capability_need",
+  "candidate",
+  "disposition",
+  "pin_license_currentness",
+  "fallback_exit",
+  "subject_id",
+  "version",
+  "content_hash",
+  "schema_version",
+  "technology_id",
+  "external_name",
+  "capability_slot",
+  "license",
+  "immutable_pin"
+ ],
+ "properties": {
+  "capability_need": {
+   "type": "string"
+  },
+  "candidate": {
+   "type": "string"
+  },
+  "disposition": {
+   "type": "string"
+  },
+  "pin_license_currentness": {
+   "type": "object"
+  },
+  "fallback_exit": {
+   "type": "string"
+  },
+  "subject_id": {
+   "type": "string",
+   "minLength": 8,
+   "maxLength": 200
+  },
+  "version": {
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 64
+  },
+  "content_hash": {
+   "type": "string",
+   "pattern": "^[0-9a-f]{64}$"
+  },
+  "schema_version": {
+   "type": "string",
+   "minLength": 1,
+   "maxLength": 64
+  },
+  "technology_id": {
+   "type": "string"
+  },
+  "external_name": {
+   "type": "string"
+  },
+  "internal_short_name": {
+   "type": "string"
+  },
+  "capability_slot": {
+   "type": "string"
+  },
+  "source_repository": {
+   "type": "string"
+  },
+  "license": {
+   "type": "string"
+  },
+  "observed_version": {
+   "type": "string"
+  },
+  "selected_baseline": {
+   "type": "string"
+  },
+  "immutable_pin": {
+   "type": "string"
+  },
+  "adoption_owner": {
+   "type": "string"
+  },
+  "integration_owner": {
+   "type": "string"
+  },
+  "translation_method": {
+   "type": "string"
+  },
+  "adapter_contract": {
+   "type": "string"
+  },
+  "known_limitations": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "security_requirements": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "verification_suite": {
+   "type": "string"
+  },
+  "install_plan": {
+   "type": "string"
+  },
+  "enablement_plan": {
+   "type": "string"
+  },
+  "rollback_plan": {
+   "type": "string"
+  },
+  "fallback": {
+   "type": "string"
+  },
+  "reselection_trigger": {
+   "type": "string"
+  },
+  "current_design_state": {
+   "type": "string"
+  },
+  "current_runtime_state": {
+   "type": "string"
+  },
+  "design_selection_state": {
+   "type": "string"
+  },
+  "adapter_materialization_state": {
+   "type": "string"
+  },
+  "runtime_admission_state": {
+   "type": "string"
+  },
+  "upstream_disposition": {
+   "type": "string"
+  },
+  "adapter_ref": {
+   "type": "string"
+  },
+  "output_ref": {
+   "type": "string"
+  },
+  "schema_ref": {
+   "type": "string"
+  },
+  "fixture_ref": {
+   "type": "string"
+  },
+  "oracle_ref": {
+   "type": "string"
+  },
+  "acceptance_gate_ref": {
+   "type": "string"
+  },
+  "rollback_target": {
+   "type": "string"
+  }
+ }
+}

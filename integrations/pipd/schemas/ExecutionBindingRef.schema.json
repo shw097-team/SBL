@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:ExecutionBindingRef:1",
+  "x-s0": {
+    "index": "19",
+    "contract": "ExecutionBindingRef",
+    "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S5",
+    "owner": "HGK adapter",
+    "consumers": ["HGK"]
+  },
+  "type": "object",
+  "description": "Owner: HGK adapter. Consumer: HGK. Schema seam only until S5. Receiver binding id/version/hash/lease/state; ACK only after HGK admission.",
+  "additionalProperties": false,
+  "required": [
+    "receiver_binding_id",
+    "receiver_binding_version",
+    "receiver_binding_hash",
+    "lease",
+    "state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "receiver_binding_id": {},
+    "receiver_binding_version": {},
+    "receiver_binding_hash": {},
+    "lease": {},
+    "state": {
+      "description": "Receiver binding state; ACK only after HGK admission."
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

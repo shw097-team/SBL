@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-package-project:input:1",
+  "title": "pipd-package-project input",
+  "description": "Owner: PIPD. Consumer: all planes. The artifact bundle to close, the claim ceiling to set, and (only for LOCAL_QUALIFIED and above) the independent approval evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "subject_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "content_hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "name",
+              "subject_id",
+              "content_hash"
+            ]
+          },
+          "minItems": 1
+        },
+        "trace_edges": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "artifacts",
+        "trace_edges"
+      ]
+    },
+    "allowed_claims": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "minItems": 1
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checker_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_receipt": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "checker_identity",
+        "approval_receipt"
+      ]
+    }
+  },
+  "required": [
+    "bundle",
+    "allowed_claims",
+    "producer"
+  ]
+}

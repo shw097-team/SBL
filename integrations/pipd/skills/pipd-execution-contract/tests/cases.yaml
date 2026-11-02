@@ -1,0 +1,347 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-execution-contract
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: bound PD compiles into ConstructionContract + ECP with token-gated permission
+  input: &id001
+    pd:
+      subject_id: PD-4bfd476b5670ff7e
+      content_hash: f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365
+    pi:
+      subject_id: PI-0bd843e58ea8e70d
+      content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+  route:
+    utterance: Emit the execution contract for the bound PD
+    expect: ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-5eec32eeac7ec0b8
+      content_hash: 2869822e371ea84f029afd1960e8146cd1ab0881f9224df8ee34f5048ad67a8c
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - src/**
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-5eec32eeac7ec0b8
+      content_hash: 883c2cdb515beff688da74c97a31ae6cd1c650652ceb97709e0959bf13062941
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: src/**
+        token_required: true
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-5eec32eeac7ec0b8
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: multi-test construction contract is legal
+  input:
+    pd:
+      subject_id: PD-b5b4998cd496ca1a
+      content_hash: 8c2acb1c1d8ab8a2aec99cf694fd9f0e195442a6aa4dff018488dcb34fe24cf4
+    pi:
+      subject_id: PI-5bbbbcb0cc5e0f83
+      content_hash: d34d526e0a1c573f8b5808815ff2f977556240f582a40e864a76570c8af0403b
+  route:
+    utterance: Compile the ecp for the affected tests
+    expect: ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-76e2a36332bade35
+      content_hash: c3fbdf0540e696e1bdd32ad15ea9bd7cd754ab67f0d6db936b98134a0861e278
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - tests/**
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s0_contracts.py
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-76e2a36332bade35
+      content_hash: 639cd971769161f93f236c4e3713cf08bed24d6e340b53e8b0b5bdf56b29b296
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: tests/**
+        token_required: true
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-76e2a36332bade35
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: output.required
+  rationale: an ECP without a permission block is not an execution contract
+  input: *id001
+  route:
+    utterance: Share the latest photo on Instagram
+    expect: NO_ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-0aa75c4fbf8d012d
+      content_hash: 458d07d11984f7fae67cc7d67427b18ccd19d8ecd3fd487d67b74a0344e8d203
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - src/**
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-0aa75c4fbf8d012d
+      content_hash: ec88117114843ad9596662e13e169170de952d3cb02e58d40b30d92ad96be8b6
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-0aa75c4fbf8d012d
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: output.const
+  rationale: token_required must stay true; an untokened effect is refused
+  input: *id001
+  route:
+    utterance: Turn off the lights in the kitchen
+    expect: NO_ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-30c0646e6a1352aa
+      content_hash: 23afb15035c47a8280aa7c8d3726f2d4ca99df2f84d8dac93af8dd30acbd1a4a
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - src/**
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-30c0646e6a1352aa
+      content_hash: de5c85e34aa72207e68288f983da692b2a9806408d03d14df66ca12764980a15
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: src/**
+        token_required: false
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-30c0646e6a1352aa
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal contract: one scope, one test'
+  input:
+    pd:
+      subject_id: PD-27534e1a688d3975
+      content_hash: 8c8f6c2fe0ff2f6f8a20ce0dce4280ef89f87f20b33e19d17d639eae3578911e
+    pi:
+      subject_id: PI-dd1cc099ec98d3b5
+      content_hash: 7dbf81858c42971c71e7252401feebe36515efc11475a9332da25fe87b8ab574
+  route:
+    utterance: Compile the construction contract with a single test
+    expect: ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-952b06ff250d5253
+      content_hash: 46d0db79f904a9d1265f44aabf0e745d1e8ef54afcc23cff18e1088689a0019a
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - docs/**
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-952b06ff250d5253
+      content_hash: e89f0f0e198e654c4dbc64a4b8ce724700bd24385082109b7aba6fe11283bc12
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: docs/**
+        token_required: true
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-952b06ff250d5253
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: output.minItems
+  rationale: an empty writable_scope leaves the effect unbounded
+  input: *id001
+  route:
+    utterance: Play the next episode of my show
+    expect: NO_ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-aef9d84c51f2d9c8
+      content_hash: 9b6389d11733396f96d83b3ae3d648143a3b2e57c4b8a8a9bbc84998abcec4e8
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope: []
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-aef9d84c51f2d9c8
+      content_hash: bffb8879e28b858393e15e9e0a63edd1cce2aa5f71ad5ede5963bb7c6344c414
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: src/**
+        token_required: true
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-aef9d84c51f2d9c8
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: output.not
+  rationale: the '**' whole-tree scope is refused as an unbounded effect
+  input: *id001
+  route:
+    utterance: Compile the execution contract for the whole repository tree
+    expect: ROUTE
+  output:
+    construction_contract:
+      subject_id: CC-5021d4a42891267a
+      content_hash: 451c1618a7a956c4aaaab35ea751b4bd373387b9e5b5421a612afe5d98dd4eb8
+      version: '1'
+      schema_version: ConstructionContract@1
+      subject: PD-4bfd476b5670ff7e
+      writable_scope:
+      - '**'
+      expected_changes:
+      - bounded edits inside the writable scope
+      tests:
+      - tests/test_s1_lite_slice.py
+      rollback: git revert to baseline commit
+      evidence_expectations:
+      - EVD-POS
+      - EVD-NEG
+    ecp:
+      subject_id: ECP-5021d4a42891267a
+      content_hash: 820b6c108388a289b04a5a6a603e30ce69940e424fb7b9d861e010565e981507
+      version: '1'
+      schema_version: ECP@1
+      effect_intent: apply bounded edits inside the writable scope
+      permission:
+        scope: src/**
+        token_required: true
+      retries:
+        max: 1
+        backoff: none
+      idempotency:
+        key: IDEM-5021d4a42891267a
+        guarantee: at_most_once
+      readback:
+        required: true
+        kind: residue_scan
+      rollback:
+        pointer: baseline_commit
+        required: true

@@ -1,0 +1,150 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-route-intake
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: full intake with three requirement atoms round-trips IntentCard
+  input:
+    goal: Implement and verify the PIPD LITE slice so the deterministic compiler emits PI-PKG from the
+      frozen blueprint sources
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+    - rel: openspec/changes/pipd-ls-sp-s0-s1/design.md
+    constraints:
+    - no LLM may sit on the deterministic compile path
+    non_goals:
+    - publication and release claims
+  route:
+    utterance: Please route the intake for the PIPD LITE slice goal
+    expect: ROUTE
+  output:
+    subject_id: INTENT-abf80b04afbf9fbf
+    content_hash: a98029b596be2761be8a572ef7929b1be379987159676de0e9a70257f754c92a
+    version: '1'
+    schema_version: IntentCard@1
+    goal: Implement and verify the PIPD LITE slice so the deterministic compiler emits PI-PKG from the
+      frozen blueprint sources
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+    - rel: openspec/changes/pipd-ls-sp-s0-s1/design.md
+    constraints:
+    - no LLM may sit on the deterministic compile path
+    non_goals:
+    - publication and release claims
+    atoms:
+    - req_id: REQ-INTENT
+      axis: intent
+    - req_id: REQ-KNOWLEDGE
+      axis: knowledge
+    - req_id: REQ-VERIFY
+      axis: verification
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: delivery-governance intake with two atoms round-trips
+  input:
+    goal: Deliver the qualified candidate to the GitHub mirror only after independent acceptance and governance
+      admission
+    sources:
+    - rel: docs/ROUND3_DISCLOSURE.md
+    constraints:
+    - claim ceiling stays LOCAL_QUALIFIED
+    non_goals:
+    - production verification
+  route:
+    utterance: Route the intake request for the release delivery goal
+    expect: ROUTE
+  output:
+    subject_id: INTENT-df861e81c303b0cb
+    content_hash: 70e7586a1d9c00b9b5622ea2ff1a98826e3f57783d96f2813a7fb1681672adbb
+    version: '1'
+    schema_version: IntentCard@1
+    goal: Deliver the qualified candidate to the GitHub mirror only after independent acceptance and governance
+      admission
+    sources:
+    - rel: docs/ROUND3_DISCLOSURE.md
+    constraints:
+    - claim ceiling stays LOCAL_QUALIFIED
+    non_goals:
+    - production verification
+    atoms:
+    - req_id: REQ-DELIVER
+      axis: release
+    - req_id: REQ-GOVERN
+      axis: trust_boundary
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.required
+  rationale: a goal-less request is refused before any atom can be derived
+  input:
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+  route:
+    utterance: What is the weather in Taipei today?
+    expect: NO_ROUTE
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.minItems
+  rationale: an intake with zero source locators cannot pin authority
+  input:
+    goal: Implement and verify the PIPD LITE slice so the deterministic compiler emits PI-PKG from the
+      frozen blueprint sources
+    sources: []
+  route:
+    utterance: Tell me a joke about compilers
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal legal intake: one source, no constraints, one atom'
+  input:
+    goal: Compile the LITE slice
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+  route:
+    utterance: Capture the goal for the intake card of the LITE slice
+    expect: ROUTE
+  output:
+    subject_id: INTENT-be3941555ee9f51e
+    content_hash: 44325d7efeebc3f9a752f4a27d0a5f727d8c888dfde643dc46cecf08d6a63bde
+    version: '1'
+    schema_version: IntentCard@1
+    goal: Compile the LITE slice
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+    constraints: []
+    non_goals: []
+    atoms:
+    - req_id: REQ-INTENT
+      axis: intent
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.pattern
+  rationale: a whitespace-only goal is blank for the intake gate
+  input:
+    goal: '   '
+    sources:
+    - rel: docs/S0_CONTRACT_SPEC.md
+  route:
+    utterance: Summarise the intake history of last round
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.not
+  rationale: source locators must not traverse out of the admitted root
+  input:
+    goal: Implement and verify the PIPD LITE slice so the deterministic compiler emits PI-PKG from the
+      frozen blueprint sources
+    sources:
+    - rel: ../HG-KSEOS/src/hg_kseos/hg-kseos.db
+  route:
+    utterance: Route the intake request with the sealed corpus source
+    expect: ROUTE

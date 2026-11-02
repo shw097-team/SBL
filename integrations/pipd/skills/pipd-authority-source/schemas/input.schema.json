@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-authority-source:input:1",
+  "title": "pipd-authority-source input",
+  "description": "Owner: PIPD. Consumer: all compilers/adapters. Source families to freeze, each with a sha256 manifest digest and at least one file locator inside the admitted root.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^F[0-9]_[A-Z0-9_]+$"
+          },
+          "manifest_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "rel": {
+                  "type": "string",
+                  "minLength": 1,
+                  "not": {
+                    "pattern": "\\.\\."
+                  }
+                }
+              },
+              "required": [
+                "rel"
+              ]
+            },
+            "minItems": 1
+          },
+          "root": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "name",
+          "manifest_sha256",
+          "files"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "families"
+  ]
+}

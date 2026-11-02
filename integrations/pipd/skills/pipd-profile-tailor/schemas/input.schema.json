@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-profile-tailor:input:1",
+  "title": "pipd-profile-tailor input",
+  "description": "Owner: PIPD. Consumer: Skills/JIT/HGK. A requested profile plus the axis set that drives the safety veto (S0 family 04).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile": {
+      "enum": [
+        "LITE",
+        "STANDARD",
+        "ASSURED"
+      ]
+    },
+    "axes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "intent",
+          "knowledge",
+          "verification",
+          "release",
+          "trust_boundary",
+          "preexisting_repo",
+          "profile",
+          "tech_candidates",
+          "host_surface"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "provider_off_required": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile",
+    "axes"
+  ]
+}

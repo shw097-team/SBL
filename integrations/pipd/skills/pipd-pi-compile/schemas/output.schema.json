@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-pi-compile:output:1",
+  "title": "pipd-pi-compile output",
+  "description": "Owner: PIPD. Consumer: PD binder. PI-PKG: stable semantic contract, bound acceptance, and TraceLinks to every requirement atom.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "subject_id": {
+      "type": "string",
+      "pattern": "^PI-[0-9a-f]{16}$"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "schema_version": {
+      "const": "PI-PKG@1"
+    },
+    "stable_semantic_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract": {
+          "const": "stable"
+        },
+        "profile_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "profile": {
+              "enum": [
+                "LITE",
+                "STANDARD",
+                "ASSURED"
+              ]
+            },
+            "axes": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "intent",
+                  "knowledge",
+                  "verification",
+                  "release",
+                  "trust_boundary",
+                  "preexisting_repo",
+                  "profile",
+                  "tech_candidates",
+                  "host_surface"
+                ]
+              },
+              "minItems": 1
+            },
+            "vetoes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "artifact_depth": {
+              "enum": [
+                "L1_SCHEMA_CONTRACT",
+                "L3_INTEGRATION_RUNTIME",
+                "L4_FAILURE_RECOVERY"
+              ]
+            },
+            "assurance": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "profile",
+            "axes",
+            "vetoes",
+            "artifact_depth",
+            "assurance"
+          ]
+        },
+        "atoms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "subject_id": {
+                "type": "string",
+                "pattern": "^ATOM-[0-9a-f]{16}$"
+              },
+              "content_hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^[0-9]+$"
+              },
+              "schema_version": {
+                "const": "RequirementAtom@1"
+              },
+              "req_id": {
+                "enum": [
+                  "REQ-INTENT",
+                  "REQ-KNOWLEDGE",
+                  "REQ-VERIFY",
+                  "REQ-DELIVER",
+                  "REQ-GOVERN"
+                ]
+              },
+              "source_clause": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner": {
+                "const": "PIPD-EC"
+              },
+              "acceptance_cue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "risk_guard": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "subject_id",
+              "content_hash",
+              "version",
+              "schema_version",
+              "req_id",
+              "source_clause",
+              "owner",
+              "acceptance_cue",
+              "risk_guard"
+            ]
+          },
+          "minItems": 1
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "contract",
+        "profile_binding",
+        "atoms",
+        "goal"
+      ]
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "bound"
+        },
+        "oracle_source": {
+          "const": "DOC-03 DOMAIN_ORACLES"
+        }
+      },
+      "required": [
+        "mode",
+        "oracle_source"
+      ]
+    },
+    "trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "from_type": {
+            "const": "PI-PKG"
+          },
+          "from_id": {
+            "type": "string",
+            "pattern": "^PI-[0-9a-f]{16}$"
+          },
+          "from_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "to_type": {
+            "const": "RequirementAtom"
+          },
+          "to_id": {
+            "type": "string",
+            "pattern": "^ATOM-[0-9a-f]{16}$"
+          },
+          "to_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "from_type",
+          "from_id",
+          "from_hash",
+          "to_type",
+          "to_id",
+          "to_hash",
+          "rationale"
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "subject_id",
+    "content_hash",
+    "version",
+    "schema_version",
+    "stable_semantic_contract",
+    "acceptance",
+    "trace"
+  ]
+}

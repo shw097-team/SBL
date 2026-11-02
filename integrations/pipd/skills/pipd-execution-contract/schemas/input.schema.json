@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-execution-contract:input:1",
+  "title": "pipd-execution-contract input",
+  "description": "Owner: PIPD (ConstructionContract, S0 family 10) and PIPD/ECP semantics (ECP, S0 family 12). Consumer: HGK adapter. A bound PD-PKG reference plus its PI-PKG reference.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "pd": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^PD-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash"
+      ]
+    },
+    "pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^PI-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash"
+      ]
+    }
+  },
+  "required": [
+    "pd",
+    "pi"
+  ]
+}

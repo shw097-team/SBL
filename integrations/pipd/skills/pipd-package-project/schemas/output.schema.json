@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-package-project:output:1",
+  "title": "pipd-package-project output",
+  "description": "Owner: PIPD. Consumer: all planes. ClaimCeiling (S0 family 16) plus EvidenceExpectation records (family 15) and a TraceClosureReport over the bundle.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "subject_id": {
+      "type": "string",
+      "pattern": "^CCL-[0-9a-f]{16}$"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "schema_version": {
+      "const": "ClaimCeiling@1"
+    },
+    "allowed_claims": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "minItems": 1
+    },
+    "forbidden_escalation": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      }
+    },
+    "close_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject_id": {
+            "type": "string",
+            "pattern": "^EE-[0-9a-f]{16}$"
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "schema_version": {
+            "const": "EvidenceExpectation@1"
+          },
+          "expected_evidence_type": {
+            "const": "RAW_RECEIPT"
+          },
+          "producer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "postcondition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "freshness": {
+            "const": "same_candidate_hash"
+          },
+          "claim_effect": {
+            "const": "LOCAL"
+          }
+        },
+        "required": [
+          "subject_id",
+          "content_hash",
+          "version",
+          "schema_version",
+          "expected_evidence_type",
+          "producer",
+          "postcondition",
+          "freshness",
+          "claim_effect"
+        ]
+      },
+      "minItems": 1
+    },
+    "trace_closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^TRC-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "schema_version": {
+          "const": "TraceClosureReport@1"
+        },
+        "edges": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "orphans": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "bad_hashes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verdict": {
+          "enum": [
+            "PASS",
+            "FAIL"
+          ]
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash",
+        "version",
+        "schema_version",
+        "edges",
+        "orphans",
+        "bad_hashes",
+        "verdict"
+      ]
+    }
+  },
+  "required": [
+    "subject_id",
+    "content_hash",
+    "version",
+    "schema_version",
+    "allowed_claims",
+    "forbidden_escalation",
+    "close_conditions",
+    "evidence",
+    "trace_closure"
+  ]
+}

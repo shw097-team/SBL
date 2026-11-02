@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:ClaimCeiling:1",
+  "x-s0": {
+    "index": "16",
+    "contract": "ClaimCeiling",
+    "materialization": "REQUIRED_NOW",
+    "owner": "PIPD",
+    "consumers": ["all planes"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD. Consumer: all planes.",
+  "additionalProperties": false,
+  "required": [
+    "allowed_claims",
+    "forbidden_escalation",
+    "close_conditions",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "allowed_claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "description": "TYPE5 (R5 §4.1): the declared claim ladder. Before this constraint the field was `{}`, so a null, a mapping item or an undeclared claim name was schema-admissible and escaped the library as a native TypeError/ValueError instead of a named refusal."
+    },
+    "forbidden_escalation": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "PROMPT_COMPILE_PASS",
+          "HGK_ADMITTED",
+          "RUNTIME_READY",
+          "LOCAL_QUALIFIED",
+          "INDEPENDENT_PASS",
+          "PUBLICATION_APPROVED",
+          "RELEASED",
+          "PRODUCTION_VERIFIED"
+        ]
+      },
+      "description": "TYPE5 (R5 §4.1): same declared claim ladder as allowed_claims; the two lists must be typed before the semantic guard can report a named finding."
+    },
+    "close_conditions": {},
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

@@ -1,0 +1,154 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-profile-tailor
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: three axes on LITE stay LITE at L1 depth
+  input:
+    profile: LITE
+    axes:
+    - intent
+    - knowledge
+    - verification
+    provider_off_required: false
+  route:
+    utterance: Tailor the profile for the three-axis LITE slice
+    expect: ROUTE
+  output:
+    subject_id: PB-5334138a887a2f11
+    content_hash: 0cdac2a5eb15236499724ef64f00cc50d580d072c49618a0792f1d611d78b415
+    version: '1'
+    schema_version: ProfileBinding@1
+    profile: LITE
+    requested_profile: LITE
+    escalated: false
+    escalation_reason: null
+    axes:
+    - intent
+    - knowledge
+    - verification
+    vetoes: []
+    artifact_depth: L1_SCHEMA_CONTRACT
+    assurance:
+    - deterministic_validator
+    canonical_truth: single
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: provider-off requirement escalates LITE to STANDARD, never downward
+  input:
+    profile: LITE
+    axes:
+    - intent
+    provider_off_required: true
+  route:
+    utterance: Compute the profile with the provider-off parity veto
+    expect: ROUTE
+  output:
+    subject_id: PB-9f0fbc625d07b644
+    content_hash: 010aab51ff59d88c4632ed4e75c9fc6bb677eafa63029911957643766bcd1b0b
+    version: '1'
+    schema_version: ProfileBinding@1
+    profile: STANDARD
+    requested_profile: LITE
+    escalated: true
+    escalation_reason: provider_off_parity
+    axes:
+    - intent
+    vetoes: []
+    artifact_depth: L3_INTEGRATION_RUNTIME
+    assurance:
+    - deterministic_validator
+    - negative_security
+    canonical_truth: single
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.enum
+  rationale: an unknown profile name is refused before any veto runs
+  input:
+    profile: ELITE
+    axes:
+    - intent
+    provider_off_required: false
+  route:
+    utterance: Set my wallpaper to a mountain photo
+    expect: NO_ROUTE
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.enum
+  rationale: an unknown axis cannot be bound to a profile
+  input:
+    profile: LITE
+    axes:
+    - intent
+    - telepathy
+    provider_off_required: false
+  route:
+    utterance: Sort my music playlist by artist
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: three axes is the LITE ceiling; exactly at the boundary it stays LITE
+  input:
+    profile: LITE
+    axes:
+    - intent
+    - knowledge
+    - verification
+    provider_off_required: false
+  route:
+    utterance: Select the axes at the LITE boundary for the profile binding
+    expect: ROUTE
+  output:
+    subject_id: PB-8d8ed36a8489cf85
+    content_hash: 98da2bb642ce3f422490234757078752406750130df96bfd24f6bf95b9ae3573
+    version: '1'
+    schema_version: ProfileBinding@1
+    profile: LITE
+    requested_profile: LITE
+    escalated: false
+    escalation_reason: null
+    axes:
+    - intent
+    - knowledge
+    - verification
+    vetoes: []
+    artifact_depth: L1_SCHEMA_CONTRACT
+    assurance:
+    - deterministic_validator
+    canonical_truth: single
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.uniqueItems
+  rationale: a duplicated axis would double-count axis complexity
+  input:
+    profile: LITE
+    axes:
+    - intent
+    - intent
+    provider_off_required: false
+  route:
+    utterance: Convert this image file to grayscale
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.additionalProperties
+  rationale: a smuggled escalation override must not bypass the safety veto
+  input:
+    profile: LITE
+    axes:
+    - intent
+    provider_off_required: false
+    escalation: none
+  route:
+    utterance: Tailor the profile and disable the escalation veto
+    expect: ROUTE

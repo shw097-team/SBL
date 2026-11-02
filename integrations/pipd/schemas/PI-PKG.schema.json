@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:PI-PKG:1",
+  "x-s0": {
+    "index": "06",
+    "contract": "PI-PKG",
+    "materialization": "REQUIRED_NOW",
+    "owner": "PIPD",
+    "consumers": ["PD binder"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD. Consumer: PD binder.",
+  "additionalProperties": false,
+  "required": [
+    "stable_semantic_contract",
+    "trace",
+    "acceptance",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "stable_semantic_contract": {
+      "description": "Stable semantic contract."
+    },
+    "trace": {
+      "description": "Trace links from this PI to its RequirementAtom records. Inlined constraint equivalent to urn:pipd:s0:TraceLink:1 (that $id is NOT resolvable by the pinned harness validator, so a bare $ref / remote resolve is refused); a string, null or object is not an array and is refused.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Inlined equivalent of urn:pipd:s0:TraceLink:1 (that $id is NOT resolvable by the pinned harness validator, so a bare $ref / remote resolve is refused; a remote $ref would also let the resolver drift). Kept in step with schemas/TraceLink.schema.json by tests/test_s4ext_trace_closure.py.",
+        "additionalProperties": false,
+        "required": [
+          "from_type",
+          "from_id",
+          "from_hash",
+          "to_type",
+          "to_id",
+          "to_hash",
+          "rationale",
+          "subject_id",
+          "version",
+          "content_hash",
+          "schema_version"
+        ],
+        "properties": {
+          "from_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "enum": [
+              "ArtifactIdentity",
+              "AuthorityBinding",
+              "RequirementAtom",
+              "ProfileBinding",
+              "TechnologyAdmission",
+              "PI-PKG",
+              "PD-PKG",
+              "TraceLink",
+              "TaskSpecSeed",
+              "ConstructionContract",
+              "WorkOrderCandidate",
+              "ECP",
+              "TQAEP",
+              "ExecutionHandoff",
+              "EvidenceExpectation",
+              "ClaimCeiling",
+              "SurfaceProjectionManifest",
+              "GENIEProjectionRef",
+              "ExecutionBindingRef"
+            ]
+          },
+          "from_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "from_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "to_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "enum": [
+              "ArtifactIdentity",
+              "AuthorityBinding",
+              "RequirementAtom",
+              "ProfileBinding",
+              "TechnologyAdmission",
+              "PI-PKG",
+              "PD-PKG",
+              "TraceLink",
+              "TaskSpecSeed",
+              "ConstructionContract",
+              "WorkOrderCandidate",
+              "ECP",
+              "TQAEP",
+              "ExecutionHandoff",
+              "EvidenceExpectation",
+              "ClaimCeiling",
+              "SurfaceProjectionManifest",
+              "GENIEProjectionRef",
+              "ExecutionBindingRef"
+            ]
+          },
+          "to_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "to_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "subject_id": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 200
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "content_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "schema_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    "acceptance": {},
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

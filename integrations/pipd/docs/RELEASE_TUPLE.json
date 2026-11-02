@@ -1,0 +1,85 @@
+{
+  "schema": "PIPD-RELEASE-TUPLE/1",
+  "purpose": "Frozen, independently resolvable release identities for the distribution/release surface. TT-S4EXT-001 / F001 exists because a single hand-copied `tag commit` string let the distributed pack name a DIFFERENT release's object than the one it claimed to describe. The two facts are therefore separate fields and must never be collapsed again.",
+  "field_semantics": {
+    "tag_object": "the annotated tag object sha (git rev-parse <tag>)",
+    "release_tag_target": "the commit the annotated tag dereferences to (git rev-parse <tag>^{commit})",
+    "build_source_commit": "the commit the distributed artifact BYTES were built from; when a release builds more than one artifact this names the one given by that entry's build_source_scope, and it is never a claim about an artifact the scope does not name",
+    "tree": "the tree of release_tag_target (git rev-parse <tag>^{tree})",
+    "published_asset_sha256": "sha256 of the asset bytes as served by the GitHub release"
+  },
+  "verification_commands": [
+    "git rev-parse <tag>",
+    "git rev-parse <tag>^{commit}",
+    "git rev-parse <tag>^{tree}",
+    "sha256sum dist/mount/<zip>"
+  ],
+  "releases": [
+    {
+      "release_id": "v0.1.0-preview.1",
+      "tag_object": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "release_tag_target": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "build_source_commit": "cc9bf574c3b3f0f44ea615b5c67ae40d74efee32",
+      "tree": "da39a1effe8cb2d73fb63ba45b5ae73685ee93e6",
+      "pack_dir": null,
+      "zip": null,
+      "published_asset_sha256": null,
+      "status": "LIGHTWEIGHT_TAG_NO_PACK"
+    },
+    {
+      "release_id": "v0.1.0-preview.2",
+      "tag_object": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "release_tag_target": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "build_source_commit": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "tree": "583015038e27e2b2381351487bc74255dcd0920e",
+      "pack_dir": "dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.0-preview.2",
+      "zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.0-preview.2.zip",
+      "published_asset_sha256": "1992c54bb3e8e83588e4ef2930d1cc65ce7ada21460deb85930767a4db499daa",
+      "status": "IDENTITY_CORRECT"
+    },
+    {
+      "release_id": "v0.1.1-preview.3",
+      "tag_object": "e94cc7f9567acb59de4691ee6166815ac96a9700",
+      "release_tag_target": "cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a",
+      "build_source_commit": "cbf69756d7fc90fc1cdfb3a45a1cc42cc603cb0a",
+      "tree": "91b1156f5f34f598bd1c81f9fc2ab04518328fd6",
+      "pack_dir": "dist/mount/pipd-ls-sp-s4-chatgpt-mount-v0.1.1-preview.3",
+      "zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3.zip",
+      "published_asset_sha256": "af342d281f02ba04f284a1625f4a58a6f2de15549cc182a0c61ce357ec6b504f",
+      "first_shipped_asset_sha256": "73c6c7e255846e9012a4f5f0e849af93343b363fb158f2474b4d18143d1dcfde",
+      "stale_identity_in_first_shipped_asset": "8faa64e581e8c25f5ec355475e29561847da3ead",
+      "asset_replaced_in_place": true,
+      "asset_replacement_record": ".hgk/rounds/S4R2M-20261012-merge-and-preview3/RELEASE_CORRECTION_WEB_MOUNT.md",
+      "status": "PUBLISHED_ASSET_REPLACED_IN_PLACE_AND_LOGGED_CURRENT_ASSET_REPRODUCIBLE_FROM_THIS_TREE",
+      "erratum_doc": "docs/ERRATUM_2026-10-12_preview3_release_provenance.md",
+      "superseded_candidate_zip": "dist/mount/PIPD-LS-SP_S4_WEB_MOUNT_v0.1.1-preview.3-erratum1.zip",
+      "superseded_candidate_note": "produced on the repair branch as a separate corrected rebuild; NOT shipped, because the in-place correction was taken instead; this file is therefore not expected to exist on this branch"
+    },
+    {
+     "release_id": "v0.1.1-preview.4",
+     "tag_object": "0618d73c725da0d8c3280f99ef369d13741b5197",
+     "release_tag_target": "cc6c1930765160697e7e51d6e37735b9220a30db",
+     "build_source_commit": "4754d92cc98c0c02b59bf9700d08c0b7bf452e3d",
+     "tree": "7d277a0afaff28b6841836cea3a31ffd0b214d94",
+     "pack_dir": null,
+     "zip": null,
+     "published_asset_name": "pipd-ls-sp-public-skills.zip",
+     "published_asset_sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75",
+     "served_assets": {
+      "pipd-ls-sp-public-skills.zip": {"bytes": 68357, "sha256": "545e359a5ca6abc7bcbbaa2316f8e062244ad4a132ae1ae839bc9a8e17d95d75"},
+      "pipd_ls_sp-0.1.1a4-py3-none-any.whl": {"bytes": 286978, "sha256": "3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c"},
+      "pipd-ls-sp-v0.1.1-preview.4-source.zip": {"bytes": 32841678, "sha256": "f8070971fd1bf8e1c2c3bbe4f59e33d70853a2e8737817931928d35baebee2ca"},
+      "PIPD_WEB_FALLBACK.md": {"bytes": 42145, "sha256": "c88ddc49cfe5fb59fe1a713fdde4cfd6a06ed54cc5831885130e053ce990c2af"},
+      "PREVIEW_NOTES_v0.1.1-preview.4.md": {"bytes": 5326, "sha256": "96fedfc6fa27bd412e16a0377a509719f41026f891732d197c8848926f423201"},
+      "PIPD_WEB_FALLBACK.md.sha256": {"bytes": 100, "sha256": "4efeffbbc0df500fc703b26618a3fefe022534ae1f40a6f0e8ea9f3eda6744a2"},
+      "SHA256SUMS": {"bytes": 583, "sha256": "0f76502670038ae35bd4f772dc23223f6b47241c3acee2f918d106eaabffe689"}
+     },
+     "served_assets_coverage": "all 7 assets of the release are listed. SHA256SUMS lists 6 entries and does not list itself: 6 of 6 of those entries are represented here, and the seventh record here is SHA256SUMS itself.",
+     "build_source_scope": "the wheel pipd_ls_sp-0.1.1a4-py3-none-any.whl, whose build input is recorded as `build_input_commit` in dist/WHEEL_MANIFEST.json inside the release's own source archive. This field is NOT evidence about how the plugin ZIP pipd-ls-sp-public-skills.zip was produced; no such provenance is claimed by this entry.",
+     "asset_list_source": "SHA256SUMS asset of the release; every digest recomputed from the downloaded bytes 2026-10-16. PIPD_WEB_FALLBACK.md.sha256 is named by SHA256SUMS but by no other sidecar, so it is listed here explicitly rather than inferred.",
+     "note": "The release ships no mount pack: pack_dir/zip are null on purpose. published_asset_sha256 names the private skills-only plugin ZIP because that is the distribution surface this entry exists to pin (published_asset_name); every other served asset is in served_assets.",
+     "status": "PUBLISHED_ASSETS_RECOMPUTED_AND_MATCHING_SHA256SUMS_20261016"
+    }
+  ],
+  "authority_note": "This file records identity facts and the current disposition. It grants nothing: it is not a publication approval, a release admission, a tag move or an asset replacement. Reconciliation performed 2026-10-12 by the S4POST integration-repair round: the FIRST SHIPPED v0.1.1-preview.3 web ZIP carried the preview.2 object in all eight documents at digest 73c6c7e2...; the published asset was subsequently replaced in place under the S4R2M release correction and now serves af342d28..., which is the byte-identical artifact checked in under dist/mount with an agreeing sidecar and which rebuilds byte-for-byte from the current tree. What is NOT closed and belongs to the Release Owner: the immutable v0.1.1-preview.3 TAG still holds the pre-correction pack, so a rebuild from the TAG's tree does not reproduce the currently served asset; closing that needs a new immutable preview, not another in-place replacement."
+}

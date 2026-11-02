@@ -1,0 +1,153 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-pd-bind
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: fresh repo context binds a PD-PKG with an affected-only scope
+  input:
+    pi: &id001
+      subject_id: PI-0bd843e58ea8e70d
+      content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+    repo_context:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 6e9c3c1f424abec6048f975d5b4d9fab1ade84a0
+      tracked_files: 128
+      currentness: FRESH
+      writable_scope: src/**
+  route:
+    utterance: Bind the PD package to the repository context
+    expect: ROUTE
+  output:
+    subject_id: PD-4bfd476b5670ff7e
+    content_hash: f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365
+    version: '1'
+    schema_version: PD-PKG@1
+    RepoContext:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 6e9c3c1f424abec6048f975d5b4d9fab1ade84a0
+      tracked_files: 128
+    currentness: FRESH
+    late_bound_construction_binding:
+      bound_at: PD
+      binding_scope: affected_only
+      writable_scope: src/**
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: a stale but declared repo context still binds; currentness is recorded, not hidden
+  input:
+    pi: *id001
+    repo_context:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 00b47cad6e0d87158a87ac068394ea92f11de489
+      tracked_files: 128
+      currentness: STALE
+      writable_scope: tests/**
+  route:
+    utterance: Late-bind the pd package against the current repository
+    expect: ROUTE
+  output:
+    subject_id: PD-b5b4998cd496ca1a
+    content_hash: 8c2acb1c1d8ab8a2aec99cf694fd9f0e195442a6aa4dff018488dcb34fe24cf4
+    version: '1'
+    schema_version: PD-PKG@1
+    RepoContext:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 00b47cad6e0d87158a87ac068394ea92f11de489
+      tracked_files: 128
+    currentness: STALE
+    late_bound_construction_binding:
+      bound_at: PD
+      binding_scope: affected_only
+      writable_scope: tests/**
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.required
+  rationale: PD late-binding requires a RepoContext; without one nothing binds
+  input:
+    pi: *id001
+  route:
+    utterance: What is the capital of France?
+    expect: NO_ROUTE
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.minimum
+  rationale: a negative tracked-file count is not a repo context
+  input:
+    pi: *id001
+    repo_context:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 6e9c3c1f424abec6048f975d5b4d9fab1ade84a0
+      tracked_files: -1
+      currentness: FRESH
+      writable_scope: src/**
+  route:
+    utterance: Book a flight to Tokyo for me
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: an empty tracked repo (zero files) is a legal boundary
+  input:
+    pi: *id001
+    repo_context:
+      root: C:/Projects/Agent_Workspace/PIPD-empty
+      head: f2cbdabc85aac02f96cec85d27a456c7aac7fe6f
+      tracked_files: 0
+      currentness: FRESH
+      writable_scope: docs/**
+  route:
+    utterance: Bind the PD package to the empty repository context
+    expect: ROUTE
+  output:
+    subject_id: PD-27534e1a688d3975
+    content_hash: 8c8f6c2fe0ff2f6f8a20ce0dce4280ef89f87f20b33e19d17d639eae3578911e
+    version: '1'
+    schema_version: PD-PKG@1
+    RepoContext:
+      root: C:/Projects/Agent_Workspace/PIPD-empty
+      head: f2cbdabc85aac02f96cec85d27a456c7aac7fe6f
+      tracked_files: 0
+    currentness: FRESH
+    late_bound_construction_binding:
+      bound_at: PD
+      binding_scope: affected_only
+      writable_scope: docs/**
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.minLength
+  rationale: an empty repo root cannot resolve
+  input:
+    pi: *id001
+    repo_context:
+      root: ''
+      head: 6e9c3c1f424abec6048f975d5b4d9fab1ade84a0
+      tracked_files: 128
+      currentness: FRESH
+      writable_scope: src/**
+  route:
+    utterance: Refactor my vim configuration
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.not
+  rationale: a writable scope escaping the repo root is refused before binding
+  input:
+    pi: *id001
+    repo_context:
+      root: C:/Projects/Agent_Workspace/PIPD
+      head: 6e9c3c1f424abec6048f975d5b4d9fab1ade84a0
+      tracked_files: 128
+      currentness: FRESH
+      writable_scope: ../HG-KSEOS/**
+  route:
+    utterance: Bind the PD package with the control-plane repo context
+    expect: ROUTE

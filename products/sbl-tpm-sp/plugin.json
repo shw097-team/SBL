@@ -1,0 +1,26 @@
+{
+  "schema": "sbl-tpm-sp/plugin-identity/v0-candidate",
+  "name": "sbl-tpm-sp",
+  "version": "0.0.0-candidate",
+  "status": "CANDIDATE_PENDING_D1",
+  "authority": "NONE",
+  "role": "portable plugin identity for the SBL TPM surface; consumer of the pipd-ls-sp distribution",
+  "consumes": {
+    "distribution": "pipd-ls-sp",
+    "python_package": "pipd_ls_sp",
+    "version": "0.1.1a4",
+    "source_of_truth": "integrations/pipd",
+    "rule": "this product must not carry a second modifiable copy of pipd_ls_sp"
+  },
+  "provides": {
+    "skills_source": "integrations/pipd/skills",
+    "skill_count": 8,
+    "adapter": "not wired in this candidate; lands with D1"
+  },
+  "limits": [
+    "no WorkOrder, Permit or Grant",
+    "no compiler of its own",
+    "no canonical writer status before D1",
+    "no publication or release"
+  ]
+}

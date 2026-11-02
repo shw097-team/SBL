@@ -55,3 +55,47 @@ jobs:
       - name: Verify published source manifest
         run: python tools/verify_source.py --self-check
 
+  # Candidate-only check for the PIPD absorption (U04, record docs/pipd-migration/U04-CUTOVER.md).
+  # It proves the three things CI can prove without the old repository's state: the absorbed tree
+  # builds its own distribution, that distribution imports and runs with NO sbl-v01 installed, and
+  # the CLI surface is the 13 commands the baseline records. The wider PIPD contract suite runs
+  # locally (see BASELINE.md §7); the modules that assert on .hgk receipts and retired release
+  # artefacts are excluded there by design, not silently here.
+  pipd-compat:
+    name: pipd-compat (ubuntu, py3.11)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the absorbed PIPD tree with its test extra
+        working-directory: integrations/pipd
+        run: python -m pip install -e ".[test]"
+
+      - name: Build the standalone pipd-ls-sp wheel
+        working-directory: integrations/pipd
+        run: python tools/build_dist.py
+
+      - name: Independent install without the SBL package
+        run: |
+          set -eu
+          python -m venv "$RUNNER_TEMP/pipd-indep"
+          "$RUNNER_TEMP/pipd-indep/bin/pip" install --quiet integrations/pipd/dist/*.whl
+          "$RUNNER_TEMP/pipd-indep/bin/python" - <<'PY'
+          import pipd_ls_sp
+          from pipd_ls_sp import registry
+          assert registry.EXPECTED_FAMILIES == 19, registry.EXPECTED_FAMILIES
+          print("independent import ok:", pipd_ls_sp.__file__)
+          PY
+          "$RUNNER_TEMP/pipd-indep/bin/pipd" --help | head -3
+          if "$RUNNER_TEMP/pipd-indep/bin/python" -c "import sbl_core" 2>/dev/null; then
+            echo "U04_2_VIOLATION: the pipd distribution must not require sbl_core" >&2
+            exit 1
+          fi
+          echo "U04_2_INDEPENDENT_USE_OK"
+

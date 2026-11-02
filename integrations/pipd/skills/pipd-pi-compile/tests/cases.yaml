@@ -1,0 +1,260 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-pi-compile
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: two atoms compile into PI-PKG with two trace links
+  input:
+    intent: &id001
+      subject_id: INTENT-abf80b04afbf9fbf
+      content_hash: a98029b596be2761be8a572ef7929b1be379987159676de0e9a70257f754c92a
+    profile: LITE
+    atoms: &id002
+    - req_id: REQ-INTENT
+      source_clause: docs/S0_CONTRACT_SPEC.md
+      owner: PIPD-EC
+      acceptance_cue: REQ-INTENT has an oracle and a negative fixture
+      risk_guard: REQ-INTENT cannot self-accept
+    - req_id: REQ-VERIFY
+      source_clause: docs/S0_CONTRACT_SPEC.md
+      owner: PIPD-EC
+      acceptance_cue: REQ-VERIFY has an oracle and a negative fixture
+      risk_guard: REQ-VERIFY cannot self-accept
+    goal: Implement and verify the PIPD LITE slice
+  route:
+    utterance: Compile the PI package for the LITE slice intent
+    expect: ROUTE
+  output:
+    subject_id: PI-0bd843e58ea8e70d
+    content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+    version: '1'
+    schema_version: PI-PKG@1
+    stable_semantic_contract:
+      contract: stable
+      profile_binding:
+        profile: LITE
+        axes:
+        - intent
+        - knowledge
+        - verification
+        vetoes: []
+        artifact_depth: L1_SCHEMA_CONTRACT
+        assurance:
+        - deterministic_validator
+      atoms:
+      - subject_id: ATOM-2a23035a7108408f
+        content_hash: 03f1797799550383202fcd81c975179e64dc613996931bf9c748af30097ada32
+        version: '1'
+        schema_version: RequirementAtom@1
+        req_id: REQ-INTENT
+        source_clause: docs/S0_CONTRACT_SPEC.md
+        owner: PIPD-EC
+        acceptance_cue: REQ-INTENT has an oracle and a negative fixture
+        risk_guard: REQ-INTENT cannot self-accept
+      - subject_id: ATOM-0b6373dc7d250dad
+        content_hash: 7911023afc19a7c0ec7c89d5804d9f4044cc36f92bbe2887e4b59672a4f51683
+        version: '1'
+        schema_version: RequirementAtom@1
+        req_id: REQ-VERIFY
+        source_clause: docs/S0_CONTRACT_SPEC.md
+        owner: PIPD-EC
+        acceptance_cue: REQ-VERIFY has an oracle and a negative fixture
+        risk_guard: REQ-VERIFY cannot self-accept
+      goal: Implement and verify the PIPD LITE slice
+    acceptance:
+      mode: bound
+      oracle_source: DOC-03 DOMAIN_ORACLES
+    trace:
+    - from_type: PI-PKG
+      from_id: PI-0bd843e58ea8e70d
+      from_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+      to_type: RequirementAtom
+      to_id: ATOM-2a23035a7108408f
+      to_hash: 747c3cc4a58c095462bf211bafbb36ff88a546a70325f8de9042edada67fc3dc
+      rationale: PI derives this atom from the frozen intent
+    - from_type: PI-PKG
+      from_id: PI-0bd843e58ea8e70d
+      from_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+      to_type: RequirementAtom
+      to_id: ATOM-0b6373dc7d250dad
+      to_hash: f4360d9b29b4bce9cc8e9c2b167de1134500d3c91fc6ed8e28d2ee2ce4cbf572
+      rationale: PI derives this atom from the frozen intent
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: governance atom compiles on STANDARD
+  input:
+    intent:
+      subject_id: INTENT-df861e81c303b0cb
+      content_hash: 70e7586a1d9c00b9b5622ea2ff1a98826e3f57783d96f2813a7fb1681672adbb
+    profile: STANDARD
+    atoms:
+    - req_id: REQ-GOVERN
+      source_clause: docs/ROUND3_DISCLOSURE.md
+      owner: PIPD-EC
+      acceptance_cue: REQ-GOVERN has an oracle and a negative fixture
+      risk_guard: REQ-GOVERN cannot self-accept
+    goal: Admit the candidate through the governance gate
+  route:
+    utterance: Compile the pi package for the governance intent
+    expect: ROUTE
+  output:
+    subject_id: PI-5bbbbcb0cc5e0f83
+    content_hash: d34d526e0a1c573f8b5808815ff2f977556240f582a40e864a76570c8af0403b
+    version: '1'
+    schema_version: PI-PKG@1
+    stable_semantic_contract:
+      contract: stable
+      profile_binding:
+        profile: STANDARD
+        axes:
+        - trust_boundary
+        vetoes: []
+        artifact_depth: L1_SCHEMA_CONTRACT
+        assurance:
+        - deterministic_validator
+      atoms:
+      - subject_id: ATOM-73f519fc985250ce
+        content_hash: 40ad1bba6dfff7ac3ab0e69b5401ff720a3dd8081f417842f701a6b6d7b4252c
+        version: '1'
+        schema_version: RequirementAtom@1
+        req_id: REQ-GOVERN
+        source_clause: docs/ROUND3_DISCLOSURE.md
+        owner: PIPD-EC
+        acceptance_cue: REQ-GOVERN has an oracle and a negative fixture
+        risk_guard: REQ-GOVERN cannot self-accept
+      goal: Admit the candidate through the governance gate
+    acceptance:
+      mode: bound
+      oracle_source: DOC-03 DOMAIN_ORACLES
+    trace:
+    - from_type: PI-PKG
+      from_id: PI-5bbbbcb0cc5e0f83
+      from_hash: d34d526e0a1c573f8b5808815ff2f977556240f582a40e864a76570c8af0403b
+      to_type: RequirementAtom
+      to_id: ATOM-73f519fc985250ce
+      to_hash: fce5114213296b0b7dc860a75ea33055ee22403cae8f1196861657520656d4a3
+      rationale: PI derives this atom from the frozen intent
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.minItems
+  rationale: zero atoms cannot form a stable semantic contract
+  input:
+    intent: *id001
+    profile: LITE
+    atoms: []
+    goal: Implement and verify the PIPD LITE slice
+  route:
+    utterance: Write a haiku about compilers
+    expect: NO_ROUTE
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.required
+  rationale: an atom without a risk_guard cannot be compiled
+  input:
+    intent: *id001
+    profile: LITE
+    goal: Implement and verify the PIPD LITE slice
+    atoms:
+    - req_id: REQ-INTENT
+      source_clause: docs/S0_CONTRACT_SPEC.md
+      owner: PIPD-EC
+      acceptance_cue: REQ-INTENT has an oracle and a negative fixture
+  route:
+    utterance: Generate a picture of a cat
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal PI: exactly one atom and one trace link'
+  input:
+    intent:
+      subject_id: INTENT-be3941555ee9f51e
+      content_hash: 44325d7efeebc3f9a752f4a27d0a5f727d8c888dfde643dc46cecf08d6a63bde
+    profile: LITE
+    atoms:
+    - req_id: REQ-KNOWLEDGE
+      source_clause: docs/S0_CONTRACT_SPEC.md
+      owner: PIPD-EC
+      acceptance_cue: REQ-KNOWLEDGE has an oracle and a negative fixture
+      risk_guard: REQ-KNOWLEDGE cannot self-accept
+    goal: Compile the knowledge atom
+  route:
+    utterance: Compile the PI package with a single atom
+    expect: ROUTE
+  output:
+    subject_id: PI-dd1cc099ec98d3b5
+    content_hash: 7dbf81858c42971c71e7252401feebe36515efc11475a9332da25fe87b8ab574
+    version: '1'
+    schema_version: PI-PKG@1
+    stable_semantic_contract:
+      contract: stable
+      profile_binding:
+        profile: LITE
+        axes:
+        - knowledge
+        vetoes: []
+        artifact_depth: L1_SCHEMA_CONTRACT
+        assurance:
+        - deterministic_validator
+      atoms:
+      - subject_id: ATOM-21e6931e2f9dd23f
+        content_hash: f538380f2bf6977d2978e8b6b4973e2e780c81b343558355f742461d18cf0487
+        version: '1'
+        schema_version: RequirementAtom@1
+        req_id: REQ-KNOWLEDGE
+        source_clause: docs/S0_CONTRACT_SPEC.md
+        owner: PIPD-EC
+        acceptance_cue: REQ-KNOWLEDGE has an oracle and a negative fixture
+        risk_guard: REQ-KNOWLEDGE cannot self-accept
+      goal: Compile the knowledge atom
+    acceptance:
+      mode: bound
+      oracle_source: DOC-03 DOMAIN_ORACLES
+    trace:
+    - from_type: PI-PKG
+      from_id: PI-dd1cc099ec98d3b5
+      from_hash: 7dbf81858c42971c71e7252401feebe36515efc11475a9332da25fe87b8ab574
+      to_type: RequirementAtom
+      to_id: ATOM-21e6931e2f9dd23f
+      to_hash: 0910acd6adc6633de4fc54753222eda87544adaea2c0e9fae1bc3aa5a47395e1
+      rationale: PI derives this atom from the frozen intent
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.minLength
+  rationale: an empty acceptance cue leaves the atom unverifiable
+  input:
+    intent: *id001
+    profile: LITE
+    goal: Implement and verify the PIPD LITE slice
+    atoms:
+    - req_id: REQ-INTENT
+      source_clause: docs/S0_CONTRACT_SPEC.md
+      owner: PIPD-EC
+      acceptance_cue: ''
+      risk_guard: REQ-INTENT cannot self-accept
+  route:
+    utterance: Translate this paragraph into English
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.additionalProperties
+  rationale: a smuggled _profile_meta sidecar must not ride into the compiler
+  input:
+    intent: *id001
+    profile: LITE
+    atoms: *id002
+    goal: Implement and verify the PIPD LITE slice
+    _profile_meta:
+      max_axes: 0
+  route:
+    utterance: Compile the PI package and skip the profile sidecar
+    expect: ROUTE

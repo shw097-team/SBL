@@ -1,0 +1,85 @@
+{
+  "schema": "PIPD-OWNER-ADJUDICATION/1",
+  "round": "R5-20261009-s4-user-operability",
+  "issued": "2026-10-10",
+  "authority": {
+    "act": "owner adjudication executed on the owner's instruction",
+    "owner_instruction_zh": "直接執行FAR研究後建議的裁決",
+    "basis": "知識庫/實作相關DOC/PIPD/實作證據/PIPD-LS-SP_R5_S4_FAR_S2PERF_LICENSE_2026-10-10.md with .hgk/far/FAR-PIPD-R5S4-S2PERF-LICENSE-001/EVIDENCE_S2PERF.json; the FAR study measured the artefact rather than assuming the threshold could be met",
+    "executed_by": "Hermes orchestration (governed runtime), not an independent acceptance officer",
+    "candidate_head_at_issue": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2",
+    "prior_owner_adjudication": "docs/OWNER_ADJUDICATION_R4_2026-10-09.json (A3 = FAIL_WITH_UNPROVENANCED_BUDGETS)"
+  },
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "rulings": {
+    "S2_BUDGET_DEFINITION": {
+      "ruling": "PER_ATOM_BYTES(2000)",
+      "was": "PER_ARTEFACT_BYTES(20000), source_of_truth UNPROVENANCED",
+      "why": "the measured artefact is 334,778 UTF-8 bytes over 237 atoms = 1,412.6 B/atom, so the absolute 20,000-byte bound is equivalent to 14.2 atoms and could never be met by a corpus of this size; the corpus is 16.7x the bound's implied envelope and removing all known lossless duplication floors at 263,653 B, still 13.2x over. A scale-invariant rate is the same protection stated in a form that a growing corpus cannot falsify by construction.",
+      "headroom_at_ruling": "1,412.6 / 2,000 = 1.42x",
+      "source_of_truth_now": "docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json#/rulings/S2_BUDGET_DEFINITION",
+      "implemented_in": "tools/perf_budget.py PROVENANCE['bytes_per_atom']",
+      "threshold_raised": false,
+      "note": "no numeric threshold was raised or lowered. The 20,000-byte absolute row remains measured and printed. What changed is which row decides."
+    },
+    "S2_TIMING_THRESHOLDS": {
+      "ruling": "ADVISORY",
+      "rows": ["compile_chain_ms (2000)", "validate_19_contracts_ms (3000)", "cli_cold_start_ms (6000)"],
+      "why": "measured headroom 2.35x / 1,579x / 51x. They cannot fire, carry no signal, and were diluting the discriminating power of the hard gate. They stay measured and printed; they no longer vote.",
+      "deleted": false
+    },
+    "S2_HISTORICAL_FAIL": {
+      "ruling": "PRESERVE",
+      "what": "context_bytes_per_artefact 343,547 > 20,000, verdict FAIL, source_of_truth UNPROVENANCED",
+      "how": "kept as a non-voting ADVISORY row with verdict FAIL, re-emitted in the `historical.preserved_fails` block of every --check run. It is measured, printed and never rewritten.",
+      "rewritten": false
+    },
+    "S2_REGRESSION_GUARD": {
+      "ruling": "ADD",
+      "what": "bytes_per_atom is compared against a frozen baseline (tolerance 10%) and FAILs on regression",
+      "why": "this is the mechanism that actually protects the property the old absolute number was trying to protect: the artefact must not grow per unit of requirement.",
+      "baseline_file": ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json",
+      "freeze_command": "python -B tools/perf_budget.py --freeze-baseline",
+      "check_never_writes": true
+    },
+    "S2_LOSSLESS_DEDUP": {
+      "ruling": "DEFER_AS_REFACTOR",
+      "what": "the same clause text is stored three times (source_clause.text 6,755 B + oracle.predicate 6,755 B + failure_condition 10,085 B = 23,595 B); row-constant fields repeat per row",
+      "status": "NOT executed in this round",
+      "why": "it is a legitimate cleanup but it is NOT sold as closing any budget; the FAR measured that even fully applied it reaches only 263,653 B. Executing it would change the artefact contract and every consumer, which is out of this round's scope."
+    },
+    "LICENSE_DECISION": {
+      "ruling": "LicenseRef-PIPD-Proprietary",
+      "what": "the machine-readable decision slot now states the non-granting position that R4 ruling A2 already decided in prose",
+      "grants": "nothing",
+      "authority_note": "an agent may record a non-granting value on the owner's instruction; an agent may NEVER set a granting value (MIT/Apache-2.0) on the owner's behalf",
+      "past_round_slots": "the UNSET slots inside .hgk/rounds/R2-20261009-qualification/** are left byte-identical as historical records; this file and the repo-root slot supersede them going forward"
+    },
+    "PUBLICATION_BLOCKER_RESTATED_AS": {
+      "ruling": "EVIDENCE_GAP",
+      "was": "an informal reading that the publication gate is closed because the licence is not open",
+      "machine_cause": "publication_manifest --check --current exits 1 with CURRENT_TREE_UNCOVERED; the local checkout has no remote and the externally reviewed commit cd8a06e4c066a40398a4012b7b3908ac11408a2b is absent from the local object store",
+      "note": "whether a licence is granted and whether the publication gate is open are two independent questions; neither answer is changed by this record"
+    }
+  },
+  "effects_on_gates": {
+    "G-S2-LOCAL": "decided by bytes_per_atom at 1,412.6 / 2,000 under the ratified definition. The gate passes because the definition was re-specified by this owner act, NOT because the artefact improved. The artefact is byte-identical.",
+    "artefact_bytes_before": 334778,
+    "artefact_bytes_after": 334778,
+    "no_product_code_changed_for_this_ruling": true,
+    "G-PUBLICATION": "unchanged and still closed",
+    "G-LICENSE": "unchanged; still no grant"
+  },
+  "not_granted": [
+    "no licence, release, independent pass or production verification is granted by this record",
+    "no threshold was numerically raised",
+    "the historical FAIL was not rewritten",
+    "no gate other than G-S2-LOCAL is affected"
+  ],
+  "disclosure": {
+    "product_files_changed": ["tools/perf_budget.py", "tests/test_perf_budget.py"],
+    "new_files": ["docs/OWNER_ADJUDICATION_R5_S4_2026-10-10.json", "OWNER_LICENSE_DECISION.yaml", ".hgk/artifacts/s2/BYTES_PER_ATOM_BASELINE.json"],
+    "runtime_surfaces_touched": "none; no container lane, no proxy and no credential were used to execute this ruling",
+    "secrets": "none read, none written, none reproduced"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-assurance-tqaep:input:1",
+  "title": "pipd-assurance-tqaep input",
+  "description": "Owner: PIPD/TQAEP semantics. Consumer: Independent checker/release. PI with trace, ECP, maker and an INDEPENDENT checker with a real execution receipt (S0 family 13).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^PI-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "trace": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "to_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "to_id"
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash",
+        "trace"
+      ]
+    },
+    "ecp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^ECP-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash"
+      ]
+    },
+    "maker": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checker": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checker_execution_receipt": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "^[Ss][Ee][Ll][Ff]_[Aa][Tt][Tt][Ee][Ss][Tt][Ee][Dd]$"
+      }
+    }
+  },
+  "required": [
+    "pi",
+    "ecp",
+    "maker",
+    "checker",
+    "checker_execution_receipt"
+  ]
+}

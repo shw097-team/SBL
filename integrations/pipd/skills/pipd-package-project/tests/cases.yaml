@@ -1,0 +1,257 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-package-project
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: LOCAL_QUALIFIED with independent approval evidence closes the package
+  input:
+    bundle: &id001
+      artifacts:
+      - name: PI-PKG
+        subject_id: PI-0bd843e58ea8e70d
+        content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+      - name: PD-PKG
+        subject_id: PD-4bfd476b5670ff7e
+        content_hash: f4f519674b16990749d91be734cc34eab4e706e0a0e819605e33703aab5dd365
+      - name: TQAEP
+        subject_id: TQAEP-27a6f0d9f2949830
+        content_hash: 5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668
+      trace_edges: 2
+    allowed_claims: &id002
+    - LOCAL_QUALIFIED
+    - RUNTIME_READY
+    producer: PIPD-EC
+    approval: &id003
+      checker_identity: verify/glm-5.3-flash
+      approval_receipt: receipt://ao-2026-10-09/7c2b
+  route:
+    utterance: Package the project and set the claim ceiling
+    expect: ROUTE
+  output:
+    subject_id: CCL-5e0811f4191f77bb
+    content_hash: 72d649872e8510d7cd691e269915833c6e3791515b000ed96e2068755dd3cb42
+    version: '1'
+    schema_version: ClaimCeiling@1
+    allowed_claims:
+    - LOCAL_QUALIFIED
+    - RUNTIME_READY
+    forbidden_escalation:
+    - INDEPENDENT_PASS
+    - PUBLICATION_APPROVED
+    - RELEASED
+    - PRODUCTION_VERIFIED
+    close_conditions:
+    - raw receipt bound to candidate hash
+    - independent checker verdict
+    evidence:
+    - subject_id: EE-5d2ac0157e7fcaa3
+      content_hash: 50cc71cf05e57d3d4a4a0ca684d21e57a9cedc8b23618048106c550815934ec7
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-INTENT returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    - subject_id: EE-70969a11513b9492
+      content_hash: b17a5b3cabd7270dd1b1a566a259365c65fab6c91b63688d689b7255f8831e2a
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-VERIFY returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    - subject_id: EE-e4bfec3e64aefcf9
+      content_hash: 02ca8555eb43e4f5c538b42b003e9860f06fb729aac590c0608b923010ef5211
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-GOVERN returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    trace_closure:
+      subject_id: TRC-5e0811f4191f77bb
+      content_hash: c72c6f48acbe787a5859645edcd33175f55cd567d60ed8165786967fb3b45222
+      version: '1'
+      schema_version: TraceClosureReport@1
+      edges: 2
+      orphans: []
+      bad_hashes: []
+      verdict: PASS
+  semantic:
+    rule: claim_gate
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: a ceiling below LOCAL_QUALIFIED needs no approval evidence
+  input:
+    bundle: *id001
+    allowed_claims:
+    - RUNTIME_READY
+    producer: PIPD-EC
+  route:
+    utterance: Close the trace closure for the runtime-ready package
+    expect: ROUTE
+  output:
+    subject_id: CCL-b2f3ce7e1ead934e
+    content_hash: 615cf50425725e8f56c4b7d5b046cc96f0957bccfd419208e3bff379d26ebe66
+    version: '1'
+    schema_version: ClaimCeiling@1
+    allowed_claims:
+    - RUNTIME_READY
+    forbidden_escalation:
+    - LOCAL_QUALIFIED
+    - INDEPENDENT_PASS
+    - PUBLICATION_APPROVED
+    - RELEASED
+    - PRODUCTION_VERIFIED
+    close_conditions:
+    - raw receipt bound to candidate hash
+    - independent checker verdict
+    evidence:
+    - subject_id: EE-1e71875911f59252
+      content_hash: 41a4ee068dce17b4d5dd2039ca4e117548891f7fff3ce6bd7e20c4ebbe77e83f
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-INTENT returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    - subject_id: EE-64306cb6c5fa44fd
+      content_hash: f31ecf06e191a3997f728a868093c62b3b84f02a7ff4d81294819544f313fa99
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-VERIFY returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    trace_closure:
+      subject_id: TRC-b2f3ce7e1ead934e
+      content_hash: 841a6ab5b277d4f00fac598316ca2e378b643782686d1a8308f9b1a55bdb995d
+      version: '1'
+      schema_version: TraceClosureReport@1
+      edges: 2
+      orphans: []
+      bad_hashes: []
+      verdict: PASS
+  semantic:
+    rule: claim_gate
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: semantic.claim_gate
+  rationale: LOCAL_QUALIFIED without a bound approval receipt and checker identity is refused
+  input:
+    bundle: *id001
+    allowed_claims:
+    - LOCAL_QUALIFIED
+    producer: PIPD-EC
+  route:
+    utterance: Water my plants while I am away
+    expect: NO_ROUTE
+  semantic:
+    rule: claim_gate
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.enum
+  rationale: a claim outside the ladder is refused before any ceiling is minted
+  input:
+    bundle: *id001
+    allowed_claims:
+    - SUPER_USER
+    producer: PIPD-EC
+  route:
+    utterance: Publish my vacation photos to the family album
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal package: one artifact, zero trace edges, lowest claim'
+  input:
+    bundle:
+      artifacts:
+      - name: PI-PKG
+        subject_id: PI-dd1cc099ec98d3b5
+        content_hash: 7dbf81858c42971c71e7252401feebe36515efc11475a9332da25fe87b8ab574
+      trace_edges: 0
+    allowed_claims:
+    - PROMPT_COMPILE_PASS
+    producer: PIPD-EC
+  route:
+    utterance: Package the project with the prompt-compile ceiling
+    expect: ROUTE
+  output:
+    subject_id: CCL-b0ae90f5ecd0417a
+    content_hash: 31f49d1bd560a190b27c053d17f3b5eaed0d6af7517620c181e693519f90a32a
+    version: '1'
+    schema_version: ClaimCeiling@1
+    allowed_claims:
+    - PROMPT_COMPILE_PASS
+    forbidden_escalation:
+    - HGK_ADMITTED
+    - RUNTIME_READY
+    - LOCAL_QUALIFIED
+    - INDEPENDENT_PASS
+    - PUBLICATION_APPROVED
+    - RELEASED
+    - PRODUCTION_VERIFIED
+    close_conditions:
+    - raw receipt bound to candidate hash
+    - independent checker verdict
+    evidence:
+    - subject_id: EE-c992203b7021cee7
+      content_hash: c9bfa2e3981e3f17ee80d576d6a83640299672de9c64a9e45967e348f30ffa38
+      version: '1'
+      schema_version: EvidenceExpectation@1
+      expected_evidence_type: RAW_RECEIPT
+      producer: PIPD-EC
+      postcondition: TEST-REQ-INTENT returned its oracle verdict
+      freshness: same_candidate_hash
+      claim_effect: LOCAL
+    trace_closure:
+      subject_id: TRC-b0ae90f5ecd0417a
+      content_hash: e1ab222b94d2d5e4b38f141b68c1ab966aad41f978588419817ef8ad9a8dd834
+      version: '1'
+      schema_version: TraceClosureReport@1
+      edges: 2
+      orphans: []
+      bad_hashes: []
+      verdict: PASS
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.minItems
+  rationale: an empty artifact bundle is an empty denominator and must not pass
+  input:
+    bundle:
+      artifacts: []
+      trace_edges: 0
+    allowed_claims:
+    - PROMPT_COMPILE_PASS
+    producer: PIPD-EC
+  route:
+    utterance: Add milk to my shopping list
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: input.additionalProperties
+  rationale: a smuggled publish flag must not force publication past the claim ceiling
+  input:
+    bundle: *id001
+    allowed_claims: *id002
+    producer: PIPD-EC
+    approval: *id003
+    publish: true
+  route:
+    utterance: Package the project and publish the release now
+    expect: ROUTE

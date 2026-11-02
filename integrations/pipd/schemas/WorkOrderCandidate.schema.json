@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:WorkOrderCandidate:1",
+  "x-s0": {
+    "index": "11",
+    "contract": "WorkOrderCandidate",
+    "materialization": "REQUIRED_NOW_NONAUTHORITY",
+    "owner": "PIPD",
+    "consumers": ["HGK admission"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD. Consumer: HGK admission. Candidate only; never runtime authority.",
+  "additionalProperties": false,
+  "required": [
+    "candidate_only",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "candidate_only": {
+      "const": true,
+      "description": "Candidate-only marker; never runtime authority."
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

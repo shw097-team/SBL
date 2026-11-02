@@ -1,0 +1,89 @@
+# OWNER_LICENSE_DECISION — single-action ratification slot
+# Prepared by FAR-PIPD-LICENSE-001 (ProposedEvolution PE-PIPD-LICENSE-001).
+# GRANTED by the owner in round R5Q (2026-10-10). The grant below is the operative decision.
+# The superseded non-granting record is preserved verbatim under `previous_decision` — it is NOT
+# rewritten and NOT back-dated.
+schema: PIPD-OWNER-LICENSE-DECISION/1
+subject: PIPD-LS-SP (https://github.com/shw097-team/PIPD-LS-SP)
+prepared_by: FAR-PIPD-LICENSE-001
+prepared_utc: "2026-10-09"
+
+current_position: Apache-2.0
+decision: Apache-2.0
+decided_utc: "2026-10-10"
+decided_timezone: Asia/Taipei
+decided_by: "owner (instruction: 追加決策，Owner 的開源授權 / 由 FAR 制定最佳方案後直接執行)"
+decided_basis: >-
+  FAR-PIPD-R5Q-LICENSE-001 (in-round quick study). Two-stage decision: the technical review had
+  already returned GO_WITH_DISCLOSED_LIMITATIONS for an S4 open-source preview, so the remaining
+  question was the licence itself. Apache-2.0 was selected over MIT / BSD-3-Clause / MPL-2.0 /
+  AGPL-3.0 / dual-licensing on: explicit patent grant (section 3), the NOTICE attribution mechanism
+  (section 4(d)) that this repository needs to carry its provenance split, trademark non-grant
+  (section 6), and compatibility with its MIT dependency. The cost accepted: section 4(b) adds a
+  modified-file notice obligation for downstream modifiers, which MIT does not have.
+rights_scope:
+  granted:
+    - "agent-authored engineering output (src/, tests/, tools/, schemas/, fixtures/, skills/, docs/, dist/)"
+    - "derived expression produced by the governed build from the owner's own governing PIPD corpus"
+  not_asserted:
+    - "the three donor Skill plugins (SDLC_PRW_HLPE R2, SWOF_ECP v2.0.1, SWOF_TQAEP v2.0.1) — inventoried as SOURCE references only, no verbatim copy in this tree"
+    - "third-party dependencies, which keep their own licences (jsonschema = MIT)"
+exclusions:
+  - "any file later shown to carry third-party rights is excluded from the grant from the moment it is re-proven"
+  - "already published tags/releases are not rewritten destructively; a superseding release is issued instead"
+licence_text_locator: https://www.apache.org/licenses/LICENSE-2.0.txt
+licence_text_sha256: cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30
+notice_file: NOTICE
+
+previous_decision:
+  decision: LicenseRef-PIPD-Proprietary
+  decided_utc: "2026-10-10"
+  decided_by: "owner (instruction: 直接執行FAR研究後建議的裁決)"
+  effect: "NON-GRANTING — affirmed the unlicensed position; grants nothing."
+  decided_basis: >-
+    FAR-PIPD-R5S4-S2PERF-LICENSE-001, recommendation R6; consistent with R4 ruling
+    A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE. Preserved for history; superseded by the grant above.
+
+past_round_slots: >-
+  the UNSET copies under .hgk/rounds/R2-20261009-qualification/** are left byte-identical as
+  historical records; this file is the slot that governs going forward.
+
+allowed_values:
+  - UNSET                                      # keep the current non-grant (no change required)
+  - LicenseRef-PIPD-Proprietary                # keep non-grant but affirm it explicitly
+  - MIT                                        # grant
+  - Apache-2.0                                 # grant (SELECTED)
+
+downstream_edits_on_grant:
+  - id: E1
+    file: LICENSE
+    change: replaced the non-grant body with the verbatim Apache License 2.0 text
+            (sha256 cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30)
+  - id: E2
+    file: SBOM.cdx.json
+    change: metadata.licenses and the project component licence -> Apache-2.0; the jsonschema
+            component licence corrected from the project's own placeholder to MIT
+  - id: E3
+    file: pyproject.toml
+    change: set `license` / `license-files` to Apache-2.0 / LICENSE+NOTICE
+  - id: E4
+    file: .hgk/artifacts/publication_binding.json
+    change: record the license decision receipt; PUBLICATION_APPROVED may then be reassessed by the owner
+  - id: E5
+    file: NOTICE
+    change: created — carries the material-class split, the donor-plugin non-assertion, the
+            third-party component list and the exclusion policy (Apache-2.0 section 4(d))
+  - id: E6
+    file: PROVENANCE.md
+    change: added the licence layer
+triggered_edits: "E1-E6"
+
+authority_note: >
+  Granting a licence over the owner's material is an owner-only act. It was performed here under an
+  explicit in-round owner instruction; no agent set `decision` to a granting value on its own
+  initiative, and the superseded non-granting state is retained above rather than erased.
+
+claim_ceiling: >-
+  Recorded grant. The public capability to call this repository open source begins at the release
+  commit that carries this file. It does not grant, and must not be quoted as, a full gate pass,
+  G-RELEASE_FULL_PASS or PRODUCTION_VERIFIED (DEL-018 remains an open release evidence gap).

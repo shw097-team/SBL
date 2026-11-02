@@ -1,0 +1,103 @@
+{
+  "schema": "PIPD-OWNER-ADJUDICATION/1",
+  "round": "R4-20261009-focused-repair",
+  "issued": "2026-10-09",
+  "authority": {
+    "act": "owner adjudication + publication authorisation",
+    "owner_instruction_zh": "直接執行研究後的建議最佳工程裁決，並且把相關實作內容和證據更新至 GITHUB REPO，讓外部官進行驗收。",
+    "basis": "PIPD-LS-SP_R4_PLAN_RULINGS_A1A5V7_2026-10-09 (PLAN lane, GPT 6.1 SOL-MEDIUM, CODEX CLI; FAR-style analysis over the supplied local evidence only)",
+    "candidate_head_at_issue": "7c5bc585c7d889cd338da853be4efc4b8f07d3b2"
+  },
+  "claim_ceiling": "CANDIDATE_ONLY",
+  "not_granted": ["INDEPENDENT_PASS", "RELEASED", "PRODUCTION_VERIFIED"],
+  "rulings_executed": [
+    {
+      "id": "A1",
+      "ruling": "A1 = DISPOSITION_COMPLETE_GATE_PARTIAL",
+      "class": "no_new_owner_action",
+      "executed": "Recorded. The seven knowledge-owner dispositions already exist in R3 (2 released-safe-clean, 5 released-safe-reference, 0 retained). The remaining blocker is external: an owner-authorised sanitizer repair in HG-KSEOS plus a fresh 160/160 clean-coverage probe. No per-source disposition waits on the owner.",
+      "stays_open": "G-KNOWLEDGE-READY remains PARTIAL at physical coverage 153/160; TT-PIPD-KNOWLEDGE-QUARANTINE and TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN remain open."
+    },
+    {
+      "id": "A2",
+      "ruling": "A2 = ACCEPT_EXISTING_NO_LICENSE_NOTICE",
+      "class": "owner_authority_act_minimal",
+      "executed": "Executed under the owner instruction above. No licence is granted; the existing no-licence NOTICE stands. R4 stays unpublished-as-a-release: this publication is a CANDIDATE for external verification, not a release, and it grants no licence, no release, no independent-pass and no production-verification authority.",
+      "stays_open": "TT-PIPD-LICENSE-001 may be recorded as disposed by this act; it grants nothing further. Rights clearance for any future licensed reuse remains a separate owner act."
+    },
+    {
+      "id": "A3",
+      "ruling": "A3 = FAIL_WITH_UNPROVENANCED_BUDGETS",
+      "class": "no_new_owner_action",
+      "executed": "Recorded. tools/perf_budget.py --check stays FAIL: context_bytes_per_artefact 343,547 > 20,000 (the exceedance is stable across runs: 336,674 / 343,547 / 355,119). All four thresholds (2000/3000/6000 ms, 20000 bytes) keep source_of_truth=UNPROVENANCED and the three timing rows keep verdict=UNDECIDABLE. Fail-closed behaviour retained; no threshold was raised.",
+      "stays_open": "TT-PIPD-PERF-CONTEXT-BUDGET-PROVENANCE stays OPEN: a decided compliance claim needs all four owner derivations and real context remediation."
+    },
+    {
+      "id": "A4",
+      "ruling": "A4 = KEEP_CROSSWALK_EVIDENCE_GAPS",
+      "class": "no_new_owner_action",
+      "executed": "Recorded. The crosswalk keeps its per-row classification (42 EVIDENCED / 11 EVIDENCE_GAP / 4 DESIGN_ONLY of 57 rows) and its first-fail reasons. No overall PASS claim is made and no waiver is requested; generated documents are not treated as independent requirement proof.",
+      "stays_open": "Stronger completeness/implementation claims remain evidence-blocked."
+    },
+    {
+      "id": "A5",
+      "ruling": "A5 = CARRY_OPEN_TTS_WITHOUT_BLANKET_CLOSURE",
+      "class": "no_new_owner_action",
+      "executed": "Recorded. 22 rows / 18 blocking are treated as the recorded projection, not as freshly validated current totals. No row was bulk-closed and the register was not rewritten.",
+      "stays_open": "All TT residuals stay open on their evidenced state/close criteria. Round closure is not blanket TT closure."
+    },
+    {
+      "id": "V7",
+      "ruling": "V7 = NOT_RUN_ACCEPTANCE_PARTIAL",
+      "class": "no_new_owner_action",
+      "executed": "Recorded. W8-VERIFY-3 acceptance stays PARTIAL with V7 NOT_RUN and is linked separately from the 22-row register. Accepted correction: committing is NOT sufficient to convert V7 to PASS, because a newly committed baseline cannot prove that the absent historical baseline was preserved.",
+      "stays_open": "Any upgrade of V7 requires an authorised committed gate baseline AND an independently justified baseline procedure/comparison result, without weakening the gate."
+    }
+  ],
+  "custodian_executions": [
+    {
+      "ids": ["TT-PIPD-PYCACHE-SECRETSHAPE", "TT-PIPD-TOOLING-UNTESTED"],
+      "recommendation": "project PYCACHE CLOSED and TOOLING PARTIAL",
+      "executed": "Verified already satisfied: both rows already carry the fresh projection in their authoritative `state` field (PYCACHE state=CLOSED, state_round R3-20261009-audit-repair; TOOLING state=PARTIAL, re-opened by fresh verification). No register write was needed or made. tools/tt_summary_check.py --assert -> TT_SUMMARY_ASSERT_OK total=22 unknown=0 blocking_count=18."
+    },
+    {
+      "ids": ["TT-PIPD-R4-V7-UNTRACKED-GATE-BASELINE"],
+      "executed": "Linked separately in this record and in the round evidence; the 22-row register count was not silently changed."
+    },
+    {
+      "ids": ["TT-PIPD-GATE-VERDICT-SCOPE-AMBIGUITY"],
+      "executed": "Surfaced at top level: the failing hard gate (perf context budget) is stated in the headline of this adjudication and of the closure report, not buried in a subsection."
+    },
+    {
+      "ids": ["TT-PIPD-QUARANTINE-VERDICT-LABEL", "TT-PIPD-DISCLOSURE-PROSE-STALE"],
+      "executed": "Recorded as append-only amendments to be applied by the evidence/disclosure custodians; no historical verdict text was rewritten."
+    },
+    {
+      "ids": ["TT-PIPD-WEBCHECK-LAYOUT-DEPENDENCY"],
+      "executed": "Recorded: the webcheck tool depends on the documented repository layout; absence of that layout is an accepted condition, not a defect."
+    },
+    {
+      "ids": ["TT-HGK-LIFECYCLE-UNLOGGED-TRANSITIONS", "TT-HGK-LIFECYCLE-EVIDENCE-UNBOUND", "TT-HGK-ARTIFACT-CONTRACTS-UNREGISTERED", "TT-HGK-SANITIZER-UNANCHORED-KEY-PATTERN", "TT-PIPD-AUTHORITY-ASSERT", "TT-PIPD-ADMISSION-CHAIN-GAP"],
+      "executed": "Out of this candidate's scope (HG-KSEOS control plane). Carried open; each needs its own WorkOrder in the control-plane repository."
+    }
+  ],
+  "genuine_authority_items_not_self_granted": [
+    {"id": "TT-ORACLE-DISAGREEMENT-KP-R04", "one_line": "R04 = RETAIN_POLARITY_DISPUTE; only the KP source owner may ratify the three corrected rows or provide contrary raw clauses."},
+    {"id": "TT-PIPD-PREFLIGHT-ORDER", "one_line": "PREFLIGHT = PRE_ADMISSION_SCRATCH (conditional on admission-contract permission); .hgk/preflight supplies no admitted acceptance evidence."},
+    {"id": "TT-PIPD-WORKORDER-WORKTREES", "one_line": "WORKTREES = KEEP_OPEN; no orchestration-plane exception is granted."},
+    {"id": "TT-PIPD-S2-S8", "one_line": "S2_S8 = DEFER_STAGE_ADMISSION; no stage is promoted by this round."},
+    {"id": "TT-PRE-W3-CROSS-PROJECT", "one_line": "PRE_W3 = TEMP_CLOSED; cross-project acceptance remains reserved to its own authorised owner and sealed evidence."}
+  ],
+  "missing_facts": [
+    "No in-repo derivation/source rows exist for any of the four performance budgets.",
+    "Admission-contract permission for pre-admission scratch / retrospective orchestration exceptions is not supplied.",
+    "No independent committed-tool baseline bootstrap procedure exists; committing alone cannot prove historical non-weakening.",
+    "Licence/rights clearance, oversized-file transport policy and the exact compiler/crosswalk-generator WriteSets are not supplied."
+  ],
+  "publication": {
+    "act": "candidate publication for external verification",
+    "strategy": "same view strategy as the R3 publication: the 130.09 MB .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db is excluded (GitHub single-file hard limit 100 MB); the branch is built on top of the published main.",
+    "not_a_release": true
+  },
+  "closure_statement": "Close this round with residual gates open and ClaimCeiling=CANDIDATE_ONLY; publication is a candidate for external verification and grants no licence, release, independent pass or production verification."
+}
