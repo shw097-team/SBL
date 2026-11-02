@@ -8,6 +8,8 @@ repaired in a bounded cone or escalated.
 This repository hosts the released pre-release line of that product
 (`v0.1.0-foundation-preview`, then `v0.1.1rc1`).
 
+[FHS Engineering Entry — cross-repository navigation (non-authoritative)](https://github.com/shw097-team/Fabric/blob/main/INTEGRATION/FHS/README.md)
+
 ## Status and claim ceiling
 
 **Released pre-release: `v0.1.1rc1`** (tag `v0.1.1rc1`), after `v0.1.0-foundation-preview`.
