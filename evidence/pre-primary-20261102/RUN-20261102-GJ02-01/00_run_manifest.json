@@ -1,0 +1,70 @@
+{
+  "schema": "SBL.PrePrimaryRunManifest@1",
+  "run_id": "RUN-20261102-GJ02-01",
+  "observed_at": "2026-11-02T23:45:00+08:00",
+  "subject": "sbl-tpm-sp 0.3.0-rc.2 on a real Codex host, GJ02 brownfield sandbox",
+  "claim_ceiling": "AUTHOR_DESIGN_ONLY",
+  "package": {
+    "path": "C:\\Projects\\Agent_Workspace\\_candidate_sbl_tpm_sp_20261102\\output\\sbl-tpm-sp-0.3.0-rc.2-private.zip",
+    "sha256": "3a9da65561ab19cad90a6d7cbfb2eae0abf59b87ba565a118790bce5612326a8",
+    "expected_sha256": "3a9da65561ab19cad90a6d7cbfb2eae0abf59b87ba565a118790bce5612326a8",
+    "members": 173,
+    "skills": 14,
+    "crc": "PASS"
+  },
+  "host": {
+    "hermes": "v0.22.5 (2026.9.24) local bf0203a794a0; profile hgk-governed",
+    "codex_cli": "0.164.0",
+    "codex_home": "C:/Projects/Agent_Workspace/_run_sbl_tpm_sp_20261102/RUN-20261102-GJ02-01/shadow/codex-home (isolated; real ~/.codex untouched)",
+    "model_route": {
+      "requested_model": "deepseek-v4.1-flash",
+      "provider": "opencode_go",
+      "base_url": "https://opencode.ai/zen/go/v1",
+      "wire_api": "responses",
+      "credential_source": "local key file, injected as OPENCODE_GO_API_KEY for the process only; never written to a commit, log or artifact",
+      "lane_reference": "HG-KSEOS Codex lane: C:/Users/user/AppData/Local/HG-KSEOS/codex-hermes/config.toml (model opencode-go/deepseek-v4.1-flash) and its opencodex proxy config (defaultModel deepseek-v4.1-flash)",
+      "lane_receipt": "HG-KSEOS tools/mandate_gate.py check --role EXECUTE -> PASS, served_arm=opencode-go/deepseek-v4.1-flash, nonce=None (a lane-model receipt, not an effect grant)",
+      "quota_note": "two of the three pooled OpenCode Go keys currently return 429 GoUsageLimitError and one returns 401; the run used the key that answers 200 for deepseek-v4.1-flash"
+    }
+  },
+  "sandbox_repo": {
+    "path": "C:\\Projects\\Agent_Workspace\\_run_sbl_tpm_sp_20261102\\RUN-20261102-GJ02-01\\shadow\\gj02-repo",
+    "head_before": "70757870ef495b0c3c7193fbf35df1223f8a6566",
+    "branch": "master",
+    "defect": "total() rounds per line then sums, so three 0.005 lines give 0.03 instead of 0.02",
+    "baseline_test": "1 failed, 1 passed (before any agent change)"
+  },
+  "products": {
+    "specs": {
+      "producer": "Codex host session with sbl-tpm-sp skills (explicit trigger)",
+      "files": {
+        "ProductSPEC.json": "0281590338f7169974e3a5619cac39f8519e1e3534eac887de505edbee4919b6",
+        "ArchitectureSPEC.json": "d2a02a06c3f849c65677c0eb1fe24923979eaf2e2bdf2715a3322c70dd09e9fb",
+        "ProgramSPEC.json": "55d0874e16835e80133dadb4afa92a392186709a8b3e3d2e75bf4291f711097c"
+      },
+      "claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    "pipd": {
+      "producer": "original PIPD writer (candidate branch with the additive pre-v2 patch)",
+      "files": {
+        "intent.card.json": "921a7c0a65e79c15f376db4acf43978f792c05c11ebc9b862fa7d91025814549",
+        "pi.json": "644cd06bab8dcbc6fb2fc5806a375684b44cd13f65854c72c046fa555d4b62ab",
+        "pd.json": "8559b609a33582e0ef0d8d3ce5413018f4500c0b26bee6ec500490f282bd692e",
+        "ecp.json": "440803c2dbaf026d17f95b07d612202c31513da962ead0ef42a4933087561d7f",
+        "tqaep.json": "91dd478400650aa87b0c29d49fd036b0570123a2490c8f06d493fdec620cb5cc",
+        "bundle.json": "e6b73c8ef5d61e90c463800bd7b29afa8c1b17c1244bd1570179c579fa3ef351"
+      },
+      "validate": {"exit": 0, "verdict": "PASS", "checked": 4, "closure": "FULL", "findings": []}
+    }
+  },
+  "git": {
+    "SBL_local_head": "826ca066a1c2df2976c0d402018b79e1c79a444f (candidate/r14-ts15-kinds, dirty)",
+    "PIPD_local_head": "b970880/011faab candidate/pre-v2-planning-20261102 worktree",
+    "untouched": ["Fabric", "HG-KSEOS", "real ~/.codex"]
+  },
+  "not_run": [
+    "Native GJ02 world effect (no original protected issuer/checker/publisher)",
+    "ChatGPT fresh session",
+    "durable W1-W3"
+  ]
+}
