@@ -73,6 +73,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      # Same reason as the product job: pytest is a CI tool, not a runtime dependency of either
+      # distribution, so it has to be installed explicitly or the step fails on the import.
+      - name: Install test tooling
+        run: python -m pip install "pytest>=8,<9"
+
       - name: Install the absorbed PIPD tree with its test extra
         working-directory: integrations/pipd
         run: python -m pip install -e ".[test]"
