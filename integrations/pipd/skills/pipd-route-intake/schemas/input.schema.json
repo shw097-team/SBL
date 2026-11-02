@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-route-intake:input:1",
+  "title": "pipd-route-intake input",
+  "description": "Owner: PIPD-EC (deterministic compiler). Consumer: pipd-pi-compile. An unbound intake request: goal plus at least one resolvable source locator.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rel": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "pattern": "\\.\\."
+            }
+          }
+        },
+        "required": [
+          "rel"
+        ]
+      },
+      "minItems": 1
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_goals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "goal",
+    "sources"
+  ]
+}

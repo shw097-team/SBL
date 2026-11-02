@@ -1,0 +1,1303 @@
+{
+  "schema": "PIPD-SPEC-DEL-CROSSWALK/1",
+  "blueprint": "PIPD-LS-SP_藍圖.md",
+  "counts": {
+    "SPEC": 32,
+    "DEL": 25,
+    "total": 57
+  },
+  "status_summary": {
+    "EVIDENCED": 44,
+    "EVIDENCE_GAP": 9,
+    "DESIGN_ONLY": 4
+  },
+  "rows": [
+    {
+      "id": "PIPD-SP-SPEC-001",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1382",
+      "normative_summary": "No semantic compilation without exact owner/source/supersession resolution",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-001"
+      ],
+      "deliverable_refs": [
+        "DEL-001"
+      ],
+      "evidence_refs": [
+        "schemas/AuthorityBinding.schema.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_s0_contracts.py",
+      "negative_mutation": "tests/test_oracle_disagreement.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": [
+        "TT-PIPD-KNOWLEDGE-QUARANTINE"
+      ]
+    },
+    {
+      "id": "PIPD-SP-SPEC-002",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1383",
+      "normative_summary": "All Skills/packages project PIPD-LIFECYCLE-SPEC@1.1.0; no competing lifecycle SSOT",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-002"
+      ],
+      "deliverable_refs": [
+        "DEL-003"
+      ],
+      "evidence_refs": [
+        ".hgk/rounds/R10-20261011-s4-bclass-decisions/far/FAR-PIPD-R10-AUTHORING-001.md"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "ADJUDICATED EXTERNAL: PIPD-LIFECYCLE-SPEC@1.1.0 is the external normative standard this repo implements (preflight NC-02; located outside the repo, sha256 6f6aafec...). Not buildable here - an in-repo copy would be the competing lifecycle SSOT this row forbids.",
+      "tt_refs": [
+        "TT-PIPD-KNOWLEDGE-QUARANTINE"
+      ]
+    },
+    {
+      "id": "PIPD-SP-SPEC-003",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1384",
+      "normative_summary": "Every CURRENT requirement traces SRC→REQ→SPEC→ACC→VER→EVD→DEL→GATE",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-003"
+      ],
+      "deliverable_refs": [
+        "DEL-002",
+        "DEL-004"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/trace_closure.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_s1_lite_slice.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-004",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1385",
+      "normative_summary": "Every canonical semantic object has one primary writer",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-004"
+      ],
+      "deliverable_refs": [
+        "DEL-003"
+      ],
+      "evidence_refs": [
+        "schemas/registry.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_s0_contracts.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-005",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1386",
+      "normative_summary": "Material capability choices execute admission algorithm before BUILD_MINIMAL",
+      "owner": "Technology Admission / PIPD",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-005"
+      ],
+      "deliverable_refs": [
+        "DEL-005"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_technology_admission.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-006",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1387",
+      "normative_summary": "Every considered candidate has terminal disposition or blocking TT",
+      "owner": "Technology Admission / PIPD",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-006"
+      ],
+      "deliverable_refs": [
+        "DEL-005"
+      ],
+      "evidence_refs": [
+        "schemas/TechnologyAdmission.schema.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_technology_admission.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-007",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1388",
+      "normative_summary": "LITE/STANDARD/ASSURED alter depth, not canonical semantics/permission",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-007"
+      ],
+      "deliverable_refs": [
+        "DEL-003"
+      ],
+      "evidence_refs": [
+        "schemas/ProfileBinding.schema.json"
+      ],
+      "gate": "G-S0-OBJECTS",
+      "oracle": "tests/test_s0_contracts.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-008",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1389",
+      "normative_summary": "PI encodes stable semantic construction contracts and rejectable handoff",
+      "owner": "PI/PD Compiler",
+      "stage": "S1",
+      "requirement_refs": [
+        "REQ-PIPD-008"
+      ],
+      "deliverable_refs": [
+        "DEL-006"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/pi_pkg.json",
+        "schemas/PI-PKG.schema.json"
+      ],
+      "gate": "G-PI-READY",
+      "oracle": "tests/test_s1_lite_slice.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-009",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1390",
+      "normative_summary": "PD resolves current repo/environment facts without silent semantic rewrite",
+      "owner": "PI/PD Compiler",
+      "stage": "S1",
+      "requirement_refs": [
+        "REQ-PIPD-009"
+      ],
+      "deliverable_refs": [
+        "DEL-007"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/pd_pkg.json",
+        "schemas/PD-PKG.schema.json"
+      ],
+      "gate": "G-PREDEV-READY",
+      "oracle": "tests/test_atomic_requirements.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-010",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1391",
+      "normative_summary": "TaskSpecSeed != WorkOrder != ECP identities",
+      "owner": "Execution Contract / Receiver Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-010"
+      ],
+      "deliverable_refs": [
+        "DEL-008",
+        "DEL-010"
+      ],
+      "evidence_refs": [
+        "schemas/TaskSpecSeed.schema.json",
+        "schemas/WorkOrderCandidate.schema.json",
+        "schemas/ECP.schema.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-011",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1392",
+      "normative_summary": "PIPD WorkOrderCandidate is never runtime-authoritative",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-011"
+      ],
+      "deliverable_refs": [
+        "DEL-010"
+      ],
+      "evidence_refs": [
+        "schemas/WorkOrderCandidate.schema.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-012",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1393",
+      "normative_summary": "Only receiver authority may ADMIT bounded execution",
+      "owner": "Execution Contract / Receiver Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-012"
+      ],
+      "deliverable_refs": [
+        "DEL-014"
+      ],
+      "evidence_refs": [
+        "schemas/ExecutionBindingRef.schema.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-013",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1394",
+      "normative_summary": "Provider/tool success cannot establish world-effect confirmation",
+      "owner": "TQAEP / Assurance",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-013"
+      ],
+      "deliverable_refs": [
+        "DEL-011"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/ecp.json",
+        "schemas/ECP.schema.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-014",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1395",
+      "normative_summary": "Evidence must bind subject/version/hash and freshness",
+      "owner": "TQAEP / Assurance",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-014"
+      ],
+      "deliverable_refs": [
+        "DEL-013"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/evidence_manifest.seal.json"
+      ],
+      "gate": "G-TQAEP/G-RELEASE",
+      "oracle": "tests/test_evidence_manifest.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-015",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1396",
+      "normative_summary": "Maker cannot self-issue independent qualification",
+      "owner": "TQAEP / Assurance",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-015"
+      ],
+      "deliverable_refs": [
+        "DEL-012"
+      ],
+      "evidence_refs": [
+        "schemas/ClaimCeiling.schema.json"
+      ],
+      "gate": "G-TQAEP/G-RELEASE",
+      "oracle": "tests/test_s1_lite_slice.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-016",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1397",
+      "normative_summary": "Handoff is versioned, machine-readable and ACK/NACK-able",
+      "owner": "Execution Contract / Receiver Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-016"
+      ],
+      "deliverable_refs": [
+        "DEL-014"
+      ],
+      "evidence_refs": [
+        "schemas/ExecutionHandoff.schema.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-017",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1398",
+      "normative_summary": "Provider/host adapters cannot widen authority or rewrite canonical truth",
+      "owner": "Surface/GENIE Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-017"
+      ],
+      "deliverable_refs": [
+        "DEL-015",
+        "DEL-016"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s3/HOST_PROJECTIONS.json"
+      ],
+      "gate": "G-S3-HOST/G-S3-WEB",
+      "oracle": "tests/test_host_projection.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-018",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1399",
+      "normative_summary": "Generated projection is invalid when source hash/version differs",
+      "owner": "Surface/GENIE Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-018"
+      ],
+      "deliverable_refs": [
+        "DEL-016",
+        "DEL-017"
+      ],
+      "evidence_refs": [
+        "schemas/SurfaceProjectionManifest.schema.json",
+        ".hgk/artifacts/s3/HOST_PROJECTIONS.json"
+      ],
+      "gate": "G-S3-HOST/G-S3-WEB",
+      "oracle": "tests/test_host_projection.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-019",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1400",
+      "normative_summary": "Adopted external capability includes fallback, exit, uninstall and residue check",
+      "owner": "Technology Admission / PIPD",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-019"
+      ],
+      "deliverable_refs": [
+        "DEL-005",
+        "DEL-015"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/CapabilityActivationLedger.json"
+      ],
+      "gate": "G-TECH-ADMISSION",
+      "oracle": "tests/test_technology_admission.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-020",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1401",
+      "normative_summary": "Provenance/SBOM/attestation never substitutes for functional/security acceptance",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-020"
+      ],
+      "deliverable_refs": [
+        "DEL-018",
+        "DEL-019"
+      ],
+      "evidence_refs": [
+        "SBOM.cdx.json"
+      ],
+      "gate": "G-TQAEP/G-RELEASE",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "SBOM/provenance bundle present but no acceptance oracle separates supply-chain from functional/security acceptance",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-021",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1402",
+      "normative_summary": "Change invalidates only dependency-affected artifacts/evidence",
+      "owner": "Evolution / Requalification",
+      "stage": "S7",
+      "requirement_refs": [
+        "REQ-PIPD-021"
+      ],
+      "deliverable_refs": [
+        "DEL-020"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/trace_closure.json"
+      ],
+      "gate": "G-S7-REQUAL",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-022",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1403",
+      "normative_summary": "Promotion requires reachable rollback/compensation for applicable effects",
+      "owner": "Evolution / Requalification",
+      "stage": "S7",
+      "requirement_refs": [
+        "REQ-PIPD-022"
+      ],
+      "deliverable_refs": [
+        "DEL-020"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/rollback_drill.json"
+      ],
+      "gate": "G-S7-REQUAL",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-023",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1404",
+      "normative_summary": "Package count is recomputed from responsibility graph, not hard-coded",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-023"
+      ],
+      "deliverable_refs": [
+        "DEL-021"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/PackageDerivationReceipt.json"
+      ],
+      "gate": "G-PACKAGE-DERIVATION",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "PackageDerivationReceipt object exists but no oracle recomputes package count from responsibility graph",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-024",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1405",
+      "normative_summary": "Each package has one primary semantic owner and explicit consumers",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-024"
+      ],
+      "deliverable_refs": [
+        "DEL-021"
+      ],
+      "evidence_refs": [
+        "schemas/registry.json"
+      ],
+      "gate": "G-PACKAGE-DERIVATION",
+      "oracle": "tests/test_s0_contracts.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-025",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1406",
+      "normative_summary": "Injection, permission escalation, secret/PII and irreversible effect risks fail closed",
+      "owner": "TQAEP / Assurance",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-025"
+      ],
+      "deliverable_refs": [
+        "DEL-024"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/history_secret_scan.json"
+      ],
+      "gate": "G-TQAEP/G-RELEASE",
+      "oracle": "tests/test_secret_patterns.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-026",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1407",
+      "normative_summary": "External pins/versions/licenses/security status carry TTL/recheck triggers",
+      "owner": "Technology Admission / PIPD",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-026"
+      ],
+      "deliverable_refs": [
+        "DEL-005"
+      ],
+      "evidence_refs": [
+        "schemas/TechnologyAdmission.schema.json"
+      ],
+      "gate": "G-TECH-ADMISSION",
+      "oracle": "tests/test_technology_admission.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-027",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1408",
+      "normative_summary": "Self-build/test/repair candidate allowed; self-independent-accept/release forbidden",
+      "owner": "Evolution / Requalification",
+      "stage": "S7",
+      "requirement_refs": [
+        "REQ-PIPD-027"
+      ],
+      "deliverable_refs": [
+        "DEL-020"
+      ],
+      "evidence_refs": [
+        "schemas/ClaimCeiling.schema.json"
+      ],
+      "gate": "G-S7-REQUAL",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-028",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1409",
+      "normative_summary": "GENIE projections/runtime findings feed CR, never direct truth mutation",
+      "owner": "Surface/GENIE Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-028"
+      ],
+      "deliverable_refs": [
+        "DEL-023"
+      ],
+      "evidence_refs": [
+        "schemas/GENIEProjectionRef.schema.json"
+      ],
+      "gate": "G-S6-GENIE",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "DESIGN_ONLY",
+      "first_fail": "S6 GENIE seam out of this round's gate; typed projection ref only (see .hgk/artifacts/s4/S5_S8_BACKLOG.json)",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-029",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1410",
+      "normative_summary": "HGK receives typed contracts; does not own PIPD lifecycle semantics",
+      "owner": "Execution Contract / Receiver Adapter",
+      "stage": "S3/S5",
+      "requirement_refs": [
+        "REQ-PIPD-029"
+      ],
+      "deliverable_refs": [
+        "DEL-022"
+      ],
+      "evidence_refs": [
+        "schemas/ExecutionHandoff.schema.json",
+        "fixtures/s5_s8/s5_compat.json"
+      ],
+      "gate": "G-S5-SHADOW/G-S5-CANARY",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "DESIGN_ONLY",
+      "first_fail": "S5 HGK receiver seam out of this round's gate; typed contract + compat fixture only",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-030",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1411",
+      "normative_summary": "MCP materializes only for live/authenticated/action/dynamic-discovery needs",
+      "owner": "Technology Admission / PIPD",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-030"
+      ],
+      "deliverable_refs": [
+        "DEL-015"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s2/MCP_MATERIALIZATION_DECISION.json",
+        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"
+      ],
+      "gate": "G-S3-HOST/G-S3-WEB",
+      "oracle": "tests/test_r10_bclass_evidence.py",
+      "negative_mutation": "tests/test_r10_bclass_evidence.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-031",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1412",
+      "normative_summary": "design/artifact/schema/test/bound/runtime/independent/human/release/production states are non-inheriting",
+      "owner": "TQAEP / Assurance",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-031"
+      ],
+      "deliverable_refs": [
+        "DEL-018",
+        "DEL-025"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/evidence_manifest.seal.json",
+        ".hgk/artifacts/s1/claim_ceiling.json"
+      ],
+      "gate": "G-TQAEP/G-RELEASE",
+      "oracle": "tests/test_evidence_manifest.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "PIPD-SP-SPEC-032",
+      "kind": "SPEC",
+      "source_locator": "PIPD-LS-SP_藍圖.md §19.2 L1413",
+      "normative_summary": "This blueprint freezes global architecture; package-local construction depth belongs downstream",
+      "owner": "PIPD Core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-032"
+      ],
+      "deliverable_refs": [
+        "DEL-021"
+      ],
+      "evidence_refs": [
+        ".hgk/artifacts/s4/S5_S8_BACKLOG.json"
+      ],
+      "gate": "G-PACKAGE-DERIVATION",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "package-local construction depth is downstream; repo only declares the S5..S8 boundary",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-001",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1859",
+      "normative_summary": "AUTHORITYBINDING_SOURCEFREEZE_BUNDLE@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-02",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-001"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/bundle.json",
+        "schemas/AuthorityBinding.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_s1_lite_slice.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-002",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1860",
+      "normative_summary": "REQUIREMENT_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-01/SK-04",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-002"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/intent_card.json",
+        "schemas/RequirementAtom.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_atomic_requirements.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-003",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1861",
+      "normative_summary": "CANONICAL_OBJECT_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "PIPD core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-003"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "schemas/registry.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_s0_contracts.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-004",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1862",
+      "normative_summary": "SPEC_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "PIPD core",
+      "stage": "S0",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-004"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "no SPEC_REGISTRY object in repo (SPEC registry lives in the external blueprint)",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-005",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1863",
+      "normative_summary": "TECHNOLOGY_ADMISSION_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-04/Tech",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-005"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/TECHNOLOGY_ADMISSIONS.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_technology_admission.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-006",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1864",
+      "normative_summary": "PI_PACKAGE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-04",
+      "stage": "S1",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-006"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/pi_pkg.json",
+        "schemas/PI-PKG.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_s1_lite_slice.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-007",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1865",
+      "normative_summary": "PD_PACKAGE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-05",
+      "stage": "S1",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-007"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/pd_pkg.json",
+        "schemas/PD-PKG.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_atomic_requirements.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-008",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1866",
+      "normative_summary": "TASKSPECSEED_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-06",
+      "stage": "S1/S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-008"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "schemas/TaskSpecSeed.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "TaskSpecSeed typed schema exists but no TaskSpecSeed set object is materialized",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-009",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1867",
+      "normative_summary": "CONSTRUCTIONCONTRACT_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-06",
+      "stage": "S1/S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-009"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/construction_contract.json",
+        "schemas/ConstructionContract.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-010",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1868",
+      "normative_summary": "WORKORDERCANDIDATE_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-06",
+      "stage": "S1/S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-010"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "schemas/WorkOrderCandidate.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-011",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1869",
+      "normative_summary": "ECP_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-06",
+      "stage": "S1/S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-011"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/ecp.json",
+        "schemas/ECP.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-012",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1870",
+      "normative_summary": "TQAEP_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-07",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-012"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/tqaep.json",
+        "schemas/TQAEP.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_oracle_disagreement.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-013",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1871",
+      "normative_summary": "EVIDENCEEXPECTATION_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-07",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-013"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s1/evidence_expectations.json",
+        "schemas/EvidenceExpectation.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_evidence_manifest.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-014",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1872",
+      "normative_summary": "EXECUTIONHANDOFF_SET@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-06",
+      "stage": "S1/S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-014"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "schemas/ExecutionHandoff.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-015",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1873",
+      "normative_summary": "ADAPTER_REGISTRY@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-08",
+      "stage": "S3",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-015"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s3/ADAPTER_REGISTRY.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_r10_bclass_evidence.py",
+      "negative_mutation": "tests/test_r10_bclass_evidence.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-016",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1874",
+      "normative_summary": "SURFACE_PROJECTION_MANIFEST@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-08",
+      "stage": "S3",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-016"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s3/HOST_PROJECTIONS.json",
+        "schemas/SurfaceProjectionManifest.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_host_projection.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-017",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1875",
+      "normative_summary": "WEB_HOST_PROJECTION_PACK@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-08",
+      "stage": "S3",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-017"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/s3/WEB_PACK.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_web_pack.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-018",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1876",
+      "normative_summary": "RELEASE_MANIFEST@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "Release package",
+      "stage": "S4",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-018"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "no RELEASE_MANIFEST object materialized in this round",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-019",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1877",
+      "normative_summary": "SBOM_PROVENANCE_BUNDLE@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "Release package",
+      "stage": "S4",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-019"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "SBOM.cdx.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "SBOM.cdx.json exists but no oracle verifies cryptographic/provenance claims",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-020",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1878",
+      "normative_summary": "MIGRATION_COMPATIBILITY_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "Evolution",
+      "stage": "S7",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-020"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/rollback_drill.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_negative_and_rollback.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-021",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1879",
+      "normative_summary": "PACKAGE_DERIVATION_RECEIPT@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "Package generator",
+      "stage": "S2",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-021"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/PackageDerivationReceipt.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "EVIDENCE_GAP",
+      "first_fail": "PackageDerivationReceipt object exists but no deterministic-repartition oracle exists",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-022",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1880",
+      "normative_summary": "HGK_RECEIVER_ADAPTER_SPEC@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "HGK seam",
+      "stage": "S5",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-022"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "fixtures/s5_s8/s5_compat.json",
+        "schemas/ExecutionHandoff.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "DESIGN_ONLY",
+      "first_fail": "S5 HGK receiver adapter spec is design-only this round (typed seam + compat fixture)",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-023",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1881",
+      "normative_summary": "GENIE_PROJECTION_ADAPTER_SPEC@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "GENIE seam",
+      "stage": "S6",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-023"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        "schemas/GENIEProjectionRef.schema.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "",
+      "negative_mutation": "",
+      "status": "DESIGN_ONLY",
+      "first_fail": "S6 GENIE projection adapter spec is design-only this round (typed ref only)",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-024",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1882",
+      "normative_summary": "RISK_TT_LEDGER@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "Control",
+      "stage": "S0..S7",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-024"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/TT_REGISTER.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_tt_summary.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    },
+    {
+      "id": "DEL-025",
+      "kind": "DEL",
+      "source_locator": "PIPD-LS-SP_藍圖.md §27.1 L1883",
+      "normative_summary": "FINAL_READBACK_RECEIPT@1 — declared input artifact identities + source hashes; no implicit dependency",
+      "owner": "SK-08",
+      "stage": "S3",
+      "requirement_refs": [
+        "REQ-PIPD-DEL-025"
+      ],
+      "deliverable_refs": [],
+      "evidence_refs": [
+        ".hgk/artifacts/evidence_manifest.seal.json"
+      ],
+      "gate": "DELIVERABLES_MASTER_LEDGER",
+      "oracle": "tests/test_evidence_manifest.py",
+      "negative_mutation": "tests/test_negative_and_rollback.py",
+      "status": "EVIDENCED",
+      "first_fail": "",
+      "tt_refs": []
+    }
+  ]
+}

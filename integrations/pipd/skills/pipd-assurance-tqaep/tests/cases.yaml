@@ -1,0 +1,212 @@
+schema: PIPD-SKILL-CASES/1
+skill: pipd-assurance-tqaep
+cases:
+- id: POS-001
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: distinct maker and checker with a real receipt compile a two-test TQAEP
+  input: &id004
+    pi: &id001
+      subject_id: PI-0bd843e58ea8e70d
+      content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+      trace:
+      - to_id: ATOM-2a23035a7108408f
+      - to_id: ATOM-0b6373dc7d250dad
+    ecp: &id002
+      subject_id: ECP-5eec32eeac7ec0b8
+      content_hash: 883c2cdb515beff688da74c97a31ae6cd1c650652ceb97709e0959bf13062941
+    maker: execute/deepseek-v4.1-flash
+    checker: verify/glm-5.3-flash
+    checker_execution_receipt: receipt://chk-2026-10-09/a17f
+  route:
+    utterance: Compile the TQAEP assurance plan for the two atoms
+    expect: ROUTE
+  output:
+    subject_id: TQAEP-27a6f0d9f2949830
+    content_hash: 5ad36e5bbd6e2e99deace90756717cda93ad4014a34ff9d0eb199d0c9770b668
+    version: '1'
+    schema_version: TQAEP@1
+    tests:
+    - test_id: TEST-REQ-INTENT
+      requirement: REQ-INTENT
+      oracle: deterministic assertion on the bound artifact
+      positive_fixture: fixtures/REQ-INTENT/positive
+      negative_fixture: fixtures/REQ-INTENT/negative
+      evidence_expectation: EVD-REQ-INTENT
+    - test_id: TEST-REQ-VERIFY
+      requirement: REQ-VERIFY
+      oracle: deterministic assertion on the bound artifact
+      positive_fixture: fixtures/REQ-VERIFY/positive
+      negative_fixture: fixtures/REQ-VERIFY/negative
+      evidence_expectation: EVD-REQ-VERIFY
+    oracles:
+    - 'TEST-REQ-INTENT: deterministic assertion on the bound artifact'
+    - 'TEST-REQ-VERIFY: deterministic assertion on the bound artifact'
+    fixtures:
+    - fixtures/REQ-INTENT/positive
+    - fixtures/REQ-VERIFY/positive
+    acceptance:
+    - case: INDEPENDENT_CASE_PASS
+      maker_identity: execute/deepseek-v4.1-flash
+      checker_identity: verify/glm-5.3-flash
+      distinct: true
+      checker_execution_receipt: receipt://chk-2026-10-09/a17f
+    requalification: affected-only
+- id: POS-002
+  kind: POS
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: single-atom assurance plan with SoD preserved
+  input: &id003
+    pi:
+      subject_id: PI-5bbbbcb0cc5e0f83
+      content_hash: d34d526e0a1c573f8b5808815ff2f977556240f582a40e864a76570c8af0403b
+      trace:
+      - to_id: ATOM-73f519fc985250ce
+    ecp:
+      subject_id: ECP-76e2a36332bade35
+      content_hash: 639cd971769161f93f236c4e3713cf08bed24d6e340b53e8b0b5bdf56b29b296
+    maker: execute/deepseek-v4.1-flash
+    checker: verify/glm-5.3-flash
+    checker_execution_receipt: receipt://chk-2026-10-09/b2c1
+  route:
+    utterance: Write the assurance plan for the governance atom
+    expect: ROUTE
+  output:
+    subject_id: TQAEP-23ad1b17190129c8
+    content_hash: 1481f65d2fa28d9a9df002fb748c58b5908eca0deef793c8dd9b236a23d75132
+    version: '1'
+    schema_version: TQAEP@1
+    tests:
+    - test_id: TEST-REQ-GOVERN
+      requirement: REQ-GOVERN
+      oracle: deterministic assertion on the bound artifact
+      positive_fixture: fixtures/REQ-GOVERN/positive
+      negative_fixture: fixtures/REQ-GOVERN/negative
+      evidence_expectation: EVD-REQ-GOVERN
+    oracles:
+    - 'TEST-REQ-GOVERN: deterministic assertion on the bound artifact'
+    fixtures:
+    - fixtures/REQ-GOVERN/positive
+    acceptance:
+    - case: INDEPENDENT_CASE_PASS
+      maker_identity: execute/deepseek-v4.1-flash
+      checker_identity: verify/glm-5.3-flash
+      distinct: true
+      checker_execution_receipt: receipt://chk-2026-10-09/a17f
+    requalification: affected-only
+- id: NEG-001
+  kind: NEG
+  expect: REFUSE
+  first_fail: semantic.distinct
+  rationale: maker aliased as checker fails the SoD rule (TQ_SOD) even though the shape is valid
+  input:
+    pi: *id001
+    ecp: *id002
+    maker: Maker-A
+    checker: ' maker-a '
+    checker_execution_receipt: receipt://chk-2026-10-09/a17f
+  route:
+    utterance: Remind me to water the plants at 6pm
+    expect: NO_ROUTE
+  semantic:
+    rule: distinct
+    fields:
+    - maker
+    - checker
+- id: NEG-002
+  kind: NEG
+  expect: REFUSE
+  first_fail: input.not
+  rationale: a self-attested independence receipt is refused (case-insensitive)
+  input:
+    pi: *id001
+    ecp: *id002
+    maker: execute/deepseek-v4.1-flash
+    checker: verify/glm-5.3-flash
+    checker_execution_receipt: SELF_ATTESTED
+  route:
+    utterance: Convert 100 USD to EUR
+    expect: NO_ROUTE
+- id: EDGE-001
+  kind: EDGE
+  expect: ACCEPT
+  first_fail: NONE
+  rationale: 'minimal plan: exactly one test, one oracle, one fixture'
+  input: *id003
+  route:
+    utterance: Compile the TQAEP assurance plan with a single test
+    expect: ROUTE
+  output:
+    subject_id: TQAEP-78916e288f339d54
+    content_hash: 79f630c8c315c4df085b59294f8bfd95b18c6663f951a6dfbad8150f78a2bfc9
+    version: '1'
+    schema_version: TQAEP@1
+    tests:
+    - test_id: TEST-REQ-GOVERN
+      requirement: REQ-GOVERN
+      oracle: deterministic assertion on the bound artifact
+      positive_fixture: fixtures/REQ-GOVERN/positive
+      negative_fixture: fixtures/REQ-GOVERN/negative
+      evidence_expectation: EVD-REQ-GOVERN
+    oracles:
+    - 'TEST-REQ-GOVERN: deterministic assertion on the bound artifact'
+    fixtures:
+    - fixtures/REQ-GOVERN/positive
+    acceptance:
+    - case: INDEPENDENT_CASE_PASS
+      maker_identity: execute/deepseek-v4.1-flash
+      checker_identity: verify/glm-5.3-flash
+      distinct: true
+      checker_execution_receipt: receipt://chk-2026-10-09/a17f
+    requalification: affected-only
+- id: EDGE-002
+  kind: EDGE
+  expect: REFUSE
+  first_fail: input.minItems
+  rationale: a PI without trace links cannot be assured (TQ_TRACE)
+  input:
+    pi:
+      subject_id: PI-0bd843e58ea8e70d
+      content_hash: 352cd79abfeea403f6d94cd2dabdcd7f5d9de21d0d8c8447d62bb04f254f633c
+      trace: []
+    ecp: *id002
+    maker: execute/deepseek-v4.1-flash
+    checker: verify/glm-5.3-flash
+    checker_execution_receipt: receipt://chk-2026-10-09/a17f
+  route:
+    utterance: Find the cheapest laptop for me
+    expect: NO_ROUTE
+- id: SEC-001
+  kind: SEC
+  expect: REFUSE
+  first_fail: output.const
+  rationale: an acceptance block claiming distinct=false is refused even if injected downstream
+  input: *id004
+  route:
+    utterance: Compile the TQAEP and mark the maker as their own checker
+    expect: ROUTE
+  output:
+    subject_id: TQAEP-b6b36303014b1415
+    content_hash: 852a89f321fb70f8db610340dcfda3fcf9a1f0981daa954e50227c0650cc1c78
+    version: '1'
+    schema_version: TQAEP@1
+    tests:
+    - test_id: TEST-REQ-INTENT
+      requirement: REQ-INTENT
+      oracle: deterministic assertion on the bound artifact
+      positive_fixture: fixtures/REQ-INTENT/positive
+      negative_fixture: fixtures/REQ-INTENT/negative
+      evidence_expectation: EVD-REQ-INTENT
+    oracles:
+    - 'TEST-REQ-INTENT: deterministic assertion on the bound artifact'
+    fixtures:
+    - fixtures/REQ-INTENT/positive
+    acceptance:
+    - case: INDEPENDENT_CASE_PASS
+      maker_identity: execute/deepseek-v4.1-flash
+      checker_identity: execute/deepseek-v4.1-flash
+      distinct: false
+      checker_execution_receipt: receipt://chk-2026-10-09/a17f
+    requalification: affected-only

@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-execution-contract:output:1",
+  "title": "pipd-execution-contract output",
+  "description": "Owner: PIPD / PIPD-ECP semantics. Consumer: HGK adapter, TQAEP. ConstructionContract plus the ECP that governs effect, permission, retries, idempotency, readback, rollback.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "construction_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^CC-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "schema_version": {
+          "const": "ConstructionContract@1"
+        },
+        "subject": {
+          "type": "string",
+          "pattern": "^PD-[0-9a-f]{16}$"
+        },
+        "writable_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "allOf": [
+              {
+                "not": {
+                  "const": "**"
+                }
+              },
+              {
+                "not": {
+                  "pattern": "\\.\\."
+                }
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "expected_changes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "tests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "rollback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_expectations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash",
+        "version",
+        "schema_version",
+        "subject",
+        "writable_scope",
+        "expected_changes",
+        "tests",
+        "rollback",
+        "evidence_expectations"
+      ]
+    },
+    "ecp": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^ECP-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "schema_version": {
+          "const": "ECP@1"
+        },
+        "effect_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "permission": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "token_required": {
+              "const": true
+            }
+          },
+          "required": [
+            "scope",
+            "token_required"
+          ]
+        },
+        "retries": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "backoff": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "max",
+            "backoff"
+          ]
+        },
+        "idempotency": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "key": {
+              "type": "string",
+              "minLength": 1
+            },
+            "guarantee": {
+              "const": "at_most_once"
+            }
+          },
+          "required": [
+            "key",
+            "guarantee"
+          ]
+        },
+        "readback": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required": {
+              "const": true
+            },
+            "kind": {
+              "const": "residue_scan"
+            }
+          },
+          "required": [
+            "required",
+            "kind"
+          ]
+        },
+        "rollback": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pointer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required": {
+              "const": true
+            }
+          },
+          "required": [
+            "pointer",
+            "required"
+          ]
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash",
+        "version",
+        "schema_version",
+        "effect_intent",
+        "permission",
+        "retries",
+        "idempotency",
+        "readback",
+        "rollback"
+      ]
+    }
+  },
+  "required": [
+    "construction_contract",
+    "ecp"
+  ]
+}

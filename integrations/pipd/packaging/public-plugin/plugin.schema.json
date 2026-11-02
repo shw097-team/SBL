@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pipd.local/schemas/public-plugin/plugin.schema.json",
+  "title": "PIPD public plugin manifest - locally authored subset",
+  "description": "A LOCALLY AUTHORED SUBSET of the public plugin manifest schema. It mirrors only the constraints that tools/build_public_plugin.py enforces on packaging/public-plugin/plugin.json (the schema id, the exact eight skill names, the publisher/icon/release object shapes and the closed key sets) and nothing more, so that the manifest can be digested and pinned. It is NOT the official vendor schema, and the official vendor schema and the official vendor validator remain NOT_EXECUTED: no vendor validation is claimed, performed or implied. The sha256 of these exact bytes is the digest the manifest pins in official_schema_sha256, and the builder validates the manifest against this file with its own dependency-free validate_subset().",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "plugin_id",
+    "display_name",
+    "version",
+    "license",
+    "skills",
+    "official_schema_sha256",
+    "publisher",
+    "icons",
+    "release"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "PIPD-PUBLIC-PLUGIN-MANIFEST/1"
+    },
+    "plugin_id": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "pipd-assurance-tqaep",
+          "pipd-authority-source",
+          "pipd-execution-contract",
+          "pipd-package-project",
+          "pipd-pd-bind",
+          "pipd-pi-compile",
+          "pipd-profile-tailor",
+          "pipd-route-intake"
+        ]
+      }
+    },
+    "official_schema_sha256": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "identity",
+        "identity_sha256"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "identity": {
+          "type": "string"
+        },
+        "identity_sha256": {
+          "type": "string"
+        }
+      }
+    },
+    "icons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 8
+          }
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_ceiling",
+        "official_portal_verification"
+      ],
+      "properties": {
+        "claim_ceiling": {
+          "type": "string"
+        },
+        "official_portal_verification": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

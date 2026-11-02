@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-pd-bind:input:1",
+  "title": "pipd-pd-bind input",
+  "description": "Owner: PIPD. Consumer: execution handoff. A PI-PKG reference plus a real RepoContext; PD late-binding requires both (S0 family 07).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "pattern": "^PI-[0-9a-f]{16}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "subject_id",
+        "content_hash"
+      ]
+    },
+    "repo_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tracked_files": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "currentness": {
+          "enum": [
+            "FRESH",
+            "STALE"
+          ]
+        },
+        "writable_scope": {
+          "type": "string",
+          "minLength": 1,
+          "allOf": [
+            {
+              "not": {
+                "const": "**"
+              }
+            },
+            {
+              "not": {
+                "pattern": "\\.\\."
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "root",
+        "head",
+        "tracked_files",
+        "currentness",
+        "writable_scope"
+      ]
+    }
+  },
+  "required": [
+    "pi",
+    "repo_context"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:skill:pipd-pd-bind:output:1",
+  "title": "pipd-pd-bind output",
+  "description": "Owner: PIPD. Consumer: execution handoff. PD-PKG bound to the RepoContext with currentness and the late-bound construction binding.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "subject_id": {
+      "type": "string",
+      "pattern": "^PD-[0-9a-f]{16}$"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "schema_version": {
+      "const": "PD-PKG@1"
+    },
+    "RepoContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tracked_files": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "root",
+        "head",
+        "tracked_files"
+      ]
+    },
+    "currentness": {
+      "enum": [
+        "FRESH",
+        "STALE"
+      ]
+    },
+    "late_bound_construction_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "bound_at": {
+          "const": "PD"
+        },
+        "binding_scope": {
+          "const": "affected_only"
+        },
+        "writable_scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "bound_at",
+        "binding_scope",
+        "writable_scope"
+      ]
+    }
+  },
+  "required": [
+    "subject_id",
+    "content_hash",
+    "version",
+    "schema_version",
+    "RepoContext",
+    "currentness",
+    "late_bound_construction_binding"
+  ]
+}

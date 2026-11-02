@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:GENIEProjectionRef:1",
+  "x-s0": {
+    "index": "18",
+    "contract": "GENIEProjectionRef",
+    "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S6",
+    "owner": "GENIE adapter",
+    "consumers": ["GENIE compiler"]
+  },
+  "type": "object",
+  "description": "Owner: GENIE adapter. Consumer: GENIE compiler. Schema seam only until S6. Target references to ProductGraph, Profile, Bundle and GENIEArtifact; no truth writeback.",
+  "additionalProperties": false,
+  "required": [
+    "target_refs",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "target_refs": {
+      "type": "object",
+      "description": "Target references only; no truth writeback.",
+      "additionalProperties": false,
+      "required": [
+        "ProductGraph",
+        "Profile",
+        "Bundle",
+        "GENIEArtifact"
+      ],
+      "properties": {
+        "ProductGraph": {},
+        "Profile": {},
+        "Bundle": {},
+        "GENIEArtifact": {}
+      }
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

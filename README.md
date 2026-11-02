@@ -114,6 +114,18 @@ from prose.
 - No independent acceptance, and no independent acceptance claim.
 - No multi-user or remote sync; the todo store is local to one machine.
 
+## PIPD integration (candidate, not a cutover)
+
+`integrations/pipd/` carries a bounded, verbatim copy of `PIPD-LS-SP@aeb0d479` — the compiler package
+`pipd_ls_sp`, its 19 contract families, 8 skills, CLI and tests — so that one tree can build both the
+`pipd-ls-sp` distribution and, later, the SBL adapter. `products/sbl-tpm-sp/` is the portable plugin identity
+that consumes that distribution.
+
+This is a **candidate**: `PIPD-LS-SP` is still the canonical writer, the SBL package and its dependencies are
+unchanged, and the FHS route still marks PIPD `CANONICAL_COMPILER_PRE_CUTOVER`. Baseline, decision status and
+verification are in [`docs/pipd-migration/BASELINE.md`](docs/pipd-migration/BASELINE.md) and
+[`docs/pipd-migration/U04-CUTOVER.md`](docs/pipd-migration/U04-CUTOVER.md).
+
 ## Licence
 
 MIT, Copyright (c) 2026 shw097-team — see `LICENSE`. Third-party notices are in

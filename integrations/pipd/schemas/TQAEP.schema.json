@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:TQAEP:1",
+  "x-s0": {
+    "index": "13",
+    "contract": "TQAEP",
+    "materialization": "REQUIRED_NOW",
+    "owner": "PIPD/TQAEP semantics",
+    "consumers": ["Independent checker/release"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD/TQAEP semantics. Consumer: Independent checker/release.",
+  "additionalProperties": false,
+  "required": [
+    "tests",
+    "oracles",
+    "fixtures",
+    "acceptance",
+    "requalification",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "tests": {},
+    "oracles": {},
+    "fixtures": {},
+    "acceptance": {},
+    "requalification": {},
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}

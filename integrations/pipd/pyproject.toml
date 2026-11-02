@@ -1,0 +1,53 @@
+[project]
+name = "pipd-ls-sp"
+version = "0.1.1a4"
+description = "PIPD-LS-SP Pre-Implementation & Pre-Dev Lifecycle Skills Plugin (HG-KSEOS governed)"
+requires-python = ">=3.11"
+dependencies = ["jsonschema>=4.0"]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+
+[project.optional-dependencies]
+# TEST-ONLY dependency (S4R3-F001). The suite's skill-contract tests drive
+# tools/skill_pack_check.py, which parses skills/*/tests/cases.yaml with PyYAML. The shipped CLI
+# never imports yaml, so PyYAML is deliberately NOT a runtime dependency; CI installs
+# `pip install -e ".[test]"`. When it is absent the checker still fails closed with a typed
+# TOOL_MISSING refusal — that refusal is the correct behaviour and is asserted by the suite, but a
+# gate must not be red merely because the test extra was never installed.
+# `build`/`setuptools`/`wheel` are TEST-ONLY as well (S4R3-F006). tests/test_standard_wheel_schemas.py
+# performs a real backend-driven `python -m build --wheel --no-isolation` and then installs that wheel
+# into a throwaway directory to prove the installed package resolves its OWN contract registry. The
+# shipped CLI needs none of this; the smoke path does. When they are absent the test SKIPS with an
+# explicit reason instead of silently passing, and CI installs this extra so it actually runs.
+test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel"]
+
+[project.scripts]
+pipd = "pipd_ls_sp.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+# NOTE (honesty, S4R3-F006): the shipped wheel is HAND-BUILT by tools/build_dist.py (PEP 427) because
+# this environment is network-off with no build backend available at build time. That hand-built
+# wheel maps `schemas/` into the package explicitly and is self-sufficient.
+# The declarations below describe the same intent for a BACKEND-DRIVEN build, but they are NOT by
+# themselves sufficient: `package-data` can only reach data already inside a package directory, and
+# the canonical `schemas/` tree sits at the repository root, outside `src/pipd_ls_sp/`. A previous
+# revision of this comment claimed these declarations were enough; they were not, and `python -m
+# build` shipped a wheel with an empty `pipd_ls_sp/schemas/` (F006). The mapping is therefore
+# performed and ASSERTED by the `build_py` hook in `setup.py` via `tools/schema_package_mirror.py`;
+# `MANIFEST.in` keeps the same tree in the sdist so an sdist->wheel build behaves identically.
+# Do not delete setup.py while this tree layout is in use.
+# R5Q: the wheel's own METADATA is emitted by tools/build_dist.py, which now reads the SPDX
+# identifier from OWNER_LICENSE_DECISION.yaml (single source of truth) and packs LICENSE + NOTICE
+# into <dist-info>/licenses/ per PEP 639, so the granted licence travels with the binary rather
+# than being asserted only in this file. Verified by tools/r5q_wheel_license_check.py.
+[tool.setuptools]
+packages = ["pipd_ls_sp"]
+package-dir = { "" = "src" }
+
+# Install-safe schema resources: registry.json + every *.schema.json travel WITH the package so an
+# installed `pipd` can resolve its contract registry without the source checkout.
+[tool.setuptools.package-data]
+pipd_ls_sp = ["schemas/*.json"]

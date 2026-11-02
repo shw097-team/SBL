@@ -1,0 +1,30 @@
+# requirements.lock - the RESOLVED runtime closure of pipd-ls-sp, pinned exactly.
+#
+# WHY THIS FILE EXISTS: `pyproject.toml` declares the runtime requirement as the open range
+# `jsonschema>=4.0`, which permits any future 4.x or 5.x. That is a declaration, not a reproduction
+# recipe: two installs months apart can resolve to different bytes. This file records the closure that
+# was actually present and exercised when the published wheel was verified, so an install can be
+# reproduced rather than merely re-resolved.
+#
+# WHAT IT PINS: exact versions of the transitive closure of `jsonschema`, enumerated by walking the
+# declared requirements of each installed distribution (markers with an `extra` are excluded, since no
+# extras are requested). Verified on Windows CPython 3.11.9.
+#
+# HONEST LIMITS - read these before treating this as a supply-chain control:
+#   1. NOT HASH-PINNED. Artifact hashes (sha256 of each wheel/sdist) are NOT recorded, because the
+#      build environment for this release was network-off and the artifacts could not be fetched to
+#      hash them. `pip install --require-hashes` will therefore NOT work against this file. Version
+#      pinning narrows the window; it does not close it.
+#   2. This is the closure as INSTALLED and TESTED, not a resolution performed by a resolver. It
+#      states what was exercised, not what is optimal.
+#   3. `rpds-py` and `typing-extensions` arrive through `referencing`; they are listed because they are
+#      in the closure, not because this project imports them directly.
+#
+# Regenerate with: tools/build_requirements_lock.py  (writes this file; see that script for the walk)
+
+attrs==25.4.0
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==0.30.0
+typing-extensions==4.15.0

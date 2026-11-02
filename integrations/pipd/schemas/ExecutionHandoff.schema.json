@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pipd:s0:ExecutionHandoff:1",
+  "x-s0": {
+    "index": "14",
+    "contract": "ExecutionHandoff",
+    "materialization": "REQUIRED_NOW",
+    "owner": "PIPD",
+    "consumers": ["HGK/other receiver"]
+  },
+  "type": "object",
+  "description": "Owner: PIPD. Consumer: HGK/other receiver.",
+  "additionalProperties": false,
+  "required": [
+    "receiver",
+    "abi_version",
+    "payload_refs",
+    "ack_nack_state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+  ],
+  "properties": {
+    "receiver": {},
+    "abi_version": {},
+    "payload_refs": {},
+    "ack_nack_state": {},
+    "subject_id": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    }
+  }
+}
