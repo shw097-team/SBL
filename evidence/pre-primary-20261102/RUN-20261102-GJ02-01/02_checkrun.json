@@ -7,7 +7,10 @@
     {
       "case_id": "G01",
       "capability": "Host really uses the package",
-      "original_test_refs": ["T03", "V2-T02"],
+      "original_test_refs": [
+        "T03",
+        "V2-T02"
+      ],
       "result": "PASS",
       "evidence": [
         "codex plugin add sbl-tpm-sp@sbl-pre-primary-local -> installed, enabled, 0.3.0-rc.2",
@@ -21,20 +24,25 @@
     {
       "case_id": "G01b",
       "capability": "Ordinary goal with no plan hints",
-      "original_test_refs": ["T03"],
+      "original_test_refs": [
+        "T03"
+      ],
       "result": "PASS_WITH_ROUTE_CAVEAT",
       "evidence": [
         "goal: fix the rounding defect, do not change test expectations",
         "exit 0, file changed (2 insertions / 1 deletion), pytest 2 passed, no test expectation edited",
         "usage: 97k input / 567 output tokens"
       ],
-      "first_fail": "sandbox workspace-write blocks the WindowsApps pwsh alias; rerun with danger-full-access in the isolated repo",
-      "note": "this session ran on the official route (before the DeepSeek route was wired); the DeepSeek route is evidenced by G01/raw/ds_*"
+      "first_fail": "run 1 under --sandbox workspace-write: exit 0 but every exec_command was rejected ('blocked by policy', WindowsApps pwsh alias), so no file changed and the task stayed undone; rerun with danger-full-access exited 0 and completed the fix",
+      "note": "run 1 = raw/codex_events.jsonl (5 events, no tool success, no diff); run 2 = raw/codex2_events.jsonl (fix applied, pytest 2 passed). The exit-124 hang appeared separately in the nontrigger run (FIND-HOST-124)."
     },
     {
       "case_id": "G02",
       "capability": "Source / PI not distorted",
-      "original_test_refs": ["T04", "V2-T03"],
+      "original_test_refs": [
+        "T04",
+        "V2-T03"
+      ],
       "result": "PASS",
       "evidence": [
         "intake on tests/test_billing.py produced 17 requirement atoms, each with a real clause span and its own original oracle id",
@@ -45,7 +53,9 @@
     {
       "case_id": "G03",
       "capability": "PD late binding to a real repo",
-      "original_test_refs": ["T05"],
+      "original_test_refs": [
+        "T05"
+      ],
       "result": "PASS",
       "evidence": [
         "bind-pd against the sandbox repo recorded HEAD 70757870, branch master, dirty=true with a fresh currentness epoch",
@@ -56,7 +66,10 @@
     {
       "case_id": "G04",
       "capability": "Effect-specific ECP",
-      "original_test_refs": ["T12", "V2-T04"],
+      "original_test_refs": [
+        "T12",
+        "V2-T04"
+      ],
       "result": "HOLD",
       "evidence": [
         "the canonical compile-ecp path produced an ECP without an operation registry, so effect binding stays generic",
@@ -68,7 +81,10 @@
     {
       "case_id": "G05",
       "capability": "Thin governance (READ/DRAFT not blocked by unrelated high-effect gates)",
-      "original_test_refs": ["T13", "V2-T05"],
+      "original_test_refs": [
+        "T13",
+        "V2-T05"
+      ],
       "result": "PASS_SCOPED",
       "evidence": [
         "read-only and draft work ran with no grant, no owner prompt and no issuer contact",
@@ -80,31 +96,49 @@
     {
       "case_id": "G06",
       "capability": "Single owner, repeated-question count",
-      "original_test_refs": ["T18", "V2-T06"],
+      "original_test_refs": [
+        "T18",
+        "V2-T06"
+      ],
       "result": "NOT_RUN",
-      "evidence": ["no owner broker or pre-authorization channel is reachable from this host"],
+      "evidence": [
+        "no owner broker or pre-authorization channel is reachable from this host"
+      ],
       "first_fail": "OWNER_BROKER_UNBOUND"
     },
     {
       "case_id": "G07",
       "capability": "Unattended autonomy (READY -> claim -> effect -> settle)",
-      "original_test_refs": ["T19", "V2-T07"],
+      "original_test_refs": [
+        "T19",
+        "V2-T07"
+      ],
       "result": "NOT_RUN",
-      "evidence": ["no HGK spine/queue/lease endpoint; mandate_gate returns a lane receipt with nonce=None, not a work lease"],
+      "evidence": [
+        "no HGK spine/queue/lease endpoint; mandate_gate returns a lane receipt with nonce=None, not a work lease"
+      ],
       "first_fail": "SPINE_UNBOUND"
     },
     {
       "case_id": "G08",
       "capability": "Recovery / UNKNOWN reconcile",
-      "original_test_refs": ["T20", "V2-T08"],
+      "original_test_refs": [
+        "T20",
+        "V2-T08"
+      ],
       "result": "NOT_RUN",
-      "evidence": ["no worker effect was executed, so there is nothing to reconcile"],
+      "evidence": [
+        "no worker effect was executed, so there is nothing to reconcile"
+      ],
       "first_fail": "NO_EFFECT_EXECUTED"
     },
     {
       "case_id": "G09",
       "capability": "Planned TQAEP without a live receipt",
-      "original_test_refs": ["T17", "V2-T03"],
+      "original_test_refs": [
+        "T17",
+        "V2-T03"
+      ],
       "result": "PASS_WITH_CEILING",
       "evidence": [
         "canonical compile-tqaep without a receipt refuses: exit 2, code TQ_SOD ('a maker cannot self-attest independence')",
@@ -117,23 +151,35 @@
     {
       "case_id": "G10",
       "capability": "TQAEP usability at the same scope",
-      "original_test_refs": ["T21", "V2-T09"],
+      "original_test_refs": [
+        "T21",
+        "V2-T09"
+      ],
       "result": "HOLD",
-      "evidence": ["no protected checker, no live runner and no product consumer FUO on this host"],
+      "evidence": [
+        "no protected checker, no live runner and no product consumer FUO on this host"
+      ],
       "first_fail": "ORIGINAL_CHECKER_UNBOUND"
     },
     {
       "case_id": "G11",
       "capability": "Iteration efficiency / A-B",
-      "original_test_refs": ["T23"],
+      "original_test_refs": [
+        "T23"
+      ],
       "result": "UNVERIFIED",
-      "evidence": ["no comparable baseline raw for the same goal/source/repo; no savings percentage is claimed"],
+      "evidence": [
+        "no comparable baseline raw for the same goal/source/repo; no savings percentage is claimed"
+      ],
       "first_fail": "NO_COMPARABLE_BASELINE"
     },
     {
       "case_id": "G12",
       "capability": "Version / rollback",
-      "original_test_refs": ["T24", "V2-T10"],
+      "original_test_refs": [
+        "T24",
+        "V2-T10"
+      ],
       "result": "PASS",
       "evidence": [
         "installed 0.3.0-rc.2 -> plugin list: installed, enabled, 0.3.0-rc.2 -> remove -> not installed (cache dir gone) -> reinstall -> installed, enabled",
@@ -166,5 +212,11 @@
       "action": "route works with the live key; key rotation is an owner action"
     }
   ],
-  "totals": {"PASS": 6, "PASS_WITH_CEILING": 2, "HOLD": 3, "NOT_RUN": 3, "UNVERIFIED": 1}
+  "totals": {
+    "PASS": 6,
+    "PASS_WITH_CEILING": 2,
+    "HOLD": 3,
+    "NOT_RUN": 3,
+    "UNVERIFIED": 1
+  }
 }
