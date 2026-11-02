@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sbl:pre-v2-active:PI.crosswalk:2",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "SBL.PI.Crosswalk@2"
+    },
+    "canonical_pi_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "original_requirement_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_oracle_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_file": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "span": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "parent_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "child": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "polarity": {
+            "enum": [
+              "MUST",
+              "MUST NOT"
+            ]
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "oracle_predicate": {
+            "type": "string",
+            "minLength": 1
+          },
+          "taxonomy": {
+            "const": "ADVISORY_ONLY"
+          }
+        },
+        "required": [
+          "original_requirement_id",
+          "original_oracle_id",
+          "source_sha256",
+          "source_file",
+          "clause_id",
+          "span",
+          "parent_id",
+          "child",
+          "polarity",
+          "statement",
+          "oracle_predicate",
+          "taxonomy"
+        ]
+      }
+    },
+    "claim_ceiling": {
+      "const": "AUTHOR_DESIGN_ONLY"
+    }
+  },
+  "required": [
+    "schema",
+    "canonical_pi_sha256",
+    "requirements",
+    "claim_ceiling"
+  ]
+}

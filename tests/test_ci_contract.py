@@ -54,3 +54,18 @@ def test_ci_does_not_swallow_failures() -> None:
     text = _text()
     assert "continue-on-error" not in text
     assert "|| true" not in text
+
+
+def test_ci_installs_the_pre_v2_optional_dependency() -> None:
+    """CR-05: the adapter imports jsonschema, declared only as an optional extra.
+
+    A bare ``pip install -e .`` therefore produced 30 ModuleNotFoundError cases on
+    both runners (run 41403264889). Assert the extra exists in pyproject and that
+    the workflow installs it, so the two files cannot drift apart again.
+    """
+
+    pyproject = (WORKFLOW.parents[2] / "pyproject.toml").read_text(encoding="utf-8")
+    assert "tpm-pre-v2" in pyproject, "pyproject must declare the tpm-pre-v2 extra"
+    assert 'pip install -e ".[tpm-pre-v2]"' in _text(), (
+        "CI must install the tpm-pre-v2 extra or the adapter suite fails on import"
+    )
