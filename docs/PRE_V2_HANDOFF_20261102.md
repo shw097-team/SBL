@@ -4,23 +4,24 @@ Receipt-free planning and six Effect-specific original ECP projections are imple
 as an additive candidate. Canonical SBL entry remains `sbl_sp/plugins/tpm_sp/SKILL.md`.
 Public changes: adapter, four closed Sidecar schemas, source fixture, 47 attacks,
 original-Reader reproducer, package-data wiring and the upstream PIPD patch.
-Private 14-Skill updates, raw 24 DOC Corpus and original-ID locator ledger stay local.
+The public owner-baseline overlay includes all 14 updated Skills. Raw 24 DOC Corpus and original-ID locator ledger stay local.
 
 ClaimCeiling: **AUTHOR_DESIGN_ONLY / partial candidate with HOLDs**. This is not
 a merged RC, independent acceptance, Host qualification or release.
 
-- Private unittest: **182 PASS**, including original 107, blueprint 28 and new 47.
+- Private unittest: **184 PASS**, including original 107, blueprint 28, new 47 and 2 BOM tamper checks.
 - Original PIPD affected legacy: **53 PASS**; final new owner controls: **25 PASS**.
 - Original main CLI/Reader: three canonical objects accepted, **FULL graph closure**.
 - Owner candidate Sidecar Reader/CLI: receipt-free plan accepted with real fixture bytes.
 - Legacy semantic replay: **63 PASS, 1 BLOCKED** original graph fixture.
 - Full SBL suite: **HOLD**, bounded UTF-8/real-Host rerun timed out after 240s.
 - Codex: **14 loaded; explicit Trigger, real source Reader Used, Nontrigger and original rollback PASS**.
+- Ordinary-goal implicit Trigger read the actual workflow/source and completed its model turn; process exit timed out (124), retained as transport HOLD.
 - ChatGPT: **PRIVATE_UPDATE_NOT_RUN / EXECUTOR_UNBOUND**; no official update interface here.
 
 Actual PIPD main has **14 commands**, including repair, and **19 canonical Schema
 families**. Original canonical IDs/default live-receipt behavior stay unchanged.
-Owner candidate commit: `31a3897b871778a14530efdec92a918f0b9d7413` (local only). Patch SHA256: `a892412d018d39cca5bf20103e380c9dcc05d153211506c385e06ec4a32c0ea1`.
+Owner candidate commit: `c7892703da60121c3f3ccb8ae6999ff98c943d3c` (local only). Patch SHA256: `48b8846e37a93813edbcb52145ffd78ab5e70a8f6b0e2980aed9caa25c7fa1d0`.
 
 Source identity retention: original 949 requirements, 192 cells and 282 cases/nodes
 have individual locators preserved privately. Other denominators 149/50/39/96
@@ -46,3 +47,5 @@ The demonstrated rollback already did so. No main was pushed, merged or force-pu
 
 **FHS_PIPD-LS-PKG_v2 formal generation readiness: NO.** Bounded author planning may
 continue while these affected binding/Host holds remain explicit.
+
+Final private ZIP SHA256: c4181e247e13905b565bb53938d153c4c719fd65c34cc12d7f11d13c761f8f86

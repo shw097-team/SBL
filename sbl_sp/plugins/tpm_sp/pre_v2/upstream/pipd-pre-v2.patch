@@ -232,10 +232,10 @@ index 75799b7..49dc479 100644
      # C-3 repair: reject aliasing tricks, not just exact string equality.
 diff --git a/src/pipd_ls_sp/pre_v2_adapter.py b/src/pipd_ls_sp/pre_v2_adapter.py
 new file mode 100644
-index 0000000..f154aaa
+index 0000000..a2e9df4
 --- /dev/null
 +++ b/src/pipd_ls_sp/pre_v2_adapter.py
-@@ -0,0 +1,304 @@
+@@ -0,0 +1,311 @@
 +"""Source-bound design sidecars; canonical records stay with the original PIPD CLI.
 +
 +This module emits no Grant, checker receipt, queue entry, or Qualified verdict.
@@ -517,9 +517,16 @@ index 0000000..f154aaa
 +    need(isinstance(artifacts,dict) and artifacts,'EMPTY_PACKAGE')
 +    need(all(isinstance(v,dict) and v for v in artifacts.values()),'EMPTY_ARTIFACT')
 +    need(plan.get('schema')=='SBL.PlannedTQAEP@2' and plan.get('cases'),'EMPTY_PLAN_EVIDENCE')
++    validate_design('PlannedTQAEP.schema.json',plan)
 +    need(all(plan.get(k)==v for k,v in context.items()),'PACKAGE_PLAN_CONTEXT')
 +    need(isinstance(original_reader,OriginalPipd),'ORIGINAL_READER_HOLD')
 +    digest=sha(encoded(artifacts)); need(digest==context['candidate_sha256'],'PACKAGE_CANDIDATE_DRIFT')
++    pi=artifacts.get('PI-PKG',{})
++    need(sha(encoded(pi))==plan['canonical_pi_sha256'],'PACKAGE_PI_PLAN_DRIFT')
++    atoms={x['req_id']:x for x in pi.get('stable_semantic_contract',{}).get('atoms',[])}
++    need(atoms and {c['original_requirement_id'] for c in plan['cases']}==set(atoms),'PACKAGE_REQUIREMENT_CASE_GAP')
++    need(all(c['original_oracle_id']==atoms[c['original_requirement_id']].get('risk_guard',{}).get('oracle',{}).get('id')
++             for c in plan['cases']),'PACKAGE_ORACLE_MISMATCH')
 +    with tempfile.TemporaryDirectory(prefix='sbl-reader-') as td:
 +        path=Path(td)/'bundle.json'; path.write_bytes(encoded(artifacts))
 +        reader_result=original_reader.invoke('validate','--bundle',path)

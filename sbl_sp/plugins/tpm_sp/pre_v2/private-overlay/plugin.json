@@ -1,0 +1,38 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sbl-tpm-sp",
+  "version": "0.3.0-rc.1",
+  "description": "Source-bound Portable TPM: three roles, 18 stage drafts, integrated PIPD planning readers and exact offline corpus. Private candidate; Host unqualified.",
+  "license": "MIT",
+  "keywords": [
+    "sbl",
+    "specbuild-loop",
+    "agent-skill",
+    "tpm-sp"
+  ],
+  "extensions": {
+    "org.sbl.principal": {
+      "sp_id": "tpm_sp",
+      "role": "product-manager",
+      "read_only": false,
+      "permissions": [
+        "goal.read",
+        "spec.write",
+        "evidence.read"
+      ],
+      "forbidden": [
+        "product.write",
+        "challenge.sign"
+      ],
+      "skill": "tpm-sp",
+      "source_ledger_schema": "SBL-AGENT-PLUGIN/1",
+      "claim_ceiling": "HOST_PENDING",
+      "host_install_state": "NOT_INSTALLED",
+      "limits": [
+        "This package declares intent; it does not prove a host loaded it.",
+        "A plugin id is issued by the host, not by this package.",
+        "Schema conformance is proven offline against the vendored portable schema; host-side ingestion remains a host action."
+      ]
+    }
+  }
+}

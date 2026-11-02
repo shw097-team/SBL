@@ -13,6 +13,9 @@ output are excluded from this public branch.
 
 Run the public regression from the repository root:
 
+Install the optional author dependency with `pip install '.[tpm-pre-v2]'` in an
+isolated environment; the private package pins the same jsonschema version.
+
 ```text
 python -m unittest discover -s tests -p test_tpm_pre_v2.py -v
 ```

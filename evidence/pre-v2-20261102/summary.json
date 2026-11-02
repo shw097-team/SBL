@@ -5,8 +5,8 @@
   "overall": "PARTIAL_CANDIDATE_READY_WITH_HOLDS",
   "SBL_base": "fd62537a7ba29c3f2905fe42ddde9534674405d7",
   "PIPD_original_main": "f6335a94157c61da75d92121d14c43feb413e981",
-  "PIPD_local_candidate_commit": "31a3897b871778a14530efdec92a918f0b9d7413",
-  "PIPD_patch_sha256": "a892412d018d39cca5bf20103e380c9dcc05d153211506c385e06ec4a32c0ea1",
+  "PIPD_local_candidate_commit": "c7892703da60121c3f3ccb8ae6999ff98c943d3c",
+  "PIPD_patch_sha256": "48b8846e37a93813edbcb52145ffd78ab5e70a8f6b0e2980aed9caa25c7fa1d0",
   "PIPD_pushed": false,
   "canonical_schema_ids": "UNCHANGED",
   "actual_cli_count": 14,
@@ -20,9 +20,10 @@
   },
   "tests": {
     "corpus": "PASS_24_SHA",
-    "private_unittest": "PASS_182",
-    "r2_reference_attacks": "PASS_28_INCLUDED_IN_182",
-    "public_controls": "PASS_47_INCLUDED_IN_182",
+    "private_unittest": "PASS_184",
+    "r2_reference_attacks": "PASS_28_INCLUDED_IN_184",
+    "public_controls": "PASS_47_INCLUDED_IN_184",
+    "BOM_tamper_controls": "PASS_2_INCLUDED_IN_184",
     "original_PIPD_legacy_affected": "PASS_53",
     "original_PIPD_final_new_controls": "PASS_25",
     "original_main_reader": "PASS_3_CANONICAL_OBJECTS_FULL_CLOSURE",
@@ -30,7 +31,7 @@
     "semantic_replay": "63_PASS_1_BLOCKED_LEGACY_GRAPH_FIXTURE_UNCHANGED",
     "SBL_full_suite": "HOLD_UTF8_HOST_RETRY_TIMEOUT_240S",
     "SBL_initial_run": "FAIL_15_ENVIRONMENT_RELATED_237_PASS_15_SKIP",
-    "package_preflight": "PASS_ZIP_CRC_READBACK_SECRET_SCAN_14_SKILLS"
+    "package_preflight": "PASS_EXACT_BOM_ZIP_CRC_READBACK_14_SKILLS"
   },
   "Codex_Host": {
     "version": "0.164.0",
@@ -41,13 +42,14 @@
     "three_specs_four_planning_objects": "PASS_WITH_UNBOUND_HOLDS",
     "nontrigger": "PASS",
     "rollback": "PASS_ORIGINAL_0.2.0rc1_14_MATCHED_SHA",
-    "ordinary_goal_implicit_trigger": "RUNNING_PENDING_EVIDENCE",
-    "native_qualification": "NOT_RUN"
+    "ordinary_goal_implicit_trigger": "PASS_TRIGGER_USED_TURN_COMPLETED_PROCESS_TIMEOUT_124",
+    "native_qualification": "NOT_RUN",
+    "qualification_scope": "AUTHOR_PLAN_ROUTING_ONLY; package hardening separately unit/original-Reader tested"
   },
   "ChatGPT_Host": {
     "private_update": "PRIVATE_UPDATE_NOT_RUN",
     "current_release_id": "NOT_OBSERVED_NO_OFFICIAL_UPDATE_TOOL",
-    "plugin_id": "Plugin_e787f67d86548191ae484c9ab4eb78ab",
+    "plugin_id": "EXISTING_PRIVATE_ID_RETAINED_LOCALLY",
     "trigger": "NOT_RUN",
     "executor": "EXECUTOR_UNBOUND"
   },
@@ -97,6 +99,11 @@
       "resume": "existing reproducibility/build suite completes in supported environment"
     },
     {
+      "id": "CR-HOST-TRANSPORT",
+      "state": "HOLD_PROCESS_EXIT_124",
+      "resume": "ordinary-goal model turn and source use completed; process termination exceeded deadline"
+    },
+    {
       "id": "CR-LEGACY-GRAPH",
       "state": "BLOCKED_HISTORICAL_FIXTURE",
       "resume": "actual original fixture catalog; new canonical bundle closure already FULL"
@@ -106,5 +113,6 @@
   "native_W0_W3": "OUT_OF_SCOPE_NOT_RUN",
   "release": "ORIGINAL_PUBLISHER_REQUIRED",
   "efficiency_gain": "NOT_MEASURED",
-  "private_zip_sha256": "19d7c62d9539dfe5def99a18e5feeece0817eef34ce5d451e46cdb60cd179b2d"
+  "private_zip_sha256": "c4181e247e13905b565bb53938d153c4c719fd65c34cc12d7f11d13c761f8f86",
+  "public_software_overlay_skills": 14
 }
