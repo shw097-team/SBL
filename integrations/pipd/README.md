@@ -346,16 +346,12 @@ against the CLI rather than assumed.
 
 ### Run it: one command, no shell expertise needed
 
-Two self-locating scripts perform the whole chain and print a single success token:
+> **Migration note (U04):** the two self-locating scripts (`run.sh`, `run.ps1`) are not shipped in
+> this copy — the host repository refuses to carry `.sh`/`.ps1` files. The chain below is the same
+> work, and it is the supported route here. See `MIGRATION-NOTES.md`.
 
-```bash
-bash examples/first-run/run.sh                 # Linux / macOS / git-bash
-powershell -File examples/first-run/run.ps1    # Windows PowerShell
-```
-
-They check their preconditions first and fail typed with a non-zero exit when one is missing, and
-they print `FIRST_RUN_OK` only after `validate` has passed. The copy-paste chain below is the same
-work spelled out step by step, for when you want to watch each stage.
+The chain checks its preconditions first and fails typed with a non-zero exit when one is missing;
+it prints a success token only after `validate` has passed.
 
 ### Run it: the whole compiler chain, copy-paste
 

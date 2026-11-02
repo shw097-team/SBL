@@ -16,5 +16,10 @@ Consequences, stated rather than hidden: the absorbed README's first-run quickst
 [`docs/pipd-migration/BASELINE.md`](../../docs/pipd-migration/BASELINE.md) §8. The remaining 51 test modules are
 run as recorded there; the 12 repository-state modules stay excluded for the reasons in that file.
 
+Run-time scaffolding is excluded as well: `.hgk/**` (governance receipts and test scratch) and `dist/**`
+(build output) are now ignored by `integrations/pipd/.gitignore`. Three `tqaep_design_tmp/*.json` files had
+been committed by a test run before that ignore existed; they were removed from the tree, so the claim that
+`.hgk/**` is not carried is true of the tracked content.
+
 Nothing else was edited: `src/`, `schemas/`, `skills/`, `tools/`, `packaging/`, `setup.py` and the licence files
 are byte-for-byte the upstream snapshot.

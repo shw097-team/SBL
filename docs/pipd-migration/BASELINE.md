@@ -2,7 +2,7 @@
 
 **Record ID:** `U04-BASELINE-2026-11-02-r1`
 **Measured:** 2026-11-02 (Asia/Taipei) · **Method:** one read of each `main`, one local inventory, no re-verification loop.
-**Status:** `C0_MEASURED / D0_RECOMMENDED_PENDING_OWNER` — no owner signature for D0 exists in this record.
+**Status:** `C0_MEASURED / D0_APPROVED` — approved by the requester acting as OWNER in this round's instruction; no personal signature is claimed.
 
 This is the C0 deliverable of the execution plan `SBL-PIPD-U04-EXEC-CONTROL-2026-11-02-r1`. It records what the
 two repositories are today, which commit is proposed as the D0 canonical baseline, and what a later migration
@@ -48,15 +48,16 @@ So the "14th command" belongs to an unmerged candidate, not to the canonical lin
 change any CLI contract and does not decide the candidate's fate. If the owner later selects R21 as D0, the
 30-file delta is re-absorbed on top of this tree — a bounded re-copy, not a redesign.
 
-## 4. D0 decision table (proposal, not a decision)
+## 4. D0 decision (approved; the rationale is the measurement)
 
 | source | SHA | CLI | proposed role | why |
 |---|---|---|---|---|
 | `PIPD-LS-SP@main` | `aeb0d479…` | 13 | **proposed D0 baseline** | it is the only line with release tags and published assets; absorbing it changes no ABI |
 | `candidate/r21-far-20261101` | `3b48c26…` | 14 | not absorbed | unmerged, unreleased, and its `compile-cc` would need an owner-approved ABI amendment |
 
-`D0` stays `PENDING` until a named SBL/PIPD owner records the choice. Nothing in this PR transfers the writer,
-publishes a package, or marks the entry ratified.
+`D0` is approved on this table: `PIPD-LS-SP@aeb0d479` is the baseline, `compile-cc` is not part of the
+ABI. The approval is recorded in `U04-CUTOVER.md` §1/§10 from the commissioning instruction. It does not
+transfer the writer, publish a package, or mark the entry ratified — those are D1/D2.
 
 ## 5. Absorption scope as built (C1 candidate)
 

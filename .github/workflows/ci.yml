@@ -77,6 +77,11 @@ jobs:
         working-directory: integrations/pipd
         run: python -m pip install -e ".[test]"
 
+      # The adapter lives in sbl_sp and imports the installed compiler; both must be present for
+      # the flow test. Installing sbl-v01 does NOT pull PIPD: the dependency stays explicit.
+      - name: Install the SBL product (no compiler dependency)
+        run: python -m pip install -e .
+
       - name: Build the standalone pipd-ls-sp wheel
         working-directory: integrations/pipd
         run: python tools/build_dist.py
@@ -102,4 +107,14 @@ jobs:
             exit 1
           fi
           echo "U04_2_INDEPENDENT_USE_OK"
+
+      - name: Skill packs still discover, load and route (8/8)
+        working-directory: integrations/pipd
+        run: python tools/skill_pack_check.py --all
+
+      - name: Build the sbl-tpm-sp skills bundle from the single skill source
+        run: python products/sbl-tpm-sp/build_bundle.py --out "$RUNNER_TEMP/sbl-tpm-sp-skills"
+
+      - name: TPM -> PIPD adapter flow (POS and typed refusals)
+        run: python -m pytest -p no:cacheprovider tests/test_pipd_adapter.py tests/test_sbl_tpm_sp_bundle.py
 
