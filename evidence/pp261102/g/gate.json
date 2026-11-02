@@ -1,0 +1,82 @@
+{
+ "generated_at": "2026-11-03T00:44:47+08:00",
+ "bundle": "C:/Projects/Agent_Workspace/_run_sbl_tpm_sp_20261102/RUN-20261102-GJ02-01/bundle_r2",
+ "evidence_tree": "C:/Projects/Agent_Workspace/_run_sbl_tpm_sp_20261102/deliver-wt/evidence/pre-primary-20261102",
+ "checks_run": 11,
+ "checks_passed": 10,
+ "failed": [
+  "pipd_archived_outputs_current"
+ ],
+ "unreproducible": [
+  "PIPD archived evidence does not show the denominator fields: 01_products/pipd/validate.out and validate_missing.out (and their byte-identical copies in the pushed tree) lack scope/complete/missing/required and predate the change (mtime 23:08 vs m2b_*.out 00:37); claim 3 is reproducible only by re-running the CLI, and the pushed tree carries no m2b_partial.out/m2b_strict.out",
+  "M2 author-bundle evidence is not in PR #18's pushed tree: bundle_r2 (manifest.json, PlannedTQAEP.json) and any pre_v2_gate_r2.py output are absent from deliver-wt/evidence/pre-primary-20261102, so the fail-closed tamper proof exists only in this gstack run"
+ ],
+ "rows": [
+  {
+   "check": "gate_real_bundle",
+   "verdict": "PASS",
+   "exit": 0,
+   "detail": "pre_v2_gate_r2.py bundle_r2 -> AUTHOR_CONTRACT_CONSISTENT, requirements=2, cases=2, effect_state=DESIGN_ONLY_NOT_ADMITTED, candidate_sha256=9338793684eab1b08498a683448757678e87783485ec843c35972f003838d405; gate self-declares AUTHOR_SIDE_DESIGN_ONLY / ORIGINAL_OWNER_UNVERIFIED / host,native_e2e,checker=NOT_RUN / release=FAIL_CLOSED"
+  },
+  {
+   "check": "tamper_a_missing_tqaep",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "delete PlannedTQAEP.json -> FAIL_CLOSED; first_fail is a localized [WinError 2] OSError path string, not a semantic code (fail-closed but locale-dependent text)"
+  },
+  {
+   "check": "tamper_b_polarity_resigned",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "PI.requirements[0].polarity POS->NEG with artifacts.PI.json.sha256, manifest.candidate_sha256 (93387936.. -> 7f92a0a3..) and PlannedTQAEP.candidate_sha256 recomputed per SBL.PRE_V2.CANDIDATE@2 framing -> PI_TRACE_OR_ORACLE_MISMATCH"
+  },
+  {
+   "check": "tamper_c_forbidden_key",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "inject checker_execution_receipt=fake/receipt-0001 into PlannedTQAEP.json with re-signed artifact sha -> FORBIDDEN_DESIGN_KEY:$.checker_execution_receipt"
+  },
+  {
+   "check": "tamper_control_baseline",
+   "verdict": "PASS",
+   "exit": 0,
+   "detail": "unmodified copied bundle still returns AUTHOR_CONTRACT_CONSISTENT, proving the three failures come from tampering not copying"
+  },
+  {
+   "check": "pipd_full_four_object",
+   "verdict": "PASS",
+   "exit": 0,
+   "detail": "python -m pipd_ls_sp.cli validate --bundle bundle.json -> scope=FOUR_OBJECT, complete=true, checked=4, missing=[], verdict=PASS"
+  },
+  {
+   "check": "pipd_missing_partial",
+   "verdict": "PASS",
+   "exit": 0,
+   "detail": "--bundle bundle_missing_tqaep.json -> scope=PARTIAL_BUNDLE, complete=false, checked=3, missing=[TQAEP], verdict=PASS"
+  },
+  {
+   "check": "pipd_require_four_denominator",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "--bundle bundle_missing_tqaep.json --require-four -> exit 1, verdict=FAIL, finding kind=DENOMINATOR 'missing required object(s): TQAEP'; same flag on the full bundle stays PASS exit 0"
+  },
+  {
+   "check": "pipd_archived_outputs_current",
+   "verdict": "FAIL",
+   "exit": 0,
+   "detail": "01_products/pipd/validate.out and validate_missing.out (mtime 23:08, byte-identical to the pushed copies) contain only checked/closure/findings/schema_source/verdict - no scope, complete, missing or required; they predate the change shown by m2b_partial.out/m2b_strict.out (00:37), and the pushed tree has no m2b_*.out"
+  },
+  {
+   "check": "secret_scan_pushed_tree",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "grep for ghp_/github_pat_/OPENCODEGO/OPENCODE_GO_API_KEY/Bearer/PRIVATE KEY -> 5 hits, all prose or placeholders plus JSON key ghp_01 (GitHub delivery decision phase 01, not a token); token-shape regex (ghp_/gho_/sk-/xox/AKIA/AIza/eyJ) -> 0 matches; 161 high-entropy 40+char strings are all sha256/sha1 design digests or fixture identifiers"
+  },
+  {
+   "check": "corpus_scan_pushed_tree",
+   "verdict": "PASS",
+   "exit": 1,
+   "detail": "no references/ or corpus/ directory, no corpus manifest, no 24-DOC body, no PDF; 25 files / 243K total, none >200K; only name-level citations exist ('plugin corpus PIPD DOC-02 (1).md' in a SOURCE_UNAVAILABLE record, 'DOC-03 DOMAIN_ORACLES' as oracle_source)"
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "operation_types": [
+  "REPOSITORY_WRITE"
+ ],
+ "oracles": [
+  "ORACLE-REQ-1fc8f6183df66bd53642",
+  "ORACLE-REQ-bf8f22cb1ff8c7f5ade0"
+ ],
+ "required_cases": [
+  "CASE-ROUND-ONCE",
+  "CASE-EXACT-CENTS"
+ ],
+ "required_fuo": [
+  "FUO-ROUND-ONCE"
+ ],
+ "requirements": [
+  {
+   "fuo_id": "FUO-ROUND-ONCE",
+   "id": "REQ-1fc8f6183df66bd53642",
+   "oracle_id": "ORACLE-REQ-1fc8f6183df66bd53642",
+   "polarity": "POS",
+   "source_text": "# three lines of 0.005 must sum to 0.015 -> 0.02"
+  },
+  {
+   "fuo_id": "FUO-ROUND-ONCE",
+   "id": "REQ-bf8f22cb1ff8c7f5ade0",
+   "oracle_id": "ORACLE-REQ-bf8f22cb1ff8c7f5ade0",
+   "polarity": "POS",
+   "source_text": "assert total(lines) == Decimal(\"0.02\")"
+  }
+ ],
+ "source_sha256": "33170cc166df18814f6749034f552591b1bb498936d834a56d3d19619942148d",
+ "subject_id": "SUBJ-GJ02-BILLING-ROUNDING"
+}

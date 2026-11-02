@@ -1,0 +1,79 @@
+{
+  "schema": "SBL.Rc2FourItemClosure@1",
+  "run_id": "RUN-20261102-GJ02-01",
+  "observed_at": "2026-11-03T01:10:00+08:00",
+  "candidate_sha": "3a9da65561ab19cad90a6d7cbfb2eae0abf59b87ba565a118790bce5612326a8",
+  "M1_operation_registry_ecp": {
+    "decision": "EFFECT_REGISTRY_UNBOUND",
+    "checks": [
+      "PIPD 19 schema families carry no operation-type or effect-class enum (ECP/ConstructionContract/ExecutionBindingRef inspected: zero enums)",
+      "no Operation/Effect Registry artifact exists in SBL, PIPD, Fabric or HG-KSEOS (only the candidate adapter's own SBL.OperationRegistry.Binding@2 shape)",
+      "the only effect mapping inside the original PIPD pipeline is a path heuristic (R21 patch pipeline.py: effect_class = REPOSITORY_WRITE if scope and not scope.startswith('/','C:','\\\\\\\\')), which the control plan forbids"
+    ],
+    "kept": "generic ECP from the original writer (not effect-specific); no registry, issuer or grant was fabricated",
+    "consequence": "G04 stays HOLD; a typed DEV ECP needs the original registry owner"
+  },
+  "M2_planned_tqaep_at2": {
+    "decision": "PASS",
+    "bundle": "bundle_r2 (manifest.json + PI/PD/ECP/PlannedTQAEP + source/test_billing.py + registry/operation_registry.json + 4 fixtures)",
+    "source": "the real tests/test_billing.py bytes, sha256 33170cc166df18814f6749034f552591b1bb498936d834a56d3d19619942148d",
+    "requirement_ids": "preserved from the original PIPD writer PI (REQ-1fc8f6183df66bd53642, REQ-bf8f22cb1ff8c7f5ade0)",
+    "author_derived": ["fuo_id FUO-ROUND-ONCE", "case ids", "operation-type registry (labelled AUTHOR_DERIVED_NOT_ORIGINAL_REGISTRY in NOTE)"],
+    "gate": {"verdict": "AUTHOR_CONTRACT_CONSISTENT", "requirements": 2, "cases": 2,
+             "effect_state": "DESIGN_ONLY_NOT_ADMITTED", "checker": "NOT_RUN", "release": "FAIL_CLOSED"},
+    "negatives": [
+      {"case": "PlannedTQAEP removed", "first_fail": "file missing (fail closed)", "exit": 1},
+      {"case": "PI polarity flipped with recomputed SHAs", "first_fail": "PI_TRACE_OR_ORACLE_MISMATCH", "exit": 1},
+      {"case": "checker_execution_receipt injected", "first_fail": "FORBIDDEN_DESIGN_KEY:$.checker_execution_receipt", "exit": 1}
+    ]
+  },
+  "M2b_pipd_validate_four_objects": {
+    "decision": "PASS",
+    "change": "validate results now carry scope/complete/missing/required; --require-four fails closed with a DENOMINATOR finding; closure keeps its trace-graph meaning",
+    "evidence": [
+      "full bundle: verdict PASS, checked 4, closure FULL, scope FOUR_OBJECT, complete true",
+      "bundle without TQAEP: verdict PASS (partial is legal), scope PARTIAL_BUNDLE, complete false, missing [TQAEP]",
+      "same bundle with --require-four: exit 1, DENOMINATOR 'missing required object(s): TQAEP'",
+      "tests: 4 new cases; full PIPD suite 664 passed / 20 skipped; 3 pre-existing trace-closure tests still pass"
+    ],
+    "commit": "67ba96e on candidate/pre-v2-planning-20261102 (PR #26)"
+  },
+  "M3_natural_goal_routing": {
+    "decision": "PASS_WITH_CANONICAL_ACK_HOLD",
+    "session": "fresh Codex CLI session, DeepSeek V4.1 Flash via provider opencode_go, no skill named in the goal, isolated CODEX_HOME with the rc.2 plugin installed",
+    "goal": "plain user request: fix the rounding defect, run the tests, and produce the planning documents the project requires (product/architecture/plan) plus the four PIPD planning objects",
+    "produced": {
+      "docs/product-requirement.md": "author draft",
+      "docs/technical-architecture.md": "author draft",
+      "docs/execution-plan.md": "author draft",
+      "docs/pipd/PI.json + PD.json + ECP.json + PlannedTQAEP.json + manifest.json + registry.json + source/billing.py": "four @2 design objects written by the host"
+    },
+    "code_fix": "total() sums exact line amounts and rounds once (2 lines); two NEW tests added, no existing expectation edited; suite green",
+    "gate_on_host_bundle": {"verdict": "AUTHOR_CONTRACT_CONSISTENT", "requirements": 2, "cases": 3, "exit": 0},
+    "canonical_ack": {
+      "verdict": "FAIL",
+      "checked": 4,
+      "first_fail": "PI-PKG/: Additional properties are not allowed ('claim_ceiling','requirements','schema','source_sha256') + 'stable_semantic_contract' is a required property",
+      "meaning": "the host-authored objects are @2 design objects; the original canonical reader needs PI-PKG/PD-PKG/ECP/TQAEP shapes. Canonical ACK therefore comes only from the original writer chain (01_products/pipd, validate PASS checked 4), not from the host-authored objects."
+    },
+    "verdict_note": "the natural route works for planning; claiming 'the host produced canonical PIPD objects' would be false"
+  },
+  "M4_thin_governance": {
+    "decision": "PASS_DESIGN_LEVEL",
+    "evidence": [
+      "two dependent design steps (bundle build -> gate, gate rerun) completed with 0 human approvals; both runs byte-identical output (KnownAnswer reuse, candidate 9338793684eab1b0)",
+      "READ/DRAFT ran with no grant, no issuer contact and no unrelated OPS/RELEASE gate",
+      "design-level refusals all pass: cross-subject, blind retry, nested fake grant, false-qualified claim, wrong host, nested receipt (6/6)"
+    ],
+    "not_run": "G06/G07/G08 native autonomy, work settlement and UNKNOWN recovery remain NOT_RUN (no broker, no spine)"
+  },
+  "promotion": {
+    "lane": "PRE_V2",
+    "decision": "PRE_V2_DESIGN_SIDECAR_READY",
+    "why_not_generation_ready": [
+      "effect-specific ECP unbound (no original Operation Registry)",
+      "canonical ACK exists for the writer chain but not for the host-authored objects; the two are not the same artifact set"
+    ],
+    "native": "NATIVE_GOLDEN_HOLD (unchanged: no issuer, checker or publisher)"
+  }
+}
