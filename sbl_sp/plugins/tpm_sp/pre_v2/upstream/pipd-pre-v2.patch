@@ -1,0 +1,2321 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 2a4d9fd..407a215 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -50,4 +50,4 @@ package-dir = { "" = "src" }
+ # Install-safe schema resources: registry.json + every *.schema.json travel WITH the package so an
+ # installed `pipd` can resolve its contract registry without the source checkout.
+ [tool.setuptools.package-data]
+-pipd_ls_sp = ["schemas/*.json"]
++pipd_ls_sp = ["schemas/*.json", "schemas/pre-v2/*.json"]
+diff --git a/src/pipd_ls_sp/cli.py b/src/pipd_ls_sp/cli.py
+index 4a2e13f..b7fa55c 100644
+--- a/src/pipd_ls_sp/cli.py
++++ b/src/pipd_ls_sp/cli.py
+@@ -1,4 +1,8 @@
+-"""`pipd` CLI - exactly the 13 commands of 總藍圖 §5.9.3 (exact-set, no 14th)."""
++"""`pipd` CLI - original command registry.
++
++Modified 2026-11-02: additive PRE-V2 effect/plan options; canonical commands and
++legacy defaults preserved. The observed registry includes repair (14 commands).
++"""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -53,14 +57,22 @@ def build_parser() -> argparse.ArgumentParser:
+     s.add_argument("--repo-root", type=Path); s.add_argument("--head", default="")
+     s = sub.add_parser("compile-ecp"); s.add_argument("--pd", type=Path, required=True)
+     s.add_argument("--pi", type=Path, required=True)
++    s.add_argument("--effect-intent", type=Path, default=None)
++    s.add_argument("--operation-registry", type=Path, default=None)
++    s.add_argument("--operation-registry-sha256", default="")
+     s.add_argument("--explain", action="store_true")
+     s = sub.add_parser("compile-tqaep"); s.add_argument("--pi", type=Path, required=True)
+     s.add_argument("--ecp", type=Path, required=True)
+     s.add_argument("--maker", default="HERMES-MAKER")
+     s.add_argument("--checker", default="GLM-5.3-FLASH-AO-LANE")
+     s.add_argument("--checker-receipt", dest="checker_receipt", default="")
++    s.add_argument("--planned-sidecar", type=Path, default=None)
++    s.add_argument("--pd", type=Path, default=None)
++    s.add_argument("--fixture-root", type=Path, default=None)
+     s.add_argument("--explain", action="store_true")
+     s = sub.add_parser("validate"); s.add_argument("--bundle", type=Path, required=True)
++    s.add_argument("--planned-sidecar", type=Path, default=None)
++    s.add_argument("--fixture-root", type=Path, default=None)
+     s.add_argument("--explain", action="store_true")
+     sub.add_parser("doctor")
+     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
+@@ -146,13 +158,29 @@ def run(args: argparse.Namespace) -> dict:
+                 ctx.setdefault("claims", {})["head"] = args.head
+         return pipeline.bind_pd(pi, ctx)
+     if cmd == "compile-ecp":
+-        out = pipeline.compile_ecp(_read_json(args.pd, "PD package"),
+-                                   _read_json(args.pi, "PI package"))
++        if args.effect_intent:
++            from .pre_v2_adapter import pinned_json
++            if not args.operation_registry or not args.operation_registry_sha256:
++                from .errors import EffectUnknown
++                raise EffectUnknown('pinned original operation registry is required')
++            registry_body=pinned_json(args.operation_registry.parent,args.operation_registry.name,
++                                      args.operation_registry_sha256)
++            out=pipeline.compile_effect_ecp(_read_json(args.pd,'PD package'),_read_json(args.pi,'PI package'),
++                                           _read_json(args.effect_intent,'effect intent'),registry_body)
++        else:
++            out = pipeline.compile_ecp(_read_json(args.pd, "PD package"),
++                                       _read_json(args.pi, "PI package"))
+         if getattr(args, "explain", False):
+             out = dict(out); out.update(_explain("compile-ecp", out,
+                                                  {"idempotency": out.get("idempotency", {})}))
+         return out
+     if cmd == "compile-tqaep":
++        if args.planned_sidecar:
++            if args.pd is None or args.fixture_root is None:
++                from .errors import TqTraceFail
++                raise TqTraceFail('planned sidecar requires its original canonical PD and fixture root')
++            return pipeline.read_planned_tqaep(_read_json(args.pi,'PI package'),_read_json(args.pd,'PD package'),
++                _read_json(args.ecp,'ECP'),_read_json(args.planned_sidecar,'PlannedTQAEP sidecar'),args.fixture_root)
+         out = pipeline.compile_tqaep(_read_json(args.pi, "PI package"),
+                                      _read_json(args.ecp, "ECP"),
+                                      maker=args.maker, checker=args.checker,
+@@ -169,6 +197,16 @@ def run(args: argparse.Namespace) -> dict:
+         # reported so the operator can see which copy produced the verdict.
+         schemas_dir, mode, tried = registry.resolve_for_validate(root)
+         out = validate.validate_bundle(bundle, schemas_dir)
++        if args.planned_sidecar:
++            if out.get('verdict')!='PASS':
++                return out
++            if args.fixture_root is None:
++                from .errors import TqTraceFail
++                raise TqTraceFail('planned sidecar validation requires fixture root')
++            pipeline.read_planned_tqaep(bundle.get('PI-PKG',{}),bundle.get('PD-PKG',{}),bundle.get('ECP',{}),
++                                       _read_json(args.planned_sidecar,'PlannedTQAEP sidecar'),args.fixture_root)
++            out['planned_sidecar']={'state':'AUTHOR_DESIGN_ONLY','live_acceptance':'NOT_RUN',
++                                    'independent_acceptance':'NOT_GRANTED','canonical_family_added':False}
+         out["schema_source"] = {"mode": mode,
+                                 "path": str(schemas_dir) if schemas_dir is not None else "",
+                                 "tried": tried}
+diff --git a/src/pipd_ls_sp/pipeline.py b/src/pipd_ls_sp/pipeline.py
+index 75799b7..49dc479 100644
+--- a/src/pipd_ls_sp/pipeline.py
++++ b/src/pipd_ls_sp/pipeline.py
+@@ -278,6 +278,131 @@ def compile_ecp(pd: dict[str, Any], pi: dict[str, Any]) -> dict[str, Any]:
+                 rollback={"pointer": "baseline_commit", "required": True}), "ECP")
+ 
+ 
++def compile_effect_ecp(pd: dict[str, Any], pi: dict[str, Any], intent: dict[str, Any],
++                       operation_registry: dict[str, Any]) -> dict[str, Any]:
++    """PRE-V2 additive projection through the ORIGINAL ECP writer.
++
++    Modified 2026-11-02: author intent remains unadmitted; canonical $id/fields
++    and the legacy compile_ecp entry point are unchanged. Registry authority is
++    explicitly unverified; this cannot create a Grant or executable readiness.
++    """
++    from .pre_v2_adapter import ecp_intent, Refusal
++    try:
++        from . import validate as original_validate
++        if original_validate.validate_bundle({'PI-PKG':pi,'PD-PKG':pd}).get('verdict')!='PASS':
++            raise Refusal('ECP_CANONICAL_INPUT_INVALID')
++        source_atoms=req_compile.compile_requirements(pi['stable_semantic_contract'].get('goal',''),
++            list(dict.fromkeys(x['source_clause']['file'] for x in atoms_of(pi))))
++        derived={x['req_id']:x for x in source_atoms}
++        given={x['req_id']:x for x in atoms_of(pi)}
++        if set(derived)!=set(given) or any(given[k]['risk_guard']!=derived[k]['risk_guard'] or
++            given[k]['source_clause']!=req_compile.normalized_locator(derived[k]['source_clause']) for k in given):
++            raise Refusal('ECP_PI_SOURCE_REPLAY')
++        context={k:intent[k] for k in ('subject_id','candidate_sha256','scope','host','policy_epoch')}
++        if context['subject_id'] != pi.get('subject_id'):
++            raise Refusal('ECP_PI_SUBJECT')
++        checked=ecp_intent(context,intent['operation']['operation_type'],operation_registry,intent['details'])
++        if checked != intent:
++            raise Refusal('ECP_INTENT_REPLAY_MISMATCH')
++        if not pd.get('RepoContext') or not pd.get('late_bound_construction_binding'):
++            raise Refusal('ECP_PD_UNBOUND')
++        effect=intent['operation']['effect_class']; details=intent['details']
++        if effect=='REPOSITORY_WRITE':
++            permitted=pd['late_bound_construction_binding']['writable_scope']
++            if not repo_probe.writable_scope_subset_check(context['scope'],[permitted])['subset']:
++                raise Refusal('ECP_PD_SCOPE_MISMATCH')
++            observed=repo_probe.probe_repository(pd['RepoContext']['root'])
++            if observed['probe']!='git' or observed['head']!=pd['RepoContext'].get('head') or observed['currentness_epoch']!=pd.get('currentness',{}).get('epoch'):
++                raise Refusal('ECP_PD_STALE_OR_FAKE_HEAD')
++        token_required=effect not in ('SOURCE_READ','LOCAL_DRAFT_WRITE')
++        # This candidate's canonical record carries design intent only. Exact
++        # authority/permission still belongs to the original effect receiver.
++        return _seal(_rec('ECP','ECP',{},
++            effect_intent={'operation_type':intent['operation']['operation_type'],'effect_class':effect,
++                           'pi':pi['subject_id'],'pd':pd['subject_id'],'intent':intent,
++                           'state':'EFFECT_UNBOUND','claim_ceiling':'AUTHOR_DESIGN_ONLY'},
++            permission={'scope':context['scope'],'basis':details['permission_basis'],
++                        'token_required':token_required,'grant_state':'NOT_GRANTED'},
++            retries={'policy':intent['retry_policy'],'on_unknown':details['on_unknown'],
++                     'reconcile_reader':details['reconcile_reader']},
++            idempotency={'key':details['idempotency_key'],'guarantee':'DESIGN_ONLY'},
++            readback={'required':True,'kind':details['readback_kind'],'expected':details['expected_postcondition']},
++            rollback={'required':token_required,'recovery':{k:details[k] for k in
++                ('cleanup','rollback_commit','host_recovery','compensation','recovery') if k in details},
++                      'state':'RECOVERY_DESIGN_ONLY'}),'ECP')
++    except (Refusal,KeyError,TypeError,ValueError) as exc:
++        raise EffectUnknown(str(exc)) from exc
++
++
++def read_planned_tqaep(pi: dict[str, Any], pd: dict[str, Any], ecp: dict[str, Any],
++                      plan: dict[str, Any], fixture_root: Path) -> dict[str, Any]:
++    """PRE-V2 receipt-free author Sidecar Reader; never canonical TQAEP@1.
++
++    No live acceptance field is relaxed. This reads a versioned plan whose
++    writer is the author adapter, binding original atom/oracle identities and
++    the canonical candidate. It does not ratify the original Case registry.
++    """
++    from .pre_v2_adapter import deny_authority, encoded, sha, read, Refusal, validate_design
++    try:
++        deny_authority(plan)
++        validate_design('PlannedTQAEP.schema.json',plan)
++        if plan.get('schema')!='SBL.PlannedTQAEP@2' or plan.get('claim_ceiling')!='AUTHOR_DESIGN_ONLY':
++            raise Refusal('PLANNED_SCHEMA_OR_CLAIM')
++        bundle={'PI-PKG':pi,'PD-PKG':pd,'ECP':ecp}
++        from . import validate as original_validate
++        if original_validate.validate_bundle(bundle).get('verdict')!='PASS':
++            raise Refusal('PLANNED_CANONICAL_INPUT_INVALID')
++        if plan.get('subject_id')!=pi.get('subject_id') or plan.get('candidate_sha256')!=sha(encoded(bundle)):
++            raise Refusal('PLANNED_CANONICAL_CANDIDATE')
++        if plan.get('canonical_pi_sha256')!=sha(encoded(pi)):
++            raise Refusal('PLANNED_PI_SHA')
++        allowed=pd['late_bound_construction_binding']['writable_scope']
++        scope=plan.get('scope',[])
++        # Source-only plans bind a source locator; write plans must remain
++        # inside the original admitted PD scope. No path determines the effect.
++        effect=ecp.get('effect_intent',{})
++        if isinstance(effect,dict) and effect.get('effect_class')=='REPOSITORY_WRITE':
++            if not repo_probe.writable_scope_subset_check(scope,[allowed])['subset']:
++                raise Refusal('PLANNED_PD_SCOPE')
++        atoms={x['req_id']:x for x in atoms_of(pi)}; cases=plan.get('cases')
++        contract=pi['stable_semantic_contract']
++        original=req_compile.compile_requirements(contract.get('goal',''),list(dict.fromkeys(
++            x['source_clause']['file'] for x in atoms.values())))
++        originals={x['req_id']:x for x in original}
++        if set(originals)!=set(atoms) or any(atoms[k]['risk_guard']!=originals[k]['risk_guard'] or
++                atoms[k]['source_clause']!=req_compile.normalized_locator(originals[k]['source_clause']) for k in atoms):
++            raise Refusal('PLANNED_PI_SOURCE_REPLAY')
++        if not atoms or not isinstance(cases,list) or not cases:
++            raise Refusal('PLANNED_EMPTY')
++        seen=set(); reqs=set(); fuos=set()
++        for case in cases:
++            rid=case.get('original_requirement_id'); atom=atoms.get(rid)
++            if not atom or case.get('original_oracle_id')!=atom.get('risk_guard',{}).get('oracle',{}).get('id'):
++                raise Refusal('PLANNED_ORACLE_OR_REQUIREMENT')
++            source=req_compile.resolve_source_clause(atom,pi['stable_semantic_contract']['sources'])
++            if case.get('source_sha256')!=source.get('source_sha256') or case.get('clause_id')!=source.get('clause_id'):
++                raise Refusal('PLANNED_SOURCE_CLAUSE')
++            if not all(case.get(k) for k in ('case_id','fuo_id','positive_fixture','negative_fixture','raw_schema',
++                'positive_fixture_sha256','negative_fixture_sha256','raw_schema_sha256','expected_world_raw',
++                'evidence_expectation','checker_role','requalify_selector','runner_owner')):
++                raise Refusal('PLANNED_CASE_FIELDS')
++            if case['case_id'] in seen or case.get('runner_binding')!='RUNNER_UNBOUND':
++                raise Refusal('PLANNED_DUPLICATE_OR_RUNNER_CLAIM')
++            if case.get('applicability',{}).get('host')!=plan.get('host'):
++                raise Refusal('PLANNED_HOST_MISMATCH')
++            for key in ('positive_fixture','negative_fixture','raw_schema'):
++                if sha(read(fixture_root,case[key]))!=case[key+'_sha256']:
++                    raise Refusal('PLANNED_FIXTURE_DRIFT')
++            seen.add(case['case_id']); reqs.add(rid); fuos.add(case['fuo_id'])
++        if reqs!=set(atoms) or fuos!=set(plan.get('required_fuo',[])):
++            raise Refusal('PLANNED_COVERAGE')
++        if plan.get('live_acceptance')!='NOT_RUN' or plan.get('independent_acceptance')!='NOT_GRANTED':
++            raise Refusal('PLANNED_LIVE_CLAIM')
++        return plan
++    except (Refusal,KeyError,TypeError,ValueError,OSError) as exc:
++        raise TqTraceFail(str(exc)) from exc
++
++
+ def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checker: str,
+                   checker_execution_receipt: str = "") -> dict[str, Any]:
+     # C-3 repair: reject aliasing tricks, not just exact string equality.
+diff --git a/src/pipd_ls_sp/pre_v2_adapter.py b/src/pipd_ls_sp/pre_v2_adapter.py
+new file mode 100644
+index 0000000..f154aaa
+--- /dev/null
++++ b/src/pipd_ls_sp/pre_v2_adapter.py
+@@ -0,0 +1,304 @@
++"""Source-bound design sidecars; canonical records stay with the original PIPD CLI.
++
++This module emits no Grant, checker receipt, queue entry, or Qualified verdict.
++Registry pins are supplied by the owning source reader, outside candidate bytes.
++Synthetic or owner-unverified registries can establish design consistency only.
++"""
++from __future__ import annotations
++import copy, hashlib, json, os, re, subprocess, sys, tempfile
++from datetime import datetime, timezone
++from pathlib import Path, PurePosixPath, PureWindowsPath
++
++EFFECTS=('SOURCE_READ','LOCAL_DRAFT_WRITE','REPOSITORY_WRITE','HOST_OPERATIONS','USER_DATA_EFFECT','REMOTE_RELEASE')
++FORBIDDEN={'checker_execution_receipt','checker_receipt','issuer_token','grant','permit','token','signed_verdict','access_token','password','private_key','maker_self_signed'}
++ESCALATIONS={'QUALIFIED','INDEPENDENT_QUALIFIED','INDEPENDENT_PASS','INDEPENDENT_CASE_PASS','USABLE_PASS','RELEASED','EXECUTABLE','HOST_QUALIFIED'}
++
++class Refusal(ValueError): pass
++def need(value,code):
++    if not value: raise Refusal(code)
++def sha(raw): return hashlib.sha256(raw).hexdigest()
++def encoded(obj): return json.dumps(obj,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')
++def nonempty(x): return isinstance(x,str) and bool(x.strip())
++def hash64(x): return isinstance(x,str) and re.fullmatch('[0-9a-f]{64}',x) is not None
++def validate_design(name,body):
++    from jsonschema import Draft202012Validator
++    parent=Path(__file__).resolve().parent
++    options=[parent/'schemas'/name,parent/'schemas/pre-v2'/name,parent.parent/'schemas/pre-v2'/name]
++    path=next((p for p in options if p.is_file()),None)
++    need(path is not None,'SIDECAR_SCHEMA_UNBOUND')
++    schema=json.loads(path.read_text(encoding='utf-8'))
++    Draft202012Validator.check_schema(schema)
++    need(not list(Draft202012Validator(schema).iter_errors(body)),'SIDECAR_SCHEMA_INVALID:'+name)
++    return body
++def deny_authority(obj):
++    if isinstance(obj,dict):
++        for key,value in obj.items():
++            need(key.casefold() not in FORBIDDEN,'FORBIDDEN_AUTHORITY_KEY:'+key)
++            deny_authority(value)
++    elif isinstance(obj,list):
++        for value in obj: deny_authority(value)
++    elif isinstance(obj,str):
++        need(obj.upper() not in ESCALATIONS,'FORBIDDEN_DESIGN_CLAIM')
++        need(not re.search(r'github_pat_[A-Za-z0-9_]{30,}|gh[pousr]_[A-Za-z0-9]{30,}|-----BEGIN .*PRIVATE KEY',obj),'SECRET_IN_DESIGN')
++
++def relative_scope(value):
++    need(nonempty(value) and '\\' not in value and ':' not in value,'SCOPE_INVALID')
++    parts=PurePosixPath(value).parts
++    need(not PurePosixPath(value).is_absolute() and all(p not in ('.','..') for p in parts)
++         and not any(c in value for c in '*?[]') and value.rstrip('/')==value,'SCOPE_ESCAPE_OR_WILDCARD')
++    return value
++
++def read(root,relative):
++    relative_scope(relative); root=Path(root).resolve(strict=True); cursor=root
++    for part in PurePosixPath(relative).parts:
++        cursor=cursor/part; st=cursor.lstat()
++        need(not cursor.is_symlink() and not getattr(st,'st_file_attributes',0)&0x400,'REPARSE_POINT')
++    need(cursor.resolve(strict=True).is_relative_to(root),'PATH_ESCAPE')
++    before=cursor.stat(); need(cursor.is_file() and before.st_nlink==1,'HARDLINK_OR_NOT_FILE')
++    data=cursor.read_bytes(); after=cursor.stat()
++    need((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns)==
++         (after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns),'SOURCE_RACE')
++    return data
++
++def pinned_json(root,path,expected_sha):
++    data=read(root,path); need(hash64(expected_sha) and sha(data)==expected_sha,'SOURCE_PIN_MISMATCH')
++    return json.loads(data)
++
++def git(root,*args):
++    p=subprocess.run(['git','-C',str(root),*args],capture_output=True,timeout=30)
++    need(p.returncode==0,'REPO_PROBE_FAILED')
++    return p.stdout
++
++def probe_repo(root,scope):
++    """Live exact Git root, HEAD, tracked+untracked state and scoped preimages.
++
++    os.access reports process access only; it never proves an HGK effect grant.
++    Re-probe before a world write. No receipt string can replace this probe.
++    """
++    need(isinstance(scope,list) and scope and len(set(scope))==len(scope),'SCOPE_EMPTY_OR_DUPLICATE')
++    for path in scope: relative_scope(path)
++    if root is None or not Path(root).is_dir():
++        return validate_design('PD.binding.schema.json',{'binding_state':'UNBOUND_CANDIDATE','binding_request':{'required':['real Repo root','HEAD','exact scope','currentness probe']},'repo':None})
++    root=Path(root).resolve(strict=True)
++    top=Path(git(root,'rev-parse','--show-toplevel').decode().strip()).resolve(strict=True)
++    need(top==root,'REPO_ROOT_MISMATCH')
++    head=git(root,'rev-parse','HEAD').decode().strip()
++    need(re.fullmatch('[0-9a-f]{40,64}',head),'HEAD_INVALID')
++    branch=git(root,'rev-parse','--abbrev-ref','HEAD').decode().strip()
++    status=git(root,'status','--porcelain=v1','-z','--untracked-files=all')
++    tracked=git(root,'ls-files','-z').split(b'\0'); tracked=[x for x in tracked if x]
++    untracked=git(root,'ls-files','--others','--exclude-standard','-z').split(b'\0')
++    images={}
++    for rel in scope:
++        target=root/rel
++        if target.exists(): images[rel]=sha(read(root,rel))
++        else:
++            # Existing ancestors must also be contained and free of reparses.
++            current=root
++            for part in PurePosixPath(rel).parts:
++                current=current/part
++                if current.exists() or current.is_symlink():
++                    st=current.lstat(); need(not current.is_symlink() and not getattr(st,'st_file_attributes',0)&0x400,'REPARSE_POINT')
++                    need(current.resolve().is_relative_to(root),'PATH_ESCAPE')
++            images[rel]='ABSENT'
++    state={'root':str(root),'head':head,'branch':branch,'dirty':bool(status),
++           'status_sha256':sha(status),'tracked':len(tracked),'untracked':len([x for x in untracked if x]),
++           'write_scope':scope,'preimages':images,'process_writable':os.access(root,os.W_OK)}
++    return validate_design('PD.binding.schema.json',{'binding_state':'PROBE_OBSERVED','repo':state,'currentness_epoch':sha(encoded(state)),
++            'observed_at':datetime.now(timezone.utc).isoformat(),'permission_basis':'PROCESS_ACL_ONLY_NOT_EFFECT_GRANT'})
++
++def require_current(binding):
++    need(binding.get('binding_state')=='PROBE_OBSERVED' and isinstance(binding.get('repo'),dict),'REPO_UNBOUND')
++    now=probe_repo(binding['repo']['root'],binding['repo']['write_scope'])
++    need(binding.get('currentness_epoch')==now['currentness_epoch'] and binding['repo']==now['repo'],'STALE_REPO')
++    return now
++
++class OriginalPipd:
++    """Thin subprocess bridge, pinned to original code+schemas, using its own CLI.
++
++    Compiler errors are returned unchanged. In particular missing TQAEP receipts
++    are never synthesized to make the legacy compiler return success.
++    """
++    def __init__(self,root,python,pins):
++        self.root=Path(root).resolve(strict=True); self.python=str(python); self.pins=dict(pins)
++        required={p.relative_to(self.root).as_posix() for folder,glob in [('src/pipd_ls_sp','*.py'),('schemas','*.json')]
++                  for p in (self.root/folder).rglob(glob)}
++        need(required and set(pins)==required,'ORIGINAL_READER_PIN_SET')
++        self.check()
++    def check(self):
++        for path,digest in self.pins.items(): need(sha(read(self.root,path))==digest,'ORIGINAL_READER_DRIFT')
++    def invoke(self,*args):
++        need(args and args[0] in ('intake','compile-pi','bind-pd','compile-ecp','compile-tqaep','validate','doctor'),'ORIGINAL_COMMAND_SCOPE')
++        self.check()
++        env=dict(os.environ,PYTHONPATH=str(self.root/'src'),PYTHONDONTWRITEBYTECODE='1',PYTHONIOENCODING='utf-8')
++        p=subprocess.run([self.python,'-B','-m','pipd_ls_sp.cli','--root',str(self.root),*map(str,args)],
++                         cwd=self.root,env=env,capture_output=True,timeout=90)
++        self.check()
++        return {'exit':p.returncode,'stdout':p.stdout.decode('utf-8'),'stderr':p.stderr.decode('utf-8'),
++                'reader_pin_sha256':sha(encoded(self.pins))}
++    def replay_pi(self,pi,card_path,profile):
++        result=self.invoke('compile-pi','--intent',card_path,'--profile',profile)
++        need(result['exit']==0,'ORIGINAL_PI_COMPILER_REFUSED')
++        expected=json.loads(result['stdout'])
++        need(pi==expected,'PI_ORIGINAL_REPLAY_MISMATCH')
++        return result
++
++def crosswalk(pi,source_roots,original_reader,card_path,profile):
++    """Recover every original atom ID, source/parent/child, polarity and oracle.
++
++    Requires source roots pinned by the caller. Does not ratify their authority.
++    Full canonical authenticity is separately checked by OriginalPipd.replay_pi.
++    """
++    need(isinstance(original_reader,OriginalPipd),'ORIGINAL_READER_UNBOUND')
++    original_reader.replay_pi(pi,card_path,profile)
++    need(pi.get('schema_version')=='PI-PKG@1','PI_SCHEMA')
++    contract=pi.get('stable_semantic_contract',{}); atoms=contract.get('atoms'); table=contract.get('sources',[])
++    need(isinstance(atoms,list) and atoms,'PI_EMPTY')
++    rows=[]
++    for atom in atoms:
++        sc=atom.get('source_clause',{}); source=next((s for s in table if s.get('source_id')==sc.get('source_ref')),None)
++        need(source is not None and hash64(source.get('sha256')),'SOURCE_REF_UNBOUND')
++        file=Path(sc.get('file','')).resolve(strict=True)
++        roots=[Path(p).resolve(strict=True) for p in source_roots]
++        root=next((r for r in roots if file.is_relative_to(r)),None)
++        need(root is not None,'SOURCE_OUTSIDE_AUTHORIZED_ROOT')
++        data=read(root,file.relative_to(root).as_posix())
++        need(sha(data)==source['sha256'],'SOURCE_SHA_MISMATCH')
++        text=data.decode('utf-8'); span=sc.get('span')
++        need(isinstance(span,list) and len(span)==2 and all(type(x)==int for x in span)
++             and 0<=span[0]<span[1]<=len(text) and text[span[0]:span[1]]==source['text'],'SOURCE_SPAN_MISMATCH')
++        rg=atom.get('risk_guard',{}); oracle=rg.get('oracle',{})
++        need(nonempty(atom.get('req_id')) and atom['req_id'] not in ('REQ-INTENT','REQ-VERIFY','REQ-KNOWLEDGE','REQ-GOVERN','REQ-DELIVER'),'CATEGORY_AS_ID')
++        need(rg.get('polarity') in ('MUST','MUST NOT') and nonempty(oracle.get('id')),'ORACLE_OR_POLARITY_MISSING')
++        need(type(sc.get('child'))==int and sc['child']>=0,'CHILD_ID_MISSING')
++        rows.append({'original_requirement_id':atom['req_id'],'original_oracle_id':oracle['id'],
++                     'source_sha256':source['sha256'],'source_file':str(file),'clause_id':sc['clause_id'],
++                     'span':span,'parent_id':sc['source_ref'],'child':sc['child'],
++                     'polarity':rg['polarity'],'statement':sc['text'],'oracle_predicate':oracle.get('predicate'),
++                     'taxonomy':'ADVISORY_ONLY'})
++    need(len({r['original_requirement_id'] for r in rows})==len(rows),'REQUIREMENT_COLLISION')
++    return validate_design('PI.crosswalk.schema.json',{'schema':'SBL.PI.Crosswalk@2','canonical_pi_sha256':sha(encoded(pi)),
++            'requirements':rows,'claim_ceiling':'AUTHOR_DESIGN_ONLY'})
++
++def registry(root,path,pin,kind):
++    obj=pinned_json(root,path,pin); deny_authority(obj)
++    need(obj.get('schema')==kind,'REGISTRY_SCHEMA')
++    need(obj.get('authority_state') in ('SYNTHETIC_ONLY','SOURCE_BOUND_OWNER_UNVERIFIED'),'REGISTRY_AUTHORITY_NOT_PROVEN')
++    return obj
++
++def identity(subject,candidate,scope,host,epoch):
++    need(nonempty(subject) and hash64(candidate) and isinstance(scope,list) and scope and len(set(scope))==len(scope),'IDENTITY_INVALID')
++    for path in scope: relative_scope(path)
++    need(nonempty(host) and nonempty(epoch),'HOST_POLICY_UNBOUND')
++    return {'subject_id':subject,'candidate_sha256':candidate,'scope':scope,'host':host,'policy_epoch':epoch}
++
++SPECIFIC={
++ 'SOURCE_READ':('source_locator','acl_ref','expected_sha256'),
++ 'LOCAL_DRAFT_WRITE':('sandbox_root','cleanup'),
++ 'REPOSITORY_WRITE':('repo_binding','postimages','rollback_commit'),
++ 'HOST_OPERATIONS':('host_id','os_principal','receiver_abi','host_recovery'),
++ 'USER_DATA_EFFECT':('consent_ref','data_authority','data_scope','compensation'),
++ 'REMOTE_RELEASE':('publisher','remote_scope','approval_ref','recovery'),
++}
++READBACK={'SOURCE_READ':'SOURCE_SHA256','LOCAL_DRAFT_WRITE':'DRAFT_DIFF','REPOSITORY_WRITE':'GIT_POSTIMAGE',
++          'HOST_OPERATIONS':'HOST_WORLD_RAW','USER_DATA_EFFECT':'DATA_WORLD_RAW','REMOTE_RELEASE':'PUBLISHER_WORLD_RAW'}
++
++def ecp_intent(context,operation,operation_registry,details):
++    """OperationType registry determines effect; never inspect a path for effect."""
++    deny_authority([context,details,operation_registry])
++    need(context==identity(context.get('subject_id'),context.get('candidate_sha256'),context.get('scope'),context.get('host'),context.get('policy_epoch')),'CONTEXT_INVALID')
++    need(operation_registry.get('schema')=='SBL.OperationRegistry.Binding@2' and operation_registry.get('authority_state') in ('SYNTHETIC_ONLY','SOURCE_BOUND_OWNER_UNVERIFIED'),'OPERATION_REGISTRY_UNBOUND')
++    rows=[r for r in operation_registry.get('operations',[]) if r.get('operation_type')==operation]
++    need(len(rows)==1,'OPERATION_TYPE_UNKNOWN_OR_DUPLICATE'); row=rows[0]; effect=row.get('effect_class')
++    need(effect in EFFECTS and all(nonempty(row.get(k)) for k in ('operation_id','source_locator','original_consumer','consumer_abi')),'EFFECT_REGISTRY_INCOMPLETE')
++    need(isinstance(details,dict) and all(details.get(k) for k in SPECIFIC[effect]),'EFFECT_FIELDS_MISSING:'+effect)
++    need(all(nonempty(details.get(k)) for k in ('precondition','expected_postcondition','permission_basis','idempotency_key')),'ECP_CONDITION_PERMISSION_MISSING')
++    need(details.get('on_unknown')=='RECONCILE_NO_BLIND_RETRY','UNKNOWN_BLIND_RETRY')
++    need(nonempty(details.get('reconcile_reader')),'RECONCILE_READER_UNBOUND')
++    if effect=='SOURCE_READ': need(hash64(details['expected_sha256']),'READ_SOURCE_SHA_INVALID')
++    if effect=='LOCAL_DRAFT_WRITE':
++        sandbox=Path(details['sandbox_root']).resolve(strict=True); need(sandbox.is_dir(),'DRAFT_ROOT_MISSING')
++    if effect=='REPOSITORY_WRITE':
++        current=require_current(details['repo_binding']); state=current['repo']
++        need(set(context['scope'])<=set(state['write_scope']),'ECP_CROSS_SCOPE')
++        need(set(details['postimages'])==set(context['scope']) and all(hash64(v) or v=='ABSENT' for v in details['postimages'].values()),'POSTIMAGE_SCOPE')
++        need(details['rollback_commit']==state['head'],'ROLLBACK_PREIMAGE_MISMATCH')
++    if effect=='HOST_OPERATIONS':
++        need(details['host_id']==context['host'],'HOST_MISMATCH')
++        need(not re.search(r'\bgit\b',details['host_recovery'],re.I),'HOST_GIT_RECOVERY')
++    if effect=='USER_DATA_EFFECT':
++        need(details['data_scope']==context['scope'],'DATA_CROSS_SCOPE')
++    if effect=='REMOTE_RELEASE':
++        need(details['remote_scope']==context['scope'],'RELEASE_CROSS_SCOPE')
++    need(details.get('readback_kind')==READBACK[effect],'EFFECT_READBACK_MISMATCH')
++    return validate_design('ECP.intent.schema.json',{'schema':'SBL.ECP.INTENT@2',**context,'operation':copy.deepcopy(row),'details':copy.deepcopy(details),
++            'effect_state':'EFFECT_UNBOUND','registry_authority':operation_registry['authority_state'],
++            'retry_policy':'ACL_BOUNDED_RETRY' if effect=='SOURCE_READ' else 'ISOLATED_DRAFT_REPLAY' if effect=='LOCAL_DRAFT_WRITE' else 'RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES',
++            'claim_ceiling':'AUTHOR_DESIGN_ONLY','grant_state':'NOT_GRANTED'})
++
++CASE_FIELDS=('case_id','original_requirement_id','original_oracle_id','clause_id','fuo_id','positive_fixture',
++             'negative_fixture','raw_schema','expected_world_raw','evidence_expectation','checker_role','requalify_selector')
++
++def planned_tqaep(context,pi_crosswalk,ecp,case_registry,fixture_root):
++    deny_authority([context,pi_crosswalk,ecp,case_registry])
++    need(ecp.get('schema')=='SBL.ECP.INTENT@2' and all(ecp.get(k)==v for k,v in context.items()),'PLAN_ECP_SUBJECT_SCOPE_HOST_EPOCH')
++    need(case_registry.get('schema')=='SBL.CaseRegistry.Binding@2' and case_registry.get('authority_state') in ('SYNTHETIC_ONLY','SOURCE_BOUND_OWNER_UNVERIFIED'),'CASE_REGISTRY_UNBOUND')
++    need(all(case_registry.get(k)==v for k,v in context.items()),'CASE_REGISTRY_CONTEXT_MISMATCH')
++    reqs={r['original_requirement_id']:r for r in pi_crosswalk.get('requirements',[])}
++    need(reqs,'PLAN_PI_EMPTY')
++    required=case_registry.get('required_cases'); fuos=case_registry.get('required_fuo')
++    need(isinstance(required,list) and required and len(set(required))==len(required),'REQUIRED_CASES_EMPTY_OR_DUPLICATE')
++    need(isinstance(fuos,list) and fuos and len(set(fuos))==len(fuos),'REQUIRED_FUO_EMPTY_OR_DUPLICATE')
++    cases=[]
++    for row in case_registry.get('cases',[]):
++        need(all(nonempty(row.get(k)) for k in CASE_FIELDS),'CASE_REQUIRED_FIELD')
++        rid=row['original_requirement_id']; need(rid in reqs,'CASE_REQUIREMENT_UNKNOWN'); req=reqs[rid]
++        need(row['original_oracle_id']==req['original_oracle_id'] and row['clause_id']==req['clause_id'],'CASE_ORACLE_CLAUSE_MISMATCH')
++        need(row.get('source_sha256')==req['source_sha256'],'CASE_SOURCE_MISMATCH')
++        app=row.get('applicability',{})
++        need(all(nonempty(app.get(k)) for k in ('host','profile','kind','mode')),'HOST_APPLICABILITY_MISSING')
++        need(app['host']==context['host'],'CASE_WRONG_HOST')
++        need(row.get('runner_binding')=='RUNNER_UNBOUND','ORIGINAL_RUNNER_RECEIPT_REQUIRED')
++        need(nonempty(row.get('runner_owner')),'RUNNER_OWNER_MISSING')
++        for key in ('positive_fixture','negative_fixture','raw_schema'):
++            ref=row[key]; need(hash64(row.get(key+'_sha256')),'FIXTURE_PIN_MISSING')
++            need(sha(read(fixture_root,ref))==row[key+'_sha256'],'FIXTURE_DRIFT')
++        need(row['positive_fixture']!=row['negative_fixture'],'POS_NEG_COLLISION')
++        cases.append(copy.deepcopy(row))
++    need(cases and len({r['case_id'] for r in cases})==len(cases),'CASE_EMPTY_OR_DUPLICATE')
++    need(set(r['case_id'] for r in cases)==set(required),'CASE_COVERAGE_GAP')
++    need(set(r['fuo_id'] for r in cases)==set(fuos),'FUO_COVERAGE_GAP')
++    need(set(r['original_requirement_id'] for r in cases)==set(reqs),'REQUIREMENT_CASE_GAP')
++    return validate_design('PlannedTQAEP.schema.json',{'schema':'SBL.PlannedTQAEP@2',**context,'canonical_pi_sha256':pi_crosswalk['canonical_pi_sha256'],
++            'required_fuo':fuos,'cases':cases,'planning_state':'PLAN_VALID',
++            'runner_state':'RUNNER_UNBOUND','live_acceptance':'NOT_RUN','independent_acceptance':'NOT_GRANTED',
++            'claim_ceiling':'AUTHOR_DESIGN_ONLY','source_authority':case_registry['authority_state']})
++
++def package_design(context,artifacts,plan,original_reader):
++    deny_authority([context,artifacts,plan])
++    need(isinstance(artifacts,dict) and artifacts,'EMPTY_PACKAGE')
++    need(all(isinstance(v,dict) and v for v in artifacts.values()),'EMPTY_ARTIFACT')
++    need(plan.get('schema')=='SBL.PlannedTQAEP@2' and plan.get('cases'),'EMPTY_PLAN_EVIDENCE')
++    need(all(plan.get(k)==v for k,v in context.items()),'PACKAGE_PLAN_CONTEXT')
++    need(isinstance(original_reader,OriginalPipd),'ORIGINAL_READER_HOLD')
++    digest=sha(encoded(artifacts)); need(digest==context['candidate_sha256'],'PACKAGE_CANDIDATE_DRIFT')
++    with tempfile.TemporaryDirectory(prefix='sbl-reader-') as td:
++        path=Path(td)/'bundle.json'; path.write_bytes(encoded(artifacts))
++        reader_result=original_reader.invoke('validate','--bundle',path)
++    need(reader_result['exit']==0,'ORIGINAL_READER_REFUSED')
++    result=json.loads(reader_result['stdout'])
++    need(result.get('verdict')=='PASS' and not result.get('findings') and result.get('checked',0)>0
++         and result.get('closure')=='FULL','ORIGINAL_READER_EMPTY_OR_INVALID')
++    return {'schema':'SBL.PackageDesign@2',**context,'artifacts_sha256':digest,
++            'evidence_expectations':[{'case_id':c['case_id'],'expectation':c['evidence_expectation'],
++                                     'state':'EXPECTED_NOT_OBSERVED'} for c in plan['cases']],
++            'claim_ceiling':'AUTHOR_DESIGN_ONLY','mission_state':'OPEN','release':'PUBLISHER_REQUIRED'}
++
++def handoff(context,artifacts):
++    deny_authority(artifacts)
++    need(artifacts and all(isinstance(v,dict) and v for v in artifacts.values()),'HANDOFF_EMPTY')
++    return {'schema':'SBL.ReceiverHandoff@2',**context,'artifacts_sha256':sha(encoded(artifacts)),
++            'route':['FABRIC_POLICY_CONSUMER','HGK_ORIGINAL_ISSUER_AND_SHAREDSPINE','SBL_ORIGINAL_RECEIVER'],
++            'receiver_state':'RECEIVER_UNBOUND','claim_ceiling':'AUTHOR_DESIGN_ONLY',
++            'resume_when':['original operation registry bound','original receiver ABI readback','original effect grant if applicable'],
++            'checker':'ORIGINAL_PROTECTED_CHECKER_REQUIRED','publisher':'ORIGINAL_PUBLISHER_REQUIRED'}
+diff --git a/src/pipd_ls_sp/schemas/pre-v2/ECP.intent.schema.json b/src/pipd_ls_sp/schemas/pre-v2/ECP.intent.schema.json
+new file mode 100644
+index 0000000..68de6c6
+--- /dev/null
++++ b/src/pipd_ls_sp/schemas/pre-v2/ECP.intent.schema.json
+@@ -0,0 +1,1151 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:sbl:pre-v2-active:ECP.intent:2",
++  "oneOf": [
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "SOURCE_READ"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "acl_ref": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "source_locator",
++            "acl_ref",
++            "expected_sha256"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "LOCAL_DRAFT_WRITE"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "sandbox_root": {
++              "type": "string",
++              "minLength": 1
++            },
++            "cleanup": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "sandbox_root",
++            "cleanup"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "REPOSITORY_WRITE"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "repo_binding": {
++              "oneOf": [
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "binding_state": {
++                      "const": "UNBOUND_CANDIDATE"
++                    },
++                    "repo": {
++                      "type": "null"
++                    },
++                    "binding_request": {
++                      "type": "object",
++                      "additionalProperties": false,
++                      "properties": {
++                        "required": {
++                          "type": "array",
++                          "minItems": 1,
++                          "items": {
++                            "type": "string",
++                            "minLength": 1
++                          }
++                        }
++                      },
++                      "required": [
++                        "required"
++                      ]
++                    }
++                  },
++                  "required": [
++                    "binding_state",
++                    "repo",
++                    "binding_request"
++                  ]
++                },
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "binding_state": {
++                      "const": "PROBE_OBSERVED"
++                    },
++                    "repo": {
++                      "type": "object",
++                      "additionalProperties": false,
++                      "properties": {
++                        "root": {
++                          "type": "string",
++                          "minLength": 1
++                        },
++                        "head": {
++                          "type": "string",
++                          "pattern": "^[0-9a-f]{40,64}$"
++                        },
++                        "branch": {
++                          "type": "string",
++                          "minLength": 1
++                        },
++                        "dirty": {
++                          "type": "boolean"
++                        },
++                        "status_sha256": {
++                          "type": "string",
++                          "pattern": "^[0-9a-f]{64}$"
++                        },
++                        "tracked": {
++                          "type": "integer",
++                          "minimum": 0
++                        },
++                        "untracked": {
++                          "type": "integer",
++                          "minimum": 0
++                        },
++                        "write_scope": {
++                          "type": "array",
++                          "minItems": 1,
++                          "items": {
++                            "type": "string",
++                            "minLength": 1
++                          }
++                        },
++                        "preimages": {
++                          "type": "object",
++                          "minProperties": 1,
++                          "additionalProperties": {
++                            "anyOf": [
++                              {
++                                "type": "string",
++                                "pattern": "^[0-9a-f]{64}$"
++                              },
++                              {
++                                "const": "ABSENT"
++                              }
++                            ]
++                          }
++                        },
++                        "process_writable": {
++                          "type": "boolean"
++                        }
++                      },
++                      "required": [
++                        "root",
++                        "head",
++                        "branch",
++                        "dirty",
++                        "status_sha256",
++                        "tracked",
++                        "untracked",
++                        "write_scope",
++                        "preimages",
++                        "process_writable"
++                      ]
++                    },
++                    "currentness_epoch": {
++                      "type": "string",
++                      "pattern": "^[0-9a-f]{64}$"
++                    },
++                    "observed_at": {
++                      "type": "string",
++                      "minLength": 1
++                    },
++                    "permission_basis": {
++                      "const": "PROCESS_ACL_ONLY_NOT_EFFECT_GRANT"
++                    }
++                  },
++                  "required": [
++                    "binding_state",
++                    "repo",
++                    "currentness_epoch",
++                    "observed_at",
++                    "permission_basis"
++                  ]
++                }
++              ]
++            },
++            "postimages": {
++              "type": "object",
++              "minProperties": 1,
++              "additionalProperties": {
++                "anyOf": [
++                  {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  },
++                  {
++                    "const": "ABSENT"
++                  }
++                ]
++              }
++            },
++            "rollback_commit": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "repo_binding",
++            "postimages",
++            "rollback_commit"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "HOST_OPERATIONS"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "host_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "os_principal": {
++              "type": "string",
++              "minLength": 1
++            },
++            "receiver_abi": {
++              "type": "string",
++              "minLength": 1
++            },
++            "host_recovery": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "host_id",
++            "os_principal",
++            "receiver_abi",
++            "host_recovery"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "USER_DATA_EFFECT"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consent_ref": {
++              "type": "string",
++              "minLength": 1
++            },
++            "data_authority": {
++              "type": "string",
++              "minLength": 1
++            },
++            "data_scope": {
++              "type": "array",
++              "minItems": 1,
++              "items": {
++                "type": "string",
++                "minLength": 1
++              }
++            },
++            "compensation": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "consent_ref",
++            "data_authority",
++            "data_scope",
++            "compensation"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "schema": {
++          "const": "SBL.ECP.INTENT@2"
++        },
++        "subject_id": {
++          "type": "string",
++          "minLength": 1
++        },
++        "candidate_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "scope": {
++          "type": "array",
++          "minItems": 1,
++          "items": {
++            "type": "string",
++            "minLength": 1
++          }
++        },
++        "host": {
++          "type": "string",
++          "minLength": 1
++        },
++        "policy_epoch": {
++          "type": "string",
++          "minLength": 1
++        },
++        "operation": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "operation_type": {
++              "type": "string",
++              "minLength": 1
++            },
++            "operation_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "effect_class": {
++              "const": "REMOTE_RELEASE"
++            },
++            "source_locator": {
++              "type": "string",
++              "minLength": 1
++            },
++            "original_consumer": {
++              "type": "string",
++              "minLength": 1
++            },
++            "consumer_abi": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "operation_type",
++            "operation_id",
++            "effect_class",
++            "source_locator",
++            "original_consumer",
++            "consumer_abi"
++          ]
++        },
++        "details": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "precondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "expected_postcondition": {
++              "type": "string",
++              "minLength": 1
++            },
++            "permission_basis": {
++              "type": "string",
++              "minLength": 1
++            },
++            "idempotency_key": {
++              "type": "string",
++              "minLength": 1
++            },
++            "on_unknown": {
++              "const": "RECONCILE_NO_BLIND_RETRY"
++            },
++            "reconcile_reader": {
++              "type": "string",
++              "minLength": 1
++            },
++            "readback_kind": {
++              "type": "string",
++              "minLength": 1
++            },
++            "publisher": {
++              "type": "string",
++              "minLength": 1
++            },
++            "remote_scope": {
++              "type": "array",
++              "minItems": 1,
++              "items": {
++                "type": "string",
++                "minLength": 1
++              }
++            },
++            "approval_ref": {
++              "type": "string",
++              "minLength": 1
++            },
++            "recovery": {
++              "type": "string",
++              "minLength": 1
++            }
++          },
++          "required": [
++            "precondition",
++            "expected_postcondition",
++            "permission_basis",
++            "idempotency_key",
++            "on_unknown",
++            "reconcile_reader",
++            "readback_kind",
++            "publisher",
++            "remote_scope",
++            "approval_ref",
++            "recovery"
++          ]
++        },
++        "effect_state": {
++          "const": "EFFECT_UNBOUND"
++        },
++        "registry_authority": {
++          "enum": [
++            "SYNTHETIC_ONLY",
++            "SOURCE_BOUND_OWNER_UNVERIFIED"
++          ]
++        },
++        "retry_policy": {
++          "enum": [
++            "ACL_BOUNDED_RETRY",
++            "ISOLATED_DRAFT_REPLAY",
++            "RECONCILE_THEN_ORIGINAL_ISSUER_DECIDES"
++          ]
++        },
++        "claim_ceiling": {
++          "const": "AUTHOR_DESIGN_ONLY"
++        },
++        "grant_state": {
++          "const": "NOT_GRANTED"
++        }
++      },
++      "required": [
++        "schema",
++        "subject_id",
++        "candidate_sha256",
++        "scope",
++        "host",
++        "policy_epoch",
++        "operation",
++        "details",
++        "effect_state",
++        "registry_authority",
++        "retry_policy",
++        "claim_ceiling",
++        "grant_state"
++      ]
++    }
++  ]
++}
+diff --git a/src/pipd_ls_sp/schemas/pre-v2/PD.binding.schema.json b/src/pipd_ls_sp/schemas/pre-v2/PD.binding.schema.json
+new file mode 100644
+index 0000000..fb8cb76
+--- /dev/null
++++ b/src/pipd_ls_sp/schemas/pre-v2/PD.binding.schema.json
+@@ -0,0 +1,138 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:sbl:pre-v2-active:PD.binding:2",
++  "oneOf": [
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "binding_state": {
++          "const": "UNBOUND_CANDIDATE"
++        },
++        "repo": {
++          "type": "null"
++        },
++        "binding_request": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "required": {
++              "type": "array",
++              "minItems": 1,
++              "items": {
++                "type": "string",
++                "minLength": 1
++              }
++            }
++          },
++          "required": [
++            "required"
++          ]
++        }
++      },
++      "required": [
++        "binding_state",
++        "repo",
++        "binding_request"
++      ]
++    },
++    {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "binding_state": {
++          "const": "PROBE_OBSERVED"
++        },
++        "repo": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "root": {
++              "type": "string",
++              "minLength": 1
++            },
++            "head": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{40,64}$"
++            },
++            "branch": {
++              "type": "string",
++              "minLength": 1
++            },
++            "dirty": {
++              "type": "boolean"
++            },
++            "status_sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            },
++            "tracked": {
++              "type": "integer",
++              "minimum": 0
++            },
++            "untracked": {
++              "type": "integer",
++              "minimum": 0
++            },
++            "write_scope": {
++              "type": "array",
++              "minItems": 1,
++              "items": {
++                "type": "string",
++                "minLength": 1
++              }
++            },
++            "preimages": {
++              "type": "object",
++              "minProperties": 1,
++              "additionalProperties": {
++                "anyOf": [
++                  {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  },
++                  {
++                    "const": "ABSENT"
++                  }
++                ]
++              }
++            },
++            "process_writable": {
++              "type": "boolean"
++            }
++          },
++          "required": [
++            "root",
++            "head",
++            "branch",
++            "dirty",
++            "status_sha256",
++            "tracked",
++            "untracked",
++            "write_scope",
++            "preimages",
++            "process_writable"
++          ]
++        },
++        "currentness_epoch": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "observed_at": {
++          "type": "string",
++          "minLength": 1
++        },
++        "permission_basis": {
++          "const": "PROCESS_ACL_ONLY_NOT_EFFECT_GRANT"
++        }
++      },
++      "required": [
++        "binding_state",
++        "repo",
++        "currentness_epoch",
++        "observed_at",
++        "permission_basis"
++      ]
++    }
++  ]
++}
+diff --git a/src/pipd_ls_sp/schemas/pre-v2/PI.crosswalk.schema.json b/src/pipd_ls_sp/schemas/pre-v2/PI.crosswalk.schema.json
+new file mode 100644
+index 0000000..267c95e
+--- /dev/null
++++ b/src/pipd_ls_sp/schemas/pre-v2/PI.crosswalk.schema.json
+@@ -0,0 +1,102 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:sbl:pre-v2-active:PI.crosswalk:2",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema": {
++      "const": "SBL.PI.Crosswalk@2"
++    },
++    "canonical_pi_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "requirements": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "original_requirement_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "original_oracle_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "source_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "source_file": {
++            "type": "string",
++            "minLength": 1
++          },
++          "clause_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "span": {
++            "type": "array",
++            "minItems": 2,
++            "maxItems": 2,
++            "items": {
++              "type": "integer",
++              "minimum": 0
++            }
++          },
++          "parent_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "child": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "polarity": {
++            "enum": [
++              "MUST",
++              "MUST NOT"
++            ]
++          },
++          "statement": {
++            "type": "string",
++            "minLength": 1
++          },
++          "oracle_predicate": {
++            "type": "string",
++            "minLength": 1
++          },
++          "taxonomy": {
++            "const": "ADVISORY_ONLY"
++          }
++        },
++        "required": [
++          "original_requirement_id",
++          "original_oracle_id",
++          "source_sha256",
++          "source_file",
++          "clause_id",
++          "span",
++          "parent_id",
++          "child",
++          "polarity",
++          "statement",
++          "oracle_predicate",
++          "taxonomy"
++        ]
++      }
++    },
++    "claim_ceiling": {
++      "const": "AUTHOR_DESIGN_ONLY"
++    }
++  },
++  "required": [
++    "schema",
++    "canonical_pi_sha256",
++    "requirements",
++    "claim_ceiling"
++  ]
++}
+diff --git a/src/pipd_ls_sp/schemas/pre-v2/PlannedTQAEP.schema.json b/src/pipd_ls_sp/schemas/pre-v2/PlannedTQAEP.schema.json
+new file mode 100644
+index 0000000..6c9e737
+--- /dev/null
++++ b/src/pipd_ls_sp/schemas/pre-v2/PlannedTQAEP.schema.json
+@@ -0,0 +1,215 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "urn:sbl:pre-v2-active:PlannedTQAEP:2",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema": {
++      "const": "SBL.PlannedTQAEP@2"
++    },
++    "subject_id": {
++      "type": "string",
++      "minLength": 1
++    },
++    "candidate_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "scope": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "type": "string",
++        "minLength": 1
++      }
++    },
++    "host": {
++      "type": "string",
++      "minLength": 1
++    },
++    "policy_epoch": {
++      "type": "string",
++      "minLength": 1
++    },
++    "canonical_pi_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "required_fuo": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "type": "string",
++        "minLength": 1
++      }
++    },
++    "cases": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "case_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "original_requirement_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "original_oracle_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "clause_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "fuo_id": {
++            "type": "string",
++            "minLength": 1
++          },
++          "positive_fixture": {
++            "type": "string",
++            "minLength": 1
++          },
++          "negative_fixture": {
++            "type": "string",
++            "minLength": 1
++          },
++          "raw_schema": {
++            "type": "string",
++            "minLength": 1
++          },
++          "expected_world_raw": {
++            "type": "string",
++            "minLength": 1
++          },
++          "evidence_expectation": {
++            "type": "string",
++            "minLength": 1
++          },
++          "checker_role": {
++            "type": "string",
++            "minLength": 1
++          },
++          "requalify_selector": {
++            "type": "string",
++            "minLength": 1
++          },
++          "runner_owner": {
++            "type": "string",
++            "minLength": 1
++          },
++          "source_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "positive_fixture_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "negative_fixture_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "raw_schema_sha256": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{64}$"
++          },
++          "applicability": {
++            "type": "object",
++            "additionalProperties": false,
++            "properties": {
++              "host": {
++                "type": "string",
++                "minLength": 1
++              },
++              "profile": {
++                "type": "string",
++                "minLength": 1
++              },
++              "kind": {
++                "type": "string",
++                "minLength": 1
++              },
++              "mode": {
++                "type": "string",
++                "minLength": 1
++              }
++            },
++            "required": [
++              "host",
++              "profile",
++              "kind",
++              "mode"
++            ]
++          },
++          "runner_binding": {
++            "const": "RUNNER_UNBOUND"
++          }
++        },
++        "required": [
++          "case_id",
++          "original_requirement_id",
++          "original_oracle_id",
++          "clause_id",
++          "fuo_id",
++          "positive_fixture",
++          "negative_fixture",
++          "raw_schema",
++          "expected_world_raw",
++          "evidence_expectation",
++          "checker_role",
++          "requalify_selector",
++          "runner_owner",
++          "source_sha256",
++          "positive_fixture_sha256",
++          "negative_fixture_sha256",
++          "raw_schema_sha256",
++          "applicability",
++          "runner_binding"
++        ]
++      }
++    },
++    "planning_state": {
++      "const": "PLAN_VALID"
++    },
++    "runner_state": {
++      "const": "RUNNER_UNBOUND"
++    },
++    "live_acceptance": {
++      "const": "NOT_RUN"
++    },
++    "independent_acceptance": {
++      "const": "NOT_GRANTED"
++    },
++    "claim_ceiling": {
++      "const": "AUTHOR_DESIGN_ONLY"
++    },
++    "source_authority": {
++      "enum": [
++        "SYNTHETIC_ONLY",
++        "SOURCE_BOUND_OWNER_UNVERIFIED"
++      ]
++    }
++  },
++  "required": [
++    "schema",
++    "subject_id",
++    "candidate_sha256",
++    "scope",
++    "host",
++    "policy_epoch",
++    "canonical_pi_sha256",
++    "required_fuo",
++    "cases",
++    "planning_state",
++    "runner_state",
++    "live_acceptance",
++    "independent_acceptance",
++    "claim_ceiling",
++    "source_authority"
++  ]
++}
+diff --git a/tests/test_pre_v2_adapters.py b/tests/test_pre_v2_adapters.py
+new file mode 100644
+index 0000000..0e5ccfa
+--- /dev/null
++++ b/tests/test_pre_v2_adapters.py
+@@ -0,0 +1,65 @@
++"""PRE-V2 original Writer projections. Effect registries are synthetic."""
++import copy,json,subprocess,tempfile,unittest
++from pathlib import Path
++from pipd_ls_sp import pipeline,validate
++from pipd_ls_sp import pre_v2_adapter as a
++from pipd_ls_sp.errors import EffectUnknown,TqTraceFail
++
++class OriginalEffectAdapters(unittest.TestCase):
++    def setUp(self):
++        self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
++        self.root=Path(self.tmp.name); (self.root/'src').mkdir(); (self.root/'src/item.txt').write_text('before')
++        for args in [('init',),('add','src/item.txt'),('-c','user.name=fixture','-c','user.email=fixture@example.test','commit','-m','fixture')]:
++            subprocess.run(['git','-C',str(self.root),*args],check=True,capture_output=True)
++        self.source=self.root/'source.txt'; self.source.write_text('Planning MUST preserve original requirement identities.\n')
++        self.pi=pipeline.compile_pi(pipeline.intake('PRE-V2 fixture',sources=[str(self.source)]))
++        self.pd=pipeline.bind_pd(self.pi,{'root':str(self.root),'writable_scope':'src/**'})
++        self.context=a.identity(self.pi['subject_id'],'a'*64,['src/item.txt'],'HOST-TEST','EPOCH-1')
++        self.base={'precondition':'known preimage','expected_postcondition':'exact expected world readback',
++            'permission_basis':'user authorization reference only','idempotency_key':'operation-1',
++            'on_unknown':'RECONCILE_NO_BLIND_RETRY','reconcile_reader':'original world reader'}
++    def intent(self,effect):
++        registry={'schema':'SBL.OperationRegistry.Binding@2','authority_state':'SYNTHETIC_ONLY','operations':[
++            {'operation_type':'FIXTURE-OP','operation_id':'FIXTURE-1','effect_class':effect,
++             'source_locator':'synthetic operation registry','original_consumer':'original receiver','consumer_abi':'UNBOUND'}]}
++        fields={
++          'SOURCE_READ':{'source_locator':str(self.source),'acl_ref':'process-read','expected_sha256':a.sha(self.source.read_bytes())},
++          'LOCAL_DRAFT_WRITE':{'sandbox_root':str(self.root),'cleanup':'remove isolated draft'},
++          'REPOSITORY_WRITE':{'repo_binding':a.probe_repo(self.root,['src/item.txt']),'postimages':{'src/item.txt':'b'*64},'rollback_commit':self.pd['RepoContext']['head']},
++          'HOST_OPERATIONS':{'host_id':'HOST-TEST','os_principal':'fixture-user','receiver_abi':'UNBOUND','host_recovery':'restore host snapshot or hold'},
++          'USER_DATA_EFFECT':{'consent_ref':'consent unverified','data_authority':'original owner','data_scope':['src/item.txt'],'compensation':'original data recovery'},
++          'REMOTE_RELEASE':{'publisher':'original publisher','remote_scope':['src/item.txt'],'approval_ref':'approval unverified','recovery':'original release rollback'},
++        }[effect]
++        details={**self.base,**fields,'readback_kind':a.READBACK[effect]}
++        return a.ecp_intent(self.context,'FIXTURE-OP',registry,details),registry
++    def test_legacy_default_is_unchanged(self):
++        out=pipeline.compile_ecp(self.pd,self.pi)
++        self.assertEqual(out['retries'],{'max':1,'backoff':'none'})
++    def test_nested_fake_grant_refused_by_original_writer(self):
++        intent,reg=self.intent('SOURCE_READ'); intent['details']['grant']='forged'
++        with self.assertRaises(EffectUnknown): pipeline.compile_effect_ecp(self.pd,self.pi,intent,reg)
++    def test_empty_canonical_pd_refused(self):
++        intent,reg=self.intent('SOURCE_READ')
++        with self.assertRaises(EffectUnknown): pipeline.compile_effect_ecp({},self.pi,intent,reg)
++    def test_cross_subject_refused(self):
++        intent,reg=self.intent('SOURCE_READ'); intent['subject_id']='OTHER'
++        with self.assertRaises(EffectUnknown): pipeline.compile_effect_ecp(self.pd,self.pi,intent,reg)
++    def test_blind_retry_refused(self):
++        intent,reg=self.intent('SOURCE_READ'); intent['details']['on_unknown']='RETRY'
++        with self.assertRaises(EffectUnknown): pipeline.compile_effect_ecp(self.pd,self.pi,intent,reg)
++    def test_ops_git_recovery_refused(self):
++        intent,reg=self.intent('HOST_OPERATIONS'); intent['details']['host_recovery']='git revert'
++        with self.assertRaises(EffectUnknown): pipeline.compile_effect_ecp(self.pd,self.pi,intent,reg)
++
++def effect_test(effect):
++    def test(self):
++        intent,registry=self.intent(effect)
++        out=pipeline.compile_effect_ecp(self.pd,self.pi,intent,registry)
++        self.assertEqual(validate.validate_bundle({'PI-PKG':self.pi,'PD-PKG':self.pd,'ECP':out})['verdict'],'PASS')
++        self.assertEqual(out['effect_intent']['effect_class'],effect)
++        self.assertEqual(out['effect_intent']['state'],'EFFECT_UNBOUND')
++        self.assertEqual(out['permission']['token_required'],effect not in ('SOURCE_READ','LOCAL_DRAFT_WRITE'))
++    return test
++for effect in a.EFFECTS: setattr(OriginalEffectAdapters,'test_effect_'+effect.lower(),effect_test(effect))
++
++if __name__=='__main__': unittest.main()
+diff --git a/tests/test_pre_v2_planned_reader.py b/tests/test_pre_v2_planned_reader.py
+new file mode 100644
+index 0000000..44f9197
+--- /dev/null
++++ b/tests/test_pre_v2_planned_reader.py
+@@ -0,0 +1,72 @@
++"""Original receipt-free Sidecar reader rejects source/authority substitutions."""
++import copy,json,subprocess,tempfile,unittest
++from pathlib import Path
++from pipd_ls_sp import pipeline,pre_v2_adapter as a
++from pipd_ls_sp.errors import TqTraceFail
++
++class PlannedReader(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.tmp=tempfile.TemporaryDirectory(); cls.root=Path(cls.tmp.name)
++        source=cls.root/'source.txt'; source.write_text('Planning MUST preserve requirement identity.\n')
++        card=pipeline.intake('PRE-V2 fixture',sources=[str(source)]); cls.pi=pipeline.compile_pi(card)
++        # A real repo is required for this demonstration.
++        for args in [('init',),('add','source.txt'),('-c','user.name=fixture','-c','user.email=fixture@example.test','commit','-m','fixture')]:
++            subprocess.run(['git','-C',str(cls.root),*args],check=True,capture_output=True)
++        cls.pd=pipeline.bind_pd(cls.pi,{'root':str(cls.root),'writable_scope':'src/**'})
++        cls.ecp=pipeline.compile_ecp(cls.pd,cls.pi)
++        atom=cls.pi['stable_semantic_contract']['atoms'][0]
++        clause=pipeline.req_compile.resolve_source_clause(atom,cls.pi['stable_semantic_contract']['sources'])
++        context=a.identity(cls.pi['subject_id'],a.sha(a.encoded({'PI-PKG':cls.pi,'PD-PKG':cls.pd,'ECP':cls.ecp})),['source.txt'],'HOST-TEST','EPOCH-1')
++        case={'case_id':'SYNTHETIC-1','original_requirement_id':atom['req_id'],'original_oracle_id':atom['risk_guard']['oracle']['id'],
++              'clause_id':clause['clause_id'],'source_sha256':clause['source_sha256'],'fuo_id':'SYNTHETIC-FUO',
++              'positive_fixture':'pos.json','negative_fixture':'neg.json','raw_schema':'raw.json',
++              'expected_world_raw':'original runner observation','evidence_expectation':'same exact context',
++              'checker_role':'original protected checker','requalify_selector':'SYNTHETIC-1','runner_owner':'original runner owner',
++              'applicability':{'host':'HOST-TEST','profile':'LITE','kind':'SKILL_PLUGIN','mode':'DESIGN'},'runner_binding':'RUNNER_UNBOUND'}
++        for key in ('positive_fixture','negative_fixture','raw_schema'):
++            path=cls.root/case[key]; path.write_text('{"synthetic":"'+key+'"}')
++            case[key+'_sha256']=a.sha(path.read_bytes())
++        cls.plan={'schema':'SBL.PlannedTQAEP@2',**context,'canonical_pi_sha256':a.sha(a.encoded(cls.pi)),
++                  'required_fuo':['SYNTHETIC-FUO'],'cases':[case],'planning_state':'PLAN_VALID',
++                  'runner_state':'RUNNER_UNBOUND','live_acceptance':'NOT_RUN','independent_acceptance':'NOT_GRANTED',
++                  'claim_ceiling':'AUTHOR_DESIGN_ONLY','source_authority':'SYNTHETIC_ONLY'}
++    @classmethod
++    def tearDownClass(cls): cls.tmp.cleanup()
++    def test_receipt_free_plan_accepted_without_live_claim(self):
++        out=pipeline.read_planned_tqaep(self.pi,self.pd,self.ecp,self.plan,self.root)
++        self.assertEqual(out['independent_acceptance'],'NOT_GRANTED')
++    def attack(self,mutate):
++        plan=copy.deepcopy(self.plan); mutate(plan)
++        with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,self.pd,self.ecp,plan,self.root)
++    def test_fake_oracle(self): self.attack(lambda p:p['cases'][0].update(original_oracle_id='FORGED'))
++    def test_nested_receipt(self): self.attack(lambda p:p['cases'][0].update(checker_execution_receipt='FORGED'))
++    def test_false_qualified(self): self.attack(lambda p:p.update(claim_ceiling='QUALIFIED'))
++    def test_wrong_candidate(self): self.attack(lambda p:p.update(candidate_sha256='0'*64))
++    def test_wrong_host(self): self.attack(lambda p:p['cases'][0]['applicability'].update(host='OTHER'))
++    def test_missing_negative(self): self.attack(lambda p:p['cases'][0].pop('negative_fixture'))
++    def test_empty_cases(self): self.attack(lambda p:p.update(cases=[]))
++    def test_empty_pd(self):
++        with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,{},self.ecp,self.plan,self.root)
++    def test_empty_ecp(self):
++        with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,self.pd,{},self.plan,self.root)
++    def test_source_drift(self):
++        source=self.root/'source.txt'; original=source.read_bytes()
++        try:
++            source.write_text('Changed source.')
++            with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,self.pd,self.ecp,self.plan,self.root)
++        finally: source.write_bytes(original)
++    def test_fixture_drift(self):
++        path=self.root/'pos.json'; original=path.read_bytes()
++        try:
++            path.write_text('{}')
++            with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,self.pd,self.ecp,self.plan,self.root)
++        finally: path.write_bytes(original)
++    def test_missing_negative_bytes(self):
++        path=self.root/'neg.json'; original=path.read_bytes()
++        try:
++            path.unlink()
++            with self.assertRaises(TqTraceFail): pipeline.read_planned_tqaep(self.pi,self.pd,self.ecp,self.plan,self.root)
++        finally: path.write_bytes(original)
++
++if __name__=='__main__': unittest.main()

@@ -16,11 +16,12 @@ sbl-stack = "sbl_stack.cli:main"
 sbl-harness = "sbl_harness.cli:main"
 
 [tool.setuptools]
-packages = ["sbl_core", "sbl_sp", "sbl_sp.plugins", "sbl_cli", "sbl_stack", "sbl_harness"]
+packages = ["sbl_core", "sbl_sp", "sbl_sp.plugins", "sbl_sp.plugins.tpm_sp", "sbl_sp.plugins.tpm_sp.pre_v2", "sbl_cli", "sbl_stack", "sbl_harness"]
 
 [tool.setuptools.package-data]
 "sbl_sp" = ["manifests/*.json"]
 "sbl_sp.plugins" = ["*/SKILL.md", "schema/*.json"]
+"sbl_sp.plugins.tpm_sp.pre_v2" = ["schemas/*.json", "acceptance-source.txt", "README.md"]
 "sbl_stack" = ["SKILL.md"]
 
 [tool.pytest.ini_options]
