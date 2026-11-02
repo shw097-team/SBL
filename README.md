@@ -116,7 +116,7 @@ from prose.
 
 ## PIPD integration (candidate, not a cutover)
 
-`integrations/pipd/` carries a bounded, verbatim copy of `PIPD-LS-SP@8a0c852` — the compiler package
+`integrations/pipd/` carries a bounded, verbatim copy of `PIPD-LS-SP@aeb0d479` — the compiler package
 `pipd_ls_sp`, its 19 contract families, 8 skills, CLI and tests — so that one tree can build both the
 `pipd-ls-sp` distribution and, later, the SBL adapter. `products/sbl-tpm-sp/` is the portable plugin identity
 that consumes that distribution.

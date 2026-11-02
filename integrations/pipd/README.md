@@ -1,4 +1,4 @@
-> **Vendored snapshot** of `shw097-team/PIPD-LS-SP@8a0c852`, absorbed for the SBL U04 consolidation.
+> **Vendored snapshot** of `shw097-team/PIPD-LS-SP@aeb0d479`, absorbed for the SBL U04 consolidation.
 > See [MIGRATION-NOTES.md](MIGRATION-NOTES.md) for the eight files that were not carried and why.
 
 # PIPD-LS-SP — Pre-Implementation / Pre-Dev Lifecycle Skills Plugin

@@ -1,6 +1,6 @@
 # Migration notes — what this snapshot does not carry
 
-This directory is a **vendored snapshot** of `shw097-team/PIPD-LS-SP` at `8a0c85225323a7e7c61bfd6aa99e4cd3dc87419a`,
+This directory is a **vendored snapshot** of `shw097-team/PIPD-LS-SP` at `aeb0d4790fd811dcdab6dafee69f7f3c226d84a7`,
 taken for the U04 consolidation. The tree is verbatim except for this file and the two-line header in `README.md`.
 
 Eight files were deliberately not copied:

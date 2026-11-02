@@ -13,7 +13,7 @@ must not silently change. It does **not** cut over the writer.
 | repository | `main` at read time | role |
 |---|---|---|
 | `shw097-team/SBL` | `e166d67cf4ae7ed318df11292e906e324dc4fc9e` | absorption target, `sbl-v01` 0.1.1rc1, MIT |
-| `shw097-team/PIPD-LS-SP` | `8a0c85225323a7e7c61bfd6aa99e4cd3dc87419a` | current canonical compiler, `pipd-ls-sp` 0.1.1a4, Apache-2.0 |
+| `shw097-team/PIPD-LS-SP` | `aeb0d4790fd811dcdab6dafee69f7f3c226d84a7` | current canonical compiler, `pipd-ls-sp` 0.1.1a4, Apache-2.0 |
 | `shw097-team/Fabric` | `59bb783dd0d28cc66ce5ba58a4e3a167fe7eb9f5` | FHS entry (L1 navigation closed, unchanged by this round) |
 | `shw097-team/HG-KSEOS` | `0143b50331f7fef007a5921bb743e61f59b0a7bd` | native control plane, not touched |
 
@@ -41,7 +41,7 @@ The plan flags a 13/14 CLI discrepancy. It is real and it is **not** on `main`:
 
 | ref | SHA | CLI count | state |
 |---|---|---|---|
-| `PIPD-LS-SP` `main` | `8a0c852…` | **13** | the published line; every release tag descends from it |
+| `PIPD-LS-SP` `main` | `aeb0d479…` | **13** | the published line; every release tag descends from it |
 | `candidate/r21-far-20261101` | `3b48c26…` | **14** (adds `compile-cc`) | unmerged candidate; 30 files changed against `main` (+981/−1085) in `src/`, `schemas/`, `skills/` |
 
 So the "14th command" belongs to an unmerged candidate, not to the canonical line. Absorbing `main` does not
@@ -52,7 +52,7 @@ change any CLI contract and does not decide the candidate's fate. If the owner l
 
 | source | SHA | CLI | proposed role | why |
 |---|---|---|---|---|
-| `PIPD-LS-SP@main` | `8a0c852…` | 13 | **proposed D0 baseline** | it is the only line with release tags and published assets; absorbing it changes no ABI |
+| `PIPD-LS-SP@main` | `aeb0d479…` | 13 | **proposed D0 baseline** | it is the only line with release tags and published assets; absorbing it changes no ABI |
 | `candidate/r21-far-20261101` | `3b48c26…` | 14 | not absorbed | unmerged, unreleased, and its `compile-cc` would need an owner-approved ABI amendment |
 
 `D0` stays `PENDING` until a named SBL/PIPD owner records the choice. Nothing in this PR transfers the writer,
@@ -60,7 +60,7 @@ publishes a package, or marks the entry ratified.
 
 ## 5. Absorption scope as built (C1 candidate)
 
-Copied verbatim from `PIPD-LS-SP@8a0c852` into `integrations/pipd/` (318 files, 2.34 MB):
+Copied verbatim from `PIPD-LS-SP@aeb0d479` into `integrations/pipd/` (318 files, 2.34 MB):
 
 `pyproject.toml`, `setup.py`, `MANIFEST.in`, `requirements.lock`, `src/pipd_ls_sp/`, `schemas/` (19 + registry),
 `skills/` (8), `tests/`, `fixtures/`, `examples/`, `packaging/`, `tools/`, `docs/`, `LICENSE`, `NOTICE`,
