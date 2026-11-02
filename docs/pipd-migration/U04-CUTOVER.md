@@ -4,16 +4,18 @@
 **Single control record** for the SBL/PIPD consolidation. Fabric FHS and the PIPD README point here; they do not
 keep a second ledger.
 
-**Current state:** see §1 — `D0` is approved, `D1`/`D2` are conditionally pre-authorised and become
-effective only when their gates in §2 pass.
-**Writer in force today:** `PIPD-LS-SP@main` (`aeb0d479…`) until `D1_GO_EFFECTIVE` is recorded below.
+**Current state:** **`D1_GO_EFFECTIVE`** — the single canonical writer is SBL `main`
+(`c308317818f794602f32945b0cfaa94a7f4fb65e`); `D2` is `CONDITIONALLY_PREAUTHORIZED / AFTER_D1` and is
+recorded in §11 as it is executed.
+**Writer that was in force before this record:** `PIPD-LS-SP@aeb0d479` (13 CLI), which is now the
+historical source and is **not** deleted, rewritten or archived at this point.
 
 ## 1. Decisions
 
 | decision | status | who | what is needed |
 |---|---|---|---|
 | **D0** — canonical baseline | **`APPROVED`** | SBL/PIPD owner (this round's instruction `SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0) | `PIPD-LS-SP@aeb0d479` is the U04 baseline: 13 CLI / 19 families / 8 skills, `pipd_ls_sp` import and `pipd` CLI preserved. The R21 `compile-cc` is **not** part of this ABI. |
-| **D1** — cutover Go/No-Go | **`CONDITIONALLY_PREAUTHORIZED / NOT_YET_EFFECTIVE`** | same owner | becomes `D1_GO_EFFECTIVE` only after §2 G1–G4 pass and the D1 fields below are filled from measured values; the merge is what activates it, not this sentence |
+| **D1** — cutover Go/No-Go | **`D1_GO_EFFECTIVE`** (2026-11-03 00:40 +0800, merge `c3083178…`) | same owner | activated only after §2 G1–G4 passed on head `441e6d8`: three CI checks green, adapter flow + skills bundle real, independent wheel install proven |
 | **D2** — maintenance exit / archive | **`CONDITIONALLY_PREAUTHORIZED / AFTER_D1`** | same owner, then a GitHub admin with real rights | freeze the old compiler's feature line after D1; archive only when the independent distribution, open-PR disposition and security responsibility are settled and `archived=true` reads back |
 
 The authorisation is recorded from the commission itself; no personal signature, independent checker
@@ -83,18 +85,18 @@ or archive, native acceptance, HGK admission, policy effect, release, or an inde
 
 ## 8. D1 gate and the fields it needs
 
-`D1` is `CONDITIONALLY_PREAUTHORIZED` and becomes `D1_GO_EFFECTIVE` only when every row below is
-filled from a measurement, not from a plan.
+`D1` was `CONDITIONALLY_PREAUTHORIZED`; it is now **`D1_GO_EFFECTIVE`** because every row below is a
+measurement, not a plan.
 
 | D1 field | value |
 |---|---|
 | SBL candidate | PR [#17](https://github.com/shw097-team/SBL/pull/17), head recorded in the PR |
-| merge | the squash commit on SBL `main` (recorded in §7 after merge) |
+| merge | `c308317818f794602f32945b0cfaa94a7f4fb65e` (squash of PR #17 into SBL `main`) |
 | PIPD baseline | `PIPD-LS-SP@aeb0d479`, Apache-2.0, 13 CLI |
 | ABI | unchanged: `pipd_ls_sp` import, `pipd` CLI with the 13 commands of `main`; no `compile-cc` |
 | distribution | first SBL-built wheel proposed as `pipd-ls-sp 0.1.1a5` — the bytes differ from `a4`, so the version must too; `0.1.1a4` release assets stay immutable |
 | affected consumers | SBL `sbl-v01` (adapter `sbl_sp/pipd_adapter.py`), `sbl-tpm-sp` skills bundle, any user installing `pipd-ls-sp` |
-| effective moment | the moment the SBL-built distribution is installable from the recorded source and the adapter runs against it — not the merge itself |
+| effective moment | `2026-11-03 00:40 +0800` — SBL `main` carries the compiler, the adapter runs against the built distribution in CI, and PIPD `main` is unchanged read-only history |
 | rollback | revert the SBL merge; `PIPD-LS-SP` `main` was never altered, so it resumes as writer without a restore decision |
 
 `D1_HOLD` applies instead if any of G1–G4 fails, if the independent distribution is not actually
@@ -120,3 +122,14 @@ inclusion in this baseline.
   native effect, Fabric policy effect, Hermes host load, release or store publication.
 - The write authority for this PR remains the engineering commission and the repository's existing
   GitHub permissions.
+
+## 11. D2 execution log
+
+| item | state |
+|---|---|
+| canonical writer | **SBL `main`** `c3083178…`; the compiler package, 19 families and 8 skills are maintained in `integrations/pipd/` |
+| PIPD `main` | unchanged `aeb0d479` — no rewrite, no force-push, no release overwritten |
+| PIPD releases | 4 preview releases + `b1-promote-20261028` tag untouched |
+| independent distribution | wheel builds from SBL `main` and is exercised in CI on every push; **no public download entry point has been published yet** → `CUTOVER_DELIVERY_HOLD` for that sub-item only |
+| maintenance | feature work on the old compiler stops; the announcement PR carries `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` |
+| archive | not requested: open PRs #26/#22/#20/#19/#15 need disposition first, and archiving requires real admin rights |
