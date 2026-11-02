@@ -1,0 +1,54 @@
+{
+  "schema": "SBL.C2CanonicalWiring@1",
+  "run_id": "RUN-20261102-GJ02-01",
+  "observed_at": "2026-11-03T02:05:00+08:00",
+  "purpose": "wire the SAME natural-goal case into the ORIGINAL PIPD writer/reader and take a canonical ACK on the same source bytes",
+  "binding": {
+    "source_used": "the host's own source copy written during the natural-goal session: shadow/gj02-repo-m3/docs/pipd/source/billing.py",
+    "source_sha256": "2511e9d3a01d5b44883eefbd0a70c617a62782baa7963a4c9d59399dc5f34418",
+    "repo": "shadow/gj02-repo-m3",
+    "writer_subject_derived": "PI-974a4204962f5dc8 (computed by the original writer, not chosen)",
+    "host_label_crosswalk": "the host labelled its own @2 bundle 'GJ02-BILLING-ROUND-ONCE'; that is a label, not an original id, and is NOT asserted equal to the writer subject"
+  },
+  "writer_chain": {
+    "commands": ["init", "intake --source <billing.py>", "compile-pi --profile LITE", "bind-pd --repo-root <sandbox>", "compile-ecp", "compile-tqaep --checker-receipt design/fixture-no-live-receipt"],
+    "outputs": {
+      "pi.json": "PI-PKG@1, subject PI-974a4204962f5dc8",
+      "pd.json": "PD-PKG bound to the real sandbox repo context",
+      "ecp.json": "ECP from the original writer",
+      "tqaep_design.json": "TQAEP@1 with claim_ceiling=TQAEP_DESIGNED, independent_acceptance=NOT_GRANTED"
+    }
+  },
+  "reader_ack": {
+    "command": "pipd validate --bundle c2/bundle.json --require-four",
+    "exit": 0,
+    "verdict": "PASS",
+    "checked": 4,
+    "closure": "FULL",
+    "scope": "FOUR_OBJECT",
+    "complete": true,
+    "missing": [],
+    "findings": 0
+  },
+  "reader_negative": {
+    "command": "pipd validate --bundle c2/bundle_bad_ecp.json --require-four",
+    "case": "ECP replaced with a wrong-schema object (SBL.ECP.INTENT@2 shape inside a canonical bundle)",
+    "exit": 1,
+    "first_fail": "SCHEMA: ECP/: Additional properties are not allowed ('effect_class','schema' were unexpected) + 'effect_intent' is a required property"
+  },
+  "tqaep_handoff": {
+    "state": "CANONICAL_TQAEP_HANDOFF_HOLD",
+    "reason": "the original writer produces a canonical TQAEP only at design ceiling here: independent_acceptance=NOT_GRANTED, claim_ceiling=TQAEP_DESIGNED. A live qualified TQAEP needs a real checker execution receipt, which does not exist on this host.",
+    "what_shipped": "legal PI + PD + ECP plus the PlannedTQAEP@2 sidecar; no receipt was fabricated and the @2 object was never passed off as canonical"
+  },
+  "what_this_does_and_does_not_prove": {
+    "proves": "the original writer and reader accept a four-object bundle built from the host's own source bytes, with complete=true and exit 0, and refuse a wrong-schema object",
+    "does_not_prove": [
+      "that the host-authored @2 objects are canonical (they are rejected: see 05_M1_M4_results.json M3)",
+      "a live qualified TQAEP or any FUO usability",
+      "an effect-specific ECP: there is still no original operation/effect registry (C1)",
+      "any Native effect"
+    ]
+  },
+  "claim_ceiling": "AUTHOR_DESIGN_ONLY"
+}
