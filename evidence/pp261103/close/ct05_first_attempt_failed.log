@@ -1,0 +1,34 @@
+--- 0 codex ---
+codex-cli 0.164.0
+--- 1 before ---
+sbl-tpm-sp@sbl-pre-primary-local  installed, enabled  0.3.0-rc.2  /market/plugins/sbl-tpm-sp
+--- 2 add rc.1 (old marketplace) ---
+WARNING: failed to clean up stale arg0 temp dirs: Permission denied (os error 13)
+sbl-tpm-sp@sbl-pre-primary-local  not installed           /market/plugins/sbl-tpm-sp
+--- 3 rc.1 version readback from the LOADED cache ---
+--- 4 exec on rc.1: what version is loaded? ---
+CMD /bin/bash -c "find / -type f -name plugin.json -path '*sbl-tpm-sp*' 2>/dev/null | head -20 exit None
+CMD /bin/bash -c "find / -type f -name plugin.json -path '*sbl-tpm-sp*' 2>/dev/null | head -20 exit 0
+CMD /bin/bash -c 'cat /market/plugins/sbl-tpm-sp/plugin.json' exit None
+CMD /bin/bash -c 'cat /market/plugins/sbl-tpm-sp/plugin.json' exit 0
+CMD /bin/bash -c 'cat /market/plugins/sbl-tpm-sp/.codex-plugin/plugin.json' exit None
+CMD /bin/bash -c 'cat /market/plugins/sbl-tpm-sp/.codex-plugin/plugin.json' exit 0
+CMD /bin/bash -c 'ls -la /market/plugins /old/plugins' exit None
+CMD /bin/bash -c 'ls -la /market/plugins /old/plugins' exit 0
+AGENT 0.3.0-rc.2
+TURN_COMPLETED
+--- 5 restore rc.2 ---
+Removed plugin `sbl-tpm-sp` from marketplace `sbl-pre-old-local`.
+Added plugin `sbl-tpm-sp` from marketplace `sbl-pre-primary-local`.
+Installed plugin root: /codex-home/plugins/cache/sbl-pre-primary-local/sbl-tpm-sp/0.3.0-rc.2
+sbl-tpm-sp@sbl-pre-primary-local  installed, enabled  0.3.0-rc.2  /market/plugins/sbl-tpm-sp
+"version": "0.3.0-rc.2"
+--- 6 exec on rc.2 again ---
+CMD /bin/bash -c "find /codex-home/plugins -name plugin.json -path '*sbl-tpm-sp*' -print -exec exit None
+CMD /bin/bash -c "find /codex-home/plugins -name plugin.json -path '*sbl-tpm-sp*' -print -exec exit 0
+AGENT 0.3.0-rc.2
+TURN_COMPLETED
+--- done ---
+
+WARNING: failed to clean up stale arg0 temp dirs: Permission denied (os error 13)
+grep: /codex-home/plugins/cache/*sbl*/sbl-tpm-sp/*/plugin.json: No such file or directory

@@ -161,12 +161,33 @@ def run(args: argparse.Namespace) -> dict:
         return pipeline.bind_pd(pi, ctx)
     if cmd == "compile-ecp":
         if args.effect_intent:
-            from .pre_v2_adapter import pinned_json
-            if not args.operation_registry or not args.operation_registry_sha256:
-                from .errors import EffectUnknown
-                raise EffectUnknown('pinned original operation registry is required')
-            registry_body=pinned_json(args.operation_registry.parent,args.operation_registry.name,
-                                      args.operation_registry_sha256)
+            # CT-03 (2026-11-03): a caller-supplied registry plus a caller-supplied sha is not
+            # authority. The binding is read from the committed canonical contract and the owner's
+            # Ed25519 ratification over it must verify. Caller pins are tolerated only when they
+            # name that same contract; anything else is refused, not silently overridden.
+            from .operation_registry import (CANONICAL_CONTRACT, OperationRegistryError,
+                                             load_trusted, repo_root_from_package, RATIFIED)
+            from .errors import RegistryUntrusted
+            canonical = (repo_root_from_package() / CANONICAL_CONTRACT).resolve()
+            if args.operation_registry:
+                if Path(args.operation_registry).resolve() != canonical:
+                    raise RegistryUntrusted(
+                        'the operation registry must be the committed canonical contract at '
+                        + CANONICAL_CONTRACT, code='REGISTRY_NOT_CANONICAL')
+            try:
+                registry_body, registry_sha, ratification = load_trusted()
+            except OperationRegistryError as exc:
+                raise RegistryUntrusted(
+                    'canonical operation registry is not trusted: ' + str(exc),
+                    code=str(exc).split(':')[0]) from None
+            if args.operation_registry_sha256 and args.operation_registry_sha256 != registry_sha:
+                raise RegistryUntrusted(
+                    'the supplied registry sha does not match the canonical contract',
+                    code='REGISTRY_SHA_MISMATCH')
+            if ratification.get('authority') != RATIFIED:
+                raise RegistryUntrusted(
+                    'owner ratification is required before a typed ECP can be written',
+                    code='OWNER_RATIFICATION_REQUIRED')
             out=pipeline.compile_effect_ecp(_read_json(args.pd,'PD package'),_read_json(args.pi,'PI package'),
                                            _read_json(args.effect_intent,'effect intent'),registry_body)
         else:

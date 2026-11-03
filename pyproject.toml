@@ -11,7 +11,10 @@ requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]
-tpm-pre-v2 = ["jsonschema==4.26.0"]
+# cryptography is required to VERIFY the owner's Ed25519 ratification of the operation->effect
+# contract (CT-03). Without it the CLI fails closed with OWNER_SIGNATURE_VERIFIER_UNAVAILABLE,
+# so CI installs it here rather than allowing an unverified contract to look trusted.
+tpm-pre-v2 = ["jsonschema==4.26.0", "cryptography>=42"]
 
 [project.scripts]
 sbl-todo = "sbl_cli.sbl_todo:main"
