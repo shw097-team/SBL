@@ -60,3 +60,25 @@ codex plugin add   sbl-tpm-sp@sbl-pre-primary-local   # 指向 rc.2 市場
 
 `DESIGN_ONLY`；`grant_state=NOT_GRANTED`；無 Native 效果、無 Live Checker、無 Publisher Release；
 未生成 `FHS_PIPD-LS-PKG_v2` 主產包。升格≠Qualified。
+
+---
+
+## 七、本節補記：第一次升格安裝失敗（誠實揭露）
+
+第一次「從封存 ZIP 安裝」的嘗試**失敗**，而且失敗方式值得記下來，因為任何重做的人都會撞到：
+
+```
+Installed plugin root: /codex-home/plugins/cache/sbl-pre-promoted/sbl-tpm-sp/local
+sbl-tpm-sp@sbl-pre-promoted  installed, enabled  local    /promoted/plugins/sbl-tpm-sp
+AGENT_PROMOTED No version field is present.
+```
+
+原因：封存 ZIP 的頂層目錄是 `sbl-tpm-sp/`，而 marketplace 期待的是 `plugins/sbl-tpm-sp`。
+我把 ZIP 解到市場根目錄，於是 `plugins/sbl-tpm-sp` 只是一個**空目錄**，Codex 從中讀不到
+`plugin.json`，版本顯示為 `local`，模型也就誠實地回答「沒有版本欄位」。
+
+這不是成品缺陷，是我的 harness 佈局錯誤；修正為解到 `plugins/` 之後重跑，才有
+`installed, enabled 0.3.1-rc.1` 與 `AGENT_PROMOTED 0.3.1-rc.1`。
+
+**證據狀態**：`promotion_install.log` 是**成功那次**的完整輸出；第一次的原始 stdout 已被同路徑覆寫而遺失，
+上面四行是逐字引自該次執行輸出，不以重製檔冒充。若日後要保留失敗軌跡，應在每次嘗試使用獨立檔名。
