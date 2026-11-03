@@ -136,6 +136,7 @@ class PartialBundleIsLabelledSchemaOnlyTests(unittest.TestCase):
             "subject_id": "WP-0123456789abcdef", "version": "1", "content_hash": "b" * 64,
             "schema_version": "WorkOrderCandidate@1", "candidate_only": True,
         }
+        rec["content_hash"] = validate._body_hash(rec)  # C-11: real digest, not a placeholder
         res = validate.validate_bundle({"WorkOrderCandidate": rec}, SCHEMAS_DIR)
         self.assertEqual(res["verdict"], "PASS", str(res["findings"])[:400])
         self.assertEqual(res["closure"], "SCHEMA_ONLY")

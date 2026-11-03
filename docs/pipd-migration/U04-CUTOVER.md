@@ -1,149 +1,161 @@
 # U04 canonical cutover record
 
-**Record ID:** `U04-CUTOVER-2026-11-02-r1`
+**Record ID:** `U04-CUTOVER-2026-11-02-r1` (revised at C4)
 **Single control record** for the SBL/PIPD consolidation. Fabric FHS and the PIPD README point here; they do not
 keep a second ledger.
 
-**Current state:** **`D1_GO_EFFECTIVE`** — the single canonical writer is SBL `main`
-(`c308317818f794602f32945b0cfaa94a7f4fb65e`); `D2` is `CONDITIONALLY_PREAUTHORIZED / AFTER_D1` and is
-recorded in §11 as it is executed.
-**Writer that was in force before this record:** `PIPD-LS-SP@aeb0d479` (13 CLI), which is now the
-historical source and is **not** deleted, rewritten or archived at this point.
+**Current state:** `C0–C3 = CLOSED_SCOPED`; `C4 = PARTIAL` — the source moved, the distribution is published, the
+old repository is frozen, and **archiving is held on repository-admin rights**.
+**Canonical writer:** SBL `main` (`25a4c13c`), package `pipd-ls-sp 0.1.1a5` built from `integrations/pipd/`.
+**Historical repository:** `PIPD-LS-SP@a25fb569`, `archived=false`, `MAINTENANCE_FROZEN` — kept, not deleted.
 
 ## 1. Decisions
 
-| decision | status | who | what is needed |
+| decision | status | who | what it means |
 |---|---|---|---|
-| **D0** — canonical baseline | **`APPROVED`** | SBL/PIPD owner (this round's instruction `SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0) | `PIPD-LS-SP@aeb0d479` is the U04 baseline: 13 CLI / 19 families / 8 skills, `pipd_ls_sp` import and `pipd` CLI preserved. The R21 `compile-cc` is **not** part of this ABI. |
-| **D1** — cutover Go/No-Go | **`D1_GO_EFFECTIVE`** (2026-11-03 00:40 +0800, merge `c3083178…`) | same owner | activated only after §2 G1–G4 passed on head `441e6d8`: three CI checks green, adapter flow + skills bundle real, independent wheel install proven |
-| **D2** — maintenance exit / archive | **`CONDITIONALLY_PREAUTHORIZED / AFTER_D1`** | same owner, then a GitHub admin with real rights | freeze the old compiler's feature line after D1; archive only when the independent distribution, open-PR disposition and security responsibility are settled and `archived=true` reads back |
+| **D0** — canonical baseline | **`APPROVED`** | SBL/PIPD owner (`SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0) | `PIPD-LS-SP@aeb0d479` was the baseline: 13 CLI / 19 families / 8 skills, `pipd_ls_sp` import and `pipd` CLI preserved. `compile-cc` is **not** part of this ABI. |
+| **D1** — cutover Go/No-Go | **`D1_GO_EFFECTIVE`** (2026-11-03 00:40 +0800, merge `c3083178…`) | same owner | activated after G1–G4 passed on head `441e6d8` (three CI checks green, adapter flow and skills bundle real, independent wheel install proven) |
+| **D2** — maintenance exit / archive | **executed to `MAINTENANCE_FROZEN`; `ARCHIVE_ADMIN_HOLD`** | same owner; archive needs a GitHub admin | the old compiler's feature line is stopped and announced; `archived=true` requires repository-administration rights the executing credential does not have (measured 403) |
 
 The authorisation is recorded from the commission itself; no personal signature, independent checker
 or other-domain owner signature is claimed. Where a domain's owner authority is not established,
-that domain stays `OWNER_AUTHORITY_HOLD` and does not block the rest. `D0` approves **the baseline**,
-not a cutover; `D1` stays inert until its gate is measured.
+that domain stays `OWNER_AUTHORITY_HOLD` and does not block the rest.
 
 ## 2. Phases
 
 | phase | status | evidence |
 |---|---|---|
-| **C0** source freeze & decision material | **PASS** (D0 pending) | `docs/pipd-migration/BASELINE.md`; SBL `e166d67c`, PIPD `aeb0d479`, Fabric `59bb783d`, HGK `0143b503` |
-| **C1** SBL absorption candidate | **PASS (candidate)** | `integrations/pipd/` — 318 files, verbatim from `PIPD-LS-SP@aeb0d479`; one modifiable `pipd_ls_sp` tree; Apache-2.0 `LICENSE` + `NOTICE` carried; 8 script/helper files excluded by SBL's no-shipped-scripts invariant (`integrations/pipd/MIGRATION-NOTES.md`) |
-| **C2** compatibility / independent use | **PASS (candidate scope)** | TPM adapter + 9 POS/NEG tests; 8-skill bundle builder; built wheel `pipd_ls_sp-0.1.1a4-py3-none-any.whl` (287 844 B, sha256 `47b58d72…`); clean-venv install with no SBL package; 13 CLI, 19 families, `doctor` reports `INSTALLED` schema source; product test subset result in §4 |
-| **C3** canonical cutover | **NOT_STARTED** | requires D1; the SBL PR stays a candidate until then |
-| **C4** maintenance exit / archive | **NOT_STARTED** | requires D2; PIPD `archived=false`, unchanged |
+| **C0** source freeze & decision material | **PASS** | `docs/pipd-migration/BASELINE.md`; SBL `e166d67c`, PIPD `aeb0d479`, Fabric `59bb783d`, HGK `0143b503` |
+| **C1** SBL absorption | **PASS** | `integrations/pipd/` — 318 files absorbed from `PIPD-LS-SP@aeb0d479`; one modifiable `pipd_ls_sp` tree; Apache-2.0 `LICENSE` + `NOTICE`; 8 script/helper files excluded by SBL's no-shipped-scripts invariant (`integrations/pipd/MIGRATION-NOTES.md`) |
+| **C2** compatibility / independent use | **PASS** | TPM adapter + 9 POS/NEG tests; 8-skill bundle builder; wheel built from the tree; clean-venv install with no SBL package; 13 CLI, 19 families, `doctor` reports `INSTALLED` schema source |
+| **C3** canonical cutover | **PASS** | SBL `main` `c3083178` (merge of [#17](https://github.com/shw097-team/SBL/pull/17)); Fabric `main` `2436e440` (FHS-NAV/v2, [#25](https://github.com/shw097-team/Fabric/pull/25)); PIPD announcement [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) |
+| **C4** maintenance exit / archive | **PARTIAL** | frozen and announced; 5 open PRs dispositioned (§12); **archive held**: `ARCHIVE_ADMIN_HOLD` |
 
-## 3. What deliberately does not change
+## 3. What changed at C3, and what still does not change
 
-- `PIPD-LS-SP` remains the canonical writer: `main` untouched, no release rewritten, 4 preview releases and the
-  `b1-promote-20261028` tag unchanged, no forced push, no archive.
-- Fabric FHS: `INTEGRATION/FHS/repository-map.json` still says `CANONICAL_COMPILER_PRE_CUTOVER` for PIPD, `source_state`
-  still `PROPOSED_NOT_OWNER_RATIFIED`, `effect_permission=NONE`. The route only moves after D1 (C3).
-- SBL `sbl-v01`: package name, version, dependency list and console scripts unchanged; its own CI must stay green.
+- `PIPD-LS-SP` is **no longer** the canonical writer. Its `main` advanced after the cutover only by the two PRs
+  the owner had already merged there (#26 `7073fe2d`, #28 `a25fb569`); no new compiler feature work is accepted.
+- Fabric FHS `FHS-NAV/v2`: `pipd_canonical` → `sbl`, PIPD listed under `historical_repositories`
+  (`role=HISTORICAL_CANONICAL_MOVED_TO_SBL`, `archived=false`, `write_authority=NONE`), `effect_permission=NONE`,
+  `source_state=PROPOSED_NOT_OWNER_RATIFIED` unchanged.
+- SBL `sbl-v01`: package name, version, dependency list and console scripts unchanged; its own CI stays green.
 - HG-KSEOS, Fabric policy, Hermes runtime: untouched.
 
 ## 4. Verification log
 
 | test | result |
 |---|---|
-| T01 baseline identified | `PIPD-LS-SP@aeb0d479`, 13 CLI, 19 families, 8 skills — recorded in `BASELINE.md` |
+| T01 baseline identified | `PIPD-LS-SP@aeb0d479`, 13 CLI, 19 families, 8 skills — `BASELINE.md` |
 | T02 package / independent install | wheel builds; installs into a venv **without** `sbl-v01`; `import sbl_core` fails there by design (U04.2 POS) |
 | T03 19 schema families | `registry.EXPECTED_FAMILIES == 19`; `pipd doctor` → `families: 19`, `schema_source.mode = INSTALLED` |
-| T04 CLI contract | `pipd --help` lists exactly the 13 commands of `main`; the 14th (`compile-cc`) exists only on the unmerged candidate |
-| T05 skills | 8 `SKILL.md` present in `integrations/pipd/skills/`; packaging tools unchanged |
-| T06 narrow compiler flow (POS) | `sbl_sp/pipd_adapter.py` compiles a real TPM hand-off through IntentCard → PI-PKG → PD-PKG → ConstructionContract → ECP → TQAEP against a git repository; bundle validates `PASS` with trace closure, PD `PREDEV_READY`, TQAEP `independent_acceptance = NOT_GRANTED` (9 tests, `tests/test_pipd_adapter.py`) |
-| T06 negative cases | maker==checker, missing receipt and `SELF_ATTESTED` → `SBL_E_SELF_CHECK_FORBIDDEN`; stale `currentness_epoch` → `SBL_E_STALE_HEAD`; `writable_scope=dist/**` → `SBL_E_WRITE_OUTSIDE_WRITESET`; missing source locator → `SBL_E_UNLOCATED_REQUIREMENT` |
-| 8-skill single-source bundle | `products/sbl-tpm-sp/build_bundle.py` derives 8 packs from `integrations/pipd/skills/` and binds every file to a sha256; builder refuses a ninth pack and refuses a compiler copy (`tests/test_sbl_tpm_sp_bundle.py`) |
-| skill pack contract | `python tools/skill_pack_check.py --all` in `integrations/pipd`: 8/8 packs, POS/NEG/EDGE/SEC cases all pass, routes verified |
-| T07 workspace-local doctor | `pipd init` creates the workspace; `doctor` correctly reports a missing local `schemas/registry.json` in a fresh workspace (consumes the installed registry instead) |
-| T08 provenance | wheel built from the absorbed tree; `tools/build_dist.py` emits digest and licence metadata |
-| T09 FHS route | **not applicable** (C3) |
-| T10 maintenance exit | **not applicable** (C4) |
-| absorbed product tests | **494 tests, 0 failed, 0 errors, 19 skipped** on the 37 product modules; the 12 repository-state modules and 2 governance-input modules are excluded with their reason in `BASELINE.md` §7 |
+| T04 CLI contract | 13 verbs before and after the C4 drift port; the 14th (`compile-cc`) is not in this ABI |
+| T05 skills | 8 `SKILL.md`; `tools/skill_pack_check.py --all` → 8/8 packs, POS/NEG/EDGE/SEC cases pass |
+| T06 narrow compiler flow (POS) | `sbl_sp/pipd_adapter.py` compiles IntentCard → PI → PD → ConstructionContract → ECP → TQAEP on a real git repo; bundle `PASS` with trace closure; TQAEP `independent_acceptance = NOT_GRANTED` |
+| T06 negative cases | maker==checker / no receipt / `SELF_ATTESTED` → `SBL_E_SELF_CHECK_FORBIDDEN`; stale epoch → `SBL_E_STALE_HEAD`; `dist/**` scope → `SBL_E_WRITE_OUTSIDE_WRITESET`; missing locator → `SBL_E_UNLOCATED_REQUIREMENT` |
+| T09 FHS route | **PASS** — `FHS-NAV/v2` merged as Fabric `2436e440`; `fhs-nav-static` success on the PR and on the `main` push |
+| T10 maintenance exit | **PARTIAL** — announcement merged (PIPD `a25fb569`); archive `ARCHIVE_ADMIN_HOLD` |
+| absorbed product tests | **536 tests, 0 failed, 0 errors, 28 skipped** at C4 (was 494); the 12 repository-state modules and 2 governance-input modules stay excluded with their reason in `BASELINE.md` §7 |
 
 ## 5. Rollback
 
-Deleting this branch/postponing the PR returns the repositories to their current state; no writer, release, route
-or archive was changed. If the PR is merged and later withdrawn, revert its merge commit; PIPD `main` was never
-altered, so it remains the canonical writer without a restore decision.
+Reverting the SBL merge commit returns SBL to the pre-cutover tree; it does **not** by itself restore PIPD as the
+canonical writer. Restoring the old writer is a separate owner decision (D-level), and it must move the FHS route
+and the published distribution back in the same decision — two live writers are forbidden. PIPD `main` was never
+rewritten, so its history remains intact either way.
 
 ## 6. Claim ceiling
 
-`U04_CANDIDATE_READY` only. Not claimed: canonical cutover, three-active-repo consolidation, PIPD maintenance exit
-or archive, native acceptance, HGK admission, policy effect, release, or an independent checker verdict.
+`U04_CANONICAL_CUTOVER_DONE` for the product source and repository consolidation. Not claimed: native acceptance,
+HGK admission, policy effect, Hermes host load, published-store release, independent checker verdict, or
+`archived=true` (which is not true).
 
 ## 7. Round record
 
 | item | value |
 |---|---|
-| pull request | [#17](https://github.com/shw097-team/SBL/pull/17) — **draft**; it must not be merged before D1 |
-| head and CI | this file ships inside the pull request, so the PR head and its Checks tab are the current pair; the run that verified the code above was `test (ubuntu)`, `test (windows)` and `pipd-compat`, all success |
-| this line is not a SHA | a committed SHA inside the same PR is stale by definition; cite the PR, not a snapshot of it |
-| merge | none — `D1` not recorded, so the writer stays with `PIPD-LS-SP` |
-| PIPD side | no change: `main` `aeb0d479`, 4 releases, `archived=false` |
-| FHS side | no change: `CANONICAL_COMPILER_PRE_CUTOVER`, `effect_permission=NONE` |
+| pull request | [#17](https://github.com/shw097-team/SBL/pull/17) → merged `c3083178` |
+| D1 record | [#19](https://github.com/shw097-team/SBL/pull/19) → merged `67c29be6` |
+| C3 route | Fabric [#25](https://github.com/shw097-team/Fabric/pull/25) → merged `2436e440` |
+| PIPD announcement | [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) → merged `a25fb569` |
+| PIPD side | `main` `a25fb569`, 4 preview releases untouched, `archived=false` |
+| FHS side | `FHS-NAV/v2`, three active repositories, PIPD historical |
 
-## 8. D1 gate and the fields it needs
-
-`D1` was `CONDITIONALLY_PREAUTHORIZED`; it is now **`D1_GO_EFFECTIVE`** because every row below is a
-measurement, not a plan.
+## 8. D1 fields (as measured at activation)
 
 | D1 field | value |
 |---|---|
-| SBL candidate | PR [#17](https://github.com/shw097-team/SBL/pull/17), head recorded in the PR |
-| merge | `c308317818f794602f32945b0cfaa94a7f4fb65e` (squash of PR #17 into SBL `main`) |
+| SBL candidate | PR [#17](https://github.com/shw097-team/SBL/pull/17), head `441e6d8` |
+| merge | `c308317818f794602f32945b0cfaa94a7f4fb65e` |
 | PIPD baseline | `PIPD-LS-SP@aeb0d479`, Apache-2.0, 13 CLI |
-| ABI | unchanged: `pipd_ls_sp` import, `pipd` CLI with the 13 commands of `main`; no `compile-cc` |
-| distribution | first SBL-built wheel proposed as `pipd-ls-sp 0.1.1a5` — the bytes differ from `a4`, so the version must too; `0.1.1a4` release assets stay immutable |
-| affected consumers | SBL `sbl-v01` (adapter `sbl_sp/pipd_adapter.py`), `sbl-tpm-sp` skills bundle, any user installing `pipd-ls-sp` |
-| effective moment | `2026-11-03 00:40 +0800` — SBL `main` carries the compiler, the adapter runs against the built distribution in CI, and PIPD `main` is unchanged read-only history |
-| rollback | revert the SBL merge; `PIPD-LS-SP` `main` was never altered, so it resumes as writer without a restore decision |
+| ABI | unchanged: `pipd_ls_sp` import, `pipd` CLI with 13 commands; no `compile-cc` |
+| distribution | `pipd-ls-sp 0.1.1a5`, built from SBL `integrations/pipd`; `0.1.1a4` and the preview assets stay immutable |
+| affected consumers | `sbl-v01` adapter, `sbl-tpm-sp` skills bundle, users installing `pipd-ls-sp` |
+| effective moment | 2026-11-03 00:40 +0800 |
+| rollback | see §5 — revert restores the tree, not the writer |
 
-`D1_HOLD` applies instead if any of G1–G4 fails, if the independent distribution is not actually
-obtainable, or if the original-domain authority for the writer move cannot be shown. Merging and
-"canonical effective" are two different facts and are recorded separately.
-
-## 9. Delta against the open PIPD pull requests (measured, not merged)
+## 9. Delta against the remaining open PIPD pull requests
 
 | PR | what it changes | classification | reason |
 |---|---|---|---|
-| [#20](https://github.com/shw097-team/PIPD-LS-SP/pull/20) | 3 files: `oracle_compat.py`, `pipeline.py` (+62/−20), `test_oracle_compat.py` | **`DEFERRED_TO_SBL`** | additive DOC-07 / legacy DOC-03 oracle compatibility API; the 13-CLI chain compiles and validates without it |
-| [#22](https://github.com/shw097-team/PIPD-LS-SP/pull/22) | 484 files: 30 under `src/` (+981/−1085) incl. `abi.py`, slot contracts, `compile-cc`; the rest is round evidence | **`DEFERRED_TO_SBL`** (src/ABI) / **`HISTORICAL_ONLY`** (evidence) | `mergeable=false`; it stacks on #20 and is a broad semantics refactor plus a 14th command that D0 did not admit. No blocking defect was found in today's chain |
-| — | — | **`REQUIRED_PRE_CUTOVER`: none** | G3 runs the real chain (PI → PD → ConstructionContract → ECP → TQAEP) against the absorbed tree |
+| [#20](https://github.com/shw097-team/PIPD-LS-SP/pull/20) | 3 files: `oracle_compat.py`, `pipeline.py` (+62/−20), `test_oracle_compat.py` | **`DEFERRED_TO_SBL`** | additive DOC-07 / legacy DOC-03 compatibility API; the 13-verb chain compiles without it |
+| [#22](https://github.com/shw097-team/PIPD-LS-SP/pull/22) | 484 files (460 evidence); 30 under `src/` incl. `abi.py`, slot contracts, `compile-cc` | **`HISTORICAL_ONLY`** | `mergeable=false`; adds a 14th command outside the approved ABI |
 
-If the owner later wants R21, it is a versioned ABI change with its own amendment, not a silent
-inclusion in this baseline.
+## 10. Authorisation record
 
-## 10. Authorisation record for this round
-
-- Source: `SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0, issued by the requester acting as OWNER.
-- `D0` approved the baseline; `D1`/`D2` are conditional on the gates in §2 and §8.
-- Not claimed: any independent checker signature, any other-domain owner signature, HGK issuer or
-  native effect, Fabric policy effect, Hermes host load, release or store publication.
-- The write authority for this PR remains the engineering commission and the repository's existing
-  GitHub permissions.
+- Source: `SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0 (D0/D1 activation) and
+  `SBL-PIPD-U04-HERMES-C4-CLOSEOUT-2026-11-03-r3` §0 (C4 scope, W1–W6, one-time A1–A7 approval).
+- Not claimed: any independent checker signature, other-domain owner signature, HGK issuer or native effect,
+  Fabric policy effect, Hermes host load, store publication.
+- Write authority for these changes remains the engineering commission and the repository's GitHub permissions.
 
 ## 11. D2 execution log
 
 | item | state |
 |---|---|
-| canonical writer | **SBL `main`** `c3083178…`; the compiler package, 19 families and 8 skills are maintained in `integrations/pipd/` |
-| PIPD `main` | unchanged `aeb0d479` — no rewrite, no force-push, no release overwritten |
+| canonical writer | **SBL `main`** (`25a4c13c` at this record); compiler, 19 families and 8 skills in `integrations/pipd/` |
+| PIPD `main` | `a25fb569`, advanced only by the two owner-merged PRs (#26, #28); no rewrite, no force-push |
 | PIPD releases | 4 preview releases + `b1-promote-20261028` tag untouched |
-| independent distribution | wheel builds from SBL `main` and is exercised in CI on every push; **no public download entry point has been published yet** → `CUTOVER_DELIVERY_HOLD` for that sub-item only |
-| maintenance | feature work on the old compiler stops; the announcement PR carries `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` |
-| archive | not requested: open PRs #26/#22/#20/#19/#15 need disposition first, and archiving requires real admin rights |
+| independent distribution | **published**: `pipd-ls-sp 0.1.1a5` release on SBL with wheel + `SHA256SUMS` + 8-skill bundle (§14) |
+| maintenance | `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` merged in the PIPD README |
+| archive | **`ARCHIVE_ADMIN_HOLD`** — `PATCH /repos/shw097-team/PIPD-LS-SP {"archived":true}` is not permitted for this credential (403); the repository stays readable and unarchived, and no claim of `archived=true` is made |
 
-## 12. Open PIPD pull requests — disposition (measured against the absorbed tree)
-
-Each row is a decision with its evidence; nothing was closed or merged by the move itself.
+## 12. Open PIPD pull requests — disposition (current)
 
 | PR | disposition | evidence | next action |
 |---|---|---|---|
-| [#26](https://github.com/shw097-team/PIPD-LS-SP/pull/26) pre-v2 planning adapters | **`TRANSFER_TO_SBL`** | 12 files; its base is `aeb0d479` (the absorbed SHA); no `pre_v2_adapter.py` in SBL; the patch re-applies to `integrations/pipd` and its 3 modules pass 29 tests, 13-verb CLI unchanged | re-open against SBL as a patch over `integrations/pipd` |
-| [#20](https://github.com/shw097-team/PIPD-LS-SP/pull/20) oracle compatibility API | **`TRANSFER_TO_SBL`** | 3 files, +244/−20; no `oracle_compat.py` in SBL; applies cleanly; its test module passes 12 tests; byte-identical to the copy carried inside #22 | re-open against SBL; exactly one of #20/#22 should move |
-| [#19](https://github.com/shw097-team/PIPD-LS-SP/pull/19) front-page limitations | **`TRANSFER_TO_SBL`** | one file, README only; the same present-tense claims are carried verbatim into `integrations/pipd/README.md` and are measurably false there (missing `.hgk` manifest, unresolvable `r5-s4-candidate` ref) | re-apply the README correction in SBL |
-| [#15](https://github.com/shw097-team/PIPD-LS-SP/pull/15) R7-0 validator hardening | **`TRANSFER_TO_SBL`** with an open risk | evidence-only; the hardening it records **never landed** — `DIGEST_BOUND`/`POLARITY_EXPECTED` have zero hits in the absorbed `validate.py`, and the PR's own rebase measurement records rc=1 | **open item:** re-author and re-measure digest binding + oracle polarity on `integrations/pipd/validate.py`; recorded as a real gap, not folded into this cutover |
-| [#22](https://github.com/shw097-team/PIPD-LS-SP/pull/22) R21 FAR | **`HISTORICAL_ONLY`** | 484 files (460 evidence); `mergeable=false`; its code delta conflicts with the absorbed tree and adds the 14th verb `compile-cc`, outside the approved D0 ABI | keep as the round's historical record; no merge |
+| [#26](https://github.com/shw097-team/PIPD-LS-SP/pull/26) pre-v2 adapters | **merged in PIPD `7073fe2d`; ported to SBL** | its one real contract fix (`validate_bundle` must not call a 3-object bundle "complete") is now in SBL with 29 tests; the rest (design-only adapter, additive flags, four versioned sidecars) is ported; its "14 commands" docstring hunk was **dropped** | none — closed by the port (§13) |
+| [#28](https://github.com/shw097-team/PIPD-LS-SP/pull/28) 13-commands docstring | **merged; nothing to port** | SBL's own docstring already states 13 verbs exactly; #28 only undoes #26's 14-command wording | none |
+| [#20](https://github.com/shw097-team/PIPD-LS-SP/pull/20) oracle compatibility | **`TRANSFER_TO_SBL`** | 3 files; applies cleanly; its 12 tests pass on the absorbed tree | open against SBL when wanted |
+| [#19](https://github.com/shw097-team/PIPD-LS-SP/pull/19) front-page limits | **`TRANSFER_TO_SBL`** | README-only; the claims it corrects are carried into `integrations/pipd/README.md` | re-apply in SBL |
+| [#15](https://github.com/shw097-team/PIPD-LS-SP/pull/15) validator hardening | **resolved by §13** | the recorded gaps were real; both are now closed in SBL with POS/NEG tests | none; keep the PR as the round's evidence |
+| [#22](https://github.com/shw097-team/PIPD-LS-SP/pull/22) R21 FAR | **`HISTORICAL_ONLY`** | 484 files, `mergeable=false`, adds `compile-cc` | no merge |
 
-No `CLOSE_SUPERSEDED` was recorded: none of the five is superseded by the absorption alone.
+## 13. C4 source drift and validator hardening
+
+**Drift from the two post-cutover PIPD merges.** #26's diff applies cleanly to `integrations/pipd` and was ported
+except for its `cli.py` docstring hunk, which claimed 14 commands. The one substantive contract defect it fixed is
+reproduced and closed: `validate_bundle` returned `{verdict: PASS, checked: 3, closure: FULL}` for a bundle with
+TQAEP missing; it now returns `scope: PARTIAL_BUNDLE, missing: [TQAEP], complete: false` and `--require-four` fails
+closed. Four additive sidecar schemas live under the private `urn:sbl:pre-v2-active:*:2` namespace and are **not** in
+`registry.json`, so the 19-family ABI and the 13 verbs are unchanged.
+
+**#15 hardening (both gaps were real).**
+
+| gap | before | after |
+|---|---|---|
+| digest binding | the recompute-and-compare was gated to the five release-bound families; an edited `RequirementAtom`, `EvidenceExpectation` or `ClaimCeiling` validated clean and `validate_bundle` said PASS | the digest is verified for every family that carries one; the same edits are refused |
+| oracle polarity | no invariant compared `risk_guard.oracle.expected` or `acceptance_cue` with `risk_guard.polarity`; `MUST` + `expected="forbidden"` was accepted, as were undeclared tokens (`MAY`, `must`, `''`, `None`) | `MUST` must be evidenced by `expected="required"`, `MUST NOT` by `"forbidden"`, the cue must state its own polarity, and the check also runs on atoms nested in a PI |
+
+Tests: `tests/test_validate_hardening.py` (13 tests, POS 3 / NEG 10) plus the four-object suite
+(`tests/test_validate_four_objects.py`, 4 tests) and the ported pre-v2 suites (25 tests). Six synthetic fixtures
+that carried placeholder hashes (`"a"*64`) were re-sealed with their real body hash — the fixtures were wrong,
+not the check.
+
+## 14. Published distribution
+
+| artefact | value |
+|---|---|
+| release | SBL `pipd-ls-sp-v0.1.1a5` |
+| wheel | `pipd_ls_sp-0.1.1a5-py3-none-any.whl` — 325 619 B, sha256 `ff3d0f69a509df36d301d6ab631ecc723c3a2594ceaf656e42582f7359050418` |
+| skills bundle | `sbl-tpm-sp-skills-0.1.1a5.zip` — 57 045 B, sha256 `418c33f3397ac9564fa881b2a747a4bedf97dc2510c2c301bca3b6c7924a4a95`, 8 skills derived from `integrations/pipd/skills` |
+| install verification | a clean Python 3.11 venv created outside the repository installs the wheel **from the release URL**, imports `pipd_ls_sp`, lists 13 commands, reports 19 families, and cannot import `sbl_core` |

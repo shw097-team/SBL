@@ -33,6 +33,9 @@ def claim_record(**overrides) -> dict:
         "schema_version": "1.1.0",
     }
     base.update(overrides)
+    # C-11: the digest is verified for every family now, so a legal fixture must carry a REAL one.
+    if "content_hash" not in overrides:
+        base["content_hash"] = validate._body_hash(base)
     return base
 
 

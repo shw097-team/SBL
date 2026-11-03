@@ -110,20 +110,23 @@ from prose.
   no such ACK exists for this build.
 - No 386-donor technology installation. This is one bounded product tree, not a
   platform rollout.
-- No release, tag, package publication, deploy step, or production operation.
+- No release, tag, package publication, deploy step, or production operation **for `sbl-v01`**; the
+  `pipd-ls-sp` distribution has its own release record (see the PIPD integration section).
 - No independent acceptance, and no independent acceptance claim.
 - No multi-user or remote sync; the todo store is local to one machine.
 
-## PIPD integration (candidate, not a cutover)
+## PIPD integration (canonical since the U04 cutover)
 
-`integrations/pipd/` carries a bounded, verbatim copy of `PIPD-LS-SP@aeb0d479` — the compiler package
-`pipd_ls_sp`, its 19 contract families, 8 skills, CLI and tests — so that one tree can build both the
-`pipd-ls-sp` distribution and, later, the SBL adapter. `products/sbl-tpm-sp/` is the portable plugin identity
-that consumes that distribution.
+`integrations/pipd/` carries the canonical copy of the PIPD compiler — `pipd_ls_sp` 0.1.1a5, its 19 contract
+families, 8 skills, CLI and tests — absorbed from `PIPD-LS-SP@aeb0d479`. One tree builds both the
+`pipd-ls-sp` distribution and the SBL adapter (`sbl_sp/pipd_adapter.py`); `products/sbl-tpm-sp/` is the
+portable plugin identity that consumes that distribution, with its 8-skill bundle derived at build time.
 
-This is a **candidate**: `PIPD-LS-SP` is still the canonical writer, the SBL package and its dependencies are
-unchanged, and the FHS route still marks PIPD `CANONICAL_COMPILER_PRE_CUTOVER`. Baseline, decision status and
-verification are in [`docs/pipd-migration/BASELINE.md`](docs/pipd-migration/BASELINE.md) and
+The single canonical writer is this repository. `PIPD-LS-SP` is a **historical** repository: it keeps its
+tags, preview assets and licence, carries a `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` banner, and accepts
+no further compiler feature work. The `pipd-ls-sp` distribution is published from this tree as a release;
+the baseline, decision record and verification are in
+[`docs/pipd-migration/BASELINE.md`](docs/pipd-migration/BASELINE.md) and
 [`docs/pipd-migration/U04-CUTOVER.md`](docs/pipd-migration/U04-CUTOVER.md).
 
 ## Licence

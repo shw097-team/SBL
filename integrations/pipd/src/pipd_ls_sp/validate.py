@@ -14,6 +14,16 @@ from .errors import ValidationFail
 CLAIM_LADDER = ["PROMPT_COMPILE_PASS", "HGK_ADMITTED", "RUNTIME_READY", "LOCAL_QUALIFIED",
                 "INDEPENDENT_PASS", "PUBLICATION_APPROVED", "RELEASED", "PRODUCTION_VERIFIED"]
 RELEASE_BOUND = ("PI-PKG", "PD-PKG", "ECP", "TQAEP", "ConstructionContract")
+# C-12: the only two polarities an obligation may carry (requirements._polarity emits exactly
+# these, and requirements.validate_atoms refuses anything else at compile time).
+POLARITIES = ("MUST", "MUST NOT")
+
+# M2b (RUN-20261102-GJ02-01): a scoped validate of a partial bundle is legal, but it must never
+# report ``closure: FULL`` as if the four release objects were all present. `validate --bundle`
+# returned ``checked=3, closure=FULL`` with the TQAEP missing, which read as "four objects closed".
+# The four-object denominator is now explicit: `missing` names what is absent, `complete` says
+# whether the denominator is satisfied, and `--require-four` turns an absent object into a FAIL.
+RELEASE_FOUR = ("PI-PKG", "PD-PKG", "ECP", "TQAEP")
 
 # CE-2 refinement (checker counterexample CE-CODEX-TRACE-WIDENING). Two DISTINCT concepts that
 # used to be conflated into one list: "fields excluded from the body hash" and "fields that are
@@ -114,6 +124,37 @@ def _body_hash(record: dict[str, Any]) -> str:
                                      separators=(",", ":")).encode()).hexdigest()
 
 
+def _atom_polarity(contract: str, atom: dict[str, Any], out: list[str]) -> None:
+    """C-12 repair (oracle polarity): a polarity must agree with its own oracle and cue.
+
+    Before this check ``risk_guard`` was an unconstrained object in RequirementAtom.schema.json
+    and no invariant looked inside it, so ``polarity='MUST'`` with ``oracle.expected='forbidden'``
+    -- an obligation whose own test asserts the opposite -- validated clean, and a MUST NOT atom
+    could carry a cue that states the positive predicate. ``requirements.validate_atoms`` already
+    refuses an undeclared polarity at COMPILE time, but a record that reaches the validator by any
+    other route (a bundle assembled from stdout, a re-minted PI) was never held to it.
+    """
+    if not isinstance(atom, dict):
+        return
+    risk_guard = atom.get("risk_guard")
+    rg = risk_guard if isinstance(risk_guard, dict) else {}
+    oracle = rg.get("oracle") if isinstance(rg.get("oracle"), dict) else {}
+    polarity = rg.get("polarity")
+    if polarity not in POLARITIES:
+        out.append(f"{contract}: risk_guard.polarity must be one of {POLARITIES} "
+                   f"(got {polarity!r}); an atom without a declared polarity has no oracle")
+        return
+    want = "forbidden" if polarity == "MUST NOT" else "required"
+    if oracle.get("expected") != want:
+        out.append(f"{contract}: oracle.expected {oracle.get('expected')!r} contradicts "
+                   f"risk_guard.polarity {polarity!r} (a {polarity} obligation can only be "
+                   f"evidenced by expected={want!r})")
+    cue = str(atom.get("acceptance_cue") or "")
+    if not cue.startswith(f"{polarity}: "):
+        out.append(f"{contract}: acceptance_cue does not state its own risk_guard.polarity "
+                   f"{polarity!r} (cue {cue[:60]!r}); the cue and the oracle disagree")
+
+
 def semantic_invariants(contract: str, record: dict[str, Any]) -> list[str]:
     """Semantic invariants that a JSON Schema cannot express."""
     out: list[str] = []
@@ -134,10 +175,16 @@ def semantic_invariants(contract: str, record: dict[str, Any]) -> list[str]:
         out.append(f"{contract}: subject_id is implausibly short to be a content id")
     if record.get("recomputed_body_hash_required") is True:
         pass  # explicit opt-out is itself rejected below for release-bound families
-    if contract in RELEASE_BOUND and ch and len(record) > 4:
-        if ch != _body_hash(record):
-            out.append(f"{contract}: content_hash does not match the record body "
-                       "(body edited without re-issuing identity)")
+    # C-11 repair (digest binding): the recompute-and-compare used to be gated on
+    # `contract in RELEASE_BOUND`, so 14 of the 19 families (RequirementAtom, EvidenceExpectation,
+    # ClaimCeiling, TraceLink, ...) carried a content_hash that NOTHING ever verified: an atom
+    # edited after sealing was schema-valid, semantic-valid and PASSed validate_bundle. The digest
+    # is either a binding or it is decoration, so the comparison is now unconditional; the only
+    # remaining preconditions are "there is a hash" and "there is a body to hash".
+    body_fields = [k for k in record if k not in HASH_EXCLUDED_FIELDS]
+    if ch and body_fields and ch != _body_hash(record):
+        out.append(f"{contract}: content_hash does not match the record body "
+                   "(body edited without re-issuing identity)")
     sv = str(record.get("schema_version") or "")
     if sv and not (re.match(r"^[0-9]+\.[0-9]+\.[0-9]+$", sv) or re.match(r"^[A-Za-z0-9_.-]+@[0-9]+$", sv)):
         out.append(f"{contract}: schema_version must be semver or <Token>@<n>")
@@ -174,6 +221,16 @@ def semantic_invariants(contract: str, record: dict[str, Any]) -> list[str]:
             elif str(e.get("checker_execution_receipt") or "") in ("", "SELF_ATTESTED", "self", "same-process"):
                 out.append("TQAEP: acceptance entry needs a checker_execution_receipt that is not "
                            "self-attested (maker cannot attest its own independence)")
+    if contract == "RequirementAtom":
+        _atom_polarity(contract, record, out)
+    if contract == "PI-PKG":
+        # The PI digest covers its atoms, but a consistently re-minted PI (regenerate the atom,
+        # re-seal the PI, rebuild the trace links) is digest-clean by construction: the polarity a
+        # bundle actually ships is the one nested here, so it is checked here too.
+        ssc = record.get("stable_semantic_contract")
+        atoms = ssc.get("atoms") if isinstance(ssc, dict) else None
+        for atom in atoms if isinstance(atoms, list) else []:
+            _atom_polarity(contract, atom, out)
     if contract == "WorkOrderCandidate":
         if record.get("candidate_only") is not True:
             out.append("WorkOrderCandidate: candidate_only must be fixed true (never runtime authority)")
@@ -266,7 +323,8 @@ def closure_findings(bundle: dict[str, dict[str, Any]]) -> dict[str, Any]:
             "findings": [{"contract": "*", "kind": "CLOSURE", "detail": p} for p in problems]}
 
 
-def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None = None) -> dict[str, Any]:
+def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None = None,
+                    require_four: bool = False) -> dict[str, Any]:
     findings: list[dict[str, str]] = []
     # C-4 repair: validate_bundle({}) used to return PASS with checked=0. An empty denominator is
     # not a verification result.
@@ -290,5 +348,17 @@ def validate_bundle(bundle: dict[str, dict[str, Any]], schemas_dir: Path | None 
     # as trace-closed.
     closure = closure_findings(bundle)
     findings.extend(closure["findings"])
+    missing = [c for c in RELEASE_FOUR if c not in bundle]
+    # `closure` keeps its original meaning: the trace graph among the records PRESENT in the
+    # bundle. It is deliberately not redefined, because a single PI legitimately closes against
+    # its own atoms. What was missing was the denominator, so `scope` now says whether this was a
+    # four-object validate or a scoped/partial one, and `complete`/`missing` name the gap.
+    closure_state = closure["state"]
+    if require_four and missing:
+        findings.append({"contract": "*", "kind": "DENOMINATOR",
+                         "detail": "missing required object(s): " + ", ".join(missing)})
     return {"verdict": "PASS" if not findings else "FAIL",
-            "checked": len(bundle), "closure": closure["state"], "findings": findings}
+            "checked": len(bundle), "closure": closure_state, "findings": findings,
+            "scope": "FOUR_OBJECT" if not missing else "PARTIAL_BUNDLE",
+            "missing": missing, "complete": not missing,
+            "required": list(RELEASE_FOUR)}

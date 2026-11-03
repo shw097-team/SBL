@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 DIST = ROOT / "dist"
 SCHEMAS = ROOT / "schemas"
-NAME, VERSION = "pipd_ls_sp", "0.1.1a4"
+NAME, VERSION = "pipd_ls_sp", "0.1.1a5"
 DISTINFO = f"{NAME}-{VERSION}.dist-info"
 FROZEN_SOURCE = ROOT / ".hgk" / "rounds" / "R5-20261009-s4-user-operability" / "FROZEN_SOURCE.json"
 
