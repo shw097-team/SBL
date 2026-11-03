@@ -1,0 +1,65 @@
+{
+  "schema": "SBL.OperationRegistry.Binding@2",
+  "contract_id": "SBL-PRE-V2-OPERATION-EFFECT-2026-11-03-r3",
+  "version": "r3.1",
+  "policy_epoch": "2026-11-03T00:00:00Z",
+  "authority_state": "SOURCE_BOUND_OWNER_UNVERIFIED",
+  "authority_note": "Effect semantics are bound per operation from source text owned by the SBL/PIPD contract surface. The value set is not owner-ratified: this file records the source binding only, and every consumer must keep grant_state NOT_GRANTED until the original issuer acts.",
+  "owner": {
+    "principal": "SBL-PIPD-CONTRACT-OWNER",
+    "decision_ref": null,
+    "decision_state": "PENDING_OWNER_RATIFICATION"
+  },
+  "source": {
+    "locator": "integrations/pipd/PROVENANCE.md",
+    "contract_surface": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC",
+    "effect_vocabulary": "integrations/pipd/schemas/ECP.schema.json"
+  },
+  "scope_policy": {
+    "path_representation": "SCOPE_IS_OPERATION_BOUND",
+    "note": "An operation's effect class is fixed by this contract. Rewriting the scope as a relative, absolute or UNC path must never reclassify the effect; a representation that leaves the declared scope is refused outright.",
+    "readback": {
+      "SOURCE_READ": "SOURCE_SHA256",
+      "LOCAL_DRAFT_WRITE": "DRAFT_DIFF",
+      "REPOSITORY_WRITE": "GIT_POSTIMAGE"
+    }
+  },
+  "operations": [
+    {
+      "operation_type": "SOURCE_READ",
+      "operation_id": "OP-SRC-READ-01",
+      "effect_class": "SOURCE_READ",
+      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.SOURCE_READ",
+      "original_consumer": "SBL-SOURCE-READER",
+      "consumer_abi": "ABI-SOURCE-READ-1"
+    },
+    {
+      "operation_type": "LOCAL_DRAFT_WRITE",
+      "operation_id": "OP-DRAFT-WRITE-01",
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.LOCAL_DRAFT_WRITE",
+      "original_consumer": "SBL-ISOLATED-DRAFT-WRITER",
+      "consumer_abi": "ABI-DRAFT-WRITE-1"
+    },
+    {
+      "operation_type": "REPOSITORY_WRITE",
+      "operation_id": "OP-DEV-REPO-WRITE-01",
+      "effect_class": "REPOSITORY_WRITE",
+      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.REPOSITORY_WRITE",
+      "original_consumer": "SBL-DEV-REPOSITORY-WRITER",
+      "consumer_abi": "ABI-REPO-WRITE-1"
+    }
+  ],
+  "operation_scopes": {
+    "SOURCE_READ": [
+      "src/demo/billing.py",
+      "tests/test_billing.py"
+    ],
+    "LOCAL_DRAFT_WRITE": [
+      "src/demo/billing.py"
+    ],
+    "REPOSITORY_WRITE": [
+      "src/demo/billing.py"
+    ]
+  }
+}
