@@ -4,10 +4,12 @@
 **Single control record** for the SBL/PIPD consolidation. Fabric FHS and the PIPD README point here; they do not
 keep a second ledger.
 
-**Current state:** `C0–C3 = CLOSED_SCOPED`; `C4 = PARTIAL` — the source moved, the distribution is published, the
-old repository is frozen, and **archiving is held on repository-admin rights**.
+**Current state:** `C0–C3 = CLOSED_SCOPED`; **`C4 = CLOSED_SCOPED`** — the source moved, the distribution is
+published, the old repository is frozen **and archived** (`archived=true`, read back from GitHub), and Fabric FHS
+shows three active repositories plus one historical one.
 **Canonical writer:** SBL `main` (`25a4c13c`), package `pipd-ls-sp 0.1.1a5` built from `integrations/pipd/`.
-**Historical repository:** `PIPD-LS-SP@221dc61c`, `archived=false`, `MAINTENANCE_FROZEN` — kept, not deleted.
+**Historical repository:** `PIPD-LS-SP@221dc61c`, **`archived=true`** (read back 2026-11-03), `MAINTENANCE_FROZEN` —
+kept, not deleted, its tags and assets untouched.
 
 ## 1. Decisions
 
@@ -15,7 +17,7 @@ old repository is frozen, and **archiving is held on repository-admin rights**.
 |---|---|---|---|
 | **D0** — canonical baseline | **`APPROVED`** | SBL/PIPD owner (`SBL-PIPD-U04-HERMES-THIN-2026-11-03-r2` §0) | `PIPD-LS-SP@aeb0d479` was the baseline: 13 CLI / 19 families / 8 skills, `pipd_ls_sp` import and `pipd` CLI preserved. `compile-cc` is **not** part of this ABI. |
 | **D1** — cutover Go/No-Go | **`D1_GO_EFFECTIVE`** (2026-11-03 00:40 +0800, merge `c3083178…`) | same owner | activated after G1–G4 passed on head `441e6d8` (three CI checks green, adapter flow and skills bundle real, independent wheel install proven) |
-| **D2** — maintenance exit / archive | **executed to `MAINTENANCE_FROZEN`; `ARCHIVE_ADMIN_HOLD`** | same owner; archive needs a GitHub admin | the old compiler's feature line is stopped and announced; `archived=true` requires repository-administration rights the executing credential does not have (measured 403) |
+| **D2** — maintenance exit / archive | **`DONE`** — frozen, announced, and archived (`archived=true` read back 2026-11-03) | same owner, executed by a repository admin | the old compiler's feature line is stopped and announced; the archive was completed by an administrator with the Administration scope after the token-scoped attempt returned 403 (§11.1, §11.2) |
 
 The authorisation is recorded from the commission itself; no personal signature, independent checker
 or other-domain owner signature is claimed. Where a domain's owner authority is not established,
@@ -29,14 +31,14 @@ that domain stays `OWNER_AUTHORITY_HOLD` and does not block the rest.
 | **C1** SBL absorption | **PASS** | `integrations/pipd/` — 318 files absorbed from `PIPD-LS-SP@aeb0d479`; one modifiable `pipd_ls_sp` tree; Apache-2.0 `LICENSE` + `NOTICE`; 8 script/helper files excluded by SBL's no-shipped-scripts invariant (`integrations/pipd/MIGRATION-NOTES.md`) |
 | **C2** compatibility / independent use | **PASS** | TPM adapter + 9 POS/NEG tests; 8-skill bundle builder; wheel built from the tree; clean-venv install with no SBL package; 13 CLI, 19 families, `doctor` reports `INSTALLED` schema source |
 | **C3** canonical cutover | **PASS** | SBL `main` `c3083178` (merge of [#17](https://github.com/shw097-team/SBL/pull/17)); Fabric `main` `2436e440` (FHS-NAV/v2, [#25](https://github.com/shw097-team/Fabric/pull/25)); PIPD announcement [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) |
-| **C4** maintenance exit / archive | **PARTIAL** | frozen and announced (§11); 5 open PRs dispositioned (§12); **archive held**: `PATCH {"archived":true}` answers 403 `Resource not accessible by personal access token` (§11) |
+| **C4** maintenance exit / archive | **CLOSED_SCOPED** | frozen and announced (§11); 5 open PRs dispositioned (§12); **archived** — `archived=true` read back from the GitHub API and mirrored into Fabric FHS as `FHS-NAV/v2` (§11.2, §15) |
 
 ## 3. What changed at C3, and what still does not change
 
 - `PIPD-LS-SP` is **no longer** the canonical writer. Its `main` advanced after the cutover only by the two PRs
   the owner had already merged there (#26 `7073fe2d`, #28 `a25fb569`); no new compiler feature work is accepted.
 - Fabric FHS `FHS-NAV/v2`: `pipd_canonical` → `sbl`, PIPD listed under `historical_repositories`
-  (`role=HISTORICAL_CANONICAL_MOVED_TO_SBL`, `archived=false`, `write_authority=NONE`), `effect_permission=NONE`,
+  (`role=HISTORICAL_CANONICAL_MOVED_TO_SBL`, `archived=true`, `write_authority=NONE`), `effect_permission=NONE`,
   `source_state=PROPOSED_NOT_OWNER_RATIFIED` unchanged.
 - SBL `sbl-v01`: package name, version, dependency list and console scripts unchanged; its own CI stays green.
 - HG-KSEOS, Fabric policy, Hermes runtime: untouched.
@@ -53,7 +55,7 @@ that domain stays `OWNER_AUTHORITY_HOLD` and does not block the rest.
 | T06 narrow compiler flow (POS) | `sbl_sp/pipd_adapter.py` compiles IntentCard → PI → PD → ConstructionContract → ECP → TQAEP on a real git repo; bundle `PASS` with trace closure; TQAEP `independent_acceptance = NOT_GRANTED` |
 | T06 negative cases | maker==checker / no receipt / `SELF_ATTESTED` → `SBL_E_SELF_CHECK_FORBIDDEN`; stale epoch → `SBL_E_STALE_HEAD`; `dist/**` scope → `SBL_E_WRITE_OUTSIDE_WRITESET`; missing locator → `SBL_E_UNLOCATED_REQUIREMENT` |
 | T09 FHS route | **PASS** — `FHS-NAV/v2` merged as Fabric `2436e440`; `fhs-nav-static` success on the PR and on the `main` push |
-| T10 maintenance exit | **PARTIAL** — announcement merged (PIPD `a25fb569`); archive `ARCHIVE_ADMIN_HOLD` |
+| T10 maintenance exit | **PASS** — announcement merged (PIPD `a25fb569`); archive read back `archived=true`; Fabric map mirrors it |
 | absorbed product tests | **536 tests, 0 failed, 0 errors, 28 skipped** at C4 (was 494); the 12 repository-state modules and 2 governance-input modules stay excluded with their reason in `BASELINE.md` §7 |
 
 ## 5. Rollback
@@ -77,7 +79,7 @@ HGK admission, policy effect, Hermes host load, published-store release, indepen
 | D1 record | [#19](https://github.com/shw097-team/SBL/pull/19) → merged `67c29be6` |
 | C3 route | Fabric [#25](https://github.com/shw097-team/Fabric/pull/25) → merged `2436e440` |
 | PIPD announcement | [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) → merged `a25fb569` |
-| PIPD side | `main` `221dc61c`, 4 preview releases untouched, `archived=false` |
+| PIPD side | `main` `221dc61c`, 4 preview releases untouched, `archived=true` |
 | FHS side | `FHS-NAV/v2`, three active repositories, PIPD historical |
 
 ## 8. D1 fields (as measured at activation)
@@ -117,7 +119,7 @@ HGK admission, policy effect, Hermes host load, published-store release, indepen
 | PIPD releases | 4 preview releases + `b1-promote-20261028` tag untouched |
 | independent distribution | **published**: `pipd-ls-sp 0.1.1a5` release on SBL with wheel + `SHA256SUMS` + 8-skill bundle (§14) |
 | maintenance | `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` merged in the PIPD README |
-| archive | **`ARCHIVE_ADMIN_HOLD`** — see the evidence row below; the repository stays readable and unarchived and no claim of `archived=true` is made |
+| archive | **done** — `archived=true` was read back on 2026-11-03 (§11.2); the earlier `ARCHIVE_ADMIN_HOLD` and its 403 are kept below as the measurement that preceded it |
 
 ### 11.1 Archive attempt — measured, not assumed
 
@@ -127,12 +129,21 @@ HGK admission, policy effect, Hermes host load, published-store release, indepen
 | no-op probe | `PATCH {"archived": false}` (a value the repository already holds, so the write changes nothing) → **403** `Resource not accessible by personal access token`, `documentation_url: /rest/repos/repos#update-a-repository` |
 | real attempt | `PATCH {"archived": true}` → the same **403**; not retried |
 | readback | `archived = false`, `pushed_at = 2026-11-03T00:25:31Z`, 5 open PRs still open |
-| verdict | **`ARCHIVE_ADMIN_HOLD`** — the credential lacks the repository-administration scope. No other credential was used and no archived state is claimed |
+| verdict at the time | **`ARCHIVE_ADMIN_HOLD`** — the credential lacks the repository-administration scope. No other credential was used and no archived state was claimed **at that measurement**; §11.2 records how it was resolved |
 
 **Manual action for an admin:** Settings → General → Danger zone → *Archive this repository*, or a token with
 **Administration: write** on this repository, then `PATCH /repos/shw097-team/PIPD-LS-SP {"archived": true}`.
 After that single change, Fabric `INTEGRATION/FHS/repository-map.json` `historical_repositories.pipd.archived`
 flips to `true` in a bounded PR — it stays `false` until the readback says otherwise.
+
+### 11.2 Resolution (2026-11-03)
+
+| step | result |
+|---|---|
+| action | the repository was archived by an administrator with the **Administration** scope — the same manual action named in §11.1 |
+| readback | `GET /repos/shw097-team/PIPD-LS-SP` → `"archived": true`; tags, preview assets, `LICENSE` and `NOTICE` remain readable, and the 5 dispositioned pull requests remain open as history |
+| Fabric | `INTEGRATION/FHS/repository-map.json` `historical_repositories.pipd.archived` `false` → `true`, `FHS-NAV/v2` not bumped; `validate_entry.py` now refuses `archived=false` (`HISTORICAL_ACTIVE_pipd`) and still refuses a non-bool; 30 FHS tests pass; PR [#26](https://github.com/shw097-team/Fabric/pull/26) merged as `f4f2ad7c…` with `fhs-nav-static` success |
+| verdict | `ARCHIVE_ADMIN_HOLD` **released**; the 403 row above stays as the historical measurement, not as the current state |
 
 ## 12. Open PIPD pull requests — disposition (current)
 
@@ -174,3 +185,14 @@ not the check.
 | wheel | `pipd_ls_sp-0.1.1a5-py3-none-any.whl` — 325 619 B, sha256 `ff3d0f69a509df36d301d6ab631ecc723c3a2594ceaf656e42582f7359050418` |
 | skills bundle | `sbl-tpm-sp-skills-0.1.1a5.zip` — 57 045 B, sha256 `418c33f3397ac9564fa881b2a747a4bedf97dc2510c2c301bca3b6c7924a4a95`, 8 skills derived from `integrations/pipd/skills` |
 | install verification | a clean Python 3.11 venv created outside the repository installs the wheel **from the release URL**, imports `pipd_ls_sp`, lists 13 commands, reports 19 families, and cannot import `sbl_core` |
+
+## 15. Final closeout
+
+| item | value |
+|---|---|
+| SBL canonical source | `main` `2560970` → this document's PR; compiler, 19 families, 8 skills under `integrations/pipd/` |
+| distribution | [`pipd-ls-sp-v0.1.1a5`](https://github.com/shw097-team/SBL/releases/tag/pipd-ls-sp-v0.1.1a5) — wheel `ff3d0f69…`, 8-skill bundle `418c33f3…`, installed and exercised from the public URL |
+| PIPD | `archived=true` (read back 2026-11-03); maintenance frozen; nothing deleted or rewritten |
+| Fabric FHS | `FHS-NAV/v2`; PR [#26](https://github.com/shw097-team/Fabric/pull/26) merged as `f4f2ad7cbed97074cc2d78b401734fc47633cc20`; `fhs-nav-static` success; three active repositories + one historical (`archived=true`, `write_authority=NONE`) |
+| FHS invariants kept | six task classes, `pipd_canonical` → `sbl`, `unknown_route=HOLD_AFFECTED_WRITE_ONLY`, `effect_permission=NONE`, `source_state=PROPOSED_NOT_OWNER_RATIFIED`, historical repository never a route target, affected repository or HEAD sample |
+| claim ceiling | `U04_FULL_PROGRAM = CLOSED_SCOPED` for the product source and repository consolidation. **Not claimed:** HGK Permit / Native Admission, Fabric Policy Effect, Hermes Host Loaded, Production or store release, Independent Acceptance, and any revival of the PIPD writer |
