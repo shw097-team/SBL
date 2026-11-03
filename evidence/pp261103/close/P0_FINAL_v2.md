@@ -8,14 +8,14 @@
 
 | # | P0 | 判定 | RawRef | 本輪變動 |
 |---|---|---|---|---|
-| 1 | `P0_SOURCE_BASELINE` | PASS | `far/00_BASELINE.json`（95 命令）；ZIP `3a9da65…`、14 SKILL、Installed 位元組相同 | 沿用 |
+| 1 | `P0_SOURCE_BASELINE` | PASS | `evidence/pp261103/00_BASELINE.json`（95 命令）；ZIP `3a9da65…`、14 SKILL、Installed 位元組相同 | 沿用 |
 | 2 | `P0_LIFECYCLE` | PASS | `test_pre_v2_planned_reader.py`、`test_claim_ceiling_shape.py`；假 grant／假收據／nested checker 拒 | 沿用 |
 | 3 | `P0_PI_ID` | PASS | 原 writer PI：`REQ-1fc8f618…`、`REQ-bf8f22cb…`、`PI-974a4204962f5dc8`、ORACLE 對應 | 沿用（本輪未重產 PI） |
 | 4 | `P0_PD_REALITY` | PASS（設計降級） | 真 HEAD `70757870…`、dirty 照記；`claim_ceiling=DESIGN_ONLY` | 沿用 |
 | 5 | `P0_ECP_TYPED` | **PASS（受信任 CLI）** | `close/CT03_CLI_TRUSTED.md`：`load_trusted()`＋Ed25519 驗簽；6 passed（1 POS／5 NEG）；契約 `bedf8754…` | **本輪強化**：CLI 不再接受自帶 registry／自帶 SHA |
 | 6 | `P0_TQAEP_FUO` | PASS（`OWNER_DECLARED_SLICE_SET`／`DESIGN_ONLY`） | `far/CASE_ORACLE_DECLARATION.slice-r3.json` ＋ owner 簽章；`RUNNER_UNBOUND` | 沿用 |
 | 7 | `P0_COMPATIBILITY` | PASS | `validate --require-four` → `PASS/checked 4/complete true/exit 0`；錯 Schema→`exit 1`；13 verbs／19 families 未變 | 本輪重驗 |
-| 8 | `P0_AUTHOR_TESTS` | PASS（slice） | `far/T01_T24_MAP.md`（15 重用＋5 補測）＋本輪 6 新測（CT-03） | 補 2 類安全 NEG |
+| 8 | `P0_AUTHOR_TESTS` | PASS（slice） | `evidence/pp261103/r3/T01_T24_MAP.md`（15 重用＋5 補測）＋本輪 6 新測（CT-03） | 補 2 類安全 NEG |
 | 9 | `P0_HOST_INVOKE` | PASS（linux-container） | `far/logs/step1|3`；`installed, enabled 0.3.0-rc.2`、exec exit 0、Skill 實用、Nontrigger=0 | 沿用 |
 | 10 | `P0_ROLLBACK` | **PASS（真舊版閉合）** | `close/CT05_ROLLBACK.md`：rc.1（ZIP `c4181e24…`）→ `AGENT 0.3.0-rc.1` → 恢復 rc.2 → `AGENT 0.3.0-rc.2` | **本輪新證**：不再是「卸裝同版」 |
 
