@@ -1,0 +1,29 @@
+{
+ "schema": "SBL.TPM_SP.CURRENT@1",
+ "promoted_at": "2026-11-03",
+ "version": "0.3.1-rc.1",
+ "zip": "2026-11-03/sbl-tpm-sp-0.3.1-rc.1-private.zip",
+ "sha256": "f00c579280b0db51a850e13f7f3d000539dd86b298a1e5d4ade339a4d8e1a6cc",
+ "scope": {
+  "host": "linux-container (Debian 12 / kernel 6.6.87.2-microsoft-standard-WSL2 / node@sha256:18a6d90f...)",
+  "sandbox_mode": "RUNTIME_SECCOMP_UNCONFINED",
+  "claim_ceiling": "DESIGN_ONLY"
+ },
+ "requires_reader": {
+  "sbl_main_at_least": "00f2722d",
+  "pin_git_head": "a5d3a7676384d0e1124bc898b3f9596e5455f276",
+  "pin_set_sha256": "f0b287ddd0080a8d0b15b097172ba274b8b1c19636d3e7d9d4a3756f8c0e0471",
+  "pin_file_count": 35
+ },
+ "not_promoted": {
+  "windows_native_host": "HOST_124_HOLD",
+  "reason": "MXC sandbox cannot create child processes; live ~/.codex untouched"
+ },
+ "rollback": {
+  "version": "0.3.0-rc.2",
+  "zip": "2026-11-03/sbl-tpm-sp-0.3.0-rc.2-private.zip",
+  "sha256": "3a9da65561ab19cad90a6d7cbfb2eae0abf59b87ba565a118790bce5612326a8",
+  "note": "rolling back also loses the trusted registry path"
+ },
+ "owner_authorisation": "2026-11-03 verbal: promote 0.3.1-rc.1 to primary use"
+}
