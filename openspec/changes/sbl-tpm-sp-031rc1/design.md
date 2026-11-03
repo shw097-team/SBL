@@ -2,8 +2,7 @@
 
 The pin set is content-addressed: it names every reader module by digest. When the reader changed,
 the candidate that pins it became a *different candidate*, not a stale copy of the old one. Overwriting
-```
-rc.2 would also violate the sealed-artifact rule, so `0.3.1-rc.1` is the honest identity for it.
+`rc.2` would also violate the sealed-artifact rule, so `0.3.1-rc.1` is the honest identity for it.
 
 Two things were deliberately not done:
 
