@@ -71,7 +71,21 @@ def test_git_applies_lf_to_the_shipped_text_files():
     assert attrs.exists(), ".gitattributes is missing: a Windows checkout rewrites the tree to CRLF"
     tracked = [f for f in _git("ls-files").splitlines() if Path(f).suffix.lower() in SHIPPED_TEXT]
     assert tracked, "no shipped text files were found to check"
-    out = _git("check-attr", "eol", "--", *tracked)
+    # One `check-attr` call for the whole tree exceeds the Windows command line (32767 chars once
+    # the absorbed PIPD subtree is in place) and dies as FileNotFoundError/WinError 206, which reads
+    # as a product failure. Batch by argument length: every file is still checked, nothing is skipped.
+    out = []
+    batch: list[str] = []
+    size = 0
+    for path in tracked:
+        if size + len(path) + 1 > 8000 and batch:
+            out.append(_git("check-attr", "eol", "--", *batch))
+            batch, size = [], 0
+        batch.append(path)
+        size += len(path) + 1
+    if batch:
+        out.append(_git("check-attr", "eol", "--", *batch))
+    out = "\n".join(part for part in out if part)
     wrong = []
     for line in out.splitlines():
         path, _, value = line.rpartition(": ")
