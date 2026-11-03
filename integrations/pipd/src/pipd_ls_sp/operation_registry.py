@@ -158,3 +158,88 @@ def owner_ratified(contract: dict[str, Any]) -> bool:
     owner = contract.get("owner") or {}
     ref = owner.get("decision_ref")
     return bool(isinstance(ref, str) and ref.strip()) and contract.get("authority_state") == "SOURCE_BOUND_OWNER_RATIFIED"
+
+
+# ---------------------------------------------------------------------------
+# Trusted loading: the CLI must not accept a caller-supplied registry.
+# ---------------------------------------------------------------------------
+CANONICAL_ENROLLMENT = "integrations/pipd/contracts/owner-enrollment.json"
+CANONICAL_OWNER_SIG = "integrations/pipd/contracts/operation-registry.pre-v2-r3.owner.sig.json"
+RATIFIED = "SOURCE_BOUND_OWNER_RATIFIED"
+REQUIRED_DECISION = "RATIFY_OPERATION_EFFECT_BINDING"
+
+
+def repo_root_from_package() -> Path:
+    """The repository that ships this code, derived from the module path.
+
+    Callers cannot point this at their own tree: it is where the installed
+    package actually lives, and the contract must be committed there.
+    """
+    # <root>/integrations/pipd/src/pipd_ls_sp/operation_registry.py
+    return Path(__file__).resolve().parents[4]
+
+
+def _committed(root: Path, relative: str) -> bytes:
+    """Bytes of a file that is tracked at HEAD and identical in the worktree."""
+    root = Path(root).resolve(strict=True)
+    path = root / relative
+    _need(path.is_file(), "NOT_COMMITTED:" + relative)
+    _git(root, "cat-file", "-e", f"HEAD:{relative}")
+    blob = subprocess.run(["git", "-C", str(root), "cat-file", "blob", f"HEAD:{relative}"],
+                          capture_output=True, timeout=30)
+    _need(blob.returncode == 0, "NOT_COMMITTED:" + relative)
+    _need(blob.stdout == path.read_bytes(), "WORKTREE_DIVERGES:" + relative)
+    return blob.stdout
+
+
+def verify_owner_sidecar(repo_root: Path | str, contract_sha: str) -> dict[str, Any]:
+    """Verify the owner's Ed25519 ratification over this exact contract.
+
+    The public key comes from the committed enrollment file, never from the
+    sidecar, so a candidate cannot sign itself. Missing `cryptography` is a
+    refusal, not a pass.
+    """
+    root = Path(repo_root).resolve(strict=True)
+    try:
+        from cryptography.exceptions import InvalidSignature
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+    except Exception:
+        raise OperationRegistryError("OWNER_SIGNATURE_VERIFIER_UNAVAILABLE") from None
+    enrollment = json.loads(_committed(root, CANONICAL_ENROLLMENT))
+    sidecar = json.loads(_committed(root, CANONICAL_OWNER_SIG))
+    _need(enrollment.get("schema") == "SBL.PRE_V2.OWNER_ENROLLMENT@1", "ENROLLMENT_SCHEMA")
+    _need(sidecar.get("contract_sha256") == contract_sha, "SIGNED_CONTRACT_SHA_MISMATCH")
+    payload = (sidecar.get("payload_json") or "").encode("utf-8")
+    _need(hashlib.sha256(payload).hexdigest() == sidecar.get("payload_sha256"), "PAYLOAD_SHA_MISMATCH")
+    body = json.loads(payload)
+    _need(body.get("decision") == REQUIRED_DECISION, "DECISION_NOT_RATIFICATION")
+    _need(body.get("contract_sha256") == contract_sha, "PAYLOAD_CONTRACT_SHA_MISMATCH")
+    contract = json.loads((Path(root) / CANONICAL_CONTRACT).read_text(encoding="utf-8"))
+    declared = {row.get("operation_type") for row in contract.get("operations", [])}
+    ratified = set(body.get("operations") or [])
+    _need(ratified and ratified <= declared, "RATIFIED_OPERATIONS_NOT_IN_CONTRACT")
+    try:
+        Ed25519PublicKey.from_public_bytes(bytes.fromhex(enrollment["owner_public_hex"])).verify(
+            bytes.fromhex(sidecar["signature_hex"]), payload)
+    except InvalidSignature:
+        raise OperationRegistryError("OWNER_SIGNATURE_INVALID") from None
+    except Exception as exc:
+        raise OperationRegistryError("OWNER_SIGNATURE_UNREADABLE:" + type(exc).__name__) from None
+    return {
+        "verified": True,
+        "authority": RATIFIED,
+        "contract_sha256": contract_sha,
+        "owner_fingerprint": enrollment.get("owner_fingerprint"),
+        "window_id": sidecar.get("window_id"),
+        "signed_at": sidecar.get("signed_at"),
+        "operations": sorted(ratified),
+        "grant_state": "NOT_GRANTED",
+        "claim_ceiling": "DESIGN_ONLY",
+    }
+
+
+def load_trusted(repo_root: Path | str | None = None) -> tuple[dict[str, Any], str, dict[str, Any]]:
+    """Canonical contract + sha + a verified owner ratification, or a refusal."""
+    root = Path(repo_root) if repo_root is not None else repo_root_from_package()
+    body, sha = load_from_repo(root)
+    return body, sha, verify_owner_sidecar(root, sha)

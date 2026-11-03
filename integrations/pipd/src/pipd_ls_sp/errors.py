@@ -19,6 +19,12 @@ class InitConflict(PipdError):
     code = "INIT_CONFLICT"
 
 
+class RegistryUntrusted(PipdError):
+    """The operation->effect contract is not the canonical, owner-ratified one."""
+
+    code = "REGISTRY_UNTRUSTED"
+
+
 class ProfileStale(PipdError):
     code = "PROFILE_STALE"
 
