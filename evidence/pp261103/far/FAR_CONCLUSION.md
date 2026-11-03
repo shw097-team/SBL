@@ -46,6 +46,22 @@ Codex 映像內硬編 `C:\Program Files\PowerShell\7\pwsh.exe`，落空才走 PA
 | Nontrigger | 不相關 Goal：`NONTRIGGER_REFS=0` |
 | Rollback | `remove` → `not installed`（cache 清空）→ `add` → `installed, enabled 0.3.0-rc.2`（版本閉合） |
 
+### F3-a｜版本對齊與失敗軌跡（可交叉印證）
+
+為排除「容器用 npm latest 0.166.0、Windows 用 0.164.0，屬不同 build」的異議，另跑一次**釘住 `@openai/codex@0.164.0`**：
+
+```
+PINNED_CODEX=codex-cli 0.164.0
+Added plugin `sbl-tpm-sp` … Installed plugin root: …/0.3.0-rc.2
+sbl-tpm-sp@sbl-pre-primary-local  installed, enabled  0.3.0-rc.2
+CMD /bin/bash -lc 'echo PINNED_0164_OK'  exit 0  out 'PINNED_0164_OK'
+TURN_COMPLETED
+```
+
+另收錄第一次 attempt（`logs/step2_*`）**故意保留的失敗**：該次 `docker run --rm` 內未先 `npm i -g @openai/codex`，
+故 `codex: not found`、`/work/host_notes.md` 不存在、exit 1。它被 `step3` 取代，保留是為了讓閱讀者能自行核對
+「試了幾次、為什麼換」。
+
 ### F3-b｜Owner 信封可解「授權與簽章」這一半
 
 `owner_window.py`（FAR-15／16）＝Ed25519 私鑰以 scrypt+AES-256-GCM 封裝，一次性口令開窗，之後在 TTL／ops 預算內批次簽章；視窗寫 `window.json`、`window.token`、`SIGNING_LOG.jsonl`；**拒絕** release／sourcefreeze／policy-authority／trust-anchor／owner_enrollment，且 effect 不得超過開啟時 ceiling。
