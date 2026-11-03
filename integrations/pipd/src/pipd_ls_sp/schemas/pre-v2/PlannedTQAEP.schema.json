@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sbl:pre-v2-active:PlannedTQAEP:2",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "SBL.PlannedTQAEP@2"
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "host": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_epoch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_pi_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "required_fuo": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_requirement_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "original_oracle_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fuo_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "positive_fixture": {
+            "type": "string",
+            "minLength": 1
+          },
+          "negative_fixture": {
+            "type": "string",
+            "minLength": 1
+          },
+          "raw_schema": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_world_raw": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_expectation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checker_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requalify_selector": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runner_owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "positive_fixture_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "negative_fixture_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "raw_schema_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "applicability": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "host": {
+                "type": "string",
+                "minLength": 1
+              },
+              "profile": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mode": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "host",
+              "profile",
+              "kind",
+              "mode"
+            ]
+          },
+          "runner_binding": {
+            "const": "RUNNER_UNBOUND"
+          }
+        },
+        "required": [
+          "case_id",
+          "original_requirement_id",
+          "original_oracle_id",
+          "clause_id",
+          "fuo_id",
+          "positive_fixture",
+          "negative_fixture",
+          "raw_schema",
+          "expected_world_raw",
+          "evidence_expectation",
+          "checker_role",
+          "requalify_selector",
+          "runner_owner",
+          "source_sha256",
+          "positive_fixture_sha256",
+          "negative_fixture_sha256",
+          "raw_schema_sha256",
+          "applicability",
+          "runner_binding"
+        ]
+      }
+    },
+    "planning_state": {
+      "const": "PLAN_VALID"
+    },
+    "runner_state": {
+      "const": "RUNNER_UNBOUND"
+    },
+    "live_acceptance": {
+      "const": "NOT_RUN"
+    },
+    "independent_acceptance": {
+      "const": "NOT_GRANTED"
+    },
+    "claim_ceiling": {
+      "const": "AUTHOR_DESIGN_ONLY"
+    },
+    "source_authority": {
+      "enum": [
+        "SYNTHETIC_ONLY",
+        "SOURCE_BOUND_OWNER_UNVERIFIED"
+      ]
+    }
+  },
+  "required": [
+    "schema",
+    "subject_id",
+    "candidate_sha256",
+    "scope",
+    "host",
+    "policy_epoch",
+    "canonical_pi_sha256",
+    "required_fuo",
+    "cases",
+    "planning_state",
+    "runner_state",
+    "live_acceptance",
+    "independent_acceptance",
+    "claim_ceiling",
+    "source_authority"
+  ]
+}

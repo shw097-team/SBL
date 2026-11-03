@@ -4,5 +4,5 @@ Normative anchor: PIPD-LS-SP_藍圖.md §7.3 (19/19 machine contracts) and §9.2
 (13-command PIPD Engineering Compiler). HG-KSEOS is the sole control plane; this
 package is a bounded, candidate-producing component under HGK admission.
 """
-__version__ = "0.1.1a4"
+__version__ = "0.1.1a5"
 SCHEMA = "PIPD-LS-SP/1"

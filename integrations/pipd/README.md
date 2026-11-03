@@ -232,7 +232,24 @@ The published wheel and a chat-host skill pack are **two different artefacts wit
 boundaries**. Pick the one your job needs — installing the wheel does not make the eight logical
 skills appear in a web chat host, and mounting the pack does not put `pipd` on your machine.
 
-**CLI / headless harness** — download the immutable wheel published under the **`v0.1.1-preview.4`**
+**Current distribution — `pipd-ls-sp 0.1.1a5`, built from this repository's canonical source.**
+Since the U04 cutover the canonical compiler lives in `shw097-team/SBL` under `integrations/pipd/`; the
+first distribution built from it is `0.1.1a5`, released under the tag `pipd-ls-sp-v0.1.1a5`:
+
+```bash
+curl -fsSLO https://github.com/shw097-team/SBL/releases/download/pipd-ls-sp-v0.1.1a5/pipd_ls_sp-0.1.1a5-py3-none-any.whl
+curl -fsSLO https://github.com/shw097-team/SBL/releases/download/pipd-ls-sp-v0.1.1a5/SHA256SUMS
+sha256sum -c SHA256SUMS --ignore-missing
+python -m pip install ./pipd_ls_sp-0.1.1a5-py3-none-any.whl
+```
+
+`pipd_ls_sp-0.1.1a5-py3-none-any.whl` — sha256 `ff3d0f69a509df36d301d6ab631ecc723c3a2594ceaf656e42582f7359050418`.
+The 8-skill bundle `sbl-tpm-sp-skills-0.1.1a5.zip` (sha256
+`418c33f3397ac9564fa881b2a747a4bedf97dc2510c2c301bca3b6c7924a4a95`) ships on the same release. The
+`v0.1.1-preview.*` paragraphs below describe the **historical** assets, which stay downloadable and are
+not rewritten.
+
+**CLI / headless harness (historical: `v0.1.1-preview.4`)** — download the immutable wheel published under the **`v0.1.1-preview.4`**
 tag (`pipd_ls_sp-0.1.1a4-py3-none-any.whl`; published digest
 `3b59a985dc9fc1cd4c1c5ca9a7b779122459ab7cadc8f439e17063d6c934cc0c`, verified against the tag's
 `SHA256SUMS`). Install with **Python >= 3.11** into a **virtual environment**, then run `pipd doctor`.

@@ -53,6 +53,10 @@ def _artifact_identity(**over: object) -> dict:
     rec = {"subject_id": "AI-0123456789abcdef", "version": "1", "content_hash": "a" * 64,
            "schema_version": "ArtifactIdentity@1", "supersedes": [], "invalidates": []}
     rec.update(over)
+    # C-11: every family's digest is verified now; keep dummy hashes only where a test asserts on
+    # them explicitly (the non-hex / integer cases).
+    if "content_hash" not in over:
+        rec["content_hash"] = validate._body_hash(rec)
     return rec
 
 

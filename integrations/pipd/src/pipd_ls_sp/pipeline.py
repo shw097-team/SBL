@@ -278,6 +278,131 @@ def compile_ecp(pd: dict[str, Any], pi: dict[str, Any]) -> dict[str, Any]:
                 rollback={"pointer": "baseline_commit", "required": True}), "ECP")
 
 
+def compile_effect_ecp(pd: dict[str, Any], pi: dict[str, Any], intent: dict[str, Any],
+                       operation_registry: dict[str, Any]) -> dict[str, Any]:
+    """PRE-V2 additive projection through the ORIGINAL ECP writer.
+
+    Modified 2026-11-02: author intent remains unadmitted; canonical $id/fields
+    and the legacy compile_ecp entry point are unchanged. Registry authority is
+    explicitly unverified; this cannot create a Grant or executable readiness.
+    """
+    from .pre_v2_adapter import ecp_intent, Refusal
+    try:
+        from . import validate as original_validate
+        if original_validate.validate_bundle({'PI-PKG':pi,'PD-PKG':pd}).get('verdict')!='PASS':
+            raise Refusal('ECP_CANONICAL_INPUT_INVALID')
+        source_atoms=req_compile.compile_requirements(pi['stable_semantic_contract'].get('goal',''),
+            list(dict.fromkeys(x['source_clause']['file'] for x in atoms_of(pi))))
+        derived={x['req_id']:x for x in source_atoms}
+        given={x['req_id']:x for x in atoms_of(pi)}
+        if set(derived)!=set(given) or any(given[k]['risk_guard']!=derived[k]['risk_guard'] or
+            given[k]['source_clause']!=req_compile.normalized_locator(derived[k]['source_clause']) for k in given):
+            raise Refusal('ECP_PI_SOURCE_REPLAY')
+        context={k:intent[k] for k in ('subject_id','candidate_sha256','scope','host','policy_epoch')}
+        if context['subject_id'] != pi.get('subject_id'):
+            raise Refusal('ECP_PI_SUBJECT')
+        checked=ecp_intent(context,intent['operation']['operation_type'],operation_registry,intent['details'])
+        if checked != intent:
+            raise Refusal('ECP_INTENT_REPLAY_MISMATCH')
+        if not pd.get('RepoContext') or not pd.get('late_bound_construction_binding'):
+            raise Refusal('ECP_PD_UNBOUND')
+        effect=intent['operation']['effect_class']; details=intent['details']
+        if effect=='REPOSITORY_WRITE':
+            permitted=pd['late_bound_construction_binding']['writable_scope']
+            if not repo_probe.writable_scope_subset_check(context['scope'],[permitted])['subset']:
+                raise Refusal('ECP_PD_SCOPE_MISMATCH')
+            observed=repo_probe.probe_repository(pd['RepoContext']['root'])
+            if observed['probe']!='git' or observed['head']!=pd['RepoContext'].get('head') or observed['currentness_epoch']!=pd.get('currentness',{}).get('epoch'):
+                raise Refusal('ECP_PD_STALE_OR_FAKE_HEAD')
+        token_required=effect not in ('SOURCE_READ','LOCAL_DRAFT_WRITE')
+        # This candidate's canonical record carries design intent only. Exact
+        # authority/permission still belongs to the original effect receiver.
+        return _seal(_rec('ECP','ECP',{},
+            effect_intent={'operation_type':intent['operation']['operation_type'],'effect_class':effect,
+                           'pi':pi['subject_id'],'pd':pd['subject_id'],'intent':intent,
+                           'state':'EFFECT_UNBOUND','claim_ceiling':'AUTHOR_DESIGN_ONLY'},
+            permission={'scope':context['scope'],'basis':details['permission_basis'],
+                        'token_required':token_required,'grant_state':'NOT_GRANTED'},
+            retries={'policy':intent['retry_policy'],'on_unknown':details['on_unknown'],
+                     'reconcile_reader':details['reconcile_reader']},
+            idempotency={'key':details['idempotency_key'],'guarantee':'DESIGN_ONLY'},
+            readback={'required':True,'kind':details['readback_kind'],'expected':details['expected_postcondition']},
+            rollback={'required':token_required,'recovery':{k:details[k] for k in
+                ('cleanup','rollback_commit','host_recovery','compensation','recovery') if k in details},
+                      'state':'RECOVERY_DESIGN_ONLY'}),'ECP')
+    except (Refusal,KeyError,TypeError,ValueError) as exc:
+        raise EffectUnknown(str(exc)) from exc
+
+
+def read_planned_tqaep(pi: dict[str, Any], pd: dict[str, Any], ecp: dict[str, Any],
+                      plan: dict[str, Any], fixture_root: Path) -> dict[str, Any]:
+    """PRE-V2 receipt-free author Sidecar Reader; never canonical TQAEP@1.
+
+    No live acceptance field is relaxed. This reads a versioned plan whose
+    writer is the author adapter, binding original atom/oracle identities and
+    the canonical candidate. It does not ratify the original Case registry.
+    """
+    from .pre_v2_adapter import deny_authority, encoded, sha, read, Refusal, validate_design
+    try:
+        deny_authority(plan)
+        validate_design('PlannedTQAEP.schema.json',plan)
+        if plan.get('schema')!='SBL.PlannedTQAEP@2' or plan.get('claim_ceiling')!='AUTHOR_DESIGN_ONLY':
+            raise Refusal('PLANNED_SCHEMA_OR_CLAIM')
+        bundle={'PI-PKG':pi,'PD-PKG':pd,'ECP':ecp}
+        from . import validate as original_validate
+        if original_validate.validate_bundle(bundle).get('verdict')!='PASS':
+            raise Refusal('PLANNED_CANONICAL_INPUT_INVALID')
+        if plan.get('subject_id')!=pi.get('subject_id') or plan.get('candidate_sha256')!=sha(encoded(bundle)):
+            raise Refusal('PLANNED_CANONICAL_CANDIDATE')
+        if plan.get('canonical_pi_sha256')!=sha(encoded(pi)):
+            raise Refusal('PLANNED_PI_SHA')
+        allowed=pd['late_bound_construction_binding']['writable_scope']
+        scope=plan.get('scope',[])
+        # Source-only plans bind a source locator; write plans must remain
+        # inside the original admitted PD scope. No path determines the effect.
+        effect=ecp.get('effect_intent',{})
+        if isinstance(effect,dict) and effect.get('effect_class')=='REPOSITORY_WRITE':
+            if not repo_probe.writable_scope_subset_check(scope,[allowed])['subset']:
+                raise Refusal('PLANNED_PD_SCOPE')
+        atoms={x['req_id']:x for x in atoms_of(pi)}; cases=plan.get('cases')
+        contract=pi['stable_semantic_contract']
+        original=req_compile.compile_requirements(contract.get('goal',''),list(dict.fromkeys(
+            x['source_clause']['file'] for x in atoms.values())))
+        originals={x['req_id']:x for x in original}
+        if set(originals)!=set(atoms) or any(atoms[k]['risk_guard']!=originals[k]['risk_guard'] or
+                atoms[k]['source_clause']!=req_compile.normalized_locator(originals[k]['source_clause']) for k in atoms):
+            raise Refusal('PLANNED_PI_SOURCE_REPLAY')
+        if not atoms or not isinstance(cases,list) or not cases:
+            raise Refusal('PLANNED_EMPTY')
+        seen=set(); reqs=set(); fuos=set()
+        for case in cases:
+            rid=case.get('original_requirement_id'); atom=atoms.get(rid)
+            if not atom or case.get('original_oracle_id')!=atom.get('risk_guard',{}).get('oracle',{}).get('id'):
+                raise Refusal('PLANNED_ORACLE_OR_REQUIREMENT')
+            source=req_compile.resolve_source_clause(atom,pi['stable_semantic_contract']['sources'])
+            if case.get('source_sha256')!=source.get('source_sha256') or case.get('clause_id')!=source.get('clause_id'):
+                raise Refusal('PLANNED_SOURCE_CLAUSE')
+            if not all(case.get(k) for k in ('case_id','fuo_id','positive_fixture','negative_fixture','raw_schema',
+                'positive_fixture_sha256','negative_fixture_sha256','raw_schema_sha256','expected_world_raw',
+                'evidence_expectation','checker_role','requalify_selector','runner_owner')):
+                raise Refusal('PLANNED_CASE_FIELDS')
+            if case['case_id'] in seen or case.get('runner_binding')!='RUNNER_UNBOUND':
+                raise Refusal('PLANNED_DUPLICATE_OR_RUNNER_CLAIM')
+            if case.get('applicability',{}).get('host')!=plan.get('host'):
+                raise Refusal('PLANNED_HOST_MISMATCH')
+            for key in ('positive_fixture','negative_fixture','raw_schema'):
+                if sha(read(fixture_root,case[key]))!=case[key+'_sha256']:
+                    raise Refusal('PLANNED_FIXTURE_DRIFT')
+            seen.add(case['case_id']); reqs.add(rid); fuos.add(case['fuo_id'])
+        if reqs!=set(atoms) or fuos!=set(plan.get('required_fuo',[])):
+            raise Refusal('PLANNED_COVERAGE')
+        if plan.get('live_acceptance')!='NOT_RUN' or plan.get('independent_acceptance')!='NOT_GRANTED':
+            raise Refusal('PLANNED_LIVE_CLAIM')
+        return plan
+    except (Refusal,KeyError,TypeError,ValueError,OSError) as exc:
+        raise TqTraceFail(str(exc)) from exc
+
+
 def compile_tqaep(pi: dict[str, Any], ecp: dict[str, Any], *, maker: str, checker: str,
                   checker_execution_receipt: str = "") -> dict[str, Any]:
     # C-3 repair: reject aliasing tricks, not just exact string equality.

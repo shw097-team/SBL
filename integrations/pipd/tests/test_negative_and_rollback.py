@@ -12,6 +12,13 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from pipd_ls_sp import pipeline, validate, workspace  # noqa: E402
 from pipd_ls_sp.errors import ExportSecretFound, RepairScopeFail, SelfAcceptForbidden  # noqa: E402
+from pipd_ls_sp import validate  # noqa: E402
+
+
+def _sealed(rec: dict) -> dict:
+    """C-11: the digest is verified for every family; a fixture carries a real one."""
+    rec["content_hash"] = validate._body_hash(rec)
+    return rec
 
 
 class TestNegative(unittest.TestCase):
@@ -25,8 +32,8 @@ class TestNegative(unittest.TestCase):
         rec = {"subject_id": "SYNTH-0000000000000000", "version": "1", "content_hash": "a"*64, "schema_version": "v@1",
                "candidate_only": False}
         self.assertTrue(validate.semantic_invariants("WorkOrderCandidate", rec))
-        ok = {"subject_id": "SYNTH-0000000000000000", "version": "1", "content_hash": "a"*64, "schema_version": "v@1",
-              "candidate_only": True}
+        ok = _sealed({"subject_id": "SYNTH-0000000000000000", "version": "1", "schema_version": "v@1",
+              "candidate_only": True})
         self.assertEqual(validate.semantic_invariants("WorkOrderCandidate", ok), [])
 
     def test_execution_binding_ack_requires_receiver_binding(self) -> None:

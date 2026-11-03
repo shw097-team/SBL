@@ -36,7 +36,7 @@ from pipd_ls_sp import registry, workspace  # noqa: E402
 
 MISSING_FAMILY = "ArtifactIdentity"
 MISSING_MEMBER = f"pipd_ls_sp/schemas/{MISSING_FAMILY}.schema.json"
-WHEEL_NAME = "pipd_ls_sp-0.1.1a4-py3-none-any.whl"
+WHEEL_NAME = "pipd_ls_sp-0.1.1a5-py3-none-any.whl"
 
 
 def _load_build_dist():
