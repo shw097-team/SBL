@@ -7,7 +7,7 @@ keep a second ledger.
 **Current state:** `C0–C3 = CLOSED_SCOPED`; `C4 = PARTIAL` — the source moved, the distribution is published, the
 old repository is frozen, and **archiving is held on repository-admin rights**.
 **Canonical writer:** SBL `main` (`25a4c13c`), package `pipd-ls-sp 0.1.1a5` built from `integrations/pipd/`.
-**Historical repository:** `PIPD-LS-SP@a25fb569`, `archived=false`, `MAINTENANCE_FROZEN` — kept, not deleted.
+**Historical repository:** `PIPD-LS-SP@221dc61c`, `archived=false`, `MAINTENANCE_FROZEN` — kept, not deleted.
 
 ## 1. Decisions
 
@@ -29,7 +29,7 @@ that domain stays `OWNER_AUTHORITY_HOLD` and does not block the rest.
 | **C1** SBL absorption | **PASS** | `integrations/pipd/` — 318 files absorbed from `PIPD-LS-SP@aeb0d479`; one modifiable `pipd_ls_sp` tree; Apache-2.0 `LICENSE` + `NOTICE`; 8 script/helper files excluded by SBL's no-shipped-scripts invariant (`integrations/pipd/MIGRATION-NOTES.md`) |
 | **C2** compatibility / independent use | **PASS** | TPM adapter + 9 POS/NEG tests; 8-skill bundle builder; wheel built from the tree; clean-venv install with no SBL package; 13 CLI, 19 families, `doctor` reports `INSTALLED` schema source |
 | **C3** canonical cutover | **PASS** | SBL `main` `c3083178` (merge of [#17](https://github.com/shw097-team/SBL/pull/17)); Fabric `main` `2436e440` (FHS-NAV/v2, [#25](https://github.com/shw097-team/Fabric/pull/25)); PIPD announcement [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) |
-| **C4** maintenance exit / archive | **PARTIAL** | frozen and announced; 5 open PRs dispositioned (§12); **archive held**: `ARCHIVE_ADMIN_HOLD` |
+| **C4** maintenance exit / archive | **PARTIAL** | frozen and announced (§11); 5 open PRs dispositioned (§12); **archive held**: `PATCH {"archived":true}` answers 403 `Resource not accessible by personal access token` (§11) |
 
 ## 3. What changed at C3, and what still does not change
 
@@ -77,7 +77,7 @@ HGK admission, policy effect, Hermes host load, published-store release, indepen
 | D1 record | [#19](https://github.com/shw097-team/SBL/pull/19) → merged `67c29be6` |
 | C3 route | Fabric [#25](https://github.com/shw097-team/Fabric/pull/25) → merged `2436e440` |
 | PIPD announcement | [#27](https://github.com/shw097-team/PIPD-LS-SP/pull/27) → merged `a25fb569` |
-| PIPD side | `main` `a25fb569`, 4 preview releases untouched, `archived=false` |
+| PIPD side | `main` `221dc61c`, 4 preview releases untouched, `archived=false` |
 | FHS side | `FHS-NAV/v2`, three active repositories, PIPD historical |
 
 ## 8. D1 fields (as measured at activation)
@@ -113,11 +113,26 @@ HGK admission, policy effect, Hermes host load, published-store release, indepen
 | item | state |
 |---|---|
 | canonical writer | **SBL `main`** (`25a4c13c` at this record); compiler, 19 families and 8 skills in `integrations/pipd/` |
-| PIPD `main` | `a25fb569`, advanced only by the two owner-merged PRs (#26, #28); no rewrite, no force-push |
+| PIPD `main` | `221dc61c`; advanced only by the two owner-merged PRs (#26, #28) and the documentation pointer (#29); no rewrite, no force-push |
 | PIPD releases | 4 preview releases + `b1-promote-20261028` tag untouched |
 | independent distribution | **published**: `pipd-ls-sp 0.1.1a5` release on SBL with wheel + `SHA256SUMS` + 8-skill bundle (§14) |
 | maintenance | `MAINTENANCE_EXIT / CANONICAL_MOVED_TO_SBL` merged in the PIPD README |
-| archive | **`ARCHIVE_ADMIN_HOLD`** — `PATCH /repos/shw097-team/PIPD-LS-SP {"archived":true}` is not permitted for this credential (403); the repository stays readable and unarchived, and no claim of `archived=true` is made |
+| archive | **`ARCHIVE_ADMIN_HOLD`** — see the evidence row below; the repository stays readable and unarchived and no claim of `archived=true` is made |
+
+### 11.1 Archive attempt — measured, not assumed
+
+| step | result |
+|---|---|
+| capability | `GET /repos/shw097-team/PIPD-LS-SP` reports `permissions.admin = true`, but that is the *effective* permission of the account, not the scope of the token |
+| no-op probe | `PATCH {"archived": false}` (a value the repository already holds, so the write changes nothing) → **403** `Resource not accessible by personal access token`, `documentation_url: /rest/repos/repos#update-a-repository` |
+| real attempt | `PATCH {"archived": true}` → the same **403**; not retried |
+| readback | `archived = false`, `pushed_at = 2026-11-03T00:25:31Z`, 5 open PRs still open |
+| verdict | **`ARCHIVE_ADMIN_HOLD`** — the credential lacks the repository-administration scope. No other credential was used and no archived state is claimed |
+
+**Manual action for an admin:** Settings → General → Danger zone → *Archive this repository*, or a token with
+**Administration: write** on this repository, then `PATCH /repos/shw097-team/PIPD-LS-SP {"archived": true}`.
+After that single change, Fabric `INTEGRATION/FHS/repository-map.json` `historical_repositories.pipd.archived`
+flips to `true` in a bounded PR — it stays `false` until the readback says otherwise.
 
 ## 12. Open PIPD pull requests — disposition (current)
 
