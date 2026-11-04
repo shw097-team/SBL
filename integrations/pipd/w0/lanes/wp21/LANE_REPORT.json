@@ -1,0 +1,225 @@
+{
+  "lane": "WP-FHS-21",
+  "lane_title": "96 Oracle 型別化 fixture 與 Runner 交接＋W1-W4 Consumer Handoff",
+  "runner": "trace_runner.py",
+  "runner_schema": "FHS-W0-WP21-TRACE-RUNNER/1",
+  "adapter_id": "FHS-W0-WP21-STRUCTURAL-ADAPTER/1",
+  "source_root": "$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C",
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "trace_scope": "AUTHOR_STATIC",
+  "native": "NOT_RUN",
+  "wp19_done": false,
+  "deliverables": [
+    {
+      "path": "trace_runner.py",
+      "bytes": 59601,
+      "sha256": "0cb9d63d440a9de7083dd16f58f93185469ddaf1b0cb8f5650cd338ba2f34971"
+    },
+    {
+      "path": "TRACE_ECP_TQAEP_DESIGN.md",
+      "bytes": 9947,
+      "sha256": "29c7b4ba46bbb7f48b8f139b0b8d01a3770a3d5d90656be613312e40f86854eb"
+    },
+    {
+      "path": "tests/test_trace_runner.py",
+      "bytes": 19090,
+      "sha256": "189ad2f07f290ab7dca2102654b6b0fbe3bc20aa0d17d8f5c9bc12c18ae67bfb"
+    },
+    {
+      "path": "tests/UNITTEST_RAW.log",
+      "bytes": 2965,
+      "sha256": "573701f9ab953f4015ef6ecc9886b7233dcff5314c41b9c33187b0ec25b32348"
+    },
+    {
+      "path": "out/ORACLE96_FIXTURES.json",
+      "bytes": 269974,
+      "sha256": "921889fa86a326ed0f8b7ce815d83c5e94c621b04a79ca47c37542fb7ed748f2"
+    },
+    {
+      "path": "out/ORACLE96_RUN_RAW.json",
+      "bytes": 208706,
+      "sha256": "dd58404006aa019920a53eb5d24cb328d08107564abc069876756ce32303e060"
+    },
+    {
+      "path": "out/ORACLE_REPLAY_RECONCILE.json",
+      "bytes": 162232,
+      "sha256": "f8bb8f9fe6e4f4c294753407ae141226be89238771d6ed79fbdecf9217aef954"
+    },
+    {
+      "path": "out/SEAM_S1_S5.json",
+      "bytes": 17327,
+      "sha256": "8c28fe8b4a9c8627746defb39d66202db18c55b738fc1f68b0889662951d6e32"
+    },
+    {
+      "path": "out/TRACE_CLOSURE_AUTHOR_STATIC.json",
+      "bytes": 5973,
+      "sha256": "e6d28a405d81d47ce07e7f5d090a8ead4a8fbfa5032b947f186b3b215b381aa6"
+    },
+    {
+      "path": "out/W1_W4_CONSUMER_HANDOFF.json",
+      "bytes": 10257,
+      "sha256": "bd3d891769a6b3a45b883681b382b96cadd1084b0296251a74173f07f228efc8"
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "python trace_runner.py --source-root <FHS_PIPD-LS-PKG_W0_R4C> --out ./out",
+      "exit_code": 3,
+      "exit_note": "0=sealed 且無 hold；3=sealed 但存在設計性 HOLD（NATIVE_NOT_RUN／ORIGINAL_READER_ACK_UNOBSERVED／H-WAVE-25／E26_UNSATISFIED），非失敗；4=結構不符；2=輸入錯誤",
+      "stdout_head": "WP21 sealed: oracle96 96/96 match, replay288 288/288 consistent, seam 5/5 sealed, wp 22, edges 36, cards 84 (join25 25), swap 48/48, holds 4"
+    },
+    {
+      "cmd": "python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "result": "OK",
+      "tests_run": 25,
+      "log": "tests/UNITTEST_RAW.log"
+    },
+    {
+      "cmd": "python - <<'PY' (sha256 of deliverables)",
+      "exit_code": 0,
+      "note": "本報告 sha256 由該命令計算"
+    }
+  ],
+  "counts": {
+    "oracle_cases": 96,
+    "oracle_fixtures": 96,
+    "oracle_rows_expected_equal_observed": 96,
+    "oracle_base_static_pass": 96,
+    "replay_rows": 288,
+    "replay_consistent": 288,
+    "replay_inconsistent": 0,
+    "replay_fixture_sha_match": 288,
+    "wp": 22,
+    "edges": 36,
+    "cards": 84,
+    "wave_join_25": 25,
+    "w0_trace22": 22,
+    "seams": 5,
+    "seams_sealed": 5,
+    "swap_rows": 48,
+    "swap_matched": 48,
+    "trace_edges": 110,
+    "case_types": 12,
+    "oracle_types": 8,
+    "w1_w4_waves": 4,
+    "unittest_tests": 25
+  },
+  "verification": {
+    "oracle96": {
+      "verdict": "96/96 MATCH",
+      "observed_semantics": "observed_firstfail is the code the adapter emits when the contract's declared domain/oracle mutation is applied to the typed fixture; base_run_state records the unmutated fixture (all 96 are AUTHOR_FIXTURE_STATIC_PASS). It is never copied from expected_first_fail.",
+      "base_runs_static_pass": 96,
+      "independence_probe": {
+        "probe": "POISONED_EXPECTED_MAP",
+        "cases": 96,
+        "observed_vector_identical": true,
+        "poisoned_rows_now_mismatching": 96,
+        "conclusion": "observed values come from the adapter, not from the declared expectation"
+      }
+    },
+    "replay288": {
+      "consistent": 288,
+      "inconsistent": 0,
+      "per_case_all_consistent": true
+    },
+    "seams": {
+      "sealed": "5/5",
+      "S4_permission": "NONE_GRANTED",
+      "S5_principal_separated": true,
+      "permit_issued": false
+    },
+    "dag": {
+      "verdict": "DAG_SEALED",
+      "wp": 22,
+      "edges": 36,
+      "e26": {
+        "pred": "WP-FHS-19",
+        "succ": "WP-FHS-14",
+        "status": "UNSATISFIED_WP19_RAW_MISSING",
+        "firstfail": "WP19_ORIGINAL_OUTPUT_MISSING"
+      }
+    },
+    "design84": {
+      "cards": 84,
+      "join_affected": 25,
+      "not_blocked": 59,
+      "w0_trace22": 22,
+      "verdict": "WAVE_JOIN_SEALED"
+    },
+    "traceclosure": {
+      "scope": "AUTHOR_STATIC",
+      "wp19_done": false,
+      "closure_state": "AUTHOR_STATIC_TRACE_CLOSED",
+      "edges": 110,
+      "requirements": 22
+    },
+    "handoff": {
+      "waves": 4,
+      "cards_in_scope": 62,
+      "w0_cards_not_in_scope": 22
+    },
+    "neg_codes": [
+      "FIRSTFAIL_MISMATCH",
+      "SEAM_FIELD_MISSING",
+      "DAG_E26_DIRECTION_INVALID",
+      "WAVE_COUNT_MISMATCH"
+    ],
+    "neg_tests": [
+      "TestNegFirstFail x3",
+      "TestNegSeam x3",
+      "TestNegDag x2",
+      "TestNegWaves x3"
+    ]
+  },
+  "holds": [
+    {
+      "hold": "NATIVE_NOT_RUN",
+      "detail": "未執行任何 Host/Issuer/Protected Checker/Publisher effect"
+    },
+    {
+      "hold": "ORIGINAL_READER_ACK_UNOBSERVED",
+      "detail": "S1-S5 原 Reader ACK 全未觀測；seam ABI/Reader/runtime 維持 UNBOUND"
+    },
+    {
+      "hold": "H-WAVE-25",
+      "detail": "design84 的 25 張 JOIN_AMBIGUOUS_AFFECTED 卡需原 Program Reader 核定需求波／WP 主波／consumer_verification_wave"
+    },
+    {
+      "hold": "E26_UNSATISFIED",
+      "detail": "WP-FHS-19 CI/License/NOTICE/SBOM 原 raw 缺失；TraceClosure 為 AUTHOR_STATIC 不得替代"
+    },
+    {
+      "hold": "ORACLE_STATIC_ONLY",
+      "detail": "96/96 與 288/288 是作者宣告式 adapter 的 static 對齊，非 Native Oracle 裁決"
+    }
+  ],
+  "claim_ceiling_notes": [
+    "作者自驗僅 AUTHOR_LOCAL_TEST；非 Native、非正式驗收、非 release readiness",
+    "不得宣 WP19 完成（wp19_done=false）；E26 仍 Hard 未滿足",
+    "未改寫既有 fixture／既有 288 觀測；本輪只新增 runner、測試與新 raw"
+  ],
+  "known_limits": [
+    "adapter 為結構判定（宣告式 predicate 表），不呼叫外部系統，無法證明原生語義",
+    "case_type→firstfail code 為 adapter 內宣告表（12 類）；與契約 96 筆逐一比對 96/96 相符，但屬同構驗證而非獨立 Oracle",
+    "observed_firstfail 是套用契約宣告 mutation 後的觀測；未變異的 pos fixture 96/96 皆 AUTHOR_FIXTURE_STATIC_PASS",
+    "reconcile 只比對 archived expected/actual 與 rerun 三槽（POS/DOMAIN_NEG/ORACLE_NEG）；288 筆 fixture sha 全數相符",
+    "seam 為靜態欄位齊備性檢查；S2 PI_SCHEMA_NACK、S3 REPO_BIND_HOLD 等語義 FirstFail 需原 Reader 才可執行",
+    "ECP/TQAEP projection 本輪只落設計文件＋拒絕規則，未產 JSON 實例，避免與 canonical $id 混淆",
+    "W1-W4 affected_artifacts 由 design84 主波聚合，非原 Program Reader 正式 affected 清單",
+    "runner 不驗 .git／repo 狀態；來源未改動由其他 lane／REPO_UNCHANGED_POSTCHECK 負責"
+  ],
+  "files_created": [
+    "trace_runner.py",
+    "TRACE_ECP_TQAEP_DESIGN.md",
+    "tests/test_trace_runner.py",
+    "tests/UNITTEST_RAW.log",
+    "out/ORACLE96_FIXTURES.json",
+    "out/ORACLE96_RUN_RAW.json",
+    "out/ORACLE_REPLAY_RECONCILE.json",
+    "out/SEAM_S1_S5.json",
+    "out/TRACE_CLOSURE_AUTHOR_STATIC.json",
+    "out/W1_W4_CONSUMER_HANDOFF.json"
+  ],
+  "writes_confined_to_lane": true
+}

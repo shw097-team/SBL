@@ -1,0 +1,343 @@
+{
+  "schema": "FHS.W0.WP21.W1_W4_CONSUMER_HANDOFF/v1",
+  "scope": "AUTHOR_STATIC",
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "waves_total": 4,
+  "handoff_scope": "W1..W4 only; W0 is the author wave and is not a consumer handoff target",
+  "cards_in_scope": 62,
+  "w0_cards_not_in_scope": 22,
+  "next_reader_state": "UNBOUND_ORIGINAL_READER",
+  "e26_consumer_note": "W4 receives E26 only with WP-FHS-19 CI/License/NOTICE/SBOM raw; this handoff carries no such raw and must not be read as supply-chain PASS.",
+  "dag_ref": {
+    "work_packages": 22,
+    "edges": 36,
+    "e26": {
+      "predecessor": "WP-FHS-19",
+      "successor": "WP-FHS-14",
+      "wave": "W0→W4",
+      "direction_valid": true,
+      "operation_binding_present": true,
+      "binding_state": "AUTHOR_STATIC_READY",
+      "firstfail": "WP19_ORIGINAL_OUTPUT_MISSING"
+    }
+  },
+  "waves": [
+    {
+      "wave": "W1",
+      "next_reader": "Original SBL PIPD / Fabric Policy / HGK Registry / Windows Host Readers",
+      "required_raw": "same Subject/Candidate/Source/Scope/Host/Epoch original Consumer ACK, applicable native raw/permission",
+      "resume_predicate": "Original Original SBL PIPD / Fabric Policy / HGK Registry / Windows Host Readers validates scope and provides current binding/required raw",
+      "affected_artifacts": {
+        "design84_card_ids": [
+          "INT-05",
+          "INT-06",
+          "INT-07",
+          "INT-13",
+          "INT-14",
+          "INT-24",
+          "FHS-DR-007",
+          "FHS-DR-008",
+          "FHS-DR-023",
+          "FHS-DR-024",
+          "FHS-DR-025",
+          "FHS-DR-026",
+          "FHS-DR-027",
+          "FHS-DR-028",
+          "FHS-DR-029",
+          "FHS-DR-030",
+          "FHS-DR-031",
+          "FHS-DR-032",
+          "FHS-DR-034",
+          "FHS-DR-035",
+          "FHS-DR-036",
+          "FHS-DR-042",
+          "FHS-DR-043",
+          "FHS-DR-044"
+        ],
+        "design84_card_count": 24,
+        "wp_ids": [
+          "WP-FHS-00",
+          "WP-FHS-01",
+          "WP-FHS-02",
+          "WP-FHS-03",
+          "WP-FHS-04",
+          "WP-FHS-05",
+          "WP-FHS-07",
+          "WP-FHS-10",
+          "WP-FHS-11",
+          "WP-FHS-13",
+          "WP-FHS-16"
+        ],
+        "join_ambiguous_card_ids": [
+          "INT-24",
+          "FHS-DR-023",
+          "FHS-DR-028",
+          "FHS-DR-029",
+          "FHS-DR-034",
+          "FHS-DR-042",
+          "FHS-DR-043",
+          "FHS-DR-044"
+        ],
+        "seam_ids": [
+          "S2",
+          "S3",
+          "S4"
+        ],
+        "oracle_cases": 96,
+        "artifacts": [
+          "out/ORACLE96_FIXTURES.json",
+          "out/ORACLE96_RUN_RAW.json",
+          "out/ORACLE_REPLAY_RECONCILE.json",
+          "out/SEAM_S1_S5.json",
+          "out/TRACE_CLOSURE_AUTHOR_STATIC.json"
+        ]
+      },
+      "blocked_operation": "Native effect / formal acceptance / release for this scope",
+      "nonaffected_permitted": "SOURCE_READ / AUTHOR_LOCAL_DRAFT",
+      "abi": "Original Native ABI unchanged; source-pinned requests only",
+      "compatible": "DESIGN_BOUNDARY_PRESERVED; ORIGINAL_READER_ACK_NOT_OBSERVED",
+      "original_reader_ack": "NOT_OBSERVED",
+      "native": "NOT_RUN",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "holds": [
+        {
+          "hold": "H-WAVE-25",
+          "cards": [
+            "INT-24",
+            "FHS-DR-023",
+            "FHS-DR-028",
+            "FHS-DR-029",
+            "FHS-DR-034",
+            "FHS-DR-042",
+            "FHS-DR-043",
+            "FHS-DR-044"
+          ]
+        },
+        {
+          "hold": "ORIGINAL_READER_ACK_UNOBSERVED",
+          "wave": "W1"
+        }
+      ]
+    },
+    {
+      "wave": "W2",
+      "next_reader": "Original HGK Issuer / Hermes / Acceptance Readers",
+      "required_raw": "same Subject/Candidate/Source/Scope/Host/Epoch original Consumer ACK, applicable native raw/permission",
+      "resume_predicate": "Original Original HGK Issuer / Hermes / Acceptance Readers validates scope and provides current binding/required raw",
+      "affected_artifacts": {
+        "design84_card_ids": [
+          "INT-08",
+          "INT-09",
+          "INT-15",
+          "INT-19",
+          "INT-21",
+          "FHS-DR-012",
+          "FHS-DR-033",
+          "FHS-DR-037",
+          "FHS-DR-038",
+          "FHS-DR-039",
+          "FHS-DR-040",
+          "FHS-DR-048",
+          "FHS-DR-049",
+          "FHS-DR-050",
+          "FHS-DR-051",
+          "FHS-DR-052",
+          "FHS-DR-060"
+        ],
+        "design84_card_count": 17,
+        "wp_ids": [
+          "WP-FHS-04",
+          "WP-FHS-06",
+          "WP-FHS-08",
+          "WP-FHS-09",
+          "WP-FHS-17",
+          "WP-FHS-18",
+          "WP-FHS-21"
+        ],
+        "join_ambiguous_card_ids": [
+          "INT-21",
+          "FHS-DR-049",
+          "FHS-DR-052"
+        ],
+        "seam_ids": [
+          "S4",
+          "S5"
+        ],
+        "oracle_cases": 96,
+        "artifacts": [
+          "out/ORACLE96_FIXTURES.json",
+          "out/ORACLE96_RUN_RAW.json",
+          "out/ORACLE_REPLAY_RECONCILE.json",
+          "out/SEAM_S1_S5.json",
+          "out/TRACE_CLOSURE_AUTHOR_STATIC.json"
+        ]
+      },
+      "blocked_operation": "Native effect / formal acceptance / release for this scope",
+      "nonaffected_permitted": "SOURCE_READ / AUTHOR_LOCAL_DRAFT",
+      "abi": "Original Native ABI unchanged; source-pinned requests only",
+      "compatible": "DESIGN_BOUNDARY_PRESERVED; ORIGINAL_READER_ACK_NOT_OBSERVED",
+      "original_reader_ack": "NOT_OBSERVED",
+      "native": "NOT_RUN",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "holds": [
+        {
+          "hold": "H-WAVE-25",
+          "cards": [
+            "INT-21",
+            "FHS-DR-049",
+            "FHS-DR-052"
+          ]
+        },
+        {
+          "hold": "ORIGINAL_READER_ACK_UNOBSERVED",
+          "wave": "W2"
+        }
+      ]
+    },
+    {
+      "wave": "W3",
+      "next_reader": "Original Technology/License/Host / B1 Readers",
+      "required_raw": "same Subject/Candidate/Source/Scope/Host/Epoch original Consumer ACK, applicable native raw/permission",
+      "resume_predicate": "Original Original Technology/License/Host / B1 Readers validates scope and provides current binding/required raw",
+      "affected_artifacts": {
+        "design84_card_ids": [
+          "INT-02",
+          "INT-16",
+          "INT-17",
+          "INT-20",
+          "INT-22",
+          "FHS-DR-001",
+          "FHS-DR-004",
+          "FHS-DR-005",
+          "FHS-DR-006",
+          "FHS-DR-009",
+          "FHS-DR-010",
+          "FHS-DR-011",
+          "FHS-DR-013",
+          "FHS-DR-016",
+          "FHS-DR-017",
+          "FHS-DR-018",
+          "FHS-DR-041",
+          "FHS-DR-045"
+        ],
+        "design84_card_count": 18,
+        "wp_ids": [
+          "WP-FHS-10",
+          "WP-FHS-11",
+          "WP-FHS-12",
+          "WP-FHS-13",
+          "WP-FHS-16",
+          "WP-FHS-20"
+        ],
+        "join_ambiguous_card_ids": [
+          "INT-02",
+          "INT-17",
+          "FHS-DR-001",
+          "FHS-DR-004",
+          "FHS-DR-005",
+          "FHS-DR-006",
+          "FHS-DR-009",
+          "FHS-DR-010",
+          "FHS-DR-011",
+          "FHS-DR-013",
+          "FHS-DR-017",
+          "FHS-DR-018"
+        ],
+        "seam_ids": [
+          "S5"
+        ],
+        "oracle_cases": 96,
+        "artifacts": [
+          "out/ORACLE96_FIXTURES.json",
+          "out/ORACLE96_RUN_RAW.json",
+          "out/ORACLE_REPLAY_RECONCILE.json",
+          "out/SEAM_S1_S5.json",
+          "out/TRACE_CLOSURE_AUTHOR_STATIC.json"
+        ]
+      },
+      "blocked_operation": "Native effect / formal acceptance / release for this scope",
+      "nonaffected_permitted": "SOURCE_READ / AUTHOR_LOCAL_DRAFT",
+      "abi": "Original Native ABI unchanged; source-pinned requests only",
+      "compatible": "DESIGN_BOUNDARY_PRESERVED; ORIGINAL_READER_ACK_NOT_OBSERVED",
+      "original_reader_ack": "NOT_OBSERVED",
+      "native": "NOT_RUN",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "holds": [
+        {
+          "hold": "H-WAVE-25",
+          "cards": [
+            "INT-02",
+            "INT-17",
+            "FHS-DR-001",
+            "FHS-DR-004",
+            "FHS-DR-005",
+            "FHS-DR-006",
+            "FHS-DR-009",
+            "FHS-DR-010",
+            "FHS-DR-011",
+            "FHS-DR-013",
+            "FHS-DR-017",
+            "FHS-DR-018"
+          ]
+        },
+        {
+          "hold": "ORIGINAL_READER_ACK_UNOBSERVED",
+          "wave": "W3"
+        }
+      ]
+    },
+    {
+      "wave": "W4",
+      "next_reader": "Original CI/Program/Checker/Publisher",
+      "required_raw": "same Subject/Candidate/Source/Scope/Host/Epoch original Consumer ACK, applicable native raw/permission",
+      "resume_predicate": "Original Original CI/Program/Checker/Publisher validates scope and provides current binding/required raw",
+      "affected_artifacts": {
+        "design84_card_ids": [
+          "FHS-DR-057",
+          "FHS-DR-058",
+          "FHS-DR-059"
+        ],
+        "design84_card_count": 3,
+        "wp_ids": [
+          "WP-FHS-14",
+          "WP-FHS-19"
+        ],
+        "join_ambiguous_card_ids": [
+          "FHS-DR-057",
+          "FHS-DR-059"
+        ],
+        "seam_ids": [
+          "S5"
+        ],
+        "oracle_cases": 96,
+        "artifacts": [
+          "out/ORACLE96_FIXTURES.json",
+          "out/ORACLE96_RUN_RAW.json",
+          "out/ORACLE_REPLAY_RECONCILE.json",
+          "out/SEAM_S1_S5.json",
+          "out/TRACE_CLOSURE_AUTHOR_STATIC.json"
+        ]
+      },
+      "blocked_operation": "Native effect / formal acceptance / release for this scope",
+      "nonaffected_permitted": "SOURCE_READ / AUTHOR_LOCAL_DRAFT",
+      "abi": "Original Native ABI unchanged; source-pinned requests only",
+      "compatible": "DESIGN_BOUNDARY_PRESERVED; ORIGINAL_READER_ACK_NOT_OBSERVED",
+      "original_reader_ack": "NOT_OBSERVED",
+      "native": "NOT_RUN",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "holds": [
+        {
+          "hold": "H-WAVE-25",
+          "cards": [
+            "FHS-DR-057",
+            "FHS-DR-059"
+          ]
+        },
+        {
+          "hold": "ORIGINAL_READER_ACK_UNOBSERVED",
+          "wave": "W4"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1076 @@
+{
+  "schema": "FHS-W0-WP15/v1/SPEC_Architecture",
+  "artifact_id": "SPEC-Architecture-W0-wp15-local",
+  "spec_kind": "Architecture",
+  "version": "w0-r4c-wp15-1",
+  "goal": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC",
+  "subject": {
+    "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+    "subject_origin": "SEAM_CONTRACTS.json:$.subject_id (author example subject)",
+    "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+    "body_bytes": 463034,
+    "body_file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+    "candidate_id": "FHS-W0-AUTHOR-STATIC-FINAL-CANDIDATE-r4-candidate-b41d2e",
+    "candidate_currency": "CURRENT_CANDIDATE",
+    "same_subject_across_specs": true,
+    "original_pipd_signature": "NOT_OBSERVED",
+    "claim_ceiling": "AUTHOR_LOCAL_TEST",
+    "source_ref": {
+      "file": "SEAM_CONTRACTS.json",
+      "selector": "$[0].subject_id",
+      "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+    }
+  },
+  "domain_stages": [
+    {
+      "stage_id": "STAGE-1-FABRIC-POLICY",
+      "name": "Fabric Policy（治理與 ActiveEpoch）",
+      "canonical_owner": "Fabric Policy Owner / FAR Reader",
+      "forbidden": "不得由作者文件或以 W0 Draft 代替 ActivePolicyEpoch／LoadedDigest",
+      "owns_writer": "Fabric Policy Owner / FAR Reader",
+      "seam_refs": [
+        {
+          "seam": "S4",
+          "matched_cell": "Fabric Policy Owner + HGK Original Issuer → ActiveEpoch/LoadedDigest+HGK Registry/SharedSpine/Issuer"
+        }
+      ],
+      "resolve_rule": "actor-token match over CH-37 seam rows (producer+reader cells)",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-17",
+        "line": 846,
+        "title": "Fabric Policy／FAR／治理鏡像與 FHS 工程入口"
+      }
+    },
+    {
+      "stage_id": "STAGE-2-SBL-PIPD-COMPILER",
+      "name": "SBL 原 PIPD Compiler（canonical PI 唯一 Writer）",
+      "canonical_owner": "SBL-hosted PIPD canonical Compiler / Original Source Reader",
+      "forbidden": "作者草案不得產 canonical PI；PI/PD/ECP 只由原 Writer 編譯",
+      "owns_writer": "SBL-hosted PIPD canonical Compiler / Original Source Reader",
+      "seam_refs": [
+        {
+          "seam": "S2",
+          "matched_cell": "Original PIPD Intake/PI Writer → Current original PIPD DOC02 Compiler+Authority/Profile Reader"
+        },
+        {
+          "seam": "S3",
+          "matched_cell": "Original PD/ECP Writer → Original RepoContext/Effect Registry/ECP Reader"
+        }
+      ],
+      "resolve_rule": "actor-token match over CH-37 seam rows (producer+reader cells)",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-12",
+        "line": 722,
+        "title": "PIPD 13 CLI／19 Contract Families／8 Skills 與唯一 Writer"
+      }
+    },
+    {
+      "stage_id": "STAGE-3-HGK-NATIVE-ISSUER",
+      "name": "HGK 唯一 Native Issuer（SharedSpine／WorkID／permit）",
+      "canonical_owner": "HGK Original Issuer / SharedSpine",
+      "forbidden": "不得存在第二 Issuer；無 permit 先 park",
+      "owns_writer": "HGK Original Issuer / SharedSpine",
+      "seam_refs": [
+        {
+          "seam": "S4",
+          "matched_cell": "Fabric Policy Owner + HGK Original Issuer → ActiveEpoch/LoadedDigest+HGK Registry/SharedSpine/Issuer"
+        }
+      ],
+      "resolve_rule": "actor-token match over CH-37 seam rows (producer+reader cells)",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-18",
+        "line": 870,
+        "title": "HG-KSEOS 唯一 Native Issuer／SharedSpine／WorkID／許可"
+      }
+    },
+    {
+      "stage_id": "STAGE-4-HERMES-WORKER",
+      "name": "Hermes bounded Worker（Execution 角色）",
+      "canonical_owner": "Original Hermes bounded Worker/World Receiver",
+      "forbidden": "Worker 是執行角色，不是新的 Owner/Issuer；不得自簽 verdict",
+      "owns_writer": "Original Hermes bounded Worker/World Receiver",
+      "seam_refs": [
+        {
+          "seam": "S5",
+          "matched_cell": "Original Hermes bounded Worker/World Receiver → Original WorldRaw + Protected Checker/Publisher"
+        }
+      ],
+      "resolve_rule": "actor-token match over CH-37 seam rows (producer+reader cells)",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-30",
+        "line": 1232,
+        "title": "Original 96 Oracle：Test Class×Oracle 的型別與逐格準則"
+      }
+    },
+    {
+      "stage_id": "STAGE-5-CHECKER-PUBLISHER",
+      "name": "原 Checker／Publisher（獨立驗證與發布）",
+      "canonical_owner": "Original Protected Checker / Publisher",
+      "forbidden": "Maker 不得自任 Checker；不得以 W0 文件代替 Verdict／Release",
+      "owns_writer": "Original Protected Checker / Publisher",
+      "seam_refs": [
+        {
+          "seam": "S5",
+          "matched_cell": "Original Hermes bounded Worker/World Receiver → Original WorldRaw + Protected Checker/Publisher"
+        }
+      ],
+      "resolve_rule": "actor-token match over CH-37 seam rows (producer+reader cells)",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-38",
+        "line": 1690,
+        "title": "最小 Native E2E、GJ01–03、Golden/V2-T 與停止規則"
+      }
+    }
+  ],
+  "domain_boundary_statement": {
+    "text": "Fabric Policy → SBL 原 PIPD Compiler → HGK 唯一 Native Issuer → Hermes Worker → 原 Checker／Publisher 五個域界不得合併、不得由 W0 草案跨越。",
+    "no_second_issuer": true,
+    "no_second_compiler": true,
+    "no_second_checker": true,
+    "source_refs": [
+      {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-00",
+        "line": 129
+      },
+      {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-17",
+        "line": 846
+      }
+    ]
+  },
+  "seams": [
+    {
+      "seam": "S1",
+      "wave": "W0-A",
+      "abi": {
+        "declared": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "reader_source_pin": {
+          "file": "SOURCE31_PHYSICAL_IDENTITY.json",
+          "sha256": "1c18e90e827bed1bdcc0e46abe497265fee7826092dc795865f7e176cf4f5065"
+        },
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "body_binding": "以 CH-37 五 seam 列的『真 ABI/Reader／Consumer』欄為界",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S1')].original_abi",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "reader": {
+        "original_reader": "SBL Product / Source Reader",
+        "consumer_alias": "SBL Product / Source Reader",
+        "body_reader_cell": "Original SBL Product/Program/PIPD Intake Reader",
+        "ack": "NOT_OBSERVED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S1')].original_reader",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "effect": {
+        "class": "no_world_effect_at_this_seam",
+        "declared_output": "三份異質 SPEC（same Subject）",
+        "declared_input": "Goal＋KnownAnswer/SourceSHA",
+        "executed": "NOT_RUN",
+        "delivery_gap": "W0 static 可驗；原產品 U4 仍 HOLD（H-U4）",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S1')].typed_output",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "permission": {
+        "mode": "ISOLATED_DRAFT_WRITE",
+        "matched_token": "SPECDraft",
+        "rule": "seam row output is an isolated draft",
+        "original_acl_ack": "NOT_OBSERVED",
+        "write_scope": "ISOLATED_OUTPUT_ROOT_ONLY",
+        "body_cell": "Ordinary Goal+SBL14/FHS17 SourceRefs→3 SPECDraft",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1491,
+          "chapter": "CH-37（五 seam 表所在段）"
+        }
+      },
+      "pos": {
+        "statement": "具 FUO+ACC±",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1491
+        }
+      },
+      "neg": {
+        "statement": "雙轉 Canonical PI→SPEC_NOT_SOURCE_BOUND；可刪隔離 Draft",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1491
+        }
+      },
+      "firstfail": {
+        "primary": "SPEC_IDENTITY_OR_SOURCE_MISMATCH",
+        "expected": "SPEC_IDENTITY_OR_SOURCE_MISMATCH",
+        "secondary": [],
+        "note": null,
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S1')].firstfail_primary",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "resume": {
+        "stop": "Only affected seam/world promotion",
+        "resume": "Original SBL Product / Source Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+        "host": "NATIVE_NOT_RUN",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S1')].resume",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "typed_handoff": {
+        "input": "Goal＋KnownAnswer/SourceSHA",
+        "output": "三份異質 SPEC（same Subject）",
+        "body_handoff_cell": "Ordinary Goal+SBL14/FHS17 SourceRefs→3 SPECDraft",
+        "input_fixture": "seam_fixtures/S1.request.json",
+        "negative_fixture": "seam_fixtures/S1.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S1.expected_raw.json",
+        "fixture_sha256": {
+          "seam_fixtures/S1.request.json": "3ac775c496b1cadde9287a07da898354cf4ffae513d1c9f1c2ecc699e9f1b8ed",
+          "seam_fixtures/S1.negative.json": "09104a20a8a53fbff9655fc60e9fecb2845a45ffb3c92adb256d06138d3f88d6",
+          "seam_fixtures/S1.expected_raw.json": "59fa2787ae525264d0fce97855303a3efe741d87a09c9ed86594bf7fc296ab25"
+        }
+      }
+    },
+    {
+      "seam": "S2",
+      "wave": "W1",
+      "abi": {
+        "declared": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "reader_source_pin": {
+          "repo": "SBL",
+          "remote_commit": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+          "path": "integrations/pipd/src/pipd_ls_sp/cli.py",
+          "sha256": "321e9512e61ddcf57498820472605237f93064a78275812327648107aba59f7c",
+          "offline_path": "repo_sources/SBL/integrations/pipd/src/pipd_ls_sp/cli.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "state": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "body_binding": "以 CH-37 五 seam 列的『真 ABI/Reader／Consumer』欄為界",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S2')].original_abi",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "reader": {
+        "original_reader": "SBL original PIPD Intake/Profile/PI Reader",
+        "consumer_alias": "SBL original PIPD Intake/Profile/PI Reader",
+        "body_reader_cell": "Current original PIPD DOC02 Compiler+Authority/Profile Reader",
+        "ack": "NOT_OBSERVED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S2')].original_reader",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "effect": {
+        "class": "no_world_effect_at_this_seam",
+        "declared_output": "Canonical PI（原 13 CLI／19 family）",
+        "declared_input": "Intake/Profile 原 bytes",
+        "executed": "NOT_RUN",
+        "delivery_gap": "W1 原 Compiler/Reader 受影 ACK；未跑=EXECUTOR_UNBOUND",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S2')].typed_output",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "permission": {
+        "mode": "CANONICAL_WRITER_HANDOFF",
+        "matched_token": "ACK",
+        "rule": "seam row ends in an original-consumer ACK",
+        "original_acl_ack": "NOT_OBSERVED",
+        "write_scope": "ISOLATED_OUTPUT_ROOT_ONLY",
+        "body_cell": "IntentCard+SourceFreeze ACK+ProfileBinding→PI candidate and real original Consumer ACK",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1492,
+          "chapter": "CH-37（五 seam 表所在段）"
+        }
+      },
+      "pos": {
+        "statement": "原 5 namespace/Parent/NEG intact",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1492
+        }
+      },
+      "neg": {
+        "statement": "`_profile_meta` schema → PI_SCHEMA_NACK；無 ACK 則不 promotion",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1492
+        }
+      },
+      "firstfail": {
+        "primary": "CANONICAL_WRITER_BOUNDARY",
+        "expected": "CANONICAL_WRITER_BOUNDARY",
+        "secondary": [],
+        "note": null,
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S2')].firstfail_primary",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "resume": {
+        "stop": "Only affected seam/world promotion",
+        "resume": "Original SBL original PIPD Intake/Profile/PI Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+        "host": "NATIVE_NOT_RUN",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S2')].resume",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "typed_handoff": {
+        "input": "Intake/Profile 原 bytes",
+        "output": "Canonical PI（原 13 CLI／19 family）",
+        "body_handoff_cell": "IntentCard+SourceFreeze ACK+ProfileBinding→PI candidate and real original Consumer ACK",
+        "input_fixture": "seam_fixtures/S2.request.json",
+        "negative_fixture": "seam_fixtures/S2.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S2.expected_raw.json",
+        "fixture_sha256": {
+          "seam_fixtures/S2.request.json": "887eb88dc2459e33ccefe4edf0fff8aec98942af1a89d85a51ba5b87667a680f",
+          "seam_fixtures/S2.negative.json": "66a78daefd22e1eb586f76fef3908de5299aa07bab794584af419aa741923dcc",
+          "seam_fixtures/S2.expected_raw.json": "9251ef9e74d24e3d2989652d46e894c1b058ea225954c6ad67407fe76248e813"
+        }
+      }
+    },
+    {
+      "seam": "S3",
+      "wave": "W1",
+      "abi": {
+        "declared": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "reader_source_pin": {
+          "repo": "SBL",
+          "remote_commit": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+          "path": "integrations/pipd/src/pipd_ls_sp/pipeline.py",
+          "sha256": "c5156010241cdb40081a40416538aca3cfd993dbbb66b44188a02d6032072781",
+          "offline_path": "repo_sources/SBL/integrations/pipd/src/pipd_ls_sp/pipeline.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "state": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "body_binding": "以 CH-37 五 seam 列的『真 ABI/Reader／Consumer』欄為界",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S3')].original_abi",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "reader": {
+        "original_reader": "SBL original RepoContext/PD/ECP Reader",
+        "consumer_alias": "SBL original RepoContext/PD/ECP Reader",
+        "body_reader_cell": "Original RepoContext/Effect Registry/ECP Reader",
+        "ack": "NOT_OBSERVED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S3')].original_reader",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "effect": {
+        "class": "no_world_effect_at_this_seam",
+        "declared_output": "PD/ECP（Effect/Scope/Pre/Post/rollback）",
+        "declared_input": "真 RepoContext（root/HEAD/dirty/ACL/preimage）",
+        "executed": "NOT_RUN",
+        "delivery_gap": "W1 原 Repo/Writer 受權；remote main 不可冒 local HEAD",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S3')].typed_output",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "permission": {
+        "mode": "READ_ONLY_REPO_BIND",
+        "matched_token": "不寫世界",
+        "rule": "seam row states no world write at this seam",
+        "original_acl_ack": "NOT_OBSERVED",
+        "write_scope": "ISOLATED_OUTPUT_ROOT_ONLY",
+        "body_cell": "Live Git root/HEAD/ACL/exact preimages+PI→PD/ECP/ConstructionContract",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1493,
+          "chapter": "CH-37（五 seam 表所在段）"
+        }
+      },
+      "pos": {
+        "statement": "real Repo bind",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1493
+        }
+      },
+      "neg": {
+        "statement": "stale HEAD/out-of-scope→REPO_BIND_HOLD；不寫世界",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1493
+        }
+      },
+      "firstfail": {
+        "primary": "HOST_REPOCONTEXT_UNBOUND",
+        "expected": "HOST_REPOCONTEXT_UNBOUND",
+        "secondary": [],
+        "note": null,
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S3')].firstfail_primary",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "resume": {
+        "stop": "Only affected seam/world promotion",
+        "resume": "Original SBL original RepoContext/PD/ECP Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+        "host": "NATIVE_NOT_RUN",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S3')].resume",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "typed_handoff": {
+        "input": "真 RepoContext（root/HEAD/dirty/ACL/preimage）",
+        "output": "PD/ECP（Effect/Scope/Pre/Post/rollback）",
+        "body_handoff_cell": "Live Git root/HEAD/ACL/exact preimages+PI→PD/ECP/ConstructionContract",
+        "input_fixture": "seam_fixtures/S3.request.json",
+        "negative_fixture": "seam_fixtures/S3.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S3.expected_raw.json",
+        "fixture_sha256": {
+          "seam_fixtures/S3.request.json": "4eefa5f63193f4e00aa4e696fc381dbb08a00694900d12a378904a6776aab1fa",
+          "seam_fixtures/S3.negative.json": "680bf8ebe931d40fea1ac96016a9f57e085229b55acf758246867ec7eb30c1ed",
+          "seam_fixtures/S3.expected_raw.json": "ed72735b4fb5c053ed0a3b864690ffa541697ca42cb6836529465717bdabe094"
+        }
+      }
+    },
+    {
+      "seam": "S4",
+      "wave": "W1/W2",
+      "abi": {
+        "declared": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "reader_source_pin": {
+          "repo": "HG-KSEOS",
+          "remote_commit": "0143b50331f7fef007a5921bb743e61f59b0a7bd",
+          "path": "b1_closure_20261028/evidence/signed_runner_registry.json",
+          "sha256": "86d899fcada2851b3e85bf3a15a861f7ff20f7eb45dc8ea6b2693d9054322f71",
+          "offline_path": "repo_sources/HG-KSEOS/b1_closure_20261028/evidence/signed_runner_registry.json",
+          "runtime_binding": "UNBOUND"
+        },
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "body_binding": "以 CH-37 五 seam 列的『真 ABI/Reader／Consumer』欄為界",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S4')].original_abi",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "reader": {
+        "original_reader": "Fabric original Policy + HGK single Issuer",
+        "consumer_alias": "Fabric original Policy + HGK single Issuer",
+        "body_reader_cell": "ActiveEpoch/LoadedDigest+HGK Registry/SharedSpine/Issuer",
+        "ack": "NOT_OBSERVED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S4')].original_reader",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "effect": {
+        "class": "protected_world_effect",
+        "declared_output": "HGK Admission（Issuer WorkID/Lease）",
+        "declared_input": "Fabric ActiveEpoch/LoadedSHA/ConsumerACK/TaskKind",
+        "executed": "NOT_RUN",
+        "delivery_gap": "原 Fabric/HGK Native Reader 於 W1/W2 真驗；本輪不簽發",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S4')].typed_output",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "permission": {
+        "mode": "PROTECTED_EFFECT_ADMISSION",
+        "matched_token": "permit",
+        "rule": "seam row requires an admission permit",
+        "original_acl_ack": "NOT_OBSERVED",
+        "write_scope": "ISOLATED_OUTPUT_ROOT_ONLY",
+        "body_cell": "Scoped OPS/DEV intent→original Admission/WorkID/Lease/Journal",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1494,
+          "chapter": "CH-37（五 seam 表所在段）"
+        }
+      },
+      "pos": {
+        "statement": "exact token/cas",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1494
+        }
+      },
+      "neg": {
+        "statement": "source/epoch mismatch→ADMISSION_NACK；無 permit 先 park",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1494
+        }
+      },
+      "firstfail": {
+        "primary": "HOST_POLICY_EFFECTIVE_LOAD_HOLD",
+        "expected": "HOST_POLICY_EFFECTIVE_LOAD_HOLD",
+        "secondary": [],
+        "note": null,
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S4')].firstfail_primary",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "resume": {
+        "stop": "Only affected seam/world promotion",
+        "resume": "Original Fabric original Policy + HGK single Issuer supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+        "host": "NATIVE_NOT_RUN",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S4')].resume",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "typed_handoff": {
+        "input": "Fabric ActiveEpoch/LoadedSHA/ConsumerACK/TaskKind",
+        "output": "HGK Admission（Issuer WorkID/Lease）",
+        "body_handoff_cell": "Scoped OPS/DEV intent→original Admission/WorkID/Lease/Journal",
+        "input_fixture": "seam_fixtures/S4.request.json",
+        "negative_fixture": "seam_fixtures/S4.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S4.expected_raw.json",
+        "fixture_sha256": {
+          "seam_fixtures/S4.request.json": "3481d4c62f91c69f176ffe1a83d522df1e23cb97c7feea9b35e734583d36422e",
+          "seam_fixtures/S4.negative.json": "04a1f5413b9862517c4828b3c96215b6fb12d8cb914a7fca6fe45331faafc029",
+          "seam_fixtures/S4.expected_raw.json": "4e290d03d1e6bbde707a52fec67b795a2516d0c61084726491d7df26d53ca114"
+        }
+      }
+    },
+    {
+      "seam": "S5",
+      "wave": "W2/W3/W4",
+      "abi": {
+        "declared": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "reader_source_pin": {
+          "repo": "HG-KSEOS",
+          "remote_commit": "0143b50331f7fef007a5921bb743e61f59b0a7bd",
+          "path": "src/hg_kseos/native_admission.py",
+          "sha256": "551a013821ee2c136fce5e2c9b690d83f2de21a8ab0ab14a46db26da073b9448",
+          "offline_path": "repo_sources/HG-KSEOS/src/hg_kseos/native_admission.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "body_binding": "以 CH-37 五 seam 列的『真 ABI/Reader／Consumer』欄為界",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S5')].original_abi",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "reader": {
+        "original_reader": "Hermes original durable Runtime + original independent Checker",
+        "consumer_alias": "Hermes original durable Runtime + original independent Checker",
+        "body_reader_cell": "Original WorldRaw + Protected Checker/Publisher",
+        "ack": "NOT_OBSERVED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S5')].original_reader",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "effect": {
+        "class": "protected_world_effect",
+        "declared_output": "WorldRaw→原 Checker 判決",
+        "declared_input": "Hermes Worker（Profiles/Kanban/Delegation）＋WorkID/Lease/Journal",
+        "executed": "NOT_RUN",
+        "delivery_gap": "W2/W3 真 Worker/WorldRaw，W4 原 Checker/Publisher；非法 UNKNOWN 重試=UNKNOWN_RECONCILE_REQUIRED",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S5')].typed_output",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "permission": {
+        "mode": "WORLD_EFFECT_CHECKED",
+        "matched_token": "WorldRaw",
+        "rule": "seam row names WorldRaw / protected verdict",
+        "original_acl_ack": "NOT_OBSERVED",
+        "write_scope": "ISOLATED_OUTPUT_ROOT_ONLY",
+        "body_cell": "Scoped reversible GJ02 effect+RunRaw→independent Verdict/repair loop",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1495,
+          "chapter": "CH-37（五 seam 表所在段）"
+        }
+      },
+      "pos": {
+        "statement": "world diff/rollback/negative tested",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1495
+        }
+      },
+      "neg": {
+        "statement": "fake raw/signer→INDEPENDENCE_NACK；UNKNOWN先 reconcile",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "line": 1495
+        }
+      },
+      "firstfail": {
+        "primary": "UNKNOWN_RECONCILE_REQUIRED",
+        "expected": "UNKNOWN_RECONCILE_REQUIRED",
+        "secondary": [
+          "INDEPENDENT_SOD_FAIL",
+          "SECOND_CONTROL_PLANE_DENY"
+        ],
+        "note": "主碼取 fixture 的 `expected_first_fail`；SoD 與第二控制平面的拒收碼列為 secondary。兩者皆為 vetted 字彙（正文 CH-43 別名表）。",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S5')].firstfail_primary",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "resume": {
+        "stop": "Only affected seam/world promotion",
+        "resume": "Original Hermes original durable Runtime + original independent Checker supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+        "host": "NATIVE_NOT_RUN",
+        "source_ref": {
+          "file": "SEAM_CONTRACTS.json",
+          "selector": "$[?(@.seam=='S5')].resume",
+          "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+        }
+      },
+      "typed_handoff": {
+        "input": "Hermes Worker（Profiles/Kanban/Delegation）＋WorkID/Lease/Journal",
+        "output": "WorldRaw→原 Checker 判決",
+        "body_handoff_cell": "Scoped reversible GJ02 effect+RunRaw→independent Verdict/repair loop",
+        "input_fixture": "seam_fixtures/S5.request.json",
+        "negative_fixture": "seam_fixtures/S5.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S5.expected_raw.json",
+        "fixture_sha256": {
+          "seam_fixtures/S5.request.json": "696dab177fcfde8d03741ffe824279a6995a6313933cfc33d5ae3e923e637d99",
+          "seam_fixtures/S5.negative.json": "28404c00746a665a826b729b3b556efded5a3915d99ec3f40ab7780e5de5cf9b",
+          "seam_fixtures/S5.expected_raw.json": "79985fd3d8d460edf3c7a818a380b72d40f8c40b9ff3f2fe090d1eaf79017451"
+        }
+      }
+    }
+  ],
+  "seam_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+  ],
+  "entry_seam": {
+    "seam": "S1",
+    "role": "W0 草案入口接縫：在五個域階段的任何 effect 之前先接收三份 SPEC",
+    "why_not_a_stage": "此接縫的原 Producer 是作者側 TPM、原 Reader 是 SBL Product/PIPD Intake；它不是 Fabric Policy／Compiler／Issuer／Worker／Checker 任一個既有域的正本，故列為入口而不併入五階段。",
+    "resolve_rule": "entry seam = the seam not claimed by any of the five domain stages",
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "line": 1491,
+      "chapter": "CH-37（五 seam 表所在段）"
+    }
+  },
+  "adr": [
+    {
+      "adr_id": "ADR-INT-10",
+      "decision": "31 冊兩 Scope、U0–U4、四表、Parent/NEG preserved",
+      "rejected": "NEG：只計 949 筆字串，漏掉 Parent NEG/例外仍宣全義接受",
+      "consumer": "SBL Original Source/Requirement/Corpus Semantic Reader、Corpus Extractor + Original Domain Semantic Owner (U0–U4)",
+      "requirement_id": "INT-10",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-10')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          778,
+          778
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-INT-11",
+      "decision": "有權原 Writer/Owner 決定有效版本、比對 Same Scope",
+      "rejected": "NEG：README／作者文件 SHA 當 Original Effective Canonical",
+      "consumer": "SBL Original Source/Requirement/Corpus Semantic Reader、Fabric FHS Navigation/Policy/FAR Reader → Original Consumer",
+      "requirement_id": "INT-11",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-11')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          779,
+          779
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-014",
+      "decision": "31 冊原位身份與 31 snapshot sha 不丟失",
+      "rejected": "31/31 bytes/sha 檔案映射可重算",
+      "consumer": "[CH-04](#ch-04)",
+      "requirement_id": "FHS-DR-014",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-014')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          811,
+          811
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-015",
+      "decision": "每個原 Parent/Child/NEG/Exception/Applicability 必保存",
+      "rejected": "每個原 ID 有候選或具名 HOLD",
+      "consumer": "[CH-03](#ch-03)/[CH-27](#ch-27)",
+      "requirement_id": "FHS-DR-015",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-015')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          812,
+          812
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-019",
+      "decision": "複合「各有/分別/對應」依原作用域拆需求",
+      "rejected": "該 Parent 子 claim 的 POS+NEG 個別讀回",
+      "consumer": "[CH-06](#ch-06)/[CH-07](#ch-07)",
+      "requirement_id": "FHS-DR-019",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-019')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          816,
+          816
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-020",
+      "decision": "來源 Currentness 由原有權 Reader 讀回",
+      "rejected": "新舊版本衝突不會被靜默覆蓋",
+      "consumer": "[CH-04](#ch-04)",
+      "requirement_id": "FHS-DR-020",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-020')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          817,
+          817
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-046",
+      "decision": "SOURCE_READ 只需合法來源/ACL/Locator/SourceSHA",
+      "rejected": "短 READ 有用結果",
+      "consumer": "[CH-15](#ch-15)",
+      "requirement_id": "FHS-DR-046",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-046')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          843,
+          843
+        ]
+      }
+    },
+    {
+      "adr_id": "ADR-FHS-DR-054",
+      "decision": "r4 U0–U4 全量語義保存，四 JSONL 是候選事實表",
+      "rejected": "所有非空片段有處置或 HOLD",
+      "consumer": "[CH-05](#ch-05)/[CH-06](#ch-06)/[CH-07](#ch-07)",
+      "requirement_id": "FHS-DR-054",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-054')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_span": [
+          851,
+          851
+        ]
+      }
+    }
+  ],
+  "single_writer": {
+    "statement": "本草案屬 W0:DraftMaker / AUTHOR_DESIGN_ONLY；SBL/PIPD/Fabric/HGK Canonical Writers、原 HGK Issuer、Protected Checker、Publisher 全部不移轉。",
+    "non_transferable": [
+      "SBL Canonical Writer",
+      "PIPD Canonical Writer",
+      "Fabric Canonical Writer",
+      "HGK Issuer",
+      "Protected Checker",
+      "Publisher"
+    ],
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-00",
+      "line": 129
+    }
+  },
+  "principal_separation": {
+    "assertion": "唯一 Human Owner 不是 Maker／Issuer／Checker 同一個技術 Principal。",
+    "human_owner_count": 1,
+    "technical_principals": [
+      "Maker（W0 DraftMaker／Hermes bounded Worker：執行角色）",
+      "Issuer（HGK Original Issuer：permit 與 WorkID）",
+      "Checker（Original Protected Checker：獨立 Verdict）"
+    ],
+    "identity_collapse_is_a_failure": true,
+    "evidence": [
+      {
+        "claim": "模型／工具原生 Worker 是執行角色，非新的 Owner/Issuer",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "chapter": "CH-01",
+          "line": 226
+        }
+      },
+      {
+        "claim": "混同一個 Human Owner 與技術 Checker 身分是 NEG 拒收",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "chapter": "CH-01",
+          "line": 204
+        }
+      },
+      {
+        "claim": "三職能被當三個獨立 Principal 屬 NEG",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "chapter": "CH-11",
+          "line": 679
+        }
+      },
+      {
+        "claim": "Canonical Writer／Issuer／Checker／Publisher 全部不移轉",
+        "source_ref": {
+          "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+          "chapter": "CH-00",
+          "line": 129
+        }
+      }
+    ],
+    "checked_codes": [
+      "PRINCIPAL_COLLAPSE_DENIED",
+      "SELF_CHECK_DENIED"
+    ]
+  },
+  "effect_registry": [
+    {
+      "seam": "S1",
+      "effect_class": "no_world_effect_at_this_seam",
+      "executed": "NOT_RUN",
+      "permission_mode": "ISOLATED_DRAFT_WRITE"
+    },
+    {
+      "seam": "S2",
+      "effect_class": "no_world_effect_at_this_seam",
+      "executed": "NOT_RUN",
+      "permission_mode": "CANONICAL_WRITER_HANDOFF"
+    },
+    {
+      "seam": "S3",
+      "effect_class": "no_world_effect_at_this_seam",
+      "executed": "NOT_RUN",
+      "permission_mode": "READ_ONLY_REPO_BIND"
+    },
+    {
+      "seam": "S4",
+      "effect_class": "protected_world_effect",
+      "executed": "NOT_RUN",
+      "permission_mode": "PROTECTED_EFFECT_ADMISSION"
+    },
+    {
+      "seam": "S5",
+      "effect_class": "protected_world_effect",
+      "executed": "NOT_RUN",
+      "permission_mode": "WORLD_EFFECT_CHECKED"
+    }
+  ],
+  "firstfail_lattice": {
+    "seam_primary": {
+      "S1": "SPEC_IDENTITY_OR_SOURCE_MISMATCH",
+      "S2": "CANONICAL_WRITER_BOUNDARY",
+      "S3": "HOST_REPOCONTEXT_UNBOUND",
+      "S4": "HOST_POLICY_EFFECTIVE_LOAD_HOLD",
+      "S5": "UNKNOWN_RECONCILE_REQUIRED"
+    },
+    "global": [
+      "SPEC_NOT_SOURCE_BOUND",
+      "FUO_NOT_OBSERVABLE",
+      "CANONICAL_WRITER_BOUNDARY",
+      "ORACLE_RUNNER_BIND_HOLD"
+    ],
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-11",
+      "line": 671
+    }
+  },
+  "requirement_ids": [
+    "FHS-DR-014",
+    "FHS-DR-015",
+    "FHS-DR-019",
+    "FHS-DR-020",
+    "FHS-DR-046",
+    "FHS-DR-054",
+    "INT-10",
+    "INT-11"
+  ],
+  "requirement_bindings": [
+    {
+      "requirement_id": "INT-10",
+      "statement": "31 冊兩 Scope、U0–U4、四表、Parent/NEG preserved",
+      "negative": "NEG：只計 949 筆字串，漏掉 Parent NEG/例外仍宣全義接受",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        778,
+        778
+      ],
+      "original_consumer": "SBL Original Source/Requirement/Corpus Semantic Reader、Corpus Extractor + Original Domain Semantic Owner (U0–U4)",
+      "deliver_id": "DEL-W0-INT-10"
+    },
+    {
+      "requirement_id": "INT-11",
+      "statement": "有權原 Writer/Owner 決定有效版本、比對 Same Scope",
+      "negative": "NEG：README／作者文件 SHA 當 Original Effective Canonical",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        779,
+        779
+      ],
+      "original_consumer": "SBL Original Source/Requirement/Corpus Semantic Reader、Fabric FHS Navigation/Policy/FAR Reader → Original Consumer",
+      "deliver_id": "DEL-W0-INT-11"
+    },
+    {
+      "requirement_id": "FHS-DR-014",
+      "statement": "31 冊原位身份與 31 snapshot sha 不丟失",
+      "negative": "31/31 bytes/sha 檔案映射可重算",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        811,
+        811
+      ],
+      "original_consumer": "[CH-04](#ch-04)",
+      "deliver_id": "DEL-W0-FHS-DR-014"
+    },
+    {
+      "requirement_id": "FHS-DR-015",
+      "statement": "每個原 Parent/Child/NEG/Exception/Applicability 必保存",
+      "negative": "每個原 ID 有候選或具名 HOLD",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        812,
+        812
+      ],
+      "original_consumer": "[CH-03](#ch-03)/[CH-27](#ch-27)",
+      "deliver_id": "DEL-W0-FHS-DR-015"
+    },
+    {
+      "requirement_id": "FHS-DR-019",
+      "statement": "複合「各有/分別/對應」依原作用域拆需求",
+      "negative": "該 Parent 子 claim 的 POS+NEG 個別讀回",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        816,
+        816
+      ],
+      "original_consumer": "[CH-06](#ch-06)/[CH-07](#ch-07)",
+      "deliver_id": "DEL-W0-FHS-DR-019"
+    },
+    {
+      "requirement_id": "FHS-DR-020",
+      "statement": "來源 Currentness 由原有權 Reader 讀回",
+      "negative": "新舊版本衝突不會被靜默覆蓋",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        817,
+        817
+      ],
+      "original_consumer": "[CH-04](#ch-04)",
+      "deliver_id": "DEL-W0-FHS-DR-020"
+    },
+    {
+      "requirement_id": "FHS-DR-046",
+      "statement": "SOURCE_READ 只需合法來源/ACL/Locator/SourceSHA",
+      "negative": "短 READ 有用結果",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        843,
+        843
+      ],
+      "original_consumer": "[CH-15](#ch-15)",
+      "deliver_id": "DEL-W0-FHS-DR-046"
+    },
+    {
+      "requirement_id": "FHS-DR-054",
+      "statement": "r4 U0–U4 全量語義保存，四 JSONL 是候選事實表",
+      "negative": "所有非空片段有處置或 HOLD",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        851,
+        851
+      ],
+      "original_consumer": "[CH-05](#ch-05)/[CH-06](#ch-06)/[CH-07](#ch-07)",
+      "deliver_id": "DEL-W0-FHS-DR-054"
+    }
+  ],
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "native_effect": "NOT_RUN",
+  "open_holds": [
+    "五 seam 的 original_abi 全為 ORIGINAL_RUNTIME_ABI_UNBOUND；無任何 ABI 真綁定",
+    "S2–S5 的 original Reader ACK 皆 NOT_OBSERVED；W0 只停在 AUTHOR_DESIGN",
+    "H-ABI-05：HGK reducer enum／OperationType／S3–S5 Receiver ABI 未綁"
+  ]
+}

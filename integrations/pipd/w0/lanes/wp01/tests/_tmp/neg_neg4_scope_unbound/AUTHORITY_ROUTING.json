@@ -1,0 +1,309 @@
+{
+ "schema": "FHS_W0_IMPL/AUTHORITY_ROUTING/v1",
+ "tool": {
+  "name": "authority_router.py",
+  "version": "wp01-authority-router/1.0.0",
+  "wp": "WP-FHS-01"
+ },
+ "generated_at": "2026-11-05T03:37:34+08:00",
+ "source_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound",
+ "readback_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\_no_readback",
+ "claim_ceiling": "AUTHOR_LOCAL_TEST",
+ "classes": [
+  "CANONICAL_ORIGINAL",
+  "GOVERNANCE_MIRROR",
+  "SKILL_SIDECAR",
+  "HISTORICAL_ARCHIVED",
+  "AUTHOR_CANDIDATE"
+ ],
+ "rulebook": [
+  {
+   "rule_id": "R1",
+   "statement": "effect_permission=NONE → may_authorize_write=false；GOVERNANCE_MIRROR 一律不可授寫（evidence: repository-map.json:$.effect_permission）",
+   "code": "AUTHORITY_MIRROR_NOT_WRITABLE"
+  },
+  {
+   "rule_id": "R2",
+   "statement": "archived=true 或 write_authority=NONE → HISTORICAL_ARCHIVED，且不得為 canonical（evidence: repository-map.json:$.historical_repositories.*）",
+   "code": "HISTORICAL_ARCHIVED_NOT_CANONICAL"
+  },
+  {
+   "rule_id": "R3",
+   "statement": "Skill/Sidecar 不得作為 Canonical Compiler 或 Checker（evidence: PLUGIN_USAGE_AND_GHP01.json:$.canonical_compiler / $.host_loaded）",
+   "code": "SKILL_NOT_PERMIT"
+  },
+  {
+   "rule_id": "R4",
+   "statement": "同一 canonical_key（subject_id#artifact_key）出現兩個 CANONICAL_ORIGINAL → HOLD",
+   "code": "AUTHORITY_CONFLICT_DUAL_CANONICAL"
+  },
+  {
+   "rule_id": "R5",
+   "statement": "缺 subject/scope 綁定，或 subject_ref 與當前 candidate body 不符 → HOLD（evidence: SBL AuthorityBinding.schema.json requires subject_id minLength 8）",
+   "code": "AUTHORITY_SCOPE_UNBOUND"
+  },
+  {
+   "rule_id": "R6",
+   "statement": "Profile 與 Role 與 Worker 不可互換（evidence: SBL ProfileBinding.schema.json:$.properties.profile.enum = LITE|STANDARD|ASSURED，非 role/worker 識別）",
+   "code": "PROFILE_ROLE_CONFLATED"
+  },
+  {
+   "rule_id": "R7",
+   "statement": "Mirror 讀回的 git blob sha1 與 REPOS_RECHECK 記錄的 ref blob 不符 → HOLD（bytes ≠ blob ⇒ 授權欄位出處不可證）",
+   "code": "AUTHORITY_MIRROR_IDENTITY_UNVERIFIED"
+  },
+  {
+   "rule_id": "R8",
+   "statement": "canonical_compiler=NOT_RUN 或 host_loaded=NOT_OBSERVED → HOLD（本輪無 canonical 編譯收據）",
+   "code": "CANONICAL_COMPILER_NOT_RUN"
+  },
+  {
+   "rule_id": "R9",
+   "statement": "SOURCE31 每筆 currentness=ORIGINAL_READER_CURRENTNESS_HOLD → 聚合 HOLD（檔案身份通過 ≠ 原 Reader 當期性已確認）",
+   "code": "ORIGINAL_READER_CURRENTNESS_UNVERIFIED"
+  }
+ ],
+ "inputs": {
+  "SOURCE31_PHYSICAL_IDENTITY.json": {
+   "origin": "source_root",
+   "present": true,
+   "sha256": "2962f501c1cf866871b193590c2a28c9e6013a14d784db9abbaf547d639c31b3",
+   "bytes": 423,
+   "git_blob_sha1": "2e043701fdfe62ef58d9706f082e692d584ceb7d"
+  },
+  "ORACLE96_CONTRACTS.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "SEAM_CONTRACTS.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "ORIGINAL_READER_SOURCE_PINS.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "PLUGIN_USAGE_AND_GHP01.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "CURRENT_CANDIDATE_STATE.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "ADDITIONAL_SCOPED_HOLDS_r4c.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "PROGRAM_WP22_DAG36.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "TECH485_COMPACT_REGISTRY.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "SOURCE_IDENTITY_SUPPLEMENTAL_RAW.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  },
+  "REPOS_RECHECK.json": {
+   "origin": "source_root",
+   "present": false,
+   "sha256": null,
+   "bytes": null
+  }
+ },
+ "inputs_absent": [
+  {
+   "file": "ORACLE96_CONTRACTS.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\ORACLE96_CONTRACTS.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "SEAM_CONTRACTS.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\SEAM_CONTRACTS.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "ORIGINAL_READER_SOURCE_PINS.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\ORIGINAL_READER_SOURCE_PINS.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "PLUGIN_USAGE_AND_GHP01.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\PLUGIN_USAGE_AND_GHP01.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "CURRENT_CANDIDATE_STATE.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\CURRENT_CANDIDATE_STATE.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "ADDITIONAL_SCOPED_HOLDS_r4c.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\ADDITIONAL_SCOPED_HOLDS_r4c.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "PROGRAM_WP22_DAG36.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\PROGRAM_WP22_DAG36.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "TECH485_COMPACT_REGISTRY.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\TECH485_COMPACT_REGISTRY.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "SOURCE_IDENTITY_SUPPLEMENTAL_RAW.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\SOURCE_IDENTITY_SUPPLEMENTAL_RAW.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "REPOS_RECHECK.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\REPOS_RECHECK.json",
+   "origin": "source_root"
+  },
+  {
+   "file": "repository-map.json",
+   "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\payload\\sbl\\integrations\\pipd\\w0\\lanes\\wp01\\tests\\fixtures\\neg4_scope_unbound\\repository-map.json",
+   "origin": "source_root"
+  }
+ ],
+ "checks": {
+  "r4_dual_canonical_groups": {
+   "canonical_keys": 1,
+   "conflicting_keys": 0
+  },
+  "mirror_identity": {
+   "status": "NOT_CHECKED"
+  },
+  "source31_currentness": {
+   "declared_entries": 1,
+   "currentness_hold_entries": 0
+  }
+ },
+ "statistics": {
+  "total_entries": 1,
+  "by_class": {
+   "CANONICAL_ORIGINAL": 1,
+   "GOVERNANCE_MIRROR": 0,
+   "SKILL_SIDECAR": 0,
+   "HISTORICAL_ARCHIVED": 0,
+   "AUTHOR_CANDIDATE": 0
+  },
+  "by_group": {
+   "SOURCE31": 1
+  },
+  "by_reason_code": {
+   "AUTHORITY_SCOPE_UNBOUND": 1
+  },
+  "source31_declared": 1,
+  "source31_routed": 1,
+  "may_authorize_write_true": 0,
+  "may_authorize_write_true_ids": [],
+  "may_mint_permit_true": 0,
+  "holds_total": 1,
+  "holds_by_code": {
+   "AUTHORITY_SCOPE_UNBOUND": 1
+  },
+  "entries_without_evidence_field": 0
+ },
+ "write_authority_explanation": {
+  "may_authorize_write_true": 0,
+  "statement": "0 筆可授寫。閘門要求同時滿足：authority_class=CANONICAL_ORIGINAL、顯式 write_authority∈{GRANTED,WRITE,FULL,AUTHORIZED,PREAUTHORIZED}、已宣告且非 NONE 的 effect_permission、無任何 HOLD 阻擋。本輪來源中：31 份原件與 SBL 領域原始碼皆未宣告 write_authority；NAV mirror 宣告 effect_permission=NONE；PIPD-LS-SP archived=true/write_authority=NONE；Skill/Sidecar 非 permit 來源；作者產物為 AUTHOR_CANDIDATE。故統計為 0 而非閘門恆假（gate 為真值函數，見 tests 的 gate 單元測試）。",
+  "per_class": {
+   "CANONICAL_ORIGINAL": "原件與 SBL 領域原始碼：內容權威但不授寫（write_authority 未宣告）",
+   "GOVERNANCE_MIRROR": "FHS-NAV/v2，identity=FABRIC_HOSTED_NON_AUTHORITATIVE_INDEX，effect_permission=NONE",
+   "SKILL_SIDECAR": "sbl-tpm-sp Skill/Sidecar 與 AGENTS 指令檔：不得作 Canonical Compiler/Checker，非 permit 來源",
+   "HISTORICAL_ARCHIVED": "PIPD-LS-SP：archived=true、write_authority=NONE、canonical 已移至 SBL integrations/pipd",
+   "AUTHOR_CANDIDATE": "本輪作者產物（Oracle96/Seam5/正文/manifest/DAG 等）：AUTHOR_DESIGN_ONLY，未 Native 執行"
+  }
+ },
+ "non_claims": [
+  "不宣稱任何 Native/Permit/WorkOrder/受保護 Checker 判決",
+  "不宣稱 mirror 讀回與 ref blob byte-exact（見 mirror_identity 檢查與 HOLD）",
+  "不宣稱 31 份原件當期性（currentness HOLD 未解）",
+  "不宣稱 PIPD-LS-SP 的 archived 狀態由本輪變更",
+  "分類為本輪 LANE 內可重跑的作者分流結果，claim ceiling=AUTHOR_LOCAL_TEST"
+ ],
+ "entries": [
+  {
+   "group": "SOURCE31",
+   "source_id": "SYN-UNBOUND",
+   "path": "synthetic/corpus/UNBOUND.md",
+   "evidence_field": "SOURCE31_PHYSICAL_IDENTITY.json:$[0].physical_identity",
+   "evidence_value": "PASS",
+   "evidence_support": [
+    "SOURCE31_PHYSICAL_IDENTITY.json:$[0].currentness=SYNTHETIC_FIXTURE",
+    "SOURCE31_PHYSICAL_IDENTITY.json:$[0].sha256=0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "authority_class": "CANONICAL_ORIGINAL",
+   "may_authorize_write": false,
+   "may_mint_permit": false,
+   "reason_code": "AUTHORITY_SCOPE_UNBOUND",
+   "subject_id": "UNBOUND",
+   "scope_id": "UNBOUND",
+   "artifact_key": "ORIGINAL_DOCUMENT",
+   "canonical_key": null,
+   "declared": {
+    "effect_permission": "GRANTED",
+    "write_authority": "GRANTED",
+    "archived": null,
+    "artifact_kind": "ORIGINAL_DOCUMENT",
+    "runtime_binding": null,
+    "role_claim": null,
+    "actor_binding": null
+   },
+   "write_blockers": [],
+   "rules_applied": [
+    "R2:pass",
+    "R3:pass",
+    "R1:pass",
+    "GATE:explicit_write_grant",
+    "R5:unbound(no subject/scope binding)",
+    "R6:pass"
+   ]
+  }
+ ],
+ "holds": [
+  {
+   "hold_id": "H-AUTH-R4C-001-SCOPE",
+   "code": "AUTHORITY_SCOPE_UNBOUND",
+   "severity": "BLOCKING_FOR_AFFECTED_CLAIM",
+   "reason": "artifact 的 subject/scope 未綁定到當前 candidate：no subject/scope binding",
+   "source_ids": [
+    "SYN-UNBOUND"
+   ],
+   "evidence": [
+    "SOURCE31_PHYSICAL_IDENTITY.json:$[0].physical_identity=PASS",
+    "SOURCE31_PHYSICAL_IDENTITY.json:$[0].currentness=SYNTHETIC_FIXTURE",
+    "SOURCE31_PHYSICAL_IDENTITY.json:$[0].sha256=0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "owner": "Original Owner of synthetic/corpus/UNBOUND.md（artifact 的 subject Owner）",
+   "required_raw": "能解析到當前 candidate body sha256 的 subject/scope 綁定（或原 Owner 明示該 artifact 的 subject 與當前 candidate 之對應）",
+   "resume_predicate": "該 artifact 宣告的 subject_ref 等於當前 candidate body sha256，或原 Owner 出具 binding 讀回",
+   "blocked_operation": "把受影響 artifact 當作可授寫／canonical／已驗證",
+   "nonaffected_permitted": "SOURCE_READ 與 AUTHOR_LOCAL_DRAFT 續行；不全域停工"
+  }
+ ]
+}

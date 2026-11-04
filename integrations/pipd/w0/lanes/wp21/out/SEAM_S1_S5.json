@@ -1,0 +1,404 @@
+{
+  "schema": "FHS.W0.WP21.SEAM_S1_S5/v1",
+  "scope": "AUTHOR_STATIC",
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "native": "NOT_RUN",
+  "seams_total": 5,
+  "seams_sealed": 5,
+  "required_contract_fields": [
+    "seam",
+    "subject_id",
+    "original_abi",
+    "original_reader",
+    "reader_source_pin",
+    "typed_input",
+    "typed_output",
+    "expected_first_fail",
+    "firstfail_primary",
+    "input_fixture",
+    "negative_fixture",
+    "expected_raw_fixture",
+    "stop",
+    "rollback",
+    "resume",
+    "execution_wave",
+    "host",
+    "state",
+    "claim_ceiling"
+  ],
+  "permission_surface_fields": [
+    "typed_output",
+    "stop",
+    "rollback"
+  ],
+  "admission_seams": [
+    "S4"
+  ],
+  "verdict_counts": {
+    "SEAM_SEALED": 5
+  },
+  "seams": [
+    {
+      "seam": "S1",
+      "verdict": "SEAM_SEALED",
+      "missing_contract_fields": [],
+      "missing_fixture_fields": [],
+      "abi": {
+        "original_abi": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "runtime_bound": false,
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND"
+      },
+      "reader": {
+        "original_reader": "SBL Product / Source Reader",
+        "reader_source_pin": {
+          "file": "SOURCE31_PHYSICAL_IDENTITY.json",
+          "sha256": "1c18e90e827bed1bdcc0e46abe497265fee7826092dc795865f7e176cf4f5065"
+        },
+        "original_consumer_alias": "SBL Product / Source Reader"
+      },
+      "effect_permission": {
+        "typed_input": "Goal＋KnownAnswer/SourceSHA",
+        "typed_output": "三份異質 SPEC（same Subject）",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "permission_declared": true,
+        "permission_value": null,
+        "admission_seam": false,
+        "principal_separated": null,
+        "permit_issued": false
+      },
+      "pos_neg": {
+        "input_fixture": "seam_fixtures/S1.request.json",
+        "negative_fixture": "seam_fixtures/S1.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S1.expected_raw.json",
+        "negative_fixture_present": true,
+        "expected_raw_present": true,
+        "fixture_sha256": {
+          "seam_fixtures/S1.request.json": {
+            "declared": "3ac775c496b1cadde9287a07da898354cf4ffae513d1c9f1c2ecc699e9f1b8ed",
+            "verified": "3ac775c496b1cadde9287a07da898354cf4ffae513d1c9f1c2ecc699e9f1b8ed",
+            "checked": true
+          },
+          "seam_fixtures/S1.negative.json": {
+            "declared": "09104a20a8a53fbff9655fc60e9fecb2845a45ffb3c92adb256d06138d3f88d6",
+            "verified": "09104a20a8a53fbff9655fc60e9fecb2845a45ffb3c92adb256d06138d3f88d6",
+            "checked": true
+          },
+          "seam_fixtures/S1.expected_raw.json": {
+            "declared": "59fa2787ae525264d0fce97855303a3efe741d87a09c9ed86594bf7fc296ab25",
+            "verified": "59fa2787ae525264d0fce97855303a3efe741d87a09c9ed86594bf7fc296ab25",
+            "checked": true
+          }
+        }
+      },
+      "firstfail": {
+        "expected_first_fail": "SPEC_IDENTITY_OR_SOURCE_MISMATCH",
+        "firstfail_primary": "SPEC_IDENTITY_OR_SOURCE_MISMATCH",
+        "consistent": true
+      },
+      "resume": {
+        "resume": "Original SBL Product / Source Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue"
+      },
+      "execution_wave": "W0-A",
+      "host": "NATIVE_NOT_RUN",
+      "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "original_claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    {
+      "seam": "S2",
+      "verdict": "SEAM_SEALED",
+      "missing_contract_fields": [],
+      "missing_fixture_fields": [],
+      "abi": {
+        "original_abi": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "runtime_bound": false,
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND"
+      },
+      "reader": {
+        "original_reader": "SBL original PIPD Intake/Profile/PI Reader",
+        "reader_source_pin": {
+          "repo": "SBL",
+          "remote_commit": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+          "path": "integrations/pipd/src/pipd_ls_sp/cli.py",
+          "sha256": "321e9512e61ddcf57498820472605237f93064a78275812327648107aba59f7c",
+          "offline_path": "repo_sources/SBL/integrations/pipd/src/pipd_ls_sp/cli.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "original_consumer_alias": "SBL original PIPD Intake/Profile/PI Reader"
+      },
+      "effect_permission": {
+        "typed_input": "Intake/Profile 原 bytes",
+        "typed_output": "Canonical PI（原 13 CLI／19 family）",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "permission_declared": true,
+        "permission_value": null,
+        "admission_seam": false,
+        "principal_separated": null,
+        "permit_issued": false
+      },
+      "pos_neg": {
+        "input_fixture": "seam_fixtures/S2.request.json",
+        "negative_fixture": "seam_fixtures/S2.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S2.expected_raw.json",
+        "negative_fixture_present": true,
+        "expected_raw_present": true,
+        "fixture_sha256": {
+          "seam_fixtures/S2.request.json": {
+            "declared": "887eb88dc2459e33ccefe4edf0fff8aec98942af1a89d85a51ba5b87667a680f",
+            "verified": "887eb88dc2459e33ccefe4edf0fff8aec98942af1a89d85a51ba5b87667a680f",
+            "checked": true
+          },
+          "seam_fixtures/S2.negative.json": {
+            "declared": "66a78daefd22e1eb586f76fef3908de5299aa07bab794584af419aa741923dcc",
+            "verified": "66a78daefd22e1eb586f76fef3908de5299aa07bab794584af419aa741923dcc",
+            "checked": true
+          },
+          "seam_fixtures/S2.expected_raw.json": {
+            "declared": "9251ef9e74d24e3d2989652d46e894c1b058ea225954c6ad67407fe76248e813",
+            "verified": "9251ef9e74d24e3d2989652d46e894c1b058ea225954c6ad67407fe76248e813",
+            "checked": true
+          }
+        }
+      },
+      "firstfail": {
+        "expected_first_fail": "CANONICAL_WRITER_BOUNDARY",
+        "firstfail_primary": "CANONICAL_WRITER_BOUNDARY",
+        "consistent": true
+      },
+      "resume": {
+        "resume": "Original SBL original PIPD Intake/Profile/PI Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue"
+      },
+      "execution_wave": "W1",
+      "host": "NATIVE_NOT_RUN",
+      "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "original_claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    {
+      "seam": "S3",
+      "verdict": "SEAM_SEALED",
+      "missing_contract_fields": [],
+      "missing_fixture_fields": [],
+      "abi": {
+        "original_abi": "19 original families / 13 CLI source pinned; runtime UNBOUND",
+        "runtime_bound": false,
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND"
+      },
+      "reader": {
+        "original_reader": "SBL original RepoContext/PD/ECP Reader",
+        "reader_source_pin": {
+          "repo": "SBL",
+          "remote_commit": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+          "path": "integrations/pipd/src/pipd_ls_sp/pipeline.py",
+          "sha256": "c5156010241cdb40081a40416538aca3cfd993dbbb66b44188a02d6032072781",
+          "offline_path": "repo_sources/SBL/integrations/pipd/src/pipd_ls_sp/pipeline.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "original_consumer_alias": "SBL original RepoContext/PD/ECP Reader"
+      },
+      "effect_permission": {
+        "typed_input": "真 RepoContext（root/HEAD/dirty/ACL/preimage）",
+        "typed_output": "PD/ECP（Effect/Scope/Pre/Post/rollback）",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "permission_declared": true,
+        "permission_value": null,
+        "admission_seam": false,
+        "principal_separated": null,
+        "permit_issued": false
+      },
+      "pos_neg": {
+        "input_fixture": "seam_fixtures/S3.request.json",
+        "negative_fixture": "seam_fixtures/S3.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S3.expected_raw.json",
+        "negative_fixture_present": true,
+        "expected_raw_present": true,
+        "fixture_sha256": {
+          "seam_fixtures/S3.request.json": {
+            "declared": "4eefa5f63193f4e00aa4e696fc381dbb08a00694900d12a378904a6776aab1fa",
+            "verified": "4eefa5f63193f4e00aa4e696fc381dbb08a00694900d12a378904a6776aab1fa",
+            "checked": true
+          },
+          "seam_fixtures/S3.negative.json": {
+            "declared": "680bf8ebe931d40fea1ac96016a9f57e085229b55acf758246867ec7eb30c1ed",
+            "verified": "680bf8ebe931d40fea1ac96016a9f57e085229b55acf758246867ec7eb30c1ed",
+            "checked": true
+          },
+          "seam_fixtures/S3.expected_raw.json": {
+            "declared": "ed72735b4fb5c053ed0a3b864690ffa541697ca42cb6836529465717bdabe094",
+            "verified": "ed72735b4fb5c053ed0a3b864690ffa541697ca42cb6836529465717bdabe094",
+            "checked": true
+          }
+        }
+      },
+      "firstfail": {
+        "expected_first_fail": "HOST_REPOCONTEXT_UNBOUND",
+        "firstfail_primary": "HOST_REPOCONTEXT_UNBOUND",
+        "consistent": true
+      },
+      "resume": {
+        "resume": "Original SBL original RepoContext/PD/ECP Reader supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue"
+      },
+      "execution_wave": "W1",
+      "host": "NATIVE_NOT_RUN",
+      "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "original_claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    {
+      "seam": "S4",
+      "verdict": "SEAM_SEALED",
+      "missing_contract_fields": [],
+      "missing_fixture_fields": [],
+      "abi": {
+        "original_abi": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "runtime_bound": false,
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND"
+      },
+      "reader": {
+        "original_reader": "Fabric original Policy + HGK single Issuer",
+        "reader_source_pin": {
+          "repo": "HG-KSEOS",
+          "remote_commit": "0143b50331f7fef007a5921bb743e61f59b0a7bd",
+          "path": "b1_closure_20261028/evidence/signed_runner_registry.json",
+          "sha256": "86d899fcada2851b3e85bf3a15a861f7ff20f7eb45dc8ea6b2693d9054322f71",
+          "offline_path": "repo_sources/HG-KSEOS/b1_closure_20261028/evidence/signed_runner_registry.json",
+          "runtime_binding": "UNBOUND"
+        },
+        "original_consumer_alias": "Fabric original Policy + HGK single Issuer"
+      },
+      "effect_permission": {
+        "typed_input": "Fabric ActiveEpoch/LoadedSHA/ConsumerACK/TaskKind",
+        "typed_output": "HGK Admission（Issuer WorkID/Lease）",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "permission_declared": true,
+        "permission_value": "NONE_GRANTED",
+        "admission_seam": true,
+        "principal_separated": null,
+        "permit_issued": false
+      },
+      "pos_neg": {
+        "input_fixture": "seam_fixtures/S4.request.json",
+        "negative_fixture": "seam_fixtures/S4.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S4.expected_raw.json",
+        "negative_fixture_present": true,
+        "expected_raw_present": true,
+        "fixture_sha256": {
+          "seam_fixtures/S4.request.json": {
+            "declared": "3481d4c62f91c69f176ffe1a83d522df1e23cb97c7feea9b35e734583d36422e",
+            "verified": "3481d4c62f91c69f176ffe1a83d522df1e23cb97c7feea9b35e734583d36422e",
+            "checked": true
+          },
+          "seam_fixtures/S4.negative.json": {
+            "declared": "04a1f5413b9862517c4828b3c96215b6fb12d8cb914a7fca6fe45331faafc029",
+            "verified": "04a1f5413b9862517c4828b3c96215b6fb12d8cb914a7fca6fe45331faafc029",
+            "checked": true
+          },
+          "seam_fixtures/S4.expected_raw.json": {
+            "declared": "4e290d03d1e6bbde707a52fec67b795a2516d0c61084726491d7df26d53ca114",
+            "verified": "4e290d03d1e6bbde707a52fec67b795a2516d0c61084726491d7df26d53ca114",
+            "checked": true
+          }
+        }
+      },
+      "firstfail": {
+        "expected_first_fail": "HOST_POLICY_EFFECTIVE_LOAD_HOLD",
+        "firstfail_primary": "HOST_POLICY_EFFECTIVE_LOAD_HOLD",
+        "consistent": true
+      },
+      "resume": {
+        "resume": "Original Fabric original Policy + HGK single Issuer supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue"
+      },
+      "execution_wave": "W1/W2",
+      "host": "NATIVE_NOT_RUN",
+      "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "original_claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    },
+    {
+      "seam": "S5",
+      "verdict": "SEAM_SEALED",
+      "missing_contract_fields": [],
+      "missing_fixture_fields": [],
+      "abi": {
+        "original_abi": "ORIGINAL_RUNTIME_ABI_UNBOUND",
+        "runtime_bound": false,
+        "state": "ORIGINAL_RUNTIME_ABI_UNBOUND"
+      },
+      "reader": {
+        "original_reader": "Hermes original durable Runtime + original independent Checker",
+        "reader_source_pin": {
+          "repo": "HG-KSEOS",
+          "remote_commit": "0143b50331f7fef007a5921bb743e61f59b0a7bd",
+          "path": "src/hg_kseos/native_admission.py",
+          "sha256": "551a013821ee2c136fce5e2c9b690d83f2de21a8ab0ab14a46db26da073b9448",
+          "offline_path": "repo_sources/HG-KSEOS/src/hg_kseos/native_admission.py",
+          "runtime_binding": "UNBOUND"
+        },
+        "original_consumer_alias": "Hermes original durable Runtime + original independent Checker"
+      },
+      "effect_permission": {
+        "typed_input": "Hermes Worker（Profiles/Kanban/Delegation）＋WorkID/Lease/Journal",
+        "typed_output": "WorldRaw→原 Checker 判決",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue",
+        "permission_declared": true,
+        "permission_value": null,
+        "admission_seam": false,
+        "principal_separated": true,
+        "permit_issued": false
+      },
+      "pos_neg": {
+        "input_fixture": "seam_fixtures/S5.request.json",
+        "negative_fixture": "seam_fixtures/S5.negative.json",
+        "expected_raw_fixture": "seam_fixtures/S5.expected_raw.json",
+        "negative_fixture_present": true,
+        "expected_raw_present": true,
+        "fixture_sha256": {
+          "seam_fixtures/S5.request.json": {
+            "declared": "696dab177fcfde8d03741ffe824279a6995a6313933cfc33d5ae3e923e637d99",
+            "verified": "696dab177fcfde8d03741ffe824279a6995a6313933cfc33d5ae3e923e637d99",
+            "checked": true
+          },
+          "seam_fixtures/S5.negative.json": {
+            "declared": "28404c00746a665a826b729b3b556efded5a3915d99ec3f40ab7780e5de5cf9b",
+            "verified": "28404c00746a665a826b729b3b556efded5a3915d99ec3f40ab7780e5de5cf9b",
+            "checked": true
+          },
+          "seam_fixtures/S5.expected_raw.json": {
+            "declared": "79985fd3d8d460edf3c7a818a380b72d40f8c40b9ff3f2fe090d1eaf79017451",
+            "verified": "79985fd3d8d460edf3c7a818a380b72d40f8c40b9ff3f2fe090d1eaf79017451",
+            "checked": true
+          }
+        }
+      },
+      "firstfail": {
+        "expected_first_fail": "UNKNOWN_RECONCILE_REQUIRED",
+        "firstfail_primary": "UNKNOWN_RECONCILE_REQUIRED",
+        "consistent": true
+      },
+      "resume": {
+        "resume": "Original Hermes original durable Runtime + original independent Checker supplies same Subject/Candidate/Source/Scope/Host/PolicyEpoch ACK and raw; no source snapshot can substitute",
+        "stop": "Only affected seam/world promotion",
+        "rollback": "Withdraw this seam request; retain old candidate and original journal/queue"
+      },
+      "execution_wave": "W2/W3/W4",
+      "host": "NATIVE_NOT_RUN",
+      "state": "AUTHOR_FIXTURE_ONLY; ORIGINAL_READER_ACK_HOLD",
+      "claim_ceiling": "AUTHOR_LOCAL_TEST",
+      "original_claim_ceiling": "AUTHOR_DESIGN_ONLY"
+    }
+  ],
+  "notes": "permit_issued=false for every seam; ABI/Reader/Host/Effect remain ORIGINAL_*_UNBOUND until the original Reader ACKs."
+}

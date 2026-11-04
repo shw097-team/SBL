@@ -1,0 +1,352 @@
+{
+  "schema": "FHS_W0/LANE_REPORT/v1",
+  "lane": "wp19",
+  "gate_id": "WP-FHS-19",
+  "generated_at_taipei": "2026-11-05T03:16:46+08:00",
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "scope_statement": "Executable supply-chain/compliance entry point plus author-side results only. No original CI Raw/ACK exists in this round, so WP19 DONE and TraceClosure are explicitly NOT claimed.",
+  "deliverables": [
+    {
+      "path": "supply_chain_gate.py",
+      "sha256": "9b811379378083d508dafcf0af3816fb4e886e5b0f6f9475a1b98af7141b8e7f",
+      "bytes": 36793
+    },
+    {
+      "path": "tools/build_fixtures.py",
+      "sha256": "b4c39c63731da93978aefa261e738e6027c946538f47beb1696035df902dc98b",
+      "bytes": 7480
+    },
+    {
+      "path": "tools/build_lane_report.py",
+      "sha256": "b76401ccb9a9b7226cf6d36c317cb24741df582bfcd6d3b04ae96d51c7252c29",
+      "bytes": 11898
+    },
+    {
+      "path": "tests/test_supply_chain_gate.py",
+      "sha256": "8e67acd773bb76910b2697975892c5adb7c0397d7043759c355d5ae362f8ca43",
+      "bytes": 15592
+    },
+    {
+      "path": "tests/UNITTEST_RAW.log",
+      "sha256": "7e2c40b589e4d02c624c27cb5cdd39980f2fc6ce531f70d7997041d7ceaca3cc",
+      "bytes": 3370
+    },
+    {
+      "path": "out/SUPPLY_CHAIN_RAW.json",
+      "sha256": "2348fcbd03a6c9d802a027a4fba21ea6db45277653ff064d11eb8ec1527ff7c7",
+      "bytes": 4980
+    },
+    {
+      "path": "out/SUPPLY_CHAIN_RAW.stdout.txt",
+      "sha256": "d30c92dedda730c7c07ff4af8a4bbdc603d6c8bf957a62e07ddcf09bedebc20b",
+      "bytes": 2013
+    },
+    {
+      "path": "out/REMOTE_READBACK_RAW.json",
+      "sha256": "7a6fc11d708cadee8924667484e5066ae6f48784c6b600c9b50436408f6c15ee",
+      "bytes": 4602
+    },
+    {
+      "path": "out/fixture_runs/pos.json",
+      "sha256": "71b430486e5baac6259d3ebc2ddbbee28a36a707b56f3b814e3bb346608225e1",
+      "bytes": 4573
+    },
+    {
+      "path": "out/fixture_runs/neg_notice_missing.json",
+      "sha256": "f2e423e7df76301ad9cda7e0031157b10df07cbfccc4421ac95e61513b4c26de",
+      "bytes": 4641
+    },
+    {
+      "path": "out/fixture_runs/neg_sbom_mismatch.json",
+      "sha256": "97527092946ba31adfdbe9aca9d4ff01333cf05dac7b6a52ad650e54d82c072e",
+      "bytes": 4660
+    },
+    {
+      "path": "out/fixture_runs/neg_undeclared_dep.json",
+      "sha256": "6777416eb350c0f8c784d3f8ef947171f5bd8d627ace90e2c1cbf2fe3918530d",
+      "bytes": 4661
+    },
+    {
+      "path": "out/fixture_runs/neg_secret.json",
+      "sha256": "d5638448d63250cadd4d7fea188d56d1ae68285d52c1441858d1b4d40e437889",
+      "bytes": 5086
+    },
+    {
+      "path": "fixtures/pos/LICENSE",
+      "sha256": "7c52b674cca279c2d107e16e7c4bd6cb01775752634f800ec504277b2118dcca",
+      "bytes": 591
+    },
+    {
+      "path": "fixtures/pos/NOTICE",
+      "sha256": "201e0b133b460751f37dfbdeb3eb7746c642dca1000bce16c3a83064094b9298",
+      "bytes": 202
+    },
+    {
+      "path": "fixtures/pos/SBOM.cdx.json",
+      "sha256": "0f4569ab7a13aee27df1add5fbe90beb0a9931655b1778e71ba74b1f46e8ac6a",
+      "bytes": 521
+    },
+    {
+      "path": "fixtures/pos/pyproject.toml",
+      "sha256": "3eaef097ee38cf57168bf05fd5908b0fcbdd1316905b33fe95c7f1e6b4206bea",
+      "bytes": 301
+    },
+    {
+      "path": "fixtures/neg_secret/config/sample_credentials.py",
+      "sha256": "b4e0c759e83915aa37004a606ca00b9b1a23bab7821cb12ebdd2a7aec5316c3f",
+      "bytes": 657
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "python supply_chain_gate.py --tree \"$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C\" --out out/SUPPLY_CHAIN_RAW.json --mode author",
+      "exit_code": 1,
+      "note": "real S-tree scan; non-zero because the gate found SBOM_MISSING"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree \"$ROUND_ROOT/var/FHS_W0_IMPLEMENTATION_20261105_0305/source_readback/remote\" --out out/REMOTE_READBACK_RAW.json --mode author",
+      "exit_code": 1,
+      "note": "supplementary second real tree (flat dump of the three-repo rule/README files)"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree fixtures/pos --out out/fixture_runs/pos.json --mode author --quiet",
+      "exit_code": 0,
+      "note": "positive fixture"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree fixtures/neg_notice_missing --out out/fixture_runs/neg_notice_missing.json --mode author --quiet",
+      "exit_code": 1,
+      "note": "negative fixture -> neg_notice_missing"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree fixtures/neg_sbom_mismatch --out out/fixture_runs/neg_sbom_mismatch.json --mode author --quiet",
+      "exit_code": 1,
+      "note": "negative fixture -> neg_sbom_mismatch"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree fixtures/neg_undeclared_dep --out out/fixture_runs/neg_undeclared_dep.json --mode author --quiet",
+      "exit_code": 1,
+      "note": "negative fixture -> neg_undeclared_dep"
+    },
+    {
+      "cmd": "python supply_chain_gate.py --tree fixtures/neg_secret --out out/fixture_runs/neg_secret.json --mode author --quiet",
+      "exit_code": 1,
+      "note": "negative fixture -> neg_secret"
+    },
+    {
+      "cmd": "python -m unittest discover -s tests -p \"test_*.py\" -v",
+      "exit_code": 0,
+      "note": "24 tests: POS all-PASS + 4 negative codes + redaction + usage errors"
+    },
+    {
+      "cmd": "python tools/build_fixtures.py",
+      "exit_code": 0,
+      "note": "fixture trees are generated, not hand-edited"
+    }
+  ],
+  "counts": {
+    "checks_implemented": 7,
+    "verdict_enum": [
+      "PASS",
+      "FAIL",
+      "HOLD",
+      "NOT_APPLICABLE"
+    ],
+    "s_tree": {
+      "files_scanned": 592,
+      "dirs_scanned": 38,
+      "bytes_scanned": 17466915,
+      "python_files": 9,
+      "dependency_manifests": [],
+      "tree_digest_sha256": "4f7c769937591557221c96b570063d7977f3d850f20195f43eb43a62cd25ff28",
+      "summary": {
+        "PASS": 2,
+        "FAIL": 1,
+        "HOLD": 3,
+        "NOT_APPLICABLE": 1,
+        "fail_codes": [
+          "SBOM_MISSING"
+        ],
+        "checks_total": 7
+      },
+      "verdicts": {
+        "LICENSE_PRESENT": "HOLD",
+        "NOTICE_PRESENT": "HOLD",
+        "SBOM_PRESENT_AND_PARSABLE": "FAIL",
+        "SBOM_COMPONENT_RECONCILE": "NOT_APPLICABLE",
+        "DEPENDENCY_DECLARED": "HOLD",
+        "SECRET_PATTERN_SCAN": "PASS",
+        "CI_ENTRY_PRESENT": "PASS"
+      },
+      "codes": {
+        "LICENSE_PRESENT": "LICENSE_ONLY_VENDORED_COPIES",
+        "NOTICE_PRESENT": "NOTICE_BASIS_ABSENT",
+        "SBOM_PRESENT_AND_PARSABLE": "SBOM_MISSING",
+        "SBOM_COMPONENT_RECONCILE": "SBOM_NOT_AVAILABLE",
+        "DEPENDENCY_DECLARED": "DEPENDENCY_MANIFEST_MISSING",
+        "SECRET_PATTERN_SCAN": "NO_SECRET_PATTERN",
+        "CI_ENTRY_PRESENT": "CI_ENTRY_DOCUMENTED_COMMAND"
+      },
+      "exit_code": 1
+    },
+    "remote_readback_tree": {
+      "files_scanned": 7,
+      "summary": {
+        "PASS": 2,
+        "FAIL": 2,
+        "HOLD": 1,
+        "NOT_APPLICABLE": 2,
+        "fail_codes": [
+          "LICENSE_MISSING",
+          "SBOM_MISSING"
+        ],
+        "checks_total": 7
+      },
+      "exit_code": 1
+    },
+    "fixtures": {
+      "pos": {
+        "files": 12,
+        "tree_digest_sha256": "32dc329b580087d91484be7392209eb301a9343883aabebbc411f44d2340486c",
+        "exit_code": 0,
+        "fail_codes": [],
+        "verdicts": {
+          "LICENSE_PRESENT": "PASS",
+          "NOTICE_PRESENT": "PASS",
+          "SBOM_PRESENT_AND_PARSABLE": "PASS",
+          "SBOM_COMPONENT_RECONCILE": "PASS",
+          "DEPENDENCY_DECLARED": "PASS",
+          "SECRET_PATTERN_SCAN": "PASS",
+          "CI_ENTRY_PRESENT": "PASS"
+        }
+      },
+      "neg_notice_missing": {
+        "files": 11,
+        "tree_digest_sha256": "5872f59990e5b282c2a4ee3d23b19250d51f2a18095906d5cfc8e2bda5e18bc0",
+        "exit_code": 1,
+        "fail_codes": [
+          "NOTICE_MISSING"
+        ],
+        "verdicts": {
+          "LICENSE_PRESENT": "PASS",
+          "NOTICE_PRESENT": "FAIL",
+          "SBOM_PRESENT_AND_PARSABLE": "PASS",
+          "SBOM_COMPONENT_RECONCILE": "PASS",
+          "DEPENDENCY_DECLARED": "PASS",
+          "SECRET_PATTERN_SCAN": "PASS",
+          "CI_ENTRY_PRESENT": "PASS"
+        }
+      },
+      "neg_sbom_mismatch": {
+        "files": 12,
+        "tree_digest_sha256": "e574409f49e0e738b03cf67f2eb36f9b11e8aabac41e6f6f9aaf80d9222a74c0",
+        "exit_code": 1,
+        "fail_codes": [
+          "SBOM_COMPONENT_MISMATCH"
+        ],
+        "verdicts": {
+          "LICENSE_PRESENT": "PASS",
+          "NOTICE_PRESENT": "PASS",
+          "SBOM_PRESENT_AND_PARSABLE": "PASS",
+          "SBOM_COMPONENT_RECONCILE": "FAIL",
+          "DEPENDENCY_DECLARED": "PASS",
+          "SECRET_PATTERN_SCAN": "PASS",
+          "CI_ENTRY_PRESENT": "PASS"
+        }
+      },
+      "neg_undeclared_dep": {
+        "files": 12,
+        "tree_digest_sha256": "771b1b6ed13a9838940757237476bded978c2dcb17e98e039cb2d47a31077081",
+        "exit_code": 1,
+        "fail_codes": [
+          "UNDECLARED_DEPENDENCY"
+        ],
+        "verdicts": {
+          "LICENSE_PRESENT": "PASS",
+          "NOTICE_PRESENT": "PASS",
+          "SBOM_PRESENT_AND_PARSABLE": "PASS",
+          "SBOM_COMPONENT_RECONCILE": "PASS",
+          "DEPENDENCY_DECLARED": "FAIL",
+          "SECRET_PATTERN_SCAN": "PASS",
+          "CI_ENTRY_PRESENT": "PASS"
+        }
+      },
+      "neg_secret": {
+        "files": 13,
+        "tree_digest_sha256": "7fda1b1a8d2382c0987e3ee9af04da045985ed39da60f158840bc6e768a97773",
+        "exit_code": 1,
+        "fail_codes": [
+          "SECRET_PATTERN_FOUND"
+        ],
+        "verdicts": {
+          "LICENSE_PRESENT": "PASS",
+          "NOTICE_PRESENT": "PASS",
+          "SBOM_PRESENT_AND_PARSABLE": "PASS",
+          "SBOM_COMPONENT_RECONCILE": "PASS",
+          "DEPENDENCY_DECLARED": "PASS",
+          "SECRET_PATTERN_SCAN": "FAIL",
+          "CI_ENTRY_PRESENT": "PASS"
+        }
+      }
+    },
+    "tests": {
+      "ran": 29,
+      "ok": true,
+      "log": "tests/UNITTEST_RAW.log"
+    }
+  },
+  "negative_proof": {
+    "neg_notice_missing": {
+      "expected_code": "NOTICE_MISSING",
+      "fail_codes": [
+        "NOTICE_MISSING"
+      ],
+      "red_run_exit_code": 1,
+      "artifact": "out/fixture_runs/neg_notice_missing.json"
+    },
+    "neg_sbom_mismatch": {
+      "expected_code": "SBOM_COMPONENT_MISMATCH",
+      "fail_codes": [
+        "SBOM_COMPONENT_MISMATCH"
+      ],
+      "red_run_exit_code": 1,
+      "artifact": "out/fixture_runs/neg_sbom_mismatch.json"
+    },
+    "neg_undeclared_dep": {
+      "expected_code": "UNDECLARED_DEPENDENCY",
+      "fail_codes": [
+        "UNDECLARED_DEPENDENCY"
+      ],
+      "red_run_exit_code": 1,
+      "artifact": "out/fixture_runs/neg_undeclared_dep.json"
+    },
+    "neg_secret": {
+      "expected_code": "SECRET_PATTERN_FOUND",
+      "fail_codes": [
+        "SECRET_PATTERN_FOUND"
+      ],
+      "red_run_exit_code": 1,
+      "artifact": "out/fixture_runs/neg_secret.json"
+    }
+  },
+  "holds": [
+    "TraceClosure is not a WP19 output and is not produced here (trace_closure=false).",
+    "No original CI run, Raw transcript or independent ACK exists in this round; WP19 DONE is not claimed.",
+    "The S tree is a package mirror: it carries no first-party LICENSE/NOTICE/SBOM/manifest, so the real run returns LICENSE_ONLY_VENDORED_COPIES (HOLD), NOTICE_BASIS_ABSENT (HOLD), SBOM_MISSING (FAIL), DEPENDENCY_MANIFEST_MISSING (HOLD). These are honest observations of the mirror, not of the upstream SBL repo, which was never cloned or scanned in this lane.",
+    "SBOM_COMPONENT_RECONCILE cannot be exercised on the real tree (no SBOM there); it is proven only on fixtures.",
+    "SECRET_PATTERN_SCAN found 0 matches in 592 S files; absence of a regex match is not proof of absence of secrets.",
+    "Gate is author-local static analysis: not an independent checker, no network, no package install, no SBOM signature/provenance or vulnerability lookup."
+  ],
+  "known_limits": [
+    "CycloneDX validation is structural (bomFormat/specVersion/components/name/version-or-purl) and does not validate against the published JSON schema.",
+    "SPDX resolution is textual: SPDX-License-Identifier lines, well-known licence headers, pyproject `license`, or OWNER_LICENSE_DECISION.yaml; non-standard wording yields HOLD LICENSE_SPDX_UNPARSED rather than a guess.",
+    "Dependency reconciliation uses PEP 503-ish name normalisation plus a small distribution->import alias table; exotic aliases may over-report UNDECLARED_DEPENDENCY.",
+    "Vendored .py package directories are treated as in-tree first-party code, so a vendored mirror's own package is not flagged as an undeclared distribution.",
+    "Files larger than 4 MiB or containing NUL bytes are skipped by the text checks (secret scan, licence text, documented-command detection) and by the ast import scan.",
+    "Import scan is static: dynamic imports (importlib, __import__) and conditional/optional imports are not distinguished.",
+    "Exit code 2 is reserved for usage/IO errors and is never a compliance verdict.",
+    "The gate writes only inside the lane directory; the S tree and the remote readback dump are read-only inputs."
+  ]
+}

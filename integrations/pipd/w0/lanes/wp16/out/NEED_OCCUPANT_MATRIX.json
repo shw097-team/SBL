@@ -1,0 +1,4497 @@
+{
+  "schema_version": "wp-fhs-16/1",
+  "lane": "WP-FHS-16",
+  "generated_from": {
+    "source_root": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\FHS／FHS-MSC／SBL\\FHS\\PIPD-LS-PKG\\定案\\W0\\FHS_PIPD-LS-PKG_W0_R4C",
+    "files": {
+      "DEFAULT30_CHOICES.json": {
+        "file": "DEFAULT30_CHOICES.json",
+        "bytes": 126835,
+        "sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "declared_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "identity": "MATCH"
+      },
+      "WP16_TRANSLATION49.json": {
+        "file": "WP16_TRANSLATION49.json",
+        "bytes": 138505,
+        "sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "declared_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "identity": "MATCH"
+      },
+      "TECH485_COMPACT_REGISTRY.json": {
+        "file": "TECH485_COMPACT_REGISTRY.json",
+        "bytes": 103630,
+        "sha256": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb",
+        "declared_sha256": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb",
+        "identity": "MATCH"
+      },
+      "CURRENT_CANDIDATE_STATE.json": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "bytes": 8652,
+        "sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "declared_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "identity": "MATCH"
+      },
+      "INDEX_AND_MANIFEST_r4-candidate-b41d2e.json": {
+        "file": "INDEX_AND_MANIFEST_r4-candidate-b41d2e.json",
+        "bytes": 137064,
+        "sha256": "860ad0ade0ae87f00b3f81129478c22e3c2bc0201dfd6485860080a716c43f1c",
+        "declared_sha256": null,
+        "identity": "UNBOUND"
+      },
+      "W0_R3_TECH_CHOICE_AND_TRANSLATION.md": {
+        "file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+        "bytes": 119291,
+        "sha256": "291fe825de7418e5f4c6a0a8b140c960a7918083f70f81f2eefd46012c7151cd",
+        "declared_sha256": "291fe825de7418e5f4c6a0a8b140c960a7918083f70f81f2eefd46012c7151cd",
+        "identity": "MATCH"
+      },
+      "W0_R2_TRACE_TECH_485.md": {
+        "file": "W0_R2_TRACE_TECH_485.md",
+        "bytes": 1441070,
+        "sha256": "c1a783486a1d809a398111a1df0b1bf2dea4bfe48a0d3bb9e07c22e17f0dc0c3",
+        "declared_sha256": "c1a783486a1d809a398111a1df0b1bf2dea4bfe48a0d3bb9e07c22e17f0dc0c3",
+        "identity": "MATCH"
+      },
+      "negative_fixtures/NEG-NEED.mutated.json": {
+        "file": "negative_fixtures/NEG-NEED.mutated.json",
+        "bytes": 4250,
+        "sha256": "9acf275acad61da8d6ea648316d0d0fd932f0e4731937141ad04a4df27d88e59",
+        "declared_sha256": "9acf275acad61da8d6ea648316d0d0fd932f0e4731937141ad04a4df27d88e59",
+        "identity": "MATCH"
+      }
+    }
+  },
+  "field_contract": {
+    "status": [
+      "SELECTED",
+      "OCCUPANT_PIN_HOLD",
+      "HOST_PIN_HOLD",
+      "NOFIT",
+      "UNBOUND"
+    ],
+    "install_state": [
+      "NOT_INSTALLED",
+      "PIN_HOLD",
+      "HOST_PIN_HOLD"
+    ],
+    "install_state_forbidden": [
+      "INSTALLED",
+      "VERIFIED"
+    ],
+    "occupant_kind": [
+      "DONOR",
+      "METHOD",
+      "HOST",
+      "NONE"
+    ],
+    "occupant_kind_meaning": {
+      "DONOR": "need is served by a Donor24 slot (native reuse recipe)",
+      "METHOD": "need is served only by a Method25 recipe (non-installer)",
+      "HOST": "need is served by a host/core-owned component; no Donor24/Method25 item selected",
+      "NONE": "no occupant declared"
+    },
+    "kind_precedence": "DONOR > METHOD > HOST > NONE",
+    "status_precedence": [
+      "OCCUPANT_UNBOUND",
+      "LICENSE_UNBOUND",
+      "WINDOWS_NOFIT",
+      "NEED_REQUIRED_DOWNGRADE",
+      "HOST_PIN_HOLD",
+      "OCCUPANT_PIN_HOLD",
+      "SELECTED"
+    ],
+    "license_states": [
+      "LICENSE_DECLARED",
+      "LICENSE_DECLARED_HOST_ACK_PENDING",
+      "LICENSE_READER_HOLD",
+      "LICENSE_UNBOUND"
+    ]
+  },
+  "selection_rules": [
+    {
+      "need_id": "Default30:P0-TOOL-010",
+      "basis": "EXACT_NAME",
+      "expected": "Spec Kit"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-011",
+      "basis": "EXACT_NAME",
+      "expected": "OpenSpec"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-016",
+      "basis": "NORMALISED_NAME",
+      "expected": "mattpocock/skills"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-017",
+      "basis": "TOKEN_CONTAINS",
+      "expected": "mattpocock/skills:grill-with-docs",
+      "alias_token": "grill"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-020",
+      "basis": "EXACT_NAME",
+      "expected": "Superpowers"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-024",
+      "basis": "NAME_CONTAINS",
+      "expected": "Agent Skills"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-025",
+      "basis": "LITERAL_ALIAS",
+      "expected": "MCP",
+      "alias_token": "MCP",
+      "alias_fields": [
+        "original_consumer",
+        "hold_owner",
+        "original_business"
+      ]
+    },
+    {
+      "need_id": "Default30:P0-TOOL-059",
+      "basis": "EXACT_NAME",
+      "expected": "Semgrep"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-060",
+      "basis": "EXACT_NAME",
+      "expected": "CodeQL"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-061",
+      "basis": "EXACT_NAME",
+      "expected": "Trivy"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-062",
+      "basis": "EXACT_NAME",
+      "expected": "GitHub Actions"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-063",
+      "basis": "EXACT_NAME",
+      "expected": "OpenSSF Scorecard"
+    },
+    {
+      "need_id": "Default30:P0-TOOL-064",
+      "basis": "LITERAL_ALIAS",
+      "expected": "Syft",
+      "alias_token": "Syft",
+      "alias_fields": [
+        "original_business",
+        "original_consumer",
+        "hold_owner"
+      ]
+    },
+    {
+      "need_id": "Default30:P0-TOOL-065",
+      "basis": "LITERAL_ALIAS",
+      "expected": "Cosign",
+      "alias_token": "Cosign",
+      "alias_fields": [
+        "original_consumer",
+        "hold_owner",
+        "original_business"
+      ]
+    },
+    {
+      "need_id": "Default30:P0-TOOL-072",
+      "basis": "NAME_CONTAINS",
+      "expected": "SQLite"
+    }
+  ],
+  "resolved_bindings": {
+    "Default30:P0-TOOL-010": [
+      {
+        "wp16_id": "Donor24:SLOT-SK-01",
+        "kind": "DONOR",
+        "wp16_name": "Spec Kit",
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SK-02",
+        "kind": "DONOR",
+        "wp16_name": "Spec Kit",
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SK-03",
+        "kind": "DONOR",
+        "wp16_name": "Spec Kit",
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SK-04",
+        "kind": "DONOR",
+        "wp16_name": "Spec Kit",
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Method25:METHOD-07",
+        "kind": "METHOD",
+        "wp16_name": "Spec Kit",
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-011": [
+      {
+        "wp16_id": "Donor24:SLOT-OS-01",
+        "kind": "DONOR",
+        "wp16_name": "OpenSpec",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-OS-02",
+        "kind": "DONOR",
+        "wp16_name": "OpenSpec",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-OS-03",
+        "kind": "DONOR",
+        "wp16_name": "OpenSpec",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-OS-04",
+        "kind": "DONOR",
+        "wp16_name": "OpenSpec",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Method25:METHOD-06",
+        "kind": "METHOD",
+        "wp16_name": "OpenSpec",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-016": [
+      {
+        "wp16_id": "Donor24:SLOT-MP-01",
+        "kind": "DONOR",
+        "wp16_name": "mattpocock/skills",
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-MP-02",
+        "kind": "DONOR",
+        "wp16_name": "mattpocock/skills",
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-MP-03",
+        "kind": "DONOR",
+        "wp16_name": "mattpocock/skills",
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-MP-04",
+        "kind": "DONOR",
+        "wp16_name": "mattpocock/skills",
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-017": [
+      {
+        "wp16_id": "Method25:METHOD-02",
+        "kind": "METHOD",
+        "wp16_name": "mattpocock/skills:grill-with-docs",
+        "basis": "TOKEN_CONTAINS",
+        "expected": "mattpocock/skills:grill-with-docs",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-020": [
+      {
+        "wp16_id": "Donor24:SLOT-SP-01",
+        "kind": "DONOR",
+        "wp16_name": "Superpowers",
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SP-02",
+        "kind": "DONOR",
+        "wp16_name": "Superpowers",
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SP-03",
+        "kind": "DONOR",
+        "wp16_name": "Superpowers",
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Donor24:SLOT-SP-04",
+        "kind": "DONOR",
+        "wp16_name": "Superpowers",
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      },
+      {
+        "wp16_id": "Method25:METHOD-08",
+        "kind": "METHOD",
+        "wp16_name": "Superpowers",
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-024": [
+      {
+        "wp16_id": "Method25:METHOD-25",
+        "kind": "METHOD",
+        "wp16_name": "Agent Skills specification",
+        "basis": "NAME_CONTAINS",
+        "expected": "Agent Skills",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-025": [
+      {
+        "wp16_id": "Method25:METHOD-10",
+        "kind": "METHOD",
+        "wp16_name": "MCP",
+        "basis": "LITERAL_ALIAS",
+        "expected": "MCP",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+        "alias_evidence": {
+          "found": true,
+          "field": "original_consumer",
+          "token": "MCP",
+          "snippet": "PROTO.MCP→HGK Tool/Method registry and approved host M"
+        }
+      }
+    ],
+    "Default30:P0-TOOL-059": [
+      {
+        "wp16_id": "Method25:METHOD-16",
+        "kind": "METHOD",
+        "wp16_name": "Semgrep",
+        "basis": "EXACT_NAME",
+        "expected": "Semgrep",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-060": [
+      {
+        "wp16_id": "Method25:METHOD-15",
+        "kind": "METHOD",
+        "wp16_name": "CodeQL",
+        "basis": "EXACT_NAME",
+        "expected": "CodeQL",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-061": [
+      {
+        "wp16_id": "Method25:METHOD-21",
+        "kind": "METHOD",
+        "wp16_name": "Trivy",
+        "basis": "EXACT_NAME",
+        "expected": "Trivy",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-062": [
+      {
+        "wp16_id": "Method25:METHOD-09",
+        "kind": "METHOD",
+        "wp16_name": "GitHub Actions",
+        "basis": "EXACT_NAME",
+        "expected": "GitHub Actions",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-063": [
+      {
+        "wp16_id": "Method25:METHOD-12",
+        "kind": "METHOD",
+        "wp16_name": "OpenSSF Scorecard",
+        "basis": "EXACT_NAME",
+        "expected": "OpenSSF Scorecard",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ],
+    "Default30:P0-TOOL-064": [
+      {
+        "wp16_id": "Method25:METHOD-20",
+        "kind": "METHOD",
+        "wp16_name": "Syft",
+        "basis": "LITERAL_ALIAS",
+        "expected": "Syft",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+        "alias_evidence": {
+          "found": true,
+          "field": "original_business",
+          "token": "Syft",
+          "snippet": " list called SBOM；退場/NoFit：proven compatible Syft/other generator with owner permission；DETACH"
+        }
+      }
+    ],
+    "Default30:P0-TOOL-065": [
+      {
+        "wp16_id": "Method25:METHOD-19",
+        "kind": "METHOD",
+        "wp16_name": "Cosign",
+        "basis": "LITERAL_ALIAS",
+        "expected": "Cosign",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+        "alias_evidence": {
+          "found": true,
+          "field": "original_consumer",
+          "token": "Cosign",
+          "snippet": "ATTESTATION→Release Owner GitHub Attestation/Cosign binding"
+        }
+      }
+    ],
+    "Default30:P0-TOOL-072": [
+      {
+        "wp16_id": "Method25:METHOD-22",
+        "kind": "METHOD",
+        "wp16_name": "SQLite/FTS5",
+        "basis": "NAME_CONTAINS",
+        "expected": "SQLite",
+        "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD"
+      }
+    ]
+  },
+  "overrides_applied": {},
+  "selection_holds": [],
+  "counts": {
+    "needs_total": 30,
+    "required_true": 30,
+    "required_false": 0,
+    "selected": 0,
+    "occupant_pin_hold": 28,
+    "host_pin_hold": 2,
+    "nofit": 0,
+    "unbound": 0,
+    "install_state": {
+      "NOT_INSTALLED": 0,
+      "PIN_HOLD": 28,
+      "HOST_PIN_HOLD": 2
+    },
+    "occupant_kind": {
+      "DONOR": 4,
+      "METHOD": 11,
+      "HOST": 15,
+      "NONE": 0
+    },
+    "license_state": {
+      "LICENSE_READER_HOLD": 29,
+      "LICENSE_DECLARED_HOST_ACK_PENDING": 1
+    },
+    "windows_fit": {
+      "UNBOUND": 30
+    },
+    "with_translator": 15,
+    "unbound_field_occurrences": 30
+  },
+  "declaration_comparison": {
+    "verdict": "MATCH",
+    "declared": {
+      "need_total": 30,
+      "required": 30,
+      "occupant_pin_hold": 28,
+      "host_pin_hold": 2,
+      "no_installed_or_verified_upgrade": true,
+      "evidence_literal": "Default30 30/30 Required；28 OCCUPANT_PIN_HOLD＋2 HOST_PIN_HOLD；無 INSTALLED/VERIFIED 升格",
+      "gate": "G3_TECH"
+    },
+    "computed": {
+      "need_total": 30,
+      "required": 30,
+      "occupant_pin_hold": 28,
+      "host_pin_hold": 2,
+      "no_installed_or_verified_upgrade": true
+    },
+    "mismatches": [],
+    "note": "declared numbers are quoted verbatim from CURRENT_CANDIDATE_STATE; they are never rewritten"
+  },
+  "named_holds": [
+    {
+      "code": "WINDOWS_FIT_UNBOUND",
+      "field": "windows_fit",
+      "count": 30,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-011",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "source_refs": [
+        "DEFAULT30_CHOICES.json#/0/fit",
+        "DEFAULT30_CHOICES.json#/1/fit",
+        "DEFAULT30_CHOICES.json#/2/fit"
+      ],
+      "detail": "source literal 'DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND'"
+    },
+    {
+      "code": "LICENSE_READER_HOLD",
+      "field": "license",
+      "count": 29,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "source_refs": [
+        "DEFAULT30_CHOICES.json#/0/license",
+        "DEFAULT30_CHOICES.json#/1/license",
+        "DEFAULT30_CHOICES.json#/2/license"
+      ],
+      "detail": "license field is a Reader/Host HOLD, not a release-grade determination"
+    },
+    {
+      "code": "PIN_UNBOUND",
+      "field": "version_pin",
+      "count": 28,
+      "need_ids": [
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "source_refs": [
+        "DEFAULT30_CHOICES.json#/1/version_decision",
+        "DEFAULT30_CHOICES.json#/2/version_decision",
+        "DEFAULT30_CHOICES.json#/3/version_decision"
+      ],
+      "detail": "no immutable artifact pin; source version_decision is PIN_UNBOUND"
+    }
+  ],
+  "holds": [],
+  "rows": [
+    {
+      "need_id": "Default30:P0-TOOL-001",
+      "need_name": "Hermes Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Hermes Agent",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "upstream LICENSE bytes pinned in research/Hermes_LICENSE; distribution/Host applicability HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/0/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/0/fit",
+        "ref": "DEFAULT30_CHOICES.json#/0/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/0/original_consumer",
+      "nofit_reason": "UNAVAILABLE_REQUIRED_CAPABILITY; L0 read-only；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/0/original_business",
+      "install_state": "HOST_PIN_HOLD",
+      "status": "HOST_PIN_HOLD",
+      "hold_declared": "HOST_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+      "version_decision": "v0.22.5 DESIGN_BASELINE",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/0/original_id",
+            "value": "Default30:P0-TOOL-001",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/need",
+            "ref": "DEFAULT30_CHOICES.json#/0/need",
+            "value": "Hermes Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/0/selected_occupant",
+            "value": "Hermes Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/required",
+            "ref": "DEFAULT30_CHOICES.json#/0/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/hold",
+            "ref": "DEFAULT30_CHOICES.json#/0/hold",
+            "value": "HOST_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/0/version_decision",
+            "value": "v0.22.5 DESIGN_BASELINE",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/license",
+            "ref": "DEFAULT30_CHOICES.json#/0/license",
+            "value": "upstream LICENSE bytes pinned in research/Hermes_LICENSE; distribution/Host applicability HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/0/fit",
+            "ref": "DEFAULT30_CHOICES.json#/0/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 32,
+            "row_sha": "b9fa0d532413f3cff1187c6b24146cf43af5981b5696c93e4cb102d66831f23b",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 7,
+          "state": "HOST_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-002",
+      "need_name": "SDLC_PRW",
+      "need_class": "CORE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "SDLC_PRW",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/1/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/1/fit",
+        "ref": "DEFAULT30_CHOICES.json#/1/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/1/original_consumer",
+      "nofit_reason": "ReadOnly PhasePlan, not Live admission",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/1/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/1/original_id",
+            "value": "Default30:P0-TOOL-002",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/need",
+            "ref": "DEFAULT30_CHOICES.json#/1/need",
+            "value": "SDLC_PRW",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/1/selected_occupant",
+            "value": "SDLC_PRW",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/required",
+            "ref": "DEFAULT30_CHOICES.json#/1/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/hold",
+            "ref": "DEFAULT30_CHOICES.json#/1/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/1/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/license",
+            "ref": "DEFAULT30_CHOICES.json#/1/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/1/fit",
+            "ref": "DEFAULT30_CHOICES.json#/1/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 33,
+            "row_sha": "c0df9117dfaee447119ca92e546f120583f1c1d4ae7f6c8675a4c16081ddc4c5",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 17,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-003",
+      "need_name": "SRU Kernel",
+      "need_class": "CORE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "SRU Kernel",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/2/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/2/fit",
+        "ref": "DEFAULT30_CHOICES.json#/2/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/2/original_consumer",
+      "nofit_reason": "NOFIT until existing SRU identity proven",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/2/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/2/original_id",
+            "value": "Default30:P0-TOOL-003",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/need",
+            "ref": "DEFAULT30_CHOICES.json#/2/need",
+            "value": "SRU Kernel",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/2/selected_occupant",
+            "value": "SRU Kernel",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/required",
+            "ref": "DEFAULT30_CHOICES.json#/2/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/hold",
+            "ref": "DEFAULT30_CHOICES.json#/2/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/2/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/license",
+            "ref": "DEFAULT30_CHOICES.json#/2/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/2/fit",
+            "ref": "DEFAULT30_CHOICES.json#/2/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 34,
+            "row_sha": "f0b606b50c90c791e5ec19aaae2d6606266fbd8ae70c9bf9e2cd104f06c44dc1",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 27,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-004",
+      "need_name": "DocETL",
+      "need_class": "KNOWLEDGE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "DocETL",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/3/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/3/fit",
+        "ref": "DEFAULT30_CHOICES.json#/3/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/3/original_consumer",
+      "nofit_reason": "plain source-pinned file read for accepted document types only",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/3/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/3/original_id",
+            "value": "Default30:P0-TOOL-004",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/need",
+            "ref": "DEFAULT30_CHOICES.json#/3/need",
+            "value": "DocETL",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/3/selected_occupant",
+            "value": "DocETL",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/required",
+            "ref": "DEFAULT30_CHOICES.json#/3/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/hold",
+            "ref": "DEFAULT30_CHOICES.json#/3/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/3/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/license",
+            "ref": "DEFAULT30_CHOICES.json#/3/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/3/fit",
+            "ref": "DEFAULT30_CHOICES.json#/3/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 35,
+            "row_sha": "b192165fafcfca9b28f850b86ec0a2d6a5c071b236a51f82692a301849f3eafd",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 37,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-005",
+      "need_name": "Codex",
+      "need_class": "RUNTIME",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Codex",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/4/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/4/fit",
+        "ref": "DEFAULT30_CHOICES.json#/4/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/4/original_consumer",
+      "nofit_reason": "Approved OpenCode only if same scope+POS/NEG, else NOFIT；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/4/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/4/original_id",
+            "value": "Default30:P0-TOOL-005",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/need",
+            "ref": "DEFAULT30_CHOICES.json#/4/need",
+            "value": "Codex",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/4/selected_occupant",
+            "value": "Codex",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/required",
+            "ref": "DEFAULT30_CHOICES.json#/4/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/hold",
+            "ref": "DEFAULT30_CHOICES.json#/4/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/4/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/license",
+            "ref": "DEFAULT30_CHOICES.json#/4/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/4/fit",
+            "ref": "DEFAULT30_CHOICES.json#/4/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 36,
+            "row_sha": "db60b5f9cdebb8b1233b74a3be91df9fe48f040355a8cf3d2c04e75adc0a4f08",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 47,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-006",
+      "need_name": "OpenCode",
+      "need_class": "RUNTIME",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "OpenCode",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/5/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/5/fit",
+        "ref": "DEFAULT30_CHOICES.json#/5/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/5/original_consumer",
+      "nofit_reason": "Codex if independently approved and not conflicting SoD；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/5/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/5/original_id",
+            "value": "Default30:P0-TOOL-006",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/need",
+            "ref": "DEFAULT30_CHOICES.json#/5/need",
+            "value": "OpenCode",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/5/selected_occupant",
+            "value": "OpenCode",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/required",
+            "ref": "DEFAULT30_CHOICES.json#/5/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/hold",
+            "ref": "DEFAULT30_CHOICES.json#/5/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/5/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/license",
+            "ref": "DEFAULT30_CHOICES.json#/5/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/5/fit",
+            "ref": "DEFAULT30_CHOICES.json#/5/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 37,
+            "row_sha": "9e9bc991f705ef8be8dea121cc95eba18fff0600dc7ee9d362cdb0a734980c6b",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 57,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-008",
+      "need_name": "LLM Wiki",
+      "need_class": "KNOWLEDGE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "LLM Wiki",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/6/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/6/fit",
+        "ref": "DEFAULT30_CHOICES.json#/6/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/6/original_consumer",
+      "nofit_reason": "source-anchored direct document view (reduced feature; wiki NOFIT)",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/6/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/6/original_id",
+            "value": "Default30:P0-TOOL-008",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/need",
+            "ref": "DEFAULT30_CHOICES.json#/6/need",
+            "value": "LLM Wiki",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/6/selected_occupant",
+            "value": "LLM Wiki",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/required",
+            "ref": "DEFAULT30_CHOICES.json#/6/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/hold",
+            "ref": "DEFAULT30_CHOICES.json#/6/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/6/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/license",
+            "ref": "DEFAULT30_CHOICES.json#/6/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/6/fit",
+            "ref": "DEFAULT30_CHOICES.json#/6/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 38,
+            "row_sha": "296e918db45466f5203e791d995baa2d67df42ab2f2cb07723f5f17508914718",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 67,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "need_class": "SPEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Spec Kit",
+      "occupant_kind": "DONOR",
+      "occupant_items": [
+        "Donor24:SLOT-SK-01",
+        "Donor24:SLOT-SK-02",
+        "Donor24:SLOT-SK-03",
+        "Donor24:SLOT-SK-04",
+        "Method25:METHOD-07"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/7/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/7/fit",
+        "ref": "DEFAULT30_CHOICES.json#/7/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/7/original_consumer",
+      "nofit_reason": "canonical PIPD compiler for PI only, not exact SpecKit parity；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/7/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/7/original_id",
+            "value": "Default30:P0-TOOL-010",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/need",
+            "ref": "DEFAULT30_CHOICES.json#/7/need",
+            "value": "Spec Kit",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/7/selected_occupant",
+            "value": "Spec Kit",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/required",
+            "ref": "DEFAULT30_CHOICES.json#/7/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/hold",
+            "ref": "DEFAULT30_CHOICES.json#/7/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/7/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/license",
+            "ref": "DEFAULT30_CHOICES.json#/7/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/7/fit",
+            "ref": "DEFAULT30_CHOICES.json#/7/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 39,
+            "row_sha": "764abc4705ad64e7f3400f1cb1cb465ed93f42e26b2b42caa8d422b611a58a71",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 77,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "need_class": "SPEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "OpenSpec",
+      "occupant_kind": "DONOR",
+      "occupant_items": [
+        "Donor24:SLOT-OS-01",
+        "Donor24:SLOT-OS-02",
+        "Donor24:SLOT-OS-03",
+        "Donor24:SLOT-OS-04",
+        "Method25:METHOD-06"
+      ],
+      "license": "MIT upstream bytes in research/OpenSpec_LICENSE; original Host License Reader ACK pending",
+      "license_state": "LICENSE_DECLARED_HOST_ACK_PENDING",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/8/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/8/fit",
+        "ref": "DEFAULT30_CHOICES.json#/8/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/8/original_consumer",
+      "nofit_reason": "source-bound native change-candidate (only if accepted parity)；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/8/original_business",
+      "install_state": "HOST_PIN_HOLD",
+      "status": "HOST_PIN_HOLD",
+      "hold_declared": "HOST_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+      "version_decision": "v1.16.0 DESIGN_BASELINE",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/8/original_id",
+            "value": "Default30:P0-TOOL-011",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/need",
+            "ref": "DEFAULT30_CHOICES.json#/8/need",
+            "value": "OpenSpec",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/8/selected_occupant",
+            "value": "OpenSpec",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/required",
+            "ref": "DEFAULT30_CHOICES.json#/8/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/hold",
+            "ref": "DEFAULT30_CHOICES.json#/8/hold",
+            "value": "HOST_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/8/version_decision",
+            "value": "v1.16.0 DESIGN_BASELINE",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/license",
+            "ref": "DEFAULT30_CHOICES.json#/8/license",
+            "value": "MIT upstream bytes in research/OpenSpec_LICENSE; original Host License Reader ACK pending",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/8/fit",
+            "ref": "DEFAULT30_CHOICES.json#/8/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 40,
+            "row_sha": "baf946c173b6606a59faecfd1fe0fe8e73d04c3a3819c66c7bf70460109260b4",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 87,
+          "state": "HOST_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "need_class": "METHOD",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "mattpocock-skills v1.1",
+      "occupant_kind": "DONOR",
+      "occupant_items": [
+        "Donor24:SLOT-MP-01",
+        "Donor24:SLOT-MP-02",
+        "Donor24:SLOT-MP-03",
+        "Donor24:SLOT-MP-04"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/9/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/9/fit",
+        "ref": "DEFAULT30_CHOICES.json#/9/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/9/original_consumer",
+      "nofit_reason": "native question ledger for known-answer skip (if fidelity proven)；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/9/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/9/original_id",
+            "value": "Default30:P0-TOOL-016",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/need",
+            "ref": "DEFAULT30_CHOICES.json#/9/need",
+            "value": "mattpocock-skills v1.1",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/9/selected_occupant",
+            "value": "mattpocock-skills v1.1",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/required",
+            "ref": "DEFAULT30_CHOICES.json#/9/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/hold",
+            "ref": "DEFAULT30_CHOICES.json#/9/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/9/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/license",
+            "ref": "DEFAULT30_CHOICES.json#/9/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/9/fit",
+            "ref": "DEFAULT30_CHOICES.json#/9/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 41,
+            "row_sha": "c19be576e75afdb47f53bdd0fda9f42464551012b52a836b7c9cea0677ff1392",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 97,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-017",
+      "need_name": "Grill Me",
+      "need_class": "METHOD",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Grill Me",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-02"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/10/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/10/fit",
+        "ref": "DEFAULT30_CHOICES.json#/10/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/10/original_consumer",
+      "nofit_reason": "native source-bound clarification only, full parity pending；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/10/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/10/original_id",
+            "value": "Default30:P0-TOOL-017",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/need",
+            "ref": "DEFAULT30_CHOICES.json#/10/need",
+            "value": "Grill Me",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/10/selected_occupant",
+            "value": "Grill Me",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/required",
+            "ref": "DEFAULT30_CHOICES.json#/10/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/hold",
+            "ref": "DEFAULT30_CHOICES.json#/10/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/10/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/license",
+            "ref": "DEFAULT30_CHOICES.json#/10/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/10/fit",
+            "ref": "DEFAULT30_CHOICES.json#/10/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 42,
+            "row_sha": "83ca2cd0927694cc4d1dfb1919373ee6f346dc7f11511bc6838a42bb3f4df3be",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 107,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "need_class": "METHOD",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Superpowers",
+      "occupant_kind": "DONOR",
+      "occupant_items": [
+        "Donor24:SLOT-SP-01",
+        "Donor24:SLOT-SP-02",
+        "Donor24:SLOT-SP-03",
+        "Donor24:SLOT-SP-04",
+        "Method25:METHOD-08"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/11/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/11/fit",
+        "ref": "DEFAULT30_CHOICES.json#/11/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/11/original_consumer",
+      "nofit_reason": "existing HGK red/green as scoped partial behavior, method NOFIT until parity；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/11/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/11/original_id",
+            "value": "Default30:P0-TOOL-020",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/need",
+            "ref": "DEFAULT30_CHOICES.json#/11/need",
+            "value": "Superpowers",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/11/selected_occupant",
+            "value": "Superpowers",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/required",
+            "ref": "DEFAULT30_CHOICES.json#/11/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/hold",
+            "ref": "DEFAULT30_CHOICES.json#/11/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/11/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/license",
+            "ref": "DEFAULT30_CHOICES.json#/11/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/11/fit",
+            "ref": "DEFAULT30_CHOICES.json#/11/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 43,
+            "row_sha": "721fbef91cce1be0f86d4cd635d636a94e21d3bab9d464597eece4253ad88edf",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 117,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-024",
+      "need_name": "Agent Skills",
+      "need_class": "FORMAT",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Agent Skills",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-25"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/12/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/12/fit",
+        "ref": "DEFAULT30_CHOICES.json#/12/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/12/original_consumer",
+      "nofit_reason": "source document read only; cannot claim effective Skill Loaded",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/12/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/12/original_id",
+            "value": "Default30:P0-TOOL-024",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/need",
+            "ref": "DEFAULT30_CHOICES.json#/12/need",
+            "value": "Agent Skills",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/12/selected_occupant",
+            "value": "Agent Skills",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/required",
+            "ref": "DEFAULT30_CHOICES.json#/12/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/hold",
+            "ref": "DEFAULT30_CHOICES.json#/12/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/12/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/license",
+            "ref": "DEFAULT30_CHOICES.json#/12/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/12/fit",
+            "ref": "DEFAULT30_CHOICES.json#/12/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 44,
+            "row_sha": "18f05d730ec12abe5f1ff508275dde315e3a4fadd71f3b06bcafe38f715c38cb",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 127,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-025",
+      "need_name": "Model Context Protocol",
+      "need_class": "PROTO",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Model Context Protocol",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-10"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/13/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/13/fit",
+        "ref": "DEFAULT30_CHOICES.json#/13/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/13/original_consumer",
+      "nofit_reason": "direct approved native tool call only if same ABI/permissions",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/13/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/13/original_id",
+            "value": "Default30:P0-TOOL-025",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/need",
+            "ref": "DEFAULT30_CHOICES.json#/13/need",
+            "value": "Model Context Protocol",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/13/selected_occupant",
+            "value": "Model Context Protocol",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/required",
+            "ref": "DEFAULT30_CHOICES.json#/13/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/hold",
+            "ref": "DEFAULT30_CHOICES.json#/13/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/13/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/license",
+            "ref": "DEFAULT30_CHOICES.json#/13/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/13/fit",
+            "ref": "DEFAULT30_CHOICES.json#/13/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 45,
+            "row_sha": "ce0716c9eb3d595b4bd0e11d9931b9e98d1dcf297bfa1b78f76ea1c27581e1e3",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 137,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-026",
+      "need_name": "AGENTS.md",
+      "need_class": "SOURCE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "AGENTS.md",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/14/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/14/fit",
+        "ref": "DEFAULT30_CHOICES.json#/14/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/14/original_consumer",
+      "nofit_reason": "pinned repository instructions explicit read；N/A",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/14/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/14/original_id",
+            "value": "Default30:P0-TOOL-026",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/need",
+            "ref": "DEFAULT30_CHOICES.json#/14/need",
+            "value": "AGENTS.md",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/14/selected_occupant",
+            "value": "AGENTS.md",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/required",
+            "ref": "DEFAULT30_CHOICES.json#/14/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/hold",
+            "ref": "DEFAULT30_CHOICES.json#/14/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/14/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/license",
+            "ref": "DEFAULT30_CHOICES.json#/14/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/14/fit",
+            "ref": "DEFAULT30_CHOICES.json#/14/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 46,
+            "row_sha": "488d084151d3cf386ec13f3527759ee7346c4bf8cd407d5591e7e9d5e0d5b092",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 147,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-028",
+      "need_name": "DESIGN.md",
+      "need_class": "SOURCE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "DESIGN.md",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/15/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/15/fit",
+        "ref": "DEFAULT30_CHOICES.json#/15/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/15/original_consumer",
+      "nofit_reason": "frozen design artifact with references, no host activation；N/A",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/15/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/15/original_id",
+            "value": "Default30:P0-TOOL-028",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/need",
+            "ref": "DEFAULT30_CHOICES.json#/15/need",
+            "value": "DESIGN.md",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/15/selected_occupant",
+            "value": "DESIGN.md",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/required",
+            "ref": "DEFAULT30_CHOICES.json#/15/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/hold",
+            "ref": "DEFAULT30_CHOICES.json#/15/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/15/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/license",
+            "ref": "DEFAULT30_CHOICES.json#/15/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/15/fit",
+            "ref": "DEFAULT30_CHOICES.json#/15/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 47,
+            "row_sha": "b14ede3e7fc0fa6c2b01cc0134de38a76b000d47405c053dec9fbdf01410564f",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 157,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-030",
+      "need_name": "Loop Engineering",
+      "need_class": "CORE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Loop Engineering",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/16/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/16/fit",
+        "ref": "DEFAULT30_CHOICES.json#/16/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/16/original_consumer",
+      "nofit_reason": "existing reducer only if state invariants verified；RESTORE_POLICY",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/16/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/16/original_id",
+            "value": "Default30:P0-TOOL-030",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/need",
+            "ref": "DEFAULT30_CHOICES.json#/16/need",
+            "value": "Loop Engineering",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/16/selected_occupant",
+            "value": "Loop Engineering",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/required",
+            "ref": "DEFAULT30_CHOICES.json#/16/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/hold",
+            "ref": "DEFAULT30_CHOICES.json#/16/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/16/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/license",
+            "ref": "DEFAULT30_CHOICES.json#/16/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/16/fit",
+            "ref": "DEFAULT30_CHOICES.json#/16/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 48,
+            "row_sha": "4f4cebec9c0bc5b0815c45123d724cf5a4c6f63c0f52e304e279b5d3f6ec5ca1",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 167,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-031",
+      "need_name": "Harness Engineering",
+      "need_class": "CORE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Harness Engineering",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/17/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/17/fit",
+        "ref": "DEFAULT30_CHOICES.json#/17/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/17/original_consumer",
+      "nofit_reason": "existing tested harness only if matching original Oracle",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/17/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/17/original_id",
+            "value": "Default30:P0-TOOL-031",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/need",
+            "ref": "DEFAULT30_CHOICES.json#/17/need",
+            "value": "Harness Engineering",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/17/selected_occupant",
+            "value": "Harness Engineering",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/required",
+            "ref": "DEFAULT30_CHOICES.json#/17/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/hold",
+            "ref": "DEFAULT30_CHOICES.json#/17/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/17/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/license",
+            "ref": "DEFAULT30_CHOICES.json#/17/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/17/fit",
+            "ref": "DEFAULT30_CHOICES.json#/17/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 49,
+            "row_sha": "35826e181fd4e7d25954ac02c3cf59461ce90b2418953348ae2776c099700bcd",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 177,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-032",
+      "need_name": "Multi-Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Multi-Agent",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/18/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/18/fit",
+        "ref": "DEFAULT30_CHOICES.json#/18/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/18/original_consumer",
+      "nofit_reason": "single native sequential worker when independent parallelism not required；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/18/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/18/original_id",
+            "value": "Default30:P0-TOOL-032",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/need",
+            "ref": "DEFAULT30_CHOICES.json#/18/need",
+            "value": "Multi-Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/18/selected_occupant",
+            "value": "Multi-Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/required",
+            "ref": "DEFAULT30_CHOICES.json#/18/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/hold",
+            "ref": "DEFAULT30_CHOICES.json#/18/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/18/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/license",
+            "ref": "DEFAULT30_CHOICES.json#/18/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/18/fit",
+            "ref": "DEFAULT30_CHOICES.json#/18/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 50,
+            "row_sha": "faa1abba5146ad24ed272857761674f3c8859bee056a6759d43c0bf994b54a67",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 187,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-034",
+      "need_name": "Sub-Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Sub-Agent",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/19/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/19/fit",
+        "ref": "DEFAULT30_CHOICES.json#/19/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/19/original_consumer",
+      "nofit_reason": "single eligible worker for nonparallel task (partial semantics)；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/19/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/19/original_id",
+            "value": "Default30:P0-TOOL-034",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/need",
+            "ref": "DEFAULT30_CHOICES.json#/19/need",
+            "value": "Sub-Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/19/selected_occupant",
+            "value": "Sub-Agent",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/required",
+            "ref": "DEFAULT30_CHOICES.json#/19/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/hold",
+            "ref": "DEFAULT30_CHOICES.json#/19/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/19/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/license",
+            "ref": "DEFAULT30_CHOICES.json#/19/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/19/fit",
+            "ref": "DEFAULT30_CHOICES.json#/19/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 51,
+            "row_sha": "9c944ee5bcf7faad3172569f74189427f8dfa8206931a968c0eb3b29091dd8fd",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 197,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-053",
+      "need_name": "OpenTelemetry",
+      "need_class": "OBS",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "OpenTelemetry",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/20/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/20/fit",
+        "ref": "DEFAULT30_CHOICES.json#/20/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/20/original_consumer",
+      "nofit_reason": "local structured HGK operation log if trace IDs preserved; OTel NOFIT",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/20/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/20/original_id",
+            "value": "Default30:P0-TOOL-053",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/need",
+            "ref": "DEFAULT30_CHOICES.json#/20/need",
+            "value": "OpenTelemetry",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/20/selected_occupant",
+            "value": "OpenTelemetry",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/required",
+            "ref": "DEFAULT30_CHOICES.json#/20/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/hold",
+            "ref": "DEFAULT30_CHOICES.json#/20/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/20/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/license",
+            "ref": "DEFAULT30_CHOICES.json#/20/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/20/fit",
+            "ref": "DEFAULT30_CHOICES.json#/20/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 52,
+            "row_sha": "d98106f63d16e7f6859e03c8a198a6ed74e71f8355a2f28674ba55be19f6ab83",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 207,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-059",
+      "need_name": "Semgrep",
+      "need_class": "SEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Semgrep",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-16"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/21/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/21/fit",
+        "ref": "DEFAULT30_CHOICES.json#/21/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/21/original_consumer",
+      "nofit_reason": "NOFIT for Semgrep-specific check; local analyzer not equivalent；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/21/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/21/original_id",
+            "value": "Default30:P0-TOOL-059",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/need",
+            "ref": "DEFAULT30_CHOICES.json#/21/need",
+            "value": "Semgrep",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/21/selected_occupant",
+            "value": "Semgrep",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/required",
+            "ref": "DEFAULT30_CHOICES.json#/21/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/hold",
+            "ref": "DEFAULT30_CHOICES.json#/21/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/21/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/license",
+            "ref": "DEFAULT30_CHOICES.json#/21/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/21/fit",
+            "ref": "DEFAULT30_CHOICES.json#/21/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 53,
+            "row_sha": "1d9ae6d7c6760c8842ede233fce1989459148cd06821b37f7b9c26bbc3681afa",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 217,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-060",
+      "need_name": "CodeQL",
+      "need_class": "SEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "CodeQL",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-15"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/22/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/22/fit",
+        "ref": "DEFAULT30_CHOICES.json#/22/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/22/original_consumer",
+      "nofit_reason": "NOFIT until real CodeQL allowed；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/22/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/22/original_id",
+            "value": "Default30:P0-TOOL-060",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/need",
+            "ref": "DEFAULT30_CHOICES.json#/22/need",
+            "value": "CodeQL",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/22/selected_occupant",
+            "value": "CodeQL",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/required",
+            "ref": "DEFAULT30_CHOICES.json#/22/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/hold",
+            "ref": "DEFAULT30_CHOICES.json#/22/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/22/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/license",
+            "ref": "DEFAULT30_CHOICES.json#/22/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/22/fit",
+            "ref": "DEFAULT30_CHOICES.json#/22/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 54,
+            "row_sha": "c99ed0574f55597d0150c935a7528a058fd64ed79ad2e22ac76aea616e0556d3",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 227,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-061",
+      "need_name": "Trivy",
+      "need_class": "SEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Trivy",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-21"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/23/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/23/fit",
+        "ref": "DEFAULT30_CHOICES.json#/23/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SEC.TRIVY→Security CI Trivy binary runner",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/23/original_consumer",
+      "nofit_reason": "NOFIT unless equal approved scanner accepted by owner；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/23/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/23/original_id",
+            "value": "Default30:P0-TOOL-061",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/need",
+            "ref": "DEFAULT30_CHOICES.json#/23/need",
+            "value": "Trivy",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/23/selected_occupant",
+            "value": "Trivy",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/required",
+            "ref": "DEFAULT30_CHOICES.json#/23/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/hold",
+            "ref": "DEFAULT30_CHOICES.json#/23/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/23/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/license",
+            "ref": "DEFAULT30_CHOICES.json#/23/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/23/fit",
+            "ref": "DEFAULT30_CHOICES.json#/23/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 55,
+            "row_sha": "1bf8cd96aede566c6ed9d0ebca73a78f088b57fb3e7dc230e3307422c827e379",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 237,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-062",
+      "need_name": "GitHub Actions",
+      "need_class": "SUPPLY",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "GitHub Actions",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-09"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/24/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/24/fit",
+        "ref": "DEFAULT30_CHOICES.json#/24/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/24/original_consumer",
+      "nofit_reason": "isolated local tests only for L2; not release CI",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/24/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/24/original_id",
+            "value": "Default30:P0-TOOL-062",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/need",
+            "ref": "DEFAULT30_CHOICES.json#/24/need",
+            "value": "GitHub Actions",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/24/selected_occupant",
+            "value": "GitHub Actions",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/required",
+            "ref": "DEFAULT30_CHOICES.json#/24/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/hold",
+            "ref": "DEFAULT30_CHOICES.json#/24/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/24/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/license",
+            "ref": "DEFAULT30_CHOICES.json#/24/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/24/fit",
+            "ref": "DEFAULT30_CHOICES.json#/24/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 56,
+            "row_sha": "925550ae0cc19f9c3c6f351cdc93c1cfb2b2560277fabd1ed3e13021e83c2b29",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 247,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-063",
+      "need_name": "OpenSSF Scorecard",
+      "need_class": "SUPPLY",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "OpenSSF Scorecard",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-12"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/25/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/25/fit",
+        "ref": "DEFAULT30_CHOICES.json#/25/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/25/original_consumer",
+      "nofit_reason": "NOFIT for Scorecard-specific assurance；UNLOADABLE",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/25/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/25/original_id",
+            "value": "Default30:P0-TOOL-063",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/need",
+            "ref": "DEFAULT30_CHOICES.json#/25/need",
+            "value": "OpenSSF Scorecard",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/25/selected_occupant",
+            "value": "OpenSSF Scorecard",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/required",
+            "ref": "DEFAULT30_CHOICES.json#/25/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/hold",
+            "ref": "DEFAULT30_CHOICES.json#/25/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/25/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/license",
+            "ref": "DEFAULT30_CHOICES.json#/25/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/25/fit",
+            "ref": "DEFAULT30_CHOICES.json#/25/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 57,
+            "row_sha": "f384490628e47f6c63515fdeba5773e9d31fe81afc2b15ce2ef62a3c027b31d1",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 257,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-064",
+      "need_name": "SBOM",
+      "need_class": "SUPPLY",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "SBOM",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-20"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/26/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/26/fit",
+        "ref": "DEFAULT30_CHOICES.json#/26/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/26/original_consumer",
+      "nofit_reason": "proven compatible Syft/other generator with owner permission",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/26/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/26/original_id",
+            "value": "Default30:P0-TOOL-064",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/need",
+            "ref": "DEFAULT30_CHOICES.json#/26/need",
+            "value": "SBOM",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/26/selected_occupant",
+            "value": "SBOM",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/required",
+            "ref": "DEFAULT30_CHOICES.json#/26/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/hold",
+            "ref": "DEFAULT30_CHOICES.json#/26/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/26/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/license",
+            "ref": "DEFAULT30_CHOICES.json#/26/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/26/fit",
+            "ref": "DEFAULT30_CHOICES.json#/26/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 58,
+            "row_sha": "26a422d3100c12ca841c66609e53c57f2ff2fb62fc14c2cdfe64365f5c54768e",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 267,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-065",
+      "need_name": "Artifact Attestation",
+      "need_class": "SUPPLY",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "Artifact Attestation",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-19"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/27/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/27/fit",
+        "ref": "DEFAULT30_CHOICES.json#/27/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/27/original_consumer",
+      "nofit_reason": "NOFIT without real signing and verify；REVOKE_TOKEN",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/27/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/27/original_id",
+            "value": "Default30:P0-TOOL-065",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/need",
+            "ref": "DEFAULT30_CHOICES.json#/27/need",
+            "value": "Artifact Attestation",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/27/selected_occupant",
+            "value": "Artifact Attestation",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/required",
+            "ref": "DEFAULT30_CHOICES.json#/27/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/hold",
+            "ref": "DEFAULT30_CHOICES.json#/27/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/27/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/license",
+            "ref": "DEFAULT30_CHOICES.json#/27/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/27/fit",
+            "ref": "DEFAULT30_CHOICES.json#/27/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 59,
+            "row_sha": "9566e7a57e4e13fb1a3b3cd235830c4e5c658bb44aa5c31f70b50ca44a6ede62",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 277,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-068",
+      "need_name": "OSV",
+      "need_class": "SEC",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "OSV",
+      "occupant_kind": "HOST",
+      "occupant_items": [],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/28/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/28/fit",
+        "ref": "DEFAULT30_CHOICES.json#/28/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/28/original_consumer",
+      "nofit_reason": "fresh signed local cache within TTL, else NOFIT",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/28/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/28/original_id",
+            "value": "Default30:P0-TOOL-068",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/need",
+            "ref": "DEFAULT30_CHOICES.json#/28/need",
+            "value": "OSV",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/28/selected_occupant",
+            "value": "OSV",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/required",
+            "ref": "DEFAULT30_CHOICES.json#/28/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/hold",
+            "ref": "DEFAULT30_CHOICES.json#/28/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/28/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/license",
+            "ref": "DEFAULT30_CHOICES.json#/28/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/28/fit",
+            "ref": "DEFAULT30_CHOICES.json#/28/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 60,
+            "row_sha": "9f87f743f3b69607e9a29f4db871455b2ce5bc51a3211e8506894567419b95c8",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 287,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-072",
+      "need_name": "SQLite",
+      "need_class": "CORE",
+      "required": true,
+      "required_declared": "DESIGN_DEFAULT_REQUIRED",
+      "occupant_id": "SQLite",
+      "occupant_kind": "METHOD",
+      "occupant_items": [
+        "Method25:METHOD-22"
+      ],
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/29/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_evidence": {
+        "source_file": "DEFAULT30_CHOICES.json",
+        "pointer": "/29/fit",
+        "ref": "DEFAULT30_CHOICES.json#/29/fit",
+        "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+        "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+      },
+      "consumer": "CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/29/original_consumer",
+      "nofit_reason": "none for sole SharedSpine; L0 can read frozen snapshot；N/A",
+      "nofit_reason_ref": "DEFAULT30_CHOICES.json#/29/original_business",
+      "install_state": "PIN_HOLD",
+      "status": "OCCUPANT_PIN_HOLD",
+      "hold_declared": "OCCUPANT_PIN_HOLD",
+      "hold_owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+      "version_decision": "PIN_UNBOUND",
+      "refusals": [],
+      "refusal_codes": [],
+      "unbound_fields": [
+        {
+          "field": "windows_fit",
+          "code": "WINDOWS_FIT_UNBOUND"
+        }
+      ],
+      "evidence": {
+        "default30": [
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/original_id",
+            "ref": "DEFAULT30_CHOICES.json#/29/original_id",
+            "value": "Default30:P0-TOOL-072",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/need",
+            "ref": "DEFAULT30_CHOICES.json#/29/need",
+            "value": "SQLite",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/selected_occupant",
+            "ref": "DEFAULT30_CHOICES.json#/29/selected_occupant",
+            "value": "SQLite",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/required",
+            "ref": "DEFAULT30_CHOICES.json#/29/required",
+            "value": "DESIGN_DEFAULT_REQUIRED",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/hold",
+            "ref": "DEFAULT30_CHOICES.json#/29/hold",
+            "value": "OCCUPANT_PIN_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/version_decision",
+            "ref": "DEFAULT30_CHOICES.json#/29/version_decision",
+            "value": "PIN_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "json pointer resolves"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/license",
+            "ref": "DEFAULT30_CHOICES.json#/29/license",
+            "value": "LICENSE_READER_HOLD",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          },
+          {
+            "source_file": "DEFAULT30_CHOICES.json",
+            "pointer": "/29/fit",
+            "ref": "DEFAULT30_CHOICES.json#/29/fit",
+            "value": "DESIGN_NEED_RETAINED; HOST_FIT_UNBOUND",
+            "source_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+            "verify": "byte-literal copy of DEFAULT30_CHOICES.json field"
+          }
+        ],
+        "tech485_rows": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 61,
+            "row_sha": "0440bfa5a440a17fb9554e5e64d1af17a885a30973bb184fabb15d27705de880",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "r3_section": {
+          "source_file": "W0_R3_TECH_CHOICE_AND_TRANSLATION.md",
+          "line": 297,
+          "state": "OCCUPANT_PIN_HOLD",
+          "windows_fit": "UNBOUND",
+          "verified": true,
+          "verify": "section heading + `state` literal parsed from md",
+          "agrees_with_default30_hold": true
+        }
+      }
+    }
+  ],
+  "translator_map_counts": {
+    "translators": 30,
+    "donor": 16,
+    "method": 14,
+    "needs_with_translator": 15,
+    "wp16_items_total": 49,
+    "unselected_items": 19,
+    "is_installer_true": 0
+  },
+  "readback_counts": {
+    "needs": 30,
+    "evidence_entries": 330,
+    "evidence_unresolved": 0,
+    "unbound_total": 87,
+    "needs_with_unbound": 30,
+    "tech485_rows_verified": {
+      "verified": 485,
+      "failed": 0,
+      "total": 485
+    }
+  }
+}
