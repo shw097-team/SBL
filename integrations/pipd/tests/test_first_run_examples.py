@@ -63,6 +63,10 @@ def _run_chain(root: Path, ctx: Path, art: Path) -> tuple[dict[str, str], dict]:
     """
     art.mkdir(parents=True, exist_ok=True)
     ctx.mkdir(parents=True, exist_ok=True)
+    # bind-pd only binds a RESOLVED git toplevel (fail closed), so the documented RepoContext dir
+    # is a real - empty, hence stable - checkout.
+    if not (ctx / ".git").exists():
+        subprocess.run(["git", "-C", str(ctx), "init", "-q"], check=True, capture_output=True)
 
     steps: list[tuple[str, list[str]]] = [
         ("intent.card.json", ["intake", "--goal", GOAL, "--source", SOURCE,

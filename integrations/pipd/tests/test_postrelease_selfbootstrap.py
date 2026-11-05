@@ -33,6 +33,9 @@ class TestSelfBootstrap(unittest.TestCase):
         cls._tmp = tempfile.TemporaryDirectory(prefix="pipd_selfboot_")
         cls.ctx_dir = Path(cls._tmp.name) / "pd_context"
         cls.ctx_dir.mkdir(parents=True, exist_ok=True)     # pristine read-only context dir
+        # bind_pd refuses an unresolved root, so the context dir IS a real (empty) checkout.
+        subprocess.run(["git", "-C", str(cls.ctx_dir), "init", "-q"],
+                       check=True, capture_output=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -103,6 +106,10 @@ class TestSelfBootstrap(unittest.TestCase):
 
         with tempfile.TemporaryDirectory(prefix="pipd_root_a_") as ra, tempfile.TemporaryDirectory(
                 prefix="pipd_root_b_") as rb:
+            for root in (ra, rb):
+                # a root is only bindable when it resolves to a real checkout (fail closed)
+                subprocess.run(["git", "-C", str(root), "init", "-q"],
+                               check=True, capture_output=True)
             # (a) same root, twice -> identical everywhere
             same_1 = slice_at(ra)
             same_2 = slice_at(ra)

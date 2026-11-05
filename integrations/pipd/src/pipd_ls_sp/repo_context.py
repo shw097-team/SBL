@@ -23,6 +23,10 @@ from .util import canonical_json, sha256_bytes, sha256_file, sha256_text
 # requested writable scope is reported and enforced as a SUBSET check, never echoed as free text.
 ADMITTED_WRITABLE_SCOPE = ("src/**", "tests/**", "tools/**", "fixtures/**")
 
+# Contract version of the probe payload this module emits. Callers stamp it onto evidence blocks
+# so a consumer can tell WHICH probe contract produced a RepoContext instead of guessing.
+PROBE_CONTRACT_VERSION = "repo_context.probe@2"
+
 # Caller-supplied values inside a RepoContext dict that are claims until host-verified.
 CLAIM_KEYS = ("head", "branch", "dirty", "tracked_files", "manifest", "manifest_sha256",
               "currentness", "currentness_epoch", "writable_scope")
