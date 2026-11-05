@@ -28,12 +28,15 @@ CLAIM = "AUTHOR_SUPPLY_CHAIN_LOCAL"
 VERDICTS = {"PASS", "FAIL", "HOLD", "NOT_APPLICABLE"}
 
 
-def run_gate(tree: str, out_name: str):
-    """Run the gate as a subprocess. Returns (exit_code, payload, raw_text)."""
+def run_gate(tree: str, out_name: str, strict_dev_tools: bool = False):
+    """Run the gate as a subprocess. Returns (exit_code, payload, raw_text, proc)."""
     os.makedirs(TMP_ROOT, exist_ok=True)
     out_path = os.path.join(TMP_ROOT, out_name)
+    argv = [sys.executable, GATE, "--tree", tree, "--out", out_path, "--mode", "author", "--quiet"]
+    if strict_dev_tools:
+        argv.append("--strict-dev-tools")
     proc = subprocess.run(
-        [sys.executable, GATE, "--tree", tree, "--out", out_path, "--mode", "author", "--quiet"],
+        argv,
         cwd=LANE, capture_output=True, text=True, timeout=300,
     )
     raw = ""
@@ -328,6 +331,54 @@ class BranchTests(unittest.TestCase):
         chk = check_by_id(payload, "LICENSE_PRESENT")
         self.assertEqual((chk["verdict"], chk["code"]), ("HOLD", "LICENSE_SPDX_UNPARSED"))
         self.assertEqual(check_by_id(payload, "NOTICE_PRESENT")["verdict"], "PASS")
+
+    def test_dev_tool_import_is_counted_not_judged(self):
+        """tools/ is an operator driver: its imports are not runtime dependencies."""
+        root = self._tree("devscope", {
+            "LICENSE": "SPDX-License-Identifier: MIT\n",
+            "NOTICE": "x\n",
+            "pyproject.toml": ("[project]\nname = \"demo\"\nversion = \"1.0\"\n"
+                               "dependencies = [\"jsonschema>=4.0\"]\n"
+                               "[project.optional-dependencies]\ntest = [\"pytest>=8,<9\"]\n"),
+            "src/demo/__init__.py": "",
+            "tools/probe.py": "from hg_kseos.spine import SharedSpine\n",
+            "README.md": "Re-run:\n\n```\npython -m unittest discover -s tests -v\n```\n",
+            "SBOM.cdx.json": json.dumps({
+                "bomFormat": "CycloneDX", "specVersion": "1.5",
+                "metadata": {"component": {"type": "application", "name": "demo", "version": "1.0"}},
+                "components": [{"name": "jsonschema", "version": "4.26.0"}]}),
+        })
+        code, payload, _, _ = run_gate(root, "branch_devscope.json")
+        dep = check_by_id(payload, "DEPENDENCY_DECLARED")
+        self.assertEqual((dep["verdict"], dep["code"]), ("PASS", "DEPENDENCIES_DECLARED"))
+        self.assertIn("hg_kseos", dep["counts"]["dev_only_names"])
+        self.assertEqual(dep["counts"]["undeclared_modules"], 0)
+
+    def test_strict_dev_tools_restores_the_old_verdict(self):
+        """The exclusion must be a scope choice, provable by turning it back on."""
+        root = self._tree("devscope_strict", {
+            "LICENSE": "SPDX-License-Identifier: MIT\n",
+            "NOTICE": "x\n",
+            "pyproject.toml": "[project]\nname = \"demo\"\nversion = \"1.0\"\ndependencies = []\n",
+            "tools/probe.py": "from hg_kseos.spine import SharedSpine\n",
+        })
+        code, payload, _, _ = run_gate(root, "branch_devscope_strict.json", strict_dev_tools=True)
+        dep = check_by_id(payload, "DEPENDENCY_DECLARED")
+        self.assertEqual((dep["verdict"], dep["code"]), ("FAIL", "UNDECLARED_DEPENDENCY"))
+        self.assertEqual(code, 1)
+
+    def test_runtime_import_stays_judged(self):
+        """Scoping out tools/ must not scope out the package itself."""
+        root = self._tree("runtime_undeclared", {
+            "LICENSE": "SPDX-License-Identifier: MIT\n",
+            "NOTICE": "x\n",
+            "pyproject.toml": "[project]\nname = \"demo\"\nversion = \"1.0\"\ndependencies = []\n",
+            "src/demo/core.py": "import requests\n",
+        })
+        code, payload, _, _ = run_gate(root, "branch_runtime_undeclared.json")
+        dep = check_by_id(payload, "DEPENDENCY_DECLARED")
+        self.assertEqual((dep["verdict"], dep["code"]), ("FAIL", "UNDECLARED_DEPENDENCY"))
+        self.assertIn("requests", dep["samples"][0])
 
     def test_documented_ci_entry_counts_as_pass(self):
         code, payload, _, _ = self._run_tree("docci", {

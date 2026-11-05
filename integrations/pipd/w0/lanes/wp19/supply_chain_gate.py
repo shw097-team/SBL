@@ -12,7 +12,10 @@ Runs seven typed checks over an ARBITRARY tree supplied by the operator:
                                     Optional-dependencies (test extras) are reported in
                                     counts["optional_not_listed"] for visibility and never drive
                                     the verdict: a test extra is not an installed component.
-  5. DEPENDENCY_DECLARED            ast import scan vs. pyproject / requirements / package.json
+  5. DEPENDENCY_DECLARED            ast import scan vs. pyproject / requirements / package.json.
+                                    Imports that only occur in tools/ or scripts/ are operator
+                                    drivers, so they are counted (counts.dev_only_*) and never
+                                    judged as runtime dependencies unless --strict-dev-tools.
   6. SECRET_PATTERN_SCAN            github_pat_ / ghp_ / AKIA / PRIVATE KEY ... masked output only
   7. CI_ENTRY_PRESENT               .github/workflows or a documented re-runnable command
 
@@ -587,7 +590,8 @@ def vendored_source_packages(tree: str, files) -> set:
     return names
 
 
-def check_dependency_declared(tree: str, files, declared: dict, manifest_count: int) -> CheckResult:
+def check_dependency_declared(tree: str, files, declared: dict, manifest_count: int,
+                              strict_dev_tools: bool = False) -> CheckResult:
     imports, parse_errors = python_imports(tree, files)
     py_files = [f for f in files if f.lower().endswith(".py")]
     local = local_module_names(tree, files)
@@ -601,7 +605,7 @@ def check_dependency_declared(tree: str, files, declared: dict, manifest_count: 
             declared_modules.add(DIST_TO_MODULE[dist].replace("_", "-"))
     declared_modules = {m.replace("_", "-") for m in declared_modules}
 
-    third_party, audit, vendored = set(), {}, set()
+    third_party, audit, vendored, dev_only = set(), {}, set(), {}
     vendored_dirs = vendored_source_packages(tree, files)
     for rel, lineno, mod in imports:
         key = mod.replace("_", "-")
@@ -609,6 +613,13 @@ def check_dependency_declared(tree: str, files, declared: dict, manifest_count: 
             continue
         if mod in vendored_dirs:
             vendored.add(mod)
+            continue
+        # `tools/` and `scripts/` are operator drivers, not packaged modules: their
+        # imports are satisfied by the operator's environment, never by the package
+        # runtime dependencies, so judging them here only produces a permanent FAIL
+        # that no packaging decision could fix.  Counted and reported, not judged.
+        if not strict_dev_tools and (rel.startswith("tools/") or rel.startswith("scripts/")):
+            dev_only.setdefault(mod, []).append(f"{rel}:{lineno}")
             continue
         third_party.add(mod)
         audit.setdefault(mod, []).append(f"{rel}:{lineno}")
@@ -624,6 +635,9 @@ def check_dependency_declared(tree: str, files, declared: dict, manifest_count: 
         "undeclared_modules": len(undeclared) if manifest_count else 0,
         "declared_dependencies": len(declared),
         "parse_errors": len(parse_errors),
+        "dev_only_modules": len(dev_only),
+        "dev_only_import_sites": sum(len(v) for v in dev_only.values()),
+        "dev_only_names": sorted(dev_only)[:20],
     }
 
     if not py_files:
@@ -644,9 +658,11 @@ def check_dependency_declared(tree: str, files, declared: dict, manifest_count: 
                            FAIL, "UNDECLARED_DEPENDENCY",
                            f"{len(undeclared)} module(s) imported but absent from every manifest",
                            counts, samples)
+    note = f"{len(third_party)} third-party module(s), all declared"
+    if dev_only:
+        note += f"; {len(dev_only)} dev-only module(s) in tools/ or scripts/ not judged as runtime dependency"
     return CheckResult("DEPENDENCY_DECLARED", "Every third-party import is declared in a manifest",
-                       PASS, "DEPENDENCIES_DECLARED",
-                       f"{len(third_party)} third-party module(s), all declared", counts,
+                       PASS, "DEPENDENCIES_DECLARED", note, counts,
                        sorted(third_party)[:20])
 
 
@@ -760,7 +776,7 @@ def check_ci_entry(tree: str, files) -> CheckResult:
 # --------------------------------------------------------------------------- #
 # orchestration
 # --------------------------------------------------------------------------- #
-def run_gate(tree: str, mode: str = "author") -> dict:
+def run_gate(tree: str, mode: str = "author", strict_dev_tools: bool = False) -> dict:
     tree = os.path.abspath(tree)
     if not os.path.isdir(tree):
         raise FileNotFoundError(f"tree is not a directory: {tree}")
@@ -781,7 +797,7 @@ def run_gate(tree: str, mode: str = "author") -> dict:
     results.append(sbom)
     results.append(check_sbom_reconcile(sbom.verdict, components, decl_info["runtime"],
                                         decl_info["optional"], len(manifests)))
-    results.append(check_dependency_declared(tree, files, declared, len(manifests)))
+    results.append(check_dependency_declared(tree, files, declared, len(manifests), strict_dev_tools))
     results.append(check_secret_scan(tree, files))
     results.append(check_ci_entry(tree, files))
 
@@ -889,10 +905,12 @@ def main(argv=None) -> int:
     ap.add_argument("--mode", default="author", choices=["author"],
                     help="gate mode; only 'author' exists in this build")
     ap.add_argument("--quiet", action="store_true", help="suppress the human-readable summary")
+    ap.add_argument("--strict-dev-tools", action="store_true",
+                    help="also judge imports that only appear in tools/ or scripts/ (pre-repair behaviour)")
     args = ap.parse_args(argv)
 
     try:
-        payload = run_gate(args.tree, args.mode)
+        payload = run_gate(args.tree, args.mode, strict_dev_tools=args.strict_dev_tools)
     except FileNotFoundError as exc:
         print(f"supply_chain_gate: ERROR {exc}", file=sys.stderr)
         return 2
