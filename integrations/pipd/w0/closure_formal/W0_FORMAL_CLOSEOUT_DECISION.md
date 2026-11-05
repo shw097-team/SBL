@@ -49,9 +49,9 @@
 
 | repo | PR | HEAD | 狀態 |
 |---|---|---|---|
-| SBL | #41 | `cd4b2eb1…` | open／未合併／0 review；本輪追加 WP19 修補 |
-| Fabric | #27 | `e7b5a06a…` | open／未合併／0 review；導航 check success |
-| HG-KSEOS | #11 | `8da3cb3c…` | open／未合併；**本輪零寫入**（`AGENTS.md` 差異待原 Owner 裁定） |
+| SBL | #41 | `58c8653b…` | open／未合併／0 review；本輪追加 WP19 修補與 closure_formal；checks green 6／pending 0／fail 0 |
+| Fabric | #27 | `97745a7b…` | open／未合併／0 review；導航 check success；checks green 1／pending 0／fail 0 |
+| HG-KSEOS | #11 | `8da3cb3c…` | open／未合併；**本輪零寫入**（`AGENTS.md` 差異待原 Owner 裁定）；checks green 0／pending 0／fail 0 |
 
 ## 6｜HOLD
 
@@ -62,3 +62,9 @@
 `W0_FULL_CLOSEOUT_ACCEPTED`、`W0_WAVE_CLOSEOUT_ACCEPTED_WITH_DEFERRED_EFFECTS`、`WP19_DONE`、`PIPD_CANONICAL`、`HGK_ADMITTED`、`HOST_NATIVE_E2E`、`PROTECTED_CHECKER`、`RELEASED`、`W1_TYPED_RECEIVER_ACCEPTED`、超出 `AUTHOR_STATIC` 的 `TraceClosure`。
 
 本裁決是作者端讀回；不是原 Reader ACK、不是 HGK Permit、不是密碼學簽章。
+
+## 8｜原域 Reader 請求（本輪實際送出）
+
+三庫 PR 描述已載明：Subject `FHS-W1-r4-candidate-b41d2e-W0-CLOSEOUT-20261105-0832`、Scope、四檔 SHA、WP19 真 root Raw 摘要與 `received_decision=NOT_OBSERVED` 欄位，供原 SBL PIPD/CI、Technology/Host/License、Fabric 與 HGK Owner 直接在同一 SHA 上回覆 `ACK`／`SCOPE_SPECIFIC_DEFERRED`／`NACK`。
+
+HG-KSEOS 依其 `AGENTS.md` 規則差異**未送出任何請求或寫入**，記 `HGK_RULE_ADJUDICATION_HOLD`。
