@@ -1,0 +1,1071 @@
+{
+ "changeset": "FHS-W1-R2-PREIMPL-20261105",
+ "base_r2_body_sha256": "e40df2999fbffdb96a32a2e35cddce228abdd82080d5a5bedd415dfc938669ce",
+ "note": "作者端 role SPEC；非 Canonical PI/PD；pinned W0 SPEC 的 sha 見 pinned_spec_sha256",
+ "pinned_spec_sha256": {
+  "specs/pinned/SPEC_Product.json": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+  "specs/pinned/SPEC_Architecture.json": "68d95a51d84afa08e62e2b43d46c37a45496606a621cedf206cf33e6ab278c91",
+  "specs/pinned/SPEC_Program.json": "28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999"
+ },
+ "specs": {
+  "Product": {
+   "schema": "SBL.ProductSPECDraft@1",
+   "status": "DESIGN_CANDIDATE",
+   "source_sha256": "3b625c732997742a91d313471aac6edf801f788bcf7204ca97aec64d9176a6a9",
+   "source_refs": [
+    "control_pack/02_W1_REPAIR_WORKPACKAGES.md",
+    "originals/L1_r4_current_source.original.md",
+    "sources/SBL_PIPD-LS-PKG_DOC-04(1).md"
+   ],
+   "goal": "FHS W1 source-bound author final repair and bounded original-reader handoff",
+   "non_goals": [
+    "Native installation",
+    "Canonical PI/PD/ECP/TQAEP emission",
+    "Repository mutation",
+    "Issuer/Checker/Publisher acceptance"
+   ],
+   "acceptance": [
+    {
+     "requirement": "50 original H1 and source-bound bounded handoff",
+     "positive": "Exact byte source/spans and differentiated POS/NEG are replayable",
+     "negative": "False ACK, source tampering, ownership transfer or fake native PASS rejected",
+     "oracle_ref": "AUTHOR_STATIC_CHECKER_ONLY; ORIGINAL_ORACLE_READER_HOLD"
+    }
+   ],
+   "persona": "單一 Human Owner，技術 Principal 分權",
+   "jtbd": "普通 Goal 能交出來源可追溯、受影可續工的 W1 作者設計",
+   "fuo": "兩份配對 MD、逐項差額與可重播 ZIP，由原 Consumer 另行接收",
+   "spec_version": "W1-r2-AFFECTED_REPAIR",
+   "role": {
+    "role_id": "PM_TPM",
+    "owner": "單一 Human Owner",
+    "technical_principals_separate": true
+   },
+   "type": "PRODUCT_SPEC",
+   "subject": {
+    "subject_id": "SOURCE_BOUND_FROM_W1_INTAKE_1203",
+    "scope": "FHS/PIPD-LS-PKG/W1/author-design",
+    "candidate_body_sha": "e40df2999fbffdb96a32a2e35cddce228abdd82080d5a5bedd415dfc938669ce",
+    "source_manifest_sha": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60",
+    "same_subject_across_specs": true
+   },
+   "input": "普通 Goal + OriginalSourceLocator/KnownAnswer + 已綁 Subject/Scope",
+   "output": "Product SPEC 契約（JTBD／七痛點／FUO／MVP／ACC_POS／ACC_NEG）與 W2/W3 量測計畫",
+   "producer": "W1 DraftMaker（作者端），正式效果由原域 Producer 執行",
+   "consumer": "SBL Product Reader；W2 原 PIPD／W3 原 Host",
+   "pains": [
+    {
+     "pain_id": "P01",
+     "name": "重造現成輪子／NoFit",
+     "design_fuo": "NeedKey → 24 Slot 的唯一 Build-or-Use／NoFit／License 原 Reader 請求",
+     "native_fuo": "同 Need 由原 Occupant 直接 Loaded 並被 Consumer 取用，NoFit 時確實撤回",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "Original Technology/License/Host Reader",
+     "acc_pos": "每個 NeedKey 有唯一 occupant 與唯一 effective pin",
+     "acc_neg": "同一 Need 出現兩個 effective pin，或未 Fit 仍宣 Qualified",
+     "first_fail": "CAPABILITY_NOT_QUALIFIED",
+     "measure_event": "INSTALLED→INVOKED→CONSUMER_USED 三段原 Host Raw",
+     "next_wave": "W2/W3"
+    },
+    {
+     "pain_id": "P02",
+     "name": "多來源／原 Reader 異步",
+     "design_fuo": "三 SPEC 與 S1–S5 的 typed 交接、每段附 original_reader_ref_or_HOLD",
+     "native_fuo": "同 Subject+Scope 的原 Reader ACK 順序可重播，跨 Seam 不重複提問",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "SBL PIPD／Fabric Policy／HGK Reader",
+     "acc_pos": "四份 Envelope 在同 Subject/Scope 下逐欄完整",
+     "acc_neg": "把遠端 PR HEAD 當 local RepoContext，或缺 Reader 仍宣 ACK",
+     "first_fail": "PD_OR_POLICY_BINDING_NACK",
+     "measure_event": "原 Reader 對同 candidate 的 ACK / 具名 deferral",
+     "next_wave": "W2"
+    },
+    {
+     "pain_id": "P03",
+     "name": "KnownAnswer 重複提問",
+     "design_fuo": "QuestionLedger 以 Subject+SourceSHA+Scope 為鍵，只重問差額",
+     "native_fuo": "普通 Goal 同源免重問；Source/Scope 漂移只重問變動項",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "Original Host/User Consumer",
+     "acc_pos": "同鍵問題只出現一次，且答案可回溯到 SourceRef",
+     "acc_neg": "同 SourceSHA 仍重問同一已知答案",
+     "first_fail": "KNOWN_ANSWER_REDUNDANCY_NACK",
+     "measure_event": "QuestionLedger 的 real hit/miss 與使用者實測",
+     "next_wave": "W3"
+    },
+    {
+     "pain_id": "P04",
+     "name": "影子 Writer／Issuer",
+     "design_fuo": "唯一 SBL PIPD Writer／HGK Issuer／PLAN CAS 合約；作者端不得自產 Canonical",
+     "native_fuo": "原單控制面無 shadow producer；foreign WorkID/Issuer 一律 NACK",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "Original SBL PIPD + HGK Issuer",
+     "acc_pos": "同一 artifact 只有一個 Writer 與一條簽發路徑",
+     "acc_neg": "以 OpenSpec／gstack／sidecar 產出 Canonical PI",
+     "first_fail": "SHADOW_CONTROL_PLANE_DENY",
+     "measure_event": "原 Issuer 對 foreign WorkID 的拒收 Raw",
+     "next_wave": "W2"
+    },
+    {
+     "pain_id": "P05",
+     "name": "自驗與原生權威混淆",
+     "design_fuo": "作者端 PASS_STATIC 與 Original/Independent verdict 分層記錄",
+     "native_fuo": "同一 artifact 的作者端與原域判定並存且互不覆蓋",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "Original Checker/Publisher",
+     "acc_pos": "每個 verdict 標明層級與簽發者",
+     "acc_neg": "作者自簽當 Independent PASS",
+     "first_fail": "SELF_ATTESTED_CHECKER_DENY",
+     "measure_event": "受保護 Checker 的獨立 receipt",
+     "next_wave": "W4"
+    },
+    {
+     "pain_id": "P06",
+     "name": "Host 當 Installed≠Loaded",
+     "design_fuo": "四 Host 各自的 Installed/Loaded/Invoked/ConsumerUsed 四段分立",
+     "native_fuo": "每個 Host 都有各自的四段 Raw，不互相借用",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "各 Original Host Loader/Consumer",
+     "acc_pos": "同一 Host 的四段依序成立，且證據不跨 Host",
+     "acc_neg": "一 Host pass 被套給四 Host",
+     "first_fail": "HOST_EVIDENCE_FOREIGN_NACK",
+     "measure_event": "四 Host 各自的 Loader/Invoke Raw",
+     "next_wave": "W3"
+    },
+    {
+     "pain_id": "P07",
+     "name": "真普通 Goal 長任務與可取用 FUO 欠證",
+     "design_fuo": "作者端列出可量測事件：fresh PID／WorldRaw／使用者取回結果／resume",
+     "native_fuo": "一次真普通 Goal 在授權 Host 上完成並取回結果，且可 resume",
+     "native_status": "EXPECTED_NOT_OBSERVED",
+     "original_consumer": "Original Host Runtime + User Consumer",
+     "acc_pos": "有 fresh PID、ActualServed、WorldRaw 與使用者實測取用",
+     "acc_neg": "以文件數量或作者自驗替代 Native FUO",
+     "first_fail": "NATIVE_FUO_UNOBSERVED",
+     "measure_event": "授權 Host 的實跑 Raw 與使用者回饋",
+     "next_wave": "W3/W18"
+    }
+   ],
+   "w1_wp_refs": [
+    "WP-FHS-02",
+    "WP-FHS-03",
+    "WP-FHS-04",
+    "WP-FHS-05",
+    "WP-FHS-07",
+    "WP-FHS-11",
+    "WP-FHS-17",
+    "WP-FHS-20"
+   ],
+   "acc_pos": "七痛點逐項有 design/native 分欄、Original Consumer、ACC_POS/ACC_NEG/FirstFail 與 NextWave；八 WP 有受影卡；三 SPEC 角色不合併",
+   "acc_neg": "只有文件數量或作者自驗就宣稱 P07 native 結果，或任一原要求缺 NEG/Consumer 又不列 HOLD → FUO_OR_SEMANTIC_LOSS_NACK",
+   "derived_from_pinned": {
+    "file": "specs/pinned/SPEC_Product.json",
+    "sha256": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c"
+   },
+   "claim_ceiling": "AUTHOR_FINAL_STATIC_ACCEPTED_WITH_AFFECTED_HOLDS",
+   "native_effect": "NOT_RUN",
+   "open_holds": [
+    "F-05 ORIGINAL_SEMANTIC",
+    "F-07 PIN/HOST_FIT",
+    "F-08 ASSET_ACTIVATION",
+    "F-09 RECEIVER_ACK",
+    "F-12 NATIVE_FUO",
+    "F-13 OS_PRINCIPAL",
+    "N-07 TYPED_RECEIVER"
+   ]
+  },
+  "Architecture": {
+   "schema": "SBL.ArchitectureSPECDraft@1",
+   "status": "DESIGN_CANDIDATE",
+   "source_sha256": "3b625c732997742a91d313471aac6edf801f788bcf7204ca97aec64d9176a6a9",
+   "source_refs": [
+    "control_pack/02_W1_REPAIR_WORKPACKAGES.md",
+    "originals/L1_r4_current_source.original.md",
+    "sources/SBL_PIPD-LS-PKG_DOC-04(1).md"
+   ],
+   "goal": "FHS W1 source-bound author final repair and bounded original-reader handoff",
+   "non_goals": [
+    "Native installation",
+    "Canonical PI/PD/ECP/TQAEP emission",
+    "Repository mutation",
+    "Issuer/Checker/Publisher acceptance"
+   ],
+   "acceptance": [
+    {
+     "requirement": "50 original H1 and source-bound bounded handoff",
+     "positive": "Exact byte source/spans and differentiated POS/NEG are replayable",
+     "negative": "False ACK, source tampering, ownership transfer or fake native PASS rejected",
+     "oracle_ref": "AUTHOR_STATIC_CHECKER_ONLY; ORIGINAL_ORACLE_READER_HOLD"
+    }
+   ],
+   "adr": [
+    {
+     "id": "ADR-A01",
+     "statement": "SBL integrations/pipd 是原唯一 Canonical PIPD；$sbl-tpm-sp／OpenSpec／gstack 只作規格與方法"
+    },
+    {
+     "id": "ADR-A02",
+     "statement": "Fabric FHS-NAV/v2 為唯讀入口 effect_permission=NONE；Loaded/ActualApplied 由原 Fabric Policy Reader 與 HGK Consumer 決定"
+    },
+    {
+     "id": "ADR-A03",
+     "statement": "HGK Single Issuer／SharedSpine／WorkID／Lease／CAS 是唯一控制平面；Hermes Profile/Kanban/Delegation/Swarm/Journal 是 Runtime，不自建第二 Queue"
+    },
+    {
+     "id": "ADR-A04",
+     "statement": "六級 EffectClass 依 Effect 與 Original Reader 定權；GitHub remote HEAD ≠ local RepoContext；UNKNOWN 先 World reconcile"
+    },
+    {
+     "id": "ADR-A05",
+     "statement": "Need→Existing Occupant→Thin Adapter→NoFit/LastGood；Hermes v0.22.5／OpenSpec pin 1.16.0／gstack git pin 只為選型"
+    }
+   ],
+   "ownership_seams": [
+    {
+     "seam_id": "S1",
+     "meaning": "Source／Intent／Profile → strict PI",
+     "writers": [
+      "SBL TPM PM/SE/TPgM + SourceAuthority"
+     ],
+     "original_reader": "原 PIPD Intake/Authority/Profile 與 PI Reader",
+     "consumer": "SBL-hosted 原 PI Writer",
+     "input": "OriginalID/SourceSpan/SHA/Parent/NEG, 3 SPEC SHA, safety veto",
+     "output_firstfail": "strict PI-PKG（Sidecar 不進 Canonical） / S1_SOURCE_PI_AUTHORITY_NACK",
+     "source_full_line": "| S1 | Source／Intent／Profile → strict PI | SBL TPM PM/SE/TPgM + SourceAuthority | 原 PIPD Intake/Authority/Profile 與 PI Reader | SBL-hosted 原 PI Writer | OriginalID/SourceSpan/SHA/Parent/NEG, 3 SPEC SHA, safety veto | strict PI-PKG（Sidecar 不進 Canonical） / S1_SOURCE_PI_AUTHORITY_NACK |",
+     "source_body_sha": "b0c8cb5d8e525f6e96d7ee66763fad1e694d96df69b202fa4bb828bdb3766eb8",
+     "source_line": 1795,
+     "formal_abi": "ORIGINAL_ABI_READER_HOLD"
+    },
+    {
+     "seam_id": "S2",
+     "meaning": "PI → PD／ECP／TQAEP",
+     "writers": [
+      "SBL-hosted 原 PI Writer"
+     ],
+     "original_reader": "原 RepoContext PD Binder + ECP Effect Reader + TQAEP Case Reader",
+     "consumer": "原 PIPD PD/ECP/TQAEP Writer 與原 HGK 受影適配 Consumer",
+     "input": "PI digest/Subject/Candidate/SourceSHA + local Git root/HEAD/dirty/untracked/preimage + OperationType + OracleRef",
+     "output_firstfail": "PD/DEV ECP/OPS ECP/Planned TQAEP 分出口 / S2_PI_PD_REPO_BIND_NACK",
+     "source_full_line": "| S2 | PI → PD／ECP／TQAEP | SBL-hosted 原 PI Writer | 原 RepoContext PD Binder + ECP Effect Reader + TQAEP Case Reader | 原 PIPD PD/ECP/TQAEP Writer 與原 HGK 受影適配 Consumer | PI digest/Subject/Candidate/SourceSHA + local Git root/HEAD/dirty/untracked/preimage + OperationType + OracleRef | PD/DEV ECP/OPS ECP/Planned TQAEP 分出口 / S2_PI_PD_REPO_BIND_NACK |",
+     "source_body_sha": "b0c8cb5d8e525f6e96d7ee66763fad1e694d96df69b202fa4bb828bdb3766eb8",
+     "source_line": 1796,
+     "formal_abi": "ORIGINAL_ABI_READER_HOLD"
+    },
+    {
+     "seam_id": "S3",
+     "meaning": "Native PLAN／Fabric Active Policy → HGK Admission",
+     "writers": [
+      "原 Native PLAN Producer + Fabric Policy Owner"
+     ],
+     "original_reader": "原 PLAN CurrentRevision/CAS Reader + Fabric ActiveEpoch/LoadedDigest Consumer Reader",
+     "consumer": "HGK 原 Registry/Issuer/WorkOrder/Receiver",
+     "input": "CAS base_revision/proposal_hash/Writer ACK + ActiveEpoch/LoadedSHA/ConsumerACK + Scope/HostID/Issuer ACL",
+     "output_firstfail": "原 HGK admission／WorkID（僅實機原 Issuer 有權建立） / S3_PLAN_POLICY_ADMISSION_NACK",
+     "source_full_line": "| S3 | Native PLAN／Fabric Active Policy → HGK Admission | 原 Native PLAN Producer + Fabric Policy Owner | 原 PLAN CurrentRevision/CAS Reader + Fabric ActiveEpoch/LoadedDigest Consumer Reader | HGK 原 Registry/Issuer/WorkOrder/Receiver | CAS base_revision/proposal_hash/Writer ACK + ActiveEpoch/LoadedSHA/ConsumerACK + Scope/HostID/Issuer ACL | 原 HGK admission／WorkID（僅實機原 Issuer 有權建立） / S3_PLAN_POLICY_ADMISSION_NACK |",
+     "source_body_sha": "b0c8cb5d8e525f6e96d7ee66763fad1e694d96df69b202fa4bb828bdb3766eb8",
+     "source_line": 1797,
+     "formal_abi": "ORIGINAL_ABI_READER_HOLD"
+    },
+    {
+     "seam_id": "S4",
+     "meaning": "HGK WorkID → Hermes／Codex → WorldRaw",
+     "writers": [
+      "HGK Original WorkID/SharedSpine/Lease"
+     ],
+     "original_reader": "原 Hermes v0.22.5 Dispatcher/Bounded Worker/Journal Reader",
+     "consumer": "Original WorldRaw／Journal Consumer",
+     "input": "OperationID/idempotency/LeaseGen/WorkerPID/ActualServed/Raw stdout stderr exit/diff",
+     "output_firstfail": "WorldRaw + checked journal cursor 或 UNKNOWN / S4_WORK_WORLD_RAW_NACK",
+     "source_full_line": "| S4 | HGK WorkID → Hermes／Codex → WorldRaw | HGK Original WorkID/SharedSpine/Lease | 原 Hermes v0.22.5 Dispatcher/Bounded Worker/Journal Reader | Original WorldRaw／Journal Consumer | OperationID/idempotency/LeaseGen/WorkerPID/ActualServed/Raw stdout stderr exit/diff | WorldRaw + checked journal cursor 或 UNKNOWN / S4_WORK_WORLD_RAW_NACK |",
+     "source_body_sha": "b0c8cb5d8e525f6e96d7ee66763fad1e694d96df69b202fa4bb828bdb3766eb8",
+     "source_line": 1798,
+     "formal_abi": "ORIGINAL_ABI_READER_HOLD"
+    },
+    {
+     "seam_id": "S5",
+     "meaning": "Raw／Original Oracle → Protected Checker／Publisher",
+     "writers": [
+      "Original WorldRaw + Case/Oracle Owner"
+     ],
+     "original_reader": "原 Protected Checker Reader（分離 principal）",
+     "consumer": "Original Publisher／Release Consumer",
+     "input": "同 Subject/Candidate/Scope/Host/Epoch、OracleSHA、POS/NEG、Maker≠Checker",
+     "output_firstfail": "獨立 verdict（若真執行）及 W4 Publisher readback / S5_CHECKER_PUBLISHER_SCOPE_NACK",
+     "source_full_line": "| S5 | Raw／Original Oracle → Protected Checker／Publisher | Original WorldRaw + Case/Oracle Owner | 原 Protected Checker Reader（分離 principal） | Original Publisher／Release Consumer | 同 Subject/Candidate/Scope/Host/Epoch、OracleSHA、POS/NEG、Maker≠Checker | 獨立 verdict（若真執行）及 W4 Publisher readback / S5_CHECKER_PUBLISHER_SCOPE_NACK |",
+     "source_body_sha": "b0c8cb5d8e525f6e96d7ee66763fad1e694d96df69b202fa4bb828bdb3766eb8",
+     "source_line": 1799,
+     "formal_abi": "ORIGINAL_ABI_READER_HOLD"
+    }
+   ],
+   "abi_version": "ORIGINAL_ABI_READER_HOLD; five seam design projections only",
+   "risk": [
+    "Source/Host currentness",
+    "Unratified Parent/NEG/Oracle",
+    "No maker self-signed independent acceptance"
+   ],
+   "spec_version": "W1-r2-AFFECTED_REPAIR",
+   "role": {
+    "role_id": "SE",
+    "owner": "單一 Human Owner",
+    "technical_principals_separate": true
+   },
+   "type": "ARCHITECTURE_SPEC",
+   "subject": {
+    "subject_id": "SOURCE_BOUND_FROM_W1_INTAKE_1203",
+    "scope": "FHS/PIPD-LS-PKG/W1/author-design",
+    "candidate_body_sha": "e40df2999fbffdb96a32a2e35cddce228abdd82080d5a5bedd415dfc938669ce",
+    "source_manifest_sha": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60",
+    "same_subject_across_specs": true
+   },
+   "input": "Product SPEC 契約 + 三庫原 Reader 能力 + 六級 EffectClass 邊界",
+   "output": "Architecture SPEC 契約（S1–S5、ADR、單一 Writer/Issuer、Effect/安全邊界、ABI 共同欄位）",
+   "producer": "W1 DraftMaker（作者端設計）",
+   "consumer": "SBL Architecture/PIPD Reader；Fabric Policy Reader；HGK Issuer Reader",
+   "effect_classes": [
+    {
+     "class": "SOURCE_READ",
+     "this_round": "USED",
+     "gate": "檔案 ACL／來源位置／SHA"
+    },
+    {
+     "class": "LOCAL_DRAFT_WRITE",
+     "this_round": "USED",
+     "gate": "限隔離輸出區，不准覆寫來源或宣 Canonical"
+    },
+    {
+     "class": "DEV_REPO_WRITE",
+     "this_round": "HOLD",
+     "gate": "真 local Git root/HEAD/index/preimage + 原 Writer/Scope"
+    },
+    {
+     "class": "HOST_OPS",
+     "this_round": "HOLD",
+     "gate": "原 HGK Issuer/Policy Loaded/OS ACL/Nonce/Lease/Host ABI"
+    },
+    {
+     "class": "USER_EFFECT",
+     "this_round": "HOLD",
+     "gate": "原 Consent/資料範圍/撤銷 + Original Consumer"
+    },
+    {
+     "class": "RELEASE_EFFECT",
+     "this_round": "HOLD",
+     "gate": "原 Publisher/CI/Checker/GHP-02/E26"
+    }
+   ],
+   "abi_common_fields": [
+    "subject_id",
+    "source_manifest_sha",
+    "candidate_sha",
+    "scope",
+    "effect_class",
+    "producer",
+    "original_reader_ref",
+    "original_consumer",
+    "abi_ref_or_HOLD",
+    "host_id_if_applicable",
+    "policy_epoch_if_applicable",
+    "original_work_id_if_applicable",
+    "required_raw",
+    "expected_firstfail",
+    "stop_reason",
+    "resume_predicate",
+    "rollback_owner"
+   ],
+   "acc_pos": "S1–S5 各有 Original Writer/Reader/Consumer/ABI/NEG，且同 Subject/Scope/Host/Epoch；三 Lane 的 RequiredSet 與 ActualServed 分欄",
+   "acc_neg": "導航發 HGK Permit／第二 PIPD Compiler／自簽 Protected Checker／借另一 Host 的 Loaded 或 OS SID → SHADOW_WRITER_OR_ISSUER_DENY／CROSS_HOST_EVIDENCE_NACK／PRINCIPAL_SOD_UNPROVEN",
+   "derived_from_pinned": {
+    "file": "specs/pinned/SPEC_Architecture.json",
+    "sha256": "68d95a51d84afa08e62e2b43d46c37a45496606a621cedf206cf33e6ab278c91"
+   },
+   "claim_ceiling": "AUTHOR_FINAL_STATIC_ACCEPTED_WITH_AFFECTED_HOLDS",
+   "native_effect": "NOT_RUN"
+  },
+  "Program": {
+   "schema": "SBL.ProgramSPECDraft@1",
+   "status": "DESIGN_CANDIDATE",
+   "source_sha256": "3b625c732997742a91d313471aac6edf801f788bcf7204ca97aec64d9176a6a9",
+   "source_refs": [
+    "control_pack/02_W1_REPAIR_WORKPACKAGES.md",
+    "originals/L1_r4_current_source.original.md",
+    "sources/SBL_PIPD-LS-PKG_DOC-04(1).md"
+   ],
+   "goal": "FHS W1 source-bound author final repair and bounded original-reader handoff",
+   "non_goals": [
+    "Native installation",
+    "Canonical PI/PD/ECP/TQAEP emission",
+    "Repository mutation",
+    "Issuer/Checker/Publisher acceptance"
+   ],
+   "acceptance": [
+    {
+     "requirement": "50 original H1 and source-bound bounded handoff",
+     "positive": "Exact byte source/spans and differentiated POS/NEG are replayable",
+     "negative": "False ACK, source tampering, ownership transfer or fake native PASS rejected",
+     "oracle_ref": "AUTHOR_STATIC_CHECKER_ONLY; ORIGINAL_ORACLE_READER_HOLD"
+    }
+   ],
+   "dag": {
+    "WP-FHS-00": [],
+    "WP-FHS-01": [
+     "WP-FHS-00"
+    ],
+    "WP-FHS-02": [
+     "WP-FHS-01"
+    ],
+    "WP-FHS-03": [
+     "WP-FHS-01"
+    ],
+    "WP-FHS-04": [
+     "WP-FHS-00"
+    ],
+    "WP-FHS-05": [
+     "WP-FHS-01"
+    ],
+    "WP-FHS-06": [
+     "WP-FHS-02",
+     "WP-FHS-03",
+     "WP-FHS-04",
+     "WP-FHS-05",
+     "WP-FHS-17"
+    ],
+    "WP-FHS-07": [
+     "WP-FHS-01",
+     "WP-FHS-15"
+    ],
+    "WP-FHS-08": [
+     "WP-FHS-06",
+     "WP-FHS-07"
+    ],
+    "WP-FHS-09": [
+     "WP-FHS-08",
+     "WP-FHS-21"
+    ],
+    "WP-FHS-10": [
+     "WP-FHS-09",
+     "WP-FHS-20"
+    ],
+    "WP-FHS-11": [
+     "WP-FHS-05",
+     "WP-FHS-16"
+    ],
+    "WP-FHS-12": [
+     "WP-FHS-10",
+     "WP-FHS-11"
+    ],
+    "WP-FHS-13": [
+     "WP-FHS-16",
+     "WP-FHS-17"
+    ],
+    "WP-FHS-14": [
+     "WP-FHS-09",
+     "WP-FHS-19"
+    ],
+    "WP-FHS-15": [
+     "WP-FHS-00"
+    ],
+    "WP-FHS-16": [
+     "WP-FHS-00"
+    ],
+    "WP-FHS-17": [
+     "WP-FHS-00",
+     "WP-FHS-02",
+     "WP-FHS-03"
+    ],
+    "WP-FHS-18": [
+     "WP-FHS-08"
+    ],
+    "WP-FHS-19": [
+     "WP-FHS-00"
+    ],
+    "WP-FHS-20": [
+     "WP-FHS-05",
+     "WP-FHS-16"
+    ],
+    "WP-FHS-21": [
+     "WP-FHS-01"
+    ]
+   },
+   "owners": {
+    "WP-FHS-00": "Original Source/Host Discovery Reader",
+    "WP-FHS-01": "Original Authority/Oracle/Profile Reader",
+    "WP-FHS-02": "Original Fabric Policy Consumer Reader",
+    "WP-FHS-03": "Original HGK Registry/Issuer Reader",
+    "WP-FHS-04": "Original Hermes Durable Runtime Reader",
+    "WP-FHS-05": "Original PIPD Native Compiler Reader",
+    "WP-FHS-06": "Original Legal First Reversible Slice Reader",
+    "WP-FHS-07": "Original Native PLAN Commander A/B/C Reader",
+    "WP-FHS-08": "Original FHS Execute Worker Reader",
+    "WP-FHS-09": "Original Challenge/Protected AO Reader",
+    "WP-FHS-10": "Original B1 3 GWO & G-A/G-B Reader",
+    "WP-FHS-11": "Original Portable Host Dogfood Reader",
+    "WP-FHS-12": "Original W18 Normal Mode Reader",
+    "WP-FHS-13": "Original CAP On-Demand + HotSwap Reader",
+    "WP-FHS-14": "Original Release/Retire Candidate Reader",
+    "WP-FHS-15": "Original TPM Corpus & SPEC 18Stage Reader",
+    "WP-FHS-16": "Original Donor/Method Slot Translation Reader",
+    "WP-FHS-17": "Original CAP-BOOT Native Occupants Reader",
+    "WP-FHS-18": "Original FAR Bounded Repair & Incident Reader",
+    "WP-FHS-19": "Original CI/Supply Chain & Requal Reader",
+    "WP-FHS-20": "Original CLI/Agent/Host Kind Matrix Reader",
+    "WP-FHS-21": "Original Challenge 96/H4/SEAM Coverage Reader"
+   },
+   "work_packages": {
+    "WP-FHS-00": {
+     "title": "Source/Host Discovery",
+     "depends_on": [],
+     "full_source_contract": "### WP-FHS-00｜Source/Host Discovery\n- **Producer → ABI/Schema → Consumer**：原 SourceReader/RepoProbe → `SourceManifest + RepoContext readback` → 原 TPM/PIPD Source Reader。\n- **Input**：原來源根、四庫 HEAD/index/untracked、原檔 bytes；不輸入模型推測版本。\n- **Output**：SourceManifest+RepoContext。\n- **DAG dependency**：無前置卡；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`SOURCE_READ`；原唯讀 ACL/read scope。\n- **WriteSet / LateBind**：唯讀原 admitted root；此工作不寫來源、不需要 Live Permit。\n- **POS**：根路徑/HEAD/index/untracked/bytes SHA當期可讀。\n- **NEG / FirstFail**：README或junction別名冒真root → `WP-FHS-00.FIRST_FAIL:ROOT_CURRENTNESS_NOT_PROVEN`。\n- **Done**：根路徑/HEAD/index/untracked/bytes SHA當期可讀；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-00 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 TPM/PIPD Source Reader。\n- **NoFit / Exit**：WP-FHS-00 的 WP-FHS-00.FIRST_FAIL:ROOT_CURRENTNESS_NOT_PROVEN 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：丟棄 WP-FHS-00 唯讀快照後重讀。\n- **Resume**：重讀 WP-FHS-00 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-8a0c0dff28abe22a5e07\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 19,
+     "owner": "Original Source/Host Discovery Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-01": {
+     "title": "Authority/Oracle/Profile",
+     "depends_on": [
+      "WP-FHS-00"
+     ],
+     "full_source_contract": "### WP-FHS-01｜Authority/Oracle/Profile\n- **Producer → ABI/Schema → Consumer**：原 Authority/Profile Owner → `AuthorityBinding/ProfileBinding 原 19-schema Registry` → PIPD compile-pi。\n- **Input**：SourceFamily SHA、Domain Owner、原 Oracle、九 context 軸與十二風險分數獨立 sidecar。\n- **Output**：AuthorityConflictLedger+Oracle/ProfileBinding。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`SOURCE_READ`；原唯讀 ACL/read scope。\n- **WriteSet / LateBind**：唯讀原 admitted root；此工作不寫來源、不需要 Live Permit。\n- **POS**：原Authority/Oracle/Profile衝突被明列而未偷偷promotion。\n- **NEG / FirstFail**：九enum直接當十二軸分數 → `WP-FHS-01.FIRST_FAIL:PROFILE_OR_ORACLE_BIND_HOLD`。\n- **Done**：原Authority/Oracle/Profile衝突被明列而未偷偷promotion；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-01 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=PIPD compile-pi。\n- **NoFit / Exit**：WP-FHS-01 的 WP-FHS-01.FIRST_FAIL:PROFILE_OR_ORACLE_BIND_HOLD 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：丟棄 WP-FHS-01 唯讀快照後重讀。\n- **Resume**：重讀 WP-FHS-01 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-40f74d815d632b8cdceb\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 35,
+     "owner": "Original Authority/Oracle/Profile Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-02": {
+     "title": "Fabric Policy Consumer",
+     "depends_on": [
+      "WP-FHS-01"
+     ],
+     "full_source_contract": "### WP-FHS-02｜Fabric Policy Consumer\n- **Producer → ABI/Schema → Consumer**：Fabric Policy Owner → `FABRIC/fabric/consumers/hgk_policy_consumer.py 原 Consumer ABI` → HGK policy consumer。\n- **Input**：真 policy epoch/SourceSHA、已批准 policy ref、Host target；先讀原 active/loaded/consumed 分開證據。\n- **Output**：PolicyLoadedConsumerACK。\n- **DAG dependency**：WP-FHS-01；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 HGK policy consumer 對 WP-FHS-02 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：Source/Stage/Approve/Active/Loaded/Consumer各自hash同scope。\n- **NEG / FirstFail**：Stage文件冒Loaded ACK → `WP-FHS-02.FIRST_FAIL:POLICY_NOT_LOADED`。\n- **Done**：Source/Stage/Approve/Active/Loaded/Consumer各自hash同scope；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-02 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=HGK policy consumer。\n- **NoFit / Exit**：WP-FHS-02 的 WP-FHS-02.FIRST_FAIL:POLICY_NOT_LOADED 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 Fabric Policy Owner 按 WP-FHS-02 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-02 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-792dbf8ac23d0fbe5a8a\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 51,
+     "owner": "Original Fabric Policy Consumer Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-03": {
+     "title": "HGK Registry/Issuer",
+     "depends_on": [
+      "WP-FHS-01"
+     ],
+     "full_source_contract": "### WP-FHS-03｜HGK Registry/Issuer\n- **Producer → ABI/Schema → Consumer**：HGK 原 Registry/Resolver/Issuer → `原 HGK WorkOrder/ExecutionBinding/Permit ABI` → 原 HGK Receiver。\n- **Input**：原受權 WorkID、Subject、Scope、PolicyEpoch、TTL、nonce；文件 ECP 不充 Permit。\n- **Output**：IssuerReceiverBinding。\n- **DAG dependency**：WP-FHS-01；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原 HGK Receiver 對 WP-FHS-03 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：原Receiver/Issuer registry同epoch與scope。\n- **NEG / FirstFail**：候選ECP冒Permit → `WP-FHS-03.FIRST_FAIL:ISSUER_BINDING_INVALID`。\n- **Done**：原Receiver/Issuer registry同epoch與scope；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-03 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 HGK Receiver。\n- **NoFit / Exit**：WP-FHS-03 的 WP-FHS-03.FIRST_FAIL:ISSUER_BINDING_INVALID 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 HGK 原 Registry/Resolver/Issuer 按 WP-FHS-03 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-03 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-fafdb583b5281b6eb182\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 67,
+     "owner": "Original HGK Registry/Issuer Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-04": {
+     "title": "Hermes Durable Runtime",
+     "depends_on": [
+      "WP-FHS-00"
+     ],
+     "full_source_contract": "### WP-FHS-04｜Hermes Durable Runtime\n- **Producer → ABI/Schema → Consumer**：Hermes 原 runtime/journal Owner → `原 WorkID/Queue/Lease/Journal ABI` → 原 bounded Worker。\n- **Input**：原 WorkID、queue item、lease generation、checkpoint；不建立新 queue 或 SQLite journal。\n- **Output**：WakeLeaseRuntimeBinding。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原 bounded Worker 對 WP-FHS-04 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：原Journal/Wake/Lease schema及checkpoint可讀。\n- **NEG / FirstFail**：新增第二Queue或舊generation commit → `WP-FHS-04.FIRST_FAIL:RUNTIME_LEASE_BINDING_DENY`。\n- **Done**：原Journal/Wake/Lease schema及checkpoint可讀；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-04 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 bounded Worker。\n- **NoFit / Exit**：WP-FHS-04 的 WP-FHS-04.FIRST_FAIL:RUNTIME_LEASE_BINDING_DENY 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 Hermes 原 runtime/journal Owner 按 WP-FHS-04 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-04 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-f2c90a133e3bfccb358e\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 83,
+     "owner": "Original Hermes Durable Runtime Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-05": {
+     "title": "PIPD Native Compiler",
+     "depends_on": [
+      "WP-FHS-01"
+     ],
+     "full_source_contract": "### WP-FHS-05｜PIPD Native Compiler\n- **Producer → ABI/Schema → Consumer**：PIPD 原 Intake/PI/PD/ECP Compiler → `PIPD schemas/registry.json 原 19 families` → HGK construction/OPS adapters。\n- **Input**：三 SPEC、IntentCard、SourceFreeze、Profile、PI；PD 僅在真 RepoContext 晚綁。\n- **Output**：PI/PD/DEV-OPS候選。\n- **DAG dependency**：WP-FHS-01；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`LOCAL_DRAFT_WRITE`；明列隔離 output root 的使用者授權。\n- **WriteSet / LateBind**：在本輪隔離 root 內先列 manifest exact relpath/preimage，新檔 preimage=ABSENT；不寫正式 Repo、Host 或 User store。\n- **POS**：PI語義/PD scope/DEV-OPS分路與strict input一致。\n- **NEG / FirstFail**：sidecar塞strict payload或expected當Raw → `WP-FHS-05.FIRST_FAIL:PIPD_FORMAL_PROMOTION_HOLD`。\n- **Done**：PI語義/PD scope/DEV-OPS分路與strict input一致；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-05 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=HGK construction/OPS adapters。\n- **NoFit / Exit**：WP-FHS-05 的 WP-FHS-05.FIRST_FAIL:PIPD_FORMAL_PROMOTION_HOLD 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：只撤本輪 WP-FHS-05 隔離候選、恢復 exact preimage；原來源不動。\n- **Resume**：重讀 WP-FHS-05 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-9a936346d13548670c4f\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 99,
+     "owner": "Original PIPD Native Compiler Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-06": {
+     "title": "Legal First Reversible Slice",
+     "depends_on": [
+      "WP-FHS-02",
+      "WP-FHS-03",
+      "WP-FHS-04",
+      "WP-FHS-05",
+      "WP-FHS-17"
+     ],
+     "full_source_contract": "### WP-FHS-06｜Legal First Reversible Slice\n- **Producer → ABI/Schema → Consumer**：已受權 Codex bounded Writer → `ConstructionContract + DEV ECP + 原 HGK admission` → 原 Repo Reader/Checker。\n- **Input**：exact RepoContext、preimage、WriteSet、測試入口、有效 DEV grant、需要的 capability qualification。\n- **Output**：最小可逆Repo diff+Raw。\n- **DAG dependency**：WP-FHS-02, WP-FHS-03, WP-FHS-04, WP-FHS-05, WP-FHS-17；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`REPO_WRITE`；DEV ECP + exact WriteSet + 原 HGK admission。\n- **WriteSet / LateBind**：合法晚綁：由原 原 Repo Reader/Checker 對 WP-FHS-06 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：needed capability qualified後在exact Repo scope取得可逆diff/Raw。\n- **NEG / FirstFail**：WP17尚未具能力就發首effect → `WP-FHS-06.FIRST_FAIL:FIRST_EFFECT_CAPABILITY_MISSING`。\n- **Done**：needed capability qualified後在exact Repo scope取得可逆diff/Raw；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-06 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 Repo Reader/Checker。\n- **NoFit / Exit**：WP-FHS-06 的 WP-FHS-06.FIRST_FAIL:FIRST_EFFECT_CAPABILITY_MISSING 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 已受權 Codex bounded Writer 按 WP-FHS-06 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-06 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-9922fca1cd4f9de82ae6\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 115,
+     "owner": "Original Legal First Reversible Slice Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-07": {
+     "title": "Native PLAN Commander A/B/C",
+     "depends_on": [
+      "WP-FHS-01",
+      "WP-FHS-15"
+     ],
+     "full_source_contract": "### WP-FHS-07｜Native PLAN Commander A/B/C\n- **Producer → ABI/Schema → Consumer**：原 SBL TPM/Commander PLAN Reader → `PlanRevisionProposal + 原 PLAN CAS ABI` → 原 HGK PLAN Reader。\n- **Input**：Goal/KnownAnswer、SourceSHA、三 SPEC、原 plan revision；A 只讀、B 隔離候選、C effect 分開。\n- **Output**：PlanRevisionProposal+CAS ACK。\n- **DAG dependency**：WP-FHS-01, WP-FHS-15；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`LOCAL_DRAFT_WRITE`；明列隔離 output root 的使用者授權。\n- **WriteSet / LateBind**：在本輪隔離 root 內先列 manifest exact relpath/preimage，新檔 preimage=ABSENT；不寫正式 Repo、Host 或 User store。\n- **POS**：A只讀/B隔離proposal使用原PLAN CAS Reader。\n- **NEG / FirstFail**：要求先有同WO permit才能規劃或呼叫legacy SP → `WP-FHS-07.FIRST_FAIL:COMMANDER_BOOTSTRAP_INVERSION`。\n- **Done**：A只讀/B隔離proposal使用原PLAN CAS Reader；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-07 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 HGK PLAN Reader。\n- **NoFit / Exit**：WP-FHS-07 的 WP-FHS-07.FIRST_FAIL:COMMANDER_BOOTSTRAP_INVERSION 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：只撤本輪 WP-FHS-07 隔離候選、恢復 exact preimage；原來源不動。\n- **Resume**：重讀 WP-FHS-07 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-b6f8b2586e3982755d83\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 131,
+     "owner": "Original Native PLAN Commander A/B/C Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-08": {
+     "title": "FHS Execute Worker",
+     "depends_on": [
+      "WP-FHS-06",
+      "WP-FHS-07"
+     ],
+     "full_source_contract": "### WP-FHS-08｜FHS Execute Worker\n- **Producer → ABI/Schema → Consumer**：原 Hermes Dispatcher + bounded Worker → `原 ExecutionBinding/lease fence/EffectRaw ABI` → 原 WorldRaw Collector。\n- **Input**：同 WorkID/operation intent/nonce/lease、原 effect receiver；三 lane required/selected/served。\n- **Output**：WorkerEffectRaw+JournalCursor。\n- **DAG dependency**：WP-FHS-06, WP-FHS-07；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原 WorldRaw Collector 對 WP-FHS-08 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：已admitted WorkID單一lease以Worker真PID完成本operation。\n- **NEG / FirstFail**：timeout同nonce盲replay → `WP-FHS-08.FIRST_FAIL:EFFECT_REPLAY_DENY`。\n- **Done**：已admitted WorkID單一lease以Worker真PID完成本operation；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-08 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 WorldRaw Collector。\n- **NoFit / Exit**：WP-FHS-08 的 WP-FHS-08.FIRST_FAIL:EFFECT_REPLAY_DENY 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Hermes Dispatcher + bounded Worker 按 WP-FHS-08 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-08 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-20f1a0506b20ef1a751d\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 147,
+     "owner": "Original FHS Execute Worker Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-09": {
+     "title": "Challenge/Protected AO",
+     "depends_on": [
+      "WP-FHS-08",
+      "WP-FHS-21"
+     ],
+     "full_source_contract": "### WP-FHS-09｜Challenge/Protected AO\n- **Producer → ABI/Schema → Consumer**：原 WorldRaw Producer → `原 TQAEP/Protected Checker Request ABI` → 不同 Principal 的原 Protected Checker。\n- **Input**：同 CandidateSHA/Subject/CaseID 的 WorldRaw、原 OracleSHA、Maker 與 Checker 權限分離。\n- **Output**：ProtectedCheckerRequest/Receipt（需另一主體）。\n- **DAG dependency**：WP-FHS-08, WP-FHS-21；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`SOURCE_READ`；原唯讀 ACL/read scope。\n- **WriteSet / LateBind**：唯讀原 admitted root；此工作不寫來源、不需要 Live Permit。\n- **POS**：真Raw與原Oracle交不同principal受保護Reader。\n- **NEG / FirstFail**：Maker自簽PASS或借sibling verdict → `WP-FHS-09.FIRST_FAIL:SELF_ACCEPTANCE_DENY`。\n- **Done**：真Raw與原Oracle交不同principal受保護Reader；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-09 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=不同 Principal 的原 Protected Checker。\n- **NoFit / Exit**：WP-FHS-09 的 WP-FHS-09.FIRST_FAIL:SELF_ACCEPTANCE_DENY 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：丟棄 WP-FHS-09 唯讀快照後重讀。\n- **Resume**：重讀 WP-FHS-09 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-67820a91ded6db92f652\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 163,
+     "owner": "Original Challenge/Protected AO Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-10": {
+     "title": "B1 3 GWO & G-A/G-B",
+     "depends_on": [
+      "WP-FHS-09",
+      "WP-FHS-20"
+     ],
+     "full_source_contract": "### WP-FHS-10｜B1 3 GWO & G-A/G-B\n- **Producer → ABI/Schema → Consumer**：Fabric/HGK/SBL 三個原 GWO Owner → `B1 原 PI27→PD31→TQAEP ABI` → 三 GWO 各自原 Receiver。\n- **Input**：每個 GWO 各自 SourceSHA、Scope、Raw；G-A/G-B 不用單一 GWO 借證。\n- **Output**：三GWO各自Raw+G-A/G-B。\n- **DAG dependency**：WP-FHS-09, WP-FHS-20；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 三 GWO 各自原 Receiver 對 WP-FHS-10 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：Fabric/HGK/SBL三GWO各自effect與G-A/G-B證據。\n- **NEG / FirstFail**：一個GWO冒其餘兩個 → `WP-FHS-10.FIRST_FAIL:GWO_EVIDENCE_JOIN_INCOMPLETE`。\n- **Done**：Fabric/HGK/SBL三GWO各自effect與G-A/G-B證據；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-10 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=三 GWO 各自原 Receiver。\n- **NoFit / Exit**：WP-FHS-10 的 WP-FHS-10.FIRST_FAIL:GWO_EVIDENCE_JOIN_INCOMPLETE 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 Fabric/HGK/SBL 三個原 GWO Owner 按 WP-FHS-10 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-10 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-ac915bfd9a557f283fe3\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 179,
+     "owner": "Original B1 3 GWO & G-A/G-B Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-11": {
+     "title": "Portable Host Dogfood",
+     "depends_on": [
+      "WP-FHS-05",
+      "WP-FHS-16"
+     ],
+     "full_source_contract": "### WP-FHS-11｜Portable Host Dogfood\n- **Producer → ABI/Schema → Consumer**：原 Portable SP packager/Host Loader → `原各 Host install/load/invoke/remove manifest` → 各 Host 原 Skill Reader。\n- **Input**：TPM/Commander/Challenge 三 SP 本 Host pin、license、trigger/nontrigger；原八 PIPD skills 分開。\n- **Output**：三SP逐Host loaded/invoked raw。\n- **DAG dependency**：WP-FHS-05, WP-FHS-16；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 各 Host 原 Skill Reader 對 WP-FHS-11 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：每Portable SP的Host install/load/invoke/nontrigger/remove。\n- **NEG / FirstFail**：一SP安裝receipt當三SP9/9 → `WP-FHS-11.FIRST_FAIL:HOST_SP_MATRIX_INCOMPLETE`。\n- **Done**：每Portable SP的Host install/load/invoke/nontrigger/remove；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-11 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=各 Host 原 Skill Reader。\n- **NoFit / Exit**：WP-FHS-11 的 WP-FHS-11.FIRST_FAIL:HOST_SP_MATRIX_INCOMPLETE 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Portable SP packager/Host Loader 按 WP-FHS-11 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-11 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-6fb690c7ea4579b87f48\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 195,
+     "owner": "Original Portable Host Dogfood Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-12": {
+     "title": "W18 Normal Mode",
+     "depends_on": [
+      "WP-FHS-10",
+      "WP-FHS-11"
+     ],
+     "full_source_contract": "### WP-FHS-12｜W18 Normal Mode\n- **Producer → ABI/Schema → Consumer**：原 Hermes normal-entry Owner → `W18 ordinary Goal/E33–E42 原 ABI` → 原 normal Profile/ToolAutoSelect Reader。\n- **Input**：fresh PID、普通 Goal、原 live Profile/ToolSelection、checkpoint；不要求 B1 長 Prompt。\n- **Output**：新PID普通Goal E33-E42 Raw。\n- **DAG dependency**：WP-FHS-10, WP-FHS-11；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原 normal Profile/ToolAutoSelect Reader 對 WP-FHS-12 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：新PID普通Goal正式Profile/ToolAutoSelect/真served且test-only移除。\n- **NEG / FirstFail**：B1專用Prompt或test plugin充NormalMode → `WP-FHS-12.FIRST_FAIL:NORMAL_MODE_NOT_QUALIFIED`。\n- **Done**：新PID普通Goal正式Profile/ToolAutoSelect/真served且test-only移除；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-12 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 normal Profile/ToolAutoSelect Reader。\n- **NoFit / Exit**：WP-FHS-12 的 WP-FHS-12.FIRST_FAIL:NORMAL_MODE_NOT_QUALIFIED 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Hermes normal-entry Owner 按 WP-FHS-12 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-12 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-07844261d409ca68f150\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 211,
+     "owner": "Original W18 Normal Mode Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-13": {
+     "title": "CAP On-Demand + HotSwap",
+     "depends_on": [
+      "WP-FHS-16",
+      "WP-FHS-17"
+     ],
+     "full_source_contract": "### WP-FHS-13｜CAP On-Demand + HotSwap\n- **Producer → ABI/Schema → Consumer**：原 TechnologyAdmission/Host capability Owner → `原 Need/Occupant/HotSwap admission ABI` → 原有 Consumer 與 Host Loader。\n- **Input**：Need+Host+Scope+version、原 OriginalDisposition、舊/新 Occupant 的專屬 parity POS/NEG。\n- **Output**：CAP gap/HotSwap parity+readback。\n- **DAG dependency**：WP-FHS-16, WP-FHS-17；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原有 Consumer 與 Host Loader 對 WP-FHS-13 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：needed CAP走原route且替代Parity同原功能。\n- **NEG / FirstFail**：熱替代Issuer或以選型當invoke → `WP-FHS-13.FIRST_FAIL:CAPABILITY_PARITY_NOT_PROVEN`。\n- **Done**：needed CAP走原route且替代Parity同原功能；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-13 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原有 Consumer 與 Host Loader。\n- **NoFit / Exit**：WP-FHS-13 的 WP-FHS-13.FIRST_FAIL:CAPABILITY_PARITY_NOT_PROVEN 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 TechnologyAdmission/Host capability Owner 按 WP-FHS-13 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-13 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-cac955aa4f4105285497\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 227,
+     "owner": "Original CAP On-Demand + HotSwap Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-14": {
+     "title": "Release/Retire Candidate",
+     "depends_on": [
+      "WP-FHS-09",
+      "WP-FHS-19"
+     ],
+     "full_source_contract": "### WP-FHS-14｜Release/Retire Candidate\n- **Producer → ABI/Schema → Consumer**：原 Publisher → `原 Release/Retire + GHP-02 ABI` → 原發行 channel Reader。\n- **Input**：同 SubjectSHA 的供應鏈證據、Protected Checker、Publisher 權限；本輪無發布權。\n- **Output**：ReleaseCandidate+原Publisher receipt。\n- **DAG dependency**：WP-FHS-09, WP-FHS-19；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`RELEASE`；原 Publisher/GHP-02 + 受保護 Checker。\n- **WriteSet / LateBind**：合法晚綁：由原 原發行 channel Reader 對 WP-FHS-14 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：供應鏈+受保護驗收+原Publisher/GHP-02實際readback。\n- **NEG / FirstFail**：CI/作者檔案封裝冒Release → `WP-FHS-14.FIRST_FAIL:RELEASE_NOT_AUTHORIZED`。\n- **Done**：供應鏈+受保護驗收+原Publisher/GHP-02實際readback；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-14 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原發行 channel Reader。\n- **NoFit / Exit**：WP-FHS-14 的 WP-FHS-14.FIRST_FAIL:RELEASE_NOT_AUTHORIZED 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Publisher 按 WP-FHS-14 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-14 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-cfc168de89f17b4be6ef\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 243,
+     "owner": "Original Release/Retire Candidate Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-15": {
+     "title": "TPM Corpus & SPEC 18Stage",
+     "depends_on": [
+      "WP-FHS-00"
+     ],
+     "full_source_contract": "### WP-FHS-15｜TPM Corpus & SPEC 18Stage\n\n\n#### HANDOFF-v1 首工作有效接收契約\n\n- **真功能與Input**：普通Goal、live KnownAnswer、內建24 DOC bytes/SHA → 原 corpus/QuestionLedger/三SPEC draft Reader；不是只保留ID/FirstFail。\n- **Output**：原三SPECDraft、來源readback、FUO十欄；24功能Atom的原PI、TaskSpecSeed與PD晚綁契約已存在，PIPD Reader ACK可讀回。\n- **合法起點／DAG**：WP00 source snapshot；WP01 source/profile author decision；WP15只依賴WP00既有讀入。WP05.prepare是原Compiler服務，消費已存在的設計SPEC，不等待WP15未來的Native完成Receipt。原22 WP edges不改，無bootstrap循環。\n- **Producer→Schema→Consumer**：原 TPM `plan_spec`→Product/Architecture/ProgramSPECDraft→原PIPD `intake/compile_pi/validate_pi`→原TaskSpecSeed/ExecutionHandoff→HGK原adapter→原Hermes。\n- **Effect／Scope／Admission**：SOURCE_READ + LOCAL_DRAFT；只在receiver-authorized root寫五個精確檔。此階段不索Live Permit。若後續需要Repo/Host/User/Remote/Release則各原ECP/Issuer在effect前准入，不能混用。\n- **POS／NEG／Done**：24功能源句/24Atom、全部原trace與strict Reader PASS、三SPEC可讀且KnownAnswer零重問；空goal、source drift、foreign root、漏NEG/雙writer、cycle、stale PD/lease、ProviderOff外呼、UNKNOWN盲重送均受影拒收或Reconcile。只說明靜態接收，Native/Checker/Release仍NOT_RUN。\n- **Evidence／Rollback／Resume**：`03_HANDOFF_EVIDENCE/MINIMAL_STATIC_TESTS.json`、真Compiler ACK與pure request constructor讀回；撤本WorkID草稿的exact preimage，不改來源；sameSource/key重用，source drift只失效受影錐，真effectUNKNOWN先原reconcile，沿原WorkID續行。\n- **餘項分派**：全部7649量詞候選、485技術、282Runner/W18等產品義務留在原WP與適用驗收，未完成不在本輪灌PASS，也不成為此首工作的無關global HOLD。\n- **Producer → ABI/Schema → Consumer**：原 TPM Corpus Reader/PM/SE/TPgM → `SBL 三 SPECDraft + source-bound Stage contracts` → 原 PIPD Intake。\n- **Input**：SBL14/PIPD10 原 bytes/SHA、普通 Goal、KnownAnswer、18Stage 原來源；不重問已知答案。\n- **Output**：三SPEC+18stage trace。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`LOCAL_DRAFT_WRITE`；明列隔離 output root 的使用者授權。\n- **WriteSet / LateBind**：在本輪隔離 root 內先列 manifest exact relpath/preimage，新檔 preimage=ABSENT；不寫正式 Repo、Host 或 User store。\n- **POS**：24 base docs真hash Reader與18 Stage三SPEC具來源。\n- **NEG / FirstFail**：要求重新上傳內建DOC或T4/T5自升正式 → `WP-FHS-15.FIRST_FAIL:TPM_SOURCE_STAGE_GUARD`。\n- **Done**：24 base docs真hash Reader與18 Stage三SPEC具來源；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-15 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 PIPD Intake。\n- **NoFit / Exit**：WP-FHS-15 的 WP-FHS-15.FIRST_FAIL:TPM_SOURCE_STAGE_GUARD 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：只撤本輪 WP-FHS-15 隔離候選、恢復 exact preimage；原來源不動。\n- **Resume**：重讀 WP-FHS-15 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-c693c72dcd7f9544c429\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 259,
+     "owner": "Original TPM Corpus & SPEC 18Stage Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-16": {
+     "title": "Donor/Method Slot Translation",
+     "depends_on": [
+      "WP-FHS-00"
+     ],
+     "full_source_contract": "### WP-FHS-16｜Donor/Method Slot Translation\n- **Producer → ABI/Schema → Consumer**：原 SBL DOC06 TechnologyAdmission Owner → `原 24 Donor Slot/25 Method Reader projection` → 原 TPM/PIPD/HGK 各受影 Consumer。\n- **Input**：逐 Slot/Method 的 Need、原 SourceSHA、Input/Output、OriginalDisposition；方法不冒已安裝 binary。\n- **Output**：24slot/25method壓製候選。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`LOCAL_DRAFT_WRITE`；明列隔離 output root 的使用者授權。\n- **WriteSet / LateBind**：在本輪隔離 root 內先列 manifest exact relpath/preimage，新檔 preimage=ABSENT；不寫正式 Repo、Host 或 User store。\n- **POS**：24槽/25方法依原disposition產特定輸出且方法不假installer。\n- **NEG / FirstFail**：REFERENCE_ONLY自動安裝 → `WP-FHS-16.FIRST_FAIL:DONOR_METHOD_DISPOSITION_DENY`。\n- **Done**：24槽/25方法依原disposition產特定輸出且方法不假installer；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-16 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 TPM/PIPD/HGK 各受影 Consumer。\n- **NoFit / Exit**：WP-FHS-16 的 WP-FHS-16.FIRST_FAIL:DONOR_METHOD_DISPOSITION_DENY 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：只撤本輪 WP-FHS-16 隔離候選、恢復 exact preimage；原來源不動。\n- **Resume**：重讀 WP-FHS-16 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-b8c0abdfb9dc52ea4f52\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 287,
+     "owner": "Original Donor/Method Slot Translation Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-17": {
+     "title": "CAP-BOOT Native Occupants",
+     "depends_on": [
+      "WP-FHS-00",
+      "WP-FHS-02",
+      "WP-FHS-03"
+     ],
+     "full_source_contract": "### WP-FHS-17｜CAP-BOOT Native Occupants\n- **Producer → ABI/Schema → Consumer**：原 Host Installer + HGK 原 Issuer → `CAP-BOOT 原 Host admission + manifest ABI` → 原 Host capability Registry/Consumer。\n- **Input**：已存在 Issuer 的最小合法 installer Scope、需要的 occupant pin/license、有效 OPS grant。\n- **Output**：needed能力最小HostOccupant+loaded ACK。\n- **DAG dependency**：WP-FHS-00, WP-FHS-02, WP-FHS-03；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 原 Host capability Registry/Consumer 對 WP-FHS-17 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：現有Issuer合法installer先建needed occupant再驗LoadedSHA。\n- **NEG / FirstFail**：依WP06才准WP17形成循環 → `WP-FHS-17.FIRST_FAIL:CAP_BOOT_DEPENDENCY_INVERSION`。\n- **Done**：現有Issuer合法installer先建needed occupant再驗LoadedSHA；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-17 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 Host capability Registry/Consumer。\n- **NoFit / Exit**：WP-FHS-17 的 WP-FHS-17.FIRST_FAIL:CAP_BOOT_DEPENDENCY_INVERSION 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Host Installer + HGK 原 Issuer 按 WP-FHS-17 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-17 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-469370ea8cc5896ad9a6\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 303,
+     "owner": "Original CAP-BOOT Native Occupants Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-18": {
+     "title": "FAR Bounded Repair & Incident",
+     "depends_on": [
+      "WP-FHS-08"
+     ],
+     "full_source_contract": "### WP-FHS-18｜FAR Bounded Repair & Incident\n- **Producer → ABI/Schema → Consumer**：原 FAR/incident Reader + bounded Writer → `原 FirstFail/RepairCone + DEV ECP ABI` → 原 affected rechallenge/Checker。\n- **Input**：真 FirstFail/repro、原 Oracle、最小依賴錐、budget、preimage、exact files；不改 Oracle 躲錯。\n- **Output**：BoundedRepairDiff+RedGreen+residue。\n- **DAG dependency**：WP-FHS-08；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`REPO_WRITE`；DEV ECP + exact WriteSet + 原 HGK admission。\n- **WriteSet / LateBind**：合法晚綁：由原 原 affected rechallenge/Checker 對 WP-FHS-18 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：first_fail最小cone在原Oracle Red→Patch→Green且budget有界。\n- **NEG / FirstFail**：擴scope/改Oracle或刪舊失敗Raw → `WP-FHS-18.FIRST_FAIL:REPAIR_SCOPE_DENY`。\n- **Done**：first_fail最小cone在原Oracle Red→Patch→Green且budget有界；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-18 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 affected rechallenge/Checker。\n- **NoFit / Exit**：WP-FHS-18 的 WP-FHS-18.FIRST_FAIL:REPAIR_SCOPE_DENY 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 FAR/incident Reader + bounded Writer 按 WP-FHS-18 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-18 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-8b3d82f9385832b1cd63\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 319,
+     "owner": "Original FAR Bounded Repair & Incident Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-19": {
+     "title": "CI/Supply Chain & Requal",
+     "depends_on": [
+      "WP-FHS-00"
+     ],
+     "full_source_contract": "### WP-FHS-19｜CI/Supply Chain & Requal\n- **Producer → ABI/Schema → Consumer**：原 CI/supply-chain Reader → `原 license/NOTICE/SBOM/dependency evidence ABI` → 原 release-readiness Reader。\n- **Input**：同 CandidateSHA 的 license/NOTICE/SBOM/lock、實際命令/stdout/stderr/exit；不把存在當 PASS。\n- **Output**：CI/License/NOTICE/SBOM掃描Raw。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`SOURCE_READ`；原唯讀 ACL/read scope。\n- **WriteSet / LateBind**：唯讀原 admitted root；此工作不寫來源、不需要 Live Permit。\n- **POS**：license/NOTICE/SBOM/dependency/secret輸出與同candidate可回算。\n- **NEG / FirstFail**：未執行掃描以名字充通過 → `WP-FHS-19.FIRST_FAIL:SUPPLY_CHAIN_EVIDENCE_MISSING`。\n- **Done**：license/NOTICE/SBOM/dependency/secret輸出與同candidate可回算；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-19 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 release-readiness Reader。\n- **NoFit / Exit**：WP-FHS-19 的 WP-FHS-19.FIRST_FAIL:SUPPLY_CHAIN_EVIDENCE_MISSING 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：丟棄 WP-FHS-19 唯讀快照後重讀。\n- **Resume**：重讀 WP-FHS-19 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-2e8fae00aa4535711041\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 335,
+     "owner": "Original CI/Supply Chain & Requal Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-20": {
+     "title": "CLI/Agent/Host Kind Matrix",
+     "depends_on": [
+      "WP-FHS-05",
+      "WP-FHS-16"
+     ],
+     "full_source_contract": "### WP-FHS-20｜CLI/Agent/Host Kind Matrix\n- **Producer → ABI/Schema → Consumer**：原 Product/Host matrix Owner → `原八 Kind×三 Mode×四 Host×Provider token Cell ABI` → 每個原 Cell 的原 Host Reader。\n- **Input**：192 原 CellID/Host/raw ON-OFF、明確 NoFit、該 Cell own Raw；DeepSeek48 原身份不改。\n- **Output**：192Cell適用/NoFit/Host Raw。\n- **DAG dependency**：WP-FHS-05, WP-FHS-16；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`HOST_OP`；OPS ECP + Host Owner/Issuer + nonce/TTL/epoch。\n- **WriteSet / LateBind**：合法晚綁：由原 每個原 Cell 的原 Host Reader 對 WP-FHS-20 的具名 target root/Host/operation 解析 canonical path/object identity、拒 alias/junction/traversal，列有限 exact WriteSet 與 preimage SHA；空集合或未簽 Scope 不准 effect。原 Owner/Issuer 綁 principal、epoch、TTL、nonce；文件中不預填任意實體路徑。\n- **POS**：192組合每Host/Mode/Provider具本cell Raw或明確NoFit。\n- **NEG / FirstFail**：Hermes Raw借Claude/DeepSeek → `WP-FHS-20.FIRST_FAIL:HOST_CELL_EVIDENCE_FOREIGN`。\n- **Done**：192組合每Host/Mode/Provider具本cell Raw或明確NoFit；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-20 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=每個原 Cell 的原 Host Reader。\n- **NoFit / Exit**：WP-FHS-20 的 WP-FHS-20.FIRST_FAIL:HOST_CELL_EVIDENCE_FOREIGN 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：由原 原 Product/Host matrix Owner 按 WP-FHS-20 原 receiver inverse/compensation 恢復 exact preimage；UNKNOWN 先 reconcile，保留原 journal/residue，不 reset 他人變更。\n- **Resume**：重讀 WP-FHS-20 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n\n<a id=\"current-0b6e1234bbb3bb59bb79\"></a>\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 351,
+     "owner": "Original CLI/Agent/Host Kind Matrix Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    },
+    "WP-FHS-21": {
+     "title": "Challenge 96/H4/SEAM Coverage",
+     "depends_on": [
+      "WP-FHS-01"
+     ],
+     "full_source_contract": "### WP-FHS-21｜Challenge 96/H4/SEAM Coverage\n- **Producer → ABI/Schema → Consumer**：原 Acceptance/Oracle Owner → `原 AC15/Oracle96/H4/SEAM Reader ABI` → 原 Protected AO Request Reader。\n- **Input**：每 Case 原 Oracle 類型、calibration、POS/NEG fixtures、Raw schema；計畫不冒實跑。\n- **Output**：96Cell/H4/SEAM原Oracle計畫。\n- **DAG dependency**：WP-FHS-01；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`SOURCE_READ`；原唯讀 ACL/read scope。\n- **WriteSet / LateBind**：唯讀原 admitted root；此工作不寫來源、不需要 Live Permit。\n- **POS**：96cell及H4/SEAM按原predicate/校準逐格Reader可判。\n- **NEG / FirstFail**：同一generic fixture聲稱全部已實測 → `WP-FHS-21.FIRST_FAIL:ORACLE_CELL_NOT_PROVEN`。\n- **Done**：96cell及H4/SEAM按原predicate/校準逐格Reader可判；同 Subject/SourceSHA/operation 證據由原 Consumer 讀回；沒有 Raw 記 NOT_RUN。\n- **EvidenceExpectation**：同 WP-FHS-21 original operation 的 command/environment/exit/stdout/stderr 或原 Host WorldRaw；freshness=same Subject+SourceSHA+CandidateSHA+Scope+PolicyEpoch；Reader=原 Protected AO Request Reader。\n- **NoFit / Exit**：WP-FHS-21 的 WP-FHS-21.FIRST_FAIL:ORACLE_CELL_NOT_PROVEN 只停本卡 effect 與依賴錐；既有 READ_ONLY/LOCAL_DRAFT READY 繼續。\n- **Rollback**：丟棄 WP-FHS-21 唯讀快照後重讀。\n- **Resume**：重讀 WP-FHS-21 的 SourceSHA/HEAD/index/checkpoint 與依賴 ACK；已完成且同 key 不重播；UNKNOWN effect 只進原 Reconcile，變更只 invalidate 本卡受影下游。\n",
+     "source_sha": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+     "source_start_line": 367,
+     "owner": "Original Challenge 96/H4/SEAM Coverage Reader",
+     "status": "SOURCE_CONTRACT_NOT_EXECUTION_DONE"
+    }
+   },
+   "resume_predicate": "Same Subject/SourceSHA/Scope; only changed dependency cone; no effect replay before original World reconcile",
+   "topological_order": [
+    "WP-FHS-00",
+    "WP-FHS-01",
+    "WP-FHS-04",
+    "WP-FHS-15",
+    "WP-FHS-16",
+    "WP-FHS-19",
+    "WP-FHS-02",
+    "WP-FHS-03",
+    "WP-FHS-05",
+    "WP-FHS-07",
+    "WP-FHS-21",
+    "WP-FHS-11",
+    "WP-FHS-17",
+    "WP-FHS-20",
+    "WP-FHS-06",
+    "WP-FHS-13",
+    "WP-FHS-08",
+    "WP-FHS-09",
+    "WP-FHS-18",
+    "WP-FHS-10",
+    "WP-FHS-14",
+    "WP-FHS-12"
+   ],
+   "spec_version": "W1-r2-AFFECTED_REPAIR",
+   "role": {
+    "role_id": "TPgM",
+    "owner": "單一 Human Owner",
+    "technical_principals_separate": true
+   },
+   "type": "PROGRAM_SPEC",
+   "subject": {
+    "subject_id": "SOURCE_BOUND_FROM_W1_INTAKE_1203",
+    "scope": "FHS/PIPD-LS-PKG/W1/author-design",
+    "candidate_body_sha": "e40df2999fbffdb96a32a2e35cddce228abdd82080d5a5bedd415dfc938669ce",
+    "source_manifest_sha": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60",
+    "same_subject_across_specs": true
+   },
+   "input": "W0 1203 的 71 OPEN／WP19 7:0（作者端）／E26 UNSATISFIED + 原 22 WP/36 DAG",
+   "output": "Program SPEC 契約（22 WP／36 DAG 不改向、W1 八 WP 契約、分波 Stop/Resume/Rollback）",
+   "producer": "W1 DraftMaker（作者端）",
+   "consumer": "Original Program Reader；W2/W3/W4 各波原 Consumer",
+   "dag_identity": {
+    "work_packages": 22,
+    "edges": 36,
+    "source": "program_dag_22_36.json",
+    "direction_changed": false
+   },
+   "waves": {
+    "W0": {
+     "wp": [
+      "WP-FHS-00",
+      "01",
+      "15",
+      "16",
+      "19",
+      "21"
+     ],
+     "state": "71 OPEN scoped holds",
+     "owner": "Original SBL CI/Program"
+    },
+    "W1": {
+     "wp": [
+      "WP-FHS-02",
+      "WP-FHS-03",
+      "WP-FHS-04",
+      "WP-FHS-05",
+      "WP-FHS-07",
+      "WP-FHS-11",
+      "WP-FHS-17",
+      "WP-FHS-20"
+     ],
+     "state": "AUTHOR_DESIGN_ONLY",
+     "owner": "W1 DraftMaker"
+    },
+    "W2": {
+     "wp": [
+      "WP-FHS-06"
+     ],
+     "state": "NATIVE_EFFECT_PENDING",
+     "owner": "Original PIPD/Repo/Policy/HGK"
+    },
+    "W3": {
+     "wp": [
+      "WP-FHS-12",
+      "WP-FHS-18"
+     ],
+     "state": "W18 ordinary-goal UAT pending",
+     "owner": "Original Host/Product"
+    },
+    "W4": {
+     "wp": [
+      "WP-FHS-14"
+     ],
+     "state": "E26 unsatisfied; release HOLD",
+     "owner": "Original CI/Checker/Publisher"
+    }
+   },
+   "w1_eight_wp_contracts": [
+    {
+     "wp_id": "WP-FHS-02",
+     "affected_ch": [
+      "CH-17",
+      "CH-16"
+     ],
+     "scope_of_work": "Fabric Policy staged/active/loaded 三段與 Consumer ACK",
+     "original_reader": "Original Fabric Policy + HGK Consumer",
+     "neg_first_fail": "POLICY_LOADED_ACK_MISSING",
+     "sec_first_fail": "POLICY_SIGNER_OR_EPOCH_DENY",
+     "real_effect_gate": "W2 原 Policy Active+Loaded+ACK",
+     "seam": "S3",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original Fabric Policy + HGK Consumer",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-03",
+     "affected_ch": [
+      "CH-18",
+      "CH-39"
+     ],
+     "scope_of_work": "HGK WorkID/Lease/Nonce/CAS 與 ACL",
+     "original_reader": "Original HGK Issuer/WorldReader",
+     "neg_first_fail": "ISSUER_WORK_BINDING_NACK",
+     "sec_first_fail": "ISSUER_PRINCIPAL_ACL_DENY",
+     "real_effect_gate": "原 Issuer Permit/OS ACL + WorldRaw",
+     "seam": "S4",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original HGK Issuer/WorldReader",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-04",
+     "affected_ch": [
+      "CH-19",
+      "CH-20"
+     ],
+     "scope_of_work": "Hermes 三 Lane、ActualServed、長任務編排",
+     "original_reader": "Original Host Runtime",
+     "neg_first_fail": "ACTUAL_SERVED_NOT_OBSERVED",
+     "sec_first_fail": "CROSS_PROFILE_SECRET_DENY",
+     "real_effect_gate": "fresh PID/ProfileSHA/Tool/Journal + 原 Domain Gate",
+     "seam": "S5",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original Host Runtime",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-05",
+     "affected_ch": [
+      "CH-12",
+      "CH-13",
+      "CH-14",
+      "CH-40"
+     ],
+     "scope_of_work": "唯一 SBL PIPD 13/19/8 與 PD 晚綁",
+     "original_reader": "Original SBL PIPD Compiler",
+     "neg_first_fail": "PD_REPOCONTEXT_UNBOUND",
+     "sec_first_fail": "PIPD_SHADOW_WRITER_DENY",
+     "real_effect_gate": "原 PIPD Reader 產 Canonical",
+     "seam": "S2",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original SBL PIPD Compiler",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-07",
+     "affected_ch": [
+      "CH-34",
+      "CH-16"
+     ],
+     "scope_of_work": "Commander Guide A/B/C 的 Native PLAN 請求",
+     "original_reader": "Original Native PLAN CAS Reader",
+     "neg_first_fail": "PLAN_CAS_ACK_MISSING",
+     "sec_first_fail": "CROSS_WORK_PLAN_AUTH_DENY",
+     "real_effect_gate": "同 Subject/WorkID/Revision 原 PLAN ACK",
+     "seam": "S5",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original Native PLAN CAS Reader",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-11",
+     "affected_ch": [
+      "CH-08",
+      "CH-22"
+     ],
+     "scope_of_work": "四 Host 各自 Portable/Native Trigger",
+     "original_reader": "各 Original Host Loader/Consumer",
+     "neg_first_fail": "HOST_EVIDENCE_FOREIGN_NACK",
+     "sec_first_fail": "HOST_CHECKER_IMPERSONATION_DENY",
+     "real_effect_gate": "Host 每件 installed/loaded/invoked/nontrigger 讀回",
+     "seam": "S5",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "各 Original Host Loader/Consumer",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-17",
+     "affected_ch": [
+      "CH-22",
+      "CH-18"
+     ],
+     "scope_of_work": "24 AssetSlot 的 Need/Occupant/pin",
+     "original_reader": "Original Technology/License/Host Reader",
+     "neg_first_fail": "CAPABILITY_NOT_QUALIFIED",
+     "sec_first_fail": "INSTALLER_PRIVILEGE_DENY",
+     "real_effect_gate": "原 NeedKey/License/Host fit/Reader 答覆",
+     "seam": "S5",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original Technology/License/Host Reader",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    },
+    {
+     "wp_id": "WP-FHS-20",
+     "affected_ch": [
+      "CH-19",
+      "CH-40"
+     ],
+     "scope_of_work": "Kind×Mode×Host 192 Cell 的逐格適用性",
+     "original_reader": "Original Product/Host Cell Reader",
+     "neg_first_fail": "CELL_TOKEN_OWNER_ACK_MISSING",
+     "sec_first_fail": "CELL_RECEIPT_CROSS_HOST_DENY",
+     "real_effect_gate": "原 192 Cell 逐格驗證（W3 主分母）",
+     "seam": "S5",
+     "input": "同 Subject/Scope/SourceSHA 的受影輸入 + 前件 Reader Raw 或具名 HOLD",
+     "operation": "作者端規格化該 WP 的 I/O、邊界與負例；不執行世界效果",
+     "output": "該 WP 的 POS/NEG/EDGE/SEC 卡、ExpectedRaw 形狀、Stop/Resume 條件",
+     "consumer": "Original Product/Host Cell Reader",
+     "effect_class": "LOCAL_DRAFT_WRITE",
+     "stop": "FirstFail 命中即停該 WP 的受影效果",
+     "resume": "原 Reader 回同 Scope ACK/deferral",
+     "rollback": "作者端刪隔離候選；原域回退由原 Reader 執行",
+     "native_status": "NOT_RUN"
+    }
+   ],
+   "e26": {
+    "id": "E26",
+    "from": "WP-FHS-19",
+    "to": "WP-FHS-14",
+    "state": "UNSATISFIED_WP19_ORIGINAL_RAW_MISSING",
+    "blocks": "W4 WP14/Publisher Release only",
+    "does_not_block": [
+     "SOURCE_READ",
+     "SPEC",
+     "LOCAL_DRAFT_WRITE"
+    ]
+   },
+   "acc_pos": "原 22 WP／36 DAG 方向不變；W1 八 WP 各有 POS/NEG/EDGE/SEC/FirstFail/Stop/Resume/Rollback",
+   "acc_neg": "以 W0 7:0 當 WP19 Done、以 E26 拒絕全部 W1、先寫世界後補 PD/ECP → PROGRAM_SCOPE_AND_DAG_NACK",
+   "derived_from_pinned": {
+    "file": "specs/pinned/SPEC_Program.json",
+    "sha256": "28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999"
+   },
+   "claim_ceiling": "AUTHOR_FINAL_STATIC_ACCEPTED_WITH_AFFECTED_HOLDS",
+   "native_effect": "NOT_RUN"
+  }
+ }
+}
