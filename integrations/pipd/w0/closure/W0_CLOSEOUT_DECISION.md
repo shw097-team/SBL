@@ -32,6 +32,8 @@
 | FAIL 2 | `UNDECLARED_DEPENDENCY`：2 個模組未在任何 manifest（`hg_kseos` 在 `tools/`、`pytest` 在 `tests/`） |
 | 原 CI Reader ACK | **NOT_OBSERVED** |
 
+另有一次反向探針（`REJECTED_SUBJECT_FALSE_PASS_PROBE.json`）：把含 `w0/` fixtures 的候選 worktree 當受測樹、刪掉 root `NOTICE`，gate 仍回 `NOTICE_PRESENT`（fixture 內有 4 個 NOTICE）→ 證明該樹不能當 WP19 主體，故改用純上游樹。
+
 **這兩個 FAIL 要拆開看，不能一律當產品缺陷：**
 
 1. **真缺陷**：`SBOM.cdx.json` 的 `metadata.component.version = 0.1.0`，而 `pyproject.toml` 是 `0.1.1a5` → SBOM 版本漂移（`WP19_SBOM_VERSION_DRIFT`）。

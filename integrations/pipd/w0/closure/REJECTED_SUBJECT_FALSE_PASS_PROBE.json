@@ -1,0 +1,248 @@
+{
+  "artifact": "REJECTED_SUBJECT_FALSE_PASS_PROBE",
+  "lane": "c2",
+  "generated_at_taipei": "2026-11-05T08:39:31+08:00",
+  "purpose": "demonstrate that the candidate worktree is NOT a valid subject: its in-tree w0/lanes/wp19 fixtures satisfy the gate's presence checks",
+  "rejected_tree": "$PREV_ROUND\\repos\\SBL\\integrations\\pipd",
+  "rejected_tree_head": "d4b1eb789120fda3d8fbfe865ae87d3fd216438e",
+  "rejected_tree_branch": "candidate/fhs-w0-r4c-implementation-20261105",
+  "chosen_subject": "$ROUND_ROOT\\lanes\\c2\\_upstream\\integrations\\pipd",
+  "chosen_subject_ref": "origin/main",
+  "experiment": "copy candidate tree, delete ONLY the root NOTICE, run the gate",
+  "files_copied": 499,
+  "root_notice_removed": true,
+  "gate_exit": 1,
+  "notice_check": {
+    "verdict": "PASS",
+    "code": "NOTICE_PRESENT",
+    "detail": "4 NOTICE file(s) found",
+    "samples": [
+      "w0/lanes/wp19/fixtures/neg_sbom_mismatch/NOTICE",
+      "w0/lanes/wp19/fixtures/neg_secret/NOTICE",
+      "w0/lanes/wp19/fixtures/neg_undeclared_dep/NOTICE",
+      "w0/lanes/wp19/fixtures/pos/NOTICE"
+    ]
+  },
+  "false_pass_demonstrated": true,
+  "interpretation": "if NOTICE_PRESENT still PASSes with the root NOTICE absent, the obligation is being satisfied by fixture copies inside this round's own w0/ output: gating that tree is self-satisfying.",
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "counts": {
+    "PASS": 4,
+    "FAIL": 3,
+    "HOLD": 0,
+    "NOT_APPLICABLE": 0
+  },
+  "gate_payload": {
+    "schema": "FHS_W0/SUPPLY_CHAIN_GATE/v1",
+    "gate_id": "WP-FHS-19",
+    "gate_version": "1.0.0",
+    "mode": "author",
+    "generated_at_taipei": "2026-11-05T08:39:31+08:00",
+    "tree": "$ROUND_ROOT\\lanes\\c2\\_scratch\\candidate_false_pass",
+    "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+    "wp19_done": false,
+    "trace_closure": false,
+    "scanned": {
+      "files_total": 498,
+      "dirs_total": 187,
+      "bytes_total": 5528380,
+      "tree_digest_sha256": "ead52470b770745169e98ec0fb585569c36e733c130f0d427cf176f3e6ad5422",
+      "tree_digest_scope": "sha256 over sorted lines 'rel_path\\\\0size\\\\0sha256(file)'",
+      "python_files": 170,
+      "dependency_manifests": [
+        "pyproject.toml",
+        "setup.py",
+        "w0/lanes/wp19/fixtures/neg_notice_missing/pyproject.toml",
+        "w0/lanes/wp19/fixtures/neg_sbom_mismatch/pyproject.toml",
+        "w0/lanes/wp19/fixtures/neg_secret/pyproject.toml",
+        "w0/lanes/wp19/fixtures/neg_undeclared_dep/pyproject.toml",
+        "w0/lanes/wp19/fixtures/pos/pyproject.toml"
+      ],
+      "manifest_parse_errors": [],
+      "declared_dependency_count": 6
+    },
+    "checks": [
+      {
+        "check_id": "LICENSE_PRESENT",
+        "title": "Licence file present and SPDX-resolvable",
+        "verdict": "PASS",
+        "code": "LICENSE_SPDX_RESOLVED",
+        "detail": "SPDX Apache-2.0 resolved from LICENSE",
+        "counts": {
+          "license_files_at_root": 1,
+          "license_files_other_depth": 5,
+          "license_files_vendored_or_third_party": 0,
+          "spdx_resolved": 1
+        },
+        "samples": [
+          "LICENSE",
+          "w0/lanes/wp19/fixtures/neg_notice_missing/LICENSE",
+          "w0/lanes/wp19/fixtures/neg_sbom_mismatch/LICENSE",
+          "w0/lanes/wp19/fixtures/neg_secret/LICENSE",
+          "w0/lanes/wp19/fixtures/neg_undeclared_dep/LICENSE",
+          "w0/lanes/wp19/fixtures/pos/LICENSE"
+        ]
+      },
+      {
+        "check_id": "NOTICE_PRESENT",
+        "title": "NOTICE file present where the licence basis requires one",
+        "verdict": "PASS",
+        "code": "NOTICE_PRESENT",
+        "detail": "4 NOTICE file(s) found",
+        "counts": {
+          "notice_files": 4,
+          "licence_basis_spdx": "Apache-2.0",
+          "licence_files_at_root": 1
+        },
+        "samples": [
+          "w0/lanes/wp19/fixtures/neg_sbom_mismatch/NOTICE",
+          "w0/lanes/wp19/fixtures/neg_secret/NOTICE",
+          "w0/lanes/wp19/fixtures/neg_undeclared_dep/NOTICE",
+          "w0/lanes/wp19/fixtures/pos/NOTICE"
+        ]
+      },
+      {
+        "check_id": "SBOM_PRESENT_AND_PARSABLE",
+        "title": "CycloneDX SBOM present and structurally valid",
+        "verdict": "PASS",
+        "code": "SBOM_PARSED",
+        "detail": "6 SBOM file(s) valid, 8 component(s)",
+        "counts": {
+          "sbom_candidates": 6,
+          "sbom_parsed": 6,
+          "components": 8,
+          "parse_errors": 0,
+          "structure_problems": 0
+        },
+        "samples": [
+          "SBOM.cdx.json",
+          "w0/lanes/wp19/fixtures/neg_notice_missing/SBOM.cdx.json",
+          "w0/lanes/wp19/fixtures/neg_sbom_mismatch/SBOM.cdx.json",
+          "w0/lanes/wp19/fixtures/neg_secret/SBOM.cdx.json",
+          "w0/lanes/wp19/fixtures/neg_undeclared_dep/SBOM.cdx.json"
+        ]
+      },
+      {
+        "check_id": "SBOM_COMPONENT_RECONCILE",
+        "title": "SBOM components reconcile with declared manifests",
+        "verdict": "FAIL",
+        "code": "SBOM_COMPONENT_MISMATCH",
+        "detail": "2 component(s) in SBOM only, 5 declared only",
+        "counts": {
+          "sbom_components": 3,
+          "declared_dependencies": 6,
+          "sbom_only": 2,
+          "declared_only": 5
+        },
+        "samples": [
+          "sbom_only:requests",
+          "sbom_only:urllib3",
+          "declared_only:build",
+          "declared_only:cryptography",
+          "declared_only:pyyaml",
+          "declared_only:setuptools",
+          "declared_only:wheel"
+        ]
+      },
+      {
+        "check_id": "DEPENDENCY_DECLARED",
+        "title": "Every third-party import is declared in a manifest",
+        "verdict": "FAIL",
+        "code": "UNDECLARED_DEPENDENCY",
+        "detail": "2 module(s) imported but absent from every manifest",
+        "counts": {
+          "python_files": 170,
+          "import_statements_scanned": 1216,
+          "distinct_third_party_modules": 7,
+          "vendored_in_tree_modules": 0,
+          "undeclared_modules": 2,
+          "declared_dependencies": 6,
+          "parse_errors": 0
+        },
+        "samples": [
+          "hg_kseos @ tools/hgk_admission_driver.py:25",
+          "hg_kseos @ tools/hgk_admission_driver.py:26",
+          "hg_kseos @ tools/knowledge_ready_probe.py:61",
+          "pytest @ tests/test_operation_registry_r3.py:17",
+          "pytest @ tests/test_owner_ratification_r3.py:16"
+        ]
+      },
+      {
+        "check_id": "SECRET_PATTERN_SCAN",
+        "title": "No credential-shaped token in tree text files",
+        "verdict": "FAIL",
+        "code": "SECRET_PATTERN_FOUND",
+        "detail": "14 match(es) across 498 scanned text file(s); values masked",
+        "counts": {
+          "files_scanned": 498,
+          "bytes_scanned": 5528380,
+          "matches": 14,
+          "patterns_evaluated": 7,
+          "per_pattern": {
+            "github_pat": 3,
+            "github_token": 4,
+            "aws_access_key": 3,
+            "private_key_block": 4
+          }
+        },
+        "samples": [
+          "w0/lanes/wp19/fixtures/neg_secret/config/sample_credentials.py:8 github_pat gith***MASKED(len=75)",
+          "w0/lanes/wp19/fixtures/neg_secret/config/sample_credentials.py:9 github_token ghp_***MASKED(len=40)",
+          "w0/lanes/wp19/fixtures/neg_secret/config/sample_credentials.py:10 aws_access_key AKIA***MASKED(len=20)",
+          "w0/lanes/wp19/fixtures/neg_secret/config/sample_credentials.py:12 private_key_block ----***PRIVATE_KEY_HEADER",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:186 github_pat gith***MASKED(len=75)",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:187 github_token ghp_***MASKED(len=40)",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:239 github_token ghp_***MASKED(len=40)",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:188 aws_access_key AKIA***MASKED(len=20)",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:221 private_key_block ----***PRIVATE_KEY_HEADER",
+          "w0/lanes/wp19/tests/test_supply_chain_gate.py:245 private_key_block ----***PRIVATE_KEY_HEADER",
+          "w0/lanes/wp19/tools/build_fixtures.py:190 github_pat gith***MASKED(len=75)",
+          "w0/lanes/wp19/tools/build_fixtures.py:191 github_token ghp_***MASKED(len=40)",
+          "w0/lanes/wp19/tools/build_fixtures.py:192 aws_access_key AKIA***MASKED(len=20)",
+          "w0/lanes/wp19/tools/build_fixtures.py:194 private_key_block ----***PRIVATE_KEY_HEADER"
+        ]
+      },
+      {
+        "check_id": "CI_ENTRY_PRESENT",
+        "title": "CI entry point exists (workflow file or documented command)",
+        "verdict": "PASS",
+        "code": "CI_ENTRY_DOCUMENTED_COMMAND",
+        "detail": "no CI config; 9 documented re-runnable command(s) found",
+        "counts": {
+          "workflow_files": 0,
+          "other_ci_files": 0,
+          "documented_commands": 9
+        },
+        "samples": [
+          "doc:ACCEPTANCE.md:115 `python -m unittest`",
+          "doc:docs/adr/ADR-0009-session-handover-and-next-session-start.md:96 `python -m unittest`",
+          "doc:w0/lanes/wp19/fixtures/neg_notice_missing/README.md:8 `python -m unittest`",
+          "doc:w0/lanes/wp19/fixtures/neg_sbom_mismatch/README.md:8 `python -m unittest`",
+          "doc:w0/lanes/wp19/fixtures/neg_secret/README.md:8 `python -m unittest`"
+        ]
+      }
+    ],
+    "summary": {
+      "PASS": 4,
+      "FAIL": 3,
+      "HOLD": 0,
+      "NOT_APPLICABLE": 0,
+      "fail_codes": [
+        "SBOM_COMPONENT_MISMATCH",
+        "UNDECLARED_DEPENDENCY",
+        "SECRET_PATTERN_FOUND"
+      ],
+      "checks_total": 7
+    },
+    "exit_code": 1,
+    "limits": [
+      "author-local static gate; not an independent or protected checker",
+      "no network, no package install, no SBOM signature or vulnerability database",
+      "SBOM check validates CycloneDX structure only, not provenance or attestation",
+      "secret scan is regex-based over decodable text files; absence of a match is not proof of absence"
+    ]
+  },
+  "gate_stdout_sha256": "6ef4e4e5c0d378ede80ec2fe4857d70e875f6a44358d9430fea39d3656e31082"
+}

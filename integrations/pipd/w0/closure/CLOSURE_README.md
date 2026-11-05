@@ -12,16 +12,12 @@ sha256 and never hashes itself.
   the two stale-SHA corrections, computed from the real bytes in this archive.
 - `SUPERSEDED_MARKERS.json` - the original two files are historical, not current.
 - `WP19_REAL_ROOT_RAW.json`, `NEG_REAL_ROOT/` - upstream `integrations/pipd` at origin/main,
-  PASS 5 / FAIL 2, with four typed negative fixtures.
+  PASS 5 / FAIL 2, with four typed negative fixtures (two clean flips, two reproductions of an
+  already-failing base).
+- `REJECTED_SUBJECT_FALSE_PASS_PROBE.json` - proof that the candidate worktree (which carries
+  `w0/` fixtures) satisfies the presence checks even with its root NOTICE deleted; that tree was
+  therefore rejected as the WP19 subject.
 - `HOLD_LEDGER_CLOSEOUT.json` - 68 holds, all open.
 
 Claim ceiling: `AUTHOR_LOCAL_TEST`. This is not an original reader ACK, not an HGK permit,
 not a protected checker verdict, not a release, and it does not make any PR merged.
-
-## What is deliberately NOT in this repository copy
-
-The untrimmed gate raw (`WP19_REAL_ROOT_RAW.json`) and the four mutated-tree negatives stay
-outside the repository, inside the W0 CLOSEOUT archive under `closure/`, because this
-repository's `AGENTS.md` rule 4 forbids committing raw lane output. The typed summary and the
-ACK status in this directory are the citable evidence; the raw is one `zipfile` read away in
-the archive named in the round handoff.
