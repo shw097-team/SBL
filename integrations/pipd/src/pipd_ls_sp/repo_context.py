@@ -9,12 +9,15 @@ closed: no PD and therefore no PREDEV_READY readiness is ever emitted without on
 """
 from __future__ import annotations
 
+import locale
+import os
+import re
 import subprocess
 from pathlib import Path
 from typing import Any
 
 from .errors import EffectUnknown, RepoContextMissing, StaleProvider
-from .util import canonical_json, sha256_file, sha256_text
+from .util import canonical_json, sha256_bytes, sha256_file, sha256_text
 
 # Writable scope the construction binding admits by default (R2 repair-scope hardening): a
 # requested writable scope is reported and enforced as a SUBSET check, never echoed as free text.
@@ -45,51 +48,302 @@ def tracked_file_count(root: Path) -> int:
 
 
 def _git(root: Path, *args: str) -> "subprocess.CompletedProcess[str] | None":
+    out = _git_exec(root, *args)
+    return out if out is not None and out.returncode == 0 else None
+
+
+def _git_exec(root: Path, *args: str) -> "subprocess.CompletedProcess[str] | None":
+    """Run git and return the completed process whatever its exit code (None if it never ran).
+
+    Callers that must DISCLOSE *why* a probe failed need stderr, which `_git` deliberately hides.
+    """
     try:
-        out = subprocess.run(["git", "-C", str(root), *args],
-                             capture_output=True, text=True, timeout=30)
+        return subprocess.run(["git", "-C", str(root), *args],
+                              capture_output=True, text=True, timeout=30)
     except Exception:
         return None
-    return out if out.returncode == 0 else None
 
 
-def _manifest(files: list[str], root: Path) -> str:
-    rows = []
+def _norm(rel: str) -> str:
+    return rel.replace("\\", "/")
+
+
+def _in_scope(rel: str, scope: "str | list[str] | tuple[str, ...]") -> bool:
+    """True when a repo-relative path falls inside any of the scope patterns."""
+    entry = _norm(rel)
+    rules = [scope] if isinstance(scope, str) else list(scope or [])
+    for rule in rules:
+        rule = _norm(str(rule or "").strip())
+        if not rule:
+            continue
+        if rule == entry:
+            return True
+        if rule.endswith("/**"):
+            pre = rule[:-3]
+            if pre and (entry == pre or entry.startswith(pre + "/")):
+                return True
+        elif rule.endswith("*") and entry.startswith(rule[:-1]):
+            return True
+    return False
+
+
+def _manifest_rows(files: list[str], root: Path) -> list[list[Any]]:
+    rows: list[list[Any]] = []
     for rel in files:
         p = root / rel
         try:
             rows.append([rel, p.stat().st_size, sha256_file(p)])
         except OSError:
             rows.append([rel, -1, "MISSING"])
-    return sha256_text(canonical_json(rows))
+    return rows
 
 
-def probe_repository(root: "Path | str") -> dict[str, Any]:
+def _resolve_git_root(root: Path, errors: list[str]) -> "str | None":
+    """Resolve the REAL toplevel of the checkout containing `root` (never raise)."""
+    out = _git_exec(root, "rev-parse", "--show-toplevel")
+    if out is None:
+        errors.append("git_root: git executable unavailable or timed out")
+        return None
+    if out.returncode != 0 or not out.stdout.strip():
+        reason = (out.stderr or out.stdout or "").strip().splitlines()
+        errors.append("git_root: git rev-parse --show-toplevel failed"
+                      + (f": {reason[0]}" if reason else ""))
+        return None
+    return str(Path(out.stdout.strip()))
+
+
+_ACL_PRINCIPAL = re.compile(r"^\s*(.+?):\(")
+
+
+def _acl_principals(text: str, target: Path) -> set[str]:
+    """Principal names from icacls output; the leading file path on line 1 is stripped first.
+
+    A principal may contain spaces ("NT AUTHORITY\\SYSTEM"), so this cannot be a whitespace-split.
+    """
+    prefixes = [str(target), str(target).replace("\\", "/"), target.name]
+    found: set[str] = set()
+    for line in text.splitlines():
+        body = line
+        for prefix in prefixes:
+            if body.lower().startswith(prefix.lower()):
+                body = body[len(prefix):]
+                break
+        match = _ACL_PRINCIPAL.match(body)
+        if match:
+            principal = match.group(1).strip()
+            if principal and not principal.lower().startswith("successfully"):
+                found.add(principal)
+    return found
+
+
+def _decode_host_output(raw: bytes) -> str:
+    """icacls writes in the host OEM/ANSI codepage, not UTF-8; decode without ever raising."""
+    for encoding in ("utf-8", locale.getpreferredencoding(False) or "utf-8", "mbcs"):
+        try:
+            return raw.decode(encoding)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
+def _probe_acl(files: list[str], root: Path,
+               writable_scope: "str | list[str] | tuple[str, ...] | None") -> dict[str, Any]:
+    """Observe filesystem ACLs for every file inside writable_scope. Never overstate.
+
+    `state` is OBSERVED only when icacls succeeded for EVERY in-scope file on Windows; anything
+    else (no in-scope file, non-Windows host, missing tool, any icacls failure) is UNVERIFIED
+    with a recorded reason. An UNVERIFIED block is never promoted to VERIFIED.
+    """
+    targets = [rel for rel in files if _in_scope(rel, writable_scope or [])]
+    block: dict[str, Any] = {"state": "UNVERIFIED", "acl_state": "UNVERIFIED",
+                             "principals": [], "raw_sha256": None,
+                             "platform": os.name, "tool": "icacls",
+                             "files": targets, "reason": None,
+                             "observed_count": 0, "unverified_count": len(targets)}
+    if not targets:
+        block["reason"] = "no file inside write_scope to observe (ACL not probed)"
+        return block
+    if os.name != "nt":
+        block["reason"] = f"icacls is Windows-only; ACL not observable on platform {os.name!r}"
+        return block
+    principals: set[str] = set()
+    chunks: list[str] = []
+    failures: list[str] = []
+    for rel in targets:
+        try:
+            cp = subprocess.run(["icacls", str(root / rel)],
+                                capture_output=True, timeout=30)
+        except Exception as exc:  # tool missing, timeout, permission
+            failures.append(f"{rel}: {exc.__class__.__name__}: {exc}")
+            continue
+        stdout = _decode_host_output(cp.stdout or b"")
+        stderr = _decode_host_output(cp.stderr or b"")
+        if cp.returncode != 0:
+            detail = (stderr or stdout).strip().splitlines()
+            failures.append(f"{rel}: icacls exit {cp.returncode}"
+                            + (f": {detail[0]}" if detail else ""))
+            continue
+        chunks.append(f"{rel}\n{stdout}")
+        principals.update(_acl_principals(stdout, root / rel))
+    block["observed_count"] = len(targets) - len(failures)
+    block["unverified_count"] = len(failures)
+    if failures:
+        block["reason"] = ("ACL not fully observed: " + "; ".join(failures[:5])
+                           + ("" if len(failures) <= 5 else f" (+{len(failures) - 5} more)"))
+        return block
+    block.update(state="OBSERVED", acl_state="OBSERVED",
+                 principals=sorted(principals),
+                 raw_sha256=sha256_text("\n".join(chunks)), reason=None)
+    return block
+
+
+def _capture_preimage(root: Path, git_root: "str | None", rows: list[list[Any]],
+                      preimage_dir: "Path | str | None",
+                      writable_scope: "str | list[str] | tuple[str, ...] | None",
+                      errors: list[str]) -> dict[str, Any]:
+    """Copy pre-image bytes OUTSIDE the repository; refuse a preimage root inside it."""
+    out: dict[str, Any] = {"captured": False, "preimage_dir": None,
+                           "preimage_refs": [], "refusal": None}
+    if preimage_dir is None or not str(preimage_dir).strip():
+        out["refusal"] = ("capture_preimage=True requires an explicit caller-supplied "
+                          "preimage_dir outside writable_scope")
+        errors.append("PREIMAGE_SCOPE_DENY: " + str(out["refusal"]))
+        return out
+    given = Path(preimage_dir)
+    if not given.is_absolute():
+        out["refusal"] = f"preimage_dir must be an absolute path, got {str(preimage_dir)!r}"
+        errors.append("PREIMAGE_SCOPE_DENY: " + str(out["refusal"]))
+        return out
+    try:
+        target = given.resolve()
+    except OSError as exc:
+        out["refusal"] = f"preimage_dir cannot be resolved: {exc}"
+        errors.append("PREIMAGE_SCOPE_DENY: " + str(out["refusal"]))
+        return out
+    repo_roots = [root.resolve()]
+    if git_root:
+        repo_roots.append(Path(git_root).resolve())
+    for repo_root in repo_roots:
+        if target == repo_root or repo_root in target.parents:
+            out["refusal"] = (f"preimage_dir {target} is inside the probed repository "
+                              f"{repo_root}; it must be a temp root outside writable_scope")
+            errors.append("PREIMAGE_SCOPE_DENY: " + str(out["refusal"]))
+            return out
+        for rule in ([writable_scope] if isinstance(writable_scope, str)
+                     else list(writable_scope or [])):
+            rule_path = Path(str(rule)).expanduser()
+            if rule_path.is_absolute() and (target == rule_path.resolve()
+                                            or rule_path.resolve() in target.parents):
+                out["refusal"] = f"preimage_dir {target} is inside writable_scope {rule}"
+                errors.append("PREIMAGE_SCOPE_DENY: " + str(out["refusal"]))
+                return out
+    try:
+        target.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        out["refusal"] = f"preimage_dir cannot be created: {exc}"
+        errors.append(f"PREIMAGE_CAPTURE_FAILED: {out['refusal']}")
+        return out
+    refs: list[dict[str, Any]] = []
+    failures: list[str] = []
+    for rel, size, digest in rows:
+        if digest == "MISSING":
+            failures.append(f"{rel}: pre-image missing on disk")
+            continue
+        src = root / rel
+        dst = target / rel
+        try:
+            data = src.read_bytes()
+            got = sha256_bytes(data)
+            if got != digest:
+                failures.append(f"{rel}: bytes changed between manifest and capture")
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            dst.write_bytes(data)
+        except OSError as exc:
+            failures.append(f"{rel}: {exc}")
+            continue
+        refs.append({"rel": rel, "path": str(dst), "sha256": got, "bytes": len(data)})
+    if failures:
+        errors.append("PREIMAGE_CAPTURE_FAILED: " + "; ".join(failures[:5])
+                      + ("" if len(failures) <= 5 else f" (+{len(failures) - 5} more)"))
+    out.update(captured=bool(refs) and not failures, preimage_dir=str(target),
+               preimage_refs=refs)
+    return out
+
+
+def _capabilities(git_root_resolved: bool, index_ok: bool, untracked_ok: bool,
+                  acl_state: str, capture_state: str) -> dict[str, str]:
+    """Machine-readable presence flags so no upstream has to GUESS what was actually observed."""
+    return {
+        "git_root": "PRESENT" if git_root_resolved else "ABSENT",
+        "index": "PRESENT" if index_ok else "ABSENT",
+        "index_digest": "PRESENT" if index_ok else "ABSENT",
+        "staged_changes": "PRESENT" if index_ok else "ABSENT",
+        "untracked": "PRESENT" if untracked_ok else "ABSENT",
+        "acl": acl_state,
+        "preimage_bytes": "OPTIONAL_CAPTURE",
+        "preimage_capture": capture_state,
+    }
+
+
+def probe_repository(root: "Path | str", *, write_scope: "str | list[str] | None" = "src/**",
+                     capture_preimage: bool = False,
+                     preimage_dir: "Path | str | None" = None) -> dict[str, Any]:
     """Derive head/branch/dirty/tracked_files/manifest from the host itself.
 
     git probes when the root is a checkout; otherwise filesystem probes, degraded and disclosed
     (probe == "filesystem", degraded == True). A root that cannot be probed at all is a missing
-    RepoContext (fail closed).
+    RepoContext (fail closed). W2 CH-15 adds live git_root / index / untracked / acl /
+    per_file_preimage evidence, each DISCLOSED in `capabilities` and in `errors` on failure.
     """
     root = Path(root)
     if not str(root).strip() or not root.is_dir():
         raise RepoContextMissing(f"RepoContext root missing: {root}")
+    root_input = str(root)
+    errors: list[str] = []
     head = branch = None
     dirty_tracked: list[str] = []
+    untracked: list[str] = []
+    staged: list[str] = []
+    index_digest = None
     tracked: list[str] | None = None
     probe = "filesystem"
     degraded_reason = "not a git checkout: degraded to filesystem probes (disclosed)"
+    git_root = _resolve_git_root(root, errors)
     ls = _git(root, "ls-files")
+    index_ok = False
+    untracked_ok = False
     if ls is not None:
         probe = "git"
         degraded_reason = None
-        tracked = [l.replace("\\", "/") for l in ls.stdout.splitlines() if l.strip()]
+        tracked = [_norm(l) for l in ls.stdout.splitlines() if l.strip()]
         head_out = _git(root, "rev-parse", "HEAD")
         head = head_out.stdout.strip() if head_out else None
         br = _git(root, "rev-parse", "--abbrev-ref", "HEAD")
         branch = br.stdout.strip() if br else None
         st = _git(root, "status", "--porcelain", "-uno")
         dirty_tracked = [l.rstrip() for l in st.stdout.splitlines() if l.strip()] if st else []
+        idx = _git_exec(root, "ls-files", "-s")
+        if idx is not None and idx.returncode == 0:
+            index_digest = sha256_text(idx.stdout)
+            index_ok = True
+        else:
+            detail = ((idx.stderr or "").strip().splitlines() if idx is not None else [])
+            errors.append("index: `git ls-files -s` failed; index_digest unavailable"
+                          + (f": {detail[0]}" if detail else ""))
+        stg = _git_exec(root, "diff", "--cached", "--name-only")
+        if stg is not None and stg.returncode == 0:
+            staged = [_norm(l) for l in stg.stdout.splitlines() if l.strip()]
+        else:
+            errors.append("staged_changes: `git diff --cached --name-only` failed; "
+                          "staged set unavailable")
+        st_all = _git_exec(root, "status", "--porcelain", "--untracked-files=normal")
+        if st_all is not None and st_all.returncode == 0:
+            untracked = [_norm(l[3:].strip().strip('"'))
+                         for l in st_all.stdout.splitlines() if l.startswith("?? ")]
+            untracked_ok = True
+        else:
+            errors.append("untracked: `git status --porcelain --untracked-files=normal` failed; "
+                          "untracked set unavailable")
     if tracked is None:
         try:
             tracked = [str(p.relative_to(root)).replace("\\", "/")
@@ -97,12 +351,36 @@ def probe_repository(root: "Path | str") -> dict[str, Any]:
                        if p.is_file() and ".git" not in p.parts and "__pycache__" not in p.parts]
         except OSError as exc:
             raise RepoContextMissing(f"repository probes failed for {root}: {exc}") from exc
-    manifest = _manifest(tracked, root)
-    state = {"root": str(root), "probe": probe,
+    rows = _manifest_rows(tracked, root)
+    manifest = sha256_text(canonical_json(rows))
+    acl = _probe_acl(tracked, root, write_scope)
+    preimage: dict[str, Any] = {"manifest": [{"rel": r[0], "size": r[1], "sha256": r[2]}
+                                             for r in rows],
+                                "manifest_sha256": manifest,
+                                "captured": False, "preimage_dir": None,
+                                "preimage_refs": [], "refusal": None}
+    if capture_preimage:
+        preimage.update(_capture_preimage(root, git_root, rows, preimage_dir,
+                                          write_scope, errors))
+        capture_state = ("CAPTURED" if preimage["captured"]
+                         else "SCOPE_DENY" if preimage.get("refusal") else "FAILED")
+    else:
+        capture_state = "NOT_REQUESTED"
+    state = {"root": str(root), "root_input": root_input,
+             "probe": probe,
              "degraded": bool(degraded_reason), "degraded_reason": degraded_reason,
+             "git_root": git_root, "git_root_resolved": bool(git_root),
              "head": head, "branch": branch,
              "dirty": bool(dirty_tracked), "dirty_tracked": sorted(dirty_tracked),
-             "tracked_files": len(tracked), "manifest_sha256": manifest}
+             "index_digest": index_digest, "staged_changes": sorted(staged),
+             "staged_count": len(staged),
+             "untracked": sorted(untracked), "untracked_count": len(untracked),
+             "tracked_files": len(tracked), "manifest_sha256": manifest,
+             "per_file_preimage": preimage,
+             "acl": acl, "acl_state": acl["state"],
+             "errors": errors,
+             "capabilities": _capabilities(bool(git_root), index_ok, untracked_ok,
+                                           acl["state"], capture_state)}
     state["currentness_epoch"] = currentness_epoch(state)
     return state
 
@@ -151,14 +429,28 @@ def writable_scope_subset_check(requested: "str | list[str]",
 
 def derive_repo_context(root: "Path | str", *, writable_scope: str = "src/**",
                         authorized_scope: "tuple[str, ...] | list[str] | None" = None,
-                        ) -> dict[str, Any]:
-    """Build a derived RepoContext: host truth + readiness, with the writable-scope check."""
-    state = probe_repository(root)
-    return {"root": state["root"], "probe": state["probe"],
+                        capture_preimage: bool = False,
+                        preimage_dir: "Path | str | None" = None) -> dict[str, Any]:
+    """Build a derived RepoContext: host truth + readiness, with the writable-scope check.
+
+    `capture_preimage` defaults to False so existing callers keep the exact prior behaviour; when
+    True a caller-supplied `preimage_dir` outside writable_scope receives the pre-image bytes.
+    """
+    state = probe_repository(root, write_scope=writable_scope,
+                             capture_preimage=capture_preimage, preimage_dir=preimage_dir)
+    return {"root": state["root"], "root_input": state["root_input"],
+            "probe": state["probe"],
             "degraded": state["degraded"], "degraded_reason": state["degraded_reason"],
+            "git_root": state["git_root"], "git_root_resolved": state["git_root_resolved"],
             "head": state["head"], "branch": state["branch"],
             "dirty": state["dirty"], "dirty_tracked": state["dirty_tracked"],
+            "index_digest": state["index_digest"], "staged_changes": state["staged_changes"],
+            "staged_count": state["staged_count"],
+            "untracked": state["untracked"], "untracked_count": state["untracked_count"],
             "tracked_files": state["tracked_files"], "manifest_sha256": state["manifest_sha256"],
+            "per_file_preimage": state["per_file_preimage"],
+            "acl": state["acl"], "acl_state": state["acl_state"],
+            "errors": state["errors"], "capabilities": state["capabilities"],
             "currentness": "FRESH", "currentness_epoch": state["currentness_epoch"],
             "readiness": "PREDEV_READY",
             "writable_scope": writable_scope,
