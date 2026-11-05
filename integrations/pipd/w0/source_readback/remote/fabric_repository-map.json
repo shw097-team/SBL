@@ -1,0 +1,23 @@
+{
+  "schema_version": "FHS-NAV/v2",
+  "identity": "FABRIC_HOSTED_NON_AUTHORITATIVE_INDEX",
+  "effect_permission": "NONE",
+  "unknown_route": "HOLD_AFFECTED_WRITE_ONLY",
+  "source_state": "PROPOSED_NOT_OWNER_RATIFIED",
+  "repositories": {
+    "sbl": {"full_name": "shw097-team/SBL", "default_branch": "main", "domain": "PRODUCT_TPM"},
+    "fabric": {"full_name": "shw097-team/Fabric", "default_branch": "main", "domain": "POLICY_FAR"},
+    "hgk": {"full_name": "shw097-team/HG-KSEOS", "default_branch": "main", "domain": "NATIVE_CONTROL_SOURCE_EXPORT"}
+  },
+  "historical_repositories": {
+    "pipd": {"full_name": "shw097-team/PIPD-LS-SP", "default_branch": "main", "role": "HISTORICAL_CANONICAL_MOVED_TO_SBL", "archived": true, "write_authority": "NONE"}
+  },
+  "routes": [
+    {"task_class": "sbl_product", "primary_repo": "sbl", "affected_repos": ["fabric"], "claim": "NAVIGATION_ONLY"},
+    {"task_class": "fabric_policy", "primary_repo": "fabric", "affected_repos": ["hgk"], "claim": "NAVIGATION_ONLY"},
+    {"task_class": "hgk_admission", "primary_repo": "hgk", "affected_repos": ["fabric", "sbl"], "claim": "NAVIGATION_ONLY"},
+    {"task_class": "pipd_canonical", "primary_repo": "sbl", "affected_repos": ["fabric"], "claim": "NAVIGATION_ONLY"},
+    {"task_class": "cross_repo", "primary_repo": null, "affected_repos": ["sbl", "fabric", "hgk"], "claim": "SPLIT_PR_BY_ORIGINAL_DOMAIN"},
+    {"task_class": "hermes_runtime", "primary_repo": null, "affected_repos": ["hgk", "fabric"], "claim": "HOST_SOURCE_READER_REQUIRED"}
+  ]
+}

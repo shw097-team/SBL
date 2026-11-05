@@ -1,0 +1,217 @@
+{
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "closeout_conditions_remaining": [
+    "an original SBL CI/Program reader ACK (or a scope-specific deferral) for WP-FHS-19 on the real root",
+    "an original Host/License reader decision for the WP-FHS-16 pin holds",
+    "a decision on the three open candidate PRs by their owning domains"
+  ],
+  "corrections": {
+    "holds_binding": {
+      "file": "ADDITIONAL_SCOPED_HOLDS_r4c.corrected.json",
+      "new_body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+      "old_body_sha256": "ca2e65468b33acf15182d2a35a1a792f7d5f037fc9cd6010f731f9a85db66ae7"
+    },
+    "pair_readback": {
+      "corrected_annex_sha256": "ec828e3ffc88e60f8b32fbce5b1e51c3bdcf744c2d7bdd654cfb36292c867274",
+      "file": "BODY_ANNEX_PAIR_READBACK.corrected.json",
+      "stale_declared_annex_sha256": "f16a572a9c67ae8e56e63577d15bc1439a3545efcf7ee6e4c998ac841e38b7b1"
+    },
+    "superseded": [
+      {
+        "declared_value": "f16a572a9c67ae8e56e63577d15bc1439a3545efcf7ee6e4c998ac841e38b7b1",
+        "measured_value": "ec828e3ffc88e60f8b32fbce5b1e51c3bdcf744c2d7bdd654cfb36292c867274",
+        "original_bytes": 846,
+        "original_sha256": "79388d5565d3cde9e8f9883cdb68d5ab208a415a8994bfa42addfe7abeeb55f9",
+        "path": "BODY_ANNEX_PAIR_READBACK.json",
+        "reason": "宣告 annex_sha256=f16a572a9c67ae8e56e63577d15bc1439a3545efcf7ee6e4c998ac841e38b7b1，實檔為 ec828e3ffc88e60f8b32fbce5b1e51c3bdcf744c2d7bdd654cfb36292c867274（bytes 7840 相同、內容不同），屬 stale readback。",
+        "state": "SUPERSEDED_HISTORICAL",
+        "superseded_by": "BODY_ANNEX_PAIR_READBACK.corrected.json"
+      },
+      {
+        "declared_value": "ca2e65468b33acf15182d2a35a1a792f7d5f037fc9cd6010f731f9a85db66ae7",
+        "measured_value": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+        "original_bytes": 14869,
+        "original_sha256": "70d2c0d44418494a6ebf6366cc691afb195f92797fffc2a00e1cd5528e2de892",
+        "path": "ADDITIONAL_SCOPED_HOLDS_r4c.json",
+        "reason": "candidate_body_sha256=ca2e65468b33acf15182d2a35a1a792f7d5f037fc9cd6010f731f9a85db66ae7 綁錯正文（實檔 56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a）。",
+        "state": "SUPERSEDED_HISTORICAL",
+        "superseded_by": "ADDITIONAL_SCOPED_HOLDS_r4c.corrected.json"
+      }
+    ]
+  },
+  "decision_id": "W0-CLOSEOUT-20261105-0832",
+  "e26": {
+    "id": "E26",
+    "predecessor": "WP-FHS-19",
+    "state": "UNSATISFIED_WP19_ORIGINAL_RAW_MISSING",
+    "successor": "WP-FHS-14",
+    "wave": "W0→W4"
+  },
+  "hold_summary": {
+    "all_open": true,
+    "carried": 64,
+    "new": 4,
+    "total": 68
+  },
+  "input": {
+    "annex_bytes": 7840,
+    "annex_sha256": "ec828e3ffc88e60f8b32fbce5b1e51c3bdcf744c2d7bdd654cfb36292c867274",
+    "body_bytes": 463034,
+    "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+    "source_manifest_sha256": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60",
+    "zip_sha256": "f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a"
+  },
+  "manifest_denominator": {
+    "actual_files_on_disk": 592,
+    "artifact": "MANIFEST_PAIR_CHECK",
+    "declared_minus_present": [],
+    "denominator": {
+      "evidence": 2,
+      "expression": "589 + 2 + 1 = 592",
+      "files": 589,
+      "self": 1,
+      "total": 592
+    },
+    "manifest_declared_counts": {
+      "declared_total": 591,
+      "evidence": 2,
+      "files": 589
+    },
+    "manifest_declared_total_plus_self": 592,
+    "manifest_file": "INDEX_AND_MANIFEST_r4-candidate-b41d2e.json",
+    "manifest_sha256": "860ad0ade0ae87f00b3f81129478c22e3c2bc0201dfd6485860080a716c43f1c",
+    "measured_at": "2026-11-05T08:34:14+08:00",
+    "member_sha_mismatches": [],
+    "members_verified": 591,
+    "missing_count": 0,
+    "missing_members": [],
+    "present_minus_declared": [],
+    "statement": "files 589 + evidence 2 + self 1 = 592；NO_MISSING_MEMBER，不再報缺檔。",
+    "verdict": "NO_MISSING_MEMBER"
+  },
+  "not_claimed": [
+    "W0_ALL_SIX_WP_DONE",
+    "WP19_DONE",
+    "PIPD_CANONICAL",
+    "HGK_ADMITTED",
+    "HOST_NATIVE_E2E",
+    "PROTECTED_CHECKER",
+    "RELEASED",
+    "TraceClosure beyond AUTHOR_STATIC"
+  ],
+  "repos": {
+    "Fabric": {
+      "changed_files": 3,
+      "checks": [
+        [
+          "fhs-nav-static",
+          "completed",
+          "success"
+        ]
+      ],
+      "head": "ab712e3d8f07e0beac11d783027159d6fe3ade9c",
+      "merged": false,
+      "pr": 27,
+      "reviews": 0,
+      "state": "open"
+    },
+    "HG-KSEOS": {
+      "changed_files": 2,
+      "checks": [],
+      "head": "8da3cb3c942f38799dd481c9e784fc4c69cecb5c",
+      "merged": false,
+      "pr": 11,
+      "reviews": 0,
+      "state": "open"
+    },
+    "SBL": {
+      "changed_files": 165,
+      "checks": [
+        [
+          "test (ubuntu-latest, py3.11)",
+          "completed",
+          "success"
+        ],
+        [
+          "test (windows-latest, py3.11)",
+          "completed",
+          "success"
+        ],
+        [
+          "pipd-compat (ubuntu, py3.11)",
+          "completed",
+          "success"
+        ],
+        [
+          "test (ubuntu-latest, py3.11)",
+          "completed",
+          "success"
+        ],
+        [
+          "test (windows-latest, py3.11)",
+          "completed",
+          "success"
+        ],
+        [
+          "pipd-compat (ubuntu, py3.11)",
+          "completed",
+          "success"
+        ]
+      ],
+      "head": "d4b1eb789120fda3d8fbfe865ae87d3fd216438e",
+      "merged": false,
+      "pr": 41,
+      "reviews": 0,
+      "state": "open"
+    }
+  },
+  "repos_as_of": "2026-11-05T08:40:00+0800 (snapshot taken before the C4 commits)",
+  "repos_note": "The archive is a build-time snapshot. Post-C4 heads and CI live in the round handoff C4_FINAL_PR_READBACK.json; the archive cannot contain facts that only exist after it is sealed.",
+  "schema": "FHS.W0.CLOSEOUT_DECISION/v1",
+  "verdict": "W0_CLOSEOUT_PENDING",
+  "w0_all_six_wp_done": false,
+  "w0_author_local_result": "VERIFIED_WITH_SCOPED_HOLDS",
+  "w1_gate": "W1_SCOPED_SOURCE_DRAFT_GO",
+  "work_packages": {
+    "WP-FHS-00": {
+      "note": "source/repo/host probe replayed; 13 tests unchanged",
+      "state": "DONE_LOCAL"
+    },
+    "WP-FHS-01": {
+      "note": "189 routed entries, zero write authority, zero permit",
+      "state": "DONE_LOCAL"
+    },
+    "WP-FHS-15": {
+      "note": "three heterogeneous SPECs + 11 joined chains",
+      "state": "DONE_LOCAL"
+    },
+    "WP-FHS-16": {
+      "bound": 1,
+      "note": "only the needs the eight W1 packages consume were re-read; the rest stay PIN_HOLD",
+      "pin_hold": 29,
+      "state": "IMPLEMENTED_WITH_SCOPED_HOLD",
+      "w1_consumed": 12
+    },
+    "WP-FHS-19": {
+      "checks": {
+        "FAIL": 2,
+        "HOLD": 0,
+        "NOT_APPLICABLE": 0,
+        "PASS": 5
+      },
+      "fail_codes": [
+        "SBOM_COMPONENT_MISMATCH",
+        "UNDECLARED_DEPENDENCY"
+      ],
+      "note": "real upstream root scanned; two typed failures decomposed in open_fails",
+      "original_ci_reader_ack": "NOT_OBSERVED",
+      "real_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\\integrations\\pipd",
+      "real_root_head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+      "state": "IMPLEMENTED_ENTRY_ONLY"
+    },
+    "WP-FHS-21": {
+      "note": "96 typed oracle rows, S1-S5 seams, W1-W4 handoff unchanged",
+      "state": "DONE_LOCAL"
+    }
+  }
+}

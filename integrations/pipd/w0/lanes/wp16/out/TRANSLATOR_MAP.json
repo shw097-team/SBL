@@ -1,0 +1,2796 @@
+{
+  "schema_version": "wp-fhs-16/1",
+  "lane": "WP-FHS-16",
+  "installer_claim": "NONE",
+  "installed_count": 0,
+  "is_installer_all_false": true,
+  "contract": {
+    "translator_is_recipe_only": true,
+    "installer_request_response": "METHOD_NOT_INSTALLER",
+    "corpus_token_for_same_refusal": "METHOD_AS_INSTALL_DENY",
+    "method_only_policy": "a Method25 item may never be promoted to installer; install requests are refused",
+    "installer_required_fields_forbidden": [
+      "INSTALLED",
+      "VERIFIED"
+    ]
+  },
+  "generated_from": {
+    "files": {
+      "DEFAULT30_CHOICES.json": {
+        "file": "DEFAULT30_CHOICES.json",
+        "bytes": 126835,
+        "sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "declared_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "identity": "MATCH"
+      },
+      "WP16_TRANSLATION49.json": {
+        "file": "WP16_TRANSLATION49.json",
+        "bytes": 138505,
+        "sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "declared_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "identity": "MATCH"
+      },
+      "TECH485_COMPACT_REGISTRY.json": {
+        "file": "TECH485_COMPACT_REGISTRY.json",
+        "bytes": 103630,
+        "sha256": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb",
+        "declared_sha256": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb",
+        "identity": "MATCH"
+      }
+    }
+  },
+  "counts": {
+    "translators": 30,
+    "donor": 16,
+    "method": 14,
+    "needs_with_translator": 15,
+    "wp16_items_total": 49,
+    "unselected_items": 19,
+    "is_installer_true": 0
+  },
+  "selection_holds": [],
+  "translators": [
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SK-01",
+      "wp16_id": "Donor24:SLOT-SK-01",
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "kind": "DONOR",
+      "item_name": "Spec Kit",
+      "occupant_class": "OPTIONAL_GREENFIELD",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SK-01",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Product kind + Constitution + non-goals"
+          }
+        ],
+        "payload_literal": "Product kind + Constitution + non-goals",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Product kind + Constitution + non-goals",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /4/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SK-01",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ConstitutionBinding",
+        "artifact_parts": [
+          "ConstitutionBinding"
+        ],
+        "produced_as": "Donor24:SLOT-SK-01.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /4/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_AUTHORITY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_AUTHORITY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/4",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 66,
+            "row_sha": "d75c70883e2e0245a579a91fb86c69ce8d19ec1090b010dc073db01261018c45",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ConstitutionBinding"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`OPTIONAL_GREENFIELD`（source-literal/owner決策分離；正式 ACK=OPTIONAL_GREENFIELD）；product_decision：`OPTIONAL_GREENFIELD`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SK-02",
+      "wp16_id": "Donor24:SLOT-SK-02",
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "kind": "DONOR",
+      "item_name": "Spec Kit",
+      "occupant_class": "OPTIONAL_GREENFIELD",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SK-02",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Unknown requirement + value of information"
+          }
+        ],
+        "payload_literal": "Unknown requirement + value of information",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Unknown requirement + value of information",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /5/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SK-02",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "RequirementAtom+ACCSeed",
+        "artifact_parts": [
+          "RequirementAtom",
+          "ACCSeed"
+        ],
+        "produced_as": "Donor24:SLOT-SK-02.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /5/concrete_output"
+      },
+      "refusal_codes": [
+        "DONOR_NOFIT_OR_SCOPE_HOLD",
+        "PI_NOT_READY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "DONOR_NOFIT_OR_SCOPE_HOLD",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/5",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 67,
+            "row_sha": "5ee5bea4ac8077a08c8e71bb0577095bc5293986b0f63f71be409943954358be",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: RequirementAtom+ACCSeed"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`OPTIONAL_GREENFIELD`（source-literal/owner決策分離；正式 ACK=OPTIONAL_GREENFIELD）；product_decision：`OPTIONAL_GREENFIELD`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SK-03",
+      "wp16_id": "Donor24:SLOT-SK-03",
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "kind": "DONOR",
+      "item_name": "Spec Kit",
+      "occupant_class": "OPTIONAL_GREENFIELD",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SK-03",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Bounded task nodes + dependency and owner"
+          }
+        ],
+        "payload_literal": "Bounded task nodes + dependency and owner",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Bounded task nodes + dependency and owner",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /6/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SK-03",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "TaskDAG+TopoOrder",
+        "artifact_parts": [
+          "TaskDAG",
+          "TopoOrder"
+        ],
+        "produced_as": "Donor24:SLOT-SK-03.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /6/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_DAG",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_DAG",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/6",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 68,
+            "row_sha": "3d23aabdb2346c7fc7ce3aac521a629e36d785b600141da3f65bf470c1a6d2d4",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: TaskDAG+TopoOrder"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`OPTIONAL_GREENFIELD`（source-literal/owner決策分離；正式 ACK=OPTIONAL_GREENFIELD）；product_decision：`OPTIONAL_GREENFIELD`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SK-04",
+      "wp16_id": "Donor24:SLOT-SK-04",
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "kind": "DONOR",
+      "item_name": "Spec Kit",
+      "occupant_class": "OPTIONAL_GREENFIELD",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SK-04",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Approved workflow manifests with versions"
+          }
+        ],
+        "payload_literal": "Approved workflow manifests with versions",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Approved workflow manifests with versions",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /7/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SK-04",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "WorkflowComposition",
+        "artifact_parts": [
+          "WorkflowComposition"
+        ],
+        "produced_as": "Donor24:SLOT-SK-04.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /7/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_UNPINNED_WORKFLOW",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_UNPINNED_WORKFLOW",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/7",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 69,
+            "row_sha": "c9d7d86baddec6e70c9f8b92adae4b8d792ce6a83f26bd94662bff1a0bd0e79a",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: WorkflowComposition"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`OPTIONAL_GREENFIELD`（source-literal/owner決策分離；正式 ACK=OPTIONAL_GREENFIELD）；product_decision：`OPTIONAL_GREENFIELD`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-07",
+      "wp16_id": "Method25:METHOD-07",
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "kind": "METHOD",
+      "item_name": "Spec Kit",
+      "occupant_class": "CANDIDATE_WRAP",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Spec Kit"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-07",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "ConstBinding/Spec/Plan/TaskDAG"
+          }
+        ],
+        "payload_literal": "ConstBinding/Spec/Plan/TaskDAG",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + ConstBinding/Spec/Plan/TaskDAG",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /30/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-07",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ConstBinding/Spec/Plan/TaskDAG",
+        "artifact_parts": [
+          "ConstBinding",
+          "Spec",
+          "Plan",
+          "TaskDAG"
+        ],
+        "produced_as": "Method25:METHOD-07.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /30/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_AUTHORITY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_AUTHORITY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/30",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 92,
+            "row_sha": "a45c4480b3340ce20f431f1a802b94e2cac5bce8c2d3c8d60078ca3f37434a4f",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ConstBinding/Spec/Plan/TaskDAG"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE_WRAP (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE_WRAP (not installed claim)）；product_decision：`CANDIDATE_WRAP (not installed claim)`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-16 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-OS-01",
+      "wp16_id": "Donor24:SLOT-OS-01",
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "kind": "DONOR",
+      "item_name": "OpenSpec",
+      "occupant_class": "SELECTIVE_NATIVE_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-OS-01",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Explore when ambiguous"
+          }
+        ],
+        "payload_literal": "Explore when ambiguous",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Explore when ambiguous",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /0/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-OS-01",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "DecisionLedger+QuestionDelta",
+        "artifact_parts": [
+          "DecisionLedger",
+          "QuestionDelta"
+        ],
+        "produced_as": "Donor24:SLOT-OS-01.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /0/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_SOURCE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_SOURCE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/0",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 62,
+            "row_sha": "ddc51df75ae62825948fda1c109150913c72be869fa9a5fb82b21b0065698182",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: DecisionLedger+QuestionDelta"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`SELECTIVE_NATIVE_REUSE`（source-literal/owner決策分離；正式 ACK=SELECTIVE_NATIVE_REUSE）；product_decision：`SELECTIVE_NATIVE_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-OS-02",
+      "wp16_id": "Donor24:SLOT-OS-02",
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "kind": "DONOR",
+      "item_name": "OpenSpec",
+      "occupant_class": "SELECTIVE_NATIVE_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-OS-02",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "CurrentHEAD+desired scope bounded diff"
+          }
+        ],
+        "payload_literal": "CurrentHEAD+desired scope bounded diff",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "CurrentHEAD+desired scope bounded diff",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /1/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-OS-02",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "SpecDelta+ChangeProposal",
+        "artifact_parts": [
+          "SpecDelta",
+          "ChangeProposal"
+        ],
+        "produced_as": "Donor24:SLOT-OS-02.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /1/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_SCOPE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_SCOPE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/1",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 63,
+            "row_sha": "049f5d244cbbd3348fef4c82bc2d7378f0989f037ea1bd329b52567fa4ae92d8",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: SpecDelta+ChangeProposal"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`SELECTIVE_NATIVE_REUSE`（source-literal/owner決策分離；正式 ACK=SELECTIVE_NATIVE_REUSE）；product_decision：`SELECTIVE_NATIVE_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-OS-03",
+      "wp16_id": "Donor24:SLOT-OS-03",
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "kind": "DONOR",
+      "item_name": "OpenSpec",
+      "occupant_class": "SELECTIVE_NATIVE_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-OS-03",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Approved Change+WriteSet+Native ECP"
+          }
+        ],
+        "payload_literal": "Approved Change+WriteSet+Native ECP",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Approved Change+WriteSet+Native ECP",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /2/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-OS-03",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ChangeSet+ApplyReadback",
+        "artifact_parts": [
+          "ChangeSet",
+          "ApplyReadback"
+        ],
+        "produced_as": "Donor24:SLOT-OS-03.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /2/concrete_output"
+      },
+      "refusal_codes": [
+        "DONOR_NOFIT_OR_SCOPE_HOLD",
+        "ECP_PERMISSION_DENIED",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "DONOR_NOFIT_OR_SCOPE_HOLD",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/2",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 64,
+            "row_sha": "9e32d5d1688168b29ba91180b25081fc67c387a969696a3662c6dcb3d66a41e9",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ChangeSet+ApplyReadback"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`SELECTIVE_NATIVE_REUSE`（source-literal/owner決策分離；正式 ACK=SELECTIVE_NATIVE_REUSE）；product_decision：`SELECTIVE_NATIVE_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-16 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-OS-04",
+      "wp16_id": "Donor24:SLOT-OS-04",
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "kind": "DONOR",
+      "item_name": "OpenSpec",
+      "occupant_class": "SELECTIVE_NATIVE_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-OS-04",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Verified change + trace closed archive"
+          }
+        ],
+        "payload_literal": "Verified change + trace closed archive",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Verified change + trace closed archive",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /3/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-OS-04",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ArchiveRecord+Supersession",
+        "artifact_parts": [
+          "ArchiveRecord",
+          "Supersession"
+        ],
+        "produced_as": "Donor24:SLOT-OS-04.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /3/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_ARCHIVE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_ARCHIVE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/3",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 65,
+            "row_sha": "da024707c70bf831c145c43d9f9c5bcff307846ec213048b442f66e5cb306054",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ArchiveRecord+Supersession"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`SELECTIVE_NATIVE_REUSE`（source-literal/owner決策分離；正式 ACK=SELECTIVE_NATIVE_REUSE）；product_decision：`SELECTIVE_NATIVE_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-06",
+      "wp16_id": "Method25:METHOD-06",
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "kind": "METHOD",
+      "item_name": "OpenSpec",
+      "occupant_class": "CANDIDATE_TRANSLATE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSpec"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-06",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "ChangeDraft→SpecDelta→bounded patch/ref+archive candidate"
+          }
+        ],
+        "payload_literal": "ChangeDraft→SpecDelta→bounded patch/ref+archive candidate",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + ChangeDraft→SpecDelta→bounded patch/ref+archive candidate",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /29/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-06",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ChangeDraft→SpecDelta→bounded patch/ref+archive candidate",
+        "artifact_parts": [
+          "ChangeDraft→SpecDelta→bounded patch",
+          "ref",
+          "archive candidate"
+        ],
+        "produced_as": "Method25:METHOD-06.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /29/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_SCOPE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_SCOPE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/29",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 91,
+            "row_sha": "57d50da6af6bbd12a1fd6a749cdcae29b84617b2f810273b1557e889d2537ce8",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ChangeDraft→SpecDelta→bounded patch/ref+archive candidate"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE_TRANSLATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE_TRANSLATE (not installed claim)）；product_decision：`CANDIDATE_TRANSLATE (not installed claim)`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-16 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-MP-01",
+      "wp16_id": "Donor24:SLOT-MP-01",
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "kind": "DONOR",
+      "item_name": "mattpocock/skills",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "NORMALISED_NAME",
+      "selection_evidence": {
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-MP-01",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Goal+intent type+host capability"
+          }
+        ],
+        "payload_literal": "Goal+intent type+host capability",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Goal+intent type+host capability",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /8/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-MP-01",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "SkillRouteDecision",
+        "artifact_parts": [
+          "SkillRouteDecision"
+        ],
+        "produced_as": "Donor24:SLOT-MP-01.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /8/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_SKILL_ROUTE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_SKILL_ROUTE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/8",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 70,
+            "row_sha": "19d4391f26c759fa99b57aa3e52003ca1a1df1ed14d77304db0746a95efbb2c6",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: SkillRouteDecision"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-MP-02",
+      "wp16_id": "Donor24:SLOT-MP-02",
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "kind": "DONOR",
+      "item_name": "mattpocock/skills",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "NORMALISED_NAME",
+      "selection_evidence": {
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-MP-02",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Document context+known answers+uncertainty"
+          }
+        ],
+        "payload_literal": "Document context+known answers+uncertainty",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Document context+known answers+uncertainty",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /9/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-MP-02",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "QuestionLedger",
+        "artifact_parts": [
+          "QuestionLedger"
+        ],
+        "produced_as": "Donor24:SLOT-MP-02.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /9/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_DUPLICATE_QUESTION",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_DUPLICATE_QUESTION",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/9",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 71,
+            "row_sha": "24a44063895846014436f5b00f87e15b2c7e9212d3db65c957c1f859f2f4d404",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: QuestionLedger"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-MP-03",
+      "wp16_id": "Donor24:SLOT-MP-03",
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "kind": "DONOR",
+      "item_name": "mattpocock/skills",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "NORMALISED_NAME",
+      "selection_evidence": {
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-MP-03",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Glossary terms+boundary+events"
+          }
+        ],
+        "payload_literal": "Glossary terms+boundary+events",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Glossary terms+boundary+events",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /10/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-MP-03",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "DomainModel+Glossary+ADR",
+        "artifact_parts": [
+          "DomainModel",
+          "Glossary",
+          "ADR"
+        ],
+        "produced_as": "Donor24:SLOT-MP-03.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /10/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_DOMAIN_CONFLICT",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_DOMAIN_CONFLICT",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/10",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 72,
+            "row_sha": "9c8e4a2af6a93a4bafdb7473f87f517c666f5ef65967437c7fe1bf275b6967d7",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: DomainModel+Glossary+ADR"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-MP-04",
+      "wp16_id": "Donor24:SLOT-MP-04",
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "kind": "DONOR",
+      "item_name": "mattpocock/skills",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "NORMALISED_NAME",
+      "selection_evidence": {
+        "basis": "NORMALISED_NAME",
+        "expected": "mattpocock/skills"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-MP-04",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Approved SpecCandidate+ACC+task owner"
+          }
+        ],
+        "payload_literal": "Approved SpecCandidate+ACC+task owner",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Approved SpecCandidate+ACC+task owner",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /11/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-MP-04",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "TaskSpecSeed+TicketCandidate",
+        "artifact_parts": [
+          "TaskSpecSeed",
+          "TicketCandidate"
+        ],
+        "produced_as": "Donor24:SLOT-MP-04.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /11/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_ISSUE_PUBLISH",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_ISSUE_PUBLISH",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/11",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 73,
+            "row_sha": "a659da74e0410e078a59cc20005f59e8c0a812fb520ceabafddbaf8ed1229e8c",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: TaskSpecSeed+TicketCandidate"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-15 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-02",
+      "wp16_id": "Method25:METHOD-02",
+      "need_id": "Default30:P0-TOOL-017",
+      "need_name": "Grill Me",
+      "kind": "METHOD",
+      "item_name": "mattpocock/skills:grill-with-docs",
+      "occupant_class": "METHOD_ONLY",
+      "selection_basis": "TOKEN_CONTAINS",
+      "selection_evidence": {
+        "basis": "TOKEN_CONTAINS",
+        "expected": "mattpocock/skills:grill-with-docs"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-02",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "deduplicated QuestionLedger"
+          }
+        ],
+        "payload_literal": "deduplicated QuestionLedger",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + deduplicated QuestionLedger",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /25/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-02",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "deduplicated QuestionLedger",
+        "artifact_parts": [
+          "deduplicated QuestionLedger"
+        ],
+        "produced_as": "Method25:METHOD-02.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /25/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/25",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 87,
+            "row_sha": "2377001af22a2dd6763b543aa8393c65620758f4fdb91152ddd0e900909da5e5",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: deduplicated QuestionLedger"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_ONLY (not installed claim)`（source-literal/owner決策分離；正式 ACK=METHOD_ONLY (not installed claim)）；product_decision：`METHOD_ONLY (not installed claim)`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-15 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SP-01",
+      "wp16_id": "Donor24:SLOT-SP-01",
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "kind": "DONOR",
+      "item_name": "Superpowers",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SP-01",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Design options+source-risk-ADR"
+          }
+        ],
+        "payload_literal": "Design options+source-risk-ADR",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Design options+source-risk-ADR",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /20/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SP-01",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ArchitectureADR+WriteIntentCandidate",
+        "artifact_parts": [
+          "ArchitectureADR",
+          "WriteIntentCandidate"
+        ],
+        "produced_as": "Donor24:SLOT-SP-01.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /20/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_ADR",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_ADR",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/20",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 82,
+            "row_sha": "256ef5ea9c7a66f8586d1985acacf5494f13f113eca8629d8eae1636ee634d04",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ArchitectureADR+WriteIntentCandidate"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SP-02",
+      "wp16_id": "Donor24:SLOT-SP-02",
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "kind": "DONOR",
+      "item_name": "Superpowers",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SP-02",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Failing test OldHEAD+exact code scope"
+          }
+        ],
+        "payload_literal": "Failing test OldHEAD+exact code scope",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Failing test OldHEAD+exact code scope",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /21/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SP-02",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "RedGreenTrace+RunnerRawLog",
+        "artifact_parts": [
+          "RedGreenTrace",
+          "RunnerRawLog"
+        ],
+        "produced_as": "Donor24:SLOT-SP-02.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /21/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_RED_PHASE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_RED_PHASE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/21",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 83,
+            "row_sha": "ad6b7cb6a0af669812c96eef3220234afd1f029c494eef424daf64cf63af0bdd",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: RedGreenTrace+RunnerRawLog"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SP-03",
+      "wp16_id": "Donor24:SLOT-SP-03",
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "kind": "DONOR",
+      "item_name": "Superpowers",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SP-03",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Observed failure+repro+root cause"
+          }
+        ],
+        "payload_literal": "Observed failure+repro+root cause",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Observed failure+repro+root cause",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /22/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SP-03",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "RootCauseRecord+RepairCone",
+        "artifact_parts": [
+          "RootCauseRecord",
+          "RepairCone"
+        ],
+        "produced_as": "Donor24:SLOT-SP-03.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /22/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_ROOT_CAUSE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_ROOT_CAUSE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/22",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 84,
+            "row_sha": "71aae14cb4fc6131dd97c9cffc76eaa001a41f50290d95597288b8f3b7474d83",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: RootCauseRecord+RepairCone"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Donor24:SLOT-SP-04",
+      "wp16_id": "Donor24:SLOT-SP-04",
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "kind": "DONOR",
+      "item_name": "Superpowers",
+      "occupant_class": "METHOD_REUSE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Donor24:SLOT-SP-04",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "source_sha256",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "subject",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "known_answers",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "donor_input",
+            "type": "typed",
+            "source": "WP16 literal",
+            "literal": "Plan+independent evidence+review request"
+          }
+        ],
+        "payload_literal": "Plan+independent evidence+review request",
+        "payload_derivation": "WP16 translation clause: 'Preserve original SourceSHA/Subject/known answers'",
+        "input_literal": "Plan+independent evidence+review request",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /23/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Donor24:SLOT-SP-04",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "CompletionGateCandidate",
+        "artifact_parts": [
+          "CompletionGateCandidate"
+        ],
+        "produced_as": "Donor24:SLOT-SP-04.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /23/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_COMPLETION_GATE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_COMPLETION_GATE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/23",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 85,
+            "row_sha": "4a9db088c974ff2ca353c8ed4bf1135eeafb5d8f18ae268af44aa89f9cb1f59f",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: CompletionGateCandidate"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`METHOD_REUSE`（source-literal/owner決策分離；正式 ACK=METHOD_REUSE）；product_decision：`METHOD_REUSE`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-13 受影原 PIPD/SBL/HGK Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-08",
+      "wp16_id": "Method25:METHOD-08",
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "kind": "METHOD",
+      "item_name": "Superpowers",
+      "occupant_class": "CANDIDATE_TRANSLATE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Superpowers"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-08",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "DesignDecision/RedGreenTrace/RootCause/ReviewGate"
+          }
+        ],
+        "payload_literal": "DesignDecision/RedGreenTrace/RootCause/ReviewGate",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + DesignDecision/RedGreenTrace/RootCause/ReviewGate",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /31/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-08",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "DesignDecision/RedGreenTrace/RootCause/ReviewGate",
+        "artifact_parts": [
+          "DesignDecision",
+          "RedGreenTrace",
+          "RootCause",
+          "ReviewGate"
+        ],
+        "produced_as": "Method25:METHOD-08.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /31/concrete_output"
+      },
+      "refusal_codes": [
+        "NACK_RED_PHASE",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "NACK_RED_PHASE",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/31",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 93,
+            "row_sha": "e5bc1179fa1280822f9180f4026fa443e783bf4c5a983c9e03c932b62fac8328",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: DesignDecision/RedGreenTrace/RootCause/ReviewGate"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE_TRANSLATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE_TRANSLATE (not installed claim)）；product_decision：`CANDIDATE_TRANSLATE (not installed claim)`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-18 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-25",
+      "wp16_id": "Method25:METHOD-25",
+      "need_id": "Default30:P0-TOOL-024",
+      "need_name": "Agent Skills",
+      "kind": "METHOD",
+      "item_name": "Agent Skills specification",
+      "occupant_class": "PORTABILITY_SPEC",
+      "selection_basis": "NAME_CONTAINS",
+      "selection_evidence": {
+        "basis": "NAME_CONTAINS",
+        "expected": "Agent Skills"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-25",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "SKILL.md format and dependency validation"
+          }
+        ],
+        "payload_literal": "SKILL.md format and dependency validation",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + SKILL.md format and dependency validation",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /48/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-25",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "SKILL.md format and dependency validation",
+        "artifact_parts": [
+          "SKILL.md format and dependency validation"
+        ],
+        "produced_as": "Method25:METHOD-25.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /48/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "HOST_NOT_LOADED",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/48",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 110,
+            "row_sha": "600cf9278944d46c38b20c5b3df9f737ad6305b470015835da6ed526de8dc22d",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: SKILL.md format and dependency validation"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`PORTABILITY_SPEC (not installed claim)`（source-literal/owner決策分離；正式 ACK=PORTABILITY_SPEC (not installed claim)）；product_decision：`PORTABILITY_SPEC (not installed claim)`；AssetType候選：SKILL。。",
+      "consumer": "WP-FHS-11 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "原Host unload受影Skill，移除本輪binding；不得刪共用references/他人Skill；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-10",
+      "wp16_id": "Method25:METHOD-10",
+      "need_id": "Default30:P0-TOOL-025",
+      "need_name": "Model Context Protocol",
+      "kind": "METHOD",
+      "item_name": "MCP",
+      "occupant_class": "PROTOCOL_ONLY",
+      "selection_basis": "LITERAL_ALIAS",
+      "selection_evidence": {
+        "found": true,
+        "field": "original_consumer",
+        "token": "MCP",
+        "snippet": "PROTO.MCP→HGK Tool/Method registry and approved host M"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-10",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "TypedToolDescriptor/transport mapping"
+          }
+        ],
+        "payload_literal": "TypedToolDescriptor/transport mapping",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + TypedToolDescriptor/transport mapping",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /33/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-10",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "TypedToolDescriptor/transport mapping",
+        "artifact_parts": [
+          "TypedToolDescriptor",
+          "transport mapping"
+        ],
+        "produced_as": "Method25:METHOD-10.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /33/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "MCP_SCOPE_DENIED",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/33",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 95,
+            "row_sha": "f986b8445dd958e66f9a28a14fa3393d76b01a50d761776bfff97091de0569a2",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: TypedToolDescriptor/transport mapping"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`PROTOCOL_ONLY (not installed claim)`（source-literal/owner決策分離；正式 ACK=PROTOCOL_ONLY (not installed claim)）；product_decision：`PROTOCOL_ONLY (not installed claim)`；AssetType候選：METHOD_ONLY。。",
+      "consumer": "WP-FHS-17 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "撤本輪method projection；原需求/來源不動，無Host uninstall；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-16",
+      "wp16_id": "Method25:METHOD-16",
+      "need_id": "Default30:P0-TOOL-059",
+      "need_name": "Semgrep",
+      "kind": "METHOD",
+      "item_name": "Semgrep",
+      "occupant_class": "CANDIDATE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Semgrep"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-16",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "Rule ID/path/priority findings"
+          }
+        ],
+        "payload_literal": "Rule ID/path/priority findings",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + Rule ID/path/priority findings",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /39/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-16",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "Rule ID/path/priority findings",
+        "artifact_parts": [
+          "Rule ID",
+          "path",
+          "priority findings"
+        ],
+        "produced_as": "Method25:METHOD-16.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /39/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "RULE_PIN_MISSING",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/39",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 101,
+            "row_sha": "c5f0f8f2ea0ce7e0b9d736c772880cad3f27e404f6982f0866dfb32238e48556",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: Rule ID/path/priority findings"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE (not installed claim)）；product_decision：`CANDIDATE (not installed claim)`；AssetType候選：CLI。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "用原安裝器逆操作或撤本輪entrypoint；核path/residue；UNKNOWN先reconcile；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-15",
+      "wp16_id": "Method25:METHOD-15",
+      "need_id": "Default30:P0-TOOL-060",
+      "need_name": "CodeQL",
+      "kind": "METHOD",
+      "item_name": "CodeQL",
+      "occupant_class": "CANDIDATE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "CodeQL"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-15",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "SARIF findings+query provenance"
+          }
+        ],
+        "payload_literal": "SARIF findings+query provenance",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + SARIF findings+query provenance",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /38/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-15",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "SARIF findings+query provenance",
+        "artifact_parts": [
+          "SARIF findings",
+          "query provenance"
+        ],
+        "produced_as": "Method25:METHOD-15.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /38/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "QUERY_PACK_UNTRUSTED",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/38",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 100,
+            "row_sha": "7d6bc2ca77a0f86e772a45ba805d11e4493a7c4b6fd1fa5cf1d13074cf3fcea9",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: SARIF findings+query provenance"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE (not installed claim)）；product_decision：`CANDIDATE (not installed claim)`；AssetType候選：CLI。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "用原安裝器逆操作或撤本輪entrypoint；核path/residue；UNKNOWN先reconcile；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-21",
+      "wp16_id": "Method25:METHOD-21",
+      "need_id": "Default30:P0-TOOL-061",
+      "need_name": "Trivy",
+      "kind": "METHOD",
+      "item_name": "Trivy",
+      "occupant_class": "CANDIDATE",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "Trivy"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-21",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "Trivy scanner result+policy outcome"
+          }
+        ],
+        "payload_literal": "Trivy scanner result+policy outcome",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + Trivy scanner result+policy outcome",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /44/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-21",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "Trivy scanner result+policy outcome",
+        "artifact_parts": [
+          "Trivy scanner result",
+          "policy outcome"
+        ],
+        "produced_as": "Method25:METHOD-21.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /44/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "SCAN_TARGET_UNKNOWN",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/44",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 106,
+            "row_sha": "ca7078a71dadb3fc594fd7af87cf1ca1ae3d5e16883583695ea56b804cf54165",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: Trivy scanner result+policy outcome"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE (not installed claim)）；product_decision：`CANDIDATE (not installed claim)`；AssetType候選：CLI。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "用原安裝器逆操作或撤本輪entrypoint；核path/residue；UNKNOWN先reconcile；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-09",
+      "wp16_id": "Method25:METHOD-09",
+      "need_id": "Default30:P0-TOOL-062",
+      "need_name": "GitHub Actions",
+      "kind": "METHOD",
+      "item_name": "GitHub Actions",
+      "occupant_class": "CANDIDATE_WRAP",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "GitHub Actions"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-09",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "CI status checks/readback expectations"
+          }
+        ],
+        "payload_literal": "CI status checks/readback expectations",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + CI status checks/readback expectations",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /32/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-09",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "CI status checks/readback expectations",
+        "artifact_parts": [
+          "CI status checks",
+          "readback expectations"
+        ],
+        "produced_as": "Method25:METHOD-09.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /32/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "CI_TRUST_BOUNDARY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/32",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 94,
+            "row_sha": "05a2c701e8ccc0dc0d6e23ba09ac5d00be67f29ae3ee75fc88e948e1225105e3",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: CI status checks/readback expectations"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE_WRAP (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE_WRAP (not installed claim)）；product_decision：`CANDIDATE_WRAP (not installed claim)`；AssetType候選：FORMAT。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "撤生成的本輪format產物；來源/schema不動；讀者保留舊版；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-12",
+      "wp16_id": "Method25:METHOD-12",
+      "need_id": "Default30:P0-TOOL-063",
+      "need_name": "OpenSSF Scorecard",
+      "kind": "METHOD",
+      "item_name": "OpenSSF Scorecard",
+      "occupant_class": "SUPPORT_ONLY",
+      "selection_basis": "EXACT_NAME",
+      "selection_evidence": {
+        "basis": "EXACT_NAME",
+        "expected": "OpenSSF Scorecard"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-12",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "ScorecardSignals and PolicyReview"
+          }
+        ],
+        "payload_literal": "ScorecardSignals and PolicyReview",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + ScorecardSignals and PolicyReview",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /35/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-12",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "ScorecardSignals and PolicyReview",
+        "artifact_parts": [
+          "ScorecardSignals and PolicyReview"
+        ],
+        "produced_as": "Method25:METHOD-12.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /35/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "SCORECARD_PROXY",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/35",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 97,
+            "row_sha": "a3b67c9b450ac51bc61ca483eb4a30443a49fd18d3c1a9010fad3501a7acd5c2",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: ScorecardSignals and PolicyReview"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`SUPPORT_ONLY (not installed claim)`（source-literal/owner決策分離；正式 ACK=SUPPORT_ONLY (not installed claim)）；product_decision：`SUPPORT_ONLY (not installed claim)`；AssetType候選：CLI。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "用原安裝器逆操作或撤本輪entrypoint；核path/residue；UNKNOWN先reconcile；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-20",
+      "wp16_id": "Method25:METHOD-20",
+      "need_id": "Default30:P0-TOOL-064",
+      "need_name": "SBOM",
+      "kind": "METHOD",
+      "item_name": "Syft",
+      "occupant_class": "CANDIDATE",
+      "selection_basis": "LITERAL_ALIAS",
+      "selection_evidence": {
+        "found": true,
+        "field": "original_business",
+        "token": "Syft",
+        "snippet": " list called SBOM；退場/NoFit：proven compatible Syft/other generator with owner permission；DETACH"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-20",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "Syft SBOM (SPDX/CycloneDX)"
+          }
+        ],
+        "payload_literal": "Syft SBOM (SPDX/CycloneDX)",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + Syft SBOM (SPDX/CycloneDX)",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /43/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-20",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "Syft SBOM (SPDX/CycloneDX)",
+        "artifact_parts": [
+          "Syft SBOM (SPDX",
+          "CycloneDX)"
+        ],
+        "produced_as": "Method25:METHOD-20.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /43/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "SBOM_SUBJECT_MISMATCH",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/43",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 105,
+            "row_sha": "32746a57414f3b262ccf589696594ee6e4a263b15cabbe1201ff86e716e979eb",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: Syft SBOM (SPDX/CycloneDX)"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE (not installed claim)）；product_decision：`CANDIDATE (not installed claim)`；AssetType候選：FORMAT。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "撤生成的本輪format產物；來源/schema不動；讀者保留舊版；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-19",
+      "wp16_id": "Method25:METHOD-19",
+      "need_id": "Default30:P0-TOOL-065",
+      "need_name": "Artifact Attestation",
+      "kind": "METHOD",
+      "item_name": "Cosign",
+      "occupant_class": "CANDIDATE",
+      "selection_basis": "LITERAL_ALIAS",
+      "selection_evidence": {
+        "found": true,
+        "field": "original_consumer",
+        "token": "Cosign",
+        "snippet": "ATTESTATION→Release Owner GitHub Attestation/Cosign binding"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-19",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "Signature verification report"
+          }
+        ],
+        "payload_literal": "Signature verification report",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + Signature verification report",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /42/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-19",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "Signature verification report",
+        "artifact_parts": [
+          "Signature verification report"
+        ],
+        "produced_as": "Method25:METHOD-19.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /42/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "SIGNER_SOD_FAIL",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/42",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 104,
+            "row_sha": "6bfd7731d5a310ea7349739aea3c8c87e7859f35c55a784eea9502cac9ab8319",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: Signature verification report"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`CANDIDATE (not installed claim)`（source-literal/owner決策分離；正式 ACK=CANDIDATE (not installed claim)）；product_decision：`CANDIDATE (not installed claim)`；AssetType候選：METHOD_ONLY。。",
+      "consumer": "WP-FHS-19 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "撤本輪method projection；原需求/來源不動，無Host uninstall；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    },
+    {
+      "translator_id": "TRANSLATOR:Method25:METHOD-22",
+      "wp16_id": "Method25:METHOD-22",
+      "need_id": "Default30:P0-TOOL-072",
+      "need_name": "SQLite",
+      "kind": "METHOD",
+      "item_name": "SQLite/FTS5",
+      "occupant_class": "LOCAL_FIRST_OPTION",
+      "selection_basis": "NAME_CONTAINS",
+      "selection_evidence": {
+        "basis": "NAME_CONTAINS",
+        "expected": "SQLite"
+      },
+      "input_schema": {
+        "schema_id": "INPUT:Method25:METHOD-22",
+        "form": "OBJECT",
+        "required_fields": [
+          {
+            "name": "goal",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "source_ref",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "need",
+            "type": "string",
+            "source": "WP16 literal"
+          },
+          {
+            "name": "payload",
+            "type": "typed",
+            "source": "WP16 literal after '+'",
+            "literal": "SQLite schema/FTS5 index and query evidence"
+          }
+        ],
+        "payload_literal": "SQLite schema/FTS5 index and query evidence",
+        "payload_derivation": "WP16 input literal: 'Goal/SourceRef/Need + payload'",
+        "input_literal": "原適用 Goal/SourceRef/Need + SQLite schema/FTS5 index and query evidence",
+        "additional_properties": false,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /45/input"
+      },
+      "output_schema": {
+        "schema_id": "OUTPUT:Method25:METHOD-22",
+        "form": "TYPED_ARTIFACT",
+        "artifact_literal": "SQLite schema/FTS5 index and query evidence",
+        "artifact_parts": [
+          "SQLite schema",
+          "FTS5 index and query evidence"
+        ],
+        "produced_as": "Method25:METHOD-22.MethodOutput",
+        "effect_ceiling": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+        "advisory_only": true,
+        "binding_evidence": "WP16_TRANSLATION49.json pointer /45/concrete_output"
+      },
+      "refusal_codes": [
+        "METHOD_AS_INSTALL_DENY",
+        "FTS_PROVENANCE_FAIL",
+        "METHOD_NOT_INSTALLER"
+      ],
+      "first_fail": "METHOD_AS_INSTALL_DENY",
+      "corpus_installer_deny_token": "METHOD_AS_INSTALL_DENY",
+      "is_installer": false,
+      "installer_request_refusal": "METHOD_NOT_INSTALLER",
+      "source_ref": {
+        "wp16_pointer": "WP16_TRANSLATION49.json#/45",
+        "wp16_file_sha256": "cf3e9720aed7a071675b3baf646da0f15d24d78007203e52a4691bd31687b1ca",
+        "row_sha_evidence": [
+          {
+            "source_file": "W0_R2_TRACE_TECH_485.md",
+            "line": 107,
+            "row_sha": "8f613dfb1bd304d57c1d94d53248b391f6c9a9545d5305e6e9229d48b7fe4de0",
+            "verified": true,
+            "verify": "sha256(physical line) == row_sha (sha256(line))"
+          }
+        ],
+        "translation_literal": "Preserve original SourceSHA/Subject/known answers and apply only source-defined transform: SQLite schema/FTS5 index and query evidence"
+      },
+      "state": "AUTHOR_TRANSLATION_RECIPE_WITH_CONSUMER_ACK_HOLD",
+      "disposition": "`LOCAL_FIRST_OPTION (not installed claim)`（source-literal/owner決策分離；正式 ACK=LOCAL_FIRST_OPTION (not installed claim)）；product_decision：`LOCAL_FIRST_OPTION (not installed claim)`；AssetType候選：LIBRARY。。",
+      "consumer": "WP-FHS-15 所有者之 Read/Method Consumer",
+      "effect": "SOURCE_READ/LOCAL_DRAFT_WRITE only; protected effect requires original ECP",
+      "rollback": "回復adapter/lock preimage；移除本輪venv或解除binding，原共用庫不刪；替代要此筆原功能Parity POS/NEG與原Owner ACK；未知effect不自動清狀態。",
+      "host": "AUTHOR_DOCUMENT_NOW; original W1/W3 Host UNBOUND"
+    }
+  ],
+  "excluded_unselected": [
+    {
+      "wp16_id": "Donor24:SLOT-GS-01",
+      "item_name": "GSD",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GS-02",
+      "item_name": "GSD",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GS-03",
+      "item_name": "GSD",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GS-04",
+      "item_name": "GSD",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GT-01",
+      "item_name": "gstack",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GT-02",
+      "item_name": "gstack",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GT-03",
+      "item_name": "gstack",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Donor24:SLOT-GT-04",
+      "item_name": "gstack",
+      "kind": "DONOR",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-01",
+      "item_name": "BMAD-METHOD",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-03",
+      "item_name": "mattpocock/skills:domain-modeling",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-04",
+      "item_name": "mattpocock/skills:to-spec",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-05",
+      "item_name": "mattpocock/skills:to-tickets",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-11",
+      "item_name": "ACP",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-13",
+      "item_name": "SLSA",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-14",
+      "item_name": "OWASP",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-17",
+      "item_name": "Renovate",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-18",
+      "item_name": "Dependabot",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-23",
+      "item_name": "FAR/FDA",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    },
+    {
+      "wp16_id": "Method25:METHOD-24",
+      "item_name": "OpenAI Agents SDK",
+      "kind": "METHOD",
+      "reason": "no Default30 Need in this wave selected this item"
+    }
+  ]
+}

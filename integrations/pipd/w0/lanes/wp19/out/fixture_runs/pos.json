@@ -1,0 +1,155 @@
+{
+  "schema": "FHS_W0/SUPPLY_CHAIN_GATE/v1",
+  "gate_id": "WP-FHS-19",
+  "gate_version": "1.0.0",
+  "mode": "author",
+  "generated_at_taipei": "2026-11-05T03:16:42+08:00",
+  "tree": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\lanes\\wp19\\fixtures\\pos",
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "scanned": {
+    "files_total": 12,
+    "dirs_total": 5,
+    "bytes_total": 2913,
+    "tree_digest_sha256": "32dc329b580087d91484be7392209eb301a9343883aabebbc411f44d2340486c",
+    "tree_digest_scope": "sha256 over sorted lines 'rel_path\\\\0size\\\\0sha256(file)'",
+    "python_files": 5,
+    "dependency_manifests": [
+      "pyproject.toml"
+    ],
+    "manifest_parse_errors": [],
+    "declared_dependency_count": 1
+  },
+  "checks": [
+    {
+      "check_id": "LICENSE_PRESENT",
+      "title": "Licence file present and SPDX-resolvable",
+      "verdict": "PASS",
+      "code": "LICENSE_SPDX_RESOLVED",
+      "detail": "SPDX Apache-2.0 resolved from LICENSE",
+      "counts": {
+        "license_files_at_root": 1,
+        "license_files_other_depth": 0,
+        "license_files_vendored_or_third_party": 0,
+        "spdx_resolved": 1
+      },
+      "samples": [
+        "LICENSE"
+      ]
+    },
+    {
+      "check_id": "NOTICE_PRESENT",
+      "title": "NOTICE file present where the licence basis requires one",
+      "verdict": "PASS",
+      "code": "NOTICE_PRESENT",
+      "detail": "1 NOTICE file(s) found",
+      "counts": {
+        "notice_files": 1,
+        "licence_basis_spdx": "Apache-2.0",
+        "licence_files_at_root": 1
+      },
+      "samples": [
+        "NOTICE"
+      ]
+    },
+    {
+      "check_id": "SBOM_PRESENT_AND_PARSABLE",
+      "title": "CycloneDX SBOM present and structurally valid",
+      "verdict": "PASS",
+      "code": "SBOM_PARSED",
+      "detail": "1 SBOM file(s) valid, 1 component(s)",
+      "counts": {
+        "sbom_candidates": 1,
+        "sbom_parsed": 1,
+        "components": 1,
+        "parse_errors": 0,
+        "structure_problems": 0
+      },
+      "samples": [
+        "SBOM.cdx.json"
+      ]
+    },
+    {
+      "check_id": "SBOM_COMPONENT_RECONCILE",
+      "title": "SBOM components reconcile with declared manifests",
+      "verdict": "PASS",
+      "code": "SBOM_COMPONENTS_RECONCILED",
+      "detail": "1 component(s) all declared and vice versa",
+      "counts": {
+        "sbom_components": 1,
+        "declared_dependencies": 1,
+        "sbom_only": 0,
+        "declared_only": 0
+      },
+      "samples": [
+        "jsonschema"
+      ]
+    },
+    {
+      "check_id": "DEPENDENCY_DECLARED",
+      "title": "Every third-party import is declared in a manifest",
+      "verdict": "PASS",
+      "code": "DEPENDENCIES_DECLARED",
+      "detail": "1 third-party module(s), all declared",
+      "counts": {
+        "python_files": 5,
+        "import_statements_scanned": 5,
+        "distinct_third_party_modules": 1,
+        "vendored_in_tree_modules": 0,
+        "undeclared_modules": 0,
+        "declared_dependencies": 1,
+        "parse_errors": 0
+      },
+      "samples": [
+        "jsonschema"
+      ]
+    },
+    {
+      "check_id": "SECRET_PATTERN_SCAN",
+      "title": "No credential-shaped token in tree text files",
+      "verdict": "PASS",
+      "code": "NO_SECRET_PATTERN",
+      "detail": "7 patterns over 12 text file(s), 0 matches",
+      "counts": {
+        "files_scanned": 12,
+        "bytes_scanned": 2913,
+        "matches": 0,
+        "patterns_evaluated": 7,
+        "per_pattern": {}
+      },
+      "samples": []
+    },
+    {
+      "check_id": "CI_ENTRY_PRESENT",
+      "title": "CI entry point exists (workflow file or documented command)",
+      "verdict": "PASS",
+      "code": "CI_ENTRY_WORKFLOW_PRESENT",
+      "detail": "1 workflow file(s), 0 other CI config(s)",
+      "counts": {
+        "workflow_files": 1,
+        "other_ci_files": 0,
+        "documented_commands": 1
+      },
+      "samples": [
+        ".github/workflows/ci.yml",
+        "doc:README.md:8 `python -m unittest`"
+      ]
+    }
+  ],
+  "summary": {
+    "PASS": 7,
+    "FAIL": 0,
+    "HOLD": 0,
+    "NOT_APPLICABLE": 0,
+    "fail_codes": [],
+    "checks_total": 7
+  },
+  "exit_code": 0,
+  "limits": [
+    "author-local static gate; not an independent or protected checker",
+    "no network, no package install, no SBOM signature or vulnerability database",
+    "SBOM check validates CycloneDX structure only, not provenance or attestation",
+    "secret scan is regex-based over decodable text files; absence of a match is not proof of absence"
+  ]
+}

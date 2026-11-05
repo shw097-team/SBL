@@ -1,0 +1,146 @@
+{
+  "schema": "FHS_W0/SUPPLY_CHAIN_GATE/v1",
+  "gate_id": "WP-FHS-19",
+  "gate_version": "1.0.0",
+  "mode": "author",
+  "generated_at_taipei": "2026-11-05T03:16:42+08:00",
+  "tree": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\source_readback\\remote",
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "scanned": {
+    "files_total": 7,
+    "dirs_total": 0,
+    "bytes_total": 63332,
+    "tree_digest_sha256": "192890603bc2e8e541c37dc453947ef662b8eea7e4db49273f7bb1dac3af740c",
+    "tree_digest_scope": "sha256 over sorted lines 'rel_path\\\\0size\\\\0sha256(file)'",
+    "python_files": 0,
+    "dependency_manifests": [],
+    "manifest_parse_errors": [],
+    "declared_dependency_count": 0
+  },
+  "checks": [
+    {
+      "check_id": "LICENSE_PRESENT",
+      "title": "Licence file present and SPDX-resolvable",
+      "verdict": "FAIL",
+      "code": "LICENSE_MISSING",
+      "detail": "no LICENSE / COPYING file anywhere in the scanned tree",
+      "counts": {
+        "license_files_at_root": 0,
+        "license_files_other_depth": 0,
+        "license_files_vendored_or_third_party": 0,
+        "spdx_resolved": 0
+      },
+      "samples": []
+    },
+    {
+      "check_id": "NOTICE_PRESENT",
+      "title": "NOTICE file present where the licence basis requires one",
+      "verdict": "HOLD",
+      "code": "NOTICE_BASIS_ABSENT",
+      "detail": "no licence basis in tree: notice obligation cannot be judged",
+      "counts": {
+        "notice_files": 0,
+        "licence_basis_spdx": "",
+        "licence_files_at_root": 0
+      },
+      "samples": []
+    },
+    {
+      "check_id": "SBOM_PRESENT_AND_PARSABLE",
+      "title": "CycloneDX SBOM present and structurally valid",
+      "verdict": "FAIL",
+      "code": "SBOM_MISSING",
+      "detail": "no SBOM file (*.cdx.json / sbom*.json) found in the tree",
+      "counts": {
+        "sbom_candidates": 0,
+        "sbom_parsed": 0,
+        "components": 0,
+        "parse_errors": 0,
+        "structure_problems": 0
+      },
+      "samples": []
+    },
+    {
+      "check_id": "SBOM_COMPONENT_RECONCILE",
+      "title": "SBOM components reconcile with declared manifests",
+      "verdict": "NOT_APPLICABLE",
+      "code": "SBOM_NOT_AVAILABLE",
+      "detail": "no parsable SBOM: reconciliation cannot be evaluated",
+      "counts": {
+        "sbom_components": 0,
+        "declared_dependencies": 0,
+        "sbom_only": 0,
+        "declared_only": 0
+      },
+      "samples": []
+    },
+    {
+      "check_id": "DEPENDENCY_DECLARED",
+      "title": "Every third-party import is declared in a manifest",
+      "verdict": "NOT_APPLICABLE",
+      "code": "NO_PYTHON_SOURCES",
+      "detail": "no .py file in the scanned tree",
+      "counts": {
+        "python_files": 0,
+        "import_statements_scanned": 0,
+        "distinct_third_party_modules": 0,
+        "vendored_in_tree_modules": 0,
+        "undeclared_modules": 0,
+        "declared_dependencies": 0,
+        "parse_errors": 0
+      },
+      "samples": []
+    },
+    {
+      "check_id": "SECRET_PATTERN_SCAN",
+      "title": "No credential-shaped token in tree text files",
+      "verdict": "PASS",
+      "code": "NO_SECRET_PATTERN",
+      "detail": "7 patterns over 7 text file(s), 0 matches",
+      "counts": {
+        "files_scanned": 7,
+        "bytes_scanned": 63332,
+        "matches": 0,
+        "patterns_evaluated": 7,
+        "per_pattern": {}
+      },
+      "samples": []
+    },
+    {
+      "check_id": "CI_ENTRY_PRESENT",
+      "title": "CI entry point exists (workflow file or documented command)",
+      "verdict": "PASS",
+      "code": "CI_ENTRY_DOCUMENTED_COMMAND",
+      "detail": "no CI config; 2 documented re-runnable command(s) found",
+      "counts": {
+        "workflow_files": 0,
+        "other_ci_files": 0,
+        "documented_commands": 2
+      },
+      "samples": [
+        "doc:fabric_INTEGRATION_FHS_README.md:52 `python3 -m unittest`",
+        "doc:sbl_pipd_ACCEPTANCE.md:115 `python -m unittest`"
+      ]
+    }
+  ],
+  "summary": {
+    "PASS": 2,
+    "FAIL": 2,
+    "HOLD": 1,
+    "NOT_APPLICABLE": 2,
+    "fail_codes": [
+      "LICENSE_MISSING",
+      "SBOM_MISSING"
+    ],
+    "checks_total": 7
+  },
+  "exit_code": 1,
+  "limits": [
+    "author-local static gate; not an independent or protected checker",
+    "no network, no package install, no SBOM signature or vulnerability database",
+    "SBOM check validates CycloneDX structure only, not provenance or attestation",
+    "secret scan is regex-based over decodable text files; absence of a match is not proof of absence"
+  ]
+}

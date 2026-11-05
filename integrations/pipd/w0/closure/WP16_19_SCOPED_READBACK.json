@@ -1,0 +1,168 @@
+{
+  "holds": [
+    {
+      "blocked_operation": "declaring WP-FHS-19 DONE on the real integrations/pipd tree",
+      "hold_id": "WP19_ORIGINAL_RAW_ACK_HOLD",
+      "origin": "ROUND_C2",
+      "owner": "Original SBL CI / Program Reader",
+      "required_raw": "original CI run raw plus an original CI/Program reader ACK bound to the same candidate and source sha",
+      "resume_predicate": "the original reader accepts the run or issues a scope-specific deferral",
+      "state": "OPEN"
+    },
+    {
+      "blocked_operation": "treating SBOM.cdx.json as describing the shipped 0.1.1a5 package",
+      "hold_id": "WP19_SBOM_VERSION_DRIFT",
+      "origin": "ROUND_C2",
+      "owner": "Original SBL PIPD packaging owner",
+      "required_raw": "an SBOM whose metadata.component.version equals the pyproject version",
+      "resume_predicate": "SBOM version regenerated for 0.1.1a5 and reconciled against runtime dependencies",
+      "state": "OPEN"
+    },
+    {
+      "blocked_operation": "claiming every imported module is declared in a manifest",
+      "hold_id": "WP19_DEPENDENCY_DECLARATION_GAP",
+      "origin": "ROUND_C2",
+      "owner": "Original SBL PIPD packaging owner",
+      "required_raw": "pytest declared in the test extra, and the hg_kseos dev-tool imports documented as out-of-band",
+      "resume_predicate": "manifest updated or the imports marked as deliberate external tools",
+      "state": "OPEN"
+    },
+    {
+      "blocked_operation": "any W1 canonical PI/PD, permit, host install or cross-domain acceptance",
+      "hold_id": "W1_AFFECTED_NATIVE_EFFECT_HOLD",
+      "origin": "ROUND_C5",
+      "owner": "Original PIPD / Fabric Policy / HGK Issuer / Host readers",
+      "required_raw": "per-operation original reader ACK, effective ECP/permit and real RepoContext",
+      "resume_predicate": "the owning reader grants that specific operation",
+      "state": "OPEN"
+    }
+  ],
+  "schema": "FHS.W0.WP16_19_SCOPED_READBACK/v1",
+  "wp16": {
+    "counts": {
+      "bound": 1,
+      "by_status": {
+        "BOUND": 1,
+        "NOFIT": 0,
+        "PIN_HOLD": 29,
+        "UNBOUND": 0
+      },
+      "consumed": 12,
+      "consumed_bound": 1,
+      "consumed_nofit": 0,
+      "consumed_pin_hold": 11,
+      "consumed_unbound": 0,
+      "design_only": 8,
+      "needs_total": 30,
+      "nofit": 0,
+      "not_consumed": 10,
+      "pin_hold": 29,
+      "remainder": 18,
+      "remainder_pin_hold": 18,
+      "rows_total": 30,
+      "unbound": 0,
+      "wps_present": [
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP07",
+        "WP11",
+        "WP17",
+        "WP20"
+      ],
+      "wps_with_consumed": [
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP07",
+        "WP11",
+        "WP17",
+        "WP20"
+      ]
+    },
+    "remainder_file": "WP16_REMAINDER_HOLDS.json",
+    "selection_file": "WP16_W1_SCOPED_SELECTION.json"
+  },
+  "wp19": {
+    "ack": "WP19_ACK_STATUS.json",
+    "checks": [
+      {
+        "check_id": "LICENSE_PRESENT",
+        "code": "LICENSE_SPDX_RESOLVED",
+        "detail": "SPDX Apache-2.0 resolved from LICENSE",
+        "verdict": "PASS"
+      },
+      {
+        "check_id": "NOTICE_PRESENT",
+        "code": "NOTICE_PRESENT",
+        "detail": "1 NOTICE file(s) found",
+        "verdict": "PASS"
+      },
+      {
+        "check_id": "SBOM_PRESENT_AND_PARSABLE",
+        "code": "SBOM_PARSED",
+        "detail": "1 SBOM file(s) valid, 1 component(s)",
+        "verdict": "PASS"
+      },
+      {
+        "check_id": "SBOM_COMPONENT_RECONCILE",
+        "code": "SBOM_COMPONENT_MISMATCH",
+        "detail": "0 component(s) in SBOM only, 5 declared only",
+        "verdict": "FAIL"
+      },
+      {
+        "check_id": "DEPENDENCY_DECLARED",
+        "code": "UNDECLARED_DEPENDENCY",
+        "detail": "2 module(s) imported but absent from every manifest",
+        "verdict": "FAIL"
+      },
+      {
+        "check_id": "SECRET_PATTERN_SCAN",
+        "code": "NO_SECRET_PATTERN",
+        "detail": "7 patterns over 334 text file(s), 0 matches",
+        "verdict": "PASS"
+      },
+      {
+        "check_id": "CI_ENTRY_PRESENT",
+        "code": "CI_ENTRY_DOCUMENTED_COMMAND",
+        "detail": "no CI config; 2 documented re-runnable command(s) found",
+        "verdict": "PASS"
+      }
+    ],
+    "open_fails": [
+      {
+        "check_id": "SBOM_COMPONENT_RECONCILE",
+        "code": "SBOM_COMPONENT_MISMATCH",
+        "detail": "0 component(s) in SBOM only, 5 declared only",
+        "disposition": "OPEN - reported as found, not repaired",
+        "samples": [
+          "declared_only:build",
+          "declared_only:cryptography",
+          "declared_only:pyyaml",
+          "declared_only:setuptools",
+          "declared_only:wheel"
+        ],
+        "verdict": "FAIL"
+      },
+      {
+        "check_id": "DEPENDENCY_DECLARED",
+        "code": "UNDECLARED_DEPENDENCY",
+        "detail": "2 module(s) imported but absent from every manifest",
+        "disposition": "OPEN - reported as found, not repaired",
+        "samples": [
+          "hg_kseos @ tools/hgk_admission_driver.py:25",
+          "hg_kseos @ tools/hgk_admission_driver.py:26",
+          "hg_kseos @ tools/knowledge_ready_probe.py:61",
+          "pytest @ tests/test_operation_registry_r3.py:17",
+          "pytest @ tests/test_owner_ratification_r3.py:16"
+        ],
+        "verdict": "FAIL"
+      }
+    ],
+    "original_ci_reader_ack": "NOT_OBSERVED",
+    "raw": "WP19_REAL_ROOT_RAW.json",
+    "real_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\\integrations\\pipd",
+    "summary": "WP19_TYPED_SUMMARY.json"
+  }
+}

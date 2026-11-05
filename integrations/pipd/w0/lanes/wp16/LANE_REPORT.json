@@ -1,0 +1,122 @@
+{
+  "lane": "WP-FHS-16",
+  "schema_version": "wp-fhs-16/1",
+  "source_root": "$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C",
+  "deliverables": [
+    {
+      "path": "need_occupant.py",
+      "bytes": 71042,
+      "sha256": "cf793fd1fdcf99b9cfaecfa14d836212726cf1e6043419c78d9c3e3b8dfc4d65"
+    },
+    {
+      "path": "out/NEED_OCCUPANT_MATRIX.json",
+      "bytes": 182843,
+      "sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+    },
+    {
+      "path": "out/NEED_OCCUPANT_MATRIX.md",
+      "bytes": 22302,
+      "sha256": "e281785a901ffc738c7fed323b1f2ca3b0760b9cd641222b4c3087010d5aeb2a"
+    },
+    {
+      "path": "out/TRANSLATOR_MAP.json",
+      "bytes": 117103,
+      "sha256": "418269919f65ff8a856148f7a94ca712e2c75790855dcab9c07785711c4b521e"
+    },
+    {
+      "path": "out/TECH_CHOICE_READBACK.json",
+      "bytes": 156653,
+      "sha256": "fca1eae6b8a52cda9b1b17e87e89781526c501ed00c538c159ac2ed19988b423"
+    },
+    {
+      "path": "tests/test_need_occupant.py",
+      "bytes": 23133,
+      "sha256": "c13f062389bf3505087ecdb930c3123cc51a8de38b7c094b4504cac97b150b58"
+    },
+    {
+      "path": "tests/UNITTEST_RAW.log",
+      "bytes": 4119,
+      "sha256": "6d11e32845853b9d36ec448a45c90fa88ee168dee3577e7cb6f0062cefb5b65b"
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "python need_occupant.py --source-root \"<SOURCE_ROOT>\" --out out",
+      "exit_code": 0,
+      "observed": "needs=30 required=30 OCCUPANT_PIN_HOLD=28 HOST_PIN_HOLD=2 NOFIT=0 UNBOUND=0 translators=30 (MATCH)"
+    },
+    {
+      "cmd": "python -m unittest discover -s tests -v > tests/UNITTEST_RAW.log 2>&1",
+      "exit_code": 0,
+      "observed": "parsed from tests/UNITTEST_RAW.log (see tests_summary)"
+    },
+    {
+      "cmd": "python make_lane_report.py --lane-dir . --source-root \"<SOURCE_ROOT>\"",
+      "exit_code": 0,
+      "observed": "LANE_REPORT.json written"
+    }
+  ],
+  "counts": {
+    "needs_total": 30,
+    "required_true": 30,
+    "required_false": 0,
+    "selected": 0,
+    "occupant_pin_hold": 28,
+    "host_pin_hold": 2,
+    "nofit": 0,
+    "unbound": 0,
+    "install_state": {
+      "NOT_INSTALLED": 0,
+      "PIN_HOLD": 28,
+      "HOST_PIN_HOLD": 2
+    },
+    "occupant_kind": {
+      "DONOR": 4,
+      "METHOD": 11,
+      "HOST": 15,
+      "NONE": 0
+    },
+    "license_state": {
+      "LICENSE_READER_HOLD": 29,
+      "LICENSE_DECLARED_HOST_ACK_PENDING": 1
+    },
+    "windows_fit": {
+      "UNBOUND": 30
+    },
+    "with_translator": 15,
+    "unbound_field_occurrences": 30,
+    "translators": 30,
+    "translator_donor": 16,
+    "translator_method": 14,
+    "translator_is_installer_true": 0,
+    "wp16_items_total": 49,
+    "wp16_items_unselected": 19,
+    "readback_evidence_entries": 330,
+    "readback_evidence_unresolved": 0,
+    "tech485_rows_rehashed": 485,
+    "declaration_verdict": "MATCH",
+    "mismatches": 0,
+    "tests_total": 30,
+    "tests_failed": 0,
+    "tests_verdict": "OK"
+  },
+  "holds": [
+    "WINDOWS_FIT_UNBOUND x30 (windows_fit; refs: DEFAULT30_CHOICES.json#/0/fit)",
+    "LICENSE_READER_HOLD x29 (license; refs: DEFAULT30_CHOICES.json#/0/license)",
+    "PIN_UNBOUND x28 (version_pin; refs: DEFAULT30_CHOICES.json#/1/version_decision)",
+    "HOST_PIN_HOLD x2 (Default30:P0-TOOL-001 Hermes Agent, Default30:P0-TOOL-011 OpenSpec) -- origin Host binary pin not observed",
+    "OCCUPANT_PIN_HOLD x28 -- named occupant not resolved to immutable artifact+hash+license+Windows readback",
+    "METHOD_NOT_INSTALLER -- Donor24/Method25 items are recipes only; installer use is refused by contract",
+    "L1-r4 corpus bytes not present locally (span-index sha256 cbdd75fd...); source-text verification is UNBOUND, only the derived row_sha of W0_R2_TRACE_TECH_485.md is verifiable"
+  ],
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "known_limits": [
+    "No installation, upgrade, download or host invocation happened in this lane; install_state cannot express INSTALLED/VERIFIED.",
+    "license and windows_fit are byte-literal copies of DEFAULT30_CHOICES.json fields; 29/30 licenses stop at LICENSE_READER_HOLD and 30/30 Windows fits are UNBOUND, so no shipping licence or Windows-compatibility claim is made.",
+    "need -> Donor24/Method25 binding rests on name/alias predicates declared in SELECTION_RULES and re-verified at run time; 15 Needs bind to 30 items, the other 15 Needs have host/core-owned occupants and no translator.",
+    "TRANSLATOR_MAP covers only the 30 items selected by this wave; the other 19 WP16 items are listed as excluded_unselected, not silently dropped.",
+    "The matrix proves author-local recomputation from source JSON (AUTHOR_LOCAL_TEST); it does not prove Bound/Invoked/Verified, consumer ACK, or any protected release effect.",
+    "LANE_REPORT.json is not listed in its own deliverables list (self-hash is not meaningful); its bytes are covered by the caller's lane manifest.",
+    "Tests read the source root through WP16_SOURCE_ROOT or the documented default path, and use in-memory overrides for negative cases; no source file is modified."
+  ]
+}

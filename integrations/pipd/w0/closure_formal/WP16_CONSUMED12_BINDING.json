@@ -1,0 +1,1580 @@
+{
+ "schema_version": "FHS.W0.F3.CONSUMED12_BINDING/1",
+ "lane": "F3",
+ "artifact": "WP16_CONSUMED12_BINDING",
+ "round": "FHS_W0_FORMAL_CLOSEOUT_20261105_1040",
+ "scope_statement": "W1 八主責 WP 實際消費的 12 筆 Default Need 逐筆五層分離（SELECTED/BOUND/INSTALLED/INVOKED/VERIFIED）；其餘 18 筆不改狀態，見 WP16_UNCHANGED18.json",
+ "layer_semantics": {
+  "SELECTED": "S 有設計/預設選型決策（DEFAULT30 required=DESIGN_DEFAULT_REQUIRED、capability_state.SELECTED=DESIGN_ONLY）。不代表可取得、可安裝。",
+  "BOUND": "occupant_id + version_pin + license 來源 ref + host_preflight ref + 具名 reader 全部解析到 S 的指標。不代表安裝、載入、host admission 或 Windows fit。",
+  "INSTALLED": "本輪恆為 false：installs_performed=0，未跑任何 installer/loader。",
+  "INVOKED": "本輪恆為 false：invocations=0，未執行任何 occupant 功能。",
+  "VERIFIED": "本輪恆為 false：verified_claims=0；無原 Host POS/NEG raw 與原 Owner ACK。"
+ },
+ "five_layer_separation": true,
+ "layer_order": [
+  "SELECTED",
+  "BOUND",
+  "INSTALLED",
+  "INVOKED",
+  "VERIFIED"
+ ],
+ "status_domain": [
+  "BOUND",
+  "PIN_HOLD",
+  "NOFIT",
+  "UNBOUND"
+ ],
+ "forbidden_values_absent": [
+  "INSTALLED",
+  "INSTALLED_VERIFIED",
+  "SELECTED_AS_INSTALLED",
+  "VERIFIED",
+  "INVOKED_TRUE",
+  "LOADED"
+ ],
+ "installs_performed": 0,
+ "invocations": 0,
+ "verified_claims": 0,
+ "selected_not_installed": true,
+ "claim_ceiling": "AUTHOR_LOCAL_TEST",
+ "source": {
+  "default30_path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\FHS／FHS-MSC／SBL\\FHS\\PIPD-LS-PKG\\定案\\W0\\FHS_PIPD-LS-PKG_W0_R4C\\DEFAULT30_CHOICES.json",
+  "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+  "matrix_path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\lanes\\wp16\\out\\NEED_OCCUPANT_MATRIX.json",
+  "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+  "selection_path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c3\\out\\WP16_W1_SCOPED_SELECTION.json",
+  "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1",
+  "remainder_path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c3\\out\\WP16_REMAINDER_HOLDS.json",
+  "remainder_sha256": "8b6baf2709ec271dd7653875daaf3492763b1b619fab754dcac6318f3aadaf1f",
+  "input_identity_gate": "PASS"
+ },
+ "counts": {
+  "needs_total": 30,
+  "consumed": 12,
+  "unchanged_remainder": 18,
+  "consumed_plus_remainder": 30,
+  "layers_reached": {
+   "SELECTED": 12,
+   "BOUND": 1,
+   "INSTALLED": 0,
+   "INVOKED": 0,
+   "VERIFIED": 0
+  },
+  "layer_distribution": {
+   "SELECTED": 11,
+   "BOUND": 1,
+   "INSTALLED": 0,
+   "INVOKED": 0,
+   "VERIFIED": 0
+  },
+  "status_distribution": {
+   "BOUND": 1,
+   "PIN_HOLD": 11,
+   "NOFIT": 0,
+   "UNBOUND": 0
+  },
+  "bound": 1,
+  "pin_hold": 11,
+  "nofit": 0,
+  "unbound": 0,
+  "holds": 11,
+  "installs_performed": 0,
+  "invocations": 0,
+  "verified_claims": 0,
+  "by_wp": {
+   "WP03": 2,
+   "WP04": 3,
+   "WP05": 3,
+   "WP07": 1,
+   "WP11": 1,
+   "WP17": 1,
+   "WP20": 1
+  }
+ },
+ "rows": [
+  {
+   "need_id": "Default30:P0-TOOL-001",
+   "need_name": "Hermes Agent",
+   "need_class": "RUNTIME",
+   "w1_wp": "WP04",
+   "w1_wp_name": "Hermes Runtime",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "Profile/Journal/Worker API 設計以 RUNTIME.HERMES 這個 host 為 substrate；Notebook 需其 version/host_preflight 才可寫 API 契約",
+   "occupant_id": "Hermes Agent",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "v0.22.5 DESIGN_BASELINE",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/0/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "upstream LICENSE bytes pinned in research/Hermes_LICENSE; distribution/Host applicability HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/0/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/0/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/0/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+   "consumer": "RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/0/original_consumer",
+   "reader": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+   "reader_ref": "DEFAULT30_CHOICES.json#/0/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP04 but bind-layer evidence missing: LICENSE_READER_HOLD",
+   "gap": "LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-001-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='https://github.com/NousResearch/hermes-agent/releases/tag/v0.22.5' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-001-02",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-001-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-001-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-001-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-001-01",
+    "F3-HOLD-P0-TOOL-001-02",
+    "F3-HOLD-P0-TOOL-001-03",
+    "F3-HOLD-P0-TOOL-001-04"
+   ],
+   "owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+   "owner_ref": "DEFAULT30_CHOICES.json#/0/hold_owner",
+   "required_raw": "P0-TOOL-001 Hermes Agent | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：governed durable task dispatch | Host/Pack：RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID；Owner candidate=HGK Native Control Owner + Hermes Runtime Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 new PID READY→real worker checkpoint；NEG test-only daemon / second queue；退場/NoFit：UNAVAILABLE_REQUIRED_CAPABILITY; L0 read-only；REVOKE_TOKEN；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/0/original_business",
+   "required_source": "`Default30:P0-TOOL-001`；`FHS-BODY-08:L400`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "LICENSE_READER_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/0/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "HOST_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 0,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-002",
+   "need_name": "SDLC_PRW",
+   "need_class": "CORE",
+   "w1_wp": "WP05",
+   "w1_wp_name": "PIPD Native Compiler",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "CORE.SDLC_PRW→PIPD phase compiler 即 PI/PD 階段編譯的 consumer；W1 schema 契約需其 version/consumer",
+   "occupant_id": "SDLC_PRW",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/1/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/1/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/1/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/1/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+   "consumer": "CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/1/original_consumer",
+   "reader": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+   "reader_ref": "DEFAULT30_CHOICES.json#/1/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP05 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/1/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-002-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-002-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-002-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-002-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-002-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-002-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-002-01",
+    "F3-HOLD-P0-TOOL-002-02",
+    "F3-HOLD-P0-TOOL-002-03",
+    "F3-HOLD-P0-TOOL-002-04",
+    "F3-HOLD-P0-TOOL-002-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+   "owner_ref": "DEFAULT30_CHOICES.json#/1/hold_owner",
+   "required_raw": "P0-TOOL-002 SDLC_PRW | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：phase/source bound lifecycle mapping | Host/Pack：CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader；Owner candidate=PIPD Lifecycle Writer + HGK SharedSpine Consumer Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 phase/state gates point to same source-hashed nodes；NEG unknown/negative state silently enters READY；退場/NoFit：ReadOnly PhasePlan, not Live admission；DETACH_ADAPTER；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/1/original_business",
+   "required_source": "`Default30:P0-TOOL-002`；`FHS-BODY-08:L412`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/1/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 1,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-003",
+   "need_name": "SRU Kernel",
+   "need_class": "CORE",
+   "w1_wp": "WP03",
+   "w1_wp_name": "HGK Control",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver 正是 W1 唯讀探索的 registry 契約",
+   "occupant_id": "SRU Kernel",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/2/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/2/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/2/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/2/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+   "consumer": "CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/2/original_consumer",
+   "reader": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+   "reader_ref": "DEFAULT30_CHOICES.json#/2/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP03 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/2/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-003-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-003-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-003-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-003-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-003-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-003-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-003-01",
+    "F3-HOLD-P0-TOOL-003-02",
+    "F3-HOLD-P0-TOOL-003-03",
+    "F3-HOLD-P0-TOOL-003-04",
+    "F3-HOLD-P0-TOOL-003-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+   "owner_ref": "DEFAULT30_CHOICES.json#/2/hold_owner",
+   "required_raw": "P0-TOOL-003 SRU Kernel | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：safe reusable execution kernel | Host/Pack：CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver；Owner candidate=HGK SRU Kernel / Native Registry Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 reuse pinned accepted component with decision raw；NEG unreviewed reused binary/token changes source scope；退場/NoFit：NOFIT until existing SRU identity proven；DETACH_ADAPTER；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/2/original_business",
+   "required_source": "`Default30:P0-TOOL-003`；`FHS-BODY-08:L424`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/2/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 2,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-004",
+   "need_name": "DocETL",
+   "need_class": "KNOWLEDGE",
+   "w1_wp": "WP05",
+   "w1_wp_name": "PIPD Native Compiler",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "KNOWLEDGE.DOCETL→SBL/PIPD Document Reader 是 W1 讀源的 document reader 契約",
+   "occupant_id": "DocETL",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/3/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/3/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/3/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/3/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+   "consumer": "KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/3/original_consumer",
+   "reader": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+   "reader_ref": "DEFAULT30_CHOICES.json#/3/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP05 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/3/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-004-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-004-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-004-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-004-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-004-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-004-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-004-01",
+    "F3-HOLD-P0-TOOL-004-02",
+    "F3-HOLD-P0-TOOL-004-03",
+    "F3-HOLD-P0-TOOL-004-04",
+    "F3-HOLD-P0-TOOL-004-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+   "owner_ref": "DEFAULT30_CHOICES.json#/3/hold_owner",
+   "required_raw": "P0-TOOL-004 DocETL | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；SHARED_CAPABILITY；成果：document ingest with provenance | Host/Pack：KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser；Owner candidate=PIPD Document Reader Owner + SBL Knowledge Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 full document extraction with locator/sha/citation；NEG loss of exception/anchor or arbitrary schema upgrade；退場/NoFit：plain source-pinned file read for accepted document types only；DETACH_ADAPTER；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/3/original_business",
+   "required_source": "`Default30:P0-TOOL-004`；`FHS-BODY-08:L436`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/3/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 3,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-011",
+   "need_name": "OpenSpec",
+   "need_class": "SPEC",
+   "w1_wp": "WP07",
+   "w1_wp_name": "PLAN Commander",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "SPEC.BROWNFIELD_OPENSPEC proposal adapter 是候選計畫/proposal 形狀的唯一具體 occupant；W1 接口分析需其 version+license",
+   "occupant_id": "OpenSpec",
+   "occupant_kind": "DONOR",
+   "occupant_items": [
+    "Donor24:SLOT-OS-01",
+    "Donor24:SLOT-OS-02",
+    "Donor24:SLOT-OS-03",
+    "Donor24:SLOT-OS-04",
+    "Method25:METHOD-06"
+   ],
+   "version_pin": "v1.16.0 DESIGN_BASELINE",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/8/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "MIT upstream bytes in research/OpenSpec_LICENSE; original Host License Reader ACK pending",
+   "license_ref": "DEFAULT30_CHOICES.json#/8/license",
+   "license_state": "LICENSE_DECLARED_HOST_ACK_PENDING",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/8/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/8/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+   "consumer": "SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/8/original_consumer",
+   "reader": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+   "reader_ref": "DEFAULT30_CHOICES.json#/8/hold_owner",
+   "layer": "BOUND",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": true,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "BOUND",
+   "status_reason": "occupant+version pin+license ref+host preflight ref+named reader all resolve to source pointers; still NOT installed, NOT invoked, NOT verified",
+   "gap": "no bind-layer gap; downstream gaps: ARTIFACT_BYTE_PIN_HOLD, LICENSE_HOST_ACK_PENDING, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='https://github.com/Fission-AI/OpenSpec/releases/tag/v1.16.0' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-011-01",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "LICENSE_HOST_ACK_PENDING",
+     "detail": "license bytes named (LICENSE_DECLARED_HOST_ACK_PENDING) but original Host License Reader ACK not issued",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-011-02",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-011-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-011-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-011-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-011-01",
+    "F3-HOLD-P0-TOOL-011-02",
+    "F3-HOLD-P0-TOOL-011-03",
+    "F3-HOLD-P0-TOOL-011-04"
+   ],
+   "owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+   "owner_ref": "DEFAULT30_CHOICES.json#/8/hold_owner",
+   "required_raw": "P0-TOOL-011 OpenSpec | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；SHARED_CAPABILITY；成果：brownfield spec change workflow | Host/Pack：SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill；Owner candidate=SBL Spec/Change Owner + HGK Proposal Consumer Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 OpenSpec diff/proposal/valid task fixture; no permit；NEG Spec change accepted as WorkOrder；退場/NoFit：source-bound native change-candidate (only if accepted parity)；UNLOADABLE；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/8/original_business",
+   "required_source": "`Default30:P0-TOOL-011`；`FHS-BODY-08:L496`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "ARTIFACT_BYTE_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/8/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "HOST_PIN_HOLD",
+   "inherited_selection_status": "BOUND",
+   "source_pointers": {
+    "default30_index": 8,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-024",
+   "need_name": "Agent Skills",
+   "need_class": "FORMAT",
+   "w1_wp": "WP17",
+   "w1_wp_name": "CAP-BOOT",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader 是 CAP-BOOT 最小 Native Occupant 落點；W1 需其 fit/license 調查對象",
+   "occupant_id": "Agent Skills",
+   "occupant_kind": "METHOD",
+   "occupant_items": [
+    "Method25:METHOD-25"
+   ],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/12/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/12/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/12/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/12/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+   "consumer": "FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/12/original_consumer",
+   "reader": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+   "reader_ref": "DEFAULT30_CHOICES.json#/12/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP17 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/12/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-024-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-024-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-024-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-024-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-024-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-024-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-024-01",
+    "F3-HOLD-P0-TOOL-024-02",
+    "F3-HOLD-P0-TOOL-024-03",
+    "F3-HOLD-P0-TOOL-024-04",
+    "F3-HOLD-P0-TOOL-024-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+   "owner_ref": "DEFAULT30_CHOICES.json#/12/hold_owner",
+   "required_raw": "P0-TOOL-024 Agent Skills | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；SHARED_CAPABILITY；成果：portable SKILL.md contract | Host/Pack：FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader；Owner candidate=SBL Host Adapter/Plugin Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 fresh host discover→trigger/nontrigger→unload；NEG valid text file without registered loader counted installed；退場/NoFit：source document read only; cannot claim effective Skill Loaded；DETACH_ADAPTER；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/12/original_business",
+   "required_source": "`Default30:P0-TOOL-024`；`FHS-BODY-08:L544`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/12/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 12,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-028",
+   "need_name": "DESIGN.md",
+   "need_class": "SOURCE",
+   "w1_wp": "WP05",
+   "w1_wp_name": "PIPD Native Compiler",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "SOURCE.DESIGN_MD→SBL TPM design reader 是 versioned DESIGN.md schema 契約來源",
+   "occupant_id": "DESIGN.md",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/15/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/15/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/15/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/15/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+   "consumer": "SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/15/original_consumer",
+   "reader": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+   "reader_ref": "DEFAULT30_CHOICES.json#/15/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP05 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/15/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-028-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-028-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-028-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-028-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-028-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-028-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-028-01",
+    "F3-HOLD-P0-TOOL-028-02",
+    "F3-HOLD-P0-TOOL-028-03",
+    "F3-HOLD-P0-TOOL-028-04",
+    "F3-HOLD-P0-TOOL-028-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+   "owner_ref": "DEFAULT30_CHOICES.json#/15/hold_owner",
+   "required_raw": "P0-TOOL-028 DESIGN.md | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；SHARED_CAPABILITY；成果：design view fidelity | Host/Pack：SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md；Owner candidate=SBL TPM Source/Design Reader Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 input→output trace retained+negative constraint；NEG file read treated as executable permission；退場/NoFit：frozen design artifact with references, no host activation；N/A；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/15/original_business",
+   "required_source": "`Default30:P0-TOOL-028`；`FHS-BODY-08:L580`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/15/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 15,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-030",
+   "need_name": "Loop Engineering",
+   "need_class": "CORE",
+   "w1_wp": "WP04",
+   "w1_wp_name": "Hermes Runtime",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "Journal/Checkpoint 契約即 CORE.LOOP_ENGINEERING→SharedSpine reducer/Checkpoint；W1 需其 consumer 介面做 Journal 設計",
+   "occupant_id": "Loop Engineering",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/16/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/16/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/16/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/16/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+   "consumer": "CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/16/original_consumer",
+   "reader": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+   "reader_ref": "DEFAULT30_CHOICES.json#/16/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP04 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/16/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-030-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-030-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-030-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-030-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-030-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-030-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-030-01",
+    "F3-HOLD-P0-TOOL-030-02",
+    "F3-HOLD-P0-TOOL-030-03",
+    "F3-HOLD-P0-TOOL-030-04",
+    "F3-HOLD-P0-TOOL-030-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+   "owner_ref": "DEFAULT30_CHOICES.json#/16/hold_owner",
+   "required_raw": "P0-TOOL-030 Loop Engineering | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：bounded loop state transitions | Host/Pack：CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint；Owner candidate=HGK SharedSpine Reducer Owner + Hermes Runtime Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 A repair/B local/C external distinct journal；NEG infinite retry/unknown effect re-exec；退場/NoFit：existing reducer only if state invariants verified；RESTORE_POLICY；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/16/original_business",
+   "required_source": "`Default30:P0-TOOL-030`；`FHS-BODY-08:L592`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/16/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 16,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-031",
+   "need_name": "Harness Engineering",
+   "need_class": "CORE",
+   "w1_wp": "WP11",
+   "w1_wp_name": "Portable Host",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry 是 Portable Host Loader SPEC 的對照宿主",
+   "occupant_id": "Harness Engineering",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/17/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/17/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/17/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/17/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+   "consumer": "CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/17/original_consumer",
+   "reader": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+   "reader_ref": "DEFAULT30_CHOICES.json#/17/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP11 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/17/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-031-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-031-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-031-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-031-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-031-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-031-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-031-01",
+    "F3-HOLD-P0-TOOL-031-02",
+    "F3-HOLD-P0-TOOL-031-03",
+    "F3-HOLD-P0-TOOL-031-04",
+    "F3-HOLD-P0-TOOL-031-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+   "owner_ref": "DEFAULT30_CHOICES.json#/17/hold_owner",
+   "required_raw": "P0-TOOL-031 Harness Engineering | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：agent harness contract and qualification | Host/Pack：CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry；Owner candidate=HGK Harness/Runner Registry Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 same subject test runner with POS/NEG and raw；NEG fixture PASS substituted for live effect；退場/NoFit：existing tested harness only if matching original Oracle；DETACH_ADAPTER；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/17/original_business",
+   "required_source": "`Default30:P0-TOOL-031`；`FHS-BODY-08:L604`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/17/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 17,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-032",
+   "need_name": "Multi-Agent",
+   "need_class": "RUNTIME",
+   "w1_wp": "WP20",
+   "w1_wp_name": "Host Kind Matrix",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission 是 Host/Mode cell 適用性的具體多工 cell",
+   "occupant_id": "Multi-Agent",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/18/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/18/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/18/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/18/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+   "consumer": "RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/18/original_consumer",
+   "reader": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+   "reader_ref": "DEFAULT30_CHOICES.json#/18/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP20 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/18/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-032-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-032-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-032-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-032-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-032-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-032-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-032-01",
+    "F3-HOLD-P0-TOOL-032-02",
+    "F3-HOLD-P0-TOOL-032-03",
+    "F3-HOLD-P0-TOOL-032-04",
+    "F3-HOLD-P0-TOOL-032-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+   "owner_ref": "DEFAULT30_CHOICES.json#/18/hold_owner",
+   "required_raw": "P0-TOOL-032 Multi-Agent | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：bounded multi-agent delegation | Host/Pack：RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission；Owner candidate=HGK Task Admission Owner + Hermes SWARM Pool Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 two scoped noncolliding cards concurrent+deterministic join；NEG privilege/cost/session unbounded swarm；退場/NoFit：single native sequential worker when independent parallelism not required；REVOKE_TOKEN；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/18/original_business",
+   "required_source": "`Default30:P0-TOOL-032`；`FHS-BODY-08:L616`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/18/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 18,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-034",
+   "need_name": "Sub-Agent",
+   "need_class": "RUNTIME",
+   "w1_wp": "WP04",
+   "w1_wp_name": "Hermes Runtime",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "Worker API 設計的 lease-bound child worker 語義來自 RUNTIME.SUB_AGENT consumer",
+   "occupant_id": "Sub-Agent",
+   "occupant_kind": "HOST",
+   "occupant_items": [],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/19/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/19/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/19/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/19/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+   "consumer": "RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/19/original_consumer",
+   "reader": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+   "reader_ref": "DEFAULT30_CHOICES.json#/19/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP04 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/19/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-034-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-034-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-034-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-034-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-034-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-034-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-034-01",
+    "F3-HOLD-P0-TOOL-034-02",
+    "F3-HOLD-P0-TOOL-034-03",
+    "F3-HOLD-P0-TOOL-034-04",
+    "F3-HOLD-P0-TOOL-034-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+   "owner_ref": "DEFAULT30_CHOICES.json#/19/hold_owner",
+   "required_raw": "P0-TOOL-034 Sub-Agent | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：sub-agent bounded task handoff | Host/Pack：RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker；Owner candidate=HGK Task Admission Owner + Hermes Sub-Agent Worker Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 child task has own ID/quota/parent+effect scope；NEG child obtains issuer authority from prompt；退場/NoFit：single eligible worker for nonparallel task (partial semantics)；REVOKE_TOKEN；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/19/original_business",
+   "required_source": "`Default30:P0-TOOL-034`；`FHS-BODY-08:L628`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/19/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 19,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  },
+  {
+   "need_id": "Default30:P0-TOOL-072",
+   "need_name": "SQLite",
+   "need_class": "CORE",
+   "w1_wp": "WP03",
+   "w1_wp_name": "HGK Control",
+   "w1_role": "CONSUMED",
+   "w1_role_rationale": "CORE.SQLITE→HGK existing spine.py/DB host discovery 是 registry 落點的實際 store 契約",
+   "occupant_id": "SQLite",
+   "occupant_kind": "METHOD",
+   "occupant_items": [
+    "Method25:METHOD-22"
+   ],
+   "version_pin": "PIN_UNBOUND",
+   "version_pin_ref": "DEFAULT30_CHOICES.json#/29/version_decision",
+   "version_pin_pointer_resolved": true,
+   "license": "LICENSE_READER_HOLD",
+   "license_ref": "DEFAULT30_CHOICES.json#/29/license",
+   "license_state": "LICENSE_READER_HOLD",
+   "license_pointer_resolved": true,
+   "windows_fit": "UNBOUND",
+   "windows_fit_ref": "DEFAULT30_CHOICES.json#/29/fit",
+   "host_ref": "DEFAULT30_CHOICES.json#/29/host_preflight",
+   "host_ref_pointer_resolved": true,
+   "host_ref_value": "Windows original loader/OS/runtime/ACL/functional readback; CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+   "consumer": "CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+   "consumer_ref": "DEFAULT30_CHOICES.json#/29/original_consumer",
+   "reader": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+   "reader_ref": "DEFAULT30_CHOICES.json#/29/hold_owner",
+   "layer": "SELECTED",
+   "layers": {
+    "SELECTED": true,
+    "BOUND": false,
+    "INSTALLED": false,
+    "INVOKED": false,
+    "VERIFIED": false
+   },
+   "status": "PIN_HOLD",
+   "status_reason": "consumed by WP03 but bind-layer evidence missing: VERSION_PIN_UNBOUND, LICENSE_READER_HOLD",
+   "gap": "VERSION_PIN_UNBOUND, LICENSE_READER_HOLD; downstream: ARTIFACT_BYTE_PIN_HOLD, WINDOWS_FIT_UNBOUND, HOST_ADMISSION_PIN_HOLD",
+   "gaps": [
+    {
+     "code": "VERSION_PIN_UNBOUND",
+     "detail": "version_decision is 'PIN_UNBOUND' at DEFAULT30_CHOICES.json#/29/version_decision; no immutable version/artifact pin exists",
+     "field": "version_decision",
+     "hold_id": "F3-HOLD-P0-TOOL-072-01",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "LICENSE_READER_HOLD",
+     "detail": "license text resolves but distribution/Host applicability still on original reader HOLD",
+     "field": "license",
+     "hold_id": "F3-HOLD-P0-TOOL-072-02",
+     "blocks_bound": true,
+     "layer_gate": "BOUND"
+    },
+    {
+     "code": "ARTIFACT_BYTE_PIN_HOLD",
+     "detail": "channel='ORIGINAL_READER_CHANNEL_UNBOUND' resolves but S carries no artifact sha256/bytes; a release link is not a byte pin",
+     "field": "channel",
+     "hold_id": "F3-HOLD-P0-TOOL-072-03",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "WINDOWS_FIT_UNBOUND",
+     "detail": "no Windows loader/OS/ACL/functional readback exists for this occupant",
+     "field": "fit",
+     "hold_id": "F3-HOLD-P0-TOOL-072-04",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    },
+    {
+     "code": "HOST_ADMISSION_PIN_HOLD",
+     "detail": "host_preflight text resolves but no real admission/readback raw exists",
+     "field": "host_preflight",
+     "hold_id": "F3-HOLD-P0-TOOL-072-05",
+     "blocks_bound": false,
+     "layer_gate": "INSTALLED"
+    }
+   ],
+   "hold_id": "F3-HOLD-P0-TOOL-072-01",
+   "hold_ids": [
+    "F3-HOLD-P0-TOOL-072-01",
+    "F3-HOLD-P0-TOOL-072-02",
+    "F3-HOLD-P0-TOOL-072-03",
+    "F3-HOLD-P0-TOOL-072-04",
+    "F3-HOLD-P0-TOOL-072-05"
+   ],
+   "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+   "owner_ref": "DEFAULT30_CHOICES.json#/29/hold_owner",
+   "required_raw": "P0-TOOL-072 SQLite | DEFAULT_ENABLED_AFTER_QUALIFICATION 原選用；原決策 DEFAULT_ENABLED_AFTER_QUALIFICATION；DIRECT_CORE；成果：SQLite durable state store | Host/Pack：CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery；Owner candidate=HGK SharedSpine State/Schema Owner（正式 principal 仍須 registry/Owner 確認），PIN/LICENSE/LOADER_SHA=DISCOVERY；Invoke/POS/NEG：適用觸發時真 WAL/transaction/lease recovery and integrity readback；NEG second unsynchronized database treated canonical；退場/NoFit：none for sole SharedSpine; L0 can read frozen snapshot；N/A；SELECTED_SOURCE / NOT_OBSERVED_NOT_VERIFIED。缺必要能力→NOFIT+FHG-P3-03；若前述欄位不具真 Raw 或原生許可，記 DEFAULT_SELECTED_ACTIVATION_HOLD 並保持本 ID 選型承諾；不得自動變 OPTIONAL。",
+   "required_declared": "DESIGN_DEFAULT_REQUIRED",
+   "required_ref": "DEFAULT30_CHOICES.json#/29/original_business",
+   "required_source": "`Default30:P0-TOOL-072`；`FHS-BODY-08:L748`；檔案 SHA `1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d`。原 Reader 與 Original Owner 仍屬各自域。",
+   "firstfail": "OCCUPANT_PIN_HOLD",
+   "firstfail_corpus": [
+    "DEFAULT_DOWNGRADE_DENY",
+    "CAPABILITY_STATE_ESCALATION",
+    "OCCUPANT_PIN_HOLD"
+   ],
+   "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw",
+   "resume_ref": "DEFAULT30_CHOICES.json#/29/resume_predicate",
+   "capability_state_source": {
+    "SELECTED": "DESIGN_ONLY",
+    "INSTALLED": "NOT_OBSERVED",
+    "BOUND": "NOT_OBSERVED",
+    "INVOKED": "NOT_OBSERVED",
+    "VERIFIED": "NOT_OBSERVED"
+   },
+   "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+   "inherited_selection_status": "PIN_HOLD",
+   "source_pointers": {
+    "default30_index": 29,
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "selection_sha256": "c230c474acfea1c4dddf63b5d99d48acc48e33a4dde2ce6777d273542c6bdff1"
+   }
+  }
+ ],
+ "hold_index": [
+  {
+   "need_id": "Default30:P0-TOOL-001",
+   "hold_id": "F3-HOLD-P0-TOOL-001-01",
+   "status": "PIN_HOLD",
+   "firstfail": "LICENSE_READER_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-002",
+   "hold_id": "F3-HOLD-P0-TOOL-002-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-003",
+   "hold_id": "F3-HOLD-P0-TOOL-003-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-004",
+   "hold_id": "F3-HOLD-P0-TOOL-004-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-011",
+   "hold_id": "F3-HOLD-P0-TOOL-011-01",
+   "status": "BOUND",
+   "firstfail": "ARTIFACT_BYTE_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-024",
+   "hold_id": "F3-HOLD-P0-TOOL-024-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-028",
+   "hold_id": "F3-HOLD-P0-TOOL-028-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-030",
+   "hold_id": "F3-HOLD-P0-TOOL-030-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-031",
+   "hold_id": "F3-HOLD-P0-TOOL-031-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-032",
+   "hold_id": "F3-HOLD-P0-TOOL-032-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-034",
+   "hold_id": "F3-HOLD-P0-TOOL-034-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  },
+  {
+   "need_id": "Default30:P0-TOOL-072",
+   "hold_id": "F3-HOLD-P0-TOOL-072-01",
+   "status": "PIN_HOLD",
+   "firstfail": "OCCUPANT_PIN_HOLD"
+  }
+ ],
+ "declaration": "12 筆全部停在 SELECTED 或 BOUND；INSTALLED/INVOKED/VERIFIED 皆 false。本檔為作者端本機證據，不是安裝、載入、invoke 或 POS/NEG 驗證。"
+}

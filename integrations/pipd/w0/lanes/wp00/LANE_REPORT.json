@@ -1,0 +1,184 @@
+{
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "commands": [
+    {
+      "cmd": "python source_probe.py --zip <S>.zip --source-root <S> --out out",
+      "evidence": "out/SOURCE_MANIFEST.json probe.first_fail=NONE；同一份腳本對同一輸入重跑 exit=0，三輸出檔去 generated_at 後與交付檔相同=False",
+      "exit_code": 0
+    },
+    {
+      "cmd": "python -m unittest discover -s tests -v",
+      "evidence": "tests/UNITTEST_RAW.log（Ran 13 tests, OK；末行 harness 註記 exit_code=0）",
+      "exit_code": 0
+    },
+    {
+      "cmd": "python tests/_evidence.py",
+      "evidence": "tests/PROBE_EVIDENCE_RAW.json（determinism verdict=PASS）",
+      "exit_code": 0
+    },
+    {
+      "cmd": "sha256sum <S>.zip",
+      "evidence": "f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a == envelope baseline（probe 每次重算）",
+      "exit_code": 0
+    },
+    {
+      "cmd": "git -C <repo> rev-parse HEAD / symbolic-ref --short HEAD / git -c core.quotepath=false -C <repo> status --porcelain=v1 -uall",
+      "evidence": "out/REPO_TRIPLE_STATE.json（三庫各 1 次，唯讀）",
+      "exit_code": 0
+    }
+  ],
+  "counts": {
+    "body_bytes": 463034,
+    "body_chapter_ids": 50,
+    "body_declared_chapters": 50,
+    "body_h1": 50,
+    "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+    "checks_fail": 0,
+    "checks_pass": 25,
+    "checks_total": 28,
+    "checks_warn_not_observed": 1,
+    "checks_warn_observed": 2,
+    "dirty_Fabric": 1948,
+    "dirty_HG_KSEOS": 2,
+    "dirty_SBL": 58837,
+    "dirty_total": 60787,
+    "first_fail": "NONE",
+    "manifest_bytes_mismatches": 0,
+    "manifest_closure_complete_members": 591,
+    "manifest_declared_total_field": 591,
+    "manifest_declared_unique": 591,
+    "manifest_duplicate_declarations": 0,
+    "manifest_missing": 0,
+    "manifest_present_files": 592,
+    "manifest_self_excluded": 1,
+    "manifest_sha_mismatches": 0,
+    "manifest_undeclared": 0,
+    "neg_cases": 3,
+    "probe_repro_exit_code": 0,
+    "probe_repro_matches_delivered": false,
+    "repos": 3,
+    "repos_local_aligned_with_remote": 0,
+    "repos_local_drifted_from_remote": 3,
+    "repos_remote_declaration_conflicts": 0,
+    "source31_parseable": 31,
+    "source31_resolved_on_disk": 31,
+    "source31_total": 31,
+    "source31_unparseable": 0,
+    "unittest_exit_code": 0,
+    "unittest_ok": true,
+    "unittest_tests_run": 13,
+    "upper22_matches": 23,
+    "upper22_parseable": 22,
+    "upper22_total": 22,
+    "upper22_unparseable": 0,
+    "zip_bytes": 3281542,
+    "zip_duplicate_member_names": 0,
+    "zip_members": 592,
+    "zip_members_unreadable": 0,
+    "zip_sha256": "f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a"
+  },
+  "deliverables": [
+    {
+      "bytes": 55578,
+      "path": "source_probe.py",
+      "sha256": "aae63fbf3d156e27c24e2bbdf31d0a4b9fde923372aba6c01ec6c27b6fb44ced"
+    },
+    {
+      "bytes": 162667,
+      "path": "out/SOURCE_MANIFEST.json",
+      "sha256": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60"
+    },
+    {
+      "bytes": 5855,
+      "path": "out/REPO_TRIPLE_STATE.json",
+      "sha256": "a6d9c72031d124baf48c7467a77a82b15167f0a0e50df4d1377f320fd9d16fa9"
+    },
+    {
+      "bytes": 2010,
+      "path": "out/HOST_PROBE.json",
+      "sha256": "9f93fd50abf9e7876d94553574ee4d052c8766f29e36db53c234e828618eb300"
+    },
+    {
+      "bytes": 17991,
+      "path": "tests/test_source_probe.py",
+      "sha256": "0f37204609e7d3dd691c2dc27a66a232496804f3395708f620c1f8e42ae9d326"
+    },
+    {
+      "bytes": 9238,
+      "path": "tests/_evidence.py",
+      "sha256": "e62036f5b52b0ec0ae7086be5ff13cb19b1851ff30c6d3c9357b57f9a7bd88e7"
+    },
+    {
+      "bytes": 1742,
+      "path": "tests/UNITTEST_RAW.log",
+      "sha256": "1ab3713156c4a270edc639c25926a11be63b53d0cb4fbc4c1718c66715886223"
+    },
+    {
+      "bytes": 4045,
+      "path": "tests/PROBE_EVIDENCE_RAW.json",
+      "sha256": "bc07a456a2d87f5df3f166b6cfcf7c6b4755a0c0323dff01f531139598a1b014"
+    },
+    {
+      "bytes": 17134,
+      "path": "make_lane_report.py",
+      "sha256": "62d51ff509b36261091093f52d3917f3d2eed17ddb3aa56779be39d27eff3478"
+    }
+  ],
+  "generated_at": "2026-11-05T03:22:59+08:00",
+  "holds": [
+    "LOCAL_WORKTREE_NOT_AT_REMOTE_TIP：三庫 measured local HEAD 皆不等於 REMOTE_HEADS 宣告的 remote_head（Fabric: local 765df6289cfb vs remote f4f2ad7cbed9, HG-KSEOS: local 6c9fc73377c1 vs remote 0143b50331f7, SBL: local 826ca066a1c2 vs remote 004e88913d5c）。本輪只讀、未 fetch、未 reset／clean／stash／checkout；此為遠端快照與本機工作樹的事實落差，不是 probe 失敗，已記為 repos[*].state=LOCAL_DRIFTED_FROM_REMOTE。",
+    "STALE_REMOTE_TRACKING_REF（Fabric）：宣告 remote_head f4f2ad7cbed97074cc2d78b401734fc47633cc20 與本機 refs/remotes/origin/main 2436e440610795ff2c6a509adc9519f700fd006e 不同；無網路無法重新 fetch 佐證，故 REMOTE_HEAD_DRIFT 的判準是本輪第二次獨立宣告（REPO_READBACK_SUMMARY.remote_main）是否一致，而非本機 tracking ref。",
+    "MANIFEST_CLOSURE_RULE_READING：manifest closure.rule 寫 COMPLETE = files ∪ evidence ∪ {self .json}，但 closure.complete_members 宣告 591，按字面規則應為 592（591 宣告 + 1 self_excluded）；實體 ZIP 為 592 成員。已記錄為來源宣告讀法落差（OBSERVED/WARN），不判 FAIL。",
+    "MANIFEST_PARENTAGE_ZIP_SHA_DIFFERENT：manifest parentage.source_zip_sha256=b5f2f9a9b8820d4cd9862f4e7d45578367888fe0260a86010d5ad2dfb1653250 是本套件的父件，與受測 ZIP 實測 f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a 不同；probe 以本輪 envelope 常數（同值）釘住 ZIP，並把兩者差異具名記錄。",
+    "SBL_STATUS_IS_LOWER_BOUND：SBL 的 git status 產生 411 行 stderr 警告（filename too long／directory vanished），其 58837 筆 dirty 為下界；此值與 REPOS_RECHECK 宣告相同，但相等不證明完備。",
+    "SOURCE31_32_SHA_NOT_REHASHED：31 源與 22 上游只做結構解析＋on-disk 存在性與 bytes 比對（source31 resolved 31/31），未重算其 sha256；sha 重算需要讀取 lane 外的原始語料，本輪未做，故不得引用為 sha 驗證通過。",
+    "NO_NETWORK_NO_REFETCH：無網路，遠端 head 只採用父層 API 讀回快照（REMOTE_HEADS.json），本 probe 未也不會 fetch；GitHub 線上真實狀態未在本輪重新觀測。",
+    "G8_NATIVE_AND_G9_RELEASE_UNTOUCHED：本 lane 無 Native E2E、無 Permit、無 Publisher、無 Release；claim_ceiling 停在 AUTHOR_LOCAL_TEST。"
+  ],
+  "known_limits": [
+    "本 probe 只覆蓋 WP-FHS-00 的來源／三庫／Host 探測；正文語意、oracle、checker 皆不在本 lane。",
+    "first_fail 的順序是固定的：ZIP 身分 → 正文身分 → manifest 雙向集合 → 31／22 解析 → 三庫 → Host；NEG 斷言的是這個順序下的第一個 FAIL 碼。",
+    "dirty 計數使用 git status --porcelain=v1 -uall（core.quotepath=false）；此指令會刷新 index 快照，屬唯讀語意（未寫入工作樹、未改 HEAD）；SBL 的警告行數使其為下界。",
+    "generated_at 是唯一允許在兩次同輸入執行間變動的欄位；時間戳由系統時鐘取得（台北 UTC+8）。",
+    "Host probe 的 hermes 版本字串只取第一行原文，未解析語意版本。",
+    "profile 路徑存在性以 session runtime context 的路徑為準（D:/Hermes-Recovery/live22/profiles/hgk-governed），未驗證 profile 內部檔案完整性。"
+  ],
+  "lane": "wp00",
+  "self_check": {
+    "determinism_verdict": "PASS",
+    "first_fail": "NONE",
+    "manifest_two_way_denominators": {
+      "declared": 591,
+      "present": 592
+    },
+    "repro_exit_code": 0,
+    "repro_matches_delivered": false,
+    "state": "PROBE_PASS",
+    "unittest_parsed": {
+      "exit_code": 0,
+      "ok": true,
+      "ran": 13
+    },
+    "warn_codes": [
+      "MANIFEST_CLOSURE_RULE_READING",
+      "MANIFEST_PARENTAGE_ZIP_SHA_DIFFERENT",
+      "REMOTE_TRACKING_REF_STALE"
+    ]
+  },
+  "tests": [
+    "POS test_00_no_blocking_failure：first_fail==NONE、state==PROBE_PASS、0 個 FAIL 檢查",
+    "POS test_01_zip_identity：sha256=f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a, bytes=3281542, members=592, 592 成員逐員 sha64 且可讀",
+    "POS test_02_body_identity：sha256=56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a, bytes=463034, H1=50 皆與 CURRENT_CANDIDATE_STATE 宣告相符",
+    "POS test_03_manifest_two_way：宣告 591 / 在場 592 / missing=0 / undeclared=0，兩向分母皆非零",
+    "POS test_04_zip_member_set：ZIP 592 成員 == 磁碟 592 檔（雙向差集為 0）",
+    "POS test_05_source31_upper22：31/31、22/22 可解析，0 具名缺口",
+    "POS test_06_repo_triple_state：dirty Fabric=1948、SBL=58837、HG-KSEOS=2（total 60787）",
+    "POS test_07_host_probe：OS／python／git／hermes／profile 實測（hermes=OBSERVED）",
+    "POS test_08_declared_holds：3 個 WARN 檢查（MANIFEST_CLOSURE_RULE_READING, MANIFEST_PARENTAGE_ZIP_SHA_DIFFERENT, REMOTE_TRACKING_REF_STALE）皆不得為 FAIL",
+    "NEG-1（ZIP 改 1 byte）：first_fail=SOURCE_ZIP_SHA_MISMATCH（expected SOURCE_ZIP_SHA_MISMATCH）、exit=3",
+    "NEG-2（manifest 宣告不存在的成員）：first_fail=MANIFEST_MEMBER_MISSING（expected MANIFEST_MEMBER_MISSING）、missing=['NEGATIVE_PROBE_DECLARED_BUT_ABSENT.md']、exit=3",
+    "NEG-3（remote_head 改成不同 sha）：first_fail=REMOTE_HEAD_DRIFT（expected REMOTE_HEAD_DRIFT）、conflicts=1、exit=3",
+    "DET（同輸入連跑兩次）：SOURCE_MANIFEST/REPO_TRIPLE_STATE/HOST_PROBE 三檔除 generated_at 外完全相同（dict_equal_after_strip=True，raw_equal=False）"
+  ],
+  "work_package": "WP-FHS-00"
+}

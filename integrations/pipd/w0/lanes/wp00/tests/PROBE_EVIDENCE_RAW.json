@@ -1,0 +1,108 @@
+{
+  "cases": {
+    "determinism": {
+      "per_file": {
+        "HOST_PROBE.json": {
+          "byte_identical": false,
+          "dict_equal_after_strip": true,
+          "differs_only_in_generated_at": true,
+          "raw_equal": false,
+          "sha256_run1": "9d2e1b2768c3733b55b25a56b3022ee74acf0763c49e275f794b7df0bae09d45",
+          "sha256_run2": "0b72dd470ef56315cfd6176c7198723b9bd09001f1ba8451fb8fd89082e6b16d"
+        },
+        "REPO_TRIPLE_STATE.json": {
+          "byte_identical": false,
+          "dict_equal_after_strip": true,
+          "differs_only_in_generated_at": true,
+          "raw_equal": false,
+          "sha256_run1": "82d25118fcc0a7f55dd095931753e02facf849ee52299399a53b040cd37ddf73",
+          "sha256_run2": "637ab1629ae75db6379c66d504f2cbce38eae6ffaa0d3b81cfb93ad2e2336fa1"
+        },
+        "SOURCE_MANIFEST.json": {
+          "byte_identical": false,
+          "dict_equal_after_strip": true,
+          "differs_only_in_generated_at": true,
+          "raw_equal": false,
+          "sha256_run1": "5fec9c5c58675b400183c712d1e326ac3157535a05a33e3243195b5321c129ea",
+          "sha256_run2": "9833b32d79918226f621a86538f5d72ba9d82b78bd500e3409344c923b64c2bf"
+        }
+      },
+      "run1": {
+        "exit_code": 0,
+        "files": {
+          "HOST_PROBE.json": {
+            "bytes": 2010,
+            "sha256": "9d2e1b2768c3733b55b25a56b3022ee74acf0763c49e275f794b7df0bae09d45"
+          },
+          "REPO_TRIPLE_STATE.json": {
+            "bytes": 5855,
+            "sha256": "82d25118fcc0a7f55dd095931753e02facf849ee52299399a53b040cd37ddf73"
+          },
+          "SOURCE_MANIFEST.json": {
+            "bytes": 162667,
+            "sha256": "5fec9c5c58675b400183c712d1e326ac3157535a05a33e3243195b5321c129ea"
+          }
+        },
+        "first_fail": "NONE",
+        "generated_at": "2026-11-05T03:30:00+08:00"
+      },
+      "run2": {
+        "exit_code": 0,
+        "files": {
+          "HOST_PROBE.json": {
+            "bytes": 2010,
+            "sha256": "0b72dd470ef56315cfd6176c7198723b9bd09001f1ba8451fb8fd89082e6b16d"
+          },
+          "REPO_TRIPLE_STATE.json": {
+            "bytes": 5855,
+            "sha256": "637ab1629ae75db6379c66d504f2cbce38eae6ffaa0d3b81cfb93ad2e2336fa1"
+          },
+          "SOURCE_MANIFEST.json": {
+            "bytes": 162667,
+            "sha256": "9833b32d79918226f621a86538f5d72ba9d82b78bd500e3409344c923b64c2bf"
+          }
+        },
+        "first_fail": "NONE",
+        "generated_at": "2026-11-05T04:47:13+08:00"
+      },
+      "verdict": "PASS"
+    },
+    "neg1_zip_byte": {
+      "actual_first_fail": "SOURCE_ZIP_SHA_MISMATCH",
+      "exit_code": 3,
+      "expected_first_fail": "SOURCE_ZIP_SHA_MISMATCH",
+      "expected_zip_sha256": "f3838fb095e56ea8d636e5c52f4bd69e9d529d110569b87376c168ea35ab2a2a",
+      "file_sha_changed": true,
+      "first_fail_check_seq": [
+        1
+      ],
+      "measured_zip_sha256": "314a6f57ed5485f061ceb1a8f57923aee5ff89991d8b69c1b3a6b34a205ae530",
+      "mutation": "single byte XOR 0xFF at offset 1640771 (of 3281542)"
+    },
+    "neg2_manifest_ghost_member": {
+      "actual_first_fail": "MANIFEST_MEMBER_MISSING",
+      "declared_unique": 592,
+      "exit_code": 3,
+      "expected_first_fail": "MANIFEST_MEMBER_MISSING",
+      "missing": [
+        "NEGATIVE_PROBE_DECLARED_BUT_ABSENT.md"
+      ],
+      "mutation": "append declared files[] entry for NEGATIVE_PROBE_DECLARED_BUT_ABSENT.md",
+      "undeclared": []
+    },
+    "neg3_remote_head_forged": {
+      "actual_first_fail": "REMOTE_HEAD_DRIFT",
+      "clean_repos_corroborated": [
+        "Fabric",
+        "HG-KSEOS"
+      ],
+      "declared_remote_head": "abcdef0123456789abcdef0123456789abcdef01",
+      "exit_code": 3,
+      "expected_first_fail": "REMOTE_HEAD_DRIFT",
+      "mutation": "REMOTE_HEADS.repos.SBL.remote_head -> abcdef0123456789abcdef0123456789abcdef01",
+      "real_readback_remote_main": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+      "remote_declaration_conflicts": 1
+    }
+  },
+  "command": "python tests/_evidence.py"
+}

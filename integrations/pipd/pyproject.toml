@@ -19,7 +19,10 @@ license-files = ["LICENSE", "NOTICE"]
 # into a throwaway directory to prove the installed package resolves its OWN contract registry. The
 # shipped CLI needs none of this; the smoke path does. When they are absent the test SKIPS with an
 # explicit reason instead of silently passing, and CI installs this extra so it actually runs.
-test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel", "cryptography>=42"]
+# `pytest>=8,<9` is the runner the suite is written against (tests/*.py import it at module scope, e.g.
+# tests/test_operation_registry_r3.py). CI installs it explicitly today, so this line does not add a new
+# requirement: it stops the suite's runner from being undeclared. It was absent from every manifest.
+test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel", "cryptography>=42", "pytest>=8,<9"]
 
 [project.scripts]
 pipd = "pipd_ls_sp.cli:main"

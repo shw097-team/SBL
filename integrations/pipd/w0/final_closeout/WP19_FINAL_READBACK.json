@@ -1,0 +1,60 @@
+{
+  "schema": "FHS.W0.WP19_FINAL_READBACK/v1",
+  "state": "IMPLEMENTED_ENTRY_ONLY",
+  "real_root": {
+    "ref": "git archive origin/main:integrations/pipd",
+    "head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+    "patched_with": [
+      "SBOM metadata version 0.1.1a5",
+      "pyproject test extra declares pytest>=8,<9",
+      "gate: SBOM reconcile scoped to runtime dependencies",
+      "gate: tools/ and scripts/ imports counted, not judged"
+    ]
+  },
+  "positive": {
+    "pass": 7,
+    "fail": 0,
+    "exit": 0
+  },
+  "strict_control": {
+    "note": "same tree, pre-repair scope, proves the change is a scope choice",
+    "code": "UNDECLARED_DEPENDENCY",
+    "exit": 1
+  },
+  "negatives": [
+    {
+      "case": "NEG-NOTICE-MISSING",
+      "expected": "NOTICE_MISSING",
+      "observed": "NOTICE_MISSING",
+      "verdict": "FLIP"
+    },
+    {
+      "case": "NEG-SECRET-PATTERN",
+      "expected": "SECRET_PATTERN_FOUND",
+      "observed": "SECRET_PATTERN_FOUND",
+      "verdict": "FLIP"
+    },
+    {
+      "case": "NEG-RUNTIME-DEP-UNDECLARED",
+      "expected": "UNDECLARED_DEPENDENCY",
+      "observed": "UNDECLARED_DEPENDENCY",
+      "verdict": "FLIP"
+    },
+    {
+      "case": "NEG-SBOM-COMPONENT",
+      "expected": "SBOM_COMPONENT_MISMATCH",
+      "observed": "SBOM_COMPONENT_MISMATCH",
+      "verdict": "FLIP"
+    }
+  ],
+  "original_ci_reader_ack": "NOT_OBSERVED",
+  "wp19_done": false,
+  "e26": {
+    "id": "E26",
+    "predecessor": "WP-FHS-19",
+    "successor": "WP-FHS-14",
+    "wave": "W0 to W4",
+    "state": "UNSATISFIED_WP19_ORIGINAL_RAW_MISSING"
+  },
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL"
+}

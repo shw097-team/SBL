@@ -1,0 +1,119 @@
+{
+  "schema": "FHS_W0/F2_REMAINING_FAIL_ANALYSIS/v1",
+  "lane": "F2",
+  "generated_at_taipei": "2026-11-05T10:42:30+08:00",
+  "tree": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_FORMAL_CLOSEOUT_20261105_1040\\lanes\\f2\\_work\\repaired",
+  "source_head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+  "after_counts": {
+    "pass": 6,
+    "fail": 1,
+    "hold": 0,
+    "not_applicable": 0
+  },
+  "after_fail_codes": [
+    "UNDECLARED_DEPENDENCY"
+  ],
+  "delta_decomposition": [
+    {
+      "code": "SBOM_COMPONENT_MISMATCH",
+      "was_in_reference_baseline": true,
+      "cause": "checker scope: optional/test extras were compared against an SBOM of installed components",
+      "removed_by": "repair 03 (supply_chain_gate.py, lane-local copy)",
+      "proof": {
+        "unpatched_tree_under_patched_gate": {
+          "verdict": "PASS",
+          "code": "SBOM_COMPONENTS_RECONCILED"
+        },
+        "patched_tree_under_patched_gate": {
+          "verdict": "PASS",
+          "code": "SBOM_COMPONENTS_RECONCILED"
+        },
+        "runtime_dependencies": 1,
+        "optional_not_listed": 6,
+        "sbom_components": 1
+      },
+      "not_cause": "the SBOM was NOT padded with invented components to satisfy the check"
+    },
+    {
+      "code": "UNDECLARED_DEPENDENCY@pytest",
+      "was_in_reference_baseline": true,
+      "cause": "true declaration gap: tests import pytest, no manifest declared it",
+      "removed_by": "repair 02 (pyproject.toml test extra)",
+      "proof": {
+        "samples_before": [
+          "pytest @ tests/test_operation_registry_r3.py:17",
+          "pytest @ tests/test_owner_ratification_r3.py:16"
+        ],
+        "samples_after": []
+      }
+    },
+    {
+      "code": "UNDECLARED_DEPENDENCY@hg_kseos",
+      "was_in_reference_baseline": true,
+      "still_present": true,
+      "cause": "repo-external development toolkit injected via --hgk-root, not a runtime dist",
+      "removed_by": null,
+      "disposition": "WP19_DEP_DEVTOOL_HOLD (see out/REMAINING_FAIL_ANALYSIS.json)",
+      "proof": {
+        "samples_after": [
+          "hg_kseos @ tools/hgk_admission_driver.py:25",
+          "hg_kseos @ tools/hgk_admission_driver.py:26",
+          "hg_kseos @ tools/knowledge_ready_probe.py:61"
+        ],
+        "still_in_fail_codes": true
+      }
+    }
+  ],
+  "resolved_and_how": {
+    "SBOM_COMPONENT_MISMATCH": {
+      "disposition": "removed by repair 03 (checker scope), not by padding the SBOM",
+      "evidence": "With the corrected checker the UNPATCHED tree already reconciles (verdict=PASS, code=SBOM_COMPONENTS_RECONCILED); the old FAIL counted the test extra's five packages as 'declared only' against an SBOM that correctly lists installed runtime components. No SBOM component was invented to turn it green."
+    },
+    "UNDECLARED_DEPENDENCY@pytest": {
+      "disposition": "removed by repair 02 (true declaration gap)",
+      "evidence": "pytest sample in the reference baseline: True; present after repair: False. Negative control: withdrawing the declaration brings it back (NEG UNDECLARED_DEPENDENCY)."
+    },
+    "SBOM metadata version drift": {
+      "disposition": "repaired by 01 (0.1.0 -> 0.1.1a5)",
+      "evidence": "SBOM metadata.component.version now equals pyproject [project].version. No gate check covers this, so it is a truth fix, not a green fix."
+    }
+  },
+  "remaining_fails": [
+    {
+      "check_id": "DEPENDENCY_DECLARED",
+      "verdict": "FAIL",
+      "code": "UNDECLARED_DEPENDENCY",
+      "detail": "1 module(s) imported but absent from every manifest"
+    }
+  ],
+  "holds": [
+    {
+      "hold_id": "WP19_DEP_DEVTOOL_HOLD",
+      "check_id": "DEPENDENCY_DECLARED",
+      "code": "UNDECLARED_DEPENDENCY",
+      "verdict_kept": "FAIL",
+      "what_remains": [
+        "hg_kseos @ tools/hgk_admission_driver.py:25",
+        "hg_kseos @ tools/hgk_admission_driver.py:26",
+        "hg_kseos @ tools/knowledge_ready_probe.py:61"
+      ],
+      "why_not_repaired": "hg_kseos is not a distribution this package declares, and it cannot be declared without asserting something false. tools/hgk_admission_driver.py:25-26 and tools/knowledge_ready_probe.py:61-63 import it only AFTER sys.path.insert(0, str(args.hgk_root / 'src')), i.e. the module is injected at invocation time from an external HG-KSEOS checkout given by --hgk-root, not resolved from the environment the package installs into. Putting it in [project.dependencies] would claim a PyPI-installable runtime requirement that does not exist; putting it in the test extra would be equally untrue. The gate's model -- every top-level import must appear in a manifest -- is what produces this FAIL. Clearing it honestly needs either owner-sanctioned packaging of hg_kseos or a gate feature for sys.path-injected external toolkits. Neither is F2's call, and F2 will not make the checker quiet to look green.",
+      "classification": "repo-external development tool dependency, not a package runtime dependency",
+      "owner": "WP19 gate owner (WP-FHS-19) + PIPD packaging owner (pipd-ls-sp)",
+      "required_raw": [
+        "out/WP19_AFTER_REPAIR_RAW.json -- DEPENDENCY_DECLARED=FAIL/UNDECLARED_DEPENDENCY with the hg_kseos samples and exit_code 1, verbatim",
+        "out/NEG_AFTER_REPAIR/UNDECLARED_DEPENDENCY/neg_record.json -- the check still fires when a real declaration is withdrawn (reproduction_not_flip)",
+        "out/PATCH_MINIMALITY.json -- no check code deleted, reference gate byte-identical, checker power unchanged on all five WP19 fixtures",
+        "owner decision record, one of: (i) a manifest entry for hg_kseos, (ii) a gate-owned allowlist for sys.path-injected external toolkits, (iii) an accepted-risk record naming hg_kseos as a non-runtime devtool dependency",
+        "a re-run of the agreed checker over integrations/pipd after that decision, with exit_code and fail_codes recorded verbatim"
+      ],
+      "resume": "1) Owner rules on hg_kseos. 2) If the ruling is 'repo-external devtool', land it as either a manifest marker or a documented checker allowlist -- F2 does not pre-empt it by editing the runtime import or the reference gate. 3) Re-run python apply_and_run.py; PASS=7 FAIL=0 is reachable only after that ruling. 4) Even then WP19 does not become DONE on F2's authority.",
+      "claim_ceiling_unchanged": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+      "wp19_done": false
+    }
+  ],
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "original_ci_reader_ack": "NOT_OBSERVED"
+}

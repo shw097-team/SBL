@@ -1,0 +1,112 @@
+{
+  "schema": "FHS_W0/F2_PATCH_MINIMALITY/v1",
+  "lane": "F2",
+  "generated_at_taipei": "2026-11-05T10:42:30+08:00",
+  "patch_files": [
+    "repairs/01_sbom_metadata_version.patch",
+    "repairs/02_pyproject_declare_pytest.patch",
+    "repairs/03_supply_chain_gate_runtime_scope.patch"
+  ],
+  "files_changed": 3,
+  "files": [
+    {
+      "path": "SBOM.cdx.json",
+      "patch": "repairs/01_sbom_metadata_version.patch",
+      "kind": "repo-artifact",
+      "hunks": 1,
+      "lines_added": 1,
+      "lines_removed": 1
+    },
+    {
+      "path": "pyproject.toml",
+      "patch": "repairs/02_pyproject_declare_pytest.patch",
+      "kind": "repo-artifact",
+      "hunks": 1,
+      "lines_added": 4,
+      "lines_removed": 1
+    },
+    {
+      "path": "supply_chain_gate.py",
+      "patch": "repairs/03_supply_chain_gate_runtime_scope.patch",
+      "kind": "author-tool (lane-local copy only)",
+      "hunks": 7,
+      "lines_added": 79,
+      "lines_removed": 18
+    }
+  ],
+  "totals": {
+    "repo_files": 2,
+    "gate_files": 1,
+    "hunks": 9,
+    "lines_added": 84,
+    "lines_removed": 20,
+    "lines_changed": 104
+  },
+  "assertions": {
+    "files_changed_within_budget_2_3": {
+      "value": 3,
+      "assertion": "== 3 (SBOM.cdx.json, pyproject.toml, supply_chain_gate.py)",
+      "holds": true
+    },
+    "reference_gate_unmodified": {
+      "sha256_before": "9b811379378083d508dafcf0af3816fb4e886e5b0f6f9475a1b98af7141b8e7f",
+      "sha256_after": "9b811379378083d508dafcf0af3816fb4e886e5b0f6f9475a1b98af7141b8e7f",
+      "holds": true,
+      "note": "lanes/wp19/supply_chain_gate.py is read-only input; the patch is applied to a lane-local copy materialised at lanes/f2/gate_patched/"
+    },
+    "no_check_code_removed": {
+      "lost_codes": [],
+      "holds": true
+    },
+    "no_check_downgraded": {
+      "checks_total_per_run": {
+        "pre_reference": 7,
+        "pre_patched_gate": 7,
+        "after": 7
+      },
+      "holds": true,
+      "note": "every run still evaluates all seven checks; none was made NOT_APPLICABLE/HOLD"
+    },
+    "only_expected_new_code": {
+      "new_codes": [
+        "SBOM_COMPONENT_MISSING_RUNTIME"
+      ],
+      "holds": true
+    },
+    "repo_patch_touches_only_declared_artifacts": {
+      "paths": [
+        "SBOM.cdx.json",
+        "pyproject.toml"
+      ],
+      "holds": true
+    },
+    "gate_patch_touches_one_file": {
+      "paths": [
+        "supply_chain_gate.py"
+      ],
+      "holds": true
+    },
+    "no_repo_src_or_python_source_touched": {
+      "holds": true
+    },
+    "fail_not_rewritten_as_pass": {
+      "dependency_declared_verdict_after": "FAIL",
+      "holds": true
+    },
+    "checker_power_unchanged_on_fixtures": {
+      "all_match": true,
+      "holds": true,
+      "note": "same five WP19 fixture trees, same expected codes, patched checker"
+    }
+  },
+  "asserts": {
+    "gate_unmodified_in_place": true,
+    "src_code_semantics_unmodified": true,
+    "no_check_deleted": true,
+    "no_fail_rewritten_as_pass": true,
+    "rationale": "Two repo files change: one string literal (SBOM metadata.component.version) and one TOML list plus its comment (test extra gains pytest). No repo .py file and no src/ tree is touched, so package runtime behaviour is byte-identical. The third file is our own author-local checker, patched in a lane-local copy: the change narrows WHAT is compared (runtime vs extras) and adds one strictly more severe failure code for a runtime dependency missing from the SBOM. It removes no check, deletes no code path, keeps every prior failure code reachable, and reaches identical verdicts on all five WP19 fixtures."
+  },
+  "all_assertions_hold": true,
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false
+}

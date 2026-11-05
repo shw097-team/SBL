@@ -1,0 +1,557 @@
+{
+  "lane": "WP-FHS-15",
+  "round": "FHS W0 R4C 全實作輪（SWARM lane）",
+  "generated_at": "2026-11-05T03:26:28+08:00",
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "native_claim": "NONE — 無 W2 Native E2E、無 Native 效果、無原 Reader ACK",
+  "lane_root": "var/FHS_W0_IMPLEMENTATION_20261105_0305/lanes/wp15",
+  "goal": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證的三份 SPEC",
+  "source_binding": {
+    "body": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+      "bytes": 463034
+    },
+    "source_root": "$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C",
+    "registries": {
+      "PROGRAM_WP22_DAG36.json": "8b09ef4a57723ab71f83c3dd1851d2c4782266573bbaf27646e639f87c248b3f",
+      "W0_REQUIRED22_TRACE.json": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+      "DESIGN84_WAVE_JOIN.json": "f466b4fe3f91aa362c63102dd28bf0c70706e5a74878554f0177bb28f15de1e5",
+      "SEAM_CONTRACTS.json": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213",
+      "ORACLE96_CONTRACTS.json": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+      "CASE393_REGISTRY.json": "5ef92275d8390e93de8b88e392a27e3701e5970f569fd311270c45bffe17d0f5",
+      "TECH485_COMPACT_REGISTRY.json": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb",
+      "SOURCE31_PHYSICAL_IDENTITY.json": "1c18e90e827bed1bdcc0e46abe497265fee7826092dc795865f7e176cf4f5065",
+      "CURRENT_CANDIDATE_STATE.json": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+      "W0_R2_TRACE_R15_949_CELL192_B1_CASES_AND_ORACLE.md": "cb1f4aa9cb8e7c5b2f2622cea6fc04d92bb70c9ec4b7afbd205b865228befa95",
+      "W0_R2_TRACE_SBL_PARENT50_CHILD149.md": "7c3c9b28cc6775d3cff4ab24e0eb87923f3477e13ba3e5e288a3b1e90d63db27"
+    }
+  },
+  "deliverables": [
+    {
+      "path": "spec_pipeline.py",
+      "sha256": "c0637a5a09504d6681a952b4fbced4381971388c98bc9b4cace0e9d45c6a0095",
+      "bytes": 103342
+    },
+    {
+      "path": "out/SPEC_Product.json",
+      "sha256": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+      "bytes": 38338
+    },
+    {
+      "path": "out/SPEC_Product.md",
+      "sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060",
+      "bytes": 12124
+    },
+    {
+      "path": "out/SPEC_Architecture.json",
+      "sha256": "68d95a51d84afa08e62e2b43d46c37a45496606a621cedf206cf33e6ab278c91",
+      "bytes": 44783
+    },
+    {
+      "path": "out/SPEC_Architecture.md",
+      "sha256": "dcdad69a06ba89d663b6d41f7117abbf2a0d009bb2b310e4325c03a7d9a0985f",
+      "bytes": 10932
+    },
+    {
+      "path": "out/SPEC_Program.json",
+      "sha256": "28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999",
+      "bytes": 149151
+    },
+    {
+      "path": "out/SPEC_Program.md",
+      "sha256": "c6f16651bad84fd4c8ec8a456c40094ad29c9890596c5f5b9305479aacb8d5e0",
+      "bytes": 18413
+    },
+    {
+      "path": "out/GOAL_TO_FUO.json",
+      "sha256": "38cfd76713fe4ca87f4364611ff7348bf6551bad67202745701f4182f534d441",
+      "bytes": 22528
+    },
+    {
+      "path": "out/GOAL_TO_FUO.md",
+      "sha256": "de9f7e6cd8f7251cb9c2d11000b6572bf264e20438dceed61ae46fb476038be8",
+      "bytes": 9778
+    },
+    {
+      "path": "out/SPEC_HETEROGENEITY.json",
+      "sha256": "4dcc97665d554cf0f470a3d953318354530d196e63a5c72b5d85be1d926d03ac",
+      "bytes": 8166
+    },
+    {
+      "path": "out/RUN_MANIFEST.json",
+      "sha256": "50bae19fcc2198a5c4b48995cbce365d52608bbb6c9d72730effff6ca24fedd2",
+      "bytes": 5926
+    },
+    {
+      "path": "tests/test_spec_pipeline.py",
+      "sha256": "c155ac3fd79f5bb9c0194f64552f57596274ea0eded7c39ebf0ddf5ad6665dee",
+      "bytes": 29778
+    },
+    {
+      "path": "tests/UNITTEST_RAW.log",
+      "sha256": "5aea19d4dafd245fc1225c47c45539266a5b5b499808560da2c0c682aa33be76",
+      "bytes": 3440
+    },
+    {
+      "path": "build_lane_report.py",
+      "sha256": "57f6022983262f12ba1149822796b5bf8a802e7bfb63bc70ad843ffeb456a9c6",
+      "bytes": 9556
+    }
+  ],
+  "commands": [
+    {
+      "command": "python spec_pipeline.py --body \"<SRC>/FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md\" --source-root \"<SRC>\" --out out --goal \"讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證的三份 SPEC\"",
+      "exit_code": 0,
+      "produces": [
+        "out/SPEC_Product.json",
+        "out/SPEC_Product.md",
+        "out/SPEC_Architecture.json",
+        "out/SPEC_Architecture.md",
+        "out/SPEC_Program.json",
+        "out/SPEC_Program.md",
+        "out/GOAL_TO_FUO.json",
+        "out/GOAL_TO_FUO.md",
+        "out/SPEC_HETEROGENEITY.json"
+      ],
+      "note": "manifest 由同一指令的 stdout 存成 out/RUN_MANIFEST.json"
+    },
+    {
+      "command": "python -m unittest discover -s tests -v > tests/UNITTEST_RAW.log 2>&1",
+      "exit_code": 0,
+      "note": "Ran 30 tests, OK (POS counts + 3 required NEG codes)"
+    },
+    {
+      "command": "python spec_pipeline.py --source-root \"<SRC>\" --out out --goal x --verify out/GOAL_TO_FUO.json",
+      "exit_code": 0,
+      "note": "重新讀檔重算 readback_sha：verified=true"
+    },
+    {
+      "command": "python -c \"hashlib.sha256(body).hexdigest()\"",
+      "exit_code": 0,
+      "note": "正文 463034 bytes / 56d0df3d…73f2a，與 CURRENT_CANDIDATE_STATE 相符"
+    }
+  ],
+  "tests": {
+    "suite": "tests/test_spec_pipeline.py",
+    "ran": 30,
+    "result": "OK",
+    "log": "tests/UNITTEST_RAW.log",
+    "names": [
+      "test_neg_claim_ceiling_violation (test_spec_pipeline.PipelineNEG.test_neg_claim_ceiling_violation)",
+      "test_neg_fuo_missing (test_spec_pipeline.PipelineNEG.test_neg_fuo_missing)",
+      "test_neg_requirement_unbound (test_spec_pipeline.PipelineNEG.test_neg_requirement_unbound)",
+      "test_neg_seam_shape_incomplete (test_spec_pipeline.PipelineNEG.test_neg_seam_shape_incomplete)",
+      "test_neg_spec_not_heterogeneous (test_spec_pipeline.PipelineNEG.test_neg_spec_not_heterogeneous)",
+      "test_neg_subject_body_sha_mismatch (test_spec_pipeline.PipelineNEG.test_neg_subject_body_sha_mismatch)",
+      "test_22_w0_required (test_spec_pipeline.PipelinePOS.test_22_w0_required)",
+      "test_22_wp_36_edges_e26_direction (test_spec_pipeline.PipelinePOS.test_22_wp_36_edges_e26_direction)",
+      "test_50_chapters_ch00_to_ch49 (test_spec_pipeline.PipelinePOS.test_50_chapters_ch00_to_ch49)",
+      "test_84_cards_25_wave_split (test_spec_pipeline.PipelinePOS.test_84_cards_25_wave_split)",
+      "test_architecture_five_seams_full_shape (test_spec_pipeline.PipelinePOS.test_architecture_five_seams_full_shape)",
+      "test_architecture_five_stages (test_spec_pipeline.PipelinePOS.test_architecture_five_stages)",
+      "test_architecture_principal_separation (test_spec_pipeline.PipelinePOS.test_architecture_principal_separation)",
+      "test_body_identity (test_spec_pipeline.PipelinePOS.test_body_identity)",
+      "test_case393_is_96_plus_b1_plus_ac (test_spec_pipeline.PipelinePOS.test_case393_is_96_plus_b1_plus_ac)",
+      "test_counter_reconciliation_all_match (test_spec_pipeline.PipelinePOS.test_counter_reconciliation_all_match)",
+      "test_every_count_has_verifiable_source_ref (test_spec_pipeline.PipelinePOS.test_every_count_has_verifiable_source_ref)",
+      "test_fuo_register (test_spec_pipeline.PipelinePOS.test_fuo_register)",
+      "test_goal_chain_readback (test_spec_pipeline.PipelinePOS.test_goal_chain_readback)",
+      "test_heterogeneity_report (test_spec_pipeline.PipelinePOS.test_heterogeneity_report)",
+      "test_manifest_outputs_exist (test_spec_pipeline.PipelinePOS.test_manifest_outputs_exist)",
+      "test_md_bodies_are_not_title_swaps (test_spec_pipeline.PipelinePOS.test_md_bodies_are_not_title_swaps)",
+      "test_oracle96 (test_spec_pipeline.PipelinePOS.test_oracle96)",
+      "test_parent50_child149 (test_spec_pipeline.PipelinePOS.test_parent50_child149)",
+      "test_product_fields (test_spec_pipeline.PipelinePOS.test_product_fields)",
+      "test_r15_949_and_cell_192 (test_spec_pipeline.PipelinePOS.test_r15_949_and_cell_192)",
+      "test_requirement_ids_bound_to_registry (test_spec_pipeline.PipelinePOS.test_requirement_ids_bound_to_registry)",
+      "test_same_subject_three_specs (test_spec_pipeline.PipelinePOS.test_same_subject_three_specs)",
+      "test_source31 (test_spec_pipeline.PipelinePOS.test_source31)",
+      "test_tech485 (test_spec_pipeline.PipelinePOS.test_tech485)"
+    ],
+    "neg_codes_asserted": [
+      "SPEC_NOT_HETEROGENEOUS",
+      "FUO_MISSING",
+      "REQUIREMENT_UNBOUND",
+      "SUBJECT_BODY_SHA_MISMATCH",
+      "SEAM_SHAPE_INCOMPLETE",
+      "CLAIM_CEILING_VIOLATION"
+    ]
+  },
+  "counts": {
+    "chapters": 50,
+    "work_packages": 22,
+    "edges": 36,
+    "e26": 1,
+    "design84_cards": 84,
+    "wave_split_25": 25,
+    "w0_required": 22,
+    "sources31": 31,
+    "r15_949": 949,
+    "cell192": 192,
+    "parent50": 50,
+    "child149": 149,
+    "oracle96": 96,
+    "tech485": 485,
+    "case393": 393,
+    "fuo": 13,
+    "product_requirement_ids": 11,
+    "architecture_requirement_ids": 8,
+    "program_requirement_ids": 3,
+    "domain_stages": 5,
+    "seams": 5,
+    "adr": 8,
+    "acc_plus": 9,
+    "acc_minus": 9,
+    "goal_chains": 11,
+    "counter_reconciliation_rows": 7
+  },
+  "count_sources": {
+    "chapters": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "selector": "H1 '^# (CH-\\d\\d)｜'",
+      "sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+      "bytes": 463034
+    },
+    "work_packages": {
+      "file": "PROGRAM_WP22_DAG36.json",
+      "selector": "$.work_packages[*].id",
+      "file_sha256": "8b09ef4a57723ab71f83c3dd1851d2c4782266573bbaf27646e639f87c248b3f"
+    },
+    "edges": {
+      "file": "PROGRAM_WP22_DAG36.json",
+      "selector": "$.edges[*].id",
+      "file_sha256": "8b09ef4a57723ab71f83c3dd1851d2c4782266573bbaf27646e639f87c248b3f"
+    },
+    "e26": {
+      "file": "PROGRAM_WP22_DAG36.json",
+      "selector": "$.edges[?(@.id=='E26')]",
+      "file_sha256": "8b09ef4a57723ab71f83c3dd1851d2c4782266573bbaf27646e639f87c248b3f"
+    },
+    "design84_cards": {
+      "file": "DESIGN84_WAVE_JOIN.json",
+      "selector": "$[*].original_id",
+      "file_sha256": "f466b4fe3f91aa362c63102dd28bf0c70706e5a74878554f0177bb28f15de1e5"
+    },
+    "wave_split_25": {
+      "file": "DESIGN84_WAVE_JOIN.json",
+      "selector": "$[?(@.requirement_delivery_wave != @.wp_primary_wave)].original_id",
+      "file_sha256": "f466b4fe3f91aa362c63102dd28bf0c70706e5a74878554f0177bb28f15de1e5"
+    },
+    "w0_required": {
+      "file": "W0_REQUIRED22_TRACE.json",
+      "selector": "$[*].original_id",
+      "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4"
+    },
+    "sources31": {
+      "file": "SOURCE31_PHYSICAL_IDENTITY.json",
+      "selector": "$[*].source_id",
+      "file_sha256": "1c18e90e827bed1bdcc0e46abe497265fee7826092dc795865f7e176cf4f5065"
+    },
+    "r15_949": {
+      "file": "W0_R2_TRACE_R15_949_CELL192_B1_CASES_AND_ORACLE.md",
+      "selector": "^\\| `(R15-\\d+)`",
+      "file_sha256": "cb1f4aa9cb8e7c5b2f2622cea6fc04d92bb70c9ec4b7afbd205b865228befa95"
+    },
+    "cell192": {
+      "file": "W0_R2_TRACE_R15_949_CELL192_B1_CASES_AND_ORACLE.md",
+      "selector": "^\\| `(CELL-[^`]+)`",
+      "file_sha256": "cb1f4aa9cb8e7c5b2f2622cea6fc04d92bb70c9ec4b7afbd205b865228befa95"
+    },
+    "parent50": {
+      "file": "W0_R2_TRACE_SBL_PARENT50_CHILD149.md",
+      "selector": "^\\| (U\\d\\d) \\|",
+      "file_sha256": "7c3c9b28cc6775d3cff4ab24e0eb87923f3477e13ba3e5e288a3b1e90d63db27"
+    },
+    "child149": {
+      "file": "W0_R2_TRACE_SBL_PARENT50_CHILD149.md",
+      "selector": "^\\| (U\\d\\d\\.\\d+) \\|",
+      "file_sha256": "7c3c9b28cc6775d3cff4ab24e0eb87923f3477e13ba3e5e288a3b1e90d63db27"
+    },
+    "oracle96": {
+      "file": "ORACLE96_CONTRACTS.json",
+      "selector": "$[*].case_id",
+      "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9"
+    },
+    "tech485": {
+      "file": "TECH485_COMPACT_REGISTRY.json",
+      "selector": "$[*].original_id",
+      "file_sha256": "59a6db72b9a7d8121906fccdf46260fefd5aea491e10df5d6ba7e570b64288bb"
+    },
+    "case393": {
+      "file": "CASE393_REGISTRY.json",
+      "selector": "$[*].case_id",
+      "file_sha256": "5ef92275d8390e93de8b88e392a27e3701e5970f569fd311270c45bffe17d0f5"
+    }
+  },
+  "counter_reconciliation": [
+    {
+      "claim": "chapters",
+      "declared": 50,
+      "computed": 50,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "work_packages",
+      "declared": 22,
+      "computed": 22,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "edges",
+      "declared": 36,
+      "computed": 36,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "design84_cards",
+      "declared": 84,
+      "computed": 84,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "wave_split_25",
+      "declared": 25,
+      "computed": 25,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "w0_required",
+      "declared": 22,
+      "computed": 22,
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    },
+    {
+      "claim": "e26_direction",
+      "declared": "WP-FHS-19→WP-FHS-14",
+      "computed": "WP-FHS-19→WP-FHS-14",
+      "match": true,
+      "source_ref": {
+        "file": "CURRENT_CANDIDATE_STATE.json",
+        "selector": "$.gate_results[?(@.gate=='G1_STRUCTURE')].evidence",
+        "file_sha256": "ca9899e3cc0e44774bedf11157b8311366bc82af287b72ee02192434d09578d2",
+        "text": "CH-00..49 50 個 H1；22 WP／36 Edge；E26=WP19→WP14；84 Card／25 跨波；22 Required Trace"
+      }
+    }
+  ],
+  "heterogeneity": {
+    "verdict": "HETEROGENEOUS",
+    "specs": {
+      "Product": {
+        "section_count": 8,
+        "field_count": 20,
+        "body_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      },
+      "Architecture": {
+        "section_count": 9,
+        "field_count": 21,
+        "body_sha256": "dcdad69a06ba89d663b6d41f7117abbf2a0d009bb2b310e4325c03a7d9a0985f"
+      },
+      "Program": {
+        "section_count": 14,
+        "field_count": 25,
+        "body_sha256": "c6f16651bad84fd4c8ec8a456c40094ad29c9890596c5f5b9305479aacb8d5e0"
+      }
+    },
+    "pairs": {
+      "Product×Architecture": {
+        "section_intersection": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ],
+        "section_intersection_size": 1,
+        "section_strictly_smaller_than_each": true,
+        "section_jaccard": 0.0625,
+        "field_sets_equal": false,
+        "fields_only_in_a": [
+          "acc_minus",
+          "acc_plus",
+          "fuo",
+          "jtbd",
+          "mvp",
+          "non_goals",
+          "persona",
+          "requirement_registry_size",
+          "user_acceptance"
+        ],
+        "fields_only_in_b": [
+          "adr",
+          "domain_boundary_statement",
+          "domain_stages",
+          "effect_registry",
+          "entry_seam",
+          "firstfail_lattice",
+          "principal_separation",
+          "seam_ids",
+          "seams",
+          "single_writer"
+        ],
+        "field_jaccard": 0.366667,
+        "body_token_jaccard": 0.328415,
+        "domain_token_jaccard": 0.3058,
+        "only_shared_sections": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ]
+      },
+      "Product×Program": {
+        "section_intersection": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ],
+        "section_intersection_size": 1,
+        "section_strictly_smaller_than_each": true,
+        "section_jaccard": 0.047619,
+        "field_sets_equal": false,
+        "fields_only_in_a": [
+          "acc_minus",
+          "acc_plus",
+          "fuo",
+          "jtbd",
+          "mvp",
+          "non_goals",
+          "persona",
+          "requirement_registry_size",
+          "user_acceptance"
+        ],
+        "fields_only_in_b": [
+          "cell_192",
+          "chapters",
+          "counter_reconciliation",
+          "counts",
+          "design84",
+          "e26_direction",
+          "edges",
+          "oracle96",
+          "parent_child",
+          "r15_949",
+          "sources31",
+          "tech485",
+          "w0_required22",
+          "work_packages"
+        ],
+        "field_jaccard": 0.323529,
+        "body_token_jaccard": 0.299758,
+        "domain_token_jaccard": 0.279241,
+        "only_shared_sections": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ]
+      },
+      "Architecture×Program": {
+        "section_intersection": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ],
+        "section_intersection_size": 1,
+        "section_strictly_smaller_than_each": true,
+        "section_jaccard": 0.045455,
+        "field_sets_equal": false,
+        "fields_only_in_a": [
+          "adr",
+          "domain_boundary_statement",
+          "domain_stages",
+          "effect_registry",
+          "entry_seam",
+          "firstfail_lattice",
+          "principal_separation",
+          "seam_ids",
+          "seams",
+          "single_writer"
+        ],
+        "fields_only_in_b": [
+          "cell_192",
+          "chapters",
+          "counter_reconciliation",
+          "counts",
+          "design84",
+          "e26_direction",
+          "edges",
+          "oracle96",
+          "parent_child",
+          "r15_949",
+          "sources31",
+          "tech485",
+          "w0_required22",
+          "work_packages"
+        ],
+        "field_jaccard": 0.314286,
+        "body_token_jaccard": 0.318665,
+        "domain_token_jaccard": 0.294597,
+        "only_shared_sections": [
+          "§0 Subject Binding 與 Claim Ceiling"
+        ]
+      }
+    },
+    "thresholds": {
+      "max_section_jaccard": 0.25,
+      "max_field_jaccard": 0.6,
+      "max_domain_token_jaccard": 0.35,
+      "section_intersection_must_be_strictly_smaller": true,
+      "field_sets_must_differ": true
+    }
+  },
+  "holds": [
+    "H-U4：原 SBL Product / PIPD Intake Reader 未 ACK；三份 SPEC 只到 AUTHOR_DESIGN 可讀回",
+    "H-ABI-05：S1–S5 的 original_abi 全為 ORIGINAL_RUNTIME_ABI_UNBOUND",
+    "H-ORACLE-RAW96：96 個 Oracle 個案無原 Host Runner／Fixture 真 bytes，只作 CASE PLAN",
+    "25 張跨波卡（JOIN_AMBIGUOUS_AFFECTED）待原 Program Reader 裁決，未以需求波覆寫施工波",
+    "E26 的 original_reader_ack=NOT_OBSERVED；W0 不產生 CI/License/SBOM Raw",
+    "31 冊 Source 的 Currentness 皆 ORIGINAL_READER_CURRENTNESS_HOLD",
+    "FUO-A／FUO-B 只有章級 W0 綁定，無 W0_REQUIRED deliver_id，未升格為 GOAL_TO_FUO chain",
+    "192 Cell 的 Provider ON/OFF 原標籤歧義未經原 Host/Provider Owner ACK"
+  ],
+  "known_limits": [
+    "Goal→FUO 的 primary_chain 只用字元 bigram 重疊排序（AUTHOR_TOKEN_OVERLAP_HEURISTIC），不是原 Reader 的語義綁定",
+    "acceptance POS 對 W0_REQUIRED 來源列即其 requirement 原文，因該 registry 未另存 POS 欄",
+    "permission 分類由五 seam 列的用字推導（優先序 WorldRaw＞permit＞不寫世界＞ACK＞SPECDraft），原 ACL 一律 NOT_OBSERVED",
+    "S1 被列為五域階段之外的入口接縫（由『無任何階段認領』規則判定），不是作者另行指定",
+    "domain_stages 的 seam 綁定用 actor-token 比對 CH-37 表格的 producer/reader 欄，未經原 Reader 確認",
+    "三份 SPEC 的中文語料同源，domain_token_jaccard 約 0.28–0.31；異質性主張以 section 交集（1/8、1/9、1/14）與 field set 差異為主證",
+    "所有 r15/cell/parent-child 計數以 trace md 的表格列為分母，未重讀 31 冊原檔逐列核對",
+    "本 lane 只在 L 內寫入；未修改 S 或 repo 任何檔案"
+  ],
+  "outputs_digest_check": {
+    "product_json_sha256": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+    "goal_output_sha": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+    "match": true,
+    "goal_input_sha": "5b9017816b5af080c85d5f66355f80b9753fd4839e24707a22fd82aca079bdb8",
+    "goal_readback_sha": "d8789363dde838e9dc9fc762b9c36c0977af8f76e0bff5c4ea6c884f674d66d2"
+  },
+  "isolation": {
+    "writes_confined_to_lane": true,
+    "lane_dir": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\lanes\\wp15",
+    "source_tree_modified": false
+  }
+}

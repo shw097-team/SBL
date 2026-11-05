@@ -1,0 +1,236 @@
+{
+  "artifact": "WP19_TYPED_SUMMARY",
+  "lane": "c2",
+  "generated_at_taipei": "2026-11-05T08:39:40+08:00",
+  "gate_id": "WP-FHS-19",
+  "gate_version": "1.0.0",
+  "subject": {
+    "real_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\\integrations\\pipd",
+    "source_ref": "origin/main",
+    "head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+    "head_short": "004e889",
+    "commit_subject": "Merge pull request #40 from shw097-team/evidence/closeout-031rc1",
+    "commit_date": "2026-11-03T15:20:07+08:00",
+    "tree_kind": "git archive of upstream ref (no .git directory)",
+    "contains_w0": false,
+    "contains_w0_assertion": "PASS",
+    "extract_command": "git -C \"C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\repos\\SBL\" archive origin/main integrations/pipd | tar -x -C \"C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\"",
+    "archive_sha256": "77823f539c7aed99aa82320a43cfe3e8a9c7dd6b4d266b266b69094814ae2960",
+    "all_root_files_present": true,
+    "root_supply_chain_files": [
+      {
+        "file": "LICENSE",
+        "present": true,
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "file": "NOTICE",
+        "present": true,
+        "bytes": 3571,
+        "sha256": "ab07de025ce64621963831d19acf3525596362a18d6c72606d0341239206ea7d"
+      },
+      {
+        "file": "SBOM.cdx.json",
+        "present": true,
+        "bytes": 1209,
+        "sha256": "2a4ce341cb3e1447568ba79ab98767c4427988d0d13660452a1c9ae21dfc94b1"
+      },
+      {
+        "file": "pyproject.toml",
+        "present": true,
+        "bytes": 3283,
+        "sha256": "a4d58d9f6970f0674a8c7dd2934bbaf445ec1f4b8792555e49cc907513e0a783"
+      },
+      {
+        "file": "OWNER_LICENSE_DECISION.yaml",
+        "present": true,
+        "bytes": 4931,
+        "sha256": "1c5da3dc52e3aa917a825b69a689be5e7258b2fdb7e5ee38af8cb41107b5018f"
+      }
+    ]
+  },
+  "subject_selection": {
+    "chosen": "origin/main:integrations/pipd (pure git archive)",
+    "rejected_candidate_worktree": {
+      "path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\repos\\SBL\\integrations\\pipd",
+      "head": "d4b1eb789120fda3d8fbfe865ae87d3fd216438e",
+      "branch": "candidate/fhs-w0-r4c-implementation-20261105",
+      "reason": "checked-out candidate branch carries this round's w0/ fixtures; gating it lets presence checks be satisfied by the round's own fixtures (false-PASS)",
+      "false_pass_probe": "REJECTED_SUBJECT_FALSE_PASS_PROBE.json",
+      "false_pass_demonstrated": true,
+      "probe_result": "root NOTICE deleted and NOTICE_PRESENT still reported PASS (NOTICE_PRESENT)"
+    },
+    "rejected_s_mirror": {
+      "path": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\FHS／FHS-MSC／SBL\\FHS\\PIPD-LS-PKG\\定案\\W0\\FHS_PIPD-LS-PKG_W0_R4C",
+      "reason": "no root LICENSE / NOTICE / SBOM; not a gateable supply-chain root"
+    }
+  },
+  "real_root": {
+    "raw": "out/WP19_REAL_ROOT_RAW.json",
+    "tree": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\\integrations\\pipd",
+    "head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+    "scanned_files": 334,
+    "scanned_bytes": 2290830,
+    "tree_digest_sha256": "0774102a4d900efe4d822f6b469ed043b49f20236bcc03c2660cc6d8cfb0fefc",
+    "counts": {
+      "PASS": 5,
+      "FAIL": 2,
+      "HOLD": 0,
+      "NOT_APPLICABLE": 0
+    },
+    "checks_total": 7,
+    "gate_exit": 1,
+    "fail_codes": [
+      "SBOM_COMPONENT_MISMATCH",
+      "UNDECLARED_DEPENDENCY"
+    ],
+    "fail_items": [
+      {
+        "check_id": "SBOM_COMPONENT_RECONCILE",
+        "code": "SBOM_COMPONENT_MISMATCH",
+        "detail": "0 component(s) in SBOM only, 5 declared only"
+      },
+      {
+        "check_id": "DEPENDENCY_DECLARED",
+        "code": "UNDECLARED_DEPENDENCY",
+        "detail": "2 module(s) imported but absent from every manifest"
+      }
+    ],
+    "checks": [
+      {
+        "check_id": "LICENSE_PRESENT",
+        "verdict": "PASS",
+        "code": "LICENSE_SPDX_RESOLVED",
+        "detail": "SPDX Apache-2.0 resolved from LICENSE"
+      },
+      {
+        "check_id": "NOTICE_PRESENT",
+        "verdict": "PASS",
+        "code": "NOTICE_PRESENT",
+        "detail": "1 NOTICE file(s) found"
+      },
+      {
+        "check_id": "SBOM_PRESENT_AND_PARSABLE",
+        "verdict": "PASS",
+        "code": "SBOM_PARSED",
+        "detail": "1 SBOM file(s) valid, 1 component(s)"
+      },
+      {
+        "check_id": "SBOM_COMPONENT_RECONCILE",
+        "verdict": "FAIL",
+        "code": "SBOM_COMPONENT_MISMATCH",
+        "detail": "0 component(s) in SBOM only, 5 declared only"
+      },
+      {
+        "check_id": "DEPENDENCY_DECLARED",
+        "verdict": "FAIL",
+        "code": "UNDECLARED_DEPENDENCY",
+        "detail": "2 module(s) imported but absent from every manifest"
+      },
+      {
+        "check_id": "SECRET_PATTERN_SCAN",
+        "verdict": "PASS",
+        "code": "NO_SECRET_PATTERN",
+        "detail": "7 patterns over 334 text file(s), 0 matches"
+      },
+      {
+        "check_id": "CI_ENTRY_PRESENT",
+        "verdict": "PASS",
+        "code": "CI_ENTRY_DOCUMENTED_COMMAND",
+        "detail": "no CI config; 2 documented re-runnable command(s) found"
+      }
+    ]
+  },
+  "neg": {
+    "all_four_codes_hit": true,
+    "neg_base": "throwaway copy of the pure upstream origin/main tree",
+    "neg_base_head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+    "cases": [
+      {
+        "name": "neg_notice_missing",
+        "target_check": "NOTICE_PRESENT",
+        "target_code": "NOTICE_MISSING",
+        "observed_code": "NOTICE_MISSING",
+        "observed_verdict": "FAIL",
+        "gate_exit": 1,
+        "assertions": {
+          "exit_equals_1": true,
+          "verdict_is_FAIL": true,
+          "code_matches_target": true,
+          "mutated_token_attributed": true,
+          "clean_flip_vs_base": true
+        },
+        "raw": "out/NEG_REAL_ROOT/neg_notice_missing.json"
+      },
+      {
+        "name": "neg_sbom_component_mismatch",
+        "target_check": "SBOM_COMPONENT_RECONCILE",
+        "target_code": "SBOM_COMPONENT_MISMATCH",
+        "observed_code": "SBOM_COMPONENT_MISMATCH",
+        "observed_verdict": "FAIL",
+        "gate_exit": 1,
+        "assertions": {
+          "exit_equals_1": true,
+          "verdict_is_FAIL": true,
+          "code_matches_target": true,
+          "mutated_token_attributed": true,
+          "clean_flip_vs_base": false
+        },
+        "raw": "out/NEG_REAL_ROOT/neg_sbom_component_mismatch.json"
+      },
+      {
+        "name": "neg_undeclared_dependency",
+        "target_check": "DEPENDENCY_DECLARED",
+        "target_code": "UNDECLARED_DEPENDENCY",
+        "observed_code": "UNDECLARED_DEPENDENCY",
+        "observed_verdict": "FAIL",
+        "gate_exit": 1,
+        "assertions": {
+          "exit_equals_1": true,
+          "verdict_is_FAIL": true,
+          "code_matches_target": true,
+          "mutated_token_attributed": true,
+          "clean_flip_vs_base": false
+        },
+        "raw": "out/NEG_REAL_ROOT/neg_undeclared_dependency.json"
+      },
+      {
+        "name": "neg_secret_pattern",
+        "target_check": "SECRET_PATTERN_SCAN",
+        "target_code": "SECRET_PATTERN_FOUND",
+        "observed_code": "SECRET_PATTERN_FOUND",
+        "observed_verdict": "FAIL",
+        "gate_exit": 1,
+        "assertions": {
+          "exit_equals_1": true,
+          "verdict_is_FAIL": true,
+          "code_matches_target": true,
+          "mutated_token_attributed": true,
+          "clean_flip_vs_base": true
+        },
+        "raw": "out/NEG_REAL_ROOT/neg_secret_pattern.json"
+      }
+    ]
+  },
+  "ack_status": {
+    "original_ci_reader_ack": "NOT_OBSERVED",
+    "ref": "WP19_ACK_STATUS.json",
+    "e26": "WP-FHS-19→WP-FHS-14 (W4) 保留"
+  },
+  "holds": [
+    "WP19_ORIGINAL_RAW_ACK_HOLD"
+  ],
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "wp19_done": false,
+  "trace_closure": false,
+  "known_limits": [
+    "author-local static gate; not an independent or protected checker",
+    "no network, no SBOM signature verification, no vulnerability database",
+    "secret scan is regex over decodable text; no match is not proof of absence",
+    "the upstream subject fails 2 of 7 checks; failures are reported, not repaired",
+    "subject tree is a git archive (no .git); HEAD is the measured origin/main commit",
+    "SBOM reconciliation counts pyproject optional-dependencies as declared, so the test extra is reported as SBOM-absent",
+    "original SBL CI/Program Reader ACK has NOT been obtained"
+  ]
+}

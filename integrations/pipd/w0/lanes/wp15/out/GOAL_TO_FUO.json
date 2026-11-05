@@ -1,0 +1,579 @@
+{
+  "schema": "FHS-W0-WP15/v1/GOAL_TO_FUO",
+  "goal": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC",
+  "input_sha": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+  "input_sha_rule": "sha256(goal.encode('utf-8'))",
+  "output_sha": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+  "output_sha_rule": "sha256(bytes of out/SPEC_Product.json)",
+  "subject": {
+    "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+    "subject_origin": "SEAM_CONTRACTS.json:$.subject_id (author example subject)",
+    "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+    "body_bytes": 463034,
+    "body_file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+    "candidate_id": "FHS-W0-AUTHOR-STATIC-FINAL-CANDIDATE-r4-candidate-b41d2e",
+    "candidate_currency": "CURRENT_CANDIDATE",
+    "same_subject_across_specs": true,
+    "original_pipd_signature": "NOT_OBSERVED",
+    "claim_ceiling": "AUTHOR_LOCAL_TEST",
+    "source_ref": {
+      "file": "SEAM_CONTRACTS.json",
+      "selector": "$[0].subject_id",
+      "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+    }
+  },
+  "goal_binding_method": {
+    "method": "AUTHOR_TOKEN_OVERLAP_HEURISTIC",
+    "detail": "character-bigram overlap between the goal and each FUO's statement+acceptance-pos+acceptance-neg; rank only, NOT an original Reader semantic binding",
+    "original_reader_ack": "NOT_OBSERVED"
+  },
+  "chain_count": 11,
+  "primary_chain": "CHAIN-FUO-INT-03",
+  "chains": [
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-002",
+      "fuo_id": "FUO-FHS-DR-002",
+      "deliver_id": "DEL-W0-FHS-DR-002",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-002",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-002",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-002",
+          "sha256": "15a1fc1fc6891aa6235abbf7868984c14fbb688e2187feaab25e43834b830b1d",
+          "value": "Goal 不需先選九個 MissionOptions 或填完整 PIPD Schema"
+        }
+      ],
+      "relevance": 0.05,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "15a1fc1fc6891aa6235abbf7868984c14fbb688e2187feaab25e43834b830b1d",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-003",
+      "fuo_id": "FUO-FHS-DR-003",
+      "deliver_id": "DEL-W0-FHS-DR-003",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-003",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-003",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-003",
+          "sha256": "876601b8af8126fd2a94214f036ef4bf953f59b60d47f80c4c0879a85a2517d3",
+          "value": "模糊 Goal 可以進三 SPEC，來源缺件只保留受影 Need"
+        }
+      ],
+      "relevance": 0.1,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "876601b8af8126fd2a94214f036ef4bf953f59b60d47f80c4c0879a85a2517d3",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-021",
+      "fuo_id": "FUO-FHS-DR-021",
+      "deliver_id": "DEL-W0-FHS-DR-021",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-021",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-021",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-021",
+          "sha256": "cb81cedd6c2b19608473bd9e3902c6f9f8c8bdd63c46acba9c7d6ffcebf987e7",
+          "value": "Portable TPM 能以 PM/SE/TPgM 產三獨立 SPEC"
+        }
+      ],
+      "relevance": 0.1,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "cb81cedd6c2b19608473bd9e3902c6f9f8c8bdd63c46acba9c7d6ffcebf987e7",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-022",
+      "fuo_id": "FUO-FHS-DR-022",
+      "deliver_id": "DEL-W0-FHS-DR-022",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-022",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-022",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-022",
+          "sha256": "4ed61e0655b079776f72e43766528aa322fcce468ab7a15b43bfe0f433e05d2d",
+          "value": "18 Stage/K0–K3 及原問題去重仍遵守"
+        }
+      ],
+      "relevance": 0.025,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "4ed61e0655b079776f72e43766528aa322fcce468ab7a15b43bfe0f433e05d2d",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-047",
+      "fuo_id": "FUO-FHS-DR-047",
+      "deliver_id": "DEL-W0-FHS-DR-047",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-047",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-047",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-047",
+          "sha256": "0e2df8d69c2cc5084847e4a4832c0dcc74009b17f8b85ff657c2cd16a90ae43e",
+          "value": "LOCAL_DRAFT_WRITE 需隔離 output root/原文未修改"
+        }
+      ],
+      "relevance": 0.025,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "0e2df8d69c2cc5084847e4a4832c0dcc74009b17f8b85ff657c2cd16a90ae43e",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-FHS-DR-055",
+      "fuo_id": "FUO-FHS-DR-055",
+      "deliver_id": "DEL-W0-FHS-DR-055",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-FHS-DR-055",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-FHS-DR-055",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-FHS-DR-055",
+          "sha256": "0dbea6bb837ac3e60a7ecfc1b4a36b8ab4cf5ffb11a12ef12f58be63b1dd63f2",
+          "value": "L0/L1/L2/L3 是文檔視圖，非四套 Canonical"
+        }
+      ],
+      "relevance": 0.05,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "0dbea6bb837ac3e60a7ecfc1b4a36b8ab4cf5ffb11a12ef12f58be63b1dd63f2",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-INT-01",
+      "fuo_id": "FUO-INT-01",
+      "deliver_id": "DEL-W0-INT-01",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-INT-01",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-INT-01",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-INT-01",
+          "sha256": "5e03d14224a5fcea75818f8b3767b2a98bc8cb15bb33e767df8cece4dd0008d7",
+          "value": "以 Subject+Scope+SourceSHA 鍵重用 KnownAnswer/QuestionLedger，只有差額重問"
+        }
+      ],
+      "relevance": 0.075,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "5e03d14224a5fcea75818f8b3767b2a98bc8cb15bb33e767df8cece4dd0008d7",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-INT-03",
+      "fuo_id": "FUO-INT-03",
+      "deliver_id": "DEL-W0-INT-03",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-INT-03",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-INT-03",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-INT-03",
+          "sha256": "a3a2ae508726367c4482f398b5cb8f81412f2b9f715189a4bd7bd51c458fe221",
+          "value": "短 Goal 可產直接有用答案／SPEC，寫入則需實際 Diff/Host"
+        }
+      ],
+      "relevance": 0.125,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "a3a2ae508726367c4482f398b5cb8f81412f2b9f715189a4bd7bd51c458fe221",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-INT-04",
+      "fuo_id": "FUO-INT-04",
+      "deliver_id": "DEL-W0-INT-04",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-INT-04",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-INT-04",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-INT-04",
+          "sha256": "fb00bbd7b218bfdadb70223065fd71ed3d998568a36ee372cd26045376940d25",
+          "value": "A 全量產品語義守恆；B 最短合法 Effect 路徑"
+        }
+      ],
+      "relevance": 0.05,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "fb00bbd7b218bfdadb70223065fd71ed3d998568a36ee372cd26045376940d25",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-INT-12",
+      "fuo_id": "FUO-INT-12",
+      "deliver_id": "DEL-W0-INT-12",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-INT-12",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-INT-12",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-INT-12",
+          "sha256": "cd3f22cf8a768da908652b3bf9289f4c5a3897ed05a7c443582ce364f5f432fe",
+          "value": "PM JTBD/FUO；SE ADR/ABI；TPgM DAG/Exit"
+        }
+      ],
+      "relevance": 0.125,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "cd3f22cf8a768da908652b3bf9289f4c5a3897ed05a7c443582ce364f5f432fe",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    },
+    {
+      "chain_id": "CHAIN-FUO-INT-18",
+      "fuo_id": "FUO-INT-18",
+      "deliver_id": "DEL-W0-INT-18",
+      "steps": [
+        {
+          "step": 1,
+          "kind": "GOAL",
+          "ref": "user_goal",
+          "sha256": "4677e275feb04bd9a2651cbc55c894b60a8c3acd6af4b7155b1b969c86d0264e",
+          "value": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC"
+        },
+        {
+          "step": 2,
+          "kind": "PRODUCT_SPEC",
+          "ref": "SPEC_Product.json",
+          "sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+          "value": "SPEC-Product-W0-wp15-local"
+        },
+        {
+          "step": 3,
+          "kind": "W0_DELIVER",
+          "ref": "DEL-W0-INT-18",
+          "sha256": null,
+          "value": {
+            "deliver_id": "DEL-W0-INT-18",
+            "primary_wp_id": "WP-FHS-15",
+            "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+            "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+          }
+        },
+        {
+          "step": 4,
+          "kind": "FUO",
+          "ref": "FUO-INT-18",
+          "sha256": "a32e5a4e493303c769fb94c87e32b6ecfc213e3d0b17c2100b4e8ec0487cfb05",
+          "value": "六類 Effect 對應最低充分原 Evidence"
+        }
+      ],
+      "relevance": 0.05,
+      "readback": {
+        "fuo_present_in_product_spec": true,
+        "deliver_present_in_product_spec": true,
+        "statement_sha256": "a32e5a4e493303c769fb94c87e32b6ecfc213e3d0b17c2100b4e8ec0487cfb05",
+        "product_json_sha256": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+        "product_md_sha256": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060"
+      }
+    }
+  ],
+  "declared_fuo_without_deliver": [
+    "FUO-A",
+    "FUO-B"
+  ],
+  "declared_fuo_note": "CH-01 宣告的 FUO-A／FUO-B 只有章級 W0 綁定，沒有 W0_REQUIRED 的 deliver_id，因此不升格為 chain，只列名。",
+  "artifacts": {
+    "SPEC_Architecture.json": "76b73368b1e04bd3915617cd66026fc2420597602c21f2aea9b71a30338c68ad",
+    "SPEC_Architecture.md": "dcdad69a06ba89d663b6d41f7117abbf2a0d009bb2b310e4325c03a7d9a0985f",
+    "SPEC_Product.json": "757ad8d71ace5a9f94f196a8f183a6eb809c8d3bcf0becac0b5478f8084c8c2d",
+    "SPEC_Product.md": "076756a720b49852f9df1e6b9895e10b4a7a6c6053a04ffab221c4449ba57060",
+    "SPEC_Program.json": "20887d7174613703e76a639661ea3bed8eddbd32c2a8b3d6b66df803d4d2b894",
+    "SPEC_Program.md": "c6f16651bad84fd4c8ec8a456c40094ad29c9890596c5f5b9305479aacb8d5e0"
+  },
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "native_effect": "NOT_RUN",
+  "readback_sha_rule": "sha256(canonical_json(doc without 'readback_sha'))；canonical = sort_keys + separators(',',':') + ensure_ascii=False + UTF-8",
+  "readback_sha": "e50a9504718c9fe11079e110e8e20056ce1b13c3c314bc2b1286fc86060b8815"
+}

@@ -1,0 +1,986 @@
+{
+  "schema": "FHS-W0-WP15/v1/SPEC_Product",
+  "artifact_id": "SPEC-Product-W0-wp15-local",
+  "spec_kind": "Product",
+  "version": "w0-r4c-wp15-1",
+  "goal": "讓 FHS 在 W0 邊界內把一個 intent 轉成可驗證且可回讀的三份 SPEC",
+  "subject": {
+    "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+    "subject_origin": "SEAM_CONTRACTS.json:$.subject_id (author example subject)",
+    "body_sha256": "56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a",
+    "body_bytes": 463034,
+    "body_file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+    "candidate_id": "FHS-W0-AUTHOR-STATIC-FINAL-CANDIDATE-r4-candidate-b41d2e",
+    "candidate_currency": "CURRENT_CANDIDATE",
+    "same_subject_across_specs": true,
+    "original_pipd_signature": "NOT_OBSERVED",
+    "claim_ceiling": "AUTHOR_LOCAL_TEST",
+    "source_ref": {
+      "file": "SEAM_CONTRACTS.json",
+      "selector": "$[0].subject_id",
+      "file_sha256": "60c972d477a5103c7fb75bfc63d69fb853440f4f9f112fa375b198f14e183213"
+    }
+  },
+  "persona": {
+    "statement": "唯一 Human Owner，單人本機、日常普通 Goal；模型/工具原生 Worker 是執行角色，非新的 Owner/Issuer",
+    "pos": "不必先填完整 PIPD schema 即可取用可追溯答案或 SPEC",
+    "neg": "要求所有短問答先開 22 WP → `FUO_BURIED_BY_PROCESS`",
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-01",
+      "line": 226
+    }
+  },
+  "jtbd": {
+    "statement": "將普通 Goal 與已許可來源轉成可用的 source-bound SpecDelta，只有受保護世界效果才提升 Gate",
+    "pos": "`goal, affected_scope, source_refs, user_value, acceptance±` 全有",
+    "neg": "只輸出「已建立 30 個文件」→ `NO_USER_VALUE`",
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-01",
+      "line": 227
+    }
+  },
+  "fuo": [
+    {
+      "fuo_id": "FUO-INT-01",
+      "statement": "以 Subject+Scope+SourceSHA 鍵重用 KnownAnswer/QuestionLedger，只有差額重問",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-01')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          769,
+          769
+        ],
+        "source_row_sha": "b267ab0317227b42252afff68c2de8cb2e0a609b1ee417e9a7c81f86d2240535",
+        "chapter_refs": [
+          "CH-01",
+          "CH-10"
+        ]
+      },
+      "acceptance": {
+        "pos": "以 Subject+Scope+SourceSHA 鍵重用 KnownAnswer/QuestionLedger，只有差額重問",
+        "neg": "NEG：沿用相同 SourceSHA 卻重問同一已知答案；或混同一個 Human Owner 與技術 Checker 身分",
+        "condition": "MANDATORY_SPEC；Native 依受影 Effect",
+        "case_id": "AUTHOR-W0-CASE-INT-01",
+        "evidence_expectation_id": "EE-INT-01",
+        "spec_clause_id": "SPEC-Product-W0-r3#INT-01"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-INT-01",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "SBL Product/Kind/Host Original Consumer、Original Domain Owner/Reader (scope binding pending)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-INT-03",
+      "statement": "短 Goal 可產直接有用答案／SPEC，寫入則需實際 Diff/Host",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-03')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          771,
+          771
+        ],
+        "source_row_sha": "22366726aba12b48a8c1983bdb2b690f359a787a5612562166001cba77ef9a48",
+        "chapter_refs": [
+          "CH-01",
+          "CH-38"
+        ]
+      },
+      "acceptance": {
+        "pos": "短 Goal 可產直接有用答案／SPEC，寫入則需實際 Diff/Host",
+        "neg": "NEG：只交文件數量、沒有使用者可取用之 FUO，或冒稱 Host 已執行",
+        "condition": "MANDATORY_SPEC；Native 依受影 Effect",
+        "case_id": "AUTHOR-W0-CASE-INT-03",
+        "evidence_expectation_id": "EE-INT-03",
+        "spec_clause_id": "SPEC-Product-W0-r3#INT-03"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-INT-03",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "SBL Product/Kind/Host Original Consumer、Original Domain Owner/Reader (scope binding pending)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-INT-04",
+      "statement": "A 全量產品語義守恆；B 最短合法 Effect 路徑",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-04')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          772,
+          772
+        ],
+        "source_row_sha": "38f6889e2627de27cfce34f7acabb6d6a33146db83bdae59cb98f3964e519d4e",
+        "chapter_refs": [
+          "CH-15",
+          "CH-18",
+          "CH-38"
+        ]
+      },
+      "acceptance": {
+        "pos": "A 全量產品語義守恆；B 最短合法 Effect 路徑",
+        "neg": "NEG：把 A 全量需求全作每次 B READ 的前置 OPS Permit",
+        "condition": "MANDATORY_SPEC；Native 依受影 Effect",
+        "case_id": "AUTHOR-W0-CASE-INT-04",
+        "evidence_expectation_id": "EE-INT-04",
+        "spec_clause_id": "SPEC-Product-W0-r3#INT-04"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-INT-04",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "SBL-hosted PIPD canonical Compiler/Original Source/Repo/Case Reader、HGK Original Issuer/SharedSpine/Protected Checker Reader、Effect-specific original",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-INT-12",
+      "statement": "PM JTBD/FUO；SE ADR/ABI；TPgM DAG/Exit",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-12')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          780,
+          780
+        ],
+        "source_row_sha": "d117eb4be02cbf568709e829895a57321ee258970a103fcc2adcd894d62b6731",
+        "chapter_refs": [
+          "CH-11"
+        ]
+      },
+      "acceptance": {
+        "pos": "PM JTBD/FUO；SE ADR/ABI；TPgM DAG/Exit",
+        "neg": "NEG：三 SPEC 同文換標題或沒有不同 Consumer/ACC",
+        "condition": "MANDATORY_SPEC；Native 依受影 Effect",
+        "case_id": "AUTHOR-W0-CASE-INT-12",
+        "evidence_expectation_id": "EE-INT-12",
+        "spec_clause_id": "SPEC-Product-W0-r3#INT-12"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-INT-12",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "Original Domain Owner/Reader (scope binding pending)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-INT-18",
+      "statement": "六類 Effect 對應最低充分原 Evidence",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='INT-18')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          786,
+          786
+        ],
+        "source_row_sha": "aee4a2bc415a98b15b67360f0950d8b9ea95b6c0e420ae0a7be65e56d54abd33",
+        "chapter_refs": [
+          "CH-15",
+          "CH-39",
+          "CH-43"
+        ]
+      },
+      "acceptance": {
+        "pos": "六類 Effect 對應最低充分原 Evidence",
+        "neg": "NEG：缺 OPS/RELEASE Permission 使合法 READ/DRAFT 全域停工",
+        "condition": "MANDATORY_SPEC；Native 依受影 Effect",
+        "case_id": "AUTHOR-W0-CASE-INT-18",
+        "evidence_expectation_id": "EE-INT-18",
+        "spec_clause_id": "SPEC-Product-W0-r3#INT-18"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-INT-18",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "SBL-hosted PIPD canonical Compiler/Original Source/Repo/Case Reader、HGK Original Issuer/SharedSpine/Protected Checker Reader、Effect-specific original",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-002",
+      "statement": "Goal 不需先選九個 MissionOptions 或填完整 PIPD Schema",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-002')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          799,
+          799
+        ],
+        "source_row_sha": "0e4eea7b0c7d07e78408b671631afa7d425be3c8d6253fe482f180ee2e448d47",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "Goal 不需先選九個 MissionOptions 或填完整 PIPD Schema",
+        "neg": "新 PID 可取得可追溯答案",
+        "condition": "沒有實質效果仍建立 22WP/3 Lane",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-002",
+        "evidence_expectation_id": "EE-FHS-DR-002",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-002"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-002",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-01](#ch-01)/[CH-02](#ch-02)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-003",
+      "statement": "模糊 Goal 可以進三 SPEC，來源缺件只保留受影 Need",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-003')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          800,
+          800
+        ],
+        "source_row_sha": "0afabbb3b885a38ff72c0a0cb9278e6ce4554db997cf2b76d72486e0b3ba3cf5",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "模糊 Goal 可以進三 SPEC，來源缺件只保留受影 Need",
+        "neg": "三 SPEC 各自有 ACC/NEG/NonGoals",
+        "condition": "三份同文換標題、自稱 PI 由 GPT 正式發布",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-003",
+        "evidence_expectation_id": "EE-FHS-DR-003",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-003"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-003",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-11](#ch-11)/[CH-01](#ch-01)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-021",
+      "statement": "Portable TPM 能以 PM/SE/TPgM 產三獨立 SPEC",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-021')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          818,
+          818
+        ],
+        "source_row_sha": "58390f2a9bc77bcb0485a90059b9572dd530054f56e40f56348a0fc236284a8d",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "Portable TPM 能以 PM/SE/TPgM 產三獨立 SPEC",
+        "neg": "各 SPEC 有原來源和非目標",
+        "condition": "三職能被當三個獨立 Principal",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-021",
+        "evidence_expectation_id": "EE-FHS-DR-021",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-021"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-021",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-11](#ch-11)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-022",
+      "statement": "18 Stage/K0–K3 及原問題去重仍遵守",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-022')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          819,
+          819
+        ],
+        "source_row_sha": "f31b03ca5fce865f4e63d6991c0d37c84affb3729c7993e115a0f95ce961e2f9",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "18 Stage/K0–K3 及原問題去重仍遵守",
+        "neg": "當次階段結果可原位交下游",
+        "condition": "把階段文章當出現已完成事件",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-022",
+        "evidence_expectation_id": "EE-FHS-DR-022",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-022"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-022",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-11](#ch-11)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-047",
+      "statement": "LOCAL_DRAFT_WRITE 需隔離 output root/原文未修改",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-047')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          844,
+          844
+        ],
+        "source_row_sha": "cb2f96b5bf60e2e712d0cd4bf6618198ecf8709c417ad868b49330d1f214f080",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "LOCAL_DRAFT_WRITE 需隔離 output root/原文未修改",
+        "neg": "真檔案來源/字元編碼/Readback",
+        "condition": "Draft 檔案冒 Canonical Product",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-047",
+        "evidence_expectation_id": "EE-FHS-DR-047",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-047"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-047",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-15](#ch-15)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-FHS-DR-055",
+      "statement": "L0/L1/L2/L3 是文檔視圖，非四套 Canonical",
+      "source_ref": {
+        "file": "W0_REQUIRED22_TRACE.json",
+        "selector": "$[?(@.original_id=='FHS-DR-055')]",
+        "file_sha256": "691453d281462102bf8c99f4c79dbf73e45370e8d3ed1c11a0a5acdfb27c5ce4",
+        "source_id": "L1-r4",
+        "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+        "source_span": [
+          852,
+          852
+        ],
+        "source_row_sha": "44794a9334d8d99a3db66093dd079b39485e947a1d26389765376d1d41f189d1",
+        "chapter_refs": []
+      },
+      "acceptance": {
+        "pos": "L0/L1/L2/L3 是文檔視圖，非四套 Canonical",
+        "neg": "逐層交 downstream 不改原 Writer",
+        "condition": "L2 Wave Plan 冒 Native WorkOrder",
+        "case_id": "AUTHOR-W0-CASE-FHS-DR-055",
+        "evidence_expectation_id": "EE-FHS-DR-055",
+        "spec_clause_id": "SPEC-Product-W0-r3#FHS-DR-055"
+      },
+      "deliver": {
+        "deliver_id": "DEL-W0-FHS-DR-055",
+        "primary_wp_id": "WP-FHS-15",
+        "requirement_delivery_wave": "W0"
+      },
+      "original_consumer": "[CH-45](#ch-45)",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "W0_REQUIRED22_TRACE.json row with spec_kind=Product"
+    },
+    {
+      "fuo_id": "FUO-A",
+      "statement": "讀取已上傳來源後，直接交付需求／風險／可行更改的帶來源回答",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-01",
+        "line": 228,
+        "selector": "CH-01 product table row FUO-A"
+      },
+      "acceptance": {
+        "pos": "選定一段原需求能回溯 SourceSHA、Parent、NEG、Consumer",
+        "neg": "grep-only 當語義通過 → `SEMANTIC_HOLD`"
+      },
+      "deliver": {
+        "deliver_id": null,
+        "primary_wp_id": "WP-FHS-15",
+        "binding": "CHAPTER_LEVEL_W0; no W0_REQUIRED deliver row binds this FUO"
+      },
+      "original_consumer": "SBL Product Owner / Original PIPD Intake",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "CH-01 declared FUO row"
+    },
+    {
+      "fuo_id": "FUO-B",
+      "statement": "需改程式時先交 Product、Architecture、Program 三份不同 SPEC 的**草案**與最小原接收請求",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-01",
+        "line": 229,
+        "selector": "CH-01 product table row FUO-B"
+      },
+      "acceptance": {
+        "pos": "三份互相對齊、各有 1 個對應 Original Consumer、各有 POS/NEG",
+        "neg": "以草稿自稱 native PI 編譯完成 → `CANONICAL_WRITER_BOUNDARY`"
+      },
+      "deliver": {
+        "deliver_id": null,
+        "primary_wp_id": "WP-FHS-15",
+        "binding": "CHAPTER_LEVEL_W0; no W0_REQUIRED deliver row binds this FUO"
+      },
+      "original_consumer": "SBL Product Owner / Original PIPD Intake",
+      "u4_state": "ORIGINAL_OWNER_ACK_NOT_OBSERVED",
+      "fuo_origin": "CH-01 declared FUO row"
+    }
+  ],
+  "mvp": {
+    "statement": "W0-A 完成問題/已知答案/源索引和三 SPEC；W0-B 交付五 Seam 的預期 Input/Output、原 Receiver 和最短可測 fixture",
+    "pos": "無 Host Raw 也能作合法 W1 文檔交接；未觀測項在 HOLD",
+    "neg": "要求 W0 執行 GJ02 的 REPO_WRITE → `FUTURE_RECEIPT_DEPENDENCY`",
+    "w0_waves": [
+      "W0-A",
+      "W0-B"
+    ],
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-01",
+      "line": 230
+    }
+  },
+  "non_goals": {
+    "statement": "不建第二 HGK 控制層、Compiler、Queue、Independent Checker、Release Gate；不重新分配 SBL 領域正本",
+    "pos": "無新 SSOT/Writer/Issuer/Publisher",
+    "neg": "任務設計到處重造周邊輪子 → `DUPLICATE_NATIVE_CAPABILITY`",
+    "forbidden_constructs": [
+      "第二 HGK 控制層",
+      "第二 Compiler",
+      "第二 Queue",
+      "Independent Checker",
+      "Release Gate"
+    ],
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-01",
+      "line": 231
+    },
+    "boundary_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-00",
+      "line": 129
+    }
+  },
+  "acc_plus": [
+    {
+      "acc_id": "ACC+-CH01",
+      "statement": "POS：三 SPEC 均同 Subject、各有可取用 FUO、Owner 可逐項讀回正/負例。",
+      "kind": "BODY_ACCEPTANCE_POS",
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-01",
+        "line": 198
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-DETERMINISTIC",
+      "statement": "fixtures/AC-C39-POS-DETERMINISTIC.pos.json",
+      "kind": "ORACLE96_POS_DETERMINISTIC",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-DETERMINISTIC')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          172,
+          183
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-STATE_READBACK",
+      "statement": "fixtures/AC-C39-POS-STATE_READBACK.pos.json",
+      "kind": "ORACLE96_POS_STATE_READBACK",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-STATE_READBACK')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          184,
+          195
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-PROPERTY",
+      "statement": "fixtures/AC-C39-POS-PROPERTY.pos.json",
+      "kind": "ORACLE96_POS_PROPERTY",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-PROPERTY')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          196,
+          207
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-REFERENCE_OUTPUT",
+      "statement": "fixtures/AC-C39-POS-REFERENCE_OUTPUT.pos.json",
+      "kind": "ORACLE96_POS_REFERENCE_OUTPUT",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-REFERENCE_OUTPUT')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          208,
+          219
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-STATISTICAL",
+      "statement": "fixtures/AC-C39-POS-STATISTICAL.pos.json",
+      "kind": "ORACLE96_POS_STATISTICAL",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-STATISTICAL')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          220,
+          231
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-SEMANTIC_JUDGE",
+      "statement": "fixtures/AC-C39-POS-SEMANTIC_JUDGE.pos.json",
+      "kind": "ORACLE96_POS_SEMANTIC_JUDGE",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-SEMANTIC_JUDGE')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          232,
+          243
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-HUMAN",
+      "statement": "fixtures/AC-C39-POS-HUMAN.pos.json",
+      "kind": "ORACLE96_POS_HUMAN",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-HUMAN')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          244,
+          255
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC+-AC-C39-POS-COMPOSITE",
+      "statement": "fixtures/AC-C39-POS-COMPOSITE.pos.json",
+      "kind": "ORACLE96_POS_COMPOSITE",
+      "expected_first_fail": "MISSING_POS_FUNCTION",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-POS-COMPOSITE')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          256,
+          267
+        ]
+      }
+    }
+  ],
+  "acc_minus": [
+    {
+      "acc_id": "ACC--CH01",
+      "statement": "NEG：將完成三檔當最終產品 Native 閉環；FirstFail=FUO_NOT_OBSERVABLE。",
+      "kind": "BODY_ACCEPTANCE_NEG",
+      "firstfail_codes": [
+        "FUO_NOT_OBSERVABLE"
+      ],
+      "source_ref": {
+        "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+        "chapter": "CH-01",
+        "line": 199
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-DETERMINISTIC",
+      "statement": "將拒收轉成功或寫入禁止state；observed_value改成非expected",
+      "kind": "ORACLE96_NEG_DETERMINISTIC",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-DETERMINISTIC')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          268,
+          279
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-STATE_READBACK",
+      "statement": "將拒收轉成功或寫入禁止state；actual_post_state不同或foreign world Reader",
+      "kind": "ORACLE96_NEG_STATE_READBACK",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-STATE_READBACK')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          280,
+          291
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-PROPERTY",
+      "statement": "將拒收轉成功或寫入禁止state；至少一generated case破invariant",
+      "kind": "ORACLE96_NEG_PROPERTY",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-PROPERTY')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          292,
+          303
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-REFERENCE_OUTPUT",
+      "statement": "將拒收轉成功或寫入禁止state；更換reference或輸出差異",
+      "kind": "ORACLE96_NEG_REFERENCE_OUTPUT",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-REFERENCE_OUTPUT')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          304,
+          315
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-STATISTICAL",
+      "statement": "將拒收轉成功或寫入禁止state；刪dataset/改confidence/樣本不達界",
+      "kind": "ORACLE96_NEG_STATISTICAL",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-STATISTICAL')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          316,
+          327
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-SEMANTIC_JUDGE",
+      "statement": "將拒收轉成功或寫入禁止state；judge未校準/不同rubric卻聲稱一致",
+      "kind": "ORACLE96_NEG_SEMANTIC_JUDGE",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-SEMANTIC_JUDGE')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          328,
+          339
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-HUMAN",
+      "statement": "將拒收轉成功或寫入禁止state；Maker冒Human或決議是另一scope",
+      "kind": "ORACLE96_NEG_HUMAN",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-HUMAN')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          340,
+          351
+        ]
+      }
+    },
+    {
+      "acc_id": "ACC--AC-C39-NEG-COMPOSITE",
+      "statement": "將拒收轉成功或寫入禁止state；刪hard component或soft分數蓋hard fail",
+      "kind": "ORACLE96_NEG_COMPOSITE",
+      "expected_first_fail": "NEGATIVE_ACCEPTED",
+      "source_ref": {
+        "file": "ORACLE96_CONTRACTS.json",
+        "selector": "$[?(@.case_id=='AC-C39-NEG-COMPOSITE')]",
+        "file_sha256": "949b7c034e4e284b89f56e6688b54a53fbfa15634f7e8f2d1903510dba0523f9",
+        "source_span": [
+          352,
+          363
+        ]
+      }
+    }
+  ],
+  "user_acceptance": {
+    "statement": "使用者拿到一份能指示 W1 真接收與受影阻斷的 SPEC、下一步與退出條件",
+    "pos": "三 SPEC／Source index／HOLD 不互相指代成空包",
+    "neg": "任務僅留下一堆抽象標題 → `SPEC_NOT_ACTIONABLE`",
+    "source_ref": {
+      "file": "FHS_PIPD-LS-PKG_W0_草案_2026-11-05_r4-candidate-b41d2e_實質正文.md",
+      "chapter": "CH-01",
+      "line": 232
+    }
+  },
+  "requirement_ids": [
+    "FHS-DR-002",
+    "FHS-DR-003",
+    "FHS-DR-021",
+    "FHS-DR-022",
+    "FHS-DR-047",
+    "FHS-DR-055",
+    "INT-01",
+    "INT-03",
+    "INT-04",
+    "INT-12",
+    "INT-18"
+  ],
+  "requirement_bindings": [
+    {
+      "requirement_id": "INT-01",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        769,
+        769
+      ],
+      "source_row_sha": "b267ab0317227b42252afff68c2de8cb2e0a609b1ee417e9a7c81f86d2240535",
+      "requirement": "以 Subject+Scope+SourceSHA 鍵重用 KnownAnswer/QuestionLedger，只有差額重問",
+      "negative": "NEG：沿用相同 SourceSHA 卻重問同一已知答案；或混同一個 Human Owner 與技術 Checker 身分",
+      "chapters": [
+        "CH-01",
+        "CH-10"
+      ],
+      "original_consumer": "SBL Product/Kind/Host Original Consumer、Original Domain Owner/Reader (scope binding pending)"
+    },
+    {
+      "requirement_id": "INT-03",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        771,
+        771
+      ],
+      "source_row_sha": "22366726aba12b48a8c1983bdb2b690f359a787a5612562166001cba77ef9a48",
+      "requirement": "短 Goal 可產直接有用答案／SPEC，寫入則需實際 Diff/Host",
+      "negative": "NEG：只交文件數量、沒有使用者可取用之 FUO，或冒稱 Host 已執行",
+      "chapters": [
+        "CH-01",
+        "CH-38"
+      ],
+      "original_consumer": "SBL Product/Kind/Host Original Consumer、Original Domain Owner/Reader (scope binding pending)"
+    },
+    {
+      "requirement_id": "INT-04",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        772,
+        772
+      ],
+      "source_row_sha": "38f6889e2627de27cfce34f7acabb6d6a33146db83bdae59cb98f3964e519d4e",
+      "requirement": "A 全量產品語義守恆；B 最短合法 Effect 路徑",
+      "negative": "NEG：把 A 全量需求全作每次 B READ 的前置 OPS Permit",
+      "chapters": [
+        "CH-15",
+        "CH-18",
+        "CH-38"
+      ],
+      "original_consumer": "SBL-hosted PIPD canonical Compiler/Original Source/Repo/Case Reader、HGK Original Issuer/SharedSpine/Protected Checker Reader、Effect-specific original"
+    },
+    {
+      "requirement_id": "INT-12",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        780,
+        780
+      ],
+      "source_row_sha": "d117eb4be02cbf568709e829895a57321ee258970a103fcc2adcd894d62b6731",
+      "requirement": "PM JTBD/FUO；SE ADR/ABI；TPgM DAG/Exit",
+      "negative": "NEG：三 SPEC 同文換標題或沒有不同 Consumer/ACC",
+      "chapters": [
+        "CH-11"
+      ],
+      "original_consumer": "Original Domain Owner/Reader (scope binding pending)"
+    },
+    {
+      "requirement_id": "INT-18",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        786,
+        786
+      ],
+      "source_row_sha": "aee4a2bc415a98b15b67360f0950d8b9ea95b6c0e420ae0a7be65e56d54abd33",
+      "requirement": "六類 Effect 對應最低充分原 Evidence",
+      "negative": "NEG：缺 OPS/RELEASE Permission 使合法 READ/DRAFT 全域停工",
+      "chapters": [
+        "CH-15",
+        "CH-39",
+        "CH-43"
+      ],
+      "original_consumer": "SBL-hosted PIPD canonical Compiler/Original Source/Repo/Case Reader、HGK Original Issuer/SharedSpine/Protected Checker Reader、Effect-specific original"
+    },
+    {
+      "requirement_id": "FHS-DR-002",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        799,
+        799
+      ],
+      "source_row_sha": "0e4eea7b0c7d07e78408b671631afa7d425be3c8d6253fe482f180ee2e448d47",
+      "requirement": "Goal 不需先選九個 MissionOptions 或填完整 PIPD Schema",
+      "negative": "新 PID 可取得可追溯答案",
+      "chapters": [],
+      "original_consumer": "[CH-01](#ch-01)/[CH-02](#ch-02)"
+    },
+    {
+      "requirement_id": "FHS-DR-003",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        800,
+        800
+      ],
+      "source_row_sha": "0afabbb3b885a38ff72c0a0cb9278e6ce4554db997cf2b76d72486e0b3ba3cf5",
+      "requirement": "模糊 Goal 可以進三 SPEC，來源缺件只保留受影 Need",
+      "negative": "三 SPEC 各自有 ACC/NEG/NonGoals",
+      "chapters": [],
+      "original_consumer": "[CH-11](#ch-11)/[CH-01](#ch-01)"
+    },
+    {
+      "requirement_id": "FHS-DR-021",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        818,
+        818
+      ],
+      "source_row_sha": "58390f2a9bc77bcb0485a90059b9572dd530054f56e40f56348a0fc236284a8d",
+      "requirement": "Portable TPM 能以 PM/SE/TPgM 產三獨立 SPEC",
+      "negative": "各 SPEC 有原來源和非目標",
+      "chapters": [],
+      "original_consumer": "[CH-11](#ch-11)"
+    },
+    {
+      "requirement_id": "FHS-DR-022",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        819,
+        819
+      ],
+      "source_row_sha": "f31b03ca5fce865f4e63d6991c0d37c84affb3729c7993e115a0f95ce961e2f9",
+      "requirement": "18 Stage/K0–K3 及原問題去重仍遵守",
+      "negative": "當次階段結果可原位交下游",
+      "chapters": [],
+      "original_consumer": "[CH-11](#ch-11)"
+    },
+    {
+      "requirement_id": "FHS-DR-047",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        844,
+        844
+      ],
+      "source_row_sha": "cb2f96b5bf60e2e712d0cd4bf6618198ecf8709c417ad868b49330d1f214f080",
+      "requirement": "LOCAL_DRAFT_WRITE 需隔離 output root/原文未修改",
+      "negative": "真檔案來源/字元編碼/Readback",
+      "chapters": [],
+      "original_consumer": "[CH-15](#ch-15)"
+    },
+    {
+      "requirement_id": "FHS-DR-055",
+      "spec_kind": "Product",
+      "source_id": "L1-r4",
+      "source_sha": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+      "source_span": [
+        852,
+        852
+      ],
+      "source_row_sha": "44794a9334d8d99a3db66093dd079b39485e947a1d26389765376d1d41f189d1",
+      "requirement": "L0/L1/L2/L3 是文檔視圖，非四套 Canonical",
+      "negative": "逐層交 downstream 不改原 Writer",
+      "chapters": [],
+      "original_consumer": "[CH-45](#ch-45)"
+    }
+  ],
+  "requirement_registry_size": 84,
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "native_effect": "NOT_RUN",
+  "open_holds": [
+    "H-U4：原 SBL Product / PIPD Intake Reader 未 ACK，FUO 只到 AUTHOR_DESIGN",
+    "H-ORACLE-RAW96：96 個 Oracle 個案無原 Host Runner／Fixture 真 bytes",
+    "所有人類簽章、Judge 校準、WorldRaw 皆 EXPECTED_NOT_OBSERVED"
+  ]
+}

@@ -1,0 +1,234 @@
+{
+ "lane": "WP-FHS-01",
+ "lane_id": "WP-FHS-01-AUTHORITY-ROUTER",
+ "lane_dir": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\lanes\\wp01",
+ "round": "FHS_W0_R4C_FULL_IMPLEMENTATION_20261105_0305",
+ "source_root": "$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C",
+ "deliverables": [
+  {
+   "path": "authority_router.py",
+   "role": "CLI 權威分流器：--source-root/--out，五類分類 + typed HOLD",
+   "bytes": 61034,
+   "sha256": "228443c128ea67098ee1eee921d83b3ca2c6ffa2813200ca61d1586e4ae898fb"
+  },
+  {
+   "path": "out/AUTHORITY_ROUTING.json",
+   "role": "31 源逐筆分類 + 統計 + holds",
+   "bytes": 239551,
+   "sha256": "78a041013bd7dacbea71597c3c9c962681ad712e54d105e1a8447a238967be2b"
+  },
+  {
+   "path": "out/AUTHORITY_ROUTING.md",
+   "role": "人類可讀表（每列 source_id/class/evidence_field/reason_code）+ HOLD 表",
+   "bytes": 42181,
+   "sha256": "1681a559bf5fdb983f7716a93efe9819d92a998e6beb0dcd8e8e335b9858aaeb"
+  },
+  {
+   "path": "tests/test_authority_router.py",
+   "role": "unittest：POS 真實來源 31 筆 + 5 條 NEG + 閘門單元",
+   "bytes": 18583,
+   "sha256": "07146d3c06363900340cd1bb20410bdc314c3d76a71a313b441ae881012152da"
+  },
+  {
+   "path": "tests/make_fixtures.py",
+   "role": "NEG 合成 fixture 產生器（可重跑）",
+   "bytes": 5111,
+   "sha256": "9fa0f9648421753cb2945b2282ef6f642cffd72ae1510b903f085c57c8bd54d2"
+  },
+  {
+   "path": "tests/UNITTEST_RAW.log",
+   "role": "unittest 真實輸出",
+   "bytes": 3137,
+   "sha256": "7ec5882428adc40500e2268c27a9b9c8d5dbbe8d1bd5226e19370863b344523f"
+  },
+  {
+   "path": "make_lane_report.py",
+   "role": "本報告產生器（對交付物算 sha256、抄錄命令與退出碼）",
+   "bytes": 8392,
+   "sha256": "3e74423764908d8ea9690e1300ac0acbd5021dbe3681e5b3947408ad7e69c613"
+  },
+  {
+   "path": "tests/fixtures/neg1_mirror_as_authority/repository-map.json",
+   "role": "NEG-1 mirror-as-authority fixture",
+   "bytes": 581,
+   "sha256": "75a9050db6824d74f74835966aebe04dfb388dacc106ff348e00b3bb6f626100"
+  },
+  {
+   "path": "tests/fixtures/neg1_mirror_as_authority/SOURCE31_PHYSICAL_IDENTITY.json",
+   "role": "NEG-1 來源根",
+   "bytes": 307,
+   "sha256": "20812ddf941dd33dff6b3f6c0602ab9843ce748e5f0c18480fc43516128f698a"
+  },
+  {
+   "path": "tests/fixtures/neg2_skill_as_permit/PLUGIN_USAGE_AND_GHP01.json",
+   "role": "NEG-2 skill-as-permit fixture",
+   "bytes": 312,
+   "sha256": "a5fda93c4ee73ed7cf6cf3aad633d8a10918f41afbd73938629671792073d01f"
+  },
+  {
+   "path": "tests/fixtures/neg2_skill_as_permit/SOURCE31_PHYSICAL_IDENTITY.json",
+   "role": "NEG-2 來源根",
+   "bytes": 307,
+   "sha256": "20812ddf941dd33dff6b3f6c0602ab9843ce748e5f0c18480fc43516128f698a"
+  },
+  {
+   "path": "tests/fixtures/neg3_dual_canonical/SOURCE31_PHYSICAL_IDENTITY.json",
+   "role": "NEG-3 dual canonical fixture",
+   "bytes": 873,
+   "sha256": "e66cd805db41ca9562bcb674c6d5772c5d5ad34c82fd72e33585405e92c27966"
+  },
+  {
+   "path": "tests/fixtures/neg4_scope_unbound/SOURCE31_PHYSICAL_IDENTITY.json",
+   "role": "NEG-4 scope missing fixture",
+   "bytes": 423,
+   "sha256": "2962f501c1cf866871b193590c2a28c9e6013a14d784db9abbaf547d639c31b3"
+  },
+  {
+   "path": "tests/fixtures/neg5_profile_role_conflated/SOURCE31_PHYSICAL_IDENTITY.json",
+   "role": "NEG-5 profile/role conflation fixture",
+   "bytes": 526,
+   "sha256": "bbc48da9139feef86e6749764675e3795695d80cde5deb06cb3254bafed26c68"
+  }
+ ],
+ "deliverables_self": {
+  "path": "LANE_REPORT.json",
+  "role": "本報告；依設計不自算自身 sha256（避免自指）",
+  "sha256": null
+ },
+ "commands": [
+  {
+   "cmd": "python tests/make_fixtures.py",
+   "cwd": "lanes/wp01",
+   "exit_code": 0,
+   "note": "產生 5 個合成 NEG 來源根"
+  },
+  {
+   "cmd": "python authority_router.py --source-root \"$ROUND_ROOT/知識庫/實作相關DOC/Fabric vNext/Semantic World OS Fabric/FHS／FHS-MSC／SBL/FHS/PIPD-LS-PKG/定案/W0/FHS_PIPD-LS-PKG_W0_R4C\" --out out",
+   "cwd": "lanes/wp01",
+   "exit_code": 0,
+   "note": "對真實 R4C 來源根跑到 out/AUTHORITY_ROUTING.{json,md}"
+  },
+  {
+   "cmd": "python -m unittest discover -s tests -p \"test_*.py\" -v > tests/UNITTEST_RAW.log 2>&1",
+   "cwd": "lanes/wp01",
+   "exit_code": 0,
+   "note": "25 tests, OK（POS 13 + NEG 5 + 閘門 3 + R1/R2/R3 單元 4）"
+  }
+ ],
+ "tests": {
+  "framework": "unittest (stdlib)",
+  "raw_log": "tests/UNITTEST_RAW.log",
+  "tests_run": 25,
+  "result": "OK",
+  "pos": 13,
+  "neg": 5,
+  "unit": 7,
+  "neg_codes": {
+   "neg1_mirror_as_authority": "AUTHORITY_MIRROR_NOT_WRITABLE",
+   "neg2_skill_as_permit": "SKILL_NOT_PERMIT",
+   "neg3_dual_canonical": "AUTHORITY_CONFLICT_DUAL_CANONICAL",
+   "neg4_scope_unbound": "AUTHORITY_SCOPE_UNBOUND",
+   "neg5_profile_role_conflated": "PROFILE_ROLE_CONFLATED"
+  }
+ },
+ "counts": {
+  "entries_total": 189,
+  "by_class": {
+   "CANONICAL_ORIGINAL": 55,
+   "GOVERNANCE_MIRROR": 21,
+   "SKILL_SIDECAR": 3,
+   "HISTORICAL_ARCHIVED": 1,
+   "AUTHOR_CANDIDATE": 109
+  },
+  "by_group": {
+   "SOURCE31": 31,
+   "ORACLE96": 96,
+   "SEAM5": 5,
+   "REPO_PINS": 37,
+   "REPO_MAP": 11,
+   "AUTHOR_ROUND": 8,
+   "SKILL_PLUGIN": 1
+  },
+  "source31_declared": 31,
+  "source31_routed": 31,
+  "entries_without_evidence_field": 0,
+  "may_authorize_write_true": 0,
+  "may_mint_permit_true": 0,
+  "holds_total": 4,
+  "holds_by_code": {
+   "AUTHORITY_MIRROR_IDENTITY_UNVERIFIED": 1,
+   "AUTHORITY_SCOPE_UNBOUND": 1,
+   "CANONICAL_COMPILER_NOT_RUN": 1,
+   "ORIGINAL_READER_CURRENTNESS_UNVERIFIED": 1
+  },
+  "rules_implemented": 9,
+  "rules_required": 6
+ },
+ "holds": [
+  {
+   "hold_id": "H-AUTH-R4C-001-SCOPE",
+   "code": "AUTHORITY_SCOPE_UNBOUND",
+   "reason": "artifact 的 subject/scope 未綁定到當前 candidate：subject_ref ca2e65468b33 != current candidate body 56d0df3db676",
+   "owner": "Original Owner of ADDITIONAL_SCOPED_HOLDS_r4c.json（artifact 的 subject Owner）",
+   "required_raw": "能解析到當前 candidate body sha256 的 subject/scope 綁定（或原 Owner 明示該 artifact 的 subject 與當前 candidate 之對應）",
+   "resume_predicate": "該 artifact 宣告的 subject_ref 等於當前 candidate body sha256，或原 Owner 出具 binding 讀回",
+   "source_ids": [
+    "AUTH:ADDITIONAL-SCOPED-HOLDS"
+   ]
+  },
+  {
+   "hold_id": "H-AUTH-R4C-002-MIRROR-ID",
+   "code": "AUTHORITY_MIRROR_IDENTITY_UNVERIFIED",
+   "reason": "授權欄位出處的 NAV mirror 與 ref blob 不同：本地 c668fff406ba (1535 bytes) vs ref b623b7b7d8d5 (1536 bytes)",
+   "owner": "Fabric INTEGRATION/FHS NAV Owner（FHS-NAV/v2 索引 Owner）",
+   "required_raw": "ref refs/heads/fhs/nav-v2-20261103 的 byte-exact blob 讀回（git cat-file blob b623b7b7d8d5），使 readback git blob sha1 與 bytes 相符",
+   "resume_predicate": "本輪 readback 的 git blob sha1 == b623b7b7d8d5f16c5e89d6b15f6cbbcb8ec51553 且 bytes == 1536；或原 NAV Owner 出具當期 repository-map.json",
+   "source_ids": [
+    "GOV:NAV-REPOMAP",
+    "GOV:ROUTE:fabric_policy",
+    "GOV:ROUTE:sbl_product"
+   ]
+  },
+  {
+   "hold_id": "H-AUTH-R4C-003-COMPILER",
+   "code": "CANONICAL_COMPILER_NOT_RUN",
+   "reason": "canonical_compiler=NOT_RUN / host_loaded=NOT_OBSERVED：本輪沒有 canonical 編譯與 host load 收據",
+   "owner": "Original PIPD/SBL Canonical Compiler Owner（PIPD compile-pi 原 Owner）",
+   "required_raw": "原 canonical compiler 對當前 candidate body 的執行收據（含 host load receipt、PID/ProfileSHA）",
+   "resume_predicate": "原 compiler 對當前 candidate body 執行並出具同一 Subject/Candidate/Scope 的 receipt",
+   "source_ids": [
+    "SKILL:sbl-tpm-sp"
+   ]
+  },
+  {
+   "hold_id": "H-AUTH-R4C-004-CURRENTNESS",
+   "code": "ORIGINAL_READER_CURRENTNESS_UNVERIFIED",
+   "reason": "31/31 個 SOURCE31 原件在 manifest 內標記 ORIGINAL_READER_CURRENTNESS_HOLD：檔案身份 PASS ≠ 原 Reader 當期性已確認",
+   "owner": "Original SBL/FHS Reader（31 份原件的 Currentness Owner）",
+   "required_raw": "原 Reader 對 31 份原件的當期性讀回（currentness readback），或逐份說明其為當期版本",
+   "resume_predicate": "原 Reader 出具 currentness=CONFIRMED 的讀回，或明確標記哪幾份已被取代",
+   "source_ids": [
+    "SOURCE31:31 entries"
+   ]
+  }
+ ],
+ "claim_ceiling": "AUTHOR_LOCAL_TEST",
+ "non_claims": [
+  "不宣稱任何 Native/Permit/WorkOrder/受保護 Checker 判決",
+  "不宣稱 mirror 讀回與 ref blob byte-exact（見 mirror_identity 檢查與 HOLD）",
+  "不宣稱 31 份原件當期性（currentness HOLD 未解）",
+  "不宣稱 PIPD-LS-SP 的 archived 狀態由本輪變更",
+  "分類為本輪 LANE 內可重跑的作者分流結果，claim ceiling=AUTHOR_LOCAL_TEST"
+ ],
+ "known_limits": [
+  "R4（dual canonical）與 R6（profile/role/worker 混用）在真實來源 0 觸發：R4C 語料無重複 canonical 宣告，也無任何檔案宣告 actor_binding；兩條規則的存在性由合成 fixture（neg3/neg5）證明，非由真實來源證明。",
+  "REPO_PINS 37 筆的 authority_class 由 repo/path 角色規則推導（來源檔只給 sha256 與 runtime_binding，未逐檔宣告 authority class）；evidence_field 指向 pin 的 sha256 欄位，class 屬推導值。",
+  "CASE393_REGISTRY.json（393 案）與 ORACLE96_CONTRACTS.json（96 案）欄位集合不同（CASE393 無 expected_first_fail / source_id 欄），故本 lane 不做跨檔契約一致性判定，避免把 schema 差異誤判為權威衝突。",
+  "NAV mirror 讀回與 ref blob 不一致：fabric_repository-map.json 1535B/git-blob c668fff4… vs ref b623b7b7…/1536B；Fabric INTEGRATION/FHS/README.md 5403B vs 5321B（SBL integrations/pipd/README.md 39146B 完全相符，故非全域換行正規化）。已轉 HOLD H-AUTH-R4C-002；R1 的 effect_permission 出處因此僅限讀回內容而非 ref blob。閘門 fail-closed，未因此放寬任何判定。",
+  "31 份 SOURCE31 原件的 currentness 仍為 ORIGINAL_READER_CURRENTNESS_HOLD（31/31），本 lane 未解；僅確認 manifest 的 physical_identity=PASS 與 sha256 欄位存在。",
+  "canonical_compiler=NOT_RUN、host_loaded=NOT_OBSERVED（PLUGIN_USAGE_AND_GHP01.json），本輪無 canonical 編譯與 host load 收據 → HOLD H-AUTH-R4C-003；未宣稱任何 Native/受保護 Checker 結果。",
+  "無網路：未比對 GitHub 線上內容；mirror 的 ref blob 只依 REPOS_RECHECK.json 的本地 ref 讀回值。",
+  "本 lane 只讀 JSON 宣告欄位，不解析正文語意；正文層的權威主張（.md 內文）不在判定範圍。",
+  "未逐筆 stat 31 份原件的實體路徑（沿用 manifest 宣告 + UPSTREAM_IDENTITY 先前讀回），僅對 37 個 pin 的 offline_path 逐一算 sha256 並全數相符。"
+ ]
+}
