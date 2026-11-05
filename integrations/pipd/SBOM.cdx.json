@@ -6,7 +6,7 @@
   "component": {
    "type": "application",
    "name": "pipd-ls-sp",
-   "version": "0.1.0"
+   "version": "0.1.1a5"
   },
   "properties": [
    {
@@ -52,6 +52,159 @@
      "license": {
       "id": "MIT"
      }
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "cryptography",
+   "version": "50.0.1",
+   "purl": "pkg:pypi/cryptography@50.0.1",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "cryptography>=42 (project optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "operation_registry.verify_owner_sidecar: Ed25519 owner-signature verification; when absent the verifier refuses with OWNER_SIGNATURE_VERIFIER_UNAVAILABLE (fail-closed, never a pass)"
+    },
+    {
+     "name": "version_source",
+     "value": "host-installed version at SBOM reconcile time (2026-11-06); the project pins a floor, not this exact version"
+    }
+   ],
+   "licenses": [
+    {
+     "license": {
+      "id": "Apache-2.0"
+     }
+    },
+    {
+     "license": {
+      "id": "BSD-3-Clause"
+     }
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "pyyaml",
+   "version": "UNPINNED",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "pyyaml>=6.0 (project optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "test-only: tools/skill_pack_check.py parses skills/*/tests/cases.yaml; the shipped CLI never imports yaml"
+    },
+    {
+     "name": "version_source",
+     "value": "not installed on the reconcile host; the project declares a floor only, so no exact version is asserted"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "build",
+   "version": "UNPINNED",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "build>=1.2 (project optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "test-only: tests/test_standard_wheel_schemas.py runs python -m build --wheel --no-isolation"
+    },
+    {
+     "name": "version_source",
+     "value": "not installed on the reconcile host; floor only"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "setuptools",
+   "version": "UNPINNED",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "setuptools>=68 (build-system.requires and optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "build backend (setup.py build_py hook) and the wheel-schema test"
+    },
+    {
+     "name": "version_source",
+     "value": "not installed on the reconcile host; floor only"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "wheel",
+   "version": "UNPINNED",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "wheel (project optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "test-only: wheel-schema validation of the built artefact"
+    },
+    {
+     "name": "version_source",
+     "value": "not installed on the reconcile host; unpinned by the project"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "hg-kseos",
+   "version": "0.1.0",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "hg-kseos @ git+https://github.com/shw097-team/HG-KSEOS@a7046a36956e2179d7125449ce9b6f05fa5451cf (project optional-dependencies[harness])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "harness-only: tools/hgk_admission_driver.py and tools/knowledge_ready_probe.py drive the sibling control plane; the shipped CLI never imports it"
+    },
+    {
+     "name": "version_source",
+     "value": "declared by that repository's own pyproject at the pinned commit"
+    }
+   ]
+  },
+  {
+   "type": "library",
+   "name": "pytest",
+   "version": "UNPINNED",
+   "scope": "optional",
+   "properties": [
+    {
+     "name": "declared_constraint",
+     "value": "pytest>=8 (project optional-dependencies[test])"
+    },
+    {
+     "name": "runtime_use",
+     "value": "test-only: the suite runner"
+    },
+    {
+     "name": "version_source",
+     "value": "not installed on the reconcile host; floor only"
     }
    ]
   }

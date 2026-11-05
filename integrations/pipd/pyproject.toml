@@ -19,7 +19,15 @@ license-files = ["LICENSE", "NOTICE"]
 # into a throwaway directory to prove the installed package resolves its OWN contract registry. The
 # shipped CLI needs none of this; the smoke path does. When they are absent the test SKIPS with an
 # explicit reason instead of silently passing, and CI installs this extra so it actually runs.
-test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel", "cryptography>=42"]
+test = ["pyyaml>=6.0", "build>=1.2", "setuptools>=68", "wheel", "cryptography>=42", "pytest>=8"]
+# HARNESS extra (WP-FHS-19 / W0 CI finding UNDECLARED_DEPENDENCY). `tools/hgk_admission_driver.py`
+# and `tools/knowledge_ready_probe.py` import the sibling HG-KSEOS package directly. That package is
+# a real, installable distribution (it carries its own pyproject), so it is declared here rather than
+# left undeclared; it is pinned to the exact commit this package's cross-repo contracts were verified
+# against. It is an EXTRA because the shipped CLI never imports it.
+harness = [
+    "hg-kseos @ git+https://github.com/shw097-team/HG-KSEOS@a7046a36956e2179d7125449ce9b6f05fa5451cf",
+]
 
 [project.scripts]
 pipd = "pipd_ls_sp.cli:main"
