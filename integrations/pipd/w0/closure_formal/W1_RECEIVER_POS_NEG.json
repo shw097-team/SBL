@@ -1,0 +1,138 @@
+{
+  "schema": "F1.RECEIVER_POS_NEG/v1",
+  "lane": "f1",
+  "generated_at_taipei": "2026-11-05T10:36:30+0800",
+  "validator": "validate_envelope(env, measured) — ordered C01..C09, first-fail wins",
+  "measured_sha256": {
+    "product": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+    "architecture": "68d95a51d84afa08e62e2b43d46c37a45496606a621cedf206cf33e6ab278c91",
+    "program": "28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999",
+    "source_manifest": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60"
+  },
+  "pos": {
+    "case": "POS-ACCEPT",
+    "subject_id": "FHS-W1-r4-candidate-b41d2e-W0-CLOSEOUT-20261105-0832",
+    "scope_id": "FHS-W1-SCOPE-source_read.local_draft_write-53915eba5ed1",
+    "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/POS.accepted.json",
+    "fixture_sha256": "abf788ac1c6ea967ba8bfb7ecac54b11de7761450f8441433082d18028397b53",
+    "fixture_bytes": 56951,
+    "fixture_equals_envelope_bytes": true,
+    "envelope_sha256": "abf788ac1c6ea967ba8bfb7ecac54b11de7761450f8441433082d18028397b53",
+    "accepted": true,
+    "first_fail": null,
+    "assertions": [
+      "four sha256 recomputed equal the declared values",
+      "three SPEC roles are distinct (no role carries another role's sha256)",
+      "subject_id is a derived W1 id, not the author example",
+      "every speccandidate carries ref+sha256",
+      "source31 = 31, parent_neg = 22, wp outputs = 6",
+      "receiver_ack = NOT_OBSERVED"
+    ]
+  },
+  "neg": {
+    "count": 5,
+    "all_real_mutations_of_accepted_envelope": true,
+    "all_match": true,
+    "codes": [
+      "SPEC_REF_MISSING",
+      "SPEC_SHA_MISMATCH",
+      "EXAMPLE_SUBJECT_REJECTED",
+      "ROLE_COLLISION",
+      "SOURCE_MANIFEST_UNBOUND"
+    ],
+    "cases": [
+      {
+        "mutation": "delete three_speccandidates[role=product].ref from a byte copy of the accepted envelope",
+        "field": "three_speccandidates[product].ref",
+        "from": "present",
+        "to": "ABSENT",
+        "code": "SPEC_REF_MISSING",
+        "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/NEG-SPEC_REF_MISSING.json",
+        "fixture_sha256": "877eb3826eb10bc818e54829a392cf3e955cd1eb72a113b6efdf88a3cec61ca1",
+        "fixture_bytes": 56862,
+        "expected_first_fail": "SPEC_REF_MISSING",
+        "observed_first_fail": "SPEC_REF_MISSING",
+        "observed_step": "C03",
+        "observed_detail": "role product has no ref",
+        "accepted": false,
+        "match": true
+      },
+      {
+        "mutation": "flip the final hex nibble of the product sha256 in a byte copy of the accepted envelope",
+        "field": "three_speccandidates[product].sha256",
+        "from": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+        "to": "e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f30",
+        "code": "SPEC_SHA_MISMATCH",
+        "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/NEG-SPEC_SHA_MISMATCH.json",
+        "fixture_sha256": "bb818da6a48e01523fcfa0fea51d79304e725ed86bf2002d8e015ce14bf7016d",
+        "fixture_bytes": 56951,
+        "expected_first_fail": "SPEC_SHA_MISMATCH",
+        "observed_first_fail": "SPEC_SHA_MISMATCH",
+        "observed_step": "C06",
+        "observed_detail": "role product declared=e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f30 measured=e60dc4bb3dc97d4741cede8c9e9e779f92e5171eda03b3ad6b1e36c6fbca5f3c",
+        "accepted": false,
+        "match": true
+      },
+      {
+        "mutation": "replace subject_id/scope_id with the W0 author example token",
+        "field": "subject_id",
+        "from": "FHS-W1-r4-candidate-b41d2e-W0-CLOSEOUT-20261105-0832",
+        "to": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+        "scope_from": "FHS-W1-SCOPE-source_read.local_draft_write-53915eba5ed1",
+        "scope_to": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001-scope",
+        "code": "EXAMPLE_SUBJECT_REJECTED",
+        "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/NEG-EXAMPLE_SUBJECT_REJECTED.json",
+        "fixture_sha256": "654a80963641bac2c281c9f52353fa102cbc0fca1c0eecedb4f760bc6fa0426a",
+        "fixture_bytes": 56922,
+        "expected_first_fail": "EXAMPLE_SUBJECT_REJECTED",
+        "observed_first_fail": "EXAMPLE_SUBJECT_REJECTED",
+        "observed_step": "C02",
+        "observed_detail": "subject_id='FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001' is an author example, not a W1 task",
+        "accepted": false,
+        "match": true
+      },
+      {
+        "mutation": "point the architecture role at the program sha256 (two roles claim one artifact)",
+        "field": "three_speccandidates[architecture].sha256",
+        "from": "68d95a51d84afa08e62e2b43d46c37a45496606a621cedf206cf33e6ab278c91",
+        "to": "28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999",
+        "code": "ROLE_COLLISION",
+        "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/NEG-ROLE_COLLISION.json",
+        "fixture_sha256": "2ae6949491a7d92cebfae047cd37c20281385ba7869acc47918397d7e2c74a6c",
+        "fixture_bytes": 56951,
+        "expected_first_fail": "ROLE_COLLISION",
+        "observed_first_fail": "ROLE_COLLISION",
+        "observed_step": "C04",
+        "observed_detail": "two roles carry the same sha256: ['28ebc681eb14cd95ef3e6f6bad528eec6993fffee0c8c5d9708faadde54d8999']",
+        "accepted": false,
+        "match": true
+      },
+      {
+        "mutation": "zero the source_manifest_sha256 so the envelope is not bound to a manifest",
+        "field": "source_manifest_sha256",
+        "from": "06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60",
+        "to": "0000000000000000000000000000000000000000000000000000000000000000",
+        "code": "SOURCE_MANIFEST_UNBOUND",
+        "fixture_ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/neg_fixtures/NEG-SOURCE_MANIFEST_UNBOUND.json",
+        "fixture_sha256": "a6124c489e6412c38460ca6cfb25f0d63771f0e110856a4d5f440014e303ce45",
+        "fixture_bytes": 56951,
+        "expected_first_fail": "SOURCE_MANIFEST_UNBOUND",
+        "observed_first_fail": "SOURCE_MANIFEST_UNBOUND",
+        "observed_step": "C05",
+        "observed_detail": "source_manifest_sha256='0000000000000000000000000000000000000000000000000000000000000000' measured='06628b6b4c6ba1b0d4d9b31b795141aaf51ade4c7df8304d1af093a229227f60'",
+        "accepted": false,
+        "match": true
+      }
+    ]
+  },
+  "verdict": "POS_PASS_AND_ALL_NEG_REJECTED",
+  "receiver_ack": "NOT_OBSERVED",
+  "w1_typed_receiver_accepted": false,
+  "claim_ceiling": "AUTHOR_LOCAL_TEST",
+  "envelope_ref": {
+    "ref": "var/FHS_W0_FORMAL_CLOSEOUT_20261105_1040/lanes/f1/out/W1_RECEIVER_ENVELOPE.json",
+    "sha256": "abf788ac1c6ea967ba8bfb7ecac54b11de7761450f8441433082d18028397b53",
+    "bytes": 56951
+  },
+  "envelope_sha256": "abf788ac1c6ea967ba8bfb7ecac54b11de7761450f8441433082d18028397b53"
+}
