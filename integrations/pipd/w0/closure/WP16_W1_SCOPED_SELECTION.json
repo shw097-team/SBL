@@ -1,0 +1,2724 @@
+{
+  "schema_version": "FHS.W0.C3.W1_SCOPED_SELECTION/1",
+  "lane": "C3",
+  "artifact": "WP16_W1_SCOPED_SELECTION",
+  "scope_statement": "W1 八主責 WP（WP02/03/04/05/07/11/17/20）之受影 Need 子集；其餘 Need 不選型、不安裝、維持具名 PIN_HOLD",
+  "selected_not_installed": true,
+  "installs_performed": 0,
+  "verification_claim": "AUTHOR_LOCAL_TEST",
+  "status_domain": [
+    "BOUND",
+    "NOFIT",
+    "PIN_HOLD",
+    "UNBOUND"
+  ],
+  "forbidden_statuses_absent": [
+    "INSTALLED",
+    "INSTALLED_VERIFIED",
+    "SELECTED",
+    "VERIFIED"
+  ],
+  "bound_semantics": "BOUND = occupant_id + version_pin + license_source_ref + reader 全部解析到來源指標；不代表安裝、載入、host admission 或 Windows fit。license 仍待原 Host ACK 者以 LICENSE_HOST_ACK_PENDING 具名 HOLD 併存",
+  "source": {
+    "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+    "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18",
+    "source_root": "C:\\Projects\\Agent_Workspace\\知識庫\\實作相關DOC\\Fabric vNext\\Semantic World OS Fabric\\FHS／FHS-MSC／SBL\\FHS\\PIPD-LS-PKG\\定案\\W0\\FHS_PIPD-LS-PKG_W0_R4C",
+    "matrix_path": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_IMPLEMENTATION_20261105_0305\\lanes\\wp16\\out\\NEED_OCCUPANT_MATRIX.json"
+  },
+  "w1_wp_scope": {
+    "WP02": {
+      "name": "Fabric Policy",
+      "w1_legal_work": "FHS NAV → 原 Fabric Policy source reader，來源/epoch 候選建模",
+      "not_before_original": "ActivePolicy、loaded epoch、Policy effect 必須真 readback",
+      "wp_id_program": "WP-FHS-02"
+    },
+    "WP03": {
+      "name": "HGK Control",
+      "w1_legal_work": "原 HGK Source Export／Registry 唯讀探索、Consumer envelope",
+      "not_before_original": "Original Issuer/ACL/Permit/WorkID 不由文檔或 GitHub 索引賦予",
+      "wp_id_program": "WP-FHS-03"
+    },
+    "WP04": {
+      "name": "Hermes Runtime",
+      "w1_legal_work": "Profile/Journal/Worker API 設計、existing host readback 計畫",
+      "not_before_original": "Fresh PID/Loaded/Invoked/ActualServed 與 OPS effect 需當期主機證據",
+      "wp_id_program": "WP-FHS-04"
+    },
+    "WP05": {
+      "name": "PIPD Native Compiler",
+      "w1_legal_work": "按 SBL `integrations/pipd/` 讀源、PI/PD/ECP/TQAEP 隔離候選與 schema 契約",
+      "not_before_original": "Canonical compiler 真執行／SourceFreeze／RepoContext 受原 Reader/有效權限約束",
+      "wp_id_program": "WP-FHS-05"
+    },
+    "WP07": {
+      "name": "PLAN Commander",
+      "w1_legal_work": "原 PLAN/CAS 接口分析、候選計畫與 typed NEG",
+      "not_before_original": "真 CAS/受保護 PLAN effect 必須原 ACK/permit",
+      "wp_id_program": "WP-FHS-07"
+    },
+    "WP11": {
+      "name": "Portable Host",
+      "w1_legal_work": "Source/Need/Host 對照、樣本/手冊/Loader SPEC",
+      "not_before_original": "真 Host install/load/invoke/卸載證據與授權",
+      "wp_id_program": "WP-FHS-11"
+    },
+    "WP17": {
+      "name": "CAP-BOOT",
+      "w1_legal_work": "Native/Default Required Need 落點、Windows fit／License 調查",
+      "not_before_original": "真 installer、Host admission、授權與 original Consumer ACK",
+      "wp_id_program": "WP-FHS-17"
+    },
+    "WP20": {
+      "name": "Host Kind Matrix",
+      "w1_legal_work": "192 Cell 適用性/NoFit 來源與設計測例",
+      "not_before_original": "多 Host/Mode 真 load/trigger/parity 不可由靜態表代替",
+      "wp_id_program": "WP-FHS-20"
+    }
+  },
+  "selection_rules": {
+    "one_row_per_need": true,
+    "consumed_requires_w1_deliverable": true,
+    "remainder_is_pin_hold": true,
+    "no_nofit_without_fit_evidence": true,
+    "scope_cap": "consumed < 30（不得擴大到全部 30 Need 選型）"
+  },
+  "counts": {
+    "needs_total": 30,
+    "rows_total": 30,
+    "consumed": 12,
+    "design_only": 8,
+    "not_consumed": 10,
+    "bound": 1,
+    "pin_hold": 29,
+    "nofit": 0,
+    "unbound": 0,
+    "by_status": {
+      "BOUND": 1,
+      "NOFIT": 0,
+      "PIN_HOLD": 29,
+      "UNBOUND": 0
+    },
+    "consumed_bound": 1,
+    "consumed_pin_hold": 11,
+    "consumed_nofit": 0,
+    "consumed_unbound": 0,
+    "remainder": 18,
+    "remainder_pin_hold": 18,
+    "wps_with_consumed": [
+      "WP03",
+      "WP04",
+      "WP05",
+      "WP07",
+      "WP11",
+      "WP17",
+      "WP20"
+    ],
+    "wps_present": [
+      "WP02",
+      "WP03",
+      "WP04",
+      "WP05",
+      "WP07",
+      "WP11",
+      "WP17",
+      "WP20"
+    ]
+  },
+  "named_holds": [
+    {
+      "code": "ARTIFACT_BYTE_PIN_HOLD",
+      "field": "artifact_sha256",
+      "count": 12,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-011",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "W1 consumer records artifact sha256 at load time; not available in W0 closeout round"
+    },
+    {
+      "code": "HOST_ADMISSION_PIN_HOLD",
+      "field": "host_admission",
+      "count": 12,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-011",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "Host admission/OPS evidence on the current Windows host; not claimed here"
+    },
+    {
+      "code": "LICENSE_HOST_ACK_PENDING",
+      "field": "license",
+      "count": 1,
+      "need_ids": [
+        "Default30:P0-TOOL-011"
+      ],
+      "resolution_path": "Original Host License Reader issues the pending ACK for the exact artifact"
+    },
+    {
+      "code": "LICENSE_READER_HOLD",
+      "field": "license",
+      "count": 29,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "Original License Reader returns license bytes + Host applicability for the exact artifact"
+    },
+    {
+      "code": "NOFIT_JUDGMENT_BLOCKED_WINDOWS_FIT_UNBOUND",
+      "field": "nofit",
+      "count": 12,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-011",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "NOFIT cannot be asserted while windows_fit is UNBOUND for every Need; nofit count stays 0 with this named hold instead of an invented NOFIT"
+    },
+    {
+      "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+      "field": "w1_scope",
+      "count": 18,
+      "need_ids": [
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068"
+      ],
+      "resolution_path": "Resume when a W1/W3 WP actually consumes the Need; owner unchanged"
+    },
+    {
+      "code": "OCCUPANT_VERSION_PIN_HOLD",
+      "field": "version_pin",
+      "count": 28,
+      "need_ids": [
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "Original reader pins immutable artifact (tag+sha256) for the Need"
+    },
+    {
+      "code": "WINDOWS_FIT_UNBOUND",
+      "field": "windows_fit",
+      "count": 30,
+      "need_ids": [
+        "Default30:P0-TOOL-001",
+        "Default30:P0-TOOL-002",
+        "Default30:P0-TOOL-003",
+        "Default30:P0-TOOL-004",
+        "Default30:P0-TOOL-005",
+        "Default30:P0-TOOL-006",
+        "Default30:P0-TOOL-008",
+        "Default30:P0-TOOL-010",
+        "Default30:P0-TOOL-011",
+        "Default30:P0-TOOL-016",
+        "Default30:P0-TOOL-017",
+        "Default30:P0-TOOL-020",
+        "Default30:P0-TOOL-024",
+        "Default30:P0-TOOL-025",
+        "Default30:P0-TOOL-026",
+        "Default30:P0-TOOL-028",
+        "Default30:P0-TOOL-030",
+        "Default30:P0-TOOL-031",
+        "Default30:P0-TOOL-032",
+        "Default30:P0-TOOL-034",
+        "Default30:P0-TOOL-053",
+        "Default30:P0-TOOL-059",
+        "Default30:P0-TOOL-060",
+        "Default30:P0-TOOL-061",
+        "Default30:P0-TOOL-062",
+        "Default30:P0-TOOL-063",
+        "Default30:P0-TOOL-064",
+        "Default30:P0-TOOL-065",
+        "Default30:P0-TOOL-068",
+        "Default30:P0-TOOL-072"
+      ],
+      "resolution_path": "Original Technology/License/Host Reader resolves per-Need Windows fit evidence"
+    }
+  ],
+  "rows": [
+    {
+      "need_id": "Default30:P0-TOOL-001",
+      "need_name": "Hermes Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "w1_wp": "WP04",
+      "w1_wp_name": "Hermes Runtime",
+      "role": "CONSUMED",
+      "role_rationale": "Profile/Journal/Worker API 設計以 RUNTIME.HERMES 這個 host 為 substrate；Notebook 需其 version/host_preflight 才可寫 API 契約",
+      "occupant_id": "Hermes Agent",
+      "occupant_kind": "HOST",
+      "version_pin": "v0.22.5 DESIGN_BASELINE",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/0/version_decision",
+      "version_channel": "https://github.com/NousResearch/hermes-agent/releases/tag/v0.22.5",
+      "license": "upstream LICENSE bytes pinned in research/Hermes_LICENSE; distribution/Host applicability HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/0/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/0/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/0/host_preflight",
+      "consumer": "RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/0/original_consumer",
+      "reader": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+      "reader_ref": "DEFAULT30_CHOICES.json#/0/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP04 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/0/fit",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/0/license",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/0/channel",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/0/host_preflight",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.HERMES→HGK SharedSpine→canonical Hermes executable/PID",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "license"
+      ],
+      "inherited_matrix_status": "HOST_PIN_HOLD",
+      "inheritance_note": "previous lane status HOST_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 0,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-002",
+      "need_name": "SDLC_PRW",
+      "need_class": "CORE",
+      "required": true,
+      "w1_wp": "WP05",
+      "w1_wp_name": "PIPD Native Compiler",
+      "role": "CONSUMED",
+      "role_rationale": "CORE.SDLC_PRW→PIPD phase compiler 即 PI/PD 階段編譯的 consumer；W1 schema 契約需其 version/consumer",
+      "occupant_id": "SDLC_PRW",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/1/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/1/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/1/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/1/host_preflight",
+      "consumer": "CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/1/original_consumer",
+      "reader": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+      "reader_ref": "DEFAULT30_CHOICES.json#/1/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP05 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/1/fit",
+          "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/1/license",
+          "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/1/version_decision",
+          "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/1/channel",
+          "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/1/host_preflight",
+          "owner": "Original Technology/License/Host Reader for CORE.SDLC_PRW→PIPD phase compiler→HGK SharedSpine schema reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 1,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-003",
+      "need_name": "SRU Kernel",
+      "need_class": "CORE",
+      "required": true,
+      "w1_wp": "WP03",
+      "w1_wp_name": "HGK Control",
+      "role": "CONSUMED",
+      "role_rationale": "CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver 正是 W1 唯讀探索的 registry 契約",
+      "occupant_id": "SRU Kernel",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/2/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/2/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/2/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/2/host_preflight",
+      "consumer": "CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/2/original_consumer",
+      "reader": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+      "reader_ref": "DEFAULT30_CHOICES.json#/2/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP03 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/2/fit",
+          "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/2/license",
+          "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/2/version_decision",
+          "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/2/channel",
+          "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/2/host_preflight",
+          "owner": "Original Technology/License/Host Reader for CORE.SRU_KERNEL→HGK Native Registry/SourceReuse scoped resolver",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 2,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-004",
+      "need_name": "DocETL",
+      "need_class": "KNOWLEDGE",
+      "required": true,
+      "w1_wp": "WP05",
+      "w1_wp_name": "PIPD Native Compiler",
+      "role": "CONSUMED",
+      "role_rationale": "KNOWLEDGE.DOCETL→SBL/PIPD Document Reader 是 W1 讀源的 document reader 契約",
+      "occupant_id": "DocETL",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/3/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/3/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/3/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/3/host_preflight",
+      "consumer": "KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/3/original_consumer",
+      "reader": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+      "reader_ref": "DEFAULT30_CHOICES.json#/3/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP05 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/3/fit",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/3/license",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/3/version_decision",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/3/channel",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/3/host_preflight",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.DOCETL→SBL/PIPD Document Reader + known file/source parser",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 3,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-005",
+      "need_name": "Codex",
+      "need_class": "RUNTIME",
+      "required": true,
+      "w1_wp": "WP04",
+      "w1_wp_name": "Hermes Runtime",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "Codex 為 delegated code worker；W1 只做 Profile/Journal/Worker API 設計，不派工，故不綁",
+      "occupant_id": "Codex",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/4/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/4/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/4/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/4/host_preflight",
+      "consumer": "RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/4/original_consumer",
+      "reader": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+      "reader_ref": "DEFAULT30_CHOICES.json#/4/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP04; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/4/fit",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/4/license",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/4/version_decision",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/4/wave",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_PRIMARY→Hermes delegated Codex CLI via HGK executor registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 4,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-006",
+      "need_name": "OpenCode",
+      "need_class": "RUNTIME",
+      "required": true,
+      "w1_wp": "WP04",
+      "w1_wp_name": "Hermes Runtime",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "OpenCode 為 alternate code worker adapter；W1 無派工/載入，故不綁",
+      "occupant_id": "OpenCode",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/5/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/5/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/5/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/5/host_preflight",
+      "consumer": "RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/5/original_consumer",
+      "reader": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+      "reader_ref": "DEFAULT30_CHOICES.json#/5/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP04; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/5/fit",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/5/license",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/5/version_decision",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/5/wave",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.CODE_WORKER_ALTERNATE→Hermes approved OpenCode/OpenCode Go provider adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 5,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-008",
+      "need_name": "LLM Wiki",
+      "need_class": "KNOWLEDGE",
+      "required": true,
+      "w1_wp": "WP05",
+      "w1_wp_name": "PIPD Native Compiler",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "LLM Wiki 屬 K09 wiki compiler；W1 PIPD 編譯不載入，故不綁",
+      "occupant_id": "LLM Wiki",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/6/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/6/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/6/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/6/host_preflight",
+      "consumer": "KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/6/original_consumer",
+      "reader": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+      "reader_ref": "DEFAULT30_CHOICES.json#/6/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP05; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/6/fit",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/6/license",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/6/version_decision",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/6/wave",
+          "owner": "Original Technology/License/Host Reader for KNOWLEDGE.LLM_WIKI→SBL Knowledge K09 wiki compiler/validated local reader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 6,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-010",
+      "need_name": "Spec Kit",
+      "need_class": "SPEC",
+      "required": true,
+      "w1_wp": "WP07",
+      "w1_wp_name": "PLAN Commander",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "Spec Kit 為 greenfield adapter；W1 只做 PLAN/CAS 接口分析與 typed NEG，不綁",
+      "occupant_id": "Spec Kit",
+      "occupant_kind": "DONOR",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/7/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/7/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/7/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/7/host_preflight",
+      "consumer": "SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/7/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+      "reader_ref": "DEFAULT30_CHOICES.json#/7/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP07; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/7/fit",
+          "owner": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/7/license",
+          "owner": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/7/version_decision",
+          "owner": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/7/wave",
+          "owner": "Original Technology/License/Host Reader for SPEC.GREENFIELD_SPEC_KIT→SBL TPM/spec HostAdapter, optional official Spec Kit",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 7,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-011",
+      "need_name": "OpenSpec",
+      "need_class": "SPEC",
+      "required": true,
+      "w1_wp": "WP07",
+      "w1_wp_name": "PLAN Commander",
+      "role": "CONSUMED",
+      "role_rationale": "SPEC.BROWNFIELD_OPENSPEC proposal adapter 是候選計畫/proposal 形狀的唯一具體 occupant；W1 接口分析需其 version+license",
+      "occupant_id": "OpenSpec",
+      "occupant_kind": "DONOR",
+      "version_pin": "v1.16.0 DESIGN_BASELINE",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/8/version_decision",
+      "version_channel": "https://github.com/Fission-AI/OpenSpec/releases/tag/v1.16.0",
+      "license": "MIT upstream bytes in research/OpenSpec_LICENSE; original Host License Reader ACK pending",
+      "license_state": "LICENSE_DECLARED_HOST_ACK_PENDING",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/8/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/8/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/8/host_preflight",
+      "consumer": "SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/8/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+      "reader_ref": "DEFAULT30_CHOICES.json#/8/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "BOUND",
+      "status_reason": "occupant identity + version decision + license source ref + named reader all resolved from source pointers",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_HOST_ACK_PENDING",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/8/fit",
+          "owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_HOST_ACK_PENDING",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/8/license",
+          "owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/8/channel",
+          "owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/8/host_preflight",
+          "owner": "Original Technology/License/Host Reader for SPEC.BROWNFIELD_OPENSPEC→SBL proposal adapter+OpenSpec allowed Host skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit"
+      ],
+      "inherited_matrix_status": "HOST_PIN_HOLD",
+      "inheritance_note": "previous lane status HOST_PIN_HOLD retained as HOST_ADMISSION_PIN_HOLD",
+      "source_pointers": {
+        "default30_index": 8,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-016",
+      "need_name": "mattpocock-skills v1.1",
+      "need_class": "METHOD",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "METHOD.MATTPOCOCK_SKILLS 屬 TPM Skill loader method 槽；W1 八 WP 無載入/綁定動作",
+      "occupant_id": "mattpocock-skills v1.1",
+      "occupant_kind": "DONOR",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/9/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/9/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/9/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/9/host_preflight",
+      "consumer": "METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/9/original_consumer",
+      "reader": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+      "reader_ref": "DEFAULT30_CHOICES.json#/9/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/9/fit",
+          "owner": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/9/license",
+          "owner": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/9/version_decision",
+          "owner": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/9/wave",
+          "owner": "Original Technology/License/Host Reader for METHOD.MATTPOCOCK_SKILLS→TPM Skill loader+approved original v1.1 method contract",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 9,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-017",
+      "need_name": "Grill Me",
+      "need_class": "METHOD",
+      "required": true,
+      "w1_wp": "WP07",
+      "w1_wp_name": "PLAN Commander",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "Grill Me 為 QuestionLedger method slot；W1 typed NEG 只取形狀，不綁方法宿主",
+      "occupant_id": "Grill Me",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/10/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/10/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/10/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/10/host_preflight",
+      "consumer": "METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/10/original_consumer",
+      "reader": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+      "reader_ref": "DEFAULT30_CHOICES.json#/10/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP07; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/10/fit",
+          "owner": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/10/license",
+          "owner": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/10/version_decision",
+          "owner": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/10/wave",
+          "owner": "Original Technology/License/Host Reader for METHOD.GRILL_ME→TPM Document/QuestionLedger Skill Host",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 10,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-020",
+      "need_name": "Superpowers",
+      "need_class": "METHOD",
+      "required": true,
+      "w1_wp": "WP11",
+      "w1_wp_name": "Portable Host",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "Superpowers 為 Host Skill 方法槽；W1 只寫 Loader SPEC，不載入",
+      "occupant_id": "Superpowers",
+      "occupant_kind": "DONOR",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/11/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/11/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/11/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/11/host_preflight",
+      "consumer": "METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/11/original_consumer",
+      "reader": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+      "reader_ref": "DEFAULT30_CHOICES.json#/11/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP11; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/11/fit",
+          "owner": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/11/license",
+          "owner": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/11/version_decision",
+          "owner": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/11/wave",
+          "owner": "Original Technology/License/Host Reader for METHOD.SUPERPOWERS→SBL bounded code-repair method slot via Host Skill",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 11,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-024",
+      "need_name": "Agent Skills",
+      "need_class": "FORMAT",
+      "required": true,
+      "w1_wp": "WP17",
+      "w1_wp_name": "CAP-BOOT",
+      "role": "CONSUMED",
+      "role_rationale": "FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader 是 CAP-BOOT 最小 Native Occupant 落點；W1 需其 fit/license 調查對象",
+      "occupant_id": "Agent Skills",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/12/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/12/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/12/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/12/host_preflight",
+      "consumer": "FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/12/original_consumer",
+      "reader": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+      "reader_ref": "DEFAULT30_CHOICES.json#/12/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP17 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/12/fit",
+          "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/12/license",
+          "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/12/version_decision",
+          "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/12/channel",
+          "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/12/host_preflight",
+          "owner": "Original Technology/License/Host Reader for FORMAT.AGENT_SKILLS→SBL skills/ HostAdapter + Skill Loader",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 12,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-025",
+      "need_name": "Model Context Protocol",
+      "need_class": "PROTO",
+      "required": true,
+      "w1_wp": "WP03",
+      "w1_wp_name": "HGK Control",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "PROTO.MCP→HGK Tool/Method registry 只在 Consumer envelope 設計中被引用；W1 不綁 MCP adapter",
+      "occupant_id": "Model Context Protocol",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/13/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/13/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/13/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/13/host_preflight",
+      "consumer": "PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/13/original_consumer",
+      "reader": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+      "reader_ref": "DEFAULT30_CHOICES.json#/13/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP03; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/13/fit",
+          "owner": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/13/license",
+          "owner": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/13/version_decision",
+          "owner": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/13/wave",
+          "owner": "Original Technology/License/Host Reader for PROTO.MCP→HGK Tool/Method registry and approved host MCP adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 13,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-026",
+      "need_name": "AGENTS.md",
+      "need_class": "SOURCE",
+      "required": true,
+      "w1_wp": "WP02",
+      "w1_wp_name": "Fabric Policy",
+      "role": "DESIGN_ONLY",
+      "role_rationale": "SOURCE.AGENTS_MD 唯讀 parser 只作為 NAV/source 輸入被引用；Fabric Policy 無 Default30 occupant，不綁",
+      "occupant_id": "AGENTS.md",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/14/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/14/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/14/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/14/host_preflight",
+      "consumer": "SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/14/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+      "reader_ref": "DEFAULT30_CHOICES.json#/14/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=DESIGN_ONLY under WP02; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/14/fit",
+          "owner": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/14/license",
+          "owner": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/14/version_decision",
+          "owner": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/14/wave",
+          "owner": "Original Technology/License/Host Reader for SOURCE.AGENTS_MD→Git repo AGENTS.md parser read-only",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 14,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-028",
+      "need_name": "DESIGN.md",
+      "need_class": "SOURCE",
+      "required": true,
+      "w1_wp": "WP05",
+      "w1_wp_name": "PIPD Native Compiler",
+      "role": "CONSUMED",
+      "role_rationale": "SOURCE.DESIGN_MD→SBL TPM design reader 是 versioned DESIGN.md schema 契約來源",
+      "occupant_id": "DESIGN.md",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/15/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/15/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/15/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/15/host_preflight",
+      "consumer": "SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/15/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+      "reader_ref": "DEFAULT30_CHOICES.json#/15/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP05 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/15/fit",
+          "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/15/license",
+          "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/15/version_decision",
+          "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/15/channel",
+          "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/15/host_preflight",
+          "owner": "Original Technology/License/Host Reader for SOURCE.DESIGN_MD→SBL TPM design reader for versioned DESIGN.md",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 15,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-030",
+      "need_name": "Loop Engineering",
+      "need_class": "CORE",
+      "required": true,
+      "w1_wp": "WP04",
+      "w1_wp_name": "Hermes Runtime",
+      "role": "CONSUMED",
+      "role_rationale": "Journal/Checkpoint 契約即 CORE.LOOP_ENGINEERING→SharedSpine reducer/Checkpoint；W1 需其 consumer 介面做 Journal 設計",
+      "occupant_id": "Loop Engineering",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/16/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/16/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/16/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/16/host_preflight",
+      "consumer": "CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/16/original_consumer",
+      "reader": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+      "reader_ref": "DEFAULT30_CHOICES.json#/16/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP04 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/16/fit",
+          "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/16/license",
+          "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/16/version_decision",
+          "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/16/channel",
+          "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/16/host_preflight",
+          "owner": "Original Technology/License/Host Reader for CORE.LOOP_ENGINEERING→HGK SharedSpine/Hermes reducer/Checkpoint",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 16,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-031",
+      "need_name": "Harness Engineering",
+      "need_class": "CORE",
+      "required": true,
+      "w1_wp": "WP11",
+      "w1_wp_name": "Portable Host",
+      "role": "CONSUMED",
+      "role_rationale": "CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry 是 Portable Host Loader SPEC 的對照宿主",
+      "occupant_id": "Harness Engineering",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/17/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/17/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/17/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/17/host_preflight",
+      "consumer": "CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/17/original_consumer",
+      "reader": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+      "reader_ref": "DEFAULT30_CHOICES.json#/17/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP11 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/17/fit",
+          "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/17/license",
+          "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/17/version_decision",
+          "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/17/channel",
+          "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/17/host_preflight",
+          "owner": "Original Technology/License/Host Reader for CORE.HARNESS_ENGINEERING→HGK native harness + Runner/Tool registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 17,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-032",
+      "need_name": "Multi-Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "w1_wp": "WP20",
+      "w1_wp_name": "Host Kind Matrix",
+      "role": "CONSUMED",
+      "role_rationale": "RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission 是 Host/Mode cell 適用性的具體多工 cell",
+      "occupant_id": "Multi-Agent",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/18/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/18/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/18/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/18/host_preflight",
+      "consumer": "RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/18/original_consumer",
+      "reader": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+      "reader_ref": "DEFAULT30_CHOICES.json#/18/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP20 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/18/fit",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/18/license",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/18/version_decision",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/18/channel",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/18/host_preflight",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.MULTI_AGENT→Hermes SWARM/Worker pool via HGK admission",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 18,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-034",
+      "need_name": "Sub-Agent",
+      "need_class": "RUNTIME",
+      "required": true,
+      "w1_wp": "WP04",
+      "w1_wp_name": "Hermes Runtime",
+      "role": "CONSUMED",
+      "role_rationale": "Worker API 設計的 lease-bound child worker 語義來自 RUNTIME.SUB_AGENT consumer",
+      "occupant_id": "Sub-Agent",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/19/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/19/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/19/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/19/host_preflight",
+      "consumer": "RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/19/original_consumer",
+      "reader": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+      "reader_ref": "DEFAULT30_CHOICES.json#/19/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP04 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/19/fit",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/19/license",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/19/version_decision",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/19/channel",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/19/host_preflight",
+          "owner": "Original Technology/License/Host Reader for RUNTIME.SUB_AGENT→HGK lease-bound Hermes child worker",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 19,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-053",
+      "need_name": "OpenTelemetry",
+      "need_class": "OBS",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "OBS.OTEL telemetry exporter 屬觀測效果；W1 八 WP 的合法工作不含 telemetry 落點",
+      "occupant_id": "OpenTelemetry",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/20/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/20/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/20/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/20/host_preflight",
+      "consumer": "OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/20/original_consumer",
+      "reader": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+      "reader_ref": "DEFAULT30_CHOICES.json#/20/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/20/fit",
+          "owner": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/20/license",
+          "owner": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/20/version_decision",
+          "owner": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/20/wave",
+          "owner": "Original Technology/License/Host Reader for OBS.OTEL→Host telemetry exporter via approved OpenTelemetry adapter",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 20,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-059",
+      "need_name": "Semgrep",
+      "need_class": "SEC",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SEC.SEMGREP 屬 Security CI 效果（WP19/CI），非 W1 八 WP 讀/草案工作",
+      "occupant_id": "Semgrep",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/21/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/21/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/21/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/21/host_preflight",
+      "consumer": "SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/21/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+      "reader_ref": "DEFAULT30_CHOICES.json#/21/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/21/fit",
+          "owner": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/21/license",
+          "owner": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/21/version_decision",
+          "owner": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/21/wave",
+          "owner": "Original Technology/License/Host Reader for SEC.SEMGREP→Security CI runner Semgrep pinned ruleset",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 21,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-060",
+      "need_name": "CodeQL",
+      "need_class": "SEC",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SEC.CODEQL 屬 required workflow 效果，需原 CI Reader，非 W1",
+      "occupant_id": "CodeQL",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/22/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/22/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/22/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/22/host_preflight",
+      "consumer": "SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/22/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+      "reader_ref": "DEFAULT30_CHOICES.json#/22/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/22/fit",
+          "owner": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/22/license",
+          "owner": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/22/version_decision",
+          "owner": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/22/wave",
+          "owner": "Original Technology/License/Host Reader for SEC.CODEQL→Security CI or GitHub Actions CodeQL required workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 22,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-061",
+      "need_name": "Trivy",
+      "need_class": "SEC",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SEC.TRIVY 屬 binary runner 效果，非 W1",
+      "occupant_id": "Trivy",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/23/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/23/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/23/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/23/host_preflight",
+      "consumer": "SEC.TRIVY→Security CI Trivy binary runner",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/23/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+      "reader_ref": "DEFAULT30_CHOICES.json#/23/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/23/fit",
+          "owner": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/23/license",
+          "owner": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/23/version_decision",
+          "owner": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/23/wave",
+          "owner": "Original Technology/License/Host Reader for SEC.TRIVY→Security CI Trivy binary runner",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 23,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-062",
+      "need_name": "GitHub Actions",
+      "need_class": "SUPPLY",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SUPPLY.CI_GITHUB_ACTIONS 屬 repository workflow caller 效果，非 W1",
+      "occupant_id": "GitHub Actions",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/24/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/24/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/24/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/24/host_preflight",
+      "consumer": "SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/24/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+      "reader_ref": "DEFAULT30_CHOICES.json#/24/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/24/fit",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/24/license",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/24/version_decision",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/24/wave",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.CI_GITHUB_ACTIONS→SBL/PIPD repository workflow caller",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 24,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-063",
+      "need_name": "OpenSSF Scorecard",
+      "need_class": "SUPPLY",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SUPPLY.OSSF_SCORECARD 屬 Security Owner workflow 效果，非 W1",
+      "occupant_id": "OpenSSF Scorecard",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/25/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/25/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/25/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/25/host_preflight",
+      "consumer": "SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/25/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+      "reader_ref": "DEFAULT30_CHOICES.json#/25/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/25/fit",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/25/license",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/25/version_decision",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/25/wave",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.OSSF_SCORECARD→Security Owner Scorecard workflow",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 25,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-064",
+      "need_name": "SBOM",
+      "need_class": "SUPPLY",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SUPPLY.SBOM 屬 Release Owner 產出效果，非 W1",
+      "occupant_id": "SBOM",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/26/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/26/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/26/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/26/host_preflight",
+      "consumer": "SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/26/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+      "reader_ref": "DEFAULT30_CHOICES.json#/26/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/26/fit",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/26/license",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/26/version_decision",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/26/wave",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.SBOM→Release Owner SBOM generator/output registry",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 26,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-065",
+      "need_name": "Artifact Attestation",
+      "need_class": "SUPPLY",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SUPPLY.ARTIFACT_ATTESTATION 屬 Release Owner 綁定效果，非 W1",
+      "occupant_id": "Artifact Attestation",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/27/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/27/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/27/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/27/host_preflight",
+      "consumer": "SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/27/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+      "reader_ref": "DEFAULT30_CHOICES.json#/27/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/27/fit",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/27/license",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/27/version_decision",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/27/wave",
+          "owner": "Original Technology/License/Host Reader for SUPPLY.ARTIFACT_ATTESTATION→Release Owner GitHub Attestation/Cosign binding",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 27,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-068",
+      "need_name": "OSV",
+      "need_class": "SEC",
+      "required": true,
+      "w1_wp": "NONE",
+      "w1_wp_name": "NONE",
+      "role": "NOT_CONSUMED",
+      "role_rationale": "SEC.OSV 屬 vuln feed reader 效果，非 W1",
+      "occupant_id": "OSV",
+      "occupant_kind": "HOST",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/28/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/28/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/28/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/28/host_preflight",
+      "consumer": "SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/28/original_consumer",
+      "reader": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+      "reader_ref": "DEFAULT30_CHOICES.json#/28/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_EVALUATED_NOT_CONSUMED",
+      "status": "PIN_HOLD",
+      "status_reason": "role=NOT_CONSUMED under NONE; occupant never bound in this lane",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "NOT_CONSUMED_BY_W1_EIGHT_WP"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/28/fit",
+          "owner": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/28/license",
+          "owner": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/28/version_decision",
+          "owner": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "NOT_CONSUMED_BY_W1_EIGHT_WP",
+          "field": "w1_scope",
+          "ref": "DEFAULT30_CHOICES.json#/28/wave",
+          "owner": "Original Technology/License/Host Reader for SEC.OSV→Security/vuln feed Reader or pinned approved OSV API",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained unchanged",
+      "source_pointers": {
+        "default30_index": 28,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    },
+    {
+      "need_id": "Default30:P0-TOOL-072",
+      "need_name": "SQLite",
+      "need_class": "CORE",
+      "required": true,
+      "w1_wp": "WP03",
+      "w1_wp_name": "HGK Control",
+      "role": "CONSUMED",
+      "role_rationale": "CORE.SQLITE→HGK existing spine.py/DB host discovery 是 registry 落點的實際 store 契約",
+      "occupant_id": "SQLite",
+      "occupant_kind": "METHOD",
+      "version_pin": "PIN_UNBOUND",
+      "version_pin_ref": "DEFAULT30_CHOICES.json#/29/version_decision",
+      "version_channel": "ORIGINAL_READER_CHANNEL_UNBOUND",
+      "license": "LICENSE_READER_HOLD",
+      "license_state": "LICENSE_READER_HOLD",
+      "license_source_ref": "DEFAULT30_CHOICES.json#/29/license",
+      "windows_fit": "UNBOUND",
+      "windows_fit_ref": "DEFAULT30_CHOICES.json#/29/fit",
+      "host_ref": "DEFAULT30_CHOICES.json#/29/host_preflight",
+      "consumer": "CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+      "consumer_ref": "DEFAULT30_CHOICES.json#/29/original_consumer",
+      "reader": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+      "reader_ref": "DEFAULT30_CHOICES.json#/29/hold_owner",
+      "nofit_reason": null,
+      "nofit_judgment": "NOT_ESTABLISHED",
+      "status": "PIN_HOLD",
+      "status_reason": "consumed by WP03 but occupant version/license still on original reader HOLD",
+      "hold_codes": [
+        "WINDOWS_FIT_UNBOUND",
+        "LICENSE_READER_HOLD",
+        "OCCUPANT_VERSION_PIN_HOLD",
+        "ARTIFACT_BYTE_PIN_HOLD",
+        "HOST_ADMISSION_PIN_HOLD"
+      ],
+      "holds": [
+        {
+          "code": "WINDOWS_FIT_UNBOUND",
+          "field": "windows_fit",
+          "ref": "DEFAULT30_CHOICES.json#/29/fit",
+          "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "LICENSE_READER_HOLD",
+          "field": "license",
+          "ref": "DEFAULT30_CHOICES.json#/29/license",
+          "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "OCCUPANT_VERSION_PIN_HOLD",
+          "field": "version_pin",
+          "ref": "DEFAULT30_CHOICES.json#/29/version_decision",
+          "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "ARTIFACT_BYTE_PIN_HOLD",
+          "field": "artifact_sha256",
+          "ref": "DEFAULT30_CHOICES.json#/29/channel",
+          "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        },
+        {
+          "code": "HOST_ADMISSION_PIN_HOLD",
+          "field": "host_admission",
+          "ref": "DEFAULT30_CHOICES.json#/29/host_preflight",
+          "owner": "Original Technology/License/Host Reader for CORE.SQLITE→HGK existing src/hg_kseos/spine.py / DB actual host discovery",
+          "resume": "Original reader resolves this Need to immutable artifact, license/Windows fit + functional POS/NEG and same-scope raw"
+        }
+      ],
+      "unbound_fields": [
+        "windows_fit",
+        "version_pin",
+        "license"
+      ],
+      "inherited_matrix_status": "OCCUPANT_PIN_HOLD",
+      "inheritance_note": "previous lane status OCCUPANT_PIN_HOLD retained",
+      "source_pointers": {
+        "default30_index": 29,
+        "default30_sha256": "a4467ed21ac10690cf058f109073c5970117ac0deb0dca97e0bf5b22a7098580",
+        "matrix_sha256": "00f7401d44a0022464b5b62cf7c651f63bd3d9195d7b44bdc20a1bac09a09c18"
+      }
+    }
+  ]
+}

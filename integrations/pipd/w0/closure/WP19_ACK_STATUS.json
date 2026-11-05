@@ -1,0 +1,83 @@
+{
+  "artifact": "WP19_ACK_STATUS",
+  "lane": "c2",
+  "generated_at_taipei": "2026-11-05T08:39:40+08:00",
+  "gate_id": "WP-FHS-19",
+  "gate_version": "1.0.0",
+  "subject": {
+    "real_root": "C:\\Projects\\Agent_Workspace\\var\\FHS_W0_CLOSEOUT_20261105_0832\\lanes\\c2\\_upstream\\integrations\\pipd",
+    "source_ref": "origin/main",
+    "head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+    "commit_subject": "Merge pull request #40 from shw097-team/evidence/closeout-031rc1",
+    "contains_w0": false
+  },
+  "original_ci_reader_ack": "NOT_OBSERVED",
+  "original_ci_reader_ack_note": "No ACK from the Original SBL CI/Program Reader exists in this round. Everything this lane produced is AUTHOR_SUPPLY_CHAIN_LOCAL and was executed by the author's own gate over the author's own tree.",
+  "wp19_done": false,
+  "trace_closure": false,
+  "claim_ceiling": "AUTHOR_SUPPLY_CHAIN_LOCAL",
+  "hold": "WP19_ORIGINAL_RAW_ACK_HOLD",
+  "hold_detail": {
+    "id": "WP19_ORIGINAL_RAW_ACK_HOLD",
+    "owner": "Original SBL CI/Program Reader",
+    "required_raw": true,
+    "required_artifact": "raw",
+    "required_raw_artifacts": [
+      "out/WP19_REAL_ROOT_RAW.json",
+      "out/NEG_REAL_ROOT/neg_notice_missing.json",
+      "out/NEG_REAL_ROOT/neg_sbom_component_mismatch.json",
+      "out/NEG_REAL_ROOT/neg_undeclared_dependency.json",
+      "out/NEG_REAL_ROOT/neg_secret_pattern.json",
+      "out/REJECTED_SUBJECT_FALSE_PASS_PROBE.json"
+    ],
+    "next_reader": "Original SBL CI/Program Reader, independent of this author lane: re-runs the gate and ACKs the raw, including the FAILs",
+    "resume_predicate": "resume WP-FHS-19 only when the Original SBL CI/Program Reader has (a) re-run supply_chain_gate.py over origin/main:integrations/pipd, (b) ACKed out/WP19_REAL_ROOT_RAW.json byte-for-byte by its tree_digest_sha256, and (c) dispositioned every FAIL listed below as accepted, fixed upstream, or re-scoped",
+    "blocking": true
+  },
+  "e26": "WP-FHS-19→WP-FHS-14 (W4) 保留",
+  "real_root_fails": [
+    {
+      "check_id": "SBOM_COMPONENT_RECONCILE",
+      "code": "SBOM_COMPONENT_MISMATCH",
+      "verdict": "FAIL",
+      "detail": "0 component(s) in SBOM only, 5 declared only",
+      "samples": [
+        "declared_only:build",
+        "declared_only:cryptography",
+        "declared_only:pyyaml",
+        "declared_only:setuptools",
+        "declared_only:wheel"
+      ],
+      "disposition": "OPEN - reported as found, not repaired"
+    },
+    {
+      "check_id": "DEPENDENCY_DECLARED",
+      "code": "UNDECLARED_DEPENDENCY",
+      "verdict": "FAIL",
+      "detail": "2 module(s) imported but absent from every manifest",
+      "samples": [
+        "hg_kseos @ tools/hgk_admission_driver.py:25",
+        "hg_kseos @ tools/hgk_admission_driver.py:26",
+        "hg_kseos @ tools/knowledge_ready_probe.py:61",
+        "pytest @ tests/test_operation_registry_r3.py:17",
+        "pytest @ tests/test_owner_ratification_r3.py:16"
+      ],
+      "disposition": "OPEN - reported as found, not repaired"
+    }
+  ],
+  "real_root_fail_count": 2,
+  "real_root_counts": {
+    "PASS": 5,
+    "FAIL": 2,
+    "HOLD": 0,
+    "NOT_APPLICABLE": 0
+  },
+  "real_root_exit": 1,
+  "real_root_tree_digest_sha256": "0774102a4d900efe4d822f6b469ed043b49f20236bcc03c2660cc6d8cfb0fefc",
+  "this_round_status": "author-local gate executed on the pure upstream root; verdicts recorded as found; WP19 is NOT done and no trace closure is claimed",
+  "why_not_wp19_done": [
+    "the gate is an author-local static check, not an independent/protected checker",
+    "the real upstream root FAILS 2 of 7 checks; those FAILs stay open",
+    "the original SBL CI/Program Reader ACK has not been observed"
+  ]
+}
