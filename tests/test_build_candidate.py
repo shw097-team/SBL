@@ -44,11 +44,13 @@ def tree(tmp: Path, version: str = "0.3.0-rc.2") -> Path:
 
 
 def run(root: Path, pins: Path, out: Path, version: str = "0.3.1-rc.1",
-        signature: Path | None = None) -> tuple[int, dict]:
+        signature: Path | None = None, normalise: bool = False) -> tuple[int, dict]:
     cmd = [sys.executable, str(TOOL), "--tree", str(root), "--version", version,
            "--pins", str(pins), "--out", str(out)]
     if signature is not None:
         cmd += ["--signature", str(signature)]
+    if normalise:
+        cmd += ["--normalise-timestamps"]
     proc = subprocess.run(cmd, capture_output=True, timeout=180)
     return proc.returncode, json.loads(proc.stdout.decode("utf-8", "replace") or "{}")
 
@@ -60,6 +62,9 @@ def test_pos_bumps_both_manifests_and_embeds_pins(tmp_path: Path) -> None:
     assert set(body["manifests"]) == {"plugin.json", ".codex-plugin/plugin.json"}
     assert body["pins"]["file_count"] == 2
     assert body["bytecode"] == 0
+    # mtimes are an INPUT by documented design (evidence/pp261103/close/CLOSEOUT_031RC1.md:68), so the
+    # default build is not clock-independent and says so.
+    assert body["normalised"] is False
     with zipfile.ZipFile(tmp_path / "out.zip") as zf:
         names = set(zf.namelist())
         manifest = json.loads(zf.read("sbl-tpm-sp/plugin.json"))
@@ -69,9 +74,18 @@ def test_pos_bumps_both_manifests_and_embeds_pins(tmp_path: Path) -> None:
 
 
 def test_pos_same_inputs_give_the_same_digest(tmp_path: Path) -> None:
+    """Same inputs -> same digest, asked in the mode whose inputs exclude the wall clock.
+
+    The default build stamps members with their mtimes, and the tool rewrites two members on every
+    run, so two default builds that straddle a 2-second DOS-timestamp boundary legitimately differ —
+    that is the documented behaviour, not a defect (CLOSEOUT_031RC1.md:68). Asserting determinism
+    therefore has to request `--normalise-timestamps`; asserting it on the default mode made this test
+    depend on how fast the runner happened to be.
+    """
     root, pins = tree(tmp_path), pin_set(tmp_path)
-    first = run(root, pins, tmp_path / "a.zip")[1]
-    second = run(root, pins, tmp_path / "b.zip")[1]
+    first = run(root, pins, tmp_path / "a.zip", normalise=True)[1]
+    second = run(root, pins, tmp_path / "b.zip", normalise=True)[1]
+    assert first["normalised"] is True and second["normalised"] is True
     assert first["sha256"] == second["sha256"]
     assert first["members"] == second["members"]
 
