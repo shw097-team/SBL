@@ -95,7 +95,18 @@ def main() -> int:
                 "consumed_by_w1": consumed,
             },
             "nofit": None,
+            "source_nofit_statement": ((c.get("fields") or {}).get("nofit") or {}).get("text"),
             "token_state": "NOT_OBSERVED",
+            "token_mapping_status": (c.get("r2_isolation") or {}).get("semantic_mapping_status")
+            or "SOURCE_GAP",
+            "source_r2_isolation": {
+                "present": bool(c.get("r2_isolation")),
+                "semantic_mapping_status": (c.get("r2_isolation") or {}).get("semantic_mapping_status"),
+                "host_provider_off_boolean": (c.get("r2_isolation") or {}).get("host_provider_off_boolean"),
+                "owner_ack_version": (c.get("r2_isolation") or {}).get("owner_ack_version"),
+                "runtime_effect_allowed": (c.get("r2_isolation") or {}).get("runtime_effect_allowed"),
+                "source_line": (c.get("r2_isolation") or {}).get("source_line"),
+            },
             "token_first_fail": "WP-FHS-20.FIRST_FAIL:CELL_TOKEN_OWNER_ACK_MISSING",
         }
         if consumed:
@@ -131,7 +142,12 @@ def main() -> int:
         "cells": out_cells,
         "counts": {"cells": len(out_cells), "states": states,
                    "w1_consumed": sum(1 for r in out_cells if r["applicability"]["consumed_by_w1"]),
-                   "delegated_to_w3": states.get("DELEGATED_TO_W3", 0)},
+                   "delegated_to_w3": states.get("DELEGATED_TO_W3", 0),
+                   "cells_without_source_r2_isolation":
+                       sum(1 for r in out_cells if not r["source_r2_isolation"]["present"]),
+                   "token_mapping_unbound":
+                       sum(1 for r in out_cells if r["token_mapping_status"] == "UNBOUND_OWNER_CONFLICT")},
+        "source_integrity": src.get("integrity"),
         "claim_ceiling": "HOST_BOUND_FOR_HERMES_STANDALONE_CELLS__TOKEN_NOT_OBSERVED",
         "not_claimed": ["cell token ON/OFF mapping", "other hosts' raw", "W3 worlds", "release"],
     }
