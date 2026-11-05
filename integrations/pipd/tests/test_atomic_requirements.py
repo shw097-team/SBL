@@ -303,12 +303,25 @@ class RepoContextBinding(unittest.TestCase):
             pipeline.bind_pd(self.pi, {"root": str(ROOT), "currentness": "FRESH",
                                        "currentness_epoch": "0" * 64})
 
+    @unittest.skipUnless(GIT, "git is required to mint a resolved RepoContext")
     def test_stale_context_is_refused(self):
+        # bind_pd only binds a RESOLVED git toplevel, so the stale epoch is produced by a real
+        # checkout: commit a.txt, snapshot, then commit b.txt and the snapshot is stale.
         with tempfile.TemporaryDirectory() as td:
-            (Path(td) / "a.txt").write_text("x = 1\n", encoding="utf-8")
-            stale = repo_context.derive_repo_context(td)
-            (Path(td) / "b.txt").write_text("y = 2\n", encoding="utf-8")
-            fresh = repo_context.derive_repo_context(td)
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            (repo / "a.txt").write_text("x = 1\n", encoding="utf-8")
+            subprocess.run([GIT, "-C", str(repo), "init", "-q"], capture_output=True)
+            subprocess.run([GIT, "-C", str(repo), "add", "."], capture_output=True)
+            subprocess.run([GIT, "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t",
+                            "commit", "-q", "-m", "base"], capture_output=True)
+            stale = repo_context.derive_repo_context(repo)
+            self.assertEqual(stale["probe"], "git")
+            (repo / "b.txt").write_text("y = 2\n", encoding="utf-8")
+            subprocess.run([GIT, "-C", str(repo), "add", "."], capture_output=True)
+            subprocess.run([GIT, "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@t",
+                            "commit", "-q", "-m", "next"], capture_output=True)
+            fresh = repo_context.derive_repo_context(repo)
             self.assertNotEqual(stale["currentness_epoch"], fresh["currentness_epoch"],
                                 "epoch must fingerprint the repository state")
             with self.assertRaises(StaleProvider):
@@ -356,7 +369,9 @@ class RepoContextBinding(unittest.TestCase):
         derived = repo_context.derive_repo_context(ROOT)
         self.assertEqual(derived["readiness"], "PREDEV_READY")
 
-    def test_non_git_root_degrades_and_discloses(self):
+    def test_non_git_root_degrades_in_probe_and_is_refused_at_bind(self):
+        # Two different contracts, deliberately: the PROBE stays fail-soft and discloses the
+        # degradation, while BINDING fails closed - an unresolved root can never mint a PD.
         with tempfile.TemporaryDirectory() as td:
             (Path(td) / "a.txt").write_text("x = 1\n", encoding="utf-8")
             (Path(td) / "sub").mkdir()
@@ -366,11 +381,11 @@ class RepoContextBinding(unittest.TestCase):
             self.assertTrue(ctx["degraded"])
             self.assertTrue(ctx["degraded_reason"])
             self.assertIsNone(ctx["head"])
+            self.assertFalse(ctx["git_root_resolved"])
             self.assertEqual(ctx["tracked_files"], 2)
-            pd = pipeline.bind_pd(self.pi, ctx)
-            self.assertEqual(pd["RepoContext"]["probe"], "filesystem")
-            self.assertTrue(pd["RepoContext"]["degraded"])
-            self.assertTrue(pd["RepoContext"]["degraded_reason"])
+            with self.assertRaises(RepoContextMissing) as caught:
+                pipeline.bind_pd(self.pi, ctx)
+            self.assertIn("not a resolved git toplevel", str(caught.exception))
 
     def test_writable_scope_is_reported_as_subset_check(self):
         pd = pipeline.bind_pd(self.pi, {"root": str(ROOT), "writable_scope": "src/**"})

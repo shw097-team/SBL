@@ -24,6 +24,44 @@
     "RepoContext": {},
     "currentness": {},
     "late_bound_construction_binding": {},
+    "evidence_completeness": {
+      "type": "object",
+      "description": "What the bind-time probe actually observed. Optional (not required) so every PD written before this block existed still validates; bind_pd always writes it.",
+      "additionalProperties": false,
+      "required": [
+        "probe_version",
+        "git_root_resolved",
+        "index_digest_present",
+        "untracked_observed",
+        "acl_state",
+        "capability_keys"
+      ],
+      "properties": {
+        "probe_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "git_root_resolved": {
+          "type": "boolean"
+        },
+        "index_digest_present": {
+          "type": "boolean"
+        },
+        "untracked_observed": {
+          "type": "boolean"
+        },
+        "acl_state": {
+          "type": ["string", "null"]
+        },
+        "capability_keys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
     "subject_id": {
       "type": "string",
       "minLength": 8,

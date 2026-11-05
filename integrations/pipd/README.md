@@ -386,7 +386,8 @@ PY=python3                                              # any Python >= 3.11 + j
 export PYTHONPATH="$PWD/src"                            # this checkout's src/
 ART="$(mktemp -d)/pipd-first-run"                       # a scratch dir OUTSIDE the checkout
 rm -rf "$ART" && mkdir -p "$ART"
-CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (empty -> stable)
+CTX="$ART/ctx"; mkdir -p "$CTX"          # RepoContext dir bind-pd probes
+git -C "$CTX" init -q                    # bind-pd binds only a RESOLVED git toplevel (fail closed)
 
 "$PY" -m pipd_ls_sp.cli --root "$ART" init                 # exit 0; creates docs/ schemas/ src/ tests/ dist/
 
@@ -402,7 +403,8 @@ CTX="$ART/ctx"; mkdir -p "$CTX"          # the read-only dir bind-pd probes (emp
   --intent "$ART/intent.card.json" --profile LITE \
   > "$ART/pi.json"                     # -> PI-50952b3a3822b28c
 
-# bind-pd derives a READ-ONLY RepoContext from --repo-root (here an empty dir, so it is stable);
+# bind-pd derives a READ-ONLY RepoContext from --repo-root (an empty git checkout, so it is
+# stable) and REFUSES a root that is not a resolved git toplevel;
 # the same intent + the same RepoContext.root reproduce every digest byte for byte.
 "$PY" -m pipd_ls_sp.cli --root "$ART" bind-pd \
   --pi "$ART/pi.json" --repo-root "$CTX" \

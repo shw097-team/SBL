@@ -212,6 +212,9 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     git/filesystem probes at bind time. Caller-supplied values are unverified claims: recorded,
     never trusted. A stale or spoofed freshness claim is REFUSED (StaleProvider); a missing
     RepoContext is REFUSED (RepoContextMissing) so no PREDEV_READY is ever emitted without one.
+    W2 CH-15: the extended probe evidence (git_root / index_digest / staged / untracked / acl /
+    capabilities) is carried INTO the PD, and a root that does not resolve to a git toplevel is
+    REFUSED too - an unresolved root cannot produce a trustworthy PD.
     """
     if not repo_context:
         raise RepoContextMissing("PD late-binding requires a RepoContext (no PREDEV_READY without one)")
@@ -221,6 +224,13 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     if not root.exists():
         raise RepoContextMissing(f"RepoContext root missing: {root}")
     derived = repo_probe.derive_repo_context(root)
+    # Fail closed on an UNRESOLVED root: a degraded filesystem probe cannot prove which repository
+    # the work would land in, so it cannot produce a trustworthy PD (no silent degradation).
+    if derived.get("git_root_resolved") is not True:
+        reason = "; ".join(derived.get("errors") or [])[:400] or "no git toplevel resolved"
+        raise RepoContextMissing(
+            "RepoContext root is not a resolved git toplevel: "
+            f"{derived.get('root')} (probe={derived.get('probe')!r}; {reason})")
     claims, evidence = repo_probe.claims_of(repo_context)
     verified = repo_probe.verify_freshness_claims(claims, derived, evidence)
     scope_check = repo_probe.resolve_writable_scope(
@@ -235,6 +245,17 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
            "tracked_files": derived["tracked_files"],
            "manifest_sha256": derived["manifest_sha256"],
            "currentness_epoch": derived["currentness_epoch"],
+           # W2 CH-15 probe evidence, carried through so PD/ECP consumers never have to re-guess
+           # what upstream actually observed. Missing values stay None/[] rather than raising.
+           "git_root": derived.get("git_root"),
+           "git_root_resolved": derived.get("git_root_resolved"),
+           "index_digest": derived.get("index_digest"),
+           "staged_changes": list(derived.get("staged_changes") or []),
+           "untracked": list(derived.get("untracked") or []),
+           "untracked_count": (derived.get("untracked_count")
+                               if "untracked_count" in derived else None),
+           "acl": derived.get("acl"),
+           "capabilities": dict(derived.get("capabilities") or {}),
            "readiness": "PREDEV_READY",
            "caller_claims": caller_claims}
     payload = {"pi": pi["subject_id"], "repo": ctx}
@@ -242,7 +263,19 @@ def bind_pd(pi: dict[str, Any], repo_context: dict[str, Any] | None) -> dict[str
     pd["RepoContext"] = ctx
     pd["currentness"] = {"state": "FRESH", "epoch": derived["currentness_epoch"],
                          "derived_from": f"{derived['probe']}-probes at bind time",
-                         "claims_verified": sorted(verified)}
+                         "claims_verified": sorted(verified),
+                         "repo_identity_verified": bool(ctx["git_root_resolved"]),
+                         "acl_state": derived.get("acl_state")}
+    # Machine-readable completeness of the evidence behind this PD: what was PROBED, not inferred.
+    caps = ctx["capabilities"]
+    pd["evidence_completeness"] = {
+        "probe_version": repo_probe.PROBE_CONTRACT_VERSION,
+        "git_root_resolved": bool(ctx["git_root_resolved"]),
+        "index_digest_present": bool(ctx["index_digest"]),
+        "untracked_observed": caps.get("untracked") == "PRESENT",
+        "acl_state": derived.get("acl_state"),
+        "capability_keys": sorted(caps),
+    }
     pd["late_bound_construction_binding"] = {
         "bound_at": "PD", "binding_scope": "affected_only",
         "writable_scope": repo_context.get("writable_scope") or "src/**",
