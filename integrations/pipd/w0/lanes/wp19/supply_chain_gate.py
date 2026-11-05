@@ -7,7 +7,11 @@ Runs seven typed checks over an ARBITRARY tree supplied by the operator:
   1. LICENSE_PRESENT                SPDX resolution from LICENSE / OWNER_LICENSE_DECISION.yaml / pyproject
   2. NOTICE_PRESENT                 NOTICE file adjacent to the licence basis
   3. SBOM_PRESENT_AND_PARSABLE      CycloneDX JSON structural validation (no third-party lib)
-  4. SBOM_COMPONENT_RECONCILE       SBOM component names vs. declared dependency names
+  4. SBOM_COMPONENT_RECONCILE       SBOM component names vs. RUNTIME dependency names
+                                    ([project].dependencies / requirements / setup.py / package.json).
+                                    Optional-dependencies (test extras) are reported in
+                                    counts["optional_not_listed"] for visibility and never drive
+                                    the verdict: a test extra is not an installed component.
   5. DEPENDENCY_DECLARED            ast import scan vs. pyproject / requirements / package.json
   6. SECRET_PATTERN_SCAN            github_pat_ / ghp_ / AKIA / PRIVATE KEY ... masked output only
   7. CI_ENTRY_PRESENT               .github/workflows or a documented re-runnable command
@@ -168,11 +172,20 @@ def discover_manifests(tree: str, files: list):
 
 
 def declared_dependencies(tree: str, manifests) -> dict:
-    """name -> [manifest rel paths] for every declared dependency."""
-    declared, errors = {}, []
+    """name -> [manifest rel paths] for every declared dependency.
+
+    Returns three views:
+      declared  every name from every manifest (runtime + optional) -- used by check 5
+      runtime   names installed by a plain `pip install <pkg>` -- used by check 4
+      optional  names that only appear under [project.optional-dependencies] -- check 4 reports
+                them but does not judge them
+    A name declared both ways counts as runtime.
+    """
+    declared, runtime, optional, errors = {}, {}, {}, []
     for rel, kind in manifests:
         path = os.path.join(tree, rel.replace("/", os.sep))
         names = []
+        extra_names = []
         try:
             if kind == "pyproject":
                 with open(path, "rb") as fh:
@@ -180,7 +193,7 @@ def declared_dependencies(tree: str, manifests) -> dict:
                 project = data.get("project", {})
                 names += list(project.get("dependencies", []) or [])
                 for extra in (project.get("optional-dependencies", {}) or {}).values():
-                    names += list(extra or [])
+                    extra_names += list(extra or [])
             elif kind == "requirements":
                 text = read_text(path) or ""
                 for line in text.splitlines():
@@ -201,12 +214,19 @@ def declared_dependencies(tree: str, manifests) -> dict:
         except Exception as exc:  # malformed manifest is recorded, never fatal
             errors.append({"manifest": rel, "error": type(exc).__name__})
             continue
-        for raw in names:
+        extra_keys = {norm_name(str(raw)) for raw in extra_names}
+        for raw in names + extra_names:
             name = norm_name(str(raw))
             if not name:
                 continue
             declared.setdefault(name, []).append(rel)
-    return {"declared": declared, "errors": errors}
+            if name in runtime:
+                runtime[name].append(rel)
+            elif name in extra_keys:
+                optional.setdefault(name, []).append(rel)
+            else:
+                runtime.setdefault(name, []).append(rel)
+    return {"declared": declared, "runtime": runtime, "optional": optional, "errors": errors}
 
 
 # --------------------------------------------------------------------------- #
@@ -431,12 +451,37 @@ def check_sbom(tree: str, files) -> tuple:
                         PASS, "SBOM_PARSED", detail, counts, samples), component_names, counts)
 
 
-def check_sbom_reconcile(sbom_verdict: str, component_names, declared: dict,
+def check_sbom_reconcile(sbom_verdict: str, component_names, runtime: dict, optional: dict,
                          manifest_count: int) -> CheckResult:
+    """Reconcile the SBOM against the RUNTIME dependency set only.
+
+    SCOPE DECISION (F2, W0 closeout -- do not silently undo):
+    An SBOM enumerates the components a consumer of the package actually installs.
+    A test/optional extra is, by definition, not part of that set unless installed,
+    and its declared form is a constraint (">=1.2"), not a resolved version. Comparing
+    extras against the SBOM therefore made every tree whose test harness needs
+    pytest/build/wheel/setuptools/cryptography permanently red for a reason no
+    packaging change could fix -- a checker defect, not a supply-chain defect.
+    Extras are now reported in counts["optional_not_listed"] and never drive the
+    verdict. The runtime comparison is NOT relaxed: a runtime dependency missing from
+    the SBOM still fails, with its own code SBOM_COMPONENT_MISSING_RUNTIME, and a
+    component the SBOM claims but no runtime manifest declares still fails with
+    SBOM_COMPONENT_MISMATCH.
+    """
     names = sorted({norm_name(n) for n in component_names if n})
-    decl = sorted(declared.keys())
-    counts = {"sbom_components": len(names), "declared_dependencies": len(decl),
-              "sbom_only": 0, "declared_only": 0}
+    runtime_names = sorted({norm_name(n) for n in runtime})
+    optional_names = sorted({norm_name(n) for n in optional} - set(runtime_names))
+    counts = {
+        "sbom_components": len(names),
+        "runtime_dependencies": len(runtime_names),
+        "declared_dependencies": len(runtime_names),
+        "declared_optional_dependencies": len(optional_names),
+        "sbom_only": 0,
+        "missing_runtime_components": 0,
+        "declared_only": 0,  # retained: always 0 now, extras are not "missing" by definition
+        "optional_not_listed": len([n for n in optional_names if n not in names]),
+        "optional_not_listed_names": [n for n in optional_names if n not in names],
+    }
 
     if sbom_verdict != PASS:
         return CheckResult("SBOM_COMPONENT_RECONCILE", "SBOM components reconcile with declared manifests",
@@ -448,20 +493,35 @@ def check_sbom_reconcile(sbom_verdict: str, component_names, declared: dict,
                            "SBOM present but the tree declares no dependency manifest to reconcile against",
                            counts, names[:20])
 
-    sbom_only = sorted(set(names) - set(decl))
-    declared_only = sorted(set(decl) - set(names))
+    sbom_only = sorted(set(names) - set(runtime_names))
+    missing_runtime = sorted(set(runtime_names) - set(names))
     counts["sbom_only"] = len(sbom_only)
-    counts["declared_only"] = len(declared_only)
-    if sbom_only or declared_only:
+    counts["missing_runtime_components"] = len(missing_runtime)
+    extras_note = (f"; {counts['optional_not_listed']} optional/test extra(s) not listed in the SBOM "
+                   f"(informational, not judged)")
+
+    if sbom_only:
         samples = [f"sbom_only:{n}" for n in sbom_only[:15]]
-        samples += [f"declared_only:{n}" for n in declared_only[:15]]
+        samples += [f"missing_runtime:{n}" for n in missing_runtime[:15]]
         return CheckResult("SBOM_COMPONENT_RECONCILE", "SBOM components reconcile with declared manifests",
                            FAIL, "SBOM_COMPONENT_MISMATCH",
-                           f"{len(sbom_only)} component(s) in SBOM only, {len(declared_only)} declared only",
+                           f"{len(sbom_only)} component(s) in SBOM only, "
+                           f"{len(missing_runtime)} runtime dependency(ies) missing from SBOM"
+                           + extras_note,
+                           counts, samples)
+    if missing_runtime:
+        samples = [f"missing_runtime:{n}" for n in missing_runtime[:15]]
+        return CheckResult("SBOM_COMPONENT_RECONCILE", "SBOM components reconcile with declared manifests",
+                           FAIL, "SBOM_COMPONENT_MISSING_RUNTIME",
+                           f"{len(missing_runtime)} declared runtime dependency(ies) absent from the SBOM"
+                           + extras_note,
                            counts, samples)
     return CheckResult("SBOM_COMPONENT_RECONCILE", "SBOM components reconcile with declared manifests",
                        PASS, "SBOM_COMPONENTS_RECONCILED",
-                       f"{len(names)} component(s) all declared and vice versa", counts, names[:20])
+                       f"{len(runtime_names)} runtime dependency(ies) all declared and vice versa"
+                       + extras_note,
+                       counts, names[:20] + [f"optional_not_listed:{n}"
+                                             for n in counts["optional_not_listed_names"][:10]])
 
 
 # --------------------------------------------------------------------------- #
@@ -719,7 +779,8 @@ def run_gate(tree: str, mode: str = "author") -> dict:
 
     sbom, components, sbom_counts = check_sbom(tree, files)
     results.append(sbom)
-    results.append(check_sbom_reconcile(sbom.verdict, components, declared, len(manifests)))
+    results.append(check_sbom_reconcile(sbom.verdict, components, decl_info["runtime"],
+                                        decl_info["optional"], len(manifests)))
     results.append(check_dependency_declared(tree, files, declared, len(manifests)))
     results.append(check_secret_scan(tree, files))
     results.append(check_ci_entry(tree, files))

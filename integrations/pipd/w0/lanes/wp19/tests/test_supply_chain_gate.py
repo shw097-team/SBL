@@ -338,6 +338,45 @@ class BranchTests(unittest.TestCase):
         chk = check_by_id(payload, "CI_ENTRY_PRESENT")
         self.assertEqual((chk["verdict"], chk["code"]), ("PASS", "CI_ENTRY_DOCUMENTED_COMMAND"))
 
+    def test_sbom_runtime_scope_ignores_test_extras(self):
+        """A test extra is not an installed component: it must not drive the verdict."""
+        code, payload, _, _ = self._run_tree("runtime_scope_ok", {
+            "LICENSE": "SPDX-License-Identifier: MIT\n",
+            "NOTICE": "x\n",
+            "pyproject.toml": (
+                "[project]\nname = \"demo\"\nversion = \"1.0\"\n"
+                "dependencies = [\"jsonschema>=4.0\"]\n"
+                "[project.optional-dependencies]\n"
+                "test = [\"pytest>=8,<9\", \"build>=1.2\"]\n"),
+            "SBOM.cdx.json": json.dumps({
+                "bomFormat": "CycloneDX", "specVersion": "1.5",
+                "metadata": {"component": {"type": "application", "name": "demo", "version": "1.0"}},
+                "components": [{"name": "jsonschema", "version": "4.26.0"}]}),
+        })
+        chk = check_by_id(payload, "SBOM_COMPONENT_RECONCILE")
+        self.assertEqual((chk["verdict"], chk["code"]), ("PASS", "SBOM_COMPONENTS_RECONCILED"))
+        self.assertGreaterEqual(chk["counts"]["optional_not_listed"], 2)
+        self.assertIn("pytest", chk["counts"]["optional_not_listed_names"])
+
+    def test_sbom_missing_runtime_dependency_is_its_own_code(self):
+        """Excluding extras must not weaken the runtime comparison."""
+        code, payload, _, _ = self._run_tree("runtime_scope_missing", {
+            "LICENSE": "SPDX-License-Identifier: MIT\n",
+            "NOTICE": "x\n",
+            "pyproject.toml": (
+                "[project]\nname = \"demo\"\nversion = \"1.0\"\n"
+                "dependencies = [\"jsonschema>=4.0\", \"cryptography>=42\"]\n"
+                "[project.optional-dependencies]\n"
+                "test = [\"pytest>=8,<9\"]\n"),
+            "SBOM.cdx.json": json.dumps({
+                "bomFormat": "CycloneDX", "specVersion": "1.5",
+                "metadata": {"component": {"type": "application", "name": "demo", "version": "1.0"}},
+                "components": [{"name": "jsonschema", "version": "4.26.0"}]}),
+        })
+        chk = check_by_id(payload, "SBOM_COMPONENT_RECONCILE")
+        self.assertEqual((chk["verdict"], chk["code"]), ("FAIL", "SBOM_COMPONENT_MISSING_RUNTIME"))
+        self.assertEqual(chk["counts"]["missing_runtime_components"], 1)
+
 
 def tearDownModule():
     if os.path.isdir(TMP_ROOT):
