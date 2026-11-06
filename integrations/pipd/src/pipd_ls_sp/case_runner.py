@@ -49,7 +49,12 @@ REQUIRED = ("case_id", "original_requirement_id", "original_oracle_id", "clause_
 CODES = ("CASE_RUNNER_REQUIRED_FIELD", "CASE_RUNNER_FILE_MISSING", "CASE_RUNNER_POS_NEG_COLLISION",
          "CASE_RUNNER_ORACLE_EMPTY", "CASE_RUNNER_RUNNER_EMPTY", "CASE_RUNNER_ENTRY_DRIFT",
          "CASE_RUNNER_BINDING_STATE", "CASE_RUNNER_APPLICABILITY", "CASE_RUNNER_PROBE_INVALID",
-         "CASE_RUNNER_EXEC_FAILED", "CASE_RUNNER_RUNNER_NOT_OWNED")
+         "CASE_RUNNER_EXEC_FAILED", "CASE_RUNNER_RUNNER_NOT_OWNED",
+         "CASE_RUNNER_PATH_ESCAPE", "CASE_RUNNER_EXIT_VERDICT_CONFLICT",
+         "CASE_RUNNER_BACKUP_DRIFT", "CASE_RUNNER_OUTPUT_NOT_SINGLE_JSON")
+
+_DRIVE = re.compile(r"^[A-Za-z]:")
+_UNC = ("//", "\\\\")
 
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -69,11 +74,38 @@ def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _need_file(root: Path, relative: str, label: str) -> Path:
+def _resolve_within(root: Path, relative: str, label: str) -> Path:
+    """Resolve a declared path and prove it stays inside `root`.
+
+    A case entry is data, so every path in it is untrusted input. An absolute path, a drive
+    letter, a UNC prefix, a `..` component or a symlink/junction that lands outside the root is a
+    typed refusal — never a silent read of whatever the caller happened to name.
+    """
     if not isinstance(relative, str) or not relative.strip():
         raise CaseRunnerRefusal(f"{label} is not a declared path", code="CASE_RUNNER_REQUIRED_FIELD")
-    candidate = Path(relative)
-    target = candidate if candidate.is_absolute() else (root / candidate)
+    raw = relative.strip().replace("\\", "/")
+    if _DRIVE.match(raw) or raw.startswith(_UNC):
+        raise CaseRunnerRefusal(f"{label} names an absolute or UNC location: {relative!r}",
+                                code="CASE_RUNNER_PATH_ESCAPE")
+    declared = Path(raw)
+    if declared.is_absolute():
+        raise CaseRunnerRefusal(f"{label} is absolute: {relative!r}", code="CASE_RUNNER_PATH_ESCAPE")
+    if ".." in declared.parts:
+        raise CaseRunnerRefusal(f"{label} traverses with '..': {relative!r}",
+                                code="CASE_RUNNER_PATH_ESCAPE")
+    base = root.resolve()
+    resolved = (base / declared).resolve()
+    try:
+        resolved.relative_to(base)
+    except ValueError:
+        raise CaseRunnerRefusal(
+            f"{label} resolves outside the admitted root ({resolved} not under {base})",
+            code="CASE_RUNNER_PATH_ESCAPE") from None
+    return resolved
+
+
+def _need_file(root: Path, relative: str, label: str) -> Path:
+    target = _resolve_within(root, relative, label)
     if not target.is_file():
         raise CaseRunnerRefusal(f"{label} does not exist: {target}", code="CASE_RUNNER_FILE_MISSING")
     return target
@@ -210,15 +242,32 @@ def run_entry(entry: dict[str, Any], *, subject_root: str | Path, python: str | 
                                "PYTHONDONTWRITEBYTECODE": "1"})
     elapsed = round(time.time() - started, 3)
     stdout = proc.stdout or ""
+    stripped = stdout.strip()
+    # The declared ABI is exactly one JSON object on stdout. Taking the last line would let a
+    # runner print arbitrary text and then a GREEN, so anything but a single object is refused.
+    if not stripped:
+        raise CaseRunnerRefusal(
+            "runner emitted no stdout (exit %s): %s" % (proc.returncode, (proc.stderr or "")[-300:]),
+            code="CASE_RUNNER_EXEC_FAILED")
     try:
-        payload = json.loads(stdout.strip().splitlines()[-1]) if stdout.strip() else {}
-    except Exception:
-        payload = {}
+        payload = json.loads(stripped)
+    except Exception as exc:
+        raise CaseRunnerRefusal(
+            "runner stdout is not a single JSON object (%s); last line was %r"
+            % (exc.__class__.__name__, stripped.splitlines()[-1][:200]),
+            code="CASE_RUNNER_OUTPUT_NOT_SINGLE_JSON") from None
     if not isinstance(payload, dict) or payload.get("verdict") not in ("GREEN", "RED"):
         raise CaseRunnerRefusal(
             "runner did not emit a typed verdict object (exit %s): %s"
             % (proc.returncode, (proc.stderr or stdout)[-300:]),
             code="CASE_RUNNER_EXEC_FAILED")
+    # A GREEN that the kernel disagrees with is not a verdict, it is a contradiction. RED with a
+    # non-zero exit is legitimate (the runner ran, and observed the defect).
+    if proc.returncode != 0 and payload["verdict"] == "GREEN":
+        raise CaseRunnerRefusal(
+            "runner declared GREEN but the process exited %s; a non-zero exit cannot be GREEN"
+            % proc.returncode,
+            code="CASE_RUNNER_EXIT_VERDICT_CONFLICT")
 
     return {
         "schema": "SBL.CaseRunner.WorldRaw@1",
@@ -248,20 +297,31 @@ def preimage(subject_root: str | Path, paths: list[str]) -> dict[str, str]:
 
 
 def restore(subject_root: str | Path, digests: dict[str, str], backup_dir: str | Path) -> dict[str, Any]:
-    """Restore files from a caller-supplied backup and prove the bytes came back."""
+    """Restore files from a caller-supplied backup and prove the bytes came back.
+
+    Both the write set and the backup are caller-supplied, so both are confined to their root and
+    the backup bytes are checked against the expected pre-image *before* anything is copied: a
+    backup that no longer holds the pre-image is a refusal, not a "restored" claim.
+    """
     base = Path(subject_root).resolve(strict=True)
-    backup = Path(backup_dir)
+    backup_root = Path(backup_dir).resolve(strict=True)
     restored = {}
     for rel, want in digests.items():
-        src = backup / rel
-        if not src.is_file():
-            raise CaseRunnerRefusal(f"backup has no {rel}", code="CASE_RUNNER_FILE_MISSING")
-        dst = base / rel
+        src = _need_file(backup_root, rel, f"backup:{rel}")
+        have = _sha(src)
+        if have != want:
+            raise CaseRunnerRefusal(
+                f"backup for {rel} holds {have[:12]}, expected pre-image {str(want)[:12]}",
+                code="CASE_RUNNER_BACKUP_DRIFT")
+        dst = _resolve_within(base, rel, f"target:{rel}")
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)
         got = _sha(dst)
         restored[rel] = {"expected": want, "observed": got, "restored": got == want}
-    return {"restored": restored, "exact": all(v["restored"] for v in restored.values())}
+    return {"restored": restored, "exact": all(v["restored"] for v in restored.values()),
+            "backup_root": str(backup_root),
+            "note": "exact here means the bytes match the pre-image digest; it is not a native "
+                    "rollback receipt - an original WorldReader must re-derive it"}
 
 
 if __name__ == "__main__":  # pragma: no cover - operator probe, not a gate
