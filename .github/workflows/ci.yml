@@ -58,6 +58,31 @@ jobs:
       - name: Verify published source manifest
         run: python tools/verify_source.py --self-check
 
+  # The three jobs above were green while nothing parsed SBOM.cdx.json, compared it with the
+  # declarations, or checked a licence. Two real defects (SBOM/CDX disagreement and two undeclared
+  # imports) survived that green run, so "CI passed" was never evidence about the supply chain.
+  # This job is the gate that was missing. It also runs --self-test: a gate that only ever prints
+  # PASS has not been shown to discriminate.
+  supply-chain:
+    name: supply-chain (ubuntu, py3.11)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # No installs: the gate reads pyproject/SBOM/src with the standard library only, so it runs
+      # before (and independently of) any dependency resolution it is meant to police.
+      - name: SBOM, declarations, licences and imports agree
+        run: python tools/supply_chain_check.py
+
+      - name: The gate refuses each mutation it claims to catch
+        run: python tools/supply_chain_check.py --self-test
+
   # Candidate-only check for the PIPD absorption (U04, record docs/pipd-migration/U04-CUTOVER.md).
   # It proves the three things CI can prove without the old repository's state: the absorbed tree
   # builds its own distribution, that distribution imports and runs with NO sbl-v01 installed, and
