@@ -381,8 +381,8 @@ def test_legacy_mode_cannot_be_selected_by_a_near_miss_value(world, monkeypatch,
     _expect_refusal(_legacy_ack(), "SBL_E_ACK_MISSING_FIELD", state="MISSING:permit_sha256")
 
 
-def test_legacy_mode_only_on_exact_flag_and_says_so(world, monkeypatch):
+def test_legacy_acceptance_is_closed_and_says_so(world, monkeypatch):
+    """The escape hatch is closed: even the exact flag cannot buy acceptance, and the refusal names it."""
     monkeypatch.setenv("SBL_SWOF_ACK_LEGACY", "1")
-    decision = modes.ModeGate("SWOF_CONNECTED", native_ack=_legacy_ack()).decide("repo.write")
-    assert decision.allowed is True
-    assert decision.reason == "NATIVE_ACK_VERIFIED_LEGACY_UNBOUND"
+    assert modes._legacy_enabled() is False
+    _expect_refusal(_legacy_ack(), "SBL_E_REQUIRES_NATIVE_ACK", state="SBL_ACK_LEGACY_ACCEPTANCE_CLOSED")

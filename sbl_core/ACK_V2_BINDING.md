@@ -43,9 +43,10 @@ Every existing `SBL-ACK@1` ACK stops verifying: it fails `SBL_E_ACK_MISSING_FIEL
 required fields, and its signature does not match the new scheme-tagged canonical form. That is the
 point — an ACK that never expires is the defect, not a feature.
 
-The four-field form survives only behind `SBL_SWOF_ACK_LEGACY=1` (exact string; `''`, `'0'`, `'true'`,
-`'yes'`, `'TRUE'`, `' 1'` all stay strict), and every decision it produces is labelled
-`NATIVE_ACK_VERIFIED_LEGACY_UNBOUND` so a receipt cannot quietly present it as bound.
+The four-field form is **closed**. `SBL_SWOF_ACK_LEGACY` no longer enables acceptance at all: setting
+it (to any value, including the exact `1`) yields `SBL_E_REQUIRES_NATIVE_ACK` with
+`detail.state = "SBL_ACK_LEGACY_ACCEPTANCE_CLOSED"`. The variable is kept only so an operator who sets
+it is told why nothing verifies, instead of silently reading a strict-mode refusal.
 
 ## 4. What an issuer has to change
 

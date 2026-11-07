@@ -115,10 +115,11 @@ def test_swof_accepts_an_ack_signed_with_the_configured_key(monkeypatch):
     monkeypatch.setenv("SBL_SWOF_ACK_KEY", key)
     monkeypatch.setenv("SBL_SWOF_ACK_LEGACY", "1")
     ack = _ack(signature=modes.ack_signature("native-host", "P-1", "S-1", key))
-    decision = ModeGate("SWOF_CONNECTED", native_ack=ack).decide("net.call")
-    assert decision.allowed is True
-    assert decision.no_effect is False
-    assert decision.reason == "NATIVE_ACK_VERIFIED_LEGACY_UNBOUND"
+    # the env flag can no longer enable the four-field form; it only explains why nothing verifies
+    with pytest.raises(SBLError) as exc:
+        ModeGate("SWOF_CONNECTED", native_ack=ack).decide("net.call")
+    assert exc.value.code == "SBL_E_REQUIRES_NATIVE_ACK"
+    assert exc.value.detail["state"] == "SBL_ACK_LEGACY_ACCEPTANCE_CLOSED"
 
 
 @pytest.mark.parametrize(
