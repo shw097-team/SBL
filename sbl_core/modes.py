@@ -152,7 +152,14 @@ def _configured_issuers() -> set[str]:
 
 
 def _legacy_enabled() -> bool:
-    """Legacy SBL-ACK@1 mode: exact ``1`` only, and never the default.
+    """Legacy SBL-ACK@1 acceptance is CLOSED. Always False.
+
+    The four-field form has no expiry, no scope and no permit binding, so one signature authorised
+    every claim that reused it (measured: 461472d2 signed six different subjects). The switch is kept
+    as a symbol because callers import it, but it can no longer enable acceptance: setting the env now
+    yields ``SBL_ACK_LEGACY_ACCEPTANCE_CLOSED`` instead of a verified ACK.
+
+    Original note, kept for archaeology: exact ``1`` only, and never the default.
 
     ``""``, ``"0"``, ``"true"``, ``"yes"``, ``" 1"`` all read as strict, so the downgrade cannot be
     reached by a config flag that merely looks truthy. It is still an env switch, which is the same
@@ -161,7 +168,7 @@ def _legacy_enabled() -> bool:
     already there. It does make the resulting decisions say so (``NATIVE_ACK_VERIFIED_LEGACY_UNBOUND``).
     """
 
-    return os.environ.get(_ACK_LEGACY_ENV, "") == "1"
+    return False
 
 
 def _complete_ack(native_ack: Any) -> bool:
@@ -310,13 +317,10 @@ def _ack_state(native_ack: Any, ecp: Any = None) -> tuple[bool, str]:
     if issuer not in issuers:
         return False, "ISSUER_NOT_TRUSTED"
 
-    if _legacy_enabled():
-        expected = ack_signature(
-            issuer, str(native_ack.get("permit_id")), str(native_ack.get("subject_id")), key
-        )
-        if not _mac_equal(expected, str(native_ack.get("signature")).strip().lower()):
-            return False, "SIGNATURE_MISMATCH"
-        return True, "NATIVE_ACK_VERIFIED_LEGACY_UNBOUND"
+    if os.environ.get(_ACK_LEGACY_ENV, "") == "1":
+        # The escape hatch is closed: an operator who sets it must be told the mode is gone rather
+        # than silently receiving a strict-mode refusal they cannot interpret.
+        return False, "SBL_ACK_LEGACY_ACCEPTANCE_CLOSED"
 
     _require_bound_fields(native_ack)
     expected_v2 = ack_signature_v2(
