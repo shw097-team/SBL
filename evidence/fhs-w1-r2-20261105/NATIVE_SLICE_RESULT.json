@@ -1,0 +1,128 @@
+{
+ "schema": "FHS.W1.PREIMPL.NATIVE_SLICE_RESULT/v1",
+ "changeset": "FHS-W1-R2-PREIMPL-20261105",
+ "observed_at": "2026-11-05T06:55:50.000018+00:00",
+ "slice_id": "W1-R2-SLICE-01",
+ "source_identity": {
+  "how": "git clone --depth 1 --filter=blob:none --sparse https://github.com/shw097-team/SBL.git, sparse path integrations/pipd",
+  "head": "004e88913d5c1fb57e09e8d2bf744ef1547fecbc",
+  "cli_py_blob": "1e400fea5015db6a4df6ea028c553f82ef218112",
+  "registry_py_blob": "e71043e918d7f030700c952674db39120b095d3c",
+  "byte_identical_to_remote_main": true,
+  "note": "local SBL working tree does NOT contain integrations/pipd; a stale probe copy had a different cli.py, so the slice was re-run against a sparse clone of remote main and both blobs were re-hashed to prove identity"
+ },
+ "executor": "PYTHONPATH=<sparse clone>/integrations/pipd/src python -m pipd_ls_sp.cli (no install, no site-packages write)",
+ "steps": [
+  {
+   "id": "c01_help",
+   "argv": "--help",
+   "exit": 0,
+   "observation": "13 verbs enumerated",
+   "stdout_head": "usage: pipd [-h] [--root ROOT]\n            {init,intake,profile,compile-pi,bind-pd,compile-ecp,compile-tqaep,validate,doctor,project,export,diff,repair} ...\n\nPIPD-LS-SP compiler CLI 0.1.1a5 (13 commands)\n\npositional arguments:\n  {init,intak"
+  },
+  {
+   "id": "c02_intake",
+   "argv": "intake",
+   "exit": 0,
+   "observation": "intent card produced from a clause-bound source",
+   "stdout_head": "{\n \"atoms\": [\n  {\n   \"acceptance_cue\": \"MUST: # REQ-NOTES — W1 r2 native slice fixture\",\n   \"axis\": \"intent\",\n   \"owner\": \"PIPD-EC\",\n   \"req_id\": \"REQ-f843697ac381975e3490\",\n   \"risk_guard\": {\n    \"failure_condition\": \"violate MUST: # REQ-N"
+  },
+  {
+   "id": "c03_profile",
+   "argv": "profile --profile STANDARD",
+   "exit": 0,
+   "observation": "profile selected, no host claim",
+   "stdout_head": "{\n \"artifact_depth\": \"L3_INTEGRATION_RUNTIME\",\n \"assurance\": [\n  \"deterministic_validator\",\n  \"negative_security\"\n ],\n \"axes\": [\n  \"intent\",\n  \"verification\"\n ],\n \"canonical_truth\": \"single\",\n \"escalated\": false,\n \"escalation_reason\": null,"
+  },
+  {
+   "id": "c04_compile1",
+   "argv": "compile-pi",
+   "exit": 0,
+   "observation": "PI-PKG produced",
+   "stdout_head": "{\n \"_profile_meta\": {\n  \"artifact_depth\": \"L3_INTEGRATION_RUNTIME\",\n  \"assurance\": [\n   \"deterministic_validator\",\n   \"negative_security\"\n  ],\n  \"axes\": [\n   \"intent\",\n   \"knowledge\"\n  ],\n  \"canonical_truth\": \"single\",\n  \"escalated\": false,"
+  },
+  {
+   "id": "c05_compile2",
+   "argv": "compile-pi (repeat)",
+   "exit": 0,
+   "observation": "identical bytes -> deterministic",
+   "stdout_head": "{\n \"_profile_meta\": {\n  \"artifact_depth\": \"L3_INTEGRATION_RUNTIME\",\n  \"assurance\": [\n   \"deterministic_validator\",\n   \"negative_security\"\n  ],\n  \"axes\": [\n   \"intent\",\n   \"knowledge\"\n  ],\n  \"canonical_truth\": \"single\",\n  \"escalated\": false,"
+  },
+  {
+   "id": "c06_rebuild",
+   "argv": "compile-pi (rebuild after removing the previous output)",
+   "exit": 0,
+   "observation": "identical bytes -> replay-safe",
+   "stdout_head": "{\n \"_profile_meta\": {\n  \"artifact_depth\": \"L3_INTEGRATION_RUNTIME\",\n  \"assurance\": [\n   \"deterministic_validator\",\n   \"negative_security\"\n  ],\n  \"axes\": [\n   \"intent\",\n   \"knowledge\"\n  ],\n  \"canonical_truth\": \"single\",\n  \"escalated\": false,"
+  },
+  {
+   "id": "c07_neg_missing",
+   "argv": "compile-pi --intent <missing>",
+   "exit": 2,
+   "observation": "typed IO_NOT_FOUND, no retry",
+   "stdout_head": "{\n \"code\": \"IO_NOT_FOUND\",\n \"message\": \"cannot read intent card at ..\\\\out\\\\no_such_intent.json: No such file or directory\",\n \"verdict\": \"FAIL\"\n}\n"
+  },
+  {
+   "id": "c08_bind_ok",
+   "argv": "bind-pd --repo-root <real git checkout @004e8891>",
+   "exit": 0,
+   "observation": "RepoContext verified, PD late-bound",
+   "stdout_head": "{\n \"RepoContext\": {\n  \"branch\": \"main\",\n  \"caller_claims\": {\n   \"branch\": {\n    \"matches_host\": true,\n    \"value\": \"main\",\n    \"verified\": true\n   },\n   \"currentness\": {\n    \"matches_host\": true,\n    \"value\": \"FRESH\",\n    \"verified\": true\n "
+  },
+  {
+   "id": "c09_bind_norepo",
+   "argv": "bind-pd (no repo root)",
+   "exit": 2,
+   "observation": "typed REPO_CONTEXT_MISSING",
+   "stdout_head": "{\n \"code\": \"REPO_CONTEXT_MISSING\",\n \"message\": \"PD late-binding requires a RepoContext (no PREDEV_READY without one)\",\n \"verdict\": \"FAIL\"\n}\n"
+  },
+  {
+   "id": "c10_validate",
+   "argv": "validate --bundle <pi>",
+   "exit": 2,
+   "observation": "INPUT_SHAPE_INVALID: schema file absent in this checkout",
+   "stdout_head": "{\n \"code\": \"INPUT_SHAPE_INVALID\",\n \"message\": \"FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\\\\\Projects\\\\\\\\Agent_Workspace\\\\\\\\FHS_W1_Preimplementation_Admission\\\\\\\\work\\\\\\\\sbl_main\\\\\\\\integrations\\\\\\\\pipd\\\\\\\\schemas\\\\\\\\_profi"
+  }
+ ],
+ "idempotency": {
+  "pi_sha256": {
+   "1": "f8b51ef566aaf699e5f2f121f1f3c216f9b50bf75200cb8c6bbafb2b707c8a6f",
+   "2": "f8b51ef566aaf699e5f2f121f1f3c216f9b50bf75200cb8c6bbafb2b707c8a6f",
+   "3": "f8b51ef566aaf699e5f2f121f1f3c216f9b50bf75200cb8c6bbafb2b707c8a6f"
+  },
+  "all_equal": true,
+  "evidence": "three independent compile-pi runs, including one after the previous output was removed"
+ },
+ "recovery": {
+  "interruption_model": "author-side process death only; no world effect exists",
+  "resume_test": "c06 rebuild from the same intent card produced identical bytes",
+  "unknown_world_effect": "NONE_EXECUTED",
+  "blind_retry": "NOT_PERFORMED (c07/c09 recorded first-fail and stopped)"
+ },
+ "pd_binding": {
+  "repo_root": "sparse clone of SBL main (head 004e8891, branch main, clean)",
+  "repocontext_verified": true,
+  "refusal_without_repo": "REPO_CONTEXT_MISSING"
+ },
+ "blocked": {
+  "compile_ecp": "needs a bound PD from an original writer context plus an effect-specific contract",
+  "compile_tqaep": "same",
+  "validate_full_bundle": "the sparse checkout lacks schemas/_profile_meta.schema.json; validate refused with INPUT_SHAPE_INVALID rather than guessing",
+  "project_export_diff_repair": "not exercised",
+  "hgk_admission": "no original issuer reply (HOST_OPS HOLD)",
+  "host_install_load": "HOST_OPS HOLD",
+  "world_raw": "none - no world effect was ever executed"
+ },
+ "verdict": "NATIVE_SLICE_PARTIAL_REAL_WRITER_PATH",
+ "what_this_proves": [
+  "the exact remote-main PIPD bytes (cli.py + registry.py blob identity) executed as a real process",
+  "intake -> profile -> compile-pi is deterministic and replay-safe on this host",
+  "PD late-binding works against a REAL local RepoContext (head 004e8891, clean, FRESH) and refuses with a typed code when the context is missing"
+ ],
+ "what_this_does_not_prove": [
+  "no ECP/TQAEP, no projection/export, no repair path",
+  "no HGK WorkID/Lease/WorldRaw, no host install/load/invoke, no user effect",
+  "no canonical acceptance and no independent checker"
+ ],
+ "claim": "NATIVE_SLICE_PARTIAL"
+}

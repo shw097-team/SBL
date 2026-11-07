@@ -1,0 +1,192 @@
+{
+ "schema": "FHS.W1.R2.STATIC_ACCEPTANCE/v1",
+ "artifact_id": "FHS-PIPD-LS-PKG-W1-AUTHOR-FINAL-20261105-R2-AFFECTED-REPAIR",
+ "checked_at": "2026-11-05T06:09:36.980243+00:00",
+ "checked_by": "LOCAL_HERMES_AUTHOR_SIDE",
+ "claim_ceiling": "AUTHOR_FINAL_STATIC_ACCEPTED_WITH_AFFECTED_HOLDS",
+ "verdict": "PASS_STATIC_WITH_SCOPED_HOLDS",
+ "body_sha256": "e40df2999fbffdb96a32a2e35cddce228abdd82080d5a5bedd415dfc938669ce",
+ "annex_sha256": "d7e0ffe09d011ae3a347a2c2704d1bfd66146f97ba5a4ffd4f19c16234c23de7",
+ "baseline_suite": {
+  "reused_validator": "validation/author_validator.py (r1, byte-locked)",
+  "status": "PASS",
+  "counts": {
+   "source_files": 31,
+   "source_lines": 166,
+   "subclaims": 57,
+   "design_ids": 24,
+   "asset_slots": 24,
+   "protected_h1": 50,
+   "current_l1_spans": 13,
+   "main_chapters": 13,
+   "crosswave_chapters": 37,
+   "wp_cases": 32,
+   "work_packages": 22,
+   "dag_edges": 36,
+   "archived_holds": 68,
+   "handoffs": 4,
+   "pipd_cli": 13,
+   "pipd_ordered_families": 19,
+   "pipd_skills": 8
+  }
+ },
+ "packaging_suite": {
+  "status": "PASS",
+  "note": "MANIFEST members == file set; per-member bytes+sha; sha256sum parity"
+ },
+ "r2_suite": {
+  "status": "PASS",
+  "checks": {
+   "w0_layers": 4,
+   "holds": 71,
+   "findings": 22,
+   "specs": 3,
+   "pains": 7,
+   "w1_wp": 8,
+   "envelopes": 4,
+   "assets": 24,
+   "reader_requests": 14
+  },
+  "covers": [
+   "W0 four layers (68/70/71/EFFECTIVE_HOLD)",
+   "71 holds + projection without value rewrite",
+   "22 affected findings with 18 required fields",
+   "3 distinct SPEC roles + pinned SPEC bytes",
+   "8 WP contracts with distinct NEG/SEC first-fails",
+   "4 envelopes rebound to r2 candidate SHA",
+   "24 assets with a single effective pin and no promotion",
+   "reader requests",
+   "claim-ceiling discipline"
+  ]
+ },
+ "negative_fixtures": {
+  "status": "PASS",
+  "baseline": "PASS",
+  "cases": 14,
+  "pass": 14,
+  "fail": 0,
+  "detail": [
+   {
+    "case_id": "R2-NEG-01-H1-CHAR",
+    "expected": "PROTECTED_H1_TITLE_MISMATCH",
+    "observed": "PROTECTED_H1_TITLE_MISMATCH",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-02-SPAN-SHIFT",
+    "expected": "L1_CH_LOCATOR_MISMATCH",
+    "observed": "L1_CH_LOCATOR_MISMATCH",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-03-SOURCE-LINE",
+    "expected": "SOURCE_BYTE_TRACE_NACK",
+    "observed": "SOURCE_BYTE_TRACE_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-04-DESIGN-DROP",
+    "expected": "DESIGN_OBLIGATION_MISSING_OR_DUPLICATE",
+    "observed": "DESIGN_OBLIGATION_MISSING_OR_DUPLICATE",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-05-WP-NEG-EQ-SEC",
+    "expected": "CASE_SEMANTIC_DUPLICATE_NACK",
+    "observed": "CASE_SEMANTIC_DUPLICATE_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-06-TWO-PINS",
+    "expected": "TECH_EFFECTIVE_PIN_CONFLICT",
+    "observed": "TECH_EFFECTIVE_PIN_CONFLICT",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-07-WP19-DONE",
+    "expected": "W0_CLAIM_CEILING_NACK",
+    "observed": "W0_CLAIM_CEILING_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-08-HOLD-DROP",
+    "expected": "W0_HOLD_ID_LOSS_NACK",
+    "observed": "W0_HOLD_ID_LOSS_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-09-MEMBER-MISSING",
+    "expected": "ZIP_MEMBER_MANIFEST_NACK",
+    "observed": "ZIP_MEMBER_MANIFEST_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-10-ASSET-PROMOTE",
+    "expected": "ASSET_STATUS_PROMOTION_NACK",
+    "observed": "ASSET_STATUS_PROMOTION_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-11-E26-BLOCKS-READ",
+    "expected": "OVERGOVERNANCE_NONAFFECTED_BLOCK_NACK",
+    "observed": "OVERGOVERNANCE_NONAFFECTED_BLOCK_NACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-12-FAKE-ACK",
+    "expected": "HANDOFF_FAKE_ORIGINAL_ACK",
+    "observed": "HANDOFF_FAKE_ORIGINAL_ACK",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-13-MD-TRUNC",
+    "expected": "MARKDOWN_TRACE_TRUNCATED",
+    "observed": "MARKDOWN_TRACE_TRUNCATED",
+    "verdict": "PASS"
+   },
+   {
+    "case_id": "R2-NEG-14-CARD-MISSING",
+    "expected": "DESIGN_OBLIGATION_CARD_MISSING",
+    "observed": "DESIGN_OBLIGATION_CARD_MISSING",
+    "verdict": "PASS"
+   }
+  ]
+ },
+ "not_run": [
+  "NATIVE_E2E",
+  "OS_SID_ACL_SOD",
+  "HGK_ISSUER_PERMIT",
+  "CANONICAL_PIPD_COMPILE",
+  "HOST_INSTALL_LOAD_INVOKE",
+  "USER_CONSENT_EFFECT",
+  "PROTECTED_CHECKER",
+  "PUBLISHER_RELEASE"
+ ],
+ "holds": [
+  "F-05",
+  "F-07",
+  "F-08",
+  "F-09",
+  "F-12",
+  "F-13",
+  "N-03",
+  "N-07"
+ ],
+ "effects_used": [
+  "SOURCE_READ",
+  "LOCAL_DRAFT_WRITE"
+ ],
+ "effects_held": [
+  "DEV_REPO_WRITE",
+  "HOST_OPS",
+  "USER_EFFECT",
+  "RELEASE_EFFECT"
+ ],
+ "world_effect_state": "NOT_RUN",
+ "gate_impl": {
+  "gstack": "NOT_INSTALLED (pin git:6bdafb2cf5acf05e6e9ab23a74e682e155d1fdde recorded, method-only)",
+  "substitute": "LOCAL_INVARIANT_GATE (author_validator + r2_check + 13 destructive fixtures)",
+  "note": "substitute gate is author-side only; it cannot stand in for a Protected Checker"
+ },
+ "note": "PASS_STATIC 只表示作者端位元組與契約在本機實測通過；不代表 Original Reader / Native / Independent 任一層。"
+}
