@@ -63,14 +63,18 @@ def _ack(**overrides):
 
 
 def test_swof_refuses_an_ack_that_is_only_four_non_empty_strings(monkeypatch):
-    """V15-MODE-01: typed-but-unverified strings used to be accepted as a native authorisation."""
+    """V15-MODE-01: typed-but-unverified strings used to be accepted as a native authorisation.
+
+    D-18 shifted *which* refusal comes first: a four-string ACK no longer reaches the MAC check,
+    because the strict form requires four more signed fields before anything is verified.
+    """
 
     monkeypatch.setenv("SBL_SWOF_ACK_ISSUERS", "native-host")
     monkeypatch.setenv("SBL_SWOF_ACK_KEY", "k" * 32)
     with pytest.raises(SBLError) as caught:
         ModeGate("SWOF_CONNECTED", native_ack=_ack()).decide("net.call")
-    assert caught.value.code == "SBL_E_REQUIRES_NATIVE_ACK"
-    assert caught.value.detail.get("state") == "SIGNATURE_MISMATCH"
+    assert caught.value.code == "SBL_E_ACK_MISSING_FIELD"
+    assert caught.value.detail.get("state") == "MISSING:permit_sha256"
 
 
 def test_swof_refuses_when_no_trust_anchor_is_configured(monkeypatch):
@@ -99,16 +103,22 @@ def test_ack_signature_cannot_be_moved_between_tuples():
 
 
 def test_swof_accepts_an_ack_signed_with_the_configured_key(monkeypatch):
-    """The refusal must not be blanket: a correctly signed ACK from a trusted issuer still allows."""
+    """The refusal must not be blanket: a correctly signed ACK from a trusted issuer still allows.
+
+    D-18: the strict (default) form also requires the four signed binding fields and an ECP; its
+    positive path is ``tests/test_ack_binding.py::test_strict_positive_bound_ack_is_allowed``. This
+    case now exercises the env-gated legacy form, which is the only one a four-field ACK can satisfy.
+    """
 
     key = "k" * 32
     monkeypatch.setenv("SBL_SWOF_ACK_ISSUERS", "native-host,other-host")
     monkeypatch.setenv("SBL_SWOF_ACK_KEY", key)
+    monkeypatch.setenv("SBL_SWOF_ACK_LEGACY", "1")
     ack = _ack(signature=modes.ack_signature("native-host", "P-1", "S-1", key))
     decision = ModeGate("SWOF_CONNECTED", native_ack=ack).decide("net.call")
     assert decision.allowed is True
     assert decision.no_effect is False
-    assert decision.reason == "NATIVE_ACK_VERIFIED"
+    assert decision.reason == "NATIVE_ACK_VERIFIED_LEGACY_UNBOUND"
 
 
 @pytest.mark.parametrize(
