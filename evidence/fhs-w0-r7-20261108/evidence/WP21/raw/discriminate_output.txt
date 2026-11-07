@@ -1,0 +1,15 @@
+WP-FHS-21 discrimination demo  (author synthetic fixtures, NATIVE_NOT_RUN)
+fixtures: C:\Projects\Agent_Workspace\FHS_W0_R6_20261108\evidence\WP21\raw\fixtures
+
+row                            fixture  verdict expect   first_fail                       observed
+----------------------------------------------------------------------------------------------------------------------
+AC-C39-POS-DETERMINISTIC       POS      PASS   PASS     -                                PI-PKG{atoms:3,profile:strict,source_sha:0af
+AC-C39-POS-DETERMINISTIC       NEG      FAIL   FAIL     MISSING_POS_FUNCTION             PI-PKG{atoms:3,profile:loose,source_sha:0af1
+AC-C39-POS-REFERENCE_OUTPUT    POS      PASS   PASS     -                                9b9a5ca9b9d720d36d7d4f0ffb07e2cc9425ee486eef
+AC-C39-POS-REFERENCE_OUTPUT    NEG      FAIL   FAIL     MISSING_POS_FUNCTION             f7c2f52ba0d9d0bbfa96c63cd646d5d7acb4408eea32
+AC-C39-SEC-DETERMINISTIC       LAUNDER  HOLD   HOLD     ORACLE_TYPE_OR_SCOPE_MISMATCH    scope=POS row=SEC
+
+discrimination (AC-C39-POS-DETERMINISTIC): POS fixture -> PASS, NEG fixture -> FAIL  => DISCRIMINATES
+laundering probe: same POS fixture under AC-C39-SEC-DETERMINISTIC -> HOLD (scope refusal, because the 12 classes share one mechanism text per OracleType)
+
+verdict: DEMO_DISCRIMINATES (author-side mechanism only, NOT a native oracle run)

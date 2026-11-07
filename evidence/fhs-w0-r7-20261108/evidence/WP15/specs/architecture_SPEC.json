@@ -1,0 +1,202 @@
+{
+ "artifact_id": "FHS-WP15-SPEC-ARCHITECTURE-DRAFT",
+ "version": "W0-r6-wp15-1",
+ "role": "SE",
+ "goal": "把 Product SPEC 宣告的差額，落到五個 typed seam 上：每個 seam 一個 writer、一個 reader、一組被禁止的效果，並指出 ABI 版本候選與這一輪不能宣告的 Host 狀態。",
+ "subject_ref": {
+  "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+  "binding": "AUTHOR_W0_DEMO_SUBJECT__ORIGINAL_PIPD_UNBOUND",
+  "note": "與 Product／Program SPEC 同一 Subject；本 SPEC 只增加架構軸，不換主體。"
+ },
+ "source_refs": [
+  {
+   "source_id": "A01-W0-CH11-SE-CONTRACT",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 132104,
+   "byte_end": 132662,
+   "quoted_text": "**Architecture SPEC — `W0/SE/ArchitectureSPEC-DRAFT`**：`system_context=Fabric→SBL(PIPD)→HGK→Hermes`, `original_writers`, `seams=S1..S5`, `effect_matrix`, `ABI_version_candidate`, `ADR-001..`, `security_SO_D`, `sourceSHA`, `NEG wrongScope/PolicyEpoch/Writer`, `recovery=WorldRaw reconciliation before retry`。輸入 Product SPEC；輸出五 Seam/ADR/ABI 接線草案和受影拒收。Consumer：原 SBL/PIPD/Fabric/HGK 原 Registry；POS 每 seam 有唯一責任與原 Consumer；NEG 同一新服務同時簽 Permit/Checker → `ARCH_SOD_BREACH`。"
+  },
+  {
+   "source_id": "A02-W0-CH11-SE-CONSUMER",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 128694,
+   "byte_end": 129083,
+   "quoted_text": "| Architecture SPEC | Product SPEC 同 Subject + 五 Typed Seam + 原現役三庫/ABI/Effect Registry → SE 給 ADR | 五 Seam 各有原 Producer/Reader/Consumer、原單 Writer、風險、Positive/Negative、No-Second-Issuer | SBL Architecture/HGK/Fabric Domain Reader | POS：正確區分 READ/DRAFT/DEV/OPS；NEG：把 GitHub HEAD 或 staging 當 Host Active → `HOST_READBACK_HOLD` |"
+  },
+  {
+   "source_id": "A03-W0-CH15-EFFECT-CLASSES",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 146967,
+   "byte_end": 147473,
+   "quoted_text": "`SOURCE_READ`=原 ACL+hash；`LOCAL_DRAFT_WRITE`=授權隔離 output root+cleanup；`REPO_WRITE`=W2 exact RepoContext/HEAD/preimages/DEV ECP/Issuer；`HOST_OP`=原 Host SID/PolicyEpoch/TTL/OPS ECP；`RELEASE`=原 Publisher/GHP-02+Protected Checker。W0 不核發 Permit，原 ABI/OperationType 未綁標 `EFFECT_UNBOUND`。POS 同一段原 source read 不受未授權 HOST_OP 阻斷；NEG 把所有操作歸一律 OPS → `EFFECT_CLASS_COLLAPSED`。此處只作 W1/W2 handoff，不改寫 CH15 原 Writer。"
+  },
+  {
+   "source_id": "A04-SRC01-ARCH-SPEC",
+   "file": "01_PRODUCT_AUTHORITY_SPINE(4).md",
+   "file_sha256": "e257dfcd01f2e8afeda1dd88fdd33b4ef7346bf224572e60935bf9834d25b02c",
+   "byte_start": 12138,
+   "byte_end": 13915,
+   "quoted_text": "### Architecture SPEC｜單一 Writer 與有版本的 ABI\n\n| Seam | Producer → Consumer | Input | 受保護輸出 | FirstFail |\n|---|---|---|---|---|\n| Source / TPM | OWNER → TPM-SP | Goal、known_answers、source locators | 三 SPEC、IntentCard Proposal | INTAKE_INVALID |\n| PIPD Canonical | PIPD 原 Writer → PD/ECP Reader | Frozen Intent、Authority、Profile、PI | 原 PI/PD/DEV/OPS/TQAEP | CR-DOC04-STATE-MAP |\n| Fabric Policy | Fabric 原 Owner → HGK 既有 Consumer | approved Policy + epoch/SHA | active→loaded→consumed chain | POLICY_NOT_LOADED |\n| HGK Admission | 原 Issuer → 原 Hermes Worker | ECP、exact Subject/Scope、nonce/TTL | WorkOrder/ExecutionBinding/Permit | ADMISSION_DENIED |\n| Hermes Execute | Hermes 原 Queue/Journal → World Reader | WorkID、lease generation、operation_id | Raw pre/post、cursor、residue | LEASE_FENCING_DENY |\n| Challenge / Checker | Challenge reviewer → Protected Checker | Oracle、same-candidate Raw | 獨立 Principal 的驗收結果 | TQ_SOD / CHECKER_NOT_BOUND |\n| Publisher | 原 Release Writer → 合法收件者 | independent PASS + Owner approval | versioned release receipt | RELEASE_HOLD |\n\n**ADR-01**：共享核心不等於共享 Principal；不新增 Issuer、Queue、Policy、Checker、Release Authority。**ADR-02**：`SOURCE_READ`/`LOCAL_DRAFT_WRITE` 和 L2/L3 真效果分流；零效果不要求不存在的 operation nonce。**ADR-03**：無實際 Registry Reader、Host Process Raw 或 Schema 時提案保持 `PROPOSED/NOT_BOUND`，不得猜 enum。**ADR-04**：既有同 scope WorkID/cursor 先 resume；unknown effect 先 reconcile 而非重播。**ADR-05**：PREW3_SHADOW 只讀 frozen readset；產品建置在獨立 LOCAL_BUILD subject 中運行，不拿 Shadow 上升權限。\n"
+  },
+  {
+   "source_id": "A05-SRC03-FIVE-ABI",
+   "file": "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+   "file_sha256": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284",
+   "byte_start": 8543,
+   "byte_end": 9934,
+   "quoted_text": "## R2-03-ABI：五個 typed handoff\n\n1. Source/Intent/Profile → PI：原 Intake/Source/Profile Writer 供應 source digest、atoms、profile；PI Writer 消費 strict schema。副檔存十二軸風險與原 27/149 映射；禁止注入 `_profile_meta`。DOC07 ↔ legacy DOC03、12→9 未 Owner 綁定時只此 promotion HOLD。\n2. PI → PD：原 Binder 以真 root/HEAD/index/untracked/ACL/reparse 產 RepoContext；PI 語義不能隨 Host 改寫。HEAD 變動 → `PD_BIND_STALE`；重新讀回，不擴 WriteSet。\n3. PD → ConstructionContract + DEV ECP：exact repo files/preimage、expected_changes、tests、rollback 分開交原 Construction/ECP Writer。ECP payload 不等於 HGK Permit。\n4. PD → OPS ECP：Host/User/Remote/Release 必拆不同 scope 與 receiver；nonce/TTL/epoch/principal 由真 Issuer 綁。DEV credential 送 Host install → `WRONG_EFFECT_GRANT`。\n5. PlannedTQAEP → Checker request：receipt-free 計畫只列 case/oracle/fixtures；原受保護 Reader 解析 Raw、確認不同 principal 才可簽 verdict。Maker 的 expected/fixture 不得轉成 actual raw。\n\n本輪已讀的 native Schema、required、strict unknown 欄拒收與 CLI 實測在 [BODY-02](02_PIPD_LIFECYCLE_AND_TPM.md)。這些是 Repo schema readback，不是 Windows LoadedRegistry ACK。外層 source trace sidecar 只與 payload hash 關聯，不塞進原 strict payload。\n"
+  },
+  {
+   "source_id": "A06-SRC03-EFFECT-TABLE",
+   "file": "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+   "file_sha256": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284",
+   "byte_start": 6817,
+   "byte_end": 7509,
+   "quoted_text": "## R2-03-EFFECT：效果與退出按類處理\n\n| EffectClass | tier | permission_basis | Done | rollback/compensation/residue |\n|---|---|---|---|---|\n| SOURCE_READ | L1 | 原唯讀 ACL/read scope | 讀取 hash/時間/來源及讀取錯誤；world diff=0 | 丟棄快照重讀；不要求 Permit 或卸載收據 |\n| LOCAL_DRAFT_WRITE | L0 | 明列隔離 output root 的使用者授權 | 新檔 UTF8/LF/hash/readback；原來源 hash 不變 | 回復本輪 preimage 或刪本輪新檔；不刪他人產物 |\n| REPO_WRITE | L2 | DEV ECP + exact WriteSet + 原 HGK admission | pre/post HEAD/diff/test/raw/受影 residue | 原 preimage inverse patch；HEAD 漂移先停，不能 reset 他人變更 |"
+  },
+  {
+   "source_id": "A07-SRC02-SE-STAGES",
+   "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+   "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+   "byte_start": 6096,
+   "byte_end": 6626,
+   "quoted_text": "| SE:T0 | repoboundaries, sourceindex, source_sha256 | enumerate source/destination trust seams → SystemReadset@1(owners,sha,scope) / ArchitectureOwner/HostReader | RepoBoundaries+SourceIndex; source_sha present；SYSTEM_SOURCE_GAP；SOURCE_BOUND；`T1` |\n| SE:T1 | systemreadset, adrrefs, source_sha256 | assign every seam to exactly one writer → OwnershipSeamMap@1(writer,reader,forbidden_effect) / ArchitectureOwner/HostReader | SystemReadset+ADRRefs; source_sha present；SEAM_OWNER_CONFLICT；ONE_WRITER_PER_SEAM；`T2` |"
+  }
+ ],
+ "scope": {
+  "in": [
+   "五個 seam 的 writer/reader/forbidden_effect 指派",
+   "ADR 選項與 trade-off、ABI 版本候選",
+   "EffectClass 分類（SOURCE_READ / LOCAL_DRAFT_WRITE / REPO_WRITE / HOST_OP / RELEASE）",
+   "seam 的 first_fail 與 rollback 語義"
+  ],
+  "out": [
+   "產品差額的取捨（Product SPEC 已定）",
+   "WP 波次與 stop/resume（Program SPEC 已定）",
+   "任何 Permit、Admission、PolicyEpoch 的發行"
+  ],
+  "effect_class": "LOCAL_DRAFT_WRITE",
+  "output_root": "evidence/WP15/specs"
+ },
+ "persona_or_owner": {
+  "persona": "SE：讀得懂現役 registry 與 ABI 的架構作者，站在既有三庫 Writer 的旁邊做候選設計",
+  "not": "不是新 Issuer；不簽 Permit；不代替 HGK 原 Receiver 宣告 admission",
+  "owner_of_this_spec": "tpm-system-plan（SE 作者角色）"
+ },
+ "jtbd": "當一份差額需要跨過 SBL／PIPD／HGK／Fabric／Hermes 的邊界時，我要能一眼看出「這段由誰寫、誰讀、誰絕不能寫」，這樣才不會出現第二個 Issuer 或第二份真相，也不用等到 Host 出事才發現界線模糊。",
+ "fuo": {
+  "outcome": "一份 ArchitectureSPECDraft，內含五個 seam 的 owner 表、ADR 選項與 ABI 候選版本，每一個 seam 都能指出它的 forbidden_effect 與 first_fail；在同一份文件裡，READ／DRAFT／REPO／OPS／RELEASE 五類效果不會被折成一類。",
+  "columns": {
+   "who": "SE（架構作者），與原 Registry Reader 同席審閱",
+   "trigger": "Product SPEC 的某條差額確定要跨庫，或現役 ABI 無法表達該差額",
+   "input": "Product SPEC、五個 seam 的現役 producer/consumer、三庫現役 ABI 與 Effect Registry 條目",
+   "operation": "逐 seam 指派唯一 writer 與 reader、標出 forbidden_effect、挑 ADR 選項、標 ABI 版本候選，並把每個 seam 的效果歸到單一 EffectClass",
+   "output": "ArchitectureSPECDraft：SeamOwnershipMap + ADRSet + ABI candidate + EffectMatrix + SoD NEG",
+   "observable proof": "每個 seam 的 writer 與 forbidden_effect 可對回現役 registry 的具名條目；同一 seam 的 writer 與 checker 不為同一 principal，且可由表格交集運算證明為空",
+   "consumer": "Original SBL/HGK/Fabric Architecture Registry Reader",
+   "first_fail": "ARCH_SOD_BREACH",
+   "stop_rule": "當某 seam 的 reader 在現役 registry 找不到時，該 seam 停在具名 HOLD，不再新增 ABI 欄位或臨時 adapter",
+   "resume_predicate": "該 seam 的原 Registry Reader 讀回後，只重做該 seam 的 ADR 與 owner 列，其他 seam 不動"
+  },
+  "ten_columns": [
+   "who",
+   "trigger",
+   "input",
+   "operation",
+   "output",
+   "observable proof",
+   "consumer",
+   "first_fail",
+   "stop_rule",
+   "resume_predicate"
+  ]
+ },
+ "non_goals": [
+  "不建立第二個 HGK Issuer、第二條 Queue、第二個 SharedSpine 或第二個 Protected Checker",
+  "不以 adapter 生成 Permit、Admission 或 PolicyEpoch，也不把 GitHub HEAD／staging 當 Host Active",
+  "不改寫 PIPD 的 19 個 contract family 或 13 個 CLI 動詞，不加第 14 個 verb",
+  "不決定 WP 的 Primary Wave，也不宣告任何 WP 已完成",
+  "不把效果分類壓成單一 OPS 權限，也不為未綁定的 OperationType 造 ABI"
+ ],
+ "assumptions": [
+  "現役三庫的 ABI 與 Effect Registry 在本輪為唯讀；任何不一致先記 HOLD，不就地修",
+  "五個 seam 的 producer/consumer 已由來源 01 的 seam 表列名，可直接引用",
+  "ABI 版本候選只是候選，需原 Registry 讀回才成立"
+ ],
+ "decisions": [
+  "D-A1：seam 以「一個 writer + 一個 reader + 一組 forbidden_effect」為最小欄位組，缺一不算 seam",
+  "D-A2：EffectClass 為五值列舉，seam 只能歸一類；跨界要拆成兩個 seam，不得共用一個 grant",
+  "D-A3：SoD 以 principal 集合證明：writer∩checker=∅，並在表中留下可運算的欄位",
+  "D-A4：ABI 相容性以版本候選＋reader 讀回為條件，未讀回前標 CANDIDATE"
+ ],
+ "acceptance": [
+  {
+   "id": "A-ACC-01",
+   "kind": "POS",
+   "statement": "五個 seam 每個恰有一個 writer、一個 reader 與一組 forbidden_effect，且全部可對回現役 registry",
+   "oracle": "seam 表與來源 01 的 seam 表逐列 join；writer 與 checker 的 principal 交集必須為空",
+   "consumer": "Original SBL/HGK/Fabric Architecture Registry Reader",
+   "firstfail_code": "ARCH_SOD_BREACH"
+  },
+  {
+   "id": "A-ACC-02",
+   "kind": "POS",
+   "statement": "EffectMatrix 把五類效果分列，每個 seam 只落一類，且每類都寫出 permission_basis",
+   "oracle": "對照來源 03 的 EffectClass 表逐列檢查；缺 permission_basis 即不成立",
+   "consumer": "Original HGK Effect Registry Reader",
+   "firstfail_code": "EFFECT_UNBOUND"
+  },
+  {
+   "id": "A-ACC-03",
+   "kind": "NEG",
+   "statement": "同一個新服務同時簽 Permit 又當 Checker（SoD 破壞）仍被接受",
+   "oracle": "principal 交集運算；非空即拒收",
+   "consumer": "Original HGK Issuer Registry Reader",
+   "firstfail_code": "ARCH_SOD_BREACH"
+  },
+  {
+   "id": "A-ACC-04",
+   "kind": "NEG",
+   "statement": "把 GitHub HEAD 或 staging 的狀態當成 Host Active 讀回，並據此宣告 ABI 已綁",
+   "oracle": "檢查每個 seam 的讀回來源；非 Host Raw 即不得寫 active",
+   "consumer": "Original Host Raw Reader",
+   "firstfail_code": "HOST_READBACK_HOLD"
+  },
+  {
+   "id": "A-ACC-05",
+   "kind": "NEG",
+   "statement": "把所有操作歸成一律 OPS 權限，使 READ／DRAFT 也被 Permit 阻塞",
+   "oracle": "檢查 EffectMatrix 是否只剩一類；只剩一類即拒收",
+   "consumer": "Original HGK Effect Registry Reader",
+   "firstfail_code": "EFFECT_CLASS_COLLAPSED"
+  }
+ ],
+ "open_questions": [
+  "Q-A1：五個 seam 之外是否還需要第六個 seam 來承接 W18 的 normal-entry，待原 Registry Reader 回答",
+  "Q-A2：ABI 版本候選要用語意版號還是 date-stamp，需與原 PIPD Compiler 對齊",
+  "Q-A3：seam 的 forbidden_effect 是否要細到 OperationType 層級，本輪只到 EffectClass"
+ ],
+ "affected_holds": [
+  {
+   "id": "H-WP15-A-ORIGINAL-ARCH-READER",
+   "scope": "seam 歸屬與 ABI 相容性",
+   "owner": "Original SBL/HGK/Fabric Architecture Registry Reader",
+   "unblock": "同 Subject/Scope 的原 Reader 讀回，或具名 NACK 指明哪個 seam"
+  },
+  {
+   "id": "H-WP15-A-HOST-RAW",
+   "scope": "Host Active 與 LoadedSHA",
+   "owner": "Original Host Raw Reader",
+   "unblock": "真 Host Raw 讀回；在此之前不得寫 active"
+  }
+ ],
+ "original_reader": {
+  "reader": "Original SBL/HGK/Fabric Architecture Registry Reader",
+  "ack": "ORIGINAL_READER_ACK_UNOBSERVED",
+  "note": "ABI 與 seam 都只到 CANDIDATE；沒有讀回不得升為現役。"
+ },
+ "claim_ceiling": "AUTHOR_SIDE_SPEC_DRAFT_SOURCE_BOUND"
+}

@@ -1,0 +1,43 @@
+{
+ "schema": "FHS.WP00.Report/1",
+ "wp": "WP-FHS-00",
+ "effect_class": "SOURCE_READ",
+ "title": "SourceManifest + RepoContext readback",
+ "done_predicate": "SourceManifest + RepoContext readback",
+ "status": "MEASURED",
+ "generated_at": "2026-11-08T00:25:45+08:00",
+ "counts": {
+  "sources_declared": 31,
+  "sources_match": 31,
+  "sources_absent": 0,
+  "sources_mismatch": 0,
+  "upper_documents": 6,
+  "upper_documents_match": 6,
+  "repos": 3
+ },
+ "measurement": {
+  "sources": "SHA-256, byte count and line count recomputed from disk for all 31 declared sources and compared with the CH-04 table",
+  "upper": "L0, L1, L2, the W0 skeleton, the r6 control document and its r5 parent digested against the frontmatter bindings",
+  "repos": "HEAD, branch, origin/main and dirty-path count read from each worktree before any lane ran; this is the baseline G8 compares against"
+ },
+ "closed_holds": [
+  "H-W0-1"
+ ],
+ "holds": [],
+ "not_claimed": [
+  "ORIGINAL_SOURCE_FREEZE",
+  "OWNER_CURRENTNESS_CONFIRMED",
+  "ORIGINAL_READER_ACK"
+ ],
+ "claim_ceiling": "AUTHOR_SIDE_SNAPSHOT_VERIFIED",
+ "commands": [
+  "python tools/wp00_source_lock.py --out evidence/WP00/raw/SOURCE_LOCK.json"
+ ],
+ "artifacts": [
+  {
+   "path": "evidence/WP00/raw/SOURCE_LOCK.json",
+   "bytes": 22730,
+   "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+  }
+ ]
+}

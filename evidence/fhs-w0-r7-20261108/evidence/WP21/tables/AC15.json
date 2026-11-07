@@ -1,0 +1,467 @@
+{
+  "schema": "FHS.WP21.Table/AC15/1",
+  "wp": "WP-FHS-21",
+  "claim_ceiling": "AUTHOR_SIDE_ORACLE_PLAN_SOURCE_BOUND",
+  "source_file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+  "source_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+  "declared_count_from_source": 15,
+  "measured_count": 15,
+  "records": [
+    {
+      "ac_id": "AC-E01",
+      "sender": "OWNER/TPM",
+      "receiver": "TPM Intake",
+      "subject": "OWNER/TPM -> TPM Intake（輸出 IntentCardProposal，ACK 只能由 TPM Intake 簽發）",
+      "payload_kind": "GoalIntake",
+      "pos": "goal非空且source locator在admitted root",
+      "neg": "blank goal / path traversal → INTAKE_INVALID",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=INTAKE_INVALID); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "TPM Intake",
+      "firstfail_code": "INTAKE_INVALID",
+      "required_fields": [
+        "goal",
+        "source_locators",
+        "known_answers"
+      ],
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "output_type": "IntentCardProposal",
+      "rollback_exit_resume": "撤本輪Intent候選，不改source；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:25",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 2239,
+        "byte_end": 2348,
+        "line": 26,
+        "quoted_text": "- POS：goal非空且source locator在admitted root。NEG：blank goal / path traversal → INTAKE_INVALID。"
+      }
+    },
+    {
+      "ac_id": "AC-E02",
+      "sender": "SBL TPM",
+      "receiver": "原PIPD Intake",
+      "subject": "SBL TPM -> 原PIPD Intake（輸出 PIPDIntakeRequest，ACK 只能由 原PIPD Intake 簽發）",
+      "payload_kind": "ThreeSpecHandoff",
+      "pos": "三SPEC各有ACC/NEG/來源與non-goals",
+      "neg": "用TPM敘事冒canonical PI → CANONICAL_WRITER_COLLISION",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=CANONICAL_WRITER_COLLISION); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原PIPD Intake",
+      "firstfail_code": "CANONICAL_WRITER_COLLISION",
+      "required_fields": [
+        "product_spec",
+        "architecture_spec",
+        "program_spec",
+        "source_manifest_sha"
+      ],
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "output_type": "PIPDIntakeRequest",
+      "rollback_exit_resume": "丟候選；回原SPEC補缺；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:34",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 3149,
+        "byte_end": 3266,
+        "line": 36,
+        "quoted_text": "- POS：三SPEC各有ACC/NEG/來源與non-goals。NEG：用TPM敘事冒canonical PI → CANONICAL_WRITER_COLLISION。"
+      }
+    },
+    {
+      "ac_id": "AC-E03",
+      "sender": "原Source/Profile Writer",
+      "receiver": "原PIPD DOC02 Writer",
+      "subject": "原Source/Profile Writer -> 原PIPD DOC02 Writer（輸出 PI-PKG，ACK 只能由 原PIPD DOC02 Writer 簽發）",
+      "payload_kind": "PICompileRequest",
+      "pos": "strict shape/source/Oracle相容才編譯",
+      "neg": "unknown _profile_meta/錯Oracle alias → PI_SCHEMA_OR_ORACLE_HOLD",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=PI_SCHEMA_OR_ORACLE_HOLD); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原PIPD DOC02 Writer",
+      "firstfail_code": "PI_SCHEMA_OR_ORACLE_HOLD",
+      "required_fields": [
+        "intent",
+        "profile",
+        "atoms",
+        "goal"
+      ],
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "output_type": "PI-PKG",
+      "rollback_exit_resume": "保留sidecar；只PI promotion HOLD；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:43",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 4054,
+        "byte_end": 4181,
+        "line": 46,
+        "quoted_text": "- POS：strict shape/source/Oracle相容才編譯。NEG：unknown _profile_meta/錯Oracle alias → PI_SCHEMA_OR_ORACLE_HOLD。"
+      }
+    },
+    {
+      "ac_id": "AC-E04",
+      "sender": "原PIPD DOC02",
+      "receiver": "原PIPD DOC03 Binder",
+      "subject": "原PIPD DOC02 -> 原PIPD DOC03 Binder（輸出 PD-PKG，ACK 只能由 原PIPD DOC03 Binder 簽發）",
+      "payload_kind": "PDBindRequest",
+      "pos": "real root/HEAD/index/untracked fresh且scope contained",
+      "neg": "stale HEAD或 ** WriteSet → PD_BIND_NACK",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=PD_BIND_NACK); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原PIPD DOC03 Binder",
+      "firstfail_code": "PD_BIND_NACK",
+      "required_fields": [
+        "pi_ref",
+        "repo_context",
+        "head",
+        "scope"
+      ],
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "output_type": "PD-PKG",
+      "rollback_exit_resume": "丟過期PD候選重讀root；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:52",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 4976,
+        "byte_end": 5092,
+        "line": 56,
+        "quoted_text": "- POS：real root/HEAD/index/untracked fresh且scope contained。NEG：stale HEAD或 ** WriteSet → PD_BIND_NACK。"
+      }
+    },
+    {
+      "ac_id": "AC-E05",
+      "sender": "原PD Writer",
+      "receiver": "原DOC05 ECP/DOC07 TQAEP",
+      "subject": "原PD Writer -> 原DOC05 ECP/DOC07 TQAEP（輸出 DEV/OPS ECP + PlannedTQAEP，ACK 只能由 原DOC05 ECP/DOC07 TQAEP 簽發）",
+      "payload_kind": "ExecutionPlanSplit",
+      "pos": "DEV/OPS分路且cases逐原子POS/NEG",
+      "neg": "PlannedTQAEP自稱Independent PASS → PLANNED_IS_NOT_ACCEPTED",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=PLANNED_IS_NOT_ACCEPTED); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原DOC05 ECP/DOC07 TQAEP",
+      "firstfail_code": "PLANNED_IS_NOT_ACCEPTED",
+      "required_fields": [
+        "pd_ref",
+        "dev_scope",
+        "ops_scope",
+        "case_oracles"
+      ],
+      "effect_class": "LOCAL_DRAFT_WRITE",
+      "output_type": "DEV/OPS ECP + PlannedTQAEP",
+      "rollback_exit_resume": "撤分路候選，不碰既有permit；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:61",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 5911,
+        "byte_end": 6030,
+        "line": 66,
+        "quoted_text": "- POS：DEV/OPS分路且cases逐原子POS/NEG。NEG：PlannedTQAEP自稱Independent PASS → PLANNED_IS_NOT_ACCEPTED。"
+      }
+    },
+    {
+      "ac_id": "AC-E06",
+      "sender": "原PIPD ECP/Admission",
+      "receiver": "原HGK Issuer",
+      "subject": "原PIPD ECP/Admission -> 原HGK Issuer（輸出 AdmittedWorkOrder/Permit，ACK 只能由 原HGK Issuer 簽發）",
+      "payload_kind": "AdmissionRequest",
+      "pos": "LoadedPolicy/epoch/scope/TTL與原Issuer簽核一致",
+      "neg": "ECP文字當Permit或DEV grant作Host → ADMISSION_DENIED",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=ADMISSION_DENIED); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原HGK Issuer",
+      "firstfail_code": "ADMISSION_DENIED",
+      "required_fields": [
+        "ecp_ref",
+        "subject",
+        "effect_class",
+        "scope",
+        "policy_epoch",
+        "receiver_binding"
+      ],
+      "effect_class": "HOST_OP",
+      "output_type": "AdmittedWorkOrder/Permit",
+      "rollback_exit_resume": "原Issuer撤受影permit；unknown先reconcile；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:70",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 6861,
+        "byte_end": 6991,
+        "line": 76,
+        "quoted_text": "- POS：LoadedPolicy/epoch/scope/TTL與原Issuer簽核一致。NEG：ECP文字當Permit或DEV grant作Host → ADMISSION_DENIED。"
+      }
+    },
+    {
+      "ac_id": "AC-E07",
+      "sender": "原HGK Admission",
+      "receiver": "原Hermes SharedSpine",
+      "subject": "原HGK Admission -> 原Hermes SharedSpine（輸出 LeaseClaimACK，ACK 只能由 一個generation有效claim → LeaseClaimACK；只有原Hermes SharedSpine 簽發）",
+      "payload_kind": "LeaseCAS",
+      "pos": "同WorkID只有一個generation有效claim",
+      "neg": "雙Worker用同舊revision claim → LEASE_FENCING_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=LEASE_FENCING_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "一個generation有效claim → LeaseClaimACK；只有原Hermes SharedSpine",
+      "firstfail_code": "LEASE_FENCING_DENY",
+      "required_fields": [
+        "admitted_work_id",
+        "expected_revision",
+        "lease_generation",
+        "worker_id"
+      ],
+      "effect_class": "HOST_OP",
+      "output_type": "LeaseClaimACK",
+      "rollback_exit_resume": "只釋放本worker合法lease；不刪queue；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:79",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 7807,
+        "byte_end": 7924,
+        "line": 86,
+        "quoted_text": "- POS：同WorkID只有一個generation有效claim。NEG：雙Worker用同舊revision claim → LEASE_FENCING_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E08",
+      "sender": "原Hermes Worker",
+      "receiver": "原World Effect Receiver",
+      "subject": "原Hermes Worker -> 原World Effect Receiver（輸出 WorldRawReadback，ACK 只能由 原World Effect Receiver 簽發）",
+      "payload_kind": "EffectInvocation",
+      "pos": "effect intent先Journal，世界post讀回同operation",
+      "neg": "unknown timeout同nonce重播 → EFFECT_REPLAY_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=EFFECT_REPLAY_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原World Effect Receiver",
+      "firstfail_code": "EFFECT_REPLAY_DENY",
+      "required_fields": [
+        "operation_id",
+        "permit_ref",
+        "nonce",
+        "preimage",
+        "expected_postcondition"
+      ],
+      "effect_class": "REPO_OR_NATIVE_BY_ADMITTED_ECP",
+      "output_type": "WorldRawReadback",
+      "rollback_exit_resume": "reconcile→補償ECP/residue；不盲retry；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:88",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 8792,
+        "byte_end": 8918,
+        "line": 96,
+        "quoted_text": "- POS：effect intent先Journal，世界post讀回同operation。NEG：unknown timeout同nonce重播 → EFFECT_REPLAY_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E09",
+      "sender": "原World Raw Reader",
+      "receiver": "原Frozen Readset Reader",
+      "subject": "原World Raw Reader -> 原Frozen Readset Reader（輸出 FrozenReadsetManifest，ACK 只能由 原Frozen Readset Reader 簽發）",
+      "payload_kind": "RawFreeze",
+      "pos": "Raw bytes/hash與同candidate可重算",
+      "neg": "跨Host/過期candidate raw → RAW_SUBJECT_MISMATCH",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=RAW_SUBJECT_MISMATCH); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原Frozen Readset Reader",
+      "firstfail_code": "RAW_SUBJECT_MISMATCH",
+      "required_fields": [
+        "raw_refs",
+        "raw_hashes",
+        "candidate_sha",
+        "source_sha"
+      ],
+      "effect_class": "SOURCE_READ",
+      "output_type": "FrozenReadsetManifest",
+      "rollback_exit_resume": "丟快照重讀；不擦原Raw；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:97",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 9723,
+        "byte_end": 9833,
+        "line": 106,
+        "quoted_text": "- POS：Raw bytes/hash與同candidate可重算。NEG：跨Host/過期candidate raw → RAW_SUBJECT_MISMATCH。"
+      }
+    },
+    {
+      "ac_id": "AC-E10",
+      "sender": "Frozen Reader",
+      "receiver": "SBL External Challenge",
+      "subject": "Frozen Reader -> SBL External Challenge（輸出 AdvisoryFindings，ACK 只能由 SBL External Challenge 簽發）",
+      "payload_kind": "ChallengeRead",
+      "pos": "固定SHA唯讀逐claim反證，無原檔mutation",
+      "neg": "Reviewer修改subject或moving branch → FROZEN_SUBJECT_DRIFT",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=FROZEN_SUBJECT_DRIFT); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "SBL External Challenge",
+      "firstfail_code": "FROZEN_SUBJECT_DRIFT",
+      "required_fields": [
+        "frozen_readset",
+        "candidate_sha",
+        "evidence_sha",
+        "review_scope"
+      ],
+      "effect_class": "SOURCE_READ",
+      "output_type": "AdvisoryFindings",
+      "rollback_exit_resume": "停止受影review；重新freeze新candidate；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:106",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 10642,
+        "byte_end": 10773,
+        "line": 116,
+        "quoted_text": "- POS：固定SHA唯讀逐claim反證，無原檔mutation。NEG：Reviewer修改subject或moving branch → FROZEN_SUBJECT_DRIFT。"
+      }
+    },
+    {
+      "ac_id": "AC-E11",
+      "sender": "SBL Challenge Advisory",
+      "receiver": "原HGK AO Receiver",
+      "subject": "SBL Challenge Advisory -> 原HGK AO Receiver（輸出 AOInboxACK，ACK 只能由 原HGK AO Receiver 簽發）",
+      "payload_kind": "AOInboxSubmit",
+      "pos": "僅C有真inbox ACL/ECP與payload hash ACK",
+      "neg": "用A/B只讀權直接寫protected inbox → CHECKER_INBOX_PERMISSION_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=CHECKER_INBOX_PERMISSION_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原HGK AO Receiver",
+      "firstfail_code": "CHECKER_INBOX_PERMISSION_DENY",
+      "required_fields": [
+        "finding_refs",
+        "source_sha",
+        "candidate_sha",
+        "inbox_binding",
+        "effect_scope"
+      ],
+      "effect_class": "HOST_OP",
+      "output_type": "AOInboxACK",
+      "rollback_exit_resume": "原Receiver撤受影message或補償；保留原finding；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:115",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 11630,
+        "byte_end": 11765,
+        "line": 126,
+        "quoted_text": "- POS：僅C有真inbox ACL/ECP與payload hash ACK。NEG：用A/B只讀權直接寫protected inbox → CHECKER_INBOX_PERMISSION_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E12",
+      "sender": "原AO Receiver ACK",
+      "receiver": "原Protected Checker",
+      "subject": "原AO Receiver ACK -> 原Protected Checker（輸出 ProtectedVerdictReceipt，ACK 只能由 原Protected Checker 簽發）",
+      "payload_kind": "ProtectedCheckerRun",
+      "pos": "原Checker讀Raw執Oracle；signature可由protected Reader驗",
+      "neg": "LeaseCAS object冒verdict或Maker自簽 → NACK_WRONG_DOMAIN_SCHEMA/SELF_ACCEPTANCE_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=NACK_WRONG_DOMAIN_SCHEMA/SELF_ACCEPTANCE_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原Protected Checker",
+      "firstfail_code": "NACK_WRONG_DOMAIN_SCHEMA/SELF_ACCEPTANCE_DENY",
+      "required_fields": [
+        "checker_request",
+        "oracle_refs",
+        "actual_raw_refs",
+        "maker_principal",
+        "checker_binding"
+      ],
+      "effect_class": "PROTECTED_CHECKER_EFFECT",
+      "output_type": "ProtectedVerdictReceipt",
+      "rollback_exit_resume": "保留原Raw，原Checker出invalidated/supersedes receipt；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:124",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 12672,
+        "byte_end": 12843,
+        "line": 136,
+        "quoted_text": "- POS：原Checker讀Raw執Oracle；signature可由protected Reader驗。NEG：LeaseCAS object冒verdict或Maker自簽 → NACK_WRONG_DOMAIN_SCHEMA/SELF_ACCEPTANCE_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E13",
+      "sender": "Protected AO Checker",
+      "receiver": "原HGK Reducer",
+      "subject": "Protected AO Checker -> 原HGK Reducer（輸出 ReducedStateACK，ACK 只能由 原HGK Reducer 簽發）",
+      "payload_kind": "VerdictReduce",
+      "pos": "有效signature/Oracle/candidate與CAS同revision",
+      "neg": "advisory字串PASS當protected verdict → VERDICT_AUTHORITY_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=VERDICT_AUTHORITY_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原HGK Reducer",
+      "firstfail_code": "VERDICT_AUTHORITY_DENY",
+      "required_fields": [
+        "protected_verdict_ref",
+        "signature_ref",
+        "expected_revision",
+        "subject"
+      ],
+      "effect_class": "HOST_OP",
+      "output_type": "ReducedStateACK",
+      "rollback_exit_resume": "原Reducer合法逆轉/新事件；原journal保留；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:133",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 13682,
+        "byte_end": 13816,
+        "line": 146,
+        "quoted_text": "- POS：有效signature/Oracle/candidate與CAS同revision。NEG：advisory字串PASS當protected verdict → VERDICT_AUTHORITY_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E14",
+      "sender": "原Reducer/Native Commander",
+      "receiver": "原Maker/Authorized Dev",
+      "subject": "原Reducer/Native Commander -> 原Maker/Authorized Dev（輸出 bounded patch→GREEN與新candidate → NewCandidate+RedGreenRaw，ACK 只能由 原Maker/Authorized Dev 簽發）",
+      "payload_kind": "RepairConeDispatch",
+      "pos": "原Oracle下RED→bounded patch→GREEN與新candidate",
+      "neg": "改Oracle/擴WriteSet/覆蓋舊Evidence → REPAIR_SCOPE_DENY",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=REPAIR_SCOPE_DENY); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原Maker/Authorized Dev",
+      "firstfail_code": "REPAIR_SCOPE_DENY",
+      "required_fields": [
+        "first_fail",
+        "affected_paths",
+        "preimage_sha",
+        "budget",
+        "ecp_ref"
+      ],
+      "effect_class": "REPO_WRITE",
+      "output_type": "bounded patch→GREEN與新candidate → NewCandidate+RedGreenRaw",
+      "rollback_exit_resume": "原preimage inverse patch；residue與版本留存；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:142",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 14676,
+        "byte_end": 14811,
+        "line": 156,
+        "quoted_text": "- POS：原Oracle下RED→bounded patch→GREEN與新candidate。NEG：改Oracle/擴WriteSet/覆蓋舊Evidence → REPAIR_SCOPE_DENY。"
+      }
+    },
+    {
+      "ac_id": "AC-E15",
+      "sender": "Closed B1 Evidence",
+      "receiver": "原W18 NormalMode Owner",
+      "subject": "Closed B1 Evidence -> 原W18 NormalMode Owner（輸出 NM01-03/E33-E42 Raw，ACK 只能由 原W18 NormalMode Owner 簽發）",
+      "payload_kind": "NormalModeQualification",
+      "pos": "新PID零B1長Prompt且正式profile自動路由/真served",
+      "neg": "test-only profile或手選lane冒常態 → NORMAL_MODE_NOT_QUALIFIED",
+      "oracle": "edge_oracle: pos_holds AND NOT neg_observed => ACCEPT(ACK(payload_hash,consumer_identity,原schema_version)); neg_observed => NACK(first_fail=NORMAL_MODE_NOT_QUALIFIED); payload/field/schema must not be borrowed from another edge; verdict only from the listed original receiver",
+      "consumer": "原W18 NormalMode Owner",
+      "firstfail_code": "NORMAL_MODE_NOT_QUALIFIED",
+      "required_fields": [
+        "b1_evidence_refs",
+        "fresh_pid",
+        "default_profile_sha",
+        "ordinary_goal",
+        "test_only_removed"
+      ],
+      "effect_class": "HOST_OP",
+      "output_type": "NM01-03/E33-E42 Raw",
+      "rollback_exit_resume": "原Host restore profile；B1收據保留，不重播effect；缺原schema或Receiver就只此邊ABI_BIND_HOLD；原Owner讀回binding後再准入。",
+      "body07_anchor": "BODY-07:151",
+      "source_ref": {
+        "file": "sources/07_ACCEPTANCE_CHALLENGE(4).md",
+        "file_sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "byte_start": 15704,
+        "byte_end": 15851,
+        "line": 166,
+        "quoted_text": "- POS：新PID零B1長Prompt且正式profile自動路由/真served。NEG：test-only profile或手選lane冒常態 → NORMAL_MODE_NOT_QUALIFIED。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,381 @@
+{
+ "schema": "FHS.WP19.Report/1",
+ "wp": "WP-FHS-19",
+ "work_package": "WP-FHS-19",
+ "blockers": [],
+ "title": "Fabric／SBL／HG-KSEOS 的 CI、licence、NOTICE、SBOM 掃描原始證據（SOURCE_READ）",
+ "round": "FHS-W0-R6-EXEC-20261108",
+ "effect_class": "SOURCE_READ",
+ "status": "PASS_LOCAL_INVENTORY_WITH_ABSENCES",
+ "claim_ceiling": "SOURCE_READ_INVENTORY_ONLY",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "counts": {
+  "repos_scanned": 3,
+  "repos_read_only_verified": 3,
+  "licence_files_found": 1,
+  "notice_files_found": 1,
+  "repos_missing_licence": 2,
+  "sboms_found": 2,
+  "sboms_parsed": 2,
+  "sboms_signed": 0,
+  "sbom_components_measured": 8,
+  "dependency_sources": 10,
+  "dependencies_declared": 9,
+  "workflow_files": 2,
+  "workflow_jobs": 4,
+  "api_requests": 14,
+  "api_requests_http_200": 14,
+  "repos_without_ci": 1,
+  "repos_with_supply_chain_job": 1,
+  "artifacts": 48,
+  "artifacts_bytes": 866241
+ },
+ "repos": [
+  {
+   "repo": "Fabric",
+   "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "licence": "ABSENT",
+   "notice": "ABSENT",
+   "sbom": "ABSENT",
+   "sbom_components": 0,
+   "dependencies_declared": 6,
+   "workflow_files": 1,
+   "ci_verdict": "GREEN_NO_SUPPLY_CHAIN_JOB",
+   "latest_run_id": 42387827579,
+   "latest_run_conclusion": "success"
+  },
+  {
+   "repo": "SBL",
+   "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "licence": "LICENSE MIT",
+   "notice": "present",
+   "sbom": "integrations/pipd/SBOM.cdx.json CycloneDX 1.5 components=8 unsigned",
+   "sbom_components": 8,
+   "dependencies_declared": 3,
+   "workflow_files": 1,
+   "ci_verdict": "SUPPLY_CHAIN_JOB_GREEN_AT_READBACK",
+   "latest_run_id": 42361088797,
+   "latest_run_conclusion": "success"
+  },
+  {
+   "repo": "HG-KSEOS",
+   "head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "licence": "ABSENT",
+   "notice": "ABSENT",
+   "sbom": "SBOM_PRESENT_NOT_CYCLONEDX",
+   "sbom_components": 0,
+   "dependencies_declared": 0,
+   "workflow_files": 0,
+   "ci_verdict": "CI_SERVICE_ABSENT",
+   "latest_run_id": null,
+   "latest_run_conclusion": null
+  }
+ ],
+ "absences": [
+  "Fabric：repo 根層 LICENSE 與 NOTICE 皆缺席",
+  "HG-KSEOS：repo 根層 LICENSE 與 NOTICE 皆缺席",
+  "Fabric：沒有任何格式的 SBOM 文件",
+  "HG-KSEOS：CI_SERVICE_ABSENT——無 workflow 檔、0 個 workflow run、0 個 check run",
+  "Fabric：CI 只有一個 job（fhs-nav-static），沒有 supply-chain job",
+  "三個 repo 皆無：簽章 SBOM、provenance attestation、SLSA statement",
+  "三個 repo 皆無：弱點／advisory 掃描（本 lane 未執行）"
+ ],
+ "artifacts": [
+  {
+   "path": "CI_INVENTORY.json",
+   "bytes": 14970,
+   "sha256": "d15569e250e863a421420edaace21dc4cd07d33e9b4dba6b249a4550ef1fe521"
+  },
+  {
+   "path": "DEPENDENCY_INVENTORY.json",
+   "bytes": 11798,
+   "sha256": "27658016e607736426567a2a4870b42afe3dceec8e92b7965172f026d2548e54"
+  },
+  {
+   "path": "LICENCE_INVENTORY.json",
+   "bytes": 5759,
+   "sha256": "076230565ee15c364ddcf7e878a6700314b70cec37cdcde2c861fa068bce8204"
+  },
+  {
+   "path": "raw/_api_fetch_meta.json",
+   "bytes": 5380,
+   "sha256": "f745cff3ed31d7497218651245c3f1ceb3a43c690c804b5f51cf16939f0d5dff"
+  },
+  {
+   "path": "raw/_local_scan.json",
+   "bytes": 18096,
+   "sha256": "a2bf99b608f5ef5de8810fcd76304842531b7cf45642020312a9813f7d9872c7"
+  },
+  {
+   "path": "raw/fabric/api/actions_runs.headers.txt",
+   "bytes": 1606,
+   "sha256": "f7ad7e5dc9aaaf7e00b3795f724e06799b9fc2cbfb05ccc117cc56b78c712052"
+  },
+  {
+   "path": "raw/fabric/api/actions_runs.json",
+   "bytes": 49274,
+   "sha256": "93389ab1ced07bf47985e9da7a115f5363f74fe28f2a2dd2e67ffda9835ca312"
+  },
+  {
+   "path": "raw/fabric/api/commit_check_runs.headers.txt",
+   "bytes": 1411,
+   "sha256": "ef4b96ef437bcb11a6b6fd44b7a38a584bde12b6e56367395a53a3d0e779c523"
+  },
+  {
+   "path": "raw/fabric/api/commit_check_runs.json",
+   "bytes": 3089,
+   "sha256": "4e6b3c4ef45e7adfbd444909a05ee5c811ec34639408fc81d61670b6328419b9"
+  },
+  {
+   "path": "raw/fabric/api/commit_main.headers.txt",
+   "bytes": 1461,
+   "sha256": "ae797472dea6ec9c22284c30fcb186de4c72ac4031c16fc59306fc35a9b7c15e"
+  },
+  {
+   "path": "raw/fabric/api/commit_main.json",
+   "bytes": 128040,
+   "sha256": "520a0fb86aa3faa2a60608a71846772b9957c39a786f8209ec3ce1d0c73e192e"
+  },
+  {
+   "path": "raw/fabric/api/repo_meta.headers.txt",
+   "bytes": 1459,
+   "sha256": "5242615da73203044340e8f40febba41eaf11ea85082e3c64a4b3162c1d704bc"
+  },
+  {
+   "path": "raw/fabric/api/repo_meta.json",
+   "bytes": 6728,
+   "sha256": "b5e6022ff2da843e2a6e34e3da535755100feb897296f6b06a8f4a00f0b88c03"
+  },
+  {
+   "path": "raw/fabric/api/run_42387827579_jobs.headers.txt",
+   "bytes": 1410,
+   "sha256": "6ec1e52795f4ade55b3fe83a98dca5887ce3d76087735cc93e9e6ead9b271ab1"
+  },
+  {
+   "path": "raw/fabric/api/run_42387827579_jobs.json",
+   "bytes": 1791,
+   "sha256": "81f74cc05cc8178f3b3647dfe859169158d0b93a937de39ebb43f98ec3e11488"
+  },
+  {
+   "path": "raw/fabric/git_head.txt",
+   "bytes": 329,
+   "sha256": "284c6f9d8189047fe6cfddd3e3620b8ae70c50d47ffb6f4c81b721663d1d0c4c"
+  },
+  {
+   "path": "raw/fabric/scan.txt",
+   "bytes": 2111,
+   "sha256": "5cd622437a73ca6baccc77a697cbf36df8b4cbd2a68c3fa4045dbf3d0e258d1e"
+  },
+  {
+   "path": "raw/fabric/tracked_files.txt",
+   "bytes": 330547,
+   "sha256": "c54a97075e48f7a690e9ba839f27a50ea4c339ce4b23cd7f8fff73b3809bb53a"
+  },
+  {
+   "path": "raw/hg_kseos/api/actions_runs.headers.txt",
+   "bytes": 1410,
+   "sha256": "61e046348a51d7d7842b2848d6a9b05c32096a00ba723ae51075da377a257746"
+  },
+  {
+   "path": "raw/hg_kseos/api/actions_runs.json",
+   "bytes": 36,
+   "sha256": "a2790a384d7d281e7395679000c35d27768d89dbd7052f725b8f4688beb59915"
+  },
+  {
+   "path": "raw/hg_kseos/api/commit_check_runs.headers.txt",
+   "bytes": 1409,
+   "sha256": "315b4f18b085798af5fc44f4b50225a688f6c776cef202ed1c278eceeadda297"
+  },
+  {
+   "path": "raw/hg_kseos/api/commit_check_runs.json",
+   "bytes": 33,
+   "sha256": "e83cfac35507982a40cfeb776ce85aa0367e7646f81fe857df4a6c841ea8a170"
+  },
+  {
+   "path": "raw/hg_kseos/api/commit_main.headers.txt",
+   "bytes": 1460,
+   "sha256": "ea59ad81ae3cd5a6101292080708ea9b43cc4e7b082e47b97a9dfdcf0b176b7b"
+  },
+  {
+   "path": "raw/hg_kseos/api/commit_main.json",
+   "bytes": 20675,
+   "sha256": "593ab8b4c8496bdfa96bcc4434bb978d915e432e29b2113c52ff451d0df760e0"
+  },
+  {
+   "path": "raw/hg_kseos/api/repo_meta.headers.txt",
+   "bytes": 1459,
+   "sha256": "f36622185dd704020aec33e120841a7307337bb4860a1921d14e40fa4c8ad789"
+  },
+  {
+   "path": "raw/hg_kseos/api/repo_meta.json",
+   "bytes": 6677,
+   "sha256": "b7932cbc280f05d79e022a67502a097d5a341b1004c55b29e8501ac8e9adba3b"
+  },
+  {
+   "path": "raw/hg_kseos/git_head.txt",
+   "bytes": 321,
+   "sha256": "4d9fa23a407232f11b7720d3ae9f2cf81e8fcaa539354ad0ae773e9292aafbae"
+  },
+  {
+   "path": "raw/hg_kseos/scan.txt",
+   "bytes": 567,
+   "sha256": "063dfa7adad782d85b979839654b9bc881f63a5b053fbecce041c0cb444f3d59"
+  },
+  {
+   "path": "raw/hg_kseos/tracked_files.txt",
+   "bytes": 39726,
+   "sha256": "21d61bc54781e1d1f2151d8134e966411dfb234ff48aa4e9e2a3a79c262af239"
+  },
+  {
+   "path": "raw/sbl/api/actions_runs.headers.txt",
+   "bytes": 1604,
+   "sha256": "724e0c781f1307cf4e0977fbc315e53ee8a14853d0c8fcbd0db7434498e3be42"
+  },
+  {
+   "path": "raw/sbl/api/actions_runs.json",
+   "bytes": 36755,
+   "sha256": "89bb1893a5d06c57df087f26b16dc146904668bd5491d681d2b6148dc61f5e22"
+  },
+  {
+   "path": "raw/sbl/api/commit_check_runs.headers.txt",
+   "bytes": 1410,
+   "sha256": "6b0be03c536e4acd010a571f8b929781215049a8bb7ad98f916070f0f832af8c"
+  },
+  {
+   "path": "raw/sbl/api/commit_check_runs.json",
+   "bytes": 12270,
+   "sha256": "e55de6f3f929ef5109edf46e86b3f0b9ea51090c81caaf2750da8e41fd196d8c"
+  },
+  {
+   "path": "raw/sbl/api/commit_main.headers.txt",
+   "bytes": 1460,
+   "sha256": "dab05763191433c4d887f47bd4f697ae1950871b350f4202cd30cda45cbb591f"
+  },
+  {
+   "path": "raw/sbl/api/commit_main.json",
+   "bytes": 11923,
+   "sha256": "58680ed6d0bb2ed9dd0f0e64299d16d13451c013677e1beb43739e24eb141fa1"
+  },
+  {
+   "path": "raw/sbl/api/repo_meta.headers.txt",
+   "bytes": 1459,
+   "sha256": "bd63e11105c4fc0284f3418830c30759ea9b558897cef196f5b37e45b373a12a"
+  },
+  {
+   "path": "raw/sbl/api/repo_meta.json",
+   "bytes": 6614,
+   "sha256": "ee6354737cd113d5383fa01f9ff715c5e0969d75618ad97099706f6043e055e2"
+  },
+  {
+   "path": "raw/sbl/api/run_42361088797_jobs.headers.txt",
+   "bytes": 1413,
+   "sha256": "246dff792bef7a019c2e95931c80e60bb97e04443314d7912697d61bdbd96e73"
+  },
+  {
+   "path": "raw/sbl/api/run_42361088797_jobs.json",
+   "bytes": 10757,
+   "sha256": "3db3e295ec625140d4520f723cfa1d4cc9cd3e353da350fe7d66f2b0b783759a"
+  },
+  {
+   "path": "raw/sbl/git_head.txt",
+   "bytes": 275,
+   "sha256": "aa11faa987eef66c0e5eacbe9bf0a0084faadd95b537f23902bcadd2e58465d3"
+  },
+  {
+   "path": "raw/sbl/scan.txt",
+   "bytes": 1691,
+   "sha256": "11eb8e2fb68cb403a1c4889a52b454539963db6105e6334c8ca3e3ab6e3f4af6"
+  },
+  {
+   "path": "raw/sbl/tracked_files.txt",
+   "bytes": 37602,
+   "sha256": "ab499941dbeb81d99834281dcd83c970daf764fd00111ed35b0a00c9232fa602"
+  },
+  {
+   "path": "SBOM_REPORT.json",
+   "bytes": 5972,
+   "sha256": "15b6f712dda82878b9311149dd0b52595d000cba737637887a3bb565cca548fc"
+  },
+  {
+   "path": "SCAN_SUMMARY.json",
+   "bytes": 5154,
+   "sha256": "6878c368d97cc1f4b43b011379128beba506254b3c2f9b8b77fe7e8ce48ff2a2"
+  },
+  {
+   "path": "scripts/build_reports.py",
+   "bytes": 38929,
+   "sha256": "b86a78f1fe006b3fef1c19c6d9a60446a5b4137553979159469d71e5e60c9c80"
+  },
+  {
+   "path": "scripts/fetch_ci.py",
+   "bytes": 7318,
+   "sha256": "9917a8400b0917f80b857f0ee4e234ebcc2c9fa1c6cf64f2ac75c0a04de1a705"
+  },
+  {
+   "path": "scripts/wp19_scan.py",
+   "bytes": 19050,
+   "sha256": "00def7d99e001677f201c8f67ef8555956abf8c27a2370541599eaa0616663e6"
+  },
+  {
+   "path": "SUMMARY.md",
+   "bytes": 5553,
+   "sha256": "664509d98749753ed221cc338663f5051e508f5290c5441ca1d5e6b0715b49d5"
+  }
+ ],
+ "commands": [
+  "git -C C:/Projects/Agent_Workspace/worktrees/r4-fabric rev-parse HEAD   # d75e97654279dc063e3f3e3da7b0879f5470abdf",
+  "git -C C:/Projects/Agent_Workspace/worktrees/r4-sbl rev-parse HEAD      # 47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+  "git -C C:/Projects/Agent_Workspace/worktrees/r4-hgk rev-parse HEAD      # a7046a36956e2179d7125449ce9b6f05fa5451cf",
+  "git -C <repo> ls-files -z                                  # enumeration basis for every local finding",
+  "python C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP19/scripts/wp19_scan.py",
+  "python C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP19/scripts/fetch_ci.py",
+  "python C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP19/scripts/build_reports.py",
+  "curl -K <0600 config, deleted after use> https://api.github.com/repos/shw097-team/<repo>/actions/runs?per_page=3",
+  "curl -K <0600 config, deleted after use> https://api.github.com/repos/shw097-team/<repo>/commits/main/check-runs",
+  "curl -K <0600 config, deleted after use> https://api.github.com/repos/shw097-team/<repo>/commits/main",
+  "curl -K <0600 config, deleted after use> https://api.github.com/repos/shw097-team/<repo>/actions/runs/<run_id>/jobs",
+  "python -c \"import hashlib,pathlib;print(hashlib.sha256(pathlib.Path('<file>').read_bytes()).hexdigest())\""
+ ],
+ "holds": [
+  {
+   "id": "HOLD_ORIGINAL_CI_READER",
+   "statement": "即時 CI 狀態來自帶 token 的 REST 回讀，不是 original CI reader ACK。未取得 job log、產物、runner 身分與 run attestation，因此不主張任何 ACK。"
+  },
+  {
+   "id": "HOLD_SUPPLY_CHAIN_ATTESTATION",
+   "statement": "三個 repo 都沒有簽章 SBOM、沒有 provenance statement、也沒有 in-toto／SLSA attestation。SBOM.cdx.json 不含 signature 成員；SBOM 這一層停在「已解析的 manifest」，不再往上提升。"
+  },
+  {
+   "id": "HOLD_LICENCE_DETERMINATION",
+   "statement": "Fabric 與 HG-KSEOS 在根層沒有授權檔。SOURCE_READ 只記錄缺席、不裁決權利，因此這兩個 repo 的授權問題留給 owner。"
+  },
+  {
+   "id": "HOLD_YAML_SEMANTICS",
+   "statement": "workflow 的觸發事件與 job 由行／縮排掃描器取得，因為此直譯器沒有 YAML parser；任何使用 anchors、merge keys 或多文件語法的 workflow 都會被讀漏，在被依賴之前必須用真正的 parser 重驗。"
+  },
+  {
+   "id": "HOLD_SBOM_RECONCILIATION",
+   "statement": "8 個 CycloneDX component 未與解析後的 lock 或已安裝環境對帳；相對於出貨 wheel 的完整性未經證實。"
+  }
+ ],
+ "not_claimed": [
+  "signed SBOM",
+  "SBOM attestation / provenance (SLSA, in-toto)",
+  "release qualification",
+  "original CI reader ACK",
+  "CI green == supply-chain clean",
+  "licence compliance or legal opinion",
+  "vulnerability / advisory scan",
+  "dependency resolution reproducibility",
+  "byte identity between the scanned worktree and the tree main CI ran",
+  "any write, commit, push or modification inside the three repositories"
+ ],
+ "read_only_attestation": {
+  "statement": "三個 worktree 內沒有任何檔案被建立、修改或刪除。只發出 git 唯讀指令（rev-parse、log、ls-files）與檔案讀取。",
+  "commands_that_could_write": []
+ },
+ "reproduction": {
+  "entry": "依序執行 python scripts/wp19_scan.py、scripts/fetch_ci.py、scripts/build_reports.py",
+  "determinism": "在 HEAD 固定的前提下，本地掃描可重現。CI 回讀不可重現：run id 與結論會隨 CI 變動，因此本次回讀的權威位元組是 raw/<repo>/api/*.json，其 sha256 記於 artifacts[]。"
+ }
+}

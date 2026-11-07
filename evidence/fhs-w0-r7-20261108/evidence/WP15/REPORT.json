@@ -1,0 +1,331 @@
+{
+ "schema": "FHS.WP15.Report/1",
+ "wp": "WP-FHS-15",
+ "round": "FHS-W0-R6-EXEC-20261108",
+ "generated_at": "2026-11-08T00:48:09+0800",
+ "status": "PASS_LOCAL",
+ "status_note": "PASS 指本地量測通過（span 重切、distinctness、stage 計數），不代表原 Reader 已讀回。",
+ "done_predicate": "original three SPEC drafts + source readback + FUO ten columns",
+ "effect_class": "LOCAL_DRAFT_WRITE",
+ "output_root": "evidence/WP15",
+ "counts": {
+  "specs": 3,
+  "spec_source_refs": 22,
+  "acceptance_entries": 15,
+  "acceptance_pos": 6,
+  "acceptance_neg": 9,
+  "fuo_columns_per_spec": 10,
+  "stages": 18,
+  "stage_expected": 18,
+  "firstfail_codes": 10,
+  "spans_verified": 52,
+  "spans_failed": 0,
+  "files_scanned": 6,
+  "holds": 8,
+  "artifacts": 19
+ },
+ "spec_sizes_bytes": {
+  "product": {
+   "md": 9116,
+   "json": 14401
+  },
+  "architecture": {
+   "md": 9267,
+   "json": 15026
+  },
+  "program": {
+   "md": 9691,
+   "json": 15599
+  }
+ },
+ "replaced_stubs": {
+  "note": "WP15 先前輪次記錄三份 SPEC 存在，但 Architecture 470 chars、Program 385 chars，屬佔位而非規格；本輪以 source-bound 全文取代。",
+  "previous_chars": {
+   "Product": 22862,
+   "Architecture": 470,
+   "Program": 385
+  },
+  "previous_evidence": "FHS_W0W2_R4_20261107/evidence/E_docs/WP15_WP16_SPEC_INVENTORY.json",
+  "current_chars": {
+   "product": 6261,
+   "architecture": 6723,
+   "program": 6812
+  }
+ },
+ "span_verification": {
+  "passed": 52,
+  "total": 52,
+  "failed": 0,
+  "files_scanned": 6,
+  "refs": 52
+ },
+ "distinctness": {
+  "threshold": 0.85,
+  "pairs": [
+   {
+    "pair": [
+     "product",
+     "architecture"
+    ],
+    "sentence_shingle_jaccard": 0.0755,
+    "char5gram_jaccard": 0.2134,
+    "max": 0.2134,
+    "status": "PASS"
+   },
+   {
+    "pair": [
+     "product",
+     "program"
+    ],
+    "sentence_shingle_jaccard": 0.0617,
+    "char5gram_jaccard": 0.2102,
+    "max": 0.2102,
+    "status": "PASS"
+   },
+   {
+    "pair": [
+     "architecture",
+     "program"
+    ],
+    "sentence_shingle_jaccard": 0.0613,
+    "char5gram_jaccard": 0.2113,
+    "max": 0.2113,
+    "status": "PASS"
+   }
+  ],
+  "consumers_disjoint": true,
+  "neg_sets_disjoint": true,
+  "result": "PASS"
+ },
+ "stage_count": 18,
+ "dag_check": {
+  "command": "python tools/verify_dag.py",
+  "exit_code": 0,
+  "wp_count": 22,
+  "edge_count": 36,
+  "acyclic": true,
+  "wp06_wave": "W2",
+  "result": "PASS",
+  "detail": "WPs=22 edges=36 acyclic=True topo_len=22 | WP-FHS-06 primary wave: W2 | edges where target wave is EARLIER than source wave: none"
+ },
+ "negative_controls": {
+  "command": "python tools/negative_controls.py",
+  "exit_code": 0,
+  "faults_caught": 3,
+  "faults_total": 3,
+  "result": "PASS",
+  "detail": [
+   "NC-1 tampered quoted_text              verify_spans.py        exit=1   caught=YES  FAIL  specs\\product_SPEC.json/source_refs[0]                                   slice != qu",
+   "NC-2 same body, renamed heading        spec_distinctness.py   exit=1   caught=YES  product vs program       sentence_shingle(2g)=0.9767  char_5gram=0.9967  max=0.9967  FAIL",
+   "NC-3 missing FUO column stop_rule      spec_distinctness.py   exit=1   caught=YES  architecture   FAIL  fields=17/17 missing=-  fuo_cols=9/10 missing=['stop_rule']  acc=5 (P"
+  ]
+ },
+ "commands": [
+  {
+   "command": "python tools/verify_spans.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0,
+   "duration_s": 0.18,
+   "stdout_log": "evidence/verify_spans.log",
+   "tail": "RESULT PASS"
+  },
+  {
+   "command": "python tools/spec_distinctness.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0,
+   "duration_s": 0.16,
+   "stdout_log": "evidence/spec_distinctness.log",
+   "tail": "RESULT PASS  (threshold 0.85, pairs=3)"
+  },
+  {
+   "command": "python tools/negative_controls.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0,
+   "duration_s": 0.73,
+   "stdout_log": "evidence/negative_controls.log",
+   "tail": "RESULT PASS  (3/3 faults caught)"
+  },
+  {
+   "command": "python tools/verify_dag.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0,
+   "duration_s": 0.18,
+   "stdout_log": "evidence/verify_dag.log",
+   "tail": "RESULT PASS  (22 WP / 36 edges / acyclic)"
+  },
+  {
+   "command": "python tools/build_wp15.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0,
+   "note": "產生 specs/stages/evidence；span 由 anchor 計算而非手打"
+  },
+  {
+   "command": "python tools/finalize_report.py",
+   "cwd": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\evidence\\WP15",
+   "exit_code": 0
+  }
+ ],
+ "artifacts": [
+  {
+   "path": "specs/architecture_SPEC.json",
+   "bytes": 15026,
+   "sha256": "f8e5192bb8576f101d9c68ceb207a83bec1873c53337052a40c6af62c51f7146"
+  },
+  {
+   "path": "specs/architecture_SPEC.md",
+   "bytes": 9267,
+   "sha256": "221ff09a29426c815bc77a64839af8c90fc451a2f742e43c35269bfc91b19b3b"
+  },
+  {
+   "path": "specs/product_SPEC.json",
+   "bytes": 14401,
+   "sha256": "13e64bf4e33f49071c1be739c0283bb841288e809c8ad23c53bc2b92caca76b9"
+  },
+  {
+   "path": "specs/product_SPEC.md",
+   "bytes": 9116,
+   "sha256": "6a1e9255a690e3de57d4b6790c4d3f7fee162a894849c9e7d2c419be86ce1d59"
+  },
+  {
+   "path": "specs/program_SPEC.json",
+   "bytes": 15599,
+   "sha256": "ae4b3a5a0c4dae3c1bf5926e30839602705a75c28757e7c2c8c896c57ecdc4ef"
+  },
+  {
+   "path": "specs/program_SPEC.md",
+   "bytes": 9691,
+   "sha256": "c7b21c1c504cb26b9c6d899098d5da356c1700178c2d0e25d3bef3f8da77a60f"
+  },
+  {
+   "path": "stages/STAGE_CONTRACTS.json",
+   "bytes": 20700,
+   "sha256": "10aeeffb23796ecd4d6087b96a3b7d87b8697a5dfb9cecac2f264bae24958377"
+  },
+  {
+   "path": "evidence/dag_check.json",
+   "bytes": 7960,
+   "sha256": "58c1ae2b85c4064860beb30c49b9bf8f4204607be05c83abe35291b0d8e57f50"
+  },
+  {
+   "path": "evidence/firstfail_codes.json",
+   "bytes": 7016,
+   "sha256": "d6d1ce64d62e3b05bd4e633c6f505e5182907efa8eb37e9f1326228ec350dce0"
+  },
+  {
+   "path": "evidence/negative_controls.log",
+   "bytes": 679,
+   "sha256": "18fd9511087b19f740dd9460c7ed6202fc64512ffccf2512238f1d988127b34f"
+  },
+  {
+   "path": "evidence/spec_distinctness.log",
+   "bytes": 1889,
+   "sha256": "c341a427108660fbc620815b8945aad6cd9073943d189b555a5ee18249eaf258"
+  },
+  {
+   "path": "evidence/verify_dag.log",
+   "bytes": 582,
+   "sha256": "6a6bcff3ab70c7c83263bf0265223966ce2837dffb699304abc9c756b52e4805"
+  },
+  {
+   "path": "evidence/verify_spans.log",
+   "bytes": 6972,
+   "sha256": "32d2ab069a19c9baa531346a799576d770f5b277692ef82fe96d4babab328946"
+  },
+  {
+   "path": "tools/build_wp15.py",
+   "bytes": 46315,
+   "sha256": "3bc2059e6e6fe6f4343ea7c4715008d11f7683a5cd1f68c107dd5528b4dc9f8b"
+  },
+  {
+   "path": "tools/finalize_report.py",
+   "bytes": 9214,
+   "sha256": "b8bd6af98dc97b707b0dc50132fcb3c2a80897294b437c5706d210fce52746f0"
+  },
+  {
+   "path": "tools/negative_controls.py",
+   "bytes": 3934,
+   "sha256": "b304cc1aeb8b916345878c9bf277d929b680edac8fb6d3e0b32458f8fab152df"
+  },
+  {
+   "path": "tools/spec_distinctness.py",
+   "bytes": 6823,
+   "sha256": "00d8406c243a987a3672dee0b6a5f05ad97f99ce49d244dae9c4eba7929049a1"
+  },
+  {
+   "path": "tools/verify_dag.py",
+   "bytes": 4870,
+   "sha256": "7f76c2232d9ebea412c7ba9e6698824d1c165651be31b0d82b47faa10cb8902d"
+  },
+  {
+   "path": "tools/verify_spans.py",
+   "bytes": 4019,
+   "sha256": "8fe73eadfbd547b6cbdf8be8a8024483fd89fc04a5d14cf5cf0b10b95f38e2ba"
+  }
+ ],
+ "holds": [
+  {
+   "id": "H-WP15-STAGE-ENUMERATION-GAP",
+   "scope": "18 stage 列舉只存在於來源，不存在於 W0 r6 CH-11",
+   "owner": "W0 章節 Curator / Original TPM Reader",
+   "unblock": "W0 CH-11 補列 18 列 stage 條文，或原 TPM Reader 明確接受以來源表為定義"
+  },
+  {
+   "id": "H-WP15-P-ORIGINAL-PRODUCT-READER",
+   "scope": "產品語義與痛點對應",
+   "owner": "Original SBL Product Reader",
+   "unblock": "同 Subject/Scope 的原 Reader 讀回或具名 NACK",
+   "spec": "product"
+  },
+  {
+   "id": "H-WP15-P-SEMANTIC-OWNER",
+   "scope": "OriginalRequirementID/Parent/NEG 語義",
+   "owner": "Original Semantic Owner",
+   "unblock": "原句 span 與否定作用域經原 Reader 核定",
+   "spec": "product"
+  },
+  {
+   "id": "H-WP15-A-ORIGINAL-ARCH-READER",
+   "scope": "seam 歸屬與 ABI 相容性",
+   "owner": "Original SBL/HGK/Fabric Architecture Registry Reader",
+   "unblock": "同 Subject/Scope 的原 Reader 讀回，或具名 NACK 指明哪個 seam",
+   "spec": "architecture"
+  },
+  {
+   "id": "H-WP15-A-HOST-RAW",
+   "scope": "Host Active 與 LoadedSHA",
+   "owner": "Original Host Raw Reader",
+   "unblock": "真 Host Raw 讀回；在此之前不得寫 active",
+   "spec": "architecture"
+  },
+  {
+   "id": "H-WP15-G-ORIGINAL-PROGRAM-READER",
+   "scope": "22WP/36 邊與 wave 指派",
+   "owner": "Original FHS BODY-11 Program/DAG Reader",
+   "unblock": "同 Subject/Scope 的原 Reader 讀回，或具名 NACK 指明哪條邊",
+   "spec": "program"
+  },
+  {
+   "id": "H-WP15-G-CR-DOC04-STATE-MAP",
+   "scope": "T4/T5 transition 當期映射",
+   "owner": "Original PIPD Compiler Owner",
+   "unblock": "T4/T5 映射經原 Compiler 確認；在此之前維持 HOLD，不升為 StateEnum",
+   "spec": "program"
+  },
+  {
+   "id": "H-WP15-ORIGINAL-DOMAIN-OWNER",
+   "scope": "三份 SPEC 的全部語義（產品／架構／排程）",
+   "owner": "Original Domain Owner/Reader (scope binding pending)",
+   "unblock": "同 Subject/Scope 的原 Domain Reader 讀回或具名 NACK"
+  }
+ ],
+ "not_claimed": [
+  "ORIGINAL_ACK（三份 SPEC 均無 Original Reader 讀回）",
+  "Owner SourceFreeze",
+  "原 PIPD schema $id 或 canonical SubjectID",
+  "Host Active / HostLoaded 讀回",
+  "任何世界效果、Repo 寫入、Release、Independent Case PASS",
+  "W1 promotion 或 TaskSpecSeed 已被原 Intake 接收",
+  "W0 r6 CH-11 已列舉 18 stage 條文（實測列舉 0，條文只在來源 02）"
+ ],
+ "claim_ceiling": "AUTHOR_SIDE_SPEC_DRAFT_SOURCE_BOUND"
+}

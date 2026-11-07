@@ -1,0 +1,422 @@
+{
+ "schema": "FHS.WP19.CIInventory/1",
+ "work_package": "WP-FHS-19",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "local_parse": {
+  "kind": "line_based_indent_scanner",
+  "statement": "workflow 檔不是用 YAML parser 解析的。此直譯器（3.14.9，僅 stdlib）沒有 pyyaml，掃描器只用 regex／縮排掃描讀取：第 0 欄的頂層鍵、縮排 2 的 `on:` 子鍵、縮排 2 的 `jobs:` 子鍵。anchors、aliases、merge keys、多文件、quoted block scalars，以及 `on: [..]` 以外的 flow mapping 都沒有被解讀。job 名稱取 job id；有 display `name:` 時另予記錄。"
+ },
+ "live_read": {
+  "endpoints": [
+   "GET /repos/shw097-team/<repo>/actions/runs?per_page=3",
+   "GET /repos/shw097-team/<repo>/commits/main/check-runs",
+   "GET /repos/shw097-team/<repo>/commits/main",
+   "GET /repos/shw097-team/<repo>",
+   "GET /repos/shw097-team/<repo>/actions/runs/<run_id>/jobs  (latest run per repo)"
+  ],
+  "auth_handling": "token 由抓取腳本自金鑰檔讀入，只寫進本 evidence 目錄內的一份 curl config（要求 POSIX 0600，並以 icacls 將 NTFS ACL 收斂到擁有者），經 curl -K 使用，因此不會出現在 argv；腳本返回前該 config 已刪除。本輪目錄不保留 token 副本，token 也從未輸出到 stdout。",
+  "readback": {
+   "token_file": "C:\\Projects\\Agent_Workspace\\API KEY\\GITHUB-REPO_SHW097-4.txt",
+   "token_bytes": 93,
+   "token_prefix_class": "github",
+   "config_mode_after_chmod": "0o666",
+   "config_mode_after_delete": "absent",
+   "config_path": ".curlrc_wp19_tmp",
+   "acl_hardening": {
+    "posix_chmod_requested": "0600",
+    "acl": "�w�B�z���ɮ�: C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP19/.curlrc_wp19_tmp\n�w���Q�B�z 1 ���ɮ�; 0 ���ɮ׳B�z����",
+    "acl_ok": true
+   },
+   "config_deleted": true
+  },
+  "http_codes": {
+   "Fabric": {
+    "actions_runs": "200",
+    "commit_check_runs": "200",
+    "commit_main": "200",
+    "repo_meta": "200"
+   },
+   "SBL": {
+    "actions_runs": "200",
+    "commit_check_runs": "200",
+    "commit_main": "200",
+    "repo_meta": "200"
+   },
+   "HG-KSEOS": {
+    "actions_runs": "200",
+    "commit_check_runs": "200",
+    "commit_main": "200",
+    "repo_meta": "200"
+   }
+  },
+  "read_at_utc": "2026-11-07T16:43:25Z"
+ },
+ "repos": [
+  {
+   "repo": "Fabric",
+   "github_slug": "shw097-team/Fabric",
+   "local_head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "local_branch": "docs/fhs-asbuilt-w0w2-20261107",
+   "workflow_files": [
+    {
+     "path": ".github/workflows/fhs-entry-check.yml",
+     "bytes": 786,
+     "sha256": "ff3cb184ff2891e108814e3bbac6ac5056606a2bcf456fe4940a3fc5edc525ec",
+     "workflow_name": "FHS navigation candidate checks",
+     "trigger_events": [
+      "merge_group",
+      "pull_request",
+      "push",
+      "workflow_dispatch"
+     ],
+     "job_count": 1,
+     "jobs": [
+      {
+       "job_id": "fhs-nav-static",
+       "display_name": "fhs-nav-static"
+      }
+     ],
+     "parse_kind": "line_based_indent_scanner",
+     "parse_note": "這不是 YAML parser：本直譯器沒有 pyyaml，只用 regex／縮排讀取頂層鍵、`on:` 的縮排 2 子鍵與 `jobs:` 的縮排 2 子鍵。anchors、merge keys、多文件，以及 `on: [..]` 以外的 flow mapping 皆未解讀。"
+    }
+   ],
+   "workflow_file_count": 1,
+   "ci_service_absent": false,
+   "main_head_sha": "ee19049c10790cd7993c96ac04bea05c705b3886",
+   "main_head_committed_at": "2026-11-07T09:28:29Z",
+   "runs_returned": [
+    {
+     "run_id": 42387827579,
+     "workflow_name": "FHS navigation candidate checks",
+     "event": "pull_request",
+     "head_branch": "docs/fhs-asbuilt-w0w2-20261107",
+     "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T15:44:22Z",
+     "html_url": "https://github.com/shw097-team/Fabric/actions/runs/42387827579"
+    },
+    {
+     "run_id": 42385190092,
+     "workflow_name": "FHS navigation candidate checks",
+     "event": "pull_request",
+     "head_branch": "docs/fhs-asbuilt-w0w2-20261107",
+     "head_sha": "301f458c5b169da436f38431f0c07f2e1748b5f2",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T15:11:43Z",
+     "html_url": "https://github.com/shw097-team/Fabric/actions/runs/42385190092"
+    },
+    {
+     "run_id": 42382954381,
+     "workflow_name": "FHS navigation candidate checks",
+     "event": "pull_request",
+     "head_branch": "r5/d24-scoped-candidates",
+     "head_sha": "e001caa938153d1dc854c9655055c740eee95ae4",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T14:43:48Z",
+     "html_url": "https://github.com/shw097-team/Fabric/actions/runs/42382954381"
+    }
+   ],
+   "runs_total_count": 39,
+   "latest_run": {
+    "run_id": 42387827579,
+    "workflow_name": "FHS navigation candidate checks",
+    "event": "pull_request",
+    "head_branch": "docs/fhs-asbuilt-w0w2-20261107",
+    "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-07T15:44:22Z",
+    "html_url": "https://github.com/shw097-team/Fabric/actions/runs/42387827579",
+    "jobs": [
+     {
+      "job_id": 128448879591,
+      "name": "fhs-nav-static",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T15:44:25Z",
+      "completed_at": "2026-11-07T15:44:32Z",
+      "step_count": 5,
+      "step_names": [
+       "Set up job",
+       "Checkout pinned official v7.0.1",
+       "Verify Python and static route contract",
+       "Post Checkout pinned official v7.0.1",
+       "Complete job"
+      ]
+     }
+    ]
+   },
+   "check_runs_at_main": [
+    {
+     "name": "fhs-nav-static",
+     "status": "completed",
+     "conclusion": "success",
+     "started_at": "2026-11-07T09:28:34Z",
+     "completed_at": "2026-11-07T09:28:40Z",
+     "app": "github-actions"
+    }
+   ],
+   "check_runs_total_count": 1,
+   "findings": [
+    "CI_WITHOUT_SUPPLY_CHAIN_JOB：唯一的 job ['fhs-nav-static'] 不掃授權、不掃 SBOM、也不掃依賴宣告。這裡的綠燈對供應鏈沒有任何證言力。",
+    "LATEST_RUN_NOT_MAIN：最新的 run（42387827579）在分支 docs/fhs-asbuilt-w0w2-20261107、commit d75e97654279，不在 main head ee19049c1079。因此 run 層級結論描述的是分支；main 的 CI 狀態必須改讀 main 上的 check run（已分開記錄）。",
+    "LOCAL_TREE_NOT_MAIN：被掃的 worktree 在 d75e97654279（分支 docs/fhs-asbuilt-w0w2-20261107），main 在 ee19049c1079。此處盤點的檔案與 main CI 最後執行的樹並非位元相同。"
+   ],
+   "ci_verdict": "GREEN_NO_SUPPLY_CHAIN_JOB"
+  },
+  {
+   "repo": "SBL",
+   "github_slug": "shw097-team/SBL",
+   "local_head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "local_branch": "r5/close-legacy-ack",
+   "workflow_files": [
+    {
+     "path": ".github/workflows/ci.yml",
+     "bytes": 6832,
+     "sha256": "26076ff42922cc40a7c4e48855a3fbdeb1c5075d15c05856917b0e35ced8121f",
+     "workflow_name": "ci",
+     "trigger_events": [
+      "pull_request",
+      "push"
+     ],
+     "job_count": 3,
+     "jobs": [
+      {
+       "job_id": "test",
+       "display_name": "test (${{ matrix.os }}, py${{ matrix.python-version }})"
+      },
+      {
+       "job_id": "supply-chain",
+       "display_name": "supply-chain (ubuntu, py3.11)"
+      },
+      {
+       "job_id": "pipd-compat",
+       "display_name": "pipd-compat (ubuntu, py3.11)"
+      }
+     ],
+     "parse_kind": "line_based_indent_scanner",
+     "parse_note": "這不是 YAML parser：本直譯器沒有 pyyaml，只用 regex／縮排讀取頂層鍵、`on:` 的縮排 2 子鍵與 `jobs:` 的縮排 2 子鍵。anchors、merge keys、多文件，以及 `on: [..]` 以外的 flow mapping 皆未解讀。"
+    }
+   ],
+   "workflow_file_count": 1,
+   "ci_service_absent": false,
+   "main_head_sha": "c3819231081c26e08fac8c04bd6669a6e1fd0a60",
+   "main_head_committed_at": "2026-11-07T09:45:41Z",
+   "runs_returned": [
+    {
+     "run_id": 42361088797,
+     "workflow_name": "ci",
+     "event": "push",
+     "head_branch": "main",
+     "head_sha": "c3819231081c26e08fac8c04bd6669a6e1fd0a60",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T09:45:45Z",
+     "html_url": "https://github.com/shw097-team/SBL/actions/runs/42361088797"
+    },
+    {
+     "run_id": 42360601577,
+     "workflow_name": "ci",
+     "event": "pull_request",
+     "head_branch": "r5/close-legacy-ack",
+     "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T09:38:40Z",
+     "html_url": "https://github.com/shw097-team/SBL/actions/runs/42360601577"
+    },
+    {
+     "run_id": 42359884665,
+     "workflow_name": "ci",
+     "event": "push",
+     "head_branch": "main",
+     "head_sha": "bddd2097050cfaf69daa0dce091b82f76929282b",
+     "status": "completed",
+     "conclusion": "success",
+     "created_at": "2026-11-07T09:28:34Z",
+     "html_url": "https://github.com/shw097-team/SBL/actions/runs/42359884665"
+    }
+   ],
+   "runs_total_count": 179,
+   "latest_run": {
+    "run_id": 42361088797,
+    "workflow_name": "ci",
+    "event": "push",
+    "head_branch": "main",
+    "head_sha": "c3819231081c26e08fac8c04bd6669a6e1fd0a60",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-07T09:45:45Z",
+    "html_url": "https://github.com/shw097-team/SBL/actions/runs/42361088797",
+    "jobs": [
+     {
+      "job_id": 128369434497,
+      "name": "test (ubuntu-latest, py3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T09:45:47Z",
+      "completed_at": "2026-11-07T09:46:36Z",
+      "step_count": 11,
+      "step_names": [
+       "Set up job",
+       "Checkout",
+       "Set up Python",
+       "Install package",
+       "Install test tooling",
+       "Run test suite",
+       "Wheel carries its runtime data",
+       "Verify published source manifest",
+       "Post Set up Python",
+       "Post Checkout",
+       "Complete job"
+      ]
+     },
+     {
+      "job_id": 128369434606,
+      "name": "pipd-compat (ubuntu, py3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T09:45:47Z",
+      "completed_at": "2026-11-07T09:46:08Z",
+      "step_count": 14,
+      "step_names": [
+       "Set up job",
+       "Checkout",
+       "Set up Python 3.11",
+       "Install test tooling",
+       "Install the absorbed PIPD tree with its test extra",
+       "Install the SBL product (no compiler dependency)",
+       "Build the standalone pipd-ls-sp wheel",
+       "Independent install without the SBL package",
+       "Skill packs still discover, load and route (8/8)",
+       "Build the sbl-tpm-sp skills bundle from the single skill source",
+       "TPM -> PIPD adapter flow (POS and typed refusals)",
+       "Post Set up Python 3.11",
+       "Post Checkout",
+       "Complete job"
+      ]
+     },
+     {
+      "job_id": 128369434705,
+      "name": "test (windows-latest, py3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T09:45:47Z",
+      "completed_at": "2026-11-07T09:52:01Z",
+      "step_count": 11,
+      "step_names": [
+       "Set up job",
+       "Checkout",
+       "Set up Python",
+       "Install package",
+       "Install test tooling",
+       "Run test suite",
+       "Wheel carries its runtime data",
+       "Verify published source manifest",
+       "Post Set up Python",
+       "Post Checkout",
+       "Complete job"
+      ]
+     },
+     {
+      "job_id": 128369434717,
+      "name": "supply-chain (ubuntu, py3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-07T09:45:47Z",
+      "completed_at": "2026-11-07T09:45:55Z",
+      "step_count": 8,
+      "step_names": [
+       "Set up job",
+       "Checkout",
+       "Set up Python 3.11",
+       "SBOM, declarations, licences and imports agree",
+       "The gate refuses each mutation it claims to catch",
+       "Post Set up Python 3.11",
+       "Post Checkout",
+       "Complete job"
+      ]
+     }
+    ]
+   },
+   "check_runs_at_main": [
+    {
+     "name": "supply-chain (ubuntu, py3.11)",
+     "status": "completed",
+     "conclusion": "success",
+     "started_at": "2026-11-07T09:45:47Z",
+     "completed_at": "2026-11-07T09:45:55Z",
+     "app": "github-actions"
+    },
+    {
+     "name": "test (windows-latest, py3.11)",
+     "status": "completed",
+     "conclusion": "success",
+     "started_at": "2026-11-07T09:45:47Z",
+     "completed_at": "2026-11-07T09:52:01Z",
+     "app": "github-actions"
+    },
+    {
+     "name": "pipd-compat (ubuntu, py3.11)",
+     "status": "completed",
+     "conclusion": "success",
+     "started_at": "2026-11-07T09:45:47Z",
+     "completed_at": "2026-11-07T09:46:08Z",
+     "app": "github-actions"
+    },
+    {
+     "name": "test (ubuntu-latest, py3.11)",
+     "status": "completed",
+     "conclusion": "success",
+     "started_at": "2026-11-07T09:45:47Z",
+     "completed_at": "2026-11-07T09:46:36Z",
+     "app": "github-actions"
+    }
+   ],
+   "check_runs_total_count": 4,
+   "findings": [
+    "SUPPLY_CHAIN_JOB_PRESENT：此 repo 的 CI 有 job ['supply-chain']；其結論見下方回讀結果。",
+    "LOCAL_TREE_NOT_MAIN：被掃的 worktree 在 47d4e600dd9b（分支 r5/close-legacy-ack），main 在 c3819231081c。此處盤點的檔案與 main CI 最後執行的樹並非位元相同。"
+   ],
+   "ci_verdict": "SUPPLY_CHAIN_JOB_GREEN_AT_READBACK"
+  },
+  {
+   "repo": "HG-KSEOS",
+   "github_slug": "shw097-team/HG-KSEOS",
+   "local_head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "local_branch": "r4/cap-registry-20261107",
+   "workflow_files": [],
+   "workflow_file_count": 0,
+   "ci_service_absent": true,
+   "main_head_sha": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+   "main_head_committed_at": "2026-11-07T09:28:34Z",
+   "runs_returned": [],
+   "runs_total_count": 0,
+   "latest_run": null,
+   "check_runs_at_main": [],
+   "check_runs_total_count": 0,
+   "findings": [
+    "CI_SERVICE_ABSENT：此 repo 沒有 .github/workflows 檔案，且 API 回報 total_count=0 個 workflow run、main 上 total_count=0 個 check run。這是缺席，不是通過。",
+    "LOCAL_TREE_NOT_MAIN：被掃的 worktree 在 a7046a36956e（分支 r4/cap-registry-20261107），main 在 acd9196fcd74。此處盤點的檔案與 main CI 最後執行的樹並非位元相同。"
+   ],
+   "ci_verdict": "CI_SERVICE_ABSENT"
+  }
+ ],
+ "counts": {
+  "repos_scanned": 3,
+  "repos_with_workflows": 2,
+  "repos_without_ci": 1,
+  "workflow_files_total": 2,
+  "repos_with_supply_chain_job": 1
+ },
+ "anomalies": [
+  "Fabric: CI_WITHOUT_SUPPLY_CHAIN_JOB",
+  "Fabric: LOCAL_TREE_NOT_MAIN",
+  "SBL: LOCAL_TREE_NOT_MAIN",
+  "HG-KSEOS: CI_SERVICE_ABSENT",
+  "HG-KSEOS: LOCAL_TREE_NOT_MAIN"
+ ]
+}
