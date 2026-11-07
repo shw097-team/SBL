@@ -21,6 +21,17 @@ ERROR_CODES = frozenset(
         "SBL_E_KNOWLEDGE_COVERAGE_GAP",
         "SBL_E_PROVIDER_OFF",
         "SBL_E_REQUIRES_NATIVE_ACK",
+        # D-18: the native gate's own bound refusals. Distinct codes, because each one names a
+        # different thing the issuer has to fix; none of them is reachable by an unauthenticated ACK.
+        "SBL_E_ACK_MISSING_FIELD",
+        "SBL_E_ACK_MALFORMED_FIELD",
+        "SBL_E_ACK_EXPIRED",
+        "SBL_E_ACK_NOT_YET_VALID",
+        "SBL_E_ACK_SUBJECT_MISMATCH",
+        "SBL_E_ACK_SCOPE_MISMATCH",
+        "SBL_E_ACK_PERMIT_UNKNOWN",
+        "SBL_E_ACK_PERMIT_MISMATCH",
+        "SBL_E_ACK_ECP_MISSING",
         "SBL_E_REPAIR_WITHOUT_EVIDENCE",
         "SBL_E_FOREIGN_FILES",
         "SBL_E_BAD_STATE",
