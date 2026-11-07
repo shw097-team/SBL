@@ -1,0 +1,167 @@
+{
+ "schema": "FHS.W0R7.WPMatrix/1",
+ "round": "FHS-W0-R7-VERIFY-20261108",
+ "object_under_test": "FHS_PIPD-LS-PKG_W0_r6 (treated as draft) executed as round FHS_W0_R6_20261108",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED_WITH_SCOPED_HOLDS",
+ "original_ack_count": 0,
+ "rows": [
+  {
+   "wp": "WP-FHS-00",
+   "claimed": "31/31 sources bytes+lines+sha256; 6/6 upper documents; 3 repo HEADs",
+   "measured": {
+    "sources_matching": 31,
+    "sources_total": 31,
+    "upper_documents": "6/6 MATCH (gate G9)",
+    "repo_drift": "0 (gate G8)",
+    "round_manifest": "162/162 sha256sum -c OK"
+   },
+   "verdict": "REPRODUCED",
+   "defect_ids": [
+    "V-07"
+   ],
+   "evidence": [
+    "out/GATE_R8_OBJECT.json",
+    "lanes/A/A_REPORT.json",
+    "FHS_W0_R6_20261108/evidence/WP00/raw/SOURCE_LOCK.json"
+   ]
+  },
+  {
+   "wp": "WP-FHS-01",
+   "claimed": "111331 segments tiling 22281767 bytes; 84 design ids; 22 W0_REQUIRED; 19 schema families; 17 name collisions",
+   "measured": {
+    "bytes": 22281767,
+    "segments_per_line_rule": 111331,
+    "segments_block_rule": 24003,
+    "design_ids": 84,
+    "w0_required": 22,
+    "schema_families": 19,
+    "name_collisions_inside_set": 0,
+    "source_files_with_divergent_external_copy": 17
+   },
+   "verdict": "REPRODUCED_WITH_DEFINITION_DRIFT",
+   "defect_ids": [
+    "V-03",
+    "V-04"
+   ],
+   "evidence": [
+    "lanes/A/A_REPORT.json",
+    "out/REVISION_CHAIN.json"
+   ]
+  },
+  {
+   "wp": "WP-FHS-15",
+   "claimed": "3 distinct SPECs (max similarity 0.0755); 52/52 spans; 15 acceptance rows (6 POS / 9 NEG); 18 stages",
+   "measured": {
+    "distinct_spec_bodies": 3,
+    "similarity_primary_token3gram_max": 0.1208,
+    "similarity_max_over_six_methods": 0.2063,
+    "prior_0755_reproduced": false,
+    "spans_exact": "52/52",
+    "acceptance_rows": "15 (6 POS / 9 NEG)",
+    "stages": 18
+   },
+   "verdict": "REPRODUCED",
+   "defect_ids": [
+    "V-02"
+   ],
+   "evidence": [
+    "lanes/B/B_REPORT.json",
+    "lanes/D/D_ENUMERATIONS.json"
+   ]
+  },
+  {
+   "wp": "WP-FHS-16",
+   "claimed": "24 donor / 25 method; 8 ADOPT / 21 DEFER / 1 NOFIT / 19 HOLD; 8 of 49 with a named licence",
+   "measured": {
+    "donor_records": 24,
+    "method_records": 25,
+    "dispositions": "8 / 21 / 1 / 19 (sums to 49)",
+    "named_licence": "8 of 49",
+    "source_refs_exact": "49/49"
+   },
+   "verdict": "REPRODUCED",
+   "evidence": [
+    "lanes/B/B_REPORT.json"
+   ]
+  },
+  {
+   "wp": "WP-FHS-19",
+   "claimed": "three-repository licence / NOTICE / SBOM / dependency / CI inventory with three absences",
+   "measured": {
+    "sbl": "root LICENSE + NOTICE + ci.yml, supply-chain job present",
+    "fabric": "root licence/notice/SBOM absent; 5 licence or notice files below root; single workflow fhs-entry-check.yml without supply-chain scanning",
+    "hg_kseos": "no licence at any depth; no workflows at all"
+   },
+   "verdict": "REPRODUCED",
+   "defect_ids": [
+    "V-06"
+   ],
+   "evidence": [
+    "lanes/C/C_REPORT.json"
+   ]
+  },
+  {
+   "wp": "WP-FHS-21",
+   "claimed": "AC15 15 / Oracle96 96 / H4 12 / SEAM 11; checker 155/155; negative control 5/5",
+   "measured": {
+    "ac15": 15,
+    "oracle96": 96,
+    "cross_product": "12 x 8 complete, 0 missing cells",
+    "h4": 12,
+    "seam": 11,
+    "checker_replay": "155/155",
+    "negative_control_replay": "5/5",
+    "parent_recheck": "96 distinct AC-C39 ids recomputed independently by the parent"
+   },
+   "verdict": "REPRODUCED",
+   "evidence": [
+    "lanes/C/C_REPORT.json",
+    "lanes/D/D_ENUMERATIONS.json"
+   ]
+  }
+ ],
+ "gate": {
+  "inherited_checks": 15,
+  "added": [
+   "G10-DOC-PARENT-CLAIM"
+  ],
+  "on_r7_object": {
+   "verdict": "FAIL",
+   "pass": 15,
+   "total": 16
+  },
+  "on_r8_object": {
+   "verdict": "PASS",
+   "pass": 16,
+   "total": 16
+  },
+  "negative_control": "12/15 with mutations exactly on G2, G5b, G6; caught_extra 0"
+ },
+ "writeback": {
+  "child": "FHS_PIPD-LS-PKG_W0_r8.md",
+  "bytes": 539712,
+  "sha256": "ccd545b5c7b4eecbf62bcd23e650a91d7832bfefe62f08ce2e589a58df087e22",
+  "parent_bytes": 492290,
+  "prefix_byte_identical": true,
+  "chain_verdict": "CHAIN_CLAIM_NOT_RESOLVED",
+  "chain_links": [
+   {
+    "parent": "r5",
+    "child": "r6",
+    "state": "RESOLVED"
+   },
+   {
+    "parent": "r6",
+    "child": "r7",
+    "state": "COPY_AMBIGUITY"
+   }
+  ]
+ },
+ "not_claimed": [
+  "ORIGINAL_ACK for any work package (count 0)",
+  "W0_W1_W2_ALL_APPLICABLE_ORIGINAL_WP_DONE=true",
+  "policy effective, issuer restored, T2, DEV, any world effect",
+  "merged, human-reviewed, released",
+  "any protected checker verdict on the 96 planned oracle cases"
+ ]
+}

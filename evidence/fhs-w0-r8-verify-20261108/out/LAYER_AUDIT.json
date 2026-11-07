@@ -1,0 +1,87 @@
+{
+ "schema": "FHS.W0R7.LayerAudit/1",
+ "round": "FHS-W0-R7-VERIFY-20261108",
+ "layers": {
+  "AUTHORITATIVE": {
+   "what": "31 original sources, three repository clones, live runner registry",
+   "write_this_round": "none",
+   "proof": {
+    "sources_declared": 31,
+    "sources_match": 31,
+    "source_mismatches": [],
+    "repos": {
+     "SBL": {
+      "head": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+      "branch": "r5/close-legacy-ack",
+      "dirty_entries": 0,
+      "dirty_vs_wp00_baseline": "unchanged (gate G8: 0 drift)"
+     },
+     "Fabric": {
+      "head": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+      "branch": "docs/fhs-asbuilt-w0w2-20261107",
+      "dirty_entries": 0,
+      "dirty_vs_wp00_baseline": "unchanged (gate G8: 0 drift)"
+     },
+     "HG-KSEOS": {
+      "head": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+      "branch": "r4/cap-registry-20261107",
+      "dirty_entries": 5,
+      "dirty_vs_wp00_baseline": "unchanged (gate G8: 0 drift)"
+     }
+    }
+   }
+  },
+  "CANDIDATE": {
+   "what": "r8 writeback, WP matrix, corrections register, lane reports",
+   "write_this_round": "yes, inside this round root only",
+   "ceiling": "AUTHOR_SIDE_MEASURED; no original-domain acceptance",
+   "artifacts": [
+    {
+     "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r8.md",
+     "role": "candidate revision"
+    },
+    {
+     "path": "out/W0_WP_MATRIX.json",
+     "role": "per-work-package verdicts"
+    },
+    {
+     "path": "out/CORRECTIONS.json",
+     "role": "publication digest corrections"
+    },
+    {
+     "path": "lanes/A/A_REPORT.json",
+     "role": "WP00/01 independent re-derivation"
+    },
+    {
+     "path": "lanes/B/B_REPORT.json",
+     "role": "WP15/16 independent audit"
+    },
+    {
+     "path": "lanes/C/C_REPORT.json",
+     "role": "WP19/21 independent audit"
+    },
+    {
+     "path": "lanes/D/D_ENUMERATIONS.json",
+     "role": "enumeration repair inputs"
+    }
+   ]
+  },
+  "DISCARDABLE": {
+   "what": "scratch copies, reruns, API snapshots",
+   "reproduce_with": "tools/gate_negative_control.py, tools/gate_w0r7.py, tools/build_w0_r8.py",
+   "never_cite_as": "evidence of a result",
+   "paths": [
+    "lanes/GATE_NEG/round",
+    "out/api",
+    "out/GATE_RERUN.json",
+    "out/GATE_R7_OBJECT.json.inherited.json"
+   ]
+  }
+ },
+ "preserved_in_place": [
+  "FHS_W0_R6_20261108/** (read-only preimage: the object under test)",
+  "the two r6 copies named in V-01 (neither is rewritten)",
+  "the published pull-request branches (no force-push, no rewrite of r7 history)"
+ ],
+ "verdict": "LAYERS_SEPARATED"
+}

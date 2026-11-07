@@ -1,0 +1,53 @@
+{
+ "schema": "FHS.OwnerSigningDemand/1",
+ "round": "FHS-W0-R7-VERIFY-20261108",
+ "generated_at": "2026-11-08T02:50:00+0800",
+ "question": "does this verification round need an owner-key signature, i.e. must an owner-window passphrase envelope be opened before work starts?",
+ "measured_now": {
+  "registry_path": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\admission\\registry\\runner-registry.json",
+  "registry_sha256": "3254714b05ecc4345806664d3bb0690f67ae1bd5218be24b793d838b08ec9d57",
+  "registry_rev": 13,
+  "registry_schema": "RunnerRegistry@1",
+  "rows": 31,
+  "rows_installed": 31,
+  "rows_owner_signed": 31,
+  "root_owner_signature_present": true,
+  "readback_command": "python -c \"import json;d=json.load(open(r'C:/Projects/Agent_Workspace/var/B1-PIPD-PKG-20261027/admission/registry/runner-registry.json',encoding='utf-8'));print(d['registry_rev'],len(d['runners']))\""
+ },
+ "effect_classes_in_this_round": {
+  "independent_rederivation": "SOURCE_READ",
+  "document_revision_r8": "LOCAL_DRAFT_WRITE (isolated round root; the original r6/r7 bytes are not modified)",
+  "gate_execution": "LOCAL_PROCESS_EXECUTE",
+  "publication": "REPOSITORY_WRITE on a feature branch, authorised by the repository token named in the work order, not by the owner key",
+  "merge": "NOT_PERFORMED (the work order asks for the result to be pushed for an external team, not merged)"
+ },
+ "reasoning": [
+  "no work package in this round creates a registry row, re-signs a row, or moves the merkle root, so a row-and-root signing window would have nothing to sign",
+  "the publishing step authenticates with the GitHub token, which is a different authority from the owner key",
+  "merging is not requested and is not needed for an external team to read the result",
+  "a window opened with an empty signing demand closes at ops_used 0 and proves only that a key was bought for nothing; the previous round recorded exactly this reasoning"
+ ],
+ "required_signatures": 0,
+ "window_opened": false,
+ "why_not_opened": "measured demand is zero for this round's effect classes; opening a window would create an unguarded capability with no legitimate payload",
+ "evaluated_tooling": {
+  "tool": "owner_window.py",
+  "workspace": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027",
+  "prior_window_evidence": {"window_id": "WIN-c79a0bfc93f4", "state": "CLOSED", "max_ops": 34, "ops_used": 32},
+  "note": "the tool exists and was used by a previous round; it was not invoked here because there is no payload"
+ },
+ "single_named_owner_item": {
+  "id": "OWNER-W0R7-01",
+  "title": "five authority decisions that no measurement can close, plus one issuer re-issue",
+  "items": [
+   {"id": "R1-ISSUER-REV14", "first_fail": "REGISTRY_REV13_NO_ISSUER_RECOVERY", "required_raw": "new registry rev 14 with owner signature on 31 rows and root, produced by the issuer private key", "resume_predicate": "python owner_window.py open --task FHS-R1-REV14 --ttl-hours 2 --max-ops 33 --scope registry_row_sign,merkle_root_sign --effect-ceiling REPOSITORY_WRITE --workspace C:/Projects/Agent_Workspace/var/B1-PIPD-PKG-20261027 then the owner runs the issuer tool in their own terminal"},
+   {"id": "AUTHORITY-17-COLLISIONS", "first_fail": "NAME_COLLISION_DIFFERENT_DIGEST", "required_raw": "an owner statement naming the authoritative copy for each of the 17 same-basename different-digest groups", "resume_predicate": "the statement is recorded, then the source lock is recomputed against the named copies"},
+   {"id": "LICENCE-FABRIC-HGK", "first_fail": "LICENCE_ABSENT_IN_TWO_REPOS", "required_raw": "an owner decision on the licence of shw097-team/Fabric and shw097-team/HG-KSEOS", "resume_predicate": "LICENSE and NOTICE exist on each repository's default branch and the scan is re-run"},
+   {"id": "HGK-CI-ABSENT", "first_fail": "CI_SERVICE_ABSENT", "required_raw": "an owner decision whether HG-KSEOS gets CI at all", "resume_predicate": "either a workflow exists and runs, or the decision says no CI is intended and the supply-chain expectation is narrowed to match"},
+   {"id": "PIPD-15-VALUESET", "first_fail": "CONTRACT_FAMILY_VALUE_SET_UNCLOSED", "required_raw": "the original PIPD contract owner's value-set closure for 15 families", "resume_predicate": "the closure is delivered and schema-bound, then the binding table is recomputed"}
+  ],
+  "why_one_item": "these are all owner-or-original-reader decisions; splitting them into separate asks forces the same person to answer five times"
+ },
+ "claim_ceiling": "MEASURED_DEMAND_ZERO_FOR_THIS_ROUND",
+ "not_claimed": ["that any owner item is satisfied", "that merged or released state exists", "that an owner window was pre-authorised"]
+}
