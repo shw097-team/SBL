@@ -1,0 +1,110 @@
+{
+ "officer": "acceptance-officer/codex-cli/gpt-6.1-sol/round-4",
+ "mode": "VERIFY_ONLY",
+ "items": [
+  {
+   "id": 1,
+   "claim": "Byte-exact r12 prefix",
+   "verdict": "PASS",
+   "evidence": "Read both documents as bytes. All 582469 r12 bytes match the r13 prefix."
+  },
+  {
+   "id": 2,
+   "claim": "r13 manifest identity",
+   "verdict": "PASS",
+   "evidence": "Measured 590814 bytes and SHA256 f1b1de9131ba6222ce9a67832b352779defede70215dd730515323f0f96bad91. Both match the manifest."
+  },
+  {
+   "id": 3,
+   "claim": "r12 parent correction",
+   "verdict": "PASS",
+   "evidence": "r12 names r11 and parent SHA256 24fb2d9ec5d2f220496647088463819bbc0a3082fc5fc754491408bda1d1316e, matching the actual r11 bytes. parent_version_corrected_from=r10 and its explanation consistently identify a label-only correction."
+  },
+  {
+   "id": 4,
+   "claim": "Completion and closed-defect identifiers",
+   "verdict": "PASS",
+   "evidence": "Closeout declares W0_AUTHOR_DESIGN_COMPLETE. Its six CLOSED identifiers all appear in chapter 14.6. This verifies identifier coverage, not every closure's substantive basis."
+  },
+  {
+   "id": 5,
+   "claim": "No document self-identity",
+   "verdict": "PASS",
+   "evidence": "Read the complete candidate. Neither 590814 nor 590,814 nor its actual SHA256 occurs."
+  },
+  {
+   "id": 6,
+   "claim": "Correct parent identity",
+   "verdict": "PASS",
+   "evidence": "Line 3304 states r12 is 582469 bytes with SHA256 139ff440136543731c1401b17b03ff56e886f80b7dcc08b5fb83892032744c46. Independently measured values match."
+  },
+  {
+   "id": 7,
+   "claim": "ORIGINAL_ACK remains zero",
+   "verdict": "PASS",
+   "evidence": "Candidate lines 3319 and 3388 declare 0/6. Handover and closeout agree. Reviewed matching artifact text; no obtained-ACK assertion was found."
+  },
+  {
+   "id": 8,
+   "claim": "No forbidden achievement assertions",
+   "verdict": "PASS",
+   "evidence": "Read 684 non-officer UTF-8 artifacts and reviewed 88 distinct matching lines covering the four forbidden tokens and ORIGINAL_ACK. Also inspected token matches in 69 binary artifacts, including wheel contents. Matches were denials, open requirements, definitions, quoted instructions, or code vocabulary—not achieved-status assertions."
+  },
+  {
+   "id": 9,
+   "claim": "Saved summary agrees with a live run",
+   "verdict": "NOT_VERIFIABLE",
+   "evidence": "out/GATE_R13.json now records total=18, pass=17, blocking_fail=0, open_reporting_findings=1. The staged gate/GATE_R13.json is byte-identical. My guarded live run produced 18/16/0/2 because the read-only guard blocked G22's mutation-writing subprocess. Zero blocking failures was reproduced; exact agreement of all four summary fields was not independently established."
+  },
+  {
+   "id": 10,
+   "claim": "G11 independently hashes corpus bytes",
+   "verdict": "PASS",
+   "evidence": "Read g11_line_convention and _remeasure_sources: they open source files in binary mode and compute SHA256. Live G11 re-hashed 31/31. Independent measurement found 22281767 bytes, 111331 newline-count lines, and no declaration mismatches."
+  },
+  {
+   "id": 11,
+   "claim": "G13 independently derives duplicate counts",
+   "verdict": "PASS",
+   "evidence": "Read code that enumerates 31 corpus files, reads their bytes, and groups measured SHA256 values and lowercase filenames. Both live G13 and independent measurement found zero duplicate-digest groups and zero duplicate-name groups, matching the artifact."
+  },
+  {
+   "id": 12,
+   "claim": "G19 covers declared groups, members and roots",
+   "verdict": "PASS",
+   "evidence": "Read and instrumented current G19. It traverses names_exact plus names_normalised, not r6_focus. Register totals are 45+45 groups, 60+377=437 member visits, 377 unique paths matching scan_bounds.files_hashed=377, and 25 declared-present roots. Instrumentation confirmed all 437 reads in declared member order, all 90 group counts and recomputed distinct-digest counts matching, and exactly 25 root walks in declared order, including required=false sources_31. Full result reported 228292 files walked and seven fixture directories excluded by name. Exclusion names configured are _sandbox, _g18_demo, _redteam_fixtures, _verify, and scratch. Ordinary stdout truncates G19 detail at 110 characters, hiding root and fixture counts. In-memory controls also returned ROOT_ABSENT for a missing sources_31 root and GROUP_DIGESTS_DISAGREE for a false distinct_digests value."
+  },
+  {
+   "id": 13,
+   "claim": "G22 is self-reported reporting",
+   "verdict": "PASS",
+   "evidence": "CHECKS registers G22 as REPORTING, not BLOCKING. Its implementation and saved gate output carry SELF_REPORTED_BY_THE_SUBJECT. Its write-based selftest was not independently executed."
+  },
+  {
+   "id": 14,
+   "claim": "Measured owner-signature demand",
+   "verdict": "PASS",
+   "evidence": "Assessment states required_signatures=0, NO_WINDOW_OPENED, and an explicit reason. Independently read the named registry: revision 13, 31 rows, all INSTALLED, zero rows missing owner_signature.value or key_id. Cryptographic signature validity was not tested."
+  },
+  {
+   "id": 15,
+   "claim": "Still-open lists agree",
+   "verdict": "PASS",
+   "evidence": "Parsed chapter 14.5 and closeout.still_open. Both contain exactly, in the same order: formal_w0_acceptance, ORIGINAL_ACK, G16b, LICENCE, PIPD-15-VALUESET, R1-ISSUER-REV14."
+  },
+  {
+   "id": 16,
+   "claim": "Read-only digest negative control bites",
+   "verdict": "PASS",
+   "evidence": "Read negative_control.py before execution with bytecode writes disabled. It deep-copies the register and changes names_exact[0].members[0].sha256, exactly the field G19 reads. It performs no filesystem write. Baseline returned true/OK; tampered returned false/MEMBER_DIGEST_DRIFT; check_bites=true. G19 now explicitly judges the collected drift list."
+  }
+ ],
+ "negative_control": {
+  "ran": true,
+  "check_bites": true,
+  "observed": "{\n \"baseline\": {\n  \"ok\": true,\n  \"code\": \"OK\",\n  \"detail\": \"45+45 groups; 437 copies re-hashed at their declared paths with counts and distinct digests recomputed per group; 25 of \"\n },\n \"tampered\": {\n  \"ok\": false,\n  \"code\": \"MEMBER_DIGEST_DRIFT\",\n  \"detail\": \"[{\\\"path\\\": \\\"C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources/00_INDEX_AND_DECISION(4).md\\\", \\\"declared\\\": \\\"000000000000\\\", \\\"measured\\\": \\\"cb4727\"\n },\n \"check_bites\": true\n}\n"
+ },
+ "overall": "PASS",
+ "blocking_defects": [],
+ "notes": "No repairs or filesystem writes were performed. Python was unavailable on PATH; execution used installed Codex-runtime Python with bytecode disabled. Both gate entry points were executed through runpy with the requested arguments under an audit guard blocking filesystem mutation and subprocess launch. G22 normally launches a selftest that writes and restores artifacts, so unrestricted reproduction of the maker's two commands remains NOT_VERIFIABLE. Guarded round verdict: VERDICT PASS pass=16/18 blocking_fail=0 open_reporting=2 hygiene=0. Guarded payload verdict: VERDICT PASS pass=12/13 blocking_fail=0 open_reporting=1 hygiene=0. Both exited 0. Payload scope excludes G11, G13, G16a, G16b, and G19; exclusions exist in the internal report but are NOT announced in ordinary stdout. Round and payload gate sources match after line-ending normalization. The staged saved report records full scope, not payload scope. out/GATE_R13_SELFTEST.json remains historical: it still records the old three-r6-copy G19 result and DID_NOT_FIRE; it is not evidence of the current implementation. Overall PASS means no verified item failed under the brief's rules; item 9 remains NOT_VERIFIABLE, and this is not formal_w0_acceptance."
+}

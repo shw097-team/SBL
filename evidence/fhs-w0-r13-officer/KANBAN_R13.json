@@ -1,0 +1,55 @@
+{
+ "schema": "FHS.KANBAN/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "updated_at": "2026-11-08T23:30:21+08:00",
+ "note": "the Hermes todo tool failed JSON parsing three times on this host; this file is the round's tracking record",
+ "items": [
+  {
+   "id": "T1",
+   "what": "VERIFY lane availability measured",
+   "status": "DONE",
+   "evidence": "codex-cli 0.164.0; `codex exec --sandbox read-only --skip-git-repo-check --model gpt-6.1-sol` answered a probe, exit 0, session 01a1bbc5"
+  },
+  {
+   "id": "T2",
+   "what": "legal acceptance terminal verdicts",
+   "status": "DONE",
+   "evidence": "spine.py TRANSITIONS['acceptance']['NOT_RUN'] = {PASS, FAIL} only",
+   "finding": "the live DB holds 2 rows with verdict PASS_BY_INDEPENDENT_LANE, which the current API would refuse - those rows predate this enum or bypassed the typed path"
+  },
+  {
+   "id": "T3",
+   "what": "officer input pack",
+   "status": "DONE",
+   "evidence": "officer/OFFICER_BRIEF.md, 15 numbered claims to check against bytes"
+  },
+  {
+   "id": "T4",
+   "what": "dispatch VERIFY lane",
+   "status": "IN_FLIGHT",
+   "evidence": "codex exec read-only gpt-6.1-sol, round dir as cwd, output to officer/VERDICT_RAW.txt"
+  },
+  {
+   "id": "T5",
+   "what": "negative control",
+   "status": "PENDING"
+  },
+  {
+   "id": "T6",
+   "what": "register requirement and acceptance row, prepare transition payload",
+   "status": "PARTIAL",
+   "evidence": "requirements/acceptances/leases schemas read; resolve_acceptance requires a lease on the acceptance_id held by actor"
+  },
+  {
+   "id": "T7",
+   "what": "owner-key demand measured",
+   "status": "DONE",
+   "evidence": "registry rev 13, 31 rows all INSTALLED and signed, no new row this round -> required_signatures 0; envelope has no acceptance kind"
+  },
+  {
+   "id": "T8",
+   "what": "publish to SBL and Fabric",
+   "status": "PENDING"
+  }
+ ]
+}

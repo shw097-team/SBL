@@ -1,0 +1,50 @@
+{
+ "schema": "FHS.W0.AcceptanceTransitionPlan/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "generated_at": "2026-11-08T23:30:21+08:00",
+ "entry_point": "hg_kseos.spine.SharedSpine.resolve_acceptance (src/hg_kseos/spine.py:460)",
+ "measured_contract": {
+  "legal_verdicts_from_NOT_RUN": [
+   "PASS",
+   "FAIL"
+  ],
+  "requirement_id": "mandatory - an acceptance may only be resolved through its own requirement",
+  "evidence_ref": "must already exist in evidence_refs (no orphan verdicts)",
+  "lease": "required on acceptance_id, held by actor (spine.py:536 _assert_lease)",
+  "expected_version": "must equal the live version (0 while NOT_RUN)",
+  "idempotency_key": "a replay returns the original event only when it names this same acceptance",
+  "transaction": "state change and canonical event in one transaction; prior verdict kept as from_state",
+  "disclosed_limitation": "evidence_refs has no subject column, so the claim is registered-evidence-binding, not subject-bound-evidence"
+ },
+ "precedent_in_live_db": {
+  "rows": [
+   {
+    "acceptance_id": "ACC-R6-01",
+    "verdict": "PASS_BY_INDEPENDENT_LANE",
+    "oracle": "VERIFY_SECURITY lane receipt + verifier JSON (required arm glm-5.3-flash, ok=true, CLEAN window)"
+   },
+   {
+    "acceptance_id": "ACC-R7-01",
+    "verdict": "PASS_BY_INDEPENDENT_LANE",
+    "oracle": "VERIFY_SECURITY lane receipt (rank3 glm-5.3-flash) + CI conclusions on merged main"
+   }
+  ],
+  "interpretation": "the oracle field, not the verdict enum, is where the independent-lane provenance lives. With the current enum an equivalent transition must be recorded as PASS with the lane receipt named in oracle and evidence_ref."
+ },
+ "draft_payload": {
+  "acceptance_id": "<created by register_requirement for the W0 acceptance>",
+  "verdict": "PASS",
+  "evidence_ref": "FHS_W0_R13_ACCEPTANCE_20261108/officer/VERDICT_R13_OFFICER.json",
+  "actor": "<the officer identity that judged - NOT the maker>",
+  "token": "<lease token held by that actor>",
+  "expected_version": 0,
+  "idempotency_key": "fhs-w0-r13-officer-acceptance-v1",
+  "requirement_id": "<the W0 requirement this acceptance belongs to>",
+  "payload": {
+   "oracle": "VERIFY_SECURITY lane receipt (codex-cli 0.164.0, model gpt-6.1-sol, sandbox read-only, fresh session) + officer verdict JSON",
+   "separation_claim": "process/lane/model separation; principal separation NOT established on a single-account host"
+  }
+ },
+ "blocking_gap": "the transition needs a lease held by the officer identity. The officer runs read-only and cannot take one; the maker taking it on the officer's behalf would collapse the separation it is supposed to prove. Only the owner can issue or act under that identity.",
+ "not_called": true
+}

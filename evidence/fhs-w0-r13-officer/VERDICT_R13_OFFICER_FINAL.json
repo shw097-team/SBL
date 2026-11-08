@@ -1,0 +1,113 @@
+{
+ "schema": "FHS.W0.OfficerVerdictBundle/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "generated_at": "2026-11-08T23:58:20+08:00",
+ "officer": {
+  "lane": "VERIFY_SECURITY",
+  "process": "codex-cli 0.164.0",
+  "model_asked": "gpt-6.1-sol",
+  "model_served": "gpt-6.1-sol",
+  "sandbox": "read-only",
+  "mode": "VERIFY_ONLY",
+  "distinct_from_writer": true,
+  "writer_arm": "opencode-go/deepseek-v4.1-flash (EXECUTE default)",
+  "separation_claim": "process / lane / model separation (SOD006-C7 preserved). Principal separation NOT established: same OS account and same owner."
+ },
+ "rounds": [
+  {
+   "round": 1,
+   "file": "VERDICT_R13_OFFICER_R1.json",
+   "sha256": "f735cc7ad8a0340e8eb3cad43eea696ab1c5f86eee3555c8ec517f5e9ea29e11",
+   "overall": "NACK",
+   "pass": 14,
+   "fail": 1,
+   "not_verifiable": 0,
+   "blocking": [
+    "Item 12: G19 checks only the three r6-focus copies and their three roots, not every copy and root declared in COPY_REGISTER_ALL.json."
+   ],
+   "check_bites": null
+  },
+  {
+   "round": 2,
+   "file": "VERDICT_R13_OFFICER_R2.json",
+   "sha256": "7b1fcfb8b6291e70eaf046dd2726739b62c30e3fad345a5b93c7add66a24ec00",
+   "overall": "NACK",
+   "pass": 15,
+   "fail": 1,
+   "not_verifiable": 0,
+   "blocking": [
+    "Item 12: G19 reports 25 roots re-checked but explicitly checks only 24; sources_31 is skipped because required=false. It also performs no root walks or undeclared-copy discovery despite the document's claim."
+   ],
+   "check_bites": true
+  },
+  {
+   "round": 3,
+   "file": "VERDICT_R13_OFFICER_R3.json",
+   "sha256": "e613cf927692bcf49864b8550d981feeefcd54457cfd24b32a4656beb3ee8956",
+   "overall": "NACK",
+   "pass": 14,
+   "fail": 2,
+   "not_verifiable": 0,
+   "blocking": [
+    "Item 9: The current saved gate report contains two blocking failures, not zero.",
+    "Item 16: G19 silently ignores collected member digest/size mismatches; the required negative control returns check_bites=false."
+   ],
+   "check_bites": false
+  },
+  {
+   "round": 4,
+   "file": "VERDICT_R13_OFFICER_R4.json",
+   "sha256": "82f8bae126ec34d58723d83ec50cf24657d285d4580b089cc41c88e8747b1737",
+   "overall": "PASS",
+   "pass": 15,
+   "fail": 0,
+   "not_verifiable": 1,
+   "blocking": [],
+   "check_bites": true
+  }
+ ],
+ "terminal": {
+  "round": 4,
+  "overall": "PASS",
+  "blocking_defects": []
+ },
+ "defects_found_by_the_officer": [
+  {
+   "round": 1,
+   "what": "G19 covered only the r6-focus subset while the register declares 45+45 groups and 25 roots",
+   "repaired": "re-derives over all groups"
+  },
+  {
+   "round": 2,
+   "what": "G19 reported 25 roots while visiting 24, and performed no root walk",
+   "repaired": "counts come from what was visited; walk restored"
+  },
+  {
+   "round": 3,
+   "what": "the saved gate report still recorded two blocking failures (written before the repairs)",
+   "repaired": "regenerated after staging, then re-staged"
+  },
+  {
+   "round": 3,
+   "what": "G19 collected member digest mismatches and never judged them; the negative control stopped biting",
+   "repaired": "MEMBER_DIGEST_DRIFT judged again"
+  }
+ ],
+ "residual_not_verifiable": [
+  {
+   "item": 9,
+   "why": "the officer's audit guard blocks subprocess launch, so it could not reproduce G22's selftest path; it reported its own guarded verdict instead of assuming"
+  },
+  {
+   "item": "payload scope",
+   "why": "the officer's guarded payload run was 12/13; the maker's unguarded run is 13/13. The difference is the selftest subprocess, not a substantive check."
+  }
+ ],
+ "what_this_proves": "an independent process, model and evidence path read the candidate's bytes and returned PASS on 15 of 16 claims, after catching four real defects across three NACKs that the maker had not seen",
+ "what_this_does_not_prove": [
+  "ORIGINAL_ACK (still 0/6 - needs each original domain reader's own signature)",
+  "principal separation (one OS account, one owner)",
+  "formal_w0_acceptance (the owner-key envelope has no such signable kind)"
+ ],
+ "claim_ceiling": "INDEPENDENT_LANE_VERDICT_PROCESS_MODEL_SEPARATION_ONLY"
+}
