@@ -1,0 +1,114 @@
+{
+ "schema": "FHS.W0R10.AcceptanceMatrix/1",
+ "generated_at": "2026-11-08T09:28:45+0800",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "w0_primary_wps": [
+  {
+   "wp": "WP-FHS-00",
+   "r9_state": "MEASURED_REPAIRED",
+   "r10_verdict": "PASS",
+   "layer": "SOURCE_READ",
+   "raw": "31/31 bytes+lines+sha true; 22,281,767 B; count(\\n)=111,331 (mine, independent)"
+  },
+  {
+   "wp": "WP-FHS-01",
+   "r9_state": "MEASURED_REPAIRED",
+   "r10_verdict": "PASS",
+   "layer": "SOURCE_READ",
+   "raw": "84 design cards (24 INT + 60 FHS-DR); 22 W0_REQUIRED; both rules tile 31/31; 25,201 reproduced only with the tool's classifier"
+  },
+  {
+   "wp": "WP-FHS-15",
+   "r9_state": "MEASURED_REPAIRED",
+   "r10_verdict": "PASS_WITH_DRIFT",
+   "layer": "LOCAL_DRAFT_WRITE",
+   "raw": "3 distinct SPECs; 15 ACC (6 POS/9 NEG); 18 stages; distinctness max 0.2454 (theirs) vs 0.2679 (mine) vs 0.3690 (lane C tf-idf) - all far below 0.85"
+  },
+  {
+   "wp": "WP-FHS-16",
+   "r9_state": "MEASURED_UNCHANGED",
+   "r10_verdict": "CARRIED_NOT_RE_MEASURED",
+   "layer": "LOCAL_DRAFT_WRITE",
+   "raw": "no defect in the convergence scope lands here; not re-run this round by design"
+  },
+  {
+   "wp": "WP-FHS-19",
+   "r9_state": "MEASURED_REPAIRED",
+   "r10_verdict": "HOLD",
+   "layer": "SOURCE_READ",
+   "raw": "licence counts are ref-dependent (SBL 2; Fabric 5 or 6 by rule; HGK 0 at both audited HEADs, 8 only on two other branches); undeclared set at worktrees/r4-hgk = {cryptography, yaml}"
+  },
+  {
+   "wp": "WP-FHS-21",
+   "r9_state": "MEASURED_REPAIRED",
+   "r10_verdict": "PASS",
+   "layer": "SOURCE_READ",
+   "raw": "AC15 15; Oracle96 96 = 12 classes x 8 oracle types (verified by me from 07_ACCEPTANCE_CHALLENGE(4).md); H4 12; SEAM 11"
+  }
+ ],
+ "out_of_scope_wps": {
+  "count": 16,
+  "note": "WP-FHS-02..14,17,18,20 carry primary waves W1-W4; this round measures none of them and claims nothing about them"
+ },
+ "gate_matrix": {
+  "inherited_16": "16/16 PASS exit 0 (re-run by me)",
+  "new_10": "10/10 PASS exit 0 (re-run by me; 34/34 digests, not the recorded 27/27)",
+  "on_prior": "2 PASS / 6 FAIL / 2 n/a exit 1 (reproduced)",
+  "selftest": "10/10 FIRED, exit 0 (handover documents exit 1)",
+  "my_own_injections": "M1..M4 red exactly on G11/G12/G14/G17, 0 collateral, restore 10/10",
+  "vacuous_checks": [
+   "G13 (reads a key the artifact never writes)"
+  ],
+  "misnamed_checks": [
+   "G16 (PASS means 'the artifact is honest', not 'declared covers imports')"
+  ],
+  "coverage_gap": [
+   "G10 (resolves a nested chapter's parent, not the document's own)"
+  ]
+ },
+ "claims_not_made": [
+  "ORIGINAL_ACK (0)",
+  "NATIVE_WORLDRAW",
+  "INDEPENDENT_PASS",
+  "RELEASE_GRANTED",
+  "any WP merged/reviewed/published",
+  "W0_W1_W2_ALL_APPLICABLE_ORIGINAL_WP_DONE=true"
+ ],
+ "owner_todos": [
+  {
+   "id": "R1-ISSUER-REV14",
+   "firstfail": "REGISTRY_REV13_NO_ISSUER_RECOVERY"
+  },
+  {
+   "id": "AUTHORITY-COLLISIONS",
+   "firstfail": "NAME_COLLISION_DIFFERENT_DIGEST",
+   "note": "r6 now known to have three copies, not two"
+  },
+  {
+   "id": "HGK-REF-CANONICAL",
+   "firstfail": "TWO_CHECKOUTS_DIFFER",
+   "note": "HG-KSEOS@6c9fc73 vs worktrees/r4-hgk@a7046a3 disagree on dependencies and on issuer_binding.py"
+  },
+  {
+   "id": "LICENCE-FABRIC-HGK",
+   "firstfail": "LICENCE_ABSENT_AT_ROOT"
+  },
+  {
+   "id": "HGK-CI-ABSENT",
+   "firstfail": "CI_SERVICE_ABSENT"
+  },
+  {
+   "id": "HGK-DEPENDENCY-EXTRA",
+   "firstfail": "UNDECLARED_DEPENDENCY",
+   "note": "at r4-hgk: cryptography and yaml"
+  },
+  {
+   "id": "PIPD-15-VALUESET",
+   "firstfail": "CONTRACT_FAMILY_VALUE_SET_UNCLOSED"
+  },
+  {
+   "id": "ORIGINAL-ACK-18",
+   "firstfail": "ORIGINAL_READER_ACK_UNOBSERVED"
+  }
+ ]
+}

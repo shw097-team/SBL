@@ -1,0 +1,197 @@
+{
+ "schema": "FHS.W0R10.Findings/1",
+ "generated_at": "2026-11-08T09:28:06+0800",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "subject": "FHS_PIPD-LS-PKG_W0_r9 (draft) and its repair round FHS_W0_R9_REPAIR_20261108",
+ "convergence_scope": [
+  "V-01",
+  "V-02",
+  "V-03",
+  "V-04",
+  "V-05",
+  "V-06",
+  "V-07",
+  "A-01",
+  "A-02",
+  "A-03"
+ ],
+ "items": [
+  {
+   "id": "V-01",
+   "claim_by_round": "TOOLISED / canonical left to owner",
+   "verdict": "HOLD",
+   "severity": "owner-scoped",
+   "measured": "r6 exists in THREE copies of 481,212 B, not two: FHS_W0W2_R4_20261107/writeback (69a08e7f), worktrees/r4-fabric/INTEGRATION/FHS/docs/as-built/W0/ (same digest), 知識庫 (9f9eb261). The copy register's roots omit worktrees/, so its '1 ambiguous group' undercounts the copies by one.",
+   "raw": [
+    "lanes/A/REDERIVE_A.json",
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "owner names the canonical digest for FHS_PIPD-LS-PKG_W0_r6.md; register must then include worktrees/ in its roots"
+  },
+  {
+   "id": "V-02",
+   "claim_by_round": "CLOSED, max_overall 0.245432",
+   "verdict": "CLOSED_WITH_DRIFT",
+   "measured": "the defect (quoting 0.0755 as an upper bound) is genuinely fixed: the artifact now carries per-method and per-pair maxima. The replacement number is method-bound: my required-four max is 0.267852 (char-5gram, architecture|program), lane C's five-family max is 0.368972 (tf-idf unigram cosine). The doc calls 0.245432 'the largest of 8 breakdown values' while the matrix holds 5 families x 3 pairs = 15 values.",
+   "raw": [
+    "lanes/C/REDERIVE_C.json",
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "cite the family and normalisation with the number, and correct '8 breakdown values' to 15"
+  },
+  {
+   "id": "V-03",
+   "claim_by_round": "CLOSED, in-set 0 / exact 0 / normalised 17",
+   "verdict": "CLOSED",
+   "severity": "ok",
+   "measured": "confirmed by lane A on a wider root than the round used: in-set duplicate basenames 0, external copies with a different digest 0 under exact naming and 17 under the '(N)'-stripped rule. 282 same-name rows hashed.",
+   "raw": [
+    "lanes/A/REDERIVE_A.json"
+   ],
+   "resume": "none; the rule that produces 17 must travel with the number"
+  },
+  {
+   "id": "V-04",
+   "claim_by_round": "CLOSED, two rules, 111331 / 25201",
+   "verdict": "CLOSED_WITH_DRIFT",
+   "measured": "both numbers are real and both rules tile all 31 files (verified independently). But 25,201 is reproducible only with the tool's fence-aware classifier: four plausible readings of the published prose give 23,692 / 25,602 / 25,603 / 26,080, and lane B isolates the delta as fence-awareness -399 and indented-'#' -2.",
+   "raw": [
+    "lanes/B/REDERIVE_B.json",
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "put the classifier precedence in rules.RULE_STRUCTURAL_BLOCK.definition, not only in the code"
+  },
+  {
+   "id": "V-05",
+   "claim_by_round": "CLOSED (r8 fix) + G18 added",
+   "verdict": "CLOSED",
+   "severity": "ok-with-record-drift",
+   "measured": "digest locality holds: 32/32 SBL + 2/2 Fabric = 34/34 resolve inside their own payload. The record does not: GATE_R9.json says 27/27, the report says 'SBL 26/26, Fabric 1/1', the tree now says 34/34.",
+   "raw": [
+    "out/GATE_R10_RERUN.json"
+   ],
+   "resume": "re-record the gate after the final stage rebuild"
+  },
+  {
+   "id": "V-06",
+   "claim_by_round": "CLOSED, SBL 2 / Fabric 6 / HGK 8",
+   "verdict": "HOLD",
+   "severity": "HIGH",
+   "measured": "tree-dependent. At the audited HEADs: SBL 2 (agrees), Fabric 5 strict / 6 only if an extra 'inside LICENSES/' rule is added, HGK 0 at both HG-KSEOS@6c9fc73 and worktrees/r4-hgk@a7046a3. The 8 exist only on branches candidate/r18-fhs-skeleton-spine-20261029 and fix/owner-window-imports-20261103.",
+   "raw": [
+    "lanes/D/REDERIVE_D.json"
+   ],
+   "resume": "state the ref for every licence count; re-measure HGK on a named ref"
+  },
+  {
+   "id": "V-07",
+   "claim_by_round": "CLOSED, verdict needs bytes+lines+sha",
+   "verdict": "CLOSED",
+   "severity": "ok",
+   "measured": "confirmed: 31/31 bytes+lines+sha true; declared 111,331 = observed 111,331 under count('\\n') and splitlines; split('\\n') gives 111,362 (+31 trailing empties). My own independent count agrees.",
+   "raw": [
+    "lanes/B/REDERIVE_B.json",
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "none"
+  },
+  {
+   "id": "A-01",
+   "claim_by_round": "PRIOR CLAIM FALSE IN BOTH PARTS; patch verified, not applied",
+   "verdict": "NOT_CLOSED",
+   "severity": "HIGH",
+   "measured": "the rebuttal compares two different checkouts and names neither. HG-KSEOS@6c9fc73 (2026-11-03) has dependencies=[\"cryptography>=42\"] and no src/hg_kseos/fhs/issuer_binding.py; worktrees/r4-hgk@a7046a3 (2026-11-06) has dependencies=[] and does have that file, and there the prior round's claim is exactly true (3 modules, one of them a top-level unguarded import in user_trust.py:30-31). Undeclared set at that HEAD = {cryptography, yaml}, not {yaml}. The patch was not applied, so the defect is still live.",
+   "raw": [
+    "lanes/D/REDERIVE_D.json",
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "state the checkout on both sides; if the r4 worktree is authoritative the undeclared set is two modules and the fix must cover cryptography too"
+  },
+  {
+   "id": "A-02",
+   "claim_by_round": "CLOSED, naive 10 / robust 11",
+   "verdict": "CLOSED_WITH_DRIFT",
+   "measured": "the enumeration is right (11 SEAM ids) and the mechanism is now described correctly. But the artifact's 'naive' is specifically a slash-field splitter: a plain \\b(SEAM-\\d{2})\\b regex returns 11, so the label overstates how naive a parser must be to lose SEAM-09.",
+   "raw": [
+    "out/REDERIVATION_MOTHER.json"
+   ],
+   "resume": "rename the column from naive to slash_field_split"
+  },
+  {
+   "id": "A-03",
+   "claim_by_round": "CLOSED, offline observed / hosted not observed",
+   "verdict": "CLOSED",
+   "severity": "ok",
+   "measured": "confirmed: tools/supply_chain_check.py --self-test exits 0, baseline PASS, 3/3 mutations refused; the hosted half stays NOT_OBSERVED with no fabricated run id.",
+   "raw": [
+    "lanes/D/REDERIVE_D.json"
+   ],
+   "resume": "none"
+  }
+ ],
+ "new_findings": [
+  {
+   "id": "N-01",
+   "severity": "HIGH",
+   "title": "G16 returns PASS under a name its own detail contradicts, and freezes a tree-specific fact as a rule",
+   "detail": "the check is named DECLARED_COVERS_IMPORTS; its detail prints declared_covers_imports=False; the code (gate_w0r9.py:350-372) passes when the artifact honestly reports the undeclared set. Worse: it returns CRYPTOGRAPHY_FALSELY_MARKED_UNDECLARED when 'cryptography' appears in the undeclared set, so on worktrees/r4-hgk (deps=[]) the correct measurement is marked red.",
+   "fix": "rename to REPORT_STATES_UNDECLARED_SET, drop the cryptography assertion, and let the measured value travel with its ref"
+  },
+  {
+   "id": "N-02",
+   "severity": "HIGH",
+   "title": "G13 is a dead assertion: the gate reads a key the artifact never writes",
+   "detail": "gate reads duplicate_digest_groups / duplicate_digests; lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json writes duplicate_sha256_groups. Setting the real field to 4 still yields PASS 'in-set dup=0'.",
+   "fix": "read duplicate_sha256_groups; fail closed when the key is absent"
+  },
+  {
+   "id": "N-03",
+   "severity": "HIGH",
+   "title": "G10 resolves a nested chapter's parent claim, not the document's own",
+   "detail": "the chain for r9 is r5 -> r6 -> r7 -> r9; r8 is not in the chain list at all, and the resolved declaration (264787b0, r7) is the one printed inside r9's r8 chapter. r9's own declared parent (ccd545b5, r8) was never checked. The prefix claim itself is true (I verified byte equality), so this is a gate-coverage defect, not a document defect.",
+   "fix": "resolve the declaration belonging to the document under test; report DECLARED_PARENT_NOT_IN_CHAIN when it is absent from the chain"
+  },
+  {
+   "id": "N-04",
+   "severity": "MED",
+   "title": "G18 containment is a string prefix test",
+   "detail": "gate_w0r9.py:133 uses fp.startswith(base); a sibling directory sharing the prefix (../r9-evil/) satisfies it. Symlinks are not resolved.",
+   "fix": "use os.path.commonpath on realpath, and fail closed on an empty manifest"
+  },
+  {
+   "id": "N-05",
+   "severity": "MED",
+   "title": "the round's own SHA256SUMS does not verify",
+   "detail": "59 entries, 58 OK, out/LAYER_AUDIT.json FAILED. HANDOVER section 8 tells the next session to expect 'all OK (57 files)'.",
+   "fix": "rebuild SHA256SUMS after the last write to out/"
+  },
+  {
+   "id": "N-06",
+   "severity": "MED",
+   "title": "handover numbers do not match the tree",
+   "detail": "HANDOVER says the r9 document is 552,210 B; the file is 552,605 B. It also lists SBL #52 head eeffd055 and Fabric #38 head 080f26b0; the API reads 1fdad4ed and d17ad52b.",
+   "fix": "regenerate the handover from the tree, not from memory"
+  },
+  {
+   "id": "N-07",
+   "severity": "LOW",
+   "title": "documented selftest exit code is wrong",
+   "detail": "HANDOVER section 4 prints '--selftest ... exit 1'; the tool exits 0 while printing 10/10 FIRED.",
+   "fix": "either exit 1 on a full sweep or correct the document"
+  },
+  {
+   "id": "N-08",
+   "severity": "MED",
+   "title": "'8 of 10 closed' is not supported by the per-item state",
+   "detail": "per-item: 4 CLOSED (V-03, V-05, V-07, A-03), 3 CLOSED_WITH_DRIFT (V-02, V-04, A-02), 3 HOLD/NOT_CLOSED (V-01, V-06, A-01).",
+   "fix": "report the per-item verdicts; do not aggregate"
+  }
+ ],
+ "aggregate": {
+  "closed": 4,
+  "closed_with_drift": 3,
+  "hold_or_not_closed": 3,
+  "original_ack": 0,
+  "note": "a single aggregate would hide that the three holds are the three that involve a second checkout"
+ }
+}

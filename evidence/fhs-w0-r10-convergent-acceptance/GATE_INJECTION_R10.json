@@ -1,0 +1,92 @@
+{
+ "schema": "FHS.W0R10.GateInjection/1",
+ "generated_at": "2026-11-08T09:30:43+0800",
+ "method": "copy the round tree, mutate ONE artifact field on disk (not an in-memory dict), run the real gate as a subprocess, record which checks reddened, restore",
+ "baseline": {
+  "exit": 0,
+  "verdicts": {
+   "G11": "PASS",
+   "G12": "PASS",
+   "G13": "PASS",
+   "G14": "PASS",
+   "G15": "PASS",
+   "G16": "PASS",
+   "G17": "PASS",
+   "G18": "PASS",
+   "G19": "PASS",
+   "G20": "PASS"
+  }
+ },
+ "injections": [
+  {
+   "id": "M1",
+   "artifact": "lanes/A/SOURCE_LOCK_V2.json",
+   "mutation": "sources[0].lines_match = false",
+   "exit": 1,
+   "red": [
+    "G11"
+   ],
+   "expected_red": "G11",
+   "collateral": [],
+   "hit": true
+  },
+  {
+   "id": "M2",
+   "artifact": "lanes/C/DISTINCTNESS_V2.json",
+   "mutation": "max_overall -> 0.20 (below the largest method value)",
+   "exit": 1,
+   "red": [
+    "G14"
+   ],
+   "expected_red": "G14",
+   "collateral": [],
+   "hit": true
+  },
+  {
+   "id": "M3",
+   "artifact": "lanes/B/U0_PARTITION_V2.json",
+   "mutation": "structural_blocks_sum -> 111331 (collapse the two rules)",
+   "exit": 1,
+   "red": [
+    "G12"
+   ],
+   "expected_red": "G12",
+   "collateral": [],
+   "hit": true
+  },
+  {
+   "id": "M4",
+   "artifact": "lanes/E/WP21_ENUM_V2.json",
+   "mutation": "denominators.seam.measured 11 -> 10",
+   "exit": 1,
+   "red": [
+    "G17"
+   ],
+   "expected_red": "G17",
+   "collateral": [],
+   "hit": true
+  }
+ ],
+ "restored": {
+  "exit": 0,
+  "verdicts": {
+   "G11": "PASS",
+   "G12": "PASS",
+   "G13": "PASS",
+   "G14": "PASS",
+   "G15": "PASS",
+   "G16": "PASS",
+   "G17": "PASS",
+   "G18": "PASS",
+   "G19": "PASS",
+   "G20": "PASS"
+  }
+ },
+ "expected": {
+  "M1": "G11",
+  "M2": "G14",
+  "M3": "G12",
+  "M4": "G17"
+ },
+ "finding": "each mutation reddens exactly the check it targets and no other; the four new checks are independently shown to bite on the real tree"
+}
