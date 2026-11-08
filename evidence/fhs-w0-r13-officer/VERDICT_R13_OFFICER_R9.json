@@ -1,0 +1,154 @@
+{
+ "officer": "acceptance-officer/codex-cli/gpt-6.1-sol/round-9",
+ "mode": "VERIFY_ONLY",
+ "items": [
+  {
+   "id": 1,
+   "claim": "Byte-exact r12 prefix",
+   "verdict": "PASS",
+   "evidence": "Read both documents as bytes. All 582469 r12 bytes equal the r13 prefix."
+  },
+  {
+   "id": 2,
+   "claim": "r13 manifest identity",
+   "verdict": "PASS",
+   "evidence": "Measured 592369 bytes and SHA256 60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514; both match the manifest."
+  },
+  {
+   "id": 3,
+   "claim": "Consistent parent correction",
+   "verdict": "PASS",
+   "evidence": "The r12 entry names r11. Its parent digest matches the actual r11 SHA256 24fb2d9ec5d2f220496647088463819bbc0a3082fc5fc754491408bda1d1316e. corrected_from=r10 records a consistent label-only correction."
+  },
+  {
+   "id": 4,
+   "claim": "Completion and closed-defect coverage",
+   "verdict": "PASS",
+   "evidence": "Closeout declares W0_AUTHOR_DESIGN_COMPLETE. All six CLOSED defect identifiers occur in the candidate."
+  },
+  {
+   "id": 5,
+   "claim": "No document self-identity",
+   "verdict": "PASS",
+   "evidence": "Searched the complete candidate. Its actual digest, 592369, and 592,369 do not occur."
+  },
+  {
+   "id": 6,
+   "claim": "Correct parent identity",
+   "verdict": "PASS",
+   "evidence": "Chapter 14 states r12 is 582469 bytes with SHA256 139ff440136543731c1401b17b03ff56e886f80b7dcc08b5fb83892032744c46. Independent measurement matches."
+  },
+  {
+   "id": 7,
+   "claim": "ORIGINAL_ACK remains zero",
+   "verdict": "PASS",
+   "evidence": "Candidate, handover, and closeout retain ORIGINAL_ACK=0/6. All six receipts remain OWNER_READER_ACK_PENDING; reviewed statements do not claim an obtained original-reader ACK."
+  },
+  {
+   "id": 8,
+   "claim": "No forbidden achievement assertions",
+   "verdict": "PASS",
+   "evidence": "Read round files and wheel contents and reviewed matching text and binary contexts. Matches are denials, requirements, definitions, historical records, or code vocabulary, not assertions that the prohibited achievements were obtained."
+  },
+  {
+   "id": 9,
+   "claim": "Saved report agrees with live gate",
+   "verdict": "NOT_VERIFIABLE",
+   "evidence": "Saved summary is total=19, pass=18, blocking_fail=0, open_reporting_findings=1. Guarded execution returned VERDICT PASS pass=17/19 blocking_fail=0 open_reporting=2 hygiene=0, exit 0. G22 became CHECK_RAISED because the guard blocked its mutating subprocess. Unrestricted summary reproduction is therefore unverified; this difference does not establish report staleness. The staged report is byte-identical."
+  },
+  {
+   "id": 10,
+   "claim": "G11 independently hashes sources",
+   "verdict": "PASS",
+   "evidence": "Read g11_line_convention and _remeasure_sources: they open corpus files and compute SHA256. Live G11 re-hashed 31/31. Independent measurement found 22281767 bytes and 111331 newline-count lines."
+  },
+  {
+   "id": 11,
+   "claim": "G13 independently derives duplicates",
+   "verdict": "PASS",
+   "evidence": "Read corpus enumeration, binary reads, digest grouping, and lowercase-basename grouping. Independent measurement and live G13 found 31 files and zero duplicate-digest or duplicate-name groups."
+  },
+  {
+   "id": 12,
+   "claim": "G19 root-walk coverage is complete",
+   "verdict": "FAIL",
+   "evidence": "Member coverage succeeds: instrumented execution confirmed 437 reads across 45+45 groups, matching 377 unique paths and scan_bounds.files_hashed=377, with all 25 root-walk calls. However, G19 uses os.walk without an onerror handler and returns OK despite traversal failures. A non-raising observer captured 25 silently omitted errors: 24 WinError 3 and one WinError 5. Long-path-prefixed read-only enumeration recovered all 24 skipped subtrees and 463 files. The access-denied subtree is FHS_W0W2_R4_20261107/inc3/work/acl_probe2/protected_b2d1b6e9. G19 nevertheless reports 25/25 roots walked and no undeclared same-named copy, without disclosing incomplete traversal."
+  },
+  {
+   "id": 13,
+   "claim": "G22 is explicitly self-reported reporting",
+   "verdict": "PASS",
+   "evidence": "CHECKS registers G22 as REPORTING. Its implementation and saved result carry SELF_REPORTED_BY_THE_SUBJECT. Its file-mutating selftest was not executed."
+  },
+  {
+   "id": 14,
+   "claim": "Measured owner-signature demand",
+   "verdict": "PASS",
+   "evidence": "Assessment states required_signatures=0, NO_WINDOW_OPENED, and explicit reasons. Independently read the named registry: revision 13, 31 rows, all INSTALLED, and zero rows missing owner_signature.value or key_id."
+  },
+  {
+   "id": 15,
+   "claim": "Still-open lists and ACK wording",
+   "verdict": "PASS",
+   "evidence": "Chapter 14.5 and closeout.still_open contain exactly the same six identifiers in order: formal_w0_acceptance, ORIGINAL_ACK, G16b, LICENCE, PIPD-15-VALUESET, R1-ISSUER-REV14. Chapter 14.5 records the owner-semantic route while retaining ORIGINAL_ACK=0/6 and the original-reader requirement."
+  },
+  {
+   "id": 16,
+   "claim": "Read-only member-digest negative control",
+   "verdict": "PASS",
+   "evidence": "Read negative_control.py before executing it with bytecode disabled and a write-blocking guard. It changes names_exact[0].members[0].sha256 only in memory, precisely the field G19 reads. Baseline returned OK; tampering returned MEMBER_DIGEST_DRIFT and check_bites=true."
+  },
+  {
+   "id": 17,
+   "claim": "Receipt fields and G26 binding checks",
+   "verdict": "PASS",
+   "evidence": "Read all six receipts for WP-FHS-00/01/15/16/19/21. All seven fields are non-empty; candidate digests match; every status is OWNER_READER_ACK_PENDING. Primary L0:377 and chapter 14.8 state the same field set. Policy epoch 40 matches the registry. G26 is BLOCKING among 19 checks and passes current bindings. In-memory candidate, evidence, and historical stale gate-binding mutations all returned RECEIPT_BINDING_BROKEN."
+  },
+  {
+   "id": 18,
+   "claim": "SourceSHA is the source-set digest",
+   "verdict": "PASS",
+   "evidence": "Read source_set_digest and independently recomputed SHA256 over sorted filename<TAB>digest lines, LF-separated without trailing LF. The 31-document, 2967-byte payload hashes to a191213d1a05189c687ca04a68ea5f2146e383811a9ffdf7cf6656aa92cf1216, matching all receipts and the function's actual return value."
+  },
+  {
+   "id": 19,
+   "claim": "Unsigned owner-semantic signature instrument",
+   "verdict": "PASS",
+   "evidence": "Instrument has signed_by=null, signed_at=null, provenance=PENDING_OWNER_SIGNATURE, and ceiling_if_signed=OWNER_SEMANTIC_ACK, explicitly not ORIGINAL_ACK or NATIVE_SIGNED. All six embedded receipt hashes match. Chapter 14.8 states the same condition and ceiling. Staged receipts and instrument are byte-identical."
+  },
+  {
+   "id": 20,
+   "claim": "Single noncontradictory receipt-binding rule",
+   "verdict": "PASS",
+   "evidence": "Read OFFICER_BRIEF_R9.md. It contains one operative binding requirement: candidate document and 31-document source set only. Earlier contradictory requirements are described historically, not reimposed. All six receipts satisfy the current rule; none binds the gate report or officer bundle."
+  },
+  {
+   "id": 21,
+   "claim": "Complete and truthful structured bundle",
+   "verdict": "PASS",
+   "evidence": "Found eight verdict files, rounds 1–8, and eight bundle records. Every filename, digest, verdict, item count, and blocking-defect list matches its source file. All six NACK rounds are present. terminal exactly matches round 8: NACK, 18 PASS, 2 FAIL, 1 NOT_VERIFIABLE, with matching blocking defects."
+  },
+  {
+   "id": 22,
+   "claim": "Signing precondition is a pointer",
+   "verdict": "PASS",
+   "evidence": "precondition_1.state is DERIVED_AT_SIGNING_TIME and read points to officer/VERDICT_R13_OFFICER_FINAL.json -> terminal.overall. observed_at_build is explicitly NACK for round 8. signature.signed_by is null."
+  }
+ ],
+ "bundle_observed": {
+  "rounds_on_disk": 8,
+  "rounds_in_bundle": 8,
+  "terminal_in_bundle": "round 8 NACK",
+  "matches": true
+ },
+ "negative_control": {
+  "ran": true,
+  "check_bites": true,
+  "observed": "{\n \"baseline\": {\n  \"ok\": true,\n  \"code\": \"OK\",\n  \"detail\": \"45+45 groups; 437 copies re-hashed at their declared paths with counts and distinct digests recomputed per group; 25 of \"\n },\n \"tampered\": {\n  \"ok\": false,\n  \"code\": \"MEMBER_DIGEST_DRIFT\",\n  \"detail\": \"[{\\\"path\\\": \\\"C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources/00_INDEX_AND_DECISION(4).md\\\", \\\"declared\\\": \\\"000000000000\\\", \\\"measured\\\": \\\"cb4727\"\n },\n \"check_bites\": true\n}\n"
+ },
+ "overall": "NACK",
+ "blocking_defects": [
+  "Item 12: G19 silently suppresses root-traversal errors and reports successful coverage and absence of undeclared copies despite skipped subtrees. Observed 24 recoverable long-path traversal failures plus one access-denied subtree while G19 returned OK. No undeclared target copies were found in the recovered subtrees; the defect is the unsupported completeness claim."
+ ],
+ "notes": "20 PASS, 1 FAIL, 1 NOT_VERIFIABLE. No repairs or filesystem writes were performed. Python 3.12.14 ran with bytecode disabled; gate execution used a guard blocking writes and subprocess launch. G22's unrestricted selftest remains unverified. Guarded payload verdict was PASS, 12/13, zero blocking failures, one reporting finding, exit 0. Payload scope excludes G11, G13, G16a, G16b, G19, and G26; ordinary stdout does not announce those exclusions. Saved selftest now records G19 and G26 FIRED and G16b BASELINE_RED, as claimed; the full mutating selftest was not replayed. Registry signature presence, not cryptographic validity, was checked. Primary L0:310 expressly retains OWNER_SEMANTIC_ACK_HOLD when evidence is missing; that line alone does not expressly grant the issuance route attributed to it. Candidate, gate report, and bundle hashes remained unchanged. This verdict is not formal acceptance or an owner signature."
+}

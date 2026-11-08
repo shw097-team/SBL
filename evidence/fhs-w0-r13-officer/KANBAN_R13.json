@@ -1,7 +1,7 @@
 {
  "schema": "FHS.KANBAN/1",
  "round": "FHS_W0_R13_ACCEPTANCE_20261108",
- "updated_at": "2026-11-08T23:30:21+08:00",
+ "updated_at": "2026-11-09T00:08:02+08:00",
  "note": "the Hermes todo tool failed JSON parsing three times on this host; this file is the round's tracking record",
  "items": [
   {
@@ -26,19 +26,20 @@
   {
    "id": "T4",
    "what": "dispatch VERIFY lane",
-   "status": "IN_FLIGHT",
-   "evidence": "codex exec read-only gpt-6.1-sol, round dir as cwd, output to officer/VERDICT_RAW.txt"
+   "status": "DONE",
+   "evidence": "4 rounds: NACK, NACK, NACK, PASS (round 4: 15/16 PASS, 0 blocking)"
   },
   {
    "id": "T5",
    "what": "negative control",
-   "status": "PENDING"
+   "status": "DONE",
+   "evidence": "negative control: real register OK, tampered member MEMBER_DIGEST_DRIFT, check_bites true"
   },
   {
    "id": "T6",
    "what": "register requirement and acceptance row, prepare transition payload",
    "status": "PARTIAL",
-   "evidence": "requirements/acceptances/leases schemas read; resolve_acceptance requires a lease on the acceptance_id held by actor"
+   "evidence": "payload prepared in officer/ACCEPTANCE_TRANSITION_PLAN.json; not called - needs a lease held by the officer actor"
   },
   {
    "id": "T7",
@@ -49,7 +50,10 @@
   {
    "id": "T8",
    "what": "publish to SBL and Fabric",
-   "status": "PENDING"
+   "status": "DONE",
+   "evidence": "SBL PR #57 (6/6 green), Fabric #43 (1/1 green); 0 merged"
   }
- ]
+ ],
+ "completion_level": "W0_AUTHOR_DESIGN_COMPLETE",
+ "formal_w0_acceptance": "NOT_SIGNED - the envelope has no signable kind for it"
 }

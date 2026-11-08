@@ -94,18 +94,19 @@
    "check": "G18",
    "name": "DIGEST_LOCALITY",
    "severity": "BLOCKING",
-   "baseline": "FAIL",
-   "detail": "no manifest at all — a locality check with nothing to check is not a pass",
-   "mutated": "BASELINE_RED"
+   "baseline": "PASS",
+   "detail": "52/52 resolve inside their own payload (realpath), 3 manifests, entry sets match",
+   "mutated": "FIRED",
+   "mutated_code": "DIGEST_CROSSES_PAYLOAD"
   },
   {
    "check": "G19",
    "name": "COPY_REGISTER",
    "severity": "BLOCKING",
    "baseline": "PASS",
-   "detail": "45 names; 3/3 r6 copies re-hashed at their declared paths, 3 roots walked with no undeclared copy; canonical decided by owner",
-   "mutated": "DID_NOT_FIRE",
-   "mutated_code": "OK"
+   "detail": "45+45 groups; 437 copies re-hashed at their declared paths with counts and distinct digests recomputed per group; 25 of 25 declared-present roots walked (228,757 files) with no undeclared same-named copy; 8 fixture director(ies) excluded by name; canonical decided by owner",
+   "mutated": "FIRED",
+   "mutated_code": "MEMBER_DIGEST_DRIFT"
   },
   {
    "check": "G20",
@@ -121,7 +122,7 @@
    "name": "NUMBER_CONSISTENCY",
    "severity": "BLOCKING",
    "baseline": "PASS",
-   "detail": "handover states 588,748 B (and no stale size) with a matching digest",
+   "detail": "handover states 592,369 B (and no stale size) with a matching digest",
    "mutated": "EXEMPT",
    "exempt_reason": "reads the handover that documents this run; mutating it would invalidate the run it is part of"
   },
@@ -129,25 +130,28 @@
    "check": "G22",
    "name": "SELFTEST_CONTRACT",
    "severity": "REPORTING",
-   "baseline": "FAIL",
-   "detail": "SELF_REPORTED_BY_THE_SUBJECT documented=0 actual=1; rows not fired: ['G16b:BASELINE_RED:FAIL', 'G18:BASELINE_RED:FAIL', 'G19:DID_NOT_FIRE:PASS', 'G23:BASELINE_RED:FAIL', 'G24:MUTATION_TARGET_ABSENT:PASS']",
-   "mutated": "BASELINE_RED"
+   "baseline": "PASS",
+   "detail": "SELF_REPORTED_BY_THE_SUBJECT documented exit 0 == actual",
+   "mutated": "EXEMPT",
+   "exempt_reason": "learns the exit code by invoking this program; a mutation inside it would recurse"
   },
   {
    "check": "G23",
    "name": "TRACE_ID_NAMED",
    "severity": "BLOCKING",
-   "baseline": "FAIL",
-   "detail": "closed but absent from the document: ['completion-wording', 'V-01-canonical', 'G13-artefact-read', 'G19-artefact-read', 'G22-self-report', 'r12-parent-label']",
-   "mutated": "BASELINE_RED"
+   "baseline": "PASS",
+   "detail": "6 defects, all closed ones named in the body",
+   "mutated": "FIRED",
+   "mutated_code": "TRACE_ID_NOT_NAMED"
   },
   {
    "check": "G24",
    "name": "IDENTITY_CLAIMS",
    "severity": "BLOCKING",
    "baseline": "PASS",
-   "detail": "72 claims consistent with the revision manifest; 22 composition sentence(s) state a parent's size and were not counted as identity claims; 1 file(s) declared themselves defect reports quoting wrong values: ['lanes/C/STALE_LOCATORS.json']",
-   "mutated": "MUTATION_TARGET_ABSENT"
+   "detail": "74 claims consistent with the revision manifest; 22 composition sentence(s) state a parent's size and were not counted as identity claims; 1 file(s) declared themselves defect reports quoting wrong values: ['lanes/C/STALE_LOCATORS.json']",
+   "mutated": "FIRED",
+   "mutated_code": "STALE_IDENTITY_CLAIM"
   },
   {
    "check": "G25",
@@ -157,6 +161,15 @@
    "detail": "3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extra adds ['yaml']",
    "mutated": "FIRED",
    "mutated_code": "EXTRA_QUALIFICATION_FAILED"
+  },
+  {
+   "check": "G26",
+   "name": "RECEIPT_BINDING",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "6 receipts; 7 fields present; candidate digest matches; 6 evidence binding(s) re-hashed",
+   "mutated": "FIRED",
+   "mutated_code": "RECEIPT_BINDING_BROKEN"
   }
  ]
 }

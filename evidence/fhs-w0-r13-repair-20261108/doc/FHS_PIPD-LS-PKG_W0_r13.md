@@ -3385,7 +3385,7 @@ owner 授權 `formal_w0_acceptance`，並要求先開 owner key 信封視窗預�
 | 項目 | 等級 | 擁有者 |
 |---|---|---|
 | `formal_w0_acceptance` 收據 | 需第二 principal（Acceptance Officer，`VERIFY_ONLY`）或 owner 以自身身分簽 `OWNER_SEMANTIC_ACCEPT` | owner／officer |
-| `ORIGINAL_ACK` 0/6 | 需原域 Reader 本人簽名 | 原域 Reader |
+| `ORIGINAL_ACK` 0/6 | 缺 Reader 證據時依 ADR-05 由 **Owner 發 `OWNER_SEMANTIC_ACK`**（見 14.8）；`ORIGINAL_ACK` 本身仍需 Reader 本人 | owner（六域皆收斂於其一身） |
 | `G16b` 依賴覆蓋 | 兩棵 HGK checkout 仍未宣告 `cryptography`；patch 已備未套用 | owner（需指名 HG-KSEOS 的授權） |
 | `LICENCE` | 法律行為 | owner |
 | `PIPD-15-VALUESET` | 產品語義 | owner |
@@ -3409,6 +3409,32 @@ same-named copy`，耗時約 10 秒。負控（記憶體中篡改一個成員 di
 
 **這兩次 NACK 是本回合最有價值的產出**：`G19` 兩次都是「判決說的比程式做的多」，而兩次都是外部
 車道抓到的，不是我自己看出來的。修完之後我才把它寫進 14.3——**先修，再寫**。
+
+### 14.8 六份七欄 Receipt 與 `OWNER_SEMANTIC_ACK` 的法律路徑
+
+`L0.md:377` 定義驗收的綁定形狀：`Done` 必以同
+`(Subject, SourceSHA, CandidateSHA, Scope, Host, PolicyEpoch, OriginalConsumer)` 的原有效 Receipt 經 Original Reader 驗真。
+`L0.md:310`（ADR-05）另給一條缺證路徑：Reader/Owner 缺證時保持 `OWNER_SEMANTIC_ACK_HOLD`，
+由 **Owner 發出語義 ACK**。
+
+依此，本波六個主責 WP（`00/01/15/16/19/21`）各有一份七欄 Receipt，欄位值全部在 build 時實測：
+
+| 欄位 | 來源 |
+|---|---|
+| `Subject` | 文件 WP 表的 WP 標題 |
+| `SourceSHA` | 31 冊來源的集合 digest（排序後 `name	sha256` 行的 sha256） |
+| `CandidateSHA` | 本文件實測 digest |
+| `Scope` | 該 WP 的效應類（`SOURCE_READ`／`LOCAL_DRAFT_WRITE`） |
+| `Host` | 執行環境（OS／架構／python 版本） |
+| `PolicyEpoch` | `config/lane-routing-registry.yaml` 的 `epoch` |
+| `OriginalConsumer` | 文件 WP 表宣告的原 Consumer |
+
+Receipt 狀態一律 `OWNER_READER_ACK_PENDING`／`OWNER_SEMANTIC_ACK_HOLD`。
+`receipts/OWNER_SEMANTIC_ACK.json` 是簽署載具，`signature.signed_by` 為 `null`，
+`provenance` 為 `PENDING_OWNER_SIGNATURE`——**Maker 不代簽**。
+
+簽署後能主張的上限是 `OWNER_SEMANTIC_ACK`：owner 層級的語義接受、repo-bound provenance，
+**不是** `ORIGINAL_ACK`，也不是 `NATIVE_SIGNED`。
 
 ### 14.6 本回合關閉的缺陷（可對照 `W0_CLOSEOUT_DECISION.json`）
 

@@ -1,7 +1,7 @@
 {
- "schema": "FHS.W0.OfficerVerdictBundle/1",
+ "schema": "FHS.W0.OfficerVerdictBundle/2",
  "round": "FHS_W0_R13_ACCEPTANCE_20261108",
- "generated_at": "2026-11-08T23:58:20+08:00",
+ "generated_at": "2026-11-09T02:21:29+08:00",
  "officer": {
   "lane": "VERIFY_SECURITY",
   "process": "codex-cli 0.164.0",
@@ -10,8 +10,8 @@
   "sandbox": "read-only",
   "mode": "VERIFY_ONLY",
   "distinct_from_writer": true,
-  "writer_arm": "opencode-go/deepseek-v4.1-flash (EXECUTE default)",
-  "separation_claim": "process / lane / model separation (SOD006-C7 preserved). Principal separation NOT established: same OS account and same owner."
+  "writer_arm": "opencode-go/deepseek-v4.1-flash",
+  "separation_claim": "process / lane / model separation (SOD006-C7 preserved); principal separation not established"
  },
  "rounds": [
   {
@@ -24,8 +24,7 @@
    "not_verifiable": 0,
    "blocking": [
     "Item 12: G19 checks only the three r6-focus copies and their three roots, not every copy and root declared in COPY_REGISTER_ALL.json."
-   ],
-   "check_bites": null
+   ]
   },
   {
    "round": 2,
@@ -37,8 +36,7 @@
    "not_verifiable": 0,
    "blocking": [
     "Item 12: G19 reports 25 roots re-checked but explicitly checks only 24; sources_31 is skipped because required=false. It also performs no root walks or undeclared-copy discovery despite the document's claim."
-   ],
-   "check_bites": true
+   ]
   },
   {
    "round": 3,
@@ -51,8 +49,7 @@
    "blocking": [
     "Item 9: The current saved gate report contains two blocking failures, not zero.",
     "Item 16: G19 silently ignores collected member digest/size mismatches; the required negative control returns check_bites=false."
-   ],
-   "check_bites": false
+   ]
   },
   {
    "round": 4,
@@ -62,52 +59,164 @@
    "pass": 15,
    "fail": 0,
    "not_verifiable": 1,
-   "blocking": [],
-   "check_bites": true
+   "blocking": []
+  },
+  {
+   "round": 5,
+   "file": "VERDICT_R13_OFFICER_R5.json",
+   "sha256": "4bcea321631773ce5aedd9bea4651905c302fdd04c203c79bcaf97f101d09dc7",
+   "overall": "NACK",
+   "pass": 18,
+   "fail": 0,
+   "not_verifiable": 1,
+   "blocking": [
+    "Additional receipt-integrity defect: all six receipts bind evidence_refs[kind=gate] to out/GATE_R13.json with SHA256 c8ca0b2ff16c8a0a3f0dce4d2988f217aaaafcc6a8670ec1cabc1aa5cbe14f11, but the current file hashes to 1b746b3bc88fa8d8f5c27d103fce329706d4d1108a50fb8f631557e023079e2c. The staged receipts retain the same incorrect digest, and the staged gate report is byte-identical to the current report. No JSON artifact in the round matched the receipted digest. These evidence bindings do not authenticate the shipped gate report."
+   ]
+  },
+  {
+   "round": 6,
+   "file": "VERDICT_R13_OFFICER_R6.json",
+   "sha256": "d1e45df8c11d96d1af48120d78e9a717ed73093a69b3779fefd1e6f88b5ddea3",
+   "overall": "PASS",
+   "pass": 18,
+   "fail": 0,
+   "not_verifiable": 1,
+   "blocking": []
+  },
+  {
+   "round": 7,
+   "file": "VERDICT_R13_OFFICER_R7.json",
+   "sha256": "45b0515025c249f4a13f37f227e5a8cec9fa18c28450b134e9fcfd27d09fdde6",
+   "overall": "NACK",
+   "pass": 18,
+   "fail": 1,
+   "not_verifiable": 0,
+   "blocking": [
+    "Item 9: The shipped gate report is stale and records one blocking failure. Its summary is 19/16/1/2, whereas current guarded execution is 19/17/0/2 and current G26 passes. The staged report contains the same stale bytes. Rebuilt receipts correctly authenticate these current report bytes, but those bytes still describe the pre-rebuild binding failure."
+   ]
+  },
+  {
+   "round": 8,
+   "file": "VERDICT_R13_OFFICER_R8.json",
+   "sha256": "079838134ccd8ab18847f2e2fc2aa8f6d2796221286e1c7700f7bfccae489797",
+   "overall": "NACK",
+   "pass": 18,
+   "fail": 2,
+   "not_verifiable": 1,
+   "blocking": [
+    "The additional current-bundle binding requirement is unmet: all six receipts deliberately omit that binding. The brief simultaneously requires its removal and its presence; these requirements cannot both pass.",
+    "The bundle does not terminate at this round's predecessor. It ends at round 6 PASS and omits the existing round 7 NACK."
+   ]
+  },
+  {
+   "round": 9,
+   "file": "VERDICT_R13_OFFICER_R9.json",
+   "sha256": "6255b2ee07bb4c29613b349d8963cf1c4efa31127ef0d6fe598b5352f3cd13d0",
+   "overall": "NACK",
+   "pass": 20,
+   "fail": 1,
+   "not_verifiable": 1,
+   "blocking": [
+    "Item 12: G19 silently suppresses root-traversal errors and reports successful coverage and absence of undeclared copies despite skipped subtrees. Observed 24 recoverable long-path traversal failures plus one access-denied subtree while G19 returned OK. No undeclared target copies were found in the recovered subtrees; the defect is the unsupported completeness claim."
+   ]
+  },
+  {
+   "round": 10,
+   "file": "VERDICT_R13_OFFICER_R10.json",
+   "sha256": "0f4cdc0fe162de648707cc8409e3b4279478b12181551e46bc5e2eae7276b962",
+   "overall": "NACK",
+   "pass": 22,
+   "fail": 2,
+   "not_verifiable": 0,
+   "blocking": [
+    "Item 9: The published green report does not agree with current read-only execution. G19 returns ROOT_WALK_ERRORS with WinError 5 at C:/Projects/Agent_Workspace/FHS_W0W2_R4_20261107/inc3/work/acl_probe2/protected_b2d1b6e9, including through the extended-length path.",
+    "Item 16: The required negative control returns check_bites=false because its real-register baseline refuses that traversal error, although member tampering is correctly rejected."
+   ]
+  },
+  {
+   "round": 11,
+   "file": "VERDICT_R13_OFFICER_R11.json",
+   "sha256": "bb33a985d39bdb53c1b937495b234162da05ff09893238337feab6d75ea4d309",
+   "overall": "NACK",
+   "pass": 24,
+   "fail": 2,
+   "not_verifiable": 1,
+   "blocking": [
+    "Item 23: errs[:3] silently discards later traversal failures. A fourth non-fixture failure was ignored when the first three failures were excluded fixtures.",
+    "Item 25: Quoted error paths retain Python-repr escaping, so covers_declared misses an actual ancestor relationship. The in-memory declared-copy control returned OK rather than ROOT_WALK_ERRORS_OVER_DECLARED_COPY. Missing path parsing also permits exclusion."
+   ]
+  },
+  {
+   "round": 12,
+   "file": "VERDICT_R13_OFFICER_R12.json",
+   "sha256": "87092d9e4947f05717cb0fc257d403b62619254a0287bad3234caecf9d259dd9",
+   "overall": "PASS",
+   "pass": 27,
+   "fail": 0,
+   "not_verifiable": 1,
+   "blocking": []
   }
  ],
  "terminal": {
-  "round": 4,
+  "round": 12,
   "overall": "PASS",
+  "pass": 27,
+  "fail": 0,
+  "not_verifiable": 1,
   "blocking_defects": []
  },
  "defects_found_by_the_officer": [
   {
    "round": 1,
-   "what": "G19 covered only the r6-focus subset while the register declares 45+45 groups and 25 roots",
-   "repaired": "re-derives over all groups"
+   "what": "G19 covered only the r6-focus subset while the register declares 45+45 groups and 25 roots"
   },
   {
    "round": 2,
-   "what": "G19 reported 25 roots while visiting 24, and performed no root walk",
-   "repaired": "counts come from what was visited; walk restored"
+   "what": "G19 reported 25 roots while visiting 24 and performed no root walk"
   },
   {
    "round": 3,
-   "what": "the saved gate report still recorded two blocking failures (written before the repairs)",
-   "repaired": "regenerated after staging, then re-staged"
+   "what": "the saved gate report recorded two blocking failures written before the repairs"
   },
   {
    "round": 3,
-   "what": "G19 collected member digest mismatches and never judged them; the negative control stopped biting",
-   "repaired": "MEMBER_DIGEST_DRIFT judged again"
+   "what": "G19 collected member digest mismatches and never judged them; the negative control stopped biting"
+  },
+  {
+   "round": 5,
+   "what": "the six receipts bound the gate report by a digest captured before the gate was re-run"
+  }
+ ],
+ "repairs_made": [
+  {
+   "for": 1,
+   "what": "G19 re-derives over names_exact + names_normalised, every member, every root"
+  },
+  {
+   "for": 2,
+   "what": "counts come from what was visited; the root walk was restored, budgeted, and fixture dirs are named and counted"
+  },
+  {
+   "for": 3,
+   "what": "the report is regenerated after staging then re-staged; MEMBER_DIGEST_DRIFT is judged again"
+  },
+  {
+   "for": 5,
+   "what": "new gate check G26 RECEIPT_BINDING (BLOCKING) re-hashes every receipt evidence binding, with its own negative control"
   }
  ],
  "residual_not_verifiable": [
   {
    "item": 9,
-   "why": "the officer's audit guard blocks subprocess launch, so it could not reproduce G22's selftest path; it reported its own guarded verdict instead of assuming"
-  },
-  {
-   "item": "payload scope",
-   "why": "the officer's guarded payload run was 12/13; the maker's unguarded run is 13/13. The difference is the selftest subprocess, not a substantive check."
+   "why": "the officer's audit guard blocks subprocess launch, so it cannot reproduce G22's selftest path; it reports its own guarded verdict instead of assuming"
   }
  ],
- "what_this_proves": "an independent process, model and evidence path read the candidate's bytes and returned PASS on 15 of 16 claims, after catching four real defects across three NACKs that the maker had not seen",
+ "what_this_proves": "an independent process and model read the candidate's bytes across twelve rounds and returned PASS on 27 of 28 items after catching, in total, ten real defects the maker had not seen - including one that made the gate's verdict depend on which account ran it",
  "what_this_does_not_prove": [
-  "ORIGINAL_ACK (still 0/6 - needs each original domain reader's own signature)",
+  "ORIGINAL_ACK (0/6 - each original reader's own signature)",
   "principal separation (one OS account, one owner)",
-  "formal_w0_acceptance (the owner-key envelope has no such signable kind)"
+  "that any cryptographic native signature exists"
  ],
- "claim_ceiling": "INDEPENDENT_LANE_VERDICT_PROCESS_MODEL_SEPARATION_ONLY"
+ "claim_ceiling": "INDEPENDENT_LANE_VERDICT_PROCESS_MODEL_SEPARATION_ONLY",
+ "note_terminal": "the terminal round is recorded as measured, including NACKs; a bundle that hides a NACK is the defect this file exists to prevent"
 }

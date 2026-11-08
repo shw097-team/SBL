@@ -1,0 +1,190 @@
+{
+ "officer": "acceptance-officer/codex-cli/gpt-6.1-sol/round-11",
+ "mode": "VERIFY_ONLY",
+ "items": [
+  {
+   "id": 1,
+   "claim": "Byte-exact r12 prefix",
+   "verdict": "PASS",
+   "evidence": "Read both files: all 582469 r12 bytes equal the r13 prefix."
+  },
+  {
+   "id": 2,
+   "claim": "r13 manifest identity",
+   "verdict": "PASS",
+   "evidence": "Measured 592369 bytes, SHA256 60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514; both match the manifest."
+  },
+  {
+   "id": 3,
+   "claim": "Consistent parent correction",
+   "verdict": "PASS",
+   "evidence": "r12 names r11; parent_sha256 matches the actual r11 digest 24fb2d9ec5d2f220496647088463819bbc0a3082fc5fc754491408bda1d1316e. corrected_from=r10 consistently records the label correction."
+  },
+  {
+   "id": 4,
+   "claim": "Completion and closed-defect coverage",
+   "verdict": "PASS",
+   "evidence": "Closeout declares W0_AUTHOR_DESIGN_COMPLETE. All six CLOSED defect IDs appear in the candidate body."
+  },
+  {
+   "id": 5,
+   "claim": "No document self-identity",
+   "verdict": "PASS",
+   "evidence": "The complete candidate contains neither its actual digest nor 592369 or 592,369."
+  },
+  {
+   "id": 6,
+   "claim": "Correct parent identity",
+   "verdict": "PASS",
+   "evidence": "Chapter 14 states r12 is 582469 bytes with SHA256 139ff440136543731c1401b17b03ff56e886f80b7dcc08b5fb83892032744c46. Both match independently read bytes."
+  },
+  {
+   "id": 7,
+   "claim": "ORIGINAL_ACK remains zero",
+   "verdict": "PASS",
+   "evidence": "Candidate, handover and closeout retain 0/6. All six receipts remain OWNER_READER_ACK_PENDING; chapter 14.8 distinguishes owner-semantic acceptance from ORIGINAL_ACK."
+  },
+  {
+   "id": 8,
+   "claim": "No forbidden achievement assertions",
+   "verdict": "PASS",
+   "evidence": "Read 805 round files without read errors and inspected matching contexts, bytecode strings and wheel contents. Matches are denials, requirements, historical records or code vocabulary, not assertions of obtained prohibited achievements."
+  },
+  {
+   "id": 9,
+   "claim": "Saved report agrees with live gate",
+   "verdict": "NOT_VERIFIABLE",
+   "evidence": "Saved summary is 19 total, 18 pass, 0 blocking failures, 1 reporting finding. Guarded execution returned PASS, 17/19, 0 blocking failures, 2 reporting findings. The difference is G22: its subprocess was blocked because it invokes a filesystem-mutating selftest. Full summary agreement was not established."
+  },
+  {
+   "id": 10,
+   "claim": "G11 re-hashes corpus",
+   "verdict": "PASS",
+   "evidence": "Read g11_line_convention and _remeasure_sources. Live execution re-hashed 31 files; independent reads measured 22281767 bytes and 111331 newline-count lines."
+  },
+  {
+   "id": 11,
+   "claim": "G13 re-derives duplicates",
+   "verdict": "PASS",
+   "evidence": "Read corpus enumeration, binary reads and grouping code. Live and independent measurements found 31 files, zero duplicate-digest groups and zero duplicate-name groups."
+  },
+  {
+   "id": 12,
+   "claim": "G19 member and root coverage",
+   "verdict": "PASS",
+   "evidence": "Read both group loops and observed all 25 root-walk calls. It re-hashes 437 entries across 45+45 groups, representing 377 unique paths, matching files_hashed=377; group counts and distinct digests are recomputed."
+  },
+  {
+   "id": 13,
+   "claim": "G22 is reporting and self-labelled",
+   "verdict": "PASS",
+   "evidence": "CHECKS registers G22 as REPORTING. Its implementation and saved output contain SELF_REPORTED_BY_THE_SUBJECT."
+  },
+  {
+   "id": 14,
+   "claim": "Measured signature demand",
+   "verdict": "PASS",
+   "evidence": "Assessment states required_signatures=0 and explains NO_WINDOW_OPENED. Read the named registry: registry_rev=13, 31 INSTALLED rows, zero rows missing owner_signature.value or key_id."
+  },
+  {
+   "id": 15,
+   "claim": "Still-open lists agree",
+   "verdict": "PASS",
+   "evidence": "Chapter 14.5 and closeout list the same six IDs: formal_w0_acceptance, ORIGINAL_ACK, G16b, LICENCE, PIPD-15-VALUESET and R1-ISSUER-REV14. The owner-semantic route is stated without claiming ORIGINAL_ACK."
+  },
+  {
+   "id": 16,
+   "claim": "Member negative control bites",
+   "verdict": "PASS",
+   "evidence": "Read and executed negative_control.py with writes blocked and bytecode disabled. Baseline returned OK; the in-memory member digest mutation returned MEMBER_DIGEST_DRIFT; check_bites=true."
+  },
+  {
+   "id": 17,
+   "claim": "Receipt fields and binding enforcement",
+   "verdict": "PASS",
+   "evidence": "All six receipts have seven non-empty fields, matching candidate identities and pending status. Chapter 14.8 agrees. G26 is BLOCKING among 19 checks; baseline passes, while in-memory candidate and stale-evidence mutations return RECEIPT_BINDING_BROKEN."
+  },
+  {
+   "id": 18,
+   "claim": "SourceSHA is a source-set digest",
+   "verdict": "PASS",
+   "evidence": "Read source_set_digest and independently recomputed sorted filename<TAB>digest lines, LF-separated without trailing LF. The 31-document, 2967-byte payload hashes to a191213d1a05189c687ca04a68ea5f2146e383811a9ffdf7cf6656aa92cf1216, matching all receipts."
+  },
+  {
+   "id": 19,
+   "claim": "Unsigned semantic instrument",
+   "verdict": "PASS",
+   "evidence": "signed_by and signed_at are null; provenance is PENDING_OWNER_SIGNATURE. The ceiling is OWNER_SEMANTIC_ACK, explicitly not ORIGINAL_ACK or NATIVE_SIGNED. All six receipt hashes match."
+  },
+  {
+   "id": 20,
+   "claim": "Single operative receipt-binding rule",
+   "verdict": "PASS",
+   "evidence": "Read OFFICER_BRIEF_R9.md. Its operative rule binds only candidate and source set. Every receipt complies; none binds the gate report or officer bundle."
+  },
+  {
+   "id": 21,
+   "claim": "Complete and truthful bundle",
+   "verdict": "PASS",
+   "evidence": "Ten verdict files match ten bundle records by filename, digest, verdict, counts and blocking lists. All eight NACK rounds are present. terminal exactly matches round 10: NACK, 22 PASS, 2 FAIL, 0 NOT_VERIFIABLE."
+  },
+  {
+   "id": 22,
+   "claim": "Signing precondition is a pointer",
+   "verdict": "PASS",
+   "evidence": "precondition_1.state=DERIVED_AT_SIGNING_TIME and read points to terminal.overall. observed_at_build records round 10 NACK. signed_by remains null."
+  },
+  {
+   "id": 23,
+   "claim": "No silent traversal suppression",
+   "verdict": "FAIL",
+   "evidence": "tools/gate_r13.py:884 retains only errs[:3] per root before classifying errors. An in-memory walker control returned three fixture errors followed by an ordinary unknown-subtree error. G19 discarded the fourth error and returned OK instead of ROOT_WALK_ERRORS."
+  },
+  {
+   "id": 24,
+   "claim": "Declared-versus-found normalisation",
+   "verdict": "PASS",
+   "evidence": "_plain_path is applied to declared members and discovered matching files. Direct tests confirmed equality across extended-length prefix, slash style and case. Error-message path parsing has the separate defect in item 25."
+  },
+  {
+   "id": 25,
+   "claim": "Exclusion cannot hide a declared copy",
+   "verdict": "FAIL",
+   "evidence": "Lines 901-903 extract a quoted Python-repr path without decoding escaped backslashes. For the actual restricted-account error, _plain_path(parsed) differs from the actual directory's normalised path. An in-memory declared member beneath protected_b2d1b6e9, with bytes supplied by a narrow read stub, was excluded and G19 returned OK. The same control using a literal forward-slash error correctly returned ROOT_WALK_ERRORS_OVER_DECLARED_COPY. An unparseable fixture-marked error also returned OK."
+  },
+  {
+   "id": 26,
+   "claim": "Restricted-account baseline restored",
+   "verdict": "PASS",
+   "evidence": "Actual G19 execution now returns OK with 11 fixture exclusions. The real WinError 5 at FHS_W0W2_R4_20261107/inc3/work/acl_probe2/protected_b2d1b6e9 remains observable but is excluded. This baseline success does not establish exclusion safety."
+  },
+  {
+   "id": 27,
+   "claim": "Restored baseline retains digest rejection",
+   "verdict": "PASS",
+   "evidence": "Required negative control returned baseline ok=true/code=OK, tampered ok=false/code=MEMBER_DIGEST_DRIFT, and check_bites=true."
+  }
+ ],
+ "g19_under_your_account": {
+  "verdict": "OK",
+  "excluded_fixtures": 11,
+  "detail": "45+45 groups; 437 copies re-hashed at their declared paths with counts and distinct digests recomputed per group; 25 of 25 declared-present roots walked (228,755 files) with no undeclared same-named copy; 11 fixture director(ies) excluded by name; canonical decided by owner"
+ },
+ "bundle_observed": {
+  "rounds_on_disk": 10,
+  "rounds_in_bundle": 10,
+  "terminal_in_bundle": "round 10 NACK",
+  "matches": true
+ },
+ "negative_control": {
+  "ran": true,
+  "check_bites": true,
+  "observed": "{\n \"baseline\": {\n  \"ok\": true,\n  \"code\": \"OK\",\n  \"detail\": \"45+45 groups; 437 copies re-hashed at their declared paths with counts and distinct digests recomputed per group; 25 of \"\n },\n \"tampered\": {\n  \"ok\": false,\n  \"code\": \"MEMBER_DIGEST_DRIFT\",\n  \"detail\": \"[{\\\"path\\\": \\\"C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources/00_INDEX_AND_DECISION(4).md\\\", \\\"declared\\\": \\\"000000000000\\\", \\\"measured\\\": \\\"cb4727\"\n },\n \"check_bites\": true\n}"
+ },
+ "overall": "NACK",
+ "blocking_defects": [
+  "Item 23: errs[:3] silently discards later traversal failures. A fourth non-fixture failure was ignored when the first three failures were excluded fixtures.",
+  "Item 25: Quoted error paths retain Python-repr escaping, so covers_declared misses an actual ancestor relationship. The in-memory declared-copy control returned OK rather than ROOT_WALK_ERRORS_OVER_DECLARED_COPY. Missing path parsing also permits exclusion."
+ ],
+ "notes": "24 PASS, 2 FAIL, 1 NOT_VERIFIABLE. No repairs, filesystem writes or permission changes performed. Failure controls used in-memory substitutions; no declared copy was created on disk. G22's mutating selftest was not executed, leaving item 9 unverified. Guarded payload execution returned PASS 12/13 with zero blocking failures; scope excludes G11, G13, G16a, G16b, G19 and G26. Exclusions are assembled in report metadata but not announced in ordinary stdout. Saved selftest records G19/G26 FIRED and G16b BASELINE_RED; it was read, not replayed. Staged gate code matches after CRLF/LF normalisation, and the staged gate report is byte-identical. This verdict is not formal acceptance or an owner signature."
+}

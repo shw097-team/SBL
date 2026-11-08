@@ -1,0 +1,59 @@
+{
+ "schema": "FHS.W0.OwnerSemanticAck/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "instrument": "OWNER_SEMANTIC_ACK",
+ "authority": "L0.md:310 ADR-05 (Reader/Owner missing evidence keeps OWNER_SEMANTIC_ACK_HOLD)",
+ "owner_authorisation_verbatim": "全系統唯一OWER & issuer裁決：在獨立LANE驗收完成，並並符合全部藍圖規劃的前提下，OWNER同意簽 = OWNER_SEMANTIC_ACK。",
+ "precondition_1": {
+  "name": "independent lane acceptance",
+  "state": "DERIVED_AT_SIGNING_TIME",
+  "read": "officer/VERDICT_R13_OFFICER_FINAL.json -> terminal.overall",
+  "why_a_pointer": "any baked value here would be a fact about the officer's record, and that record gains a round whenever a round runs, so a baked value is stale the moment the next verdict lands - the failure this round's officer found twice",
+  "observed_at_build": "PASS",
+  "evidence": "officer/VERDICT_R13_OFFICER_FINAL.json - terminal round 12 PASS, 27 PASS / 0 FAIL / 1 NOT_VERIFIABLE; 12 rounds recorded including every NACK"
+ },
+ "precondition_2": {
+  "name": "aligned to the four blueprints",
+  "state": "SATISFIED_WITH_NAMED_PENDING",
+  "evidence": "receipt field set from L0.md:377; completion level from W0.md:81; ACK route from L0.md:310"
+ },
+ "receipts": [
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-00",
+   "wp": "WP-FHS-00",
+   "sha256": "6f49398baf625244068a49d1009a8070cf092c67d5c7b0a61d7c9b6571e7a940"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-01",
+   "wp": "WP-FHS-01",
+   "sha256": "46cdecb450e45537343b3ca434e5e40b25b168b6bc98d65513737f9cb8057c13"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-15",
+   "wp": "WP-FHS-15",
+   "sha256": "19c50c65300e17a79b2a9aabc1704dc90050ef9577e51bef2f5e5f08b618f38f"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-16",
+   "wp": "WP-FHS-16",
+   "sha256": "29f26cf2efe6eacc27c62dbddee6c69fdf3a3f92cb84ecb48d11b8983b7e2e2e"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-19",
+   "wp": "WP-FHS-19",
+   "sha256": "78af8080184e4078729f00bf0b7d7180eb6b657106285e1d5de7b338248fdba3"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-21",
+   "wp": "WP-FHS-21",
+   "sha256": "2a2a9935387fbe43aa8912faab58086e4d5e1d7304615a0430e3195adb9e2aa7"
+  }
+ ],
+ "signature": {
+  "signed_by": null,
+  "signed_at": null,
+  "provenance": "PENDING_OWNER_SIGNATURE",
+  "what_a_signature_would_mean": "the owner, as the original domain owner of all six domains, accepts each receipt's subject at OWNER_SEMANTIC_ACK level; it is not an ORIGINAL_ACK and not NATIVE_SIGNED"
+ },
+ "ceiling_if_signed": "OWNER_SEMANTIC_ACK - owner-level semantic acceptance, repo-bound provenance, not a cryptographic native signature"
+}

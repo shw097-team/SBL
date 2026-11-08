@@ -741,6 +741,81 @@ def read_long(path: str) -> bytes:
         raise
 
 
+
+
+def _plain_path(x: str) -> str:
+    """Normalise for comparison: strip the extended-length prefix the long-path walk introduces."""
+    if x.startswith("\\\\?\\"):
+        x = x[4:]
+    return os.path.normcase(os.path.abspath(x))
+
+
+
+def classify_walk_errors(errors: list, declared_paths: set):
+    """Split traversal failures into fixture-excludable, other, and over-declared-copy.
+
+    Pulled out as a pure function so the branch can be tested without creating an unreadable directory,
+    a declared member under a fixture, and the privileges to prove it - three things a read-only verifier
+    cannot arrange but can still reason about."""
+    denied, other, covering = [], [], []
+    for e in errors:
+        path = e.get("path") or ""
+        if not path:
+            other.append(e)
+            continue
+        if "acl_probe" not in path and "protected_" not in path:
+            other.append(e)
+            continue
+        located = _plain_path(path)
+        covers = [d for d in declared_paths if d.startswith(located)]
+        if covers:
+            covering.append((e, covers))
+            continue
+        denied.append(e)
+    return denied, other, covering
+
+
+def longpath_walk(root: str, on_file, skip_dirs: set, fixture_dirs: set, budget_s: float, t0: float):
+    """Walk a root, preferring the \\?\ form when the plain form cannot descend.
+
+    Windows refuses paths past ~260 characters with WinError 3; os.walk reports that per directory and
+    silently continues, which is why the first version of this check reported "no undeclared copies"
+    while 24 subtrees were never entered. Try the plain form, then the extended-length form, and return
+    whatever errors remain - the caller must not claim absence while any are left."""
+    import time
+    errors, undeclared, walked, hit = [], [], 0, False
+    forms = [root]
+    if re.match(r"^[A-Za-z]:[\\/]", root) and not root.startswith("\\\\?\\"):
+        forms.append("\\\\?\\" + os.path.abspath(root).replace("/", "\\"))
+    for form in forms:
+        errors, undeclared, walked, hit = [], [], 0, False
+
+        def _onerr(e):
+            # the filename attribute is the path itself; parsing str(e) means parsing Python's repr
+            # escaping, which is what made the ancestor test miss and let an exclusion through
+            errors.append({"path": getattr(e, "filename", "") or "", "msg": str(e)[:140]})
+
+        for dirpath, dirnames, filenames in os.walk(form, followlinks=False, onerror=_onerr):
+            keep = []
+            for d in dirnames:
+                full = os.path.join(dirpath, d)
+                if d in skip_dirs or os.path.islink(full):
+                    continue
+                if d in fixture_dirs:
+                    on_file("fixture", full)
+                    continue
+                keep.append(d)
+            dirnames[:] = keep
+            for f in filenames:
+                walked += 1
+                on_file("file", os.path.join(dirpath, f))
+            if time.time() - t0 > budget_s:
+                hit = True
+                break
+        if not errors or hit:
+            break
+    return undeclared, walked, errors, hit
+
 def g19_copy_register(ctx: Ctx):
     """Every declared copy is re-read, every declared root is walked, every group is recounted.
 
@@ -778,7 +853,7 @@ def g19_copy_register(ctx: Ctx):
             path, sha = m.get("path"), m.get("sha256")
             if not path or not sha:
                 return False, "MEMBER_INCOMPLETE", json.dumps(m, ensure_ascii=False)[:160]
-            declared_paths.add(os.path.normcase(os.path.abspath(path)))
+            declared_paths.add(_plain_path(path))
             cand = path if re.match(r"^[A-Za-z]:[\\/]", path) else os.path.join(ctx.round_dir, path)
             try:
                 raw = read_long(cand)
@@ -814,34 +889,47 @@ def g19_copy_register(ctx: Ctx):
     # Directories the round itself declares as disposable fixtures. Excluded by name, and the number of
     # files excluded is printed in the result: an exclusion a reader cannot see is a weakened check.
     fixture_dirs = {"_sandbox", "_g18_demo", "_redteam_fixtures", "_verify", "scratch"}
-    undeclared, walked, budget_hit, excluded_fixtures = [], 0, False, []
+    undeclared, excluded_fixtures = [], []
     t0 = time.time()
+    walk_errors, walked, budget_hit = [], 0, False
+
+    def _visit(kind, full):
+        global _UNDECL, _FIX
+        if kind == "fixture":
+            excluded_fixtures.append(full)
+            return
+        f = os.path.basename(full)
+        if f.lower() in names:
+            norm = _plain_path(full)
+            if norm not in declared_paths:
+                undeclared.append(full)
+
     for r in visited_roots:
-        for dirpath, dirnames, filenames in os.walk(r["path"], followlinks=False):
-            keep = []
-            for d in dirnames:
-                if d in skip_dirs or os.path.islink(os.path.join(dirpath, d)):
-                    continue
-                if d in fixture_dirs:
-                    for f in os.listdir(os.path.join(dirpath, d)) if os.path.isdir(os.path.join(dirpath, d)) else []:
-                        pass
-                    excluded_fixtures.append(os.path.join(dirpath, d))
-                    continue
-                keep.append(d)
-            dirnames[:] = keep
-            for f in filenames:
-                walked += 1
-                if f.lower() in names:
-                    full = os.path.normcase(os.path.abspath(os.path.join(dirpath, f)))
-                    if full not in declared_paths:
-                        undeclared.append(os.path.join(dirpath, f))
-            if time.time() - t0 > 240:
-                budget_hit = True
-                break
-        if budget_hit:
+        _u, w, errs, hit = longpath_walk(r["path"], _visit, skip_dirs, fixture_dirs, 240, t0)
+        walked += w
+        if errs:
+            # no truncation: this list decides whether absence may be claimed, so dropping its tail
+            # would be the same defect the list exists to prevent
+            walk_errors.extend({"root": r.get("label"), **e} for e in errs)
+        if hit:
+            budget_hit = True
             break
     if budget_hit:
         return False, "ROOT_WALK_INCOMPLETE", f"walk stopped after 240s at {walked} files; an incomplete walk cannot report absence"
+    if walk_errors:
+        # A subtree that is unreadable because it was *built* unreadable is a known fixture, not an
+        # unknown region - but only if nothing the register declares lives under it. That is checked
+        # here rather than assumed, so an exclusion can never hide a declared copy.
+        denied, other, covering = classify_walk_errors(walk_errors, declared_paths)
+        if covering:
+            e, covers = covering[0]
+            return False, "ROOT_WALK_ERRORS_OVER_DECLARED_COPY", (
+                f"an unreadable subtree covers {len(covers)} declared cop(y/ies): {covers[:2]}")
+        if other:
+            return False, "ROOT_WALK_ERRORS", (f"{len(other)} subtree(s) could not be traversed, so absence cannot be claimed: "
+                                               f"{json.dumps([{k: v for k, v in e.items() if k != 'root'} for e in other[:2]], ensure_ascii=False)}")
+        # every refusal left is an intentionally locked fixture directory with no declared member
+        excluded_fixtures.extend((e.get("path") or e.get("msg", ""))[:80] for e in denied)
     if undeclared:
         return False, "UNDECLARED_COPY_ON_DISK", f"{len(undeclared)} same-named file(s) under visited roots were never registered: {undeclared[:3]}"
 
@@ -1290,6 +1378,8 @@ MUTATIONS = {
     "G20": ("lanes/D/WP19_V3.json", lambda d: d["supply_chain_claim"].__setitem__("claim_shape", "both halves are the same thing")),
     "G16b": ("out/DEPENDENCY_SUBJECTS.json",
              lambda d: next(x for x in d["subjects"] if x.get("metadata_files")).__setitem__("scan_complete", False)),
+    "G26": ("receipts/W0-RCPT-WP-FHS-00.json",
+            lambda d: d["evidence_refs"][0].__setitem__("sha256", "0" * 64)),
     "G24": (lambda ctx: ("report/FHS_W0_R13_CONSOLIDATED.md" if ctx.profile == "payload"
                          else "out/FHS_W0_R13_CONSOLIDATED_FOR_EXTERNAL_ACCEPTOR.md"), "text"),
     "G25": ("evidence/EXTRA_QUALIFICATION.json",
@@ -1334,7 +1424,7 @@ def selftest(ctx: Ctx, verbose: bool = True, scope: str = "full") -> int:
     depth = os.environ.get("FHS_SELFTEST_DEPTH") == "1"
     skip = set()
     if scope == "payload":
-        skip = {"G11", "G13", "G16a", "G16b", "G19"}
+        skip = {"G11", "G13", "G16a", "G16b", "G19", "G26"}
     for cid, name, sev, fn in CHECKS:
         if cid in skip:
             continue
@@ -1447,6 +1537,46 @@ def hygiene(root: str) -> list[dict]:
     return findings
 
 
+def g26_receipt_binding(ctx: Ctx):
+    """Every receipt's evidence binding must name bytes that exist now.
+
+    Round-5 officer finding: the six receipts bound out/GATE_R13.json by a digest captured before the
+    gate was re-run, so they authenticated a report that was no longer the shipped one. A binding that
+    is never re-checked is a comment."""
+    rdir = os.path.join(ctx.round_dir, "receipts")
+    if not os.path.isdir(rdir):
+        return False, "RECEIPTS_ABSENT", "no receipts directory"
+    files = sorted(f for f in os.listdir(rdir) if f.startswith("W0-RCPT-") and f.endswith(".json"))
+    if len(files) != 6:
+        return False, "RECEIPT_COUNT", f"{len(files)} receipts, expected 6"
+    doc_sha = sha_file(ctx.path(ctx.doc_rel()))
+    checked, bad = 0, []
+    for f in files:
+        r = json.load(open(os.path.join(rdir, f), encoding="utf-8"))
+        for key in ("subject", "source_sha", "candidate_sha", "scope", "host", "policy_epoch", "original_consumer"):
+            if key not in r:
+                bad.append((f, "FIELD_ABSENT", key))
+        cs = (r.get("candidate_sha") or {}).get("value")
+        if cs != doc_sha:
+            bad.append((f, "CANDIDATE_DIGEST_STALE", f"{str(cs)[:12]} != {doc_sha[:12]}"))
+        if r.get("status") not in ("OWNER_READER_ACK_PENDING", "OWNER_SEMANTIC_ACK"):
+            bad.append((f, "STATUS_NOT_A_PENDING_OR_SIGNED_STATE", r.get("status")))
+        for ev in r.get("evidence_refs") or []:
+            rel = ev.get("path")
+            want = ev.get("sha256")
+            cand = ctx.path(rel) if not os.path.isabs(rel) else rel
+            if not os.path.isfile(cand):
+                bad.append((f, "EVIDENCE_ABSENT", rel))
+                continue
+            got = sha_file(cand)
+            checked += 1
+            if got != want:
+                bad.append((f, "EVIDENCE_DIGEST_STALE", f"{rel}: {str(want)[:12]} != {got[:12]}"))
+    if bad:
+        return False, "RECEIPT_BINDING_BROKEN", json.dumps(bad[:4], ensure_ascii=False)
+    return True, "OK", f"{len(files)} receipts; 7 fields present; candidate digest matches; {checked} evidence binding(s) re-hashed"
+
+
 CHECKS = [
     ("G10", "CHAIN_INTEGRITY", "BLOCKING", g10_chain_integrity),
     ("G11", "LINE_CONVENTION", "BLOCKING", g11_line_convention),
@@ -1466,7 +1596,10 @@ CHECKS = [
     ("G23", "TRACE_ID_NAMED", "BLOCKING", g23_trace_ids),
     ("G24", "IDENTITY_CLAIMS", "BLOCKING", g24_identity_claims),
     ("G25", "EXTRA_QUALIFIED", "REPORTING", g25_extra_qualified),
+    ("G26", "RECEIPT_BINDING", "BLOCKING", g26_receipt_binding),
 ]
+
+
 
 
 def main() -> int:
@@ -1497,6 +1630,7 @@ def main() -> int:
         "G16a": "two of three dependency subjects are checkouts outside the payload; only identity is checkable",
         "G16b": "same reason as G16a; coverage of external trees cannot be recomputed here",
         "G19": "the copy register describes four roots outside the payload",
+        "G26": "receipts bind the round layout; the payload ships them but not the gate report they cite",
     }
     run_checks = CHECKS
     excluded = []
