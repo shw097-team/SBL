@@ -1,0 +1,36 @@
+name: fhs-w0-gate
+
+# EC-R10-007: the repository's existing CI never invoked the round's gate, so a green run proved
+# that SBL builds and nothing about the gate.  This job runs the gate that ships with the evidence,
+# in payload profile, against the payload itself.
+on:
+  push:
+    paths:
+      - 'evidence/fhs-w0-r12-repair-20261108/**'
+      - '.github/workflows/fhs-w0-gate.yml'
+  pull_request:
+    paths:
+      - 'evidence/fhs-w0-r12-repair-20261108/**'
+      - '.github/workflows/fhs-w0-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: payload manifest resolves inside its own payload
+        working-directory: evidence/fhs-w0-r12-repair-20261108
+        run: python tools/verify_payload_manifest.py --root .
+      - name: gate (payload profile)
+        working-directory: evidence/fhs-w0-r12-repair-20261108
+        run: python tools/gate_r12.py --round . --profile payload --scope payload --skip-hygiene
+      - name: selftest contract
+        working-directory: evidence/fhs-w0-r12-repair-20261108
+        run: python tools/gate_r12.py --round . --profile payload --scope payload --skip-hygiene --selftest --quiet
+      - name: checksums
+        working-directory: evidence/fhs-w0-r12-repair-20261108
+        run: sha256sum -c SHA256SUMS

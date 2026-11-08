@@ -1,0 +1,443 @@
+{
+ "schema": "FHS.W0.U0Partition/3",
+ "generated_at": "2026-11-08T10:55:30+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "rules": {
+  "RULE_PER_LINE": {
+   "definition": "one segment per physical line",
+   "identity": "segments == newline_count"
+  },
+  "RULE_STRUCTURAL_BLOCK": {
+   "definition": "merge every maximal run of adjacent lines sharing one class",
+   "classes": [
+    "heading",
+    "table_row",
+    "code_fence_delim",
+    "html_comment",
+    "blank",
+    "text"
+   ],
+   "classifier": "state machine; precedence comment>fence-body>fence-delim>comment-open>heading>blank>table-row>text; fences and block comments are sticky"
+  }
+ },
+ "rule_semantics": {
+  "statement": "neither count is a semantic unit count; one is a typographic line, the other a same-class run",
+  "do_not_cite_as": [
+   "sections",
+   "clauses",
+   "claims",
+   "semantic segments"
+  ]
+ },
+ "reconciliation": {
+  "measured_structural": 25201,
+  "prior_round_structural": 25201,
+  "agrees_with_prior_round": true,
+  "prior_round_claimed_older_rule": 24003,
+  "delta_vs_older_rule": -1198,
+  "four_readings": {
+   "R1_fenced_block": 22669,
+   "R2_same_class_run": 25201,
+   "R3_per_line": 111331,
+   "R4_comment_merged": 25198
+  },
+  "r1_cross_implementation": {
+   "this_tool": 22669,
+   "lane_c_independent": 22672,
+   "delta": 3,
+   "why_it_matters": "two independent implementations of 'one block per fenced region' differ by a handful of blocks on edge cases (unclosed fence at EOF, ~~~ vs ```). Publishing one of them as 'the' R1 would repeat the defect this round exists to fix, so both are published with their implementations named.",
+   "earlier_this_tool_value": 24247,
+   "earlier_value_defect": "blank lines inside a fence were classified blank, so a single fenced region was counted as several; caught by cross-checking against the lane's independent implementation"
+  },
+  "span": [
+   22669,
+   111331
+  ],
+  "why_span": "the same bytes give a count anywhere in this span depending on how a fence and a block comment are grouped; the number is only meaningful with its rule"
+ },
+ "totals": {
+  "files": 31,
+  "bytes_sum": 22281767,
+  "per_line_segments_sum": 111331,
+  "structural_blocks_sum": 25201,
+  "r1_fenced_sum": 22669,
+  "r3_per_line_sum": 111331,
+  "r4_comment_merged_sum": 25198,
+  "all_tile_exactly": true,
+  "files_tiling": 31
+ },
+ "files": [
+  {
+   "file": "00_INDEX_AND_DECISION(4).md",
+   "bytes": 8236,
+   "sha256": "cb4727d5b0c190aba40559f72b6989964659923eed6c27504ab62acfdc3b2635",
+   "newlines": 83,
+   "lines": 83,
+   "structural_blocks_r2": 55,
+   "blocks_r1_fenced": 55,
+   "blocks_r3_per_line": 83,
+   "blocks_r4_comment_merged": 55,
+   "tiles": true
+  },
+  {
+   "file": "01_PRODUCT_AUTHORITY_SPINE(4).md",
+   "bytes": 17661,
+   "sha256": "e257dfcd01f2e8afeda1dd88fdd33b4ef7346bf224572e60935bf9834d25b02c",
+   "newlines": 145,
+   "lines": 145,
+   "structural_blocks_r2": 81,
+   "blocks_r1_fenced": 81,
+   "blocks_r3_per_line": 145,
+   "blocks_r4_comment_merged": 81,
+   "tiles": true
+  },
+  {
+   "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+   "bytes": 73292,
+   "sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+   "newlines": 858,
+   "lines": 858,
+   "structural_blocks_r2": 431,
+   "blocks_r1_fenced": 353,
+   "blocks_r3_per_line": 858,
+   "blocks_r4_comment_merged": 431,
+   "tiles": true
+  },
+  {
+   "file": "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+   "bytes": 12144,
+   "sha256": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284",
+   "newlines": 106,
+   "lines": 106,
+   "structural_blocks_r2": 59,
+   "blocks_r1_fenced": 59,
+   "blocks_r3_per_line": 106,
+   "blocks_r4_comment_merged": 59,
+   "tiles": true
+  },
+  {
+   "file": "04_FABRIC_HGK_CONTROL(4).md",
+   "bytes": 16794,
+   "sha256": "a7d54bdeb9129e7e1979bbc1af1944189b1054760e76424f8ffd8547a682eb1f",
+   "newlines": 120,
+   "lines": 120,
+   "structural_blocks_r2": 71,
+   "blocks_r1_fenced": 69,
+   "blocks_r3_per_line": 120,
+   "blocks_r4_comment_merged": 71,
+   "tiles": true
+  },
+  {
+   "file": "05_COMMANDER_GUIDE_AND_NATIVE_PLAN(3).md",
+   "bytes": 6726,
+   "sha256": "ee47e07455767c063fd0700440b46d27592caea4638c39407b9af1309a2b44d5",
+   "newlines": 59,
+   "lines": 59,
+   "structural_blocks_r2": 39,
+   "blocks_r1_fenced": 39,
+   "blocks_r3_per_line": 59,
+   "blocks_r4_comment_merged": 39,
+   "tiles": true
+  },
+  {
+   "file": "06_FHS_EXECUTE_HERMES_RUNTIME(4).md",
+   "bytes": 16807,
+   "sha256": "6bc5de0d26c8d13f4227ac9b48a66b808af0eb1108dc3012941e9c0c1ee362d5",
+   "newlines": 117,
+   "lines": 117,
+   "structural_blocks_r2": 75,
+   "blocks_r1_fenced": 73,
+   "blocks_r3_per_line": 117,
+   "blocks_r4_comment_merged": 75,
+   "tiles": true
+  },
+  {
+   "file": "07_ACCEPTANCE_CHALLENGE(4).md",
+   "bytes": 211405,
+   "sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+   "newlines": 1370,
+   "lines": 1370,
+   "structural_blocks_r2": 577,
+   "blocks_r1_fenced": 577,
+   "blocks_r3_per_line": 1370,
+   "blocks_r4_comment_merged": 577,
+   "tiles": true
+  },
+  {
+   "file": "08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md",
+   "bytes": 1128554,
+   "sha256": "1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d",
+   "newlines": 5900,
+   "lines": 5900,
+   "structural_blocks_r2": 2272,
+   "blocks_r1_fenced": 2272,
+   "blocks_r3_per_line": 5900,
+   "blocks_r4_comment_merged": 2272,
+   "tiles": true
+  },
+  {
+   "file": "09A_R15_949_ORIGINAL_ATOMS(4).md",
+   "bytes": 1855910,
+   "sha256": "ce14d5d45ef76ded7cd60e4faec34119749c29fee31d9b6e1b78738179612410",
+   "newlines": 12639,
+   "lines": 12639,
+   "structural_blocks_r2": 4230,
+   "blocks_r1_fenced": 4230,
+   "blocks_r3_per_line": 12639,
+   "blocks_r4_comment_merged": 4230,
+   "tiles": true
+  },
+  {
+   "file": "09B_KIND_MODE_HOST_192(4).md",
+   "bytes": 474159,
+   "sha256": "aed2234821768307d81991aa56d5ff3a98fc9b884ff79e2930f2b9c4ae8e441d",
+   "newlines": 3050,
+   "lines": 3050,
+   "structural_blocks_r2": 1315,
+   "blocks_r1_fenced": 1315,
+   "blocks_r3_per_line": 3050,
+   "blocks_r4_comment_merged": 1315,
+   "tiles": true
+  },
+  {
+   "file": "09_SBL_DOC00_13_FULL_UPGRADE(4).md",
+   "bytes": 300559,
+   "sha256": "1a0fcbdd77998bc9beed039407b96a1163c634052583813a98193f4d49769185",
+   "newlines": 2198,
+   "lines": 2198,
+   "structural_blocks_r2": 703,
+   "blocks_r1_fenced": 118,
+   "blocks_r3_per_line": 2198,
+   "blocks_r4_comment_merged": 703,
+   "tiles": true
+  },
+  {
+   "file": "10A_B1_TQAEP_120_124_38(4).md",
+   "bytes": 572218,
+   "sha256": "39ffde0115cdf894806a4d3bf270046b68f8786956507480db47b2a154a8c4e1",
+   "newlines": 8042,
+   "lines": 8042,
+   "structural_blocks_r2": 2655,
+   "blocks_r1_fenced": 2331,
+   "blocks_r3_per_line": 8042,
+   "blocks_r4_comment_merged": 2655,
+   "tiles": true
+  },
+  {
+   "file": "10B_B1_PI27_PD31(4).md",
+   "bytes": 44264,
+   "sha256": "7c33e2472a6510a6c15b5b8eee2fca6dd9e4865c7ad3beb8c19d1e4618886f64",
+   "newlines": 405,
+   "lines": 405,
+   "structural_blocks_r2": 147,
+   "blocks_r1_fenced": 147,
+   "blocks_r3_per_line": 405,
+   "blocks_r4_comment_merged": 147,
+   "tiles": true
+  },
+  {
+   "file": "10_B1_W18_SELF_BOOTSTRAP(4).md",
+   "bytes": 7761,
+   "sha256": "13b0764732bc1501e7c823b12be0d0be3a54afdaec5f77a5e90111c1947fa70a",
+   "newlines": 76,
+   "lines": 76,
+   "structural_blocks_r2": 49,
+   "blocks_r1_fenced": 47,
+   "blocks_r3_per_line": 76,
+   "blocks_r4_comment_merged": 49,
+   "tiles": true
+  },
+  {
+   "file": "11_WORKPACKAGES_AND_DAG(4).md",
+   "bytes": 46467,
+   "sha256": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+   "newlines": 380,
+   "lines": 380,
+   "structural_blocks_r2": 104,
+   "blocks_r1_fenced": 104,
+   "blocks_r3_per_line": 380,
+   "blocks_r4_comment_merged": 104,
+   "tiles": true
+  },
+  {
+   "file": "12_VERIFICATION_AND_DELIVERY(4).md",
+   "bytes": 15368,
+   "sha256": "e4f7512a27ecbec1ce6a4569654ce33c4bf3265361a5ec141418a313fd25dd45",
+   "newlines": 153,
+   "lines": 153,
+   "structural_blocks_r2": 85,
+   "blocks_r1_fenced": 77,
+   "blocks_r3_per_line": 153,
+   "blocks_r4_comment_merged": 85,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-00(1).md",
+   "bytes": 465363,
+   "sha256": "bd9c1a85ea0cae68fa8cde617e5592fca6123f72b4caf1a9d2894167d9a82e01",
+   "newlines": 1591,
+   "lines": 1591,
+   "structural_blocks_r2": 304,
+   "blocks_r1_fenced": 302,
+   "blocks_r3_per_line": 1591,
+   "blocks_r4_comment_merged": 304,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-01(1).md",
+   "bytes": 1041962,
+   "sha256": "43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+   "newlines": 4938,
+   "lines": 4938,
+   "structural_blocks_r2": 1091,
+   "blocks_r1_fenced": 1043,
+   "blocks_r3_per_line": 4938,
+   "blocks_r4_comment_merged": 1091,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-02(1).md",
+   "bytes": 1148207,
+   "sha256": "4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+   "newlines": 11084,
+   "lines": 11084,
+   "structural_blocks_r2": 1761,
+   "blocks_r1_fenced": 1635,
+   "blocks_r3_per_line": 11084,
+   "blocks_r4_comment_merged": 1761,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-03(1).md",
+   "bytes": 1704253,
+   "sha256": "ea69e1d3718ed86aecd74a3ebcc933960eacc30b586ab80fcb9f733037e33476",
+   "newlines": 4851,
+   "lines": 4851,
+   "structural_blocks_r2": 642,
+   "blocks_r1_fenced": 564,
+   "blocks_r3_per_line": 4851,
+   "blocks_r4_comment_merged": 642,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-04(1).md",
+   "bytes": 618110,
+   "sha256": "ee90cb1c86f6f7350c11c9c962233a89b035ca41ff82c8968f7968608fc6f6e0",
+   "newlines": 3036,
+   "lines": 3036,
+   "structural_blocks_r2": 796,
+   "blocks_r1_fenced": 754,
+   "blocks_r3_per_line": 3036,
+   "blocks_r4_comment_merged": 796,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-05(1).md",
+   "bytes": 2382349,
+   "sha256": "3b47a0b6224b1984a4047cf53aac5ac50615c93a560fea46e1b43d079a5d9f27",
+   "newlines": 7888,
+   "lines": 7888,
+   "structural_blocks_r2": 1100,
+   "blocks_r1_fenced": 204,
+   "blocks_r3_per_line": 7888,
+   "blocks_r4_comment_merged": 1099,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-06(1).md",
+   "bytes": 1554880,
+   "sha256": "64ea4977dab3093301f82dc7469413cc754998fc53946467842e06d83645102b",
+   "newlines": 2858,
+   "lines": 2858,
+   "structural_blocks_r2": 382,
+   "blocks_r1_fenced": 362,
+   "blocks_r3_per_line": 2858,
+   "blocks_r4_comment_merged": 382,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-07(1).md",
+   "bytes": 1265128,
+   "sha256": "a366d3783c82089c5593ffabb0704d8507632cce45622684f7a0186f2ae310f8",
+   "newlines": 3620,
+   "lines": 3620,
+   "structural_blocks_r2": 794,
+   "blocks_r1_fenced": 770,
+   "blocks_r3_per_line": 3620,
+   "blocks_r4_comment_merged": 794,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-08(1).md",
+   "bytes": 925526,
+   "sha256": "c7029c1ff07abe3135d33d3abf858a5fecedd911b494cd69c16eb1ddb8158288",
+   "newlines": 11139,
+   "lines": 11139,
+   "structural_blocks_r2": 424,
+   "blocks_r1_fenced": 368,
+   "blocks_r3_per_line": 11139,
+   "blocks_r4_comment_merged": 424,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-09(1).md",
+   "bytes": 904598,
+   "sha256": "6450f7c15915ec8b304f4e5fd4093ea707434db8bae9d2bb6e66c30ab6eed2e1",
+   "newlines": 3978,
+   "lines": 3978,
+   "structural_blocks_r2": 753,
+   "blocks_r1_fenced": 720,
+   "blocks_r3_per_line": 3978,
+   "blocks_r4_comment_merged": 751,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-10(1).md",
+   "bytes": 1397936,
+   "sha256": "a64aa21c977334dd74d660a86377ee10c4d329aa5fde0dae25ff81a3e69e8d8f",
+   "newlines": 3888,
+   "lines": 3888,
+   "structural_blocks_r2": 824,
+   "blocks_r1_fenced": 780,
+   "blocks_r3_per_line": 3888,
+   "blocks_r4_comment_merged": 824,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-11(1).md",
+   "bytes": 1831131,
+   "sha256": "12f8705d780b76f264457c194a6ff359da8d74b5d6d8c83fa245b74d2a37508e",
+   "newlines": 5005,
+   "lines": 5005,
+   "structural_blocks_r2": 1327,
+   "blocks_r1_fenced": 1253,
+   "blocks_r3_per_line": 5005,
+   "blocks_r4_comment_merged": 1327,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-12(1).md",
+   "bytes": 982931,
+   "sha256": "d1e470d82ca14319582cb8947aa52007927aa38e726249b1430804cfe8c8ca56",
+   "newlines": 7940,
+   "lines": 7940,
+   "structural_blocks_r2": 959,
+   "blocks_r1_fenced": 899,
+   "blocks_r3_per_line": 7940,
+   "blocks_r4_comment_merged": 959,
+   "tiles": true
+  },
+  {
+   "file": "SBL_PIPD-LS-PKG_DOC-13(1).md",
+   "bytes": 1251068,
+   "sha256": "7cc0c8b17311130c875910b2548b93c28bd4e1c8ee04d300f85fc33d4c09beb1",
+   "newlines": 3814,
+   "lines": 3814,
+   "structural_blocks_r2": 1096,
+   "blocks_r1_fenced": 1068,
+   "blocks_r3_per_line": 3814,
+   "blocks_r4_comment_merged": 1096,
+   "tiles": true
+  }
+ ]
+}
