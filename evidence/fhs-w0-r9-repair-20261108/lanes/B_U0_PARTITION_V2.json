@@ -1,0 +1,2654 @@
+{
+ "schema": "FHS.WP01.U0PartitionV2/1",
+ "wp": "WP-FHS-01",
+ "generated_at": "2026-11-08T07:47:26+0800",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "claim_ceiling_note": "Counts here are measured by this tool on the 31 named source files. They assert nothing about semantic meaning, authority or acceptance; an independent verifier must re-run the tool before this becomes evidence.",
+ "tool": "lanes/B/tools/u0_partition_v2.py",
+ "tool_sha256": "a07e1c5bed29f41911a07b210a9f158728c66554dcba0f0d76dedff65a9f5077",
+ "source_root": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources",
+ "rules": {
+  "RULE_PER_LINE": {
+   "definition": "one segment per physical line; a line is the bytes up to and including b'\\n', and a trailing fragment without a newline is itself one segment",
+   "identity": "segments == newline_count (+1 only when the file does not end with a newline)",
+   "unit": "physical line (a formatting artefact, not a semantic unit)"
+  },
+  "RULE_STRUCTURAL_BLOCK": {
+   "definition": "merge every maximal run of adjacent lines sharing one class into a single segment",
+   "classes": [
+    "heading",
+    "table_row",
+    "code_fence_delim",
+    "html_comment",
+    "blank",
+    "text"
+   ],
+   "unit": "same-class line run (a layout block, not a semantic unit either)"
+  }
+ },
+ "class_taxonomy": {
+  "classes": [
+   "heading",
+   "table_row",
+   "code_fence_delim",
+   "html_comment",
+   "blank",
+   "text"
+  ],
+  "precedence": [
+   "html_comment (inside an open comment, closes on '-->')",
+   "code_fence_delim (inside an open fence, line matches ^\\s{0,3}(```|~~~)) / blank / text (fence interior)",
+   "code_fence_delim (line opens a fence)",
+   "html_comment (line contains '<!--')",
+   "heading (^#{1,6} + whitespace)",
+   "blank (empty after stripping CR/LF/space/tab)",
+   "table_row (first non-space character is '|')",
+   "text (everything else)"
+  ],
+  "fence_outranks_comment": true,
+  "fence_outranks_comment_why": "inside a fenced code block a literal '<!--' is code, not markup; v1 tested comment detection first and relabelled those lines html_comment",
+  "no_fence_body_class": "the class vocabulary has no fence_body member, so a fenced block's interior becomes text/blank runs between its delimiters; fence integrity is reported separately (fence_delimiters, fence_open_at_eof)"
+ },
+ "rule_semantics": {
+  "per_line_111331": "111,331 是 RULE_PER_LINE 的行段數，不是語意分割數",
+  "structural_is_the_block_count": "structural_blocks_sum 才是 RULE_STRUCTURAL_BLOCK 的區塊數",
+  "statement_zh": "111,331 是 RULE_PER_LINE 的行段數（等於 31 個檔案的換行字元總數），不是語意分割數；structural_blocks_sum 才是 RULE_STRUCTURAL_BLOCK 的區塊數。兩個數字都不是語意單元數：一個是排版行，一個是同類行連續區間。",
+  "statement_en": "111,331 is the RULE_PER_LINE line count (= total newline count of the 31 files), not a semantic partition count; structural_blocks_sum is the RULE_STRUCTURAL_BLOCK block count.",
+  "neither_is_semantic": "Neither count is a semantic/claim unit count. Do not cite either as 'sections' or 'clauses'."
+ },
+ "reconciliation": {
+  "prior_structural_claimed": 24003,
+  "measured_structural": 25201,
+  "delta": 1198,
+  "prior_rule_source": "FHS_W0_R7_VERIFY_20261108/lanes/A/A_REPORT.json :: u0_partition.definition.rule_B ('one segment per top-level block: heading line, whole fenced code block (delimiters + body), whole table block, blank-line run, paragraph run')",
+  "why": "Different rules over identical bytes, not a data disagreement: bytes_sum is 22281767 under both and both tile every byte. The dominant cause is fence granularity. rule_B emits ONE segment per whole fenced block (514 fence blocks), while this tool's class vocabulary has no fence_body member, so a fenced block becomes one code_fence_delim block per delimiter line PLUS the text/blank runs between them: 1021 delimiter blocks + 2022 interior blocks = 3043 blocks where rule_B has 514, i.e. +2529. Countervailing difference: rule_B reports more heading blocks (4547) than there are heading LINES (4335, this tool's per-line count) and more table blocks (831) than this tool (769), so its non-fence classes are not reproduced by the ^#{1,6}+space / leading-'|' predicates used here; that pulls the other way by -1331. Net +1198. Nothing was tuned: the measured number is reported as measured. Two probes make the rule-dependence checkable rather than rhetorical: (a) re-running this tool with a single fence_body class and comments folded into text yields 23687 blocks (--probe-rules), i.e. within 316 of the claimed 24003, and (b) the verifier's own second rule (rule_A, maximal same-class line runs with fence body separate from delimiters) reported 25032 on the same bytes. Three rules, three counts, one byte total.",
+  "measured_decomposition": {
+   "gap": 1198,
+   "fence_blocks_attributed": 3043,
+   "fence_delimiter_blocks": 1021,
+   "fence_interior_blocks": 2022,
+   "rule_b_fence_blocks": 514,
+   "fence_delta_vs_rule_b": 2529,
+   "residual_non_fence_delta": -1331,
+   "fences_opened": 512,
+   "fences_unclosed_at_eof": 2,
+   "attribution_caveat": "the fence term is measured by this tool; the residual bundles the verifier's heading/table/text predicates, which are not byte-for-byte reproducible from its report, so no exact additive attribution to 24003 is claimed"
+  },
+  "sensitivity_probe": {
+   "command": "python lanes/B/tools/u0_partition_v2.py --sources C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources --out <tmp.json> --probe-rules",
+   "as_shipped": 25201,
+   "fence_body_single_plus_comments_folded": 23687,
+   "fence_body_single_comments_kept": 23690,
+   "interpretation": "shows the count moves by >1k purely from two taxonomy toggles on unchanged bytes; the 24003 claim sits inside the range these rules span"
+  },
+  "verifier_alternative_rule_reported": 25032,
+  "note_on_radius": "This tool's 25201 is NOT offered as 'the correct' block count and does not supersede 24003; both must be cited with their rule attached."
+ },
+ "files": [
+  {
+   "source_id": "FHS-BODY-00",
+   "file": "00_INDEX_AND_DECISION(4).md",
+   "bytes": 8236,
+   "newlines": 83,
+   "ends_with_newline": true,
+   "sha256_source": "cb4727d5b0c190aba40559f72b6989964659923eed6c27504ab62acfdc3b2635",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 83,
+   "expected_per_line_segments": 83,
+   "structural_blocks": 55,
+   "class_histogram_structural": {
+    "heading": 10,
+    "table_row": 1,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 27,
+    "text": 16
+   },
+   "class_histogram_per_line": {
+    "heading": 10,
+    "table_row": 6,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 35,
+    "text": 31
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 8236,
+     "bytes_covered": 8236,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 8236,
+     "bytes_covered": 8236,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-01",
+   "file": "01_PRODUCT_AUTHORITY_SPINE(4).md",
+   "bytes": 17661,
+   "newlines": 145,
+   "ends_with_newline": true,
+   "sha256_source": "e257dfcd01f2e8afeda1dd88fdd33b4ef7346bf224572e60935bf9834d25b02c",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 145,
+   "expected_per_line_segments": 145,
+   "structural_blocks": 81,
+   "class_histogram_structural": {
+    "heading": 17,
+    "table_row": 4,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 40,
+    "text": 19
+   },
+   "class_histogram_per_line": {
+    "heading": 17,
+    "table_row": 44,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 46,
+    "text": 37
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 17661,
+     "bytes_covered": 17661,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 17661,
+     "bytes_covered": 17661,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-02",
+   "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+   "bytes": 73292,
+   "newlines": 858,
+   "ends_with_newline": true,
+   "sha256_source": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 858,
+   "expected_per_line_segments": 858,
+   "structural_blocks": 431,
+   "class_histogram_structural": {
+    "heading": 62,
+    "table_row": 4,
+    "code_fence_delim": 52,
+    "html_comment": 1,
+    "blank": 171,
+    "text": 141
+   },
+   "class_histogram_per_line": {
+    "heading": 62,
+    "table_row": 57,
+    "code_fence_delim": 52,
+    "html_comment": 1,
+    "blank": 181,
+    "text": 505
+   },
+   "fence_delimiters": 52,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 73292,
+     "bytes_covered": 73292,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 73292,
+     "bytes_covered": 73292,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-03",
+   "file": "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+   "bytes": 12144,
+   "newlines": 106,
+   "ends_with_newline": true,
+   "sha256_source": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 106,
+   "expected_per_line_segments": 106,
+   "structural_blocks": 59,
+   "class_histogram_structural": {
+    "heading": 11,
+    "table_row": 5,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 29,
+    "text": 13
+   },
+   "class_histogram_per_line": {
+    "heading": 11,
+    "table_row": 38,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 37,
+    "text": 19
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 12144,
+     "bytes_covered": 12144,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 12144,
+     "bytes_covered": 12144,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-04",
+   "file": "04_FABRIC_HGK_CONTROL(4).md",
+   "bytes": 16794,
+   "newlines": 120,
+   "ends_with_newline": true,
+   "sha256_source": "a7d54bdeb9129e7e1979bbc1af1944189b1054760e76424f8ffd8547a682eb1f",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 120,
+   "expected_per_line_segments": 120,
+   "structural_blocks": 71,
+   "class_histogram_structural": {
+    "heading": 13,
+    "table_row": 3,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 34,
+    "text": 18
+   },
+   "class_histogram_per_line": {
+    "heading": 13,
+    "table_row": 30,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 42,
+    "text": 32
+   },
+   "fence_delimiters": 2,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 16794,
+     "bytes_covered": 16794,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 16794,
+     "bytes_covered": 16794,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-05",
+   "file": "05_COMMANDER_GUIDE_AND_NATIVE_PLAN(3).md",
+   "bytes": 6726,
+   "newlines": 59,
+   "ends_with_newline": true,
+   "sha256_source": "ee47e07455767c063fd0700440b46d27592caea4638c39407b9af1309a2b44d5",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 59,
+   "expected_per_line_segments": 59,
+   "structural_blocks": 39,
+   "class_histogram_structural": {
+    "heading": 7,
+    "table_row": 2,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 19,
+    "text": 10
+   },
+   "class_histogram_per_line": {
+    "heading": 7,
+    "table_row": 13,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 26,
+    "text": 12
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 6726,
+     "bytes_covered": 6726,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 6726,
+     "bytes_covered": 6726,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-06",
+   "file": "06_FHS_EXECUTE_HERMES_RUNTIME(4).md",
+   "bytes": 16807,
+   "newlines": 117,
+   "ends_with_newline": true,
+   "sha256_source": "6bc5de0d26c8d13f4227ac9b48a66b808af0eb1108dc3012941e9c0c1ee362d5",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 117,
+   "expected_per_line_segments": 117,
+   "structural_blocks": 75,
+   "class_histogram_structural": {
+    "heading": 10,
+    "table_row": 2,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 36,
+    "text": 24
+   },
+   "class_histogram_per_line": {
+    "heading": 10,
+    "table_row": 21,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 44,
+    "text": 39
+   },
+   "fence_delimiters": 2,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 16807,
+     "bytes_covered": 16807,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 16807,
+     "bytes_covered": 16807,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-07",
+   "file": "07_ACCEPTANCE_CHALLENGE(4).md",
+   "bytes": 211405,
+   "newlines": 1370,
+   "ends_with_newline": true,
+   "sha256_source": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 1370,
+   "expected_per_line_segments": 1370,
+   "structural_blocks": 577,
+   "class_histogram_structural": {
+    "heading": 120,
+    "table_row": 1,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 224,
+    "text": 231
+   },
+   "class_histogram_per_line": {
+    "heading": 120,
+    "table_row": 25,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 229,
+    "text": 995
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 211405,
+     "bytes_covered": 211405,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 211405,
+     "bytes_covered": 211405,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-08",
+   "file": "08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md",
+   "bytes": 1128554,
+   "newlines": 5900,
+   "ends_with_newline": true,
+   "sha256_source": "1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 5900,
+   "expected_per_line_segments": 5900,
+   "structural_blocks": 2272,
+   "class_histogram_structural": {
+    "heading": 501,
+    "table_row": 1,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 648,
+    "text": 1121
+   },
+   "class_histogram_per_line": {
+    "heading": 501,
+    "table_row": 8,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 723,
+    "text": 4667
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1128554,
+     "bytes_covered": 1128554,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1128554,
+     "bytes_covered": 1128554,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-09A",
+   "file": "09A_R15_949_ORIGINAL_ATOMS(4).md",
+   "bytes": 1855910,
+   "newlines": 12639,
+   "ends_with_newline": true,
+   "sha256_source": "ce14d5d45ef76ded7cd60e4faec34119749c29fee31d9b6e1b78738179612410",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 12639,
+   "expected_per_line_segments": 12639,
+   "structural_blocks": 4230,
+   "class_histogram_structural": {
+    "heading": 952,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 1375,
+    "text": 1902
+   },
+   "class_histogram_per_line": {
+    "heading": 952,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 1574,
+    "text": 10112
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1855910,
+     "bytes_covered": 1855910,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1855910,
+     "bytes_covered": 1855910,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-09B",
+   "file": "09B_KIND_MODE_HOST_192(4).md",
+   "bytes": 474159,
+   "newlines": 3050,
+   "ends_with_newline": true,
+   "sha256_source": "aed2234821768307d81991aa56d5ff3a98fc9b884ff79e2930f2b9c4ae8e441d",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3050,
+   "expected_per_line_segments": 3050,
+   "structural_blocks": 1315,
+   "class_histogram_structural": {
+    "heading": 245,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 441,
+    "text": 628
+   },
+   "class_histogram_per_line": {
+    "heading": 245,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 446,
+    "text": 2358
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 474159,
+     "bytes_covered": 474159,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 474159,
+     "bytes_covered": 474159,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-09",
+   "file": "09_SBL_DOC00_13_FULL_UPGRADE(4).md",
+   "bytes": 300559,
+   "newlines": 2198,
+   "ends_with_newline": true,
+   "sha256_source": "1a0fcbdd77998bc9beed039407b96a1163c634052583813a98193f4d49769185",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 2198,
+   "expected_per_line_segments": 2198,
+   "structural_blocks": 703,
+   "class_histogram_structural": {
+    "heading": 18,
+    "table_row": 6,
+    "code_fence_delim": 11,
+    "html_comment": 1,
+    "blank": 339,
+    "text": 328
+   },
+   "class_histogram_per_line": {
+    "heading": 18,
+    "table_row": 44,
+    "code_fence_delim": 11,
+    "html_comment": 1,
+    "blank": 355,
+    "text": 1769
+   },
+   "fence_delimiters": 11,
+   "fence_open_at_eof": true,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 300559,
+     "bytes_covered": 300559,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 300559,
+     "bytes_covered": 300559,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-10A",
+   "file": "10A_B1_TQAEP_120_124_38(4).md",
+   "bytes": 572218,
+   "newlines": 8042,
+   "ends_with_newline": true,
+   "sha256_source": "39ffde0115cdf894806a4d3bf270046b68f8786956507480db47b2a154a8c4e1",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 8042,
+   "expected_per_line_segments": 8042,
+   "structural_blocks": 2655,
+   "class_histogram_structural": {
+    "heading": 570,
+    "table_row": 0,
+    "code_fence_delim": 324,
+    "html_comment": 1,
+    "blank": 580,
+    "text": 1180
+   },
+   "class_histogram_per_line": {
+    "heading": 570,
+    "table_row": 0,
+    "code_fence_delim": 324,
+    "html_comment": 1,
+    "blank": 586,
+    "text": 6561
+   },
+   "fence_delimiters": 324,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 572218,
+     "bytes_covered": 572218,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 572218,
+     "bytes_covered": 572218,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-10B",
+   "file": "10B_B1_PI27_PD31(4).md",
+   "bytes": 44264,
+   "newlines": 405,
+   "ends_with_newline": true,
+   "sha256_source": "7c33e2472a6510a6c15b5b8eee2fca6dd9e4865c7ad3beb8c19d1e4618886f64",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 405,
+   "expected_per_line_segments": 405,
+   "structural_blocks": 147,
+   "class_histogram_structural": {
+    "heading": 36,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 42,
+    "text": 68
+   },
+   "class_histogram_per_line": {
+    "heading": 36,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 46,
+    "text": 322
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 44264,
+     "bytes_covered": 44264,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 44264,
+     "bytes_covered": 44264,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-10",
+   "file": "10_B1_W18_SELF_BOOTSTRAP(4).md",
+   "bytes": 7761,
+   "newlines": 76,
+   "ends_with_newline": true,
+   "sha256_source": "13b0764732bc1501e7c823b12be0d0be3a54afdaec5f77a5e90111c1947fa70a",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 76,
+   "expected_per_line_segments": 76,
+   "structural_blocks": 49,
+   "class_histogram_structural": {
+    "heading": 8,
+    "table_row": 1,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 23,
+    "text": 14
+   },
+   "class_histogram_per_line": {
+    "heading": 8,
+    "table_row": 12,
+    "code_fence_delim": 2,
+    "html_comment": 1,
+    "blank": 29,
+    "text": 24
+   },
+   "fence_delimiters": 2,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 7761,
+     "bytes_covered": 7761,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 7761,
+     "bytes_covered": 7761,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-11",
+   "file": "11_WORKPACKAGES_AND_DAG(4).md",
+   "bytes": 46467,
+   "newlines": 380,
+   "ends_with_newline": true,
+   "sha256_source": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 380,
+   "expected_per_line_segments": 380,
+   "structural_blocks": 104,
+   "class_histogram_structural": {
+    "heading": 26,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 30,
+    "text": 47
+   },
+   "class_histogram_per_line": {
+    "heading": 26,
+    "table_row": 0,
+    "code_fence_delim": 0,
+    "html_comment": 1,
+    "blank": 32,
+    "text": 321
+   },
+   "fence_delimiters": 0,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 46467,
+     "bytes_covered": 46467,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 46467,
+     "bytes_covered": 46467,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "FHS-BODY-12",
+   "file": "12_VERIFICATION_AND_DELIVERY(4).md",
+   "bytes": 15368,
+   "newlines": 153,
+   "ends_with_newline": true,
+   "sha256_source": "e4f7512a27ecbec1ce6a4569654ce33c4bf3265361a5ec141418a313fd25dd45",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 153,
+   "expected_per_line_segments": 153,
+   "structural_blocks": 85,
+   "class_histogram_structural": {
+    "heading": 15,
+    "table_row": 2,
+    "code_fence_delim": 6,
+    "html_comment": 1,
+    "blank": 39,
+    "text": 22
+   },
+   "class_histogram_per_line": {
+    "heading": 15,
+    "table_row": 29,
+    "code_fence_delim": 6,
+    "html_comment": 1,
+    "blank": 48,
+    "text": 54
+   },
+   "fence_delimiters": 6,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 15368,
+     "bytes_covered": 15368,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 15368,
+     "bytes_covered": 15368,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 159,
+     "class": "html_comment",
+     "head": "<!-- artifact_version: 2026-10-30_CODEX-STATIC-REPAIR-v1.0_SOURCE_BOUND_HIGH_RETENTION; scope: FHS_D"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 159,
+     "byte_end": 160,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 160,
+     "byte_end": 315,
+     "class": "text",
+     "head": "> **CURRENT FHS READER 2026-10-30_r2_HIGH_RETENTION_AUDIT_PATCHED_SOURCE_BOUND**；原 Domain Writer"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-00",
+   "file": "SBL_PIPD-LS-PKG_DOC-00(1).md",
+   "bytes": 465363,
+   "newlines": 1591,
+   "ends_with_newline": true,
+   "sha256_source": "bd9c1a85ea0cae68fa8cde617e5592fca6123f72b4caf1a9d2894167d9a82e01",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 1591,
+   "expected_per_line_segments": 1591,
+   "structural_blocks": 304,
+   "class_histogram_structural": {
+    "heading": 73,
+    "table_row": 37,
+    "code_fence_delim": 2,
+    "html_comment": 0,
+    "blank": 116,
+    "text": 76
+   },
+   "class_histogram_per_line": {
+    "heading": 73,
+    "table_row": 1255,
+    "code_fence_delim": 2,
+    "html_comment": 0,
+    "blank": 135,
+    "text": 126
+   },
+   "fence_delimiters": 2,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 465363,
+     "bytes_covered": 465363,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 465363,
+     "bytes_covered": 465363,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 646,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-00\\nartifact_type: FULL_SUBSTANTIVE_DESIGN_BODY_AUDIT_REPAIR\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 646,
+     "byte_end": 647,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 647,
+     "byte_end": 1263,
+     "class": "text",
+     "head": "**本版作用**：r3 以單一現行實質正文取代 rNEXT，保留其 17 個法定 DOC-00 H1 的"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-01",
+   "file": "SBL_PIPD-LS-PKG_DOC-01(1).md",
+   "bytes": 1041962,
+   "newlines": 4938,
+   "ends_with_newline": true,
+   "sha256_source": "43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 4938,
+   "expected_per_line_segments": 4938,
+   "structural_blocks": 1091,
+   "class_histogram_structural": {
+    "heading": 164,
+    "table_row": 65,
+    "code_fence_delim": 48,
+    "html_comment": 0,
+    "blank": 462,
+    "text": 352
+   },
+   "class_histogram_per_line": {
+    "heading": 164,
+    "table_row": 2434,
+    "code_fence_delim": 48,
+    "html_comment": 0,
+    "blank": 476,
+    "text": 1816
+   },
+   "fence_delimiters": 48,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1041962,
+     "bytes_covered": 1041962,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1041962,
+     "bytes_covered": 1041962,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 830,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-01\\nartifact_name: Product Requirements, Kinds & Human Journey"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 830,
+     "byte_end": 831,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 831,
+     "byte_end": 1363,
+     "class": "text",
+     "head": "> **r3 工程性整合、覆蓋、取代 r2 的 DOC-01 設計正文。** 本檔把 AUDIT A01～A25 �"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-02",
+   "file": "SBL_PIPD-LS-PKG_DOC-02(1).md",
+   "bytes": 1148207,
+   "newlines": 11084,
+   "ends_with_newline": true,
+   "sha256_source": "4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 11084,
+   "expected_per_line_segments": 11084,
+   "structural_blocks": 1761,
+   "class_histogram_structural": {
+    "heading": 114,
+    "table_row": 83,
+    "code_fence_delim": 126,
+    "html_comment": 0,
+    "blank": 817,
+    "text": 621
+   },
+   "class_histogram_per_line": {
+    "heading": 114,
+    "table_row": 2081,
+    "code_fence_delim": 126,
+    "html_comment": 0,
+    "blank": 892,
+    "text": 7871
+   },
+   "fence_delimiters": 126,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1148207,
+     "bytes_covered": 1148207,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1148207,
+     "bytes_covered": 1148207,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 110,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-02》｜2026-10-19 r2 HIGH-RETENTION AUDIT-PATCHED FULL-REPAIR FULL-SUBSTAN"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 110,
+     "byte_end": 111,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 111,
+     "byte_end": 119,
+     "class": "code_fence_delim",
+     "head": "```yaml\\n"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-03",
+   "file": "SBL_PIPD-LS-PKG_DOC-03(1).md",
+   "bytes": 1704253,
+   "newlines": 4851,
+   "ends_with_newline": true,
+   "sha256_source": "ea69e1d3718ed86aecd74a3ebcc933960eacc30b586ab80fcb9f733037e33476",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 4851,
+   "expected_per_line_segments": 4851,
+   "structural_blocks": 642,
+   "class_histogram_structural": {
+    "heading": 101,
+    "table_row": 62,
+    "code_fence_delim": 66,
+    "html_comment": 0,
+    "blank": 191,
+    "text": 222
+   },
+   "class_histogram_per_line": {
+    "heading": 103,
+    "table_row": 2448,
+    "code_fence_delim": 66,
+    "html_comment": 0,
+    "blank": 213,
+    "text": 2021
+   },
+   "fence_delimiters": 66,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1704253,
+     "bytes_covered": 1704253,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1704253,
+     "bytes_covered": 1704253,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 125,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-03》｜2026-10-19 r2 HIGH-RETENTION AUDIT-PATCHED FULL-REPAIR FULL SUBSTAN"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 125,
+     "byte_end": 126,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 126,
+     "byte_end": 1250,
+     "class": "text",
+     "head": "> **r2 融合替換聲明**：本版在 **產品設計／DOC03 文本** 領域工程性整合、覆�"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-04",
+   "file": "SBL_PIPD-LS-PKG_DOC-04(1).md",
+   "bytes": 618110,
+   "newlines": 3036,
+   "ends_with_newline": true,
+   "sha256_source": "ee90cb1c86f6f7350c11c9c962233a89b035ca41ff82c8968f7968608fc6f6e0",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3036,
+   "expected_per_line_segments": 3036,
+   "structural_blocks": 796,
+   "class_histogram_structural": {
+    "heading": 142,
+    "table_row": 53,
+    "code_fence_delim": 28,
+    "html_comment": 0,
+    "blank": 373,
+    "text": 200
+   },
+   "class_histogram_per_line": {
+    "heading": 142,
+    "table_row": 1904,
+    "code_fence_delim": 28,
+    "html_comment": 0,
+    "blank": 393,
+    "text": 569
+   },
+   "fence_delimiters": 28,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 618110,
+     "bytes_covered": 618110,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 618110,
+     "bytes_covered": 618110,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 898,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-04\\nformal_name: One Core / Three SP / Six Logical Modules & O"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 898,
+     "byte_end": 899,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 899,
+     "byte_end": 976,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-04》｜完整實質設計正文（2026-10-19 r4）\\n"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-05",
+   "file": "SBL_PIPD-LS-PKG_DOC-05(1).md",
+   "bytes": 2382349,
+   "newlines": 7888,
+   "ends_with_newline": true,
+   "sha256_source": "3b47a0b6224b1984a4047cf53aac5ac50615c93a560fea46e1b43d079a5d9f27",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 7888,
+   "expected_per_line_segments": 7888,
+   "structural_blocks": 1100,
+   "class_histogram_structural": {
+    "heading": 27,
+    "table_row": 2,
+    "code_fence_delim": 63,
+    "html_comment": 1,
+    "blank": 513,
+    "text": 494
+   },
+   "class_histogram_per_line": {
+    "heading": 27,
+    "table_row": 21,
+    "code_fence_delim": 63,
+    "html_comment": 1078,
+    "blank": 559,
+    "text": 6140
+   },
+   "fence_delimiters": 63,
+   "fence_open_at_eof": true,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 2382349,
+     "bytes_covered": 2382349,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 2382349,
+     "bytes_covered": 2382349,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 1093,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-05\\nartifact_name: RepoContext, PD Late Binding, Construction "
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1093,
+     "byte_end": 1094,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1094,
+     "byte_end": 1230,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-05》｜Repo 晚綁定、PD 十件、施工契約、Claim Ceiling 與 DEV�"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-06",
+   "file": "SBL_PIPD-LS-PKG_DOC-06(1).md",
+   "bytes": 1554880,
+   "newlines": 2858,
+   "ends_with_newline": true,
+   "sha256_source": "64ea4977dab3093301f82dc7469413cc754998fc53946467842e06d83645102b",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 2858,
+   "expected_per_line_segments": 2858,
+   "structural_blocks": 382,
+   "class_histogram_structural": {
+    "heading": 68,
+    "table_row": 48,
+    "code_fence_delim": 20,
+    "html_comment": 0,
+    "blank": 164,
+    "text": 82
+   },
+   "class_histogram_per_line": {
+    "heading": 68,
+    "table_row": 2308,
+    "code_fence_delim": 20,
+    "html_comment": 0,
+    "blank": 171,
+    "text": 291
+   },
+   "fence_delimiters": 20,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1554880,
+     "bytes_covered": 1554880,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1554880,
+     "bytes_covered": 1554880,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 113,
+     "class": "text",
+     "head": "《SBL_PIPD-LS-PKG_DOC-06》｜Technical Admission, Donor Integration & HotSwap — FULL SUBSTANTIVE"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 113,
+     "byte_end": 114,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 114,
+     "byte_end": 122,
+     "class": "code_fence_delim",
+     "head": "```yaml\\n"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-07",
+   "file": "SBL_PIPD-LS-PKG_DOC-07(1).md",
+   "bytes": 1265128,
+   "newlines": 3620,
+   "ends_with_newline": true,
+   "sha256_source": "a366d3783c82089c5593ffabb0704d8507632cce45622684f7a0186f2ae310f8",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3620,
+   "expected_per_line_segments": 3620,
+   "structural_blocks": 794,
+   "class_histogram_structural": {
+    "heading": 131,
+    "table_row": 64,
+    "code_fence_delim": 24,
+    "html_comment": 1,
+    "blank": 363,
+    "text": 211
+   },
+   "class_histogram_per_line": {
+    "heading": 131,
+    "table_row": 1983,
+    "code_fence_delim": 24,
+    "html_comment": 1,
+    "blank": 410,
+    "text": 1071
+   },
+   "fence_delimiters": 24,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1265128,
+     "bytes_covered": 1265128,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1265128,
+     "bytes_covered": 1265128,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 113,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-07》｜Security, Human Approval, Token & Trust Boundaries — 全量實質"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 113,
+     "byte_end": 114,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 114,
+     "byte_end": 701,
+     "class": "text",
+     "head": "> **本稿身分**：`SBL-DOC-07 / 2026-10-19_r4_HIGH_RETENTION_AUDIT_REPAIRED_FULL_SUBSTANTIVE_BODY"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-08",
+   "file": "SBL_PIPD-LS-PKG_DOC-08(1).md",
+   "bytes": 925526,
+   "newlines": 11139,
+   "ends_with_newline": true,
+   "sha256_source": "c7029c1ff07abe3135d33d3abf858a5fecedd911b494cd69c16eb1ddb8158288",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 11139,
+   "expected_per_line_segments": 11139,
+   "structural_blocks": 424,
+   "class_histogram_structural": {
+    "heading": 65,
+    "table_row": 31,
+    "code_fence_delim": 54,
+    "html_comment": 0,
+    "blank": 185,
+    "text": 89
+   },
+   "class_histogram_per_line": {
+    "heading": 65,
+    "table_row": 1347,
+    "code_fence_delim": 54,
+    "html_comment": 0,
+    "blank": 186,
+    "text": 9487
+   },
+   "fence_delimiters": 54,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 925526,
+     "bytes_covered": 925526,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 925526,
+     "bytes_covered": 925526,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 153,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-08》｜Acceptance／Verification／TQAEP／Oracle Registry／Independent C"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 153,
+     "byte_end": 154,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 154,
+     "byte_end": 954,
+     "class": "text",
+     "head": "> **工程版別**：`2026-10-19_r4_HIGH_RETENTION_FULL_AUDIT_REPAIR_SUBSTANTIVE_BODY`；**前版**�"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-09",
+   "file": "SBL_PIPD-LS-PKG_DOC-09(1).md",
+   "bytes": 904598,
+   "newlines": 3978,
+   "ends_with_newline": true,
+   "sha256_source": "6450f7c15915ec8b304f4e5fd4093ea707434db8bae9d2bb6e66c30ab6eed2e1",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3978,
+   "expected_per_line_segments": 3978,
+   "structural_blocks": 753,
+   "class_histogram_structural": {
+    "heading": 118,
+    "table_row": 63,
+    "code_fence_delim": 30,
+    "html_comment": 1,
+    "blank": 360,
+    "text": 181
+   },
+   "class_histogram_per_line": {
+    "heading": 118,
+    "table_row": 1910,
+    "code_fence_delim": 30,
+    "html_comment": 1,
+    "blank": 398,
+    "text": 1521
+   },
+   "fence_delimiters": 30,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 904598,
+     "bytes_covered": 904598,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 904598,
+     "bytes_covered": 904598,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 1366,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-09\\nartifact_type: SINGLE_MARKDOWN_FULL_SUBSTANTIVE_BODY_DESIG"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1366,
+     "byte_end": 1455,
+     "class": "html_comment",
+     "head": "<!-- SBL-DOC09-r4 / INTEGRATE_COVER_SUPERSEDE r3, UTF-8/LF; no Native Writer effects -->\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1455,
+     "byte_end": 3124,
+     "class": "text",
+     "head": "> **r4 身分與替換範圍**：`SBL_PIPD-LS-PKG_DOC-09_2026-10-19_r4_HIGH_RETENTION_AUDIT_PATCHED_"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-10",
+   "file": "SBL_PIPD-LS-PKG_DOC-10(1).md",
+   "bytes": 1397936,
+   "newlines": 3888,
+   "ends_with_newline": true,
+   "sha256_source": "a64aa21c977334dd74d660a86377ee10c4d329aa5fde0dae25ff81a3e69e8d8f",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3888,
+   "expected_per_line_segments": 3888,
+   "structural_blocks": 824,
+   "class_histogram_structural": {
+    "heading": 123,
+    "table_row": 51,
+    "code_fence_delim": 44,
+    "html_comment": 0,
+    "blank": 387,
+    "text": 219
+   },
+   "class_histogram_per_line": {
+    "heading": 123,
+    "table_row": 1763,
+    "code_fence_delim": 44,
+    "html_comment": 0,
+    "blank": 441,
+    "text": 1517
+   },
+   "fence_delimiters": 44,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1397936,
+     "bytes_covered": 1397936,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1397936,
+     "bytes_covered": 1397936,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 1117,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-10\\nartifact_class: SINGLE_MARKDOWN_FULL_SUBSTANTIVE_DESIGN_BO"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1117,
+     "byte_end": 1118,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1118,
+     "byte_end": 1241,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-10》｜GENIEMAKER／Builder／四 Host／G-KNOW／HLPE／OROCHI／RAG：�"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-11",
+   "file": "SBL_PIPD-LS-PKG_DOC-11(1).md",
+   "bytes": 1831131,
+   "newlines": 5005,
+   "ends_with_newline": true,
+   "sha256_source": "12f8705d780b76f264457c194a6ff359da8d74b5d6d8c83fa245b74d2a37508e",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 5005,
+   "expected_per_line_segments": 5005,
+   "structural_blocks": 1327,
+   "class_histogram_structural": {
+    "heading": 254,
+    "table_row": 60,
+    "code_fence_delim": 53,
+    "html_comment": 2,
+    "blank": 628,
+    "text": 330
+   },
+   "class_histogram_per_line": {
+    "heading": 254,
+    "table_row": 3037,
+    "code_fence_delim": 54,
+    "html_comment": 2,
+    "blank": 740,
+    "text": 918
+   },
+   "fence_delimiters": 54,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1831131,
+     "bytes_covered": 1831131,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1831131,
+     "bytes_covered": 1831131,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 96,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-11》｜2026-10-19 r2 高保留破壞性審查升級修補實質正文\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 96,
+     "byte_end": 97,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 97,
+     "byte_end": 1106,
+     "class": "text",
+     "head": "> `SBL_PIPD-LS-PKG_DOC-11 / 2026-10-19_r2_HIGH_RETENTION_AUDIT_PATCHED_FULL_SUBSTANTIVE_BODY / zh-TW"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-12",
+   "file": "SBL_PIPD-LS-PKG_DOC-12(1).md",
+   "bytes": 982931,
+   "newlines": 7940,
+   "ends_with_newline": true,
+   "sha256_source": "d1e470d82ca14319582cb8947aa52007927aa38e726249b1430804cfe8c8ca56",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 7940,
+   "expected_per_line_segments": 7940,
+   "structural_blocks": 959,
+   "class_histogram_structural": {
+    "heading": 135,
+    "table_row": 56,
+    "code_fence_delim": 42,
+    "html_comment": 0,
+    "blank": 458,
+    "text": 268
+   },
+   "class_histogram_per_line": {
+    "heading": 135,
+    "table_row": 2630,
+    "code_fence_delim": 42,
+    "html_comment": 0,
+    "blank": 521,
+    "text": 4612
+   },
+   "fence_delimiters": 42,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 982931,
+     "bytes_covered": 982931,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 982931,
+     "bytes_covered": 982931,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 109,
+     "class": "heading",
+     "head": "# 《SBL_PIPD-LS-PKG_DOC-12》｜2026-10-20 r2 HIGH-RETENTION AUDIT-PATCHED FULL REPAIR／全量實�"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 109,
+     "byte_end": 110,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 110,
+     "byte_end": 118,
+     "class": "code_fence_delim",
+     "head": "```yaml\\n"
+    }
+   ]
+  },
+  {
+   "source_id": "SBL-DOC-13",
+   "file": "SBL_PIPD-LS-PKG_DOC-13(1).md",
+   "bytes": 1251068,
+   "newlines": 3814,
+   "ends_with_newline": true,
+   "sha256_source": "7cc0c8b17311130c875910b2548b93c28bd4e1c8ee04d300f85fc33d4c09beb1",
+   "decode": {
+    "strict_utf8": true,
+    "degraded": false,
+    "decode_error": null
+   },
+   "per_line_segments": 3814,
+   "expected_per_line_segments": 3814,
+   "structural_blocks": 1096,
+   "class_histogram_structural": {
+    "heading": 197,
+    "table_row": 62,
+    "code_fence_delim": 22,
+    "html_comment": 0,
+    "blank": 501,
+    "text": 314
+   },
+   "class_histogram_per_line": {
+    "heading": 197,
+    "table_row": 2128,
+    "code_fence_delim": 22,
+    "html_comment": 0,
+    "blank": 527,
+    "text": 940
+   },
+   "fence_delimiters": 22,
+   "fence_open_at_eof": false,
+   "html_comment_open_at_eof": false,
+   "tiles_exactly": {
+    "per_line": true,
+    "structural": true
+   },
+   "tile_detail": {
+    "per_line": {
+     "first_start": 0,
+     "last_end": 1251068,
+     "bytes_covered": 1251068,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true
+    },
+    "structural": {
+     "first_start": 0,
+     "last_end": 1251068,
+     "bytes_covered": 1251068,
+     "byte_join_equals_file": true,
+     "contiguous": true,
+     "non_overlapping": true,
+     "all_non_empty": true
+    }
+   },
+   "first_3_structural_blocks": [
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 0,
+     "byte_end": 1509,
+     "class": "text",
+     "head": "---\\nartifact_id: SBL_PIPD-LS-PKG_DOC-13\\nartifact_name: SBL_PIPD-LS-PKG_DOC-13\\nformal_name: Dogfoo"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1509,
+     "byte_end": 1510,
+     "class": "blank",
+     "head": "\\n"
+    },
+    {
+     "rule": "RULE_STRUCTURAL_BLOCK",
+     "byte_start": 1510,
+     "byte_end": 1574,
+     "class": "heading",
+     "head": "# R00｜DOC-13 文件身份、權威邊界與工程閱讀入口\\n"
+    }
+   ]
+  }
+ ],
+ "totals": {
+  "files": 31,
+  "bytes_sum": 22281767,
+  "per_line_segments_sum": 111331,
+  "structural_blocks_sum": 25201,
+  "class_histogram_structural": {
+   "heading": 4333,
+   "table_row": 769,
+   "code_fence_delim": 1021,
+   "html_comment": 22,
+   "blank": 9615,
+   "text": 9441
+  },
+  "class_histogram_per_line": {
+   "heading": 4335,
+   "table_row": 27576,
+   "code_fence_delim": 1022,
+   "html_comment": 1099,
+   "blank": 10541,
+   "text": 66758
+  },
+  "all_tile_exactly": true,
+  "all_tile_per_line": true,
+  "all_tile_structural": true,
+  "files_with_per_line_tiling": 31,
+  "files_with_structural_tiling": 31,
+  "degraded_files": []
+ },
+ "expected_values": {
+  "files": 31,
+  "bytes_sum": 22281767,
+  "per_line_segments": 111331
+ },
+ "deviation": {
+  "bytes_sum_matches": true,
+  "bytes_sum_delta": 0,
+  "per_line_matches": true,
+  "per_line_delta": 0,
+  "rule": "reported as measured; a mismatch is recorded here and in notes, never corrected in place"
+ },
+ "identity_checks": {
+  "distinct_source_ids": 31,
+  "file_count_is_31": true,
+  "duplicate_source_ids": [],
+  "sum_of_file_sizes_equals_bytes_sum": true,
+  "per_file_line_counts_match_newline_identity": true
+ },
+ "rebuild_command": "python lanes/B/tools/u0_partition_v2.py --sources C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources --out lanes/B/U0_PARTITION_V2.json --emit-jsonl <SCRATCH>/U0_PARTITION_V2.segments.jsonl",
+ "rebuild_note": "The full per-segment table is deliberately NOT stored: 111,331 + structural segments is ~16 MB (measured 15,796,533 bytes, 136,532 records). Rebuild it with rebuild_command, writing --emit-jsonl to a scratch path -- the delivery lane must stay under 3 MB, so that file is an artefact of verification, not a deliverable. Each JSONL record is (source_id, rule, byte_start, byte_end, class) and byte-joins back to its source; the byte-join was re-verified for three files under both rules after writing.",
+ "verification": {
+  "tool": "lanes/B/tools/tile_proof.py",
+  "command": "python lanes/B/tools/tile_proof.py --json lanes/B/U0_PARTITION_V2.json --sources C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources --out lanes/B/TILE_PROOF.txt",
+  "status": "run after generation; see lanes/B/TILE_PROOF.txt"
+ }
+}

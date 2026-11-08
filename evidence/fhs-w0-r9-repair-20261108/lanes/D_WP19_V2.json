@@ -1,0 +1,3343 @@
+{
+  "schema": "wp19.measurement.v2",
+  "work_package": "WP-FHS-19",
+  "generated_at": "2026-11-08T07:53:39+08:00",
+  "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+  "tool": {
+    "path": "lanes/D/tools/wp19_v2.py",
+    "sha256": "864b671a60841814d3c691dbedcbe920b3934ca0dd2061fa14ac266deecdd722"
+  },
+  "defects_addressed": [
+    "V-06",
+    "A-01",
+    "A-03"
+  ],
+  "scope_rule": {
+    "enumeration": "git ls-files (tracked content) in each repository",
+    "excluded_dir_names": [
+      ".git",
+      ".hgk",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".venv",
+      "TEST_RESULTS",
+      "__pycache__",
+      "build",
+      "dist",
+      "node_modules",
+      "site-packages",
+      "var",
+      "venv",
+      "worktrees"
+    ],
+    "per_repo_prefix_exclusions": {
+      "hgk": [
+        "HG-KSEOS-far-minimax-r2/"
+      ]
+    }
+  },
+  "repos": {
+    "sbl": {
+      "label": "SBL (worktrees/r4-sbl)",
+      "path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl",
+      "head": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+      "branch": "r5/close-legacy-ack",
+      "slug": "shw097-team/SBL",
+      "tracked_files_total": 765,
+      "tracked_files_scanned": 765,
+      "pre_status_porcelain": [],
+      "pre_dirty": false,
+      "licence": {
+        "root_licence": {
+          "present": true,
+          "files": [
+            {
+              "name": "LICENSE",
+              "bytes": 1068
+            },
+            {
+              "name": "NOTICE",
+              "bytes": 684
+            }
+          ]
+        },
+        "nested_licences": [
+          {
+            "path_rel": "integrations/pipd/LICENSE",
+            "depth": 3,
+            "bytes": 11358,
+            "matched_by": "name",
+            "kind": "Apache-2.0",
+            "kind_basis": "first 2KB contains 'apache license' + 'version 2.0'",
+            "licences_named_in_first_2KB": [
+              "Apache-2.0"
+            ],
+            "file_class": "LICENCE",
+            "bytes_scanned": 2048
+          },
+          {
+            "path_rel": "integrations/pipd/NOTICE",
+            "depth": 3,
+            "bytes": 3571,
+            "matched_by": "name",
+            "kind": "Apache-2.0",
+            "kind_basis": "first 2KB contains 'apache license' + 'version 2.0'",
+            "licences_named_in_first_2KB": [
+              "Apache-2.0"
+            ],
+            "file_class": "NOTICE",
+            "bytes_scanned": 2048
+          }
+        ],
+        "nested_count_by_rule": {
+          "name_matched": 2,
+          "inside_LICENSES_dir": 0,
+          "total": 2
+        },
+        "excluded_from_scope": {
+          "count": 0,
+          "sample": [],
+          "note": "licence-ish tracked files left OUT of the count by the scope rule; listed so the exclusion is auditable rather than silent"
+        },
+        "claim": {
+          "root_licence_present": true,
+          "nested_licence_count": 2,
+          "scope_note": "root directory licence files: LICENSE (1068B), NOTICE (684B); the tracked tree also carries 2 nested licence/NOTICE file(s) (deepest depth 3). Any licence statement must name which scope it measured."
+        },
+        "hosted_licence_api": {
+          "state": "HOSTED_NOT_OBSERVED",
+          "reason": "no GH_TOKEN/GITHUB_TOKEN in this environment and no gh CLI on PATH; the hosted licence API is a different evidence class (what the platform detected) from what is committed here, so it is not guessed or nulled",
+          "command_to_observe": "curl -sS -H 'Authorization: Bearer $GH_TOKEN' https://api.github.com/repos/shw097-team/SBL/license"
+        }
+      },
+      "dependencies": {
+        "units": [
+          {
+            "pyproject": "integrations/pipd/pyproject.toml",
+            "runtime_dependencies": [
+              "jsonschema>=4.0"
+            ],
+            "optional_dependencies": {
+              "test": [
+                "pyyaml>=6.0",
+                "build>=1.2",
+                "setuptools>=68",
+                "wheel",
+                "cryptography>=42",
+                "pytest>=8"
+              ],
+              "harness": [
+                "hg-kseos @ git+https://github.com/shw097-team/HG-KSEOS@a7046a36956e2179d7125449ce9b6f05fa5451cf"
+              ]
+            },
+            "declared_any_normalised": [
+              "build",
+              "cryptography",
+              "hg-kseos",
+              "jsonschema",
+              "pytest",
+              "pyyaml",
+              "setuptools",
+              "wheel"
+            ],
+            "scan_roots": [
+              "integrations\\pipd\\src"
+            ],
+            "py_files_scanned": 17,
+            "packaging_allow_list": [
+              "integrations\\pipd\\src\\pipd_ls_sp"
+            ],
+            "third_party_modules_imported": [
+              "cryptography",
+              "jsonschema"
+            ],
+            "covered_modules": [
+              "cryptography",
+              "jsonschema"
+            ],
+            "undeclared_third_party": [],
+            "undeclared_local_only": [],
+            "declared_covers_imports": true,
+            "missing": []
+          },
+          {
+            "pyproject": "pyproject.toml",
+            "runtime_dependencies": [],
+            "optional_dependencies": {
+              "tpm-pre-v2": [
+                "jsonschema==4.26.0",
+                "cryptography>=42"
+              ]
+            },
+            "declared_any_normalised": [
+              "cryptography",
+              "jsonschema"
+            ],
+            "scan_roots": [
+              "sbl_cli",
+              "sbl_core",
+              "sbl_harness",
+              "sbl_sp",
+              "sbl_stack"
+            ],
+            "py_files_scanned": 36,
+            "packaging_allow_list": [
+              "sbl_cli",
+              "sbl_core",
+              "sbl_harness",
+              "sbl_sp",
+              "sbl_sp\\plugins",
+              "sbl_sp\\plugins\\commander_sp",
+              "sbl_sp\\plugins\\external_challenge_sp",
+              "sbl_sp\\plugins\\tpm_sp",
+              "sbl_sp\\plugins\\tpm_sp\\pre_v2",
+              "sbl_stack"
+            ],
+            "third_party_modules_imported": [
+              "jsonschema",
+              "yaml"
+            ],
+            "covered_modules": [
+              "jsonschema"
+            ],
+            "undeclared_third_party": [],
+            "undeclared_local_only": [
+              {
+                "module": "yaml",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": 0,
+                "files": [
+                  {
+                    "path_rel": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/scripts/package_preflight.py",
+                    "line": 31,
+                    "inside_function": true,
+                    "function": "package",
+                    "in_built_distribution": false
+                  }
+                ],
+                "files_truncated": 0,
+                "reason": "every import site sits in a directory that no declared package covers, so it is not in the built distribution"
+              }
+            ],
+            "declared_covers_imports": true,
+            "missing": []
+          }
+        ],
+        "excluded_nested_projects": [],
+        "declared_covers_imports": true,
+        "missing": [],
+        "undeclared_third_party": [],
+        "undeclared_but_not_in_built_distribution": [
+          {
+            "module": "yaml",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/scripts/package_preflight.py",
+                "line": 31,
+                "inside_function": true,
+                "function": "package",
+                "in_built_distribution": false
+              }
+            ],
+            "count": 1,
+            "reason": "every import site sits in a directory that no declared package covers, so it is not in the built distribution"
+          }
+        ],
+        "scope_note": "declared = project.dependencies UNION every project.optional-dependencies group (an extra is a declaration, but it is also why a bare `pip install .` can still fail at runtime); stdlib from sys.stdlib_module_names; first-party = any module name that exists as a .py stem or package dir in the tracked tree. Scanning is limited to each pyproject's src/ (or its package roots) plus root-level *.py, exactly as the work order specifies -- tools/ and tests/ are out of scope. `declared_covers_imports` is a verdict about the BUILT distribution: a site in a directory that no declared [tool.setuptools] packages entry covers is reported separately, because it cannot fail an install of the wheel."
+      },
+      "ci": {
+        "workflow_files": [
+          {
+            "path_rel": ".github/workflows/ci.yml",
+            "jobs": [
+              "test",
+              "supply-chain",
+              "pipd-compat"
+            ],
+            "job_count": 3,
+            "supply_chain_related": true,
+            "keyword_hit_count": 14,
+            "bytes": 6832
+          }
+        ],
+        "workflow_file_count": 1,
+        "keyword_hits": [
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 37,
+            "keyword": "dependenc",
+            "job": "test",
+            "step": "Install package",
+            "text": "# pytest is a CI tool, not a runtime dependency: pyproject declares dependencies = []."
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 61,
+            "keyword": "sbom",
+            "job": "test",
+            "step": "Verify published source manifest",
+            "text": "# The three jobs above were green while nothing parsed SBOM.cdx.json, compared it with the"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 62,
+            "keyword": "sbom",
+            "job": "test",
+            "step": "Verify published source manifest",
+            "text": "# declarations, or checked a licence. Two real defects (SBOM/CDX disagreement and two undeclared"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 63,
+            "keyword": "supply chain",
+            "job": "test",
+            "step": "Verify published source manifest",
+            "text": "# imports) survived that green run, so \"CI passed\" was never evidence about the supply chain."
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 67,
+            "keyword": "supply-chain",
+            "job": "supply-chain",
+            "step": null,
+            "text": "name: supply-chain (ubuntu, py3.11)"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 78,
+            "keyword": "sbom",
+            "job": "supply-chain",
+            "step": "Set up Python 3.11",
+            "text": "# No installs: the gate reads pyproject/SBOM/src with the standard library only, so it runs"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 79,
+            "keyword": "dependenc",
+            "job": "supply-chain",
+            "step": "Set up Python 3.11",
+            "text": "# before (and independently of) any dependency resolution it is meant to police."
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 80,
+            "keyword": "sbom",
+            "job": "supply-chain",
+            "step": "SBOM, declarations, licences and imports agree",
+            "text": "- name: SBOM, declarations, licences and imports agree"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 81,
+            "keyword": "supply_chain",
+            "job": "supply-chain",
+            "step": "SBOM, declarations, licences and imports agree",
+            "text": "run: python tools/supply_chain_check.py"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 84,
+            "keyword": "supply_chain",
+            "job": "supply-chain",
+            "step": "The gate refuses each mutation it claims to catch",
+            "text": "run: python tools/supply_chain_check.py --self-test"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 104,
+            "keyword": "dependenc",
+            "job": "pipd-compat",
+            "step": "Set up Python 3.11",
+            "text": "# Same reason as the product job: pytest is a CI tool, not a runtime dependency of either"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 114,
+            "keyword": "dependenc",
+            "job": "pipd-compat",
+            "step": "Install the absorbed PIPD tree with its test extra",
+            "text": "# the flow test. Installing sbl-v01 does NOT pull PIPD: the dependency stays explicit."
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 115,
+            "keyword": "dependenc",
+            "job": "pipd-compat",
+            "step": "Install the SBL product (no compiler dependency)",
+            "text": "- name: Install the SBL product (no compiler dependency)"
+          },
+          {
+            "workflow": ".github/workflows/ci.yml",
+            "line": 126,
+            "keyword": "dependenc",
+            "job": "pipd-compat",
+            "step": "Independent install without the SBL package",
+            "text": "# `import sbl_core` succeeds through sys.path[0] and the independence check would be a lie."
+          }
+        ],
+        "keyword_hit_count": 14,
+        "ci_presence": "PRESENT",
+        "evidence": "workflow_files=1 (glob .github/workflows/*.yml|*.yaml over git ls-files); jobs=['test', 'supply-chain', 'pipd-compat']"
+      },
+      "sbom": {
+        "candidates": [
+          {
+            "path_rel": "integrations/pipd/SBOM.cdx.json",
+            "format": "CycloneDX",
+            "spec_version": "1.5",
+            "components": 8,
+            "has_signature_field": false,
+            "parseable": true
+          }
+        ],
+        "count": 1,
+        "primary": {
+          "path_rel": "integrations/pipd/SBOM.cdx.json",
+          "format": "CycloneDX",
+          "spec_version": "1.5",
+          "components": 8,
+          "has_signature_field": false,
+          "parseable": true
+        }
+      },
+      "supply_chain_claim": {
+        "offline_reproducible": {
+          "state": "EXECUTED",
+          "command": "python tools/supply_chain_check.py --self-test",
+          "cwd": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl",
+          "exit_code": 0,
+          "baseline": "self-test baseline: PASS (0 findings)",
+          "mutations_refused": [
+            {
+              "mutation": "drop runtime component(s) ['jsonschema']",
+              "verdict": "REFUSED (ok)",
+              "codes": "['SBOM_COMPONENT_MISMATCH']"
+            },
+            {
+              "mutation": "add undeclared import",
+              "verdict": "REFUSED (ok)",
+              "codes": "['UNDECLARED_DEPENDENCY']"
+            },
+            {
+              "mutation": "strip required licence",
+              "verdict": "REFUSED (ok)",
+              "codes": "['LICENSE_MISSING_FOR_REQUIRED']"
+            }
+          ],
+          "mutations_accepted": [],
+          "refused_codes": [
+            "LICENSE_MISSING_FOR_REQUIRED",
+            "SBOM_COMPONENT_MISMATCH",
+            "UNDECLARED_DEPENDENCY"
+          ],
+          "stdout": "self-test baseline: PASS (0 findings)\nself-test drop runtime component(s) ['jsonschema']: REFUSED (ok) -> ['SBOM_COMPONENT_MISMATCH']\nself-test add undeclared import: REFUSED (ok) -> ['UNDECLARED_DEPENDENCY']\nself-test strip required licence: REFUSED (ok) -> ['LICENSE_MISSING_FOR_REQUIRED']\n",
+          "stderr": ""
+        },
+        "hosted_conclusion": {
+          "state": "NOT_OBSERVED",
+          "blocked_state": "HOSTED_READBACK_REQUIRES_TOKEN",
+          "reason": "no GH_TOKEN/GITHUB_TOKEN and no gh CLI on PATH; a hosted run id is not invented. The gate's local exit code is NOT evidence about the hosted run.",
+          "commands_to_observe": [
+            "curl -sS -H 'Authorization: Bearer $GH_TOKEN' https://api.github.com/repos/shw097-team/SBL/commits/47d4e600dd9b6879a2a2ca87195ca6bc7825602d/check-runs",
+            "curl -sS -H 'Authorization: Bearer $GH_TOKEN' https://api.github.com/repos/shw097-team/SBL/actions/runs?head_sha=47d4e600dd9b6879a2a2ca87195ca6bc7825602d"
+          ]
+        },
+        "claim_shape": "The SBL supply-chain claim has two halves in DIFFERENT evidence classes and neither substitutes for the other. (1) offline_reproducible: `tools/supply_chain_check.py --self-test` mutates a COPY in a TemporaryDirectory and asserts the gate refuses each mutation -- this is author-side, re-runnable with no network, and proves the gate DISCRIMINATES. (2) hosted_conclusion: the check-run/actions conclusion for a specific commit sha -- this is readback of what a hosted platform reported, is not re-runnable locally, and proves nothing about discrimination. A green hosted run over a gate that cannot see a defect is not evidence about that defect; a local self-test does not prove the hosted job ran at all. Reporting (1) as 'CI proved it' or (2) as 'the gate works' would each be a category error.",
+        "tool": {
+          "tool_path": "tools/supply_chain_check.py",
+          "exists": true,
+          "sha256": "1ecf1a1c90d38804e13b33aa91d3108ecc4f71558bea27f169d844a8edad4bc7",
+          "bytes": 10773,
+          "writes_only_to_tempdir": true,
+          "refusal_codes_declared": [
+            "LICENSE_MISSING_FOR_REQUIRED",
+            "SBOM_COMPONENT_MISMATCH",
+            "UNDECLARED_DEPENDENCY"
+          ],
+          "mutations_defined": 3
+        }
+      },
+      "post_status_porcelain": [],
+      "post_dirty": false,
+      "status_changed": false
+    },
+    "fabric": {
+      "label": "Fabric (worktrees/r4-fabric)",
+      "path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-fabric",
+      "head": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+      "branch": "docs/fhs-asbuilt-w0w2-20261107",
+      "slug": "shw097-team/Fabric",
+      "tracked_files_total": 4218,
+      "tracked_files_scanned": 4215,
+      "pre_status_porcelain": [],
+      "pre_dirty": false,
+      "licence": {
+        "root_licence": {
+          "present": false,
+          "files": []
+        },
+        "nested_licences": [
+          {
+            "path_rel": "DESKTOP/var-fda/xq-auto-skill/LICENSE",
+            "depth": 4,
+            "bytes": 1066,
+            "matched_by": "name",
+            "kind": "MIT",
+            "kind_basis": "first 2KB contains 'permission is hereby granted, free of charge' + 'the software is provided'",
+            "licences_named_in_first_2KB": [
+              "MIT"
+            ],
+            "file_class": "LICENCE",
+            "bytes_scanned": 1066
+          },
+          {
+            "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/LICENSE",
+            "depth": 5,
+            "bytes": 1067,
+            "matched_by": "name",
+            "kind": "MIT",
+            "kind_basis": "first 2KB contains 'permission is hereby granted, free of charge' + 'the software is provided'",
+            "licences_named_in_first_2KB": [
+              "MIT"
+            ],
+            "file_class": "LICENCE",
+            "bytes_scanned": 1067
+          },
+          {
+            "path_rel": "DESKTOP/var-fda/xq-auto-skill/third_party/xshelp/NOTICE.md",
+            "depth": 6,
+            "bytes": 463,
+            "matched_by": "name",
+            "kind": "unknown",
+            "kind_basis": "no licence marker in first 2KB",
+            "licences_named_in_first_2KB": [],
+            "file_class": "NOTICE",
+            "bytes_scanned": 463
+          },
+          {
+            "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/NOTICE.md",
+            "depth": 7,
+            "bytes": 3288,
+            "matched_by": "name",
+            "kind": "MIT",
+            "kind_basis": "no grant text in first 2KB; names MIT (word-boundary match)",
+            "licences_named_in_first_2KB": [
+              "MIT"
+            ],
+            "file_class": "NOTICE",
+            "bytes_scanned": 2048
+          },
+          {
+            "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/proof-orchestrator/NOTICE.md",
+            "depth": 7,
+            "bytes": 1147,
+            "matched_by": "name",
+            "kind": "MIT",
+            "kind_basis": "no grant text in first 2KB; names MIT, MPL-2.0 (word-boundary match)",
+            "licences_named_in_first_2KB": [
+              "MIT",
+              "MPL-2.0"
+            ],
+            "file_class": "NOTICE",
+            "bytes_scanned": 1147
+          },
+          {
+            "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/LICENSES/posterly-MIT.txt",
+            "depth": 8,
+            "bytes": 1069,
+            "matched_by": "LICENSES_dir",
+            "kind": "MIT",
+            "kind_basis": "first 2KB contains 'permission is hereby granted, free of charge' + 'the software is provided'",
+            "licences_named_in_first_2KB": [
+              "MIT"
+            ],
+            "file_class": "LICENCE",
+            "bytes_scanned": 1069
+          }
+        ],
+        "nested_count_by_rule": {
+          "name_matched": 5,
+          "inside_LICENSES_dir": 1,
+          "total": 6
+        },
+        "excluded_from_scope": {
+          "count": 0,
+          "sample": [],
+          "note": "licence-ish tracked files left OUT of the count by the scope rule; listed so the exclusion is auditable rather than silent"
+        },
+        "claim": {
+          "root_licence_present": false,
+          "nested_licence_count": 6,
+          "scope_note": "root directory licence files: none. The tracked tree carries 6 nested licence/NOTICE file(s) at depth 4-8; the absence holds for the root directory only, and a tree-scope absence claim would be false."
+        },
+        "hosted_licence_api": {
+          "state": "HOSTED_NOT_OBSERVED",
+          "reason": "no GH_TOKEN/GITHUB_TOKEN in this environment and no gh CLI on PATH; the hosted licence API is a different evidence class (what the platform detected) from what is committed here, so it is not guessed or nulled",
+          "command_to_observe": "curl -sS -H 'Authorization: Bearer $GH_TOKEN' https://api.github.com/repos/shw097-team/Fabric/license"
+        }
+      },
+      "dependencies": {
+        "units": [
+          {
+            "pyproject": null,
+            "runtime_dependencies": [],
+            "optional_dependencies": {},
+            "declared_any_normalised": [],
+            "scan_roots": [
+              "<whole tracked tree: no pyproject exists>"
+            ],
+            "py_files_scanned": 1149,
+            "packaging_allow_list": null,
+            "third_party_modules_imported": [
+              "PIL",
+              "aiohttp",
+              "cairosvg",
+              "cryptography",
+              "exa_py",
+              "fitz",
+              "hermes_cli",
+              "httpx",
+              "jsonschema",
+              "lark_oapi",
+              "oasf",
+              "openai",
+              "pipd_ls_sp",
+              "playwright",
+              "psutil",
+              "pytest",
+              "pythoncom",
+              "pywinauto",
+              "requests",
+              "ufo",
+              "win32clipboard",
+              "win32com",
+              "win32con",
+              "win32gui",
+              "yaml"
+            ],
+            "covered_modules": [],
+            "undeclared_third_party": [
+              {
+                "module": "PIL",
+                "declared": false,
+                "count": 4,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/tests/test_xq_alert_backtest_run.py",
+                    "line": 13,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/tests/test_xq_category_selector.py",
+                    "line": 6,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/extract_pdf_figures.py",
+                    "line": 89,
+                    "inside_function": true,
+                    "function": "_load_pil"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/preprocess_figures.py",
+                    "line": 52,
+                    "inside_function": true,
+                    "function": "_load_pil"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "aiohttp",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/hgk-exec-model-frontdoor.py",
+                    "line": 55,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "cairosvg",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/figure-spec/scripts/figure_renderer.py",
+                    "line": 654,
+                    "inside_function": true,
+                    "function": "svg_to_png"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "cryptography",
+                "declared": false,
+                "count": 5,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric/consumers/owner_approval_receipt.py",
+                    "line": 157,
+                    "inside_function": true,
+                    "function": "verify_detached_signature"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric/consumers/owner_approval_receipt.py",
+                    "line": 158,
+                    "inside_function": true,
+                    "function": "verify_detached_signature"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                    "line": 186,
+                    "inside_function": true,
+                    "function": "crypto_available"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                    "line": 193,
+                    "inside_function": true,
+                    "function": "fixture_signing_key"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                    "line": 199,
+                    "inside_function": true,
+                    "function": "fixture_public_b64"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "exa_py",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/exa_search.py",
+                    "line": 80,
+                    "inside_function": true,
+                    "function": "_get_client"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "fitz",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/extract_pdf_figures.py",
+                    "line": 73,
+                    "inside_function": true,
+                    "function": "_load_fitz"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "hermes_cli",
+                "declared": false,
+                "count": 3,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 18,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_llm_canary.py",
+                    "line": 13,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/verify_opencode_go.py",
+                    "line": 10,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "httpx",
+                "declared": false,
+                "count": 5,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/llm-chat/server.py",
+                    "line": 23,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/minimax-chat/server.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/_llm_chat_helpers.py",
+                    "line": 7,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/_minimax_helpers.py",
+                    "line": 7,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_minimax_integration.py",
+                    "line": 225,
+                    "inside_function": true,
+                    "function": "test_live_api_url_is_correct"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "jsonschema",
+                "declared": false,
+                "count": 11,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/base_files/validate.py",
+                    "line": 29,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/base_files_by_blob/validate.py",
+                    "line": 29,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/candidate_files/validate.py",
+                    "line": 32,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/validate_canidate_copy_for_recon.py",
+                    "line": 32,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/RAW/pre_change/validate.py",
+                    "line": 21,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_B/_main_validate.py",
+                    "line": 42,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_B/post/validate.py",
+                    "line": 53,
+                    "inside_function": true,
+                    "function": "_validator"
+                  },
+                  {
+                    "path_rel": "FABRIC/rp002/scripts/rp002_b1_board.py",
+                    "line": 121,
+                    "inside_function": true,
+                    "function": "main"
+                  },
+                  {
+                    "path_rel": "FABRIC/rp002/scripts/rp002_b1_independent_checker.py",
+                    "line": 33,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/rp002/scripts/rp002_f1_cutover.py",
+                    "line": 73,
+                    "inside_function": true,
+                    "function": "main"
+                  },
+                  {
+                    "path_rel": "FABRIC/rp002/scripts/rp002_f1_independent_checker.py",
+                    "line": 26,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "lark_oapi",
+                "declared": false,
+                "count": 2,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/server.py",
+                    "line": 29,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/server.py",
+                    "line": 30,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "oasf",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/rp002/scripts/rp002_cf1_interop.py",
+                    "line": 85,
+                    "inside_function": true,
+                    "function": "main"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "openai",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 58,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "pipd_ls_sp",
+                "declared": false,
+                "count": 90,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 50,
+                    "inside_function": true,
+                    "function": "_intake_pi"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 69,
+                    "inside_function": true,
+                    "function": "m03_intent_atom_forged"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 85,
+                    "inside_function": true,
+                    "function": "m04_profile_downgrade"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 99,
+                    "inside_function": true,
+                    "function": "m05_pi_oracle_poisoned"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 111,
+                    "inside_function": true,
+                    "function": "m06_domain_oracle_expected"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 127,
+                    "inside_function": true,
+                    "function": "m11_unguarded_release_claim"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 137,
+                    "inside_function": true,
+                    "function": "m12_self_pass_ceiling"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 147,
+                    "inside_function": true,
+                    "function": "m14_fake_repo_snapshot"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 168,
+                    "inside_function": true,
+                    "function": "m16_trace_digest_mismatch"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                    "line": 180,
+                    "inside_function": true,
+                    "function": "m18_remove_cand_flag"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_pipd_chain.py",
+                    "line": 61,
+                    "inside_function": true,
+                    "function": "intake"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_pipd_chain.py",
+                    "line": 74,
+                    "inside_function": true,
+                    "function": "intake_missing"
+                  }
+                ],
+                "files_truncated": 78
+              },
+              {
+                "module": "playwright",
+                "declared": false,
+                "count": 10,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/measure.py",
+                    "line": 142,
+                    "inside_function": true,
+                    "function": "cmd_measure"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/measure.py",
+                    "line": 143,
+                    "inside_function": true,
+                    "function": "cmd_measure"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/polish.py",
+                    "line": 263,
+                    "inside_function": true,
+                    "function": "cmd_polish"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/polish.py",
+                    "line": 264,
+                    "inside_function": true,
+                    "function": "cmd_polish"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/asset_check.py",
+                    "line": 376,
+                    "inside_function": true,
+                    "function": "measure_rendered"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/asset_check.py",
+                    "line": 377,
+                    "inside_function": true,
+                    "function": "measure_rendered"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/render_preview.py",
+                    "line": 101,
+                    "inside_function": true,
+                    "function": "main"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/render_preview.py",
+                    "line": 102,
+                    "inside_function": true,
+                    "function": "main"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/style_check.py",
+                    "line": 999,
+                    "inside_function": true,
+                    "function": "run_render_gate"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/style_check.py",
+                    "line": 1000,
+                    "inside_function": true,
+                    "function": "run_render_gate"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "psutil",
+                "declared": false,
+                "count": 11,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/capture_fingerprint.py",
+                    "line": 39,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/rr6_f01_current.py",
+                    "line": 46,
+                    "inside_function": true,
+                    "function": "exe_sha"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/apply/preimage/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/repaired_candidate/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre/preimage/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre2/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live2/scripts/freeze-subject-and-guard.py",
+                    "line": 60,
+                    "inside_function": true,
+                    "function": "resolve_window"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/lane_output_dir.py",
+                    "line": 169,
+                    "inside_function": true,
+                    "function": "_process_create_time"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/lane_output_dir.py",
+                    "line": 193,
+                    "inside_function": true,
+                    "function": "process_liveness"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "pytest",
+                "declared": false,
+                "count": 18,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R10/tooling/test_dispatch_r10.py",
+                    "line": 11,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/tests/test_credential_preflight.py",
+                    "line": 345,
+                    "inside_function": true,
+                    "function": "test_D2_control_vetted_path_still_passes"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/tests/test_credential_preflight.py",
+                    "line": 361,
+                    "inside_function": true,
+                    "function": "test_D2_control_bare_family_name_resolves_on_host_still_passes"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_code_page_independence.py",
+                    "line": 17,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_lane_preflight_classification.py",
+                    "line": 10,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_mandatory_defects.py",
+                    "line": 8,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_served_vs_declared_identity.py",
+                    "line": 11,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_substitution_gate.py",
+                    "line": 8,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_arxiv_fetch.py",
+                    "line": 12,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_copilot_native_evidence.py",
+                    "line": 10,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_deepxiv_fetch.py",
+                    "line": 6,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_exa_search.py",
+                    "line": 6,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 6
+              },
+              {
+                "module": "pythoncom",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_indicator.py",
+                    "line": 289,
+                    "inside_function": true,
+                    "function": "excel_apps"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "pywinauto",
+                "declared": false,
+                "count": 172,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/capture_fingerprint.py",
+                    "line": 14,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/close_success_dialog.py",
+                    "line": 10,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_final_loop.py",
+                    "line": 12,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_final_v2.py",
+                    "line": 12,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_recovered_loop.py",
+                    "line": 14,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s10_select.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s11_geom.py",
+                    "line": 8,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s15_contenttab.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s16_refresh.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s17_content.py",
+                    "line": 12,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s18_loop.py",
+                    "line": 12,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/dod17_s19_tabmsg.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 160
+              },
+              {
+                "module": "requests",
+                "declared": false,
+                "count": 3,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/extract_paper_style.py",
+                    "line": 194,
+                    "inside_function": true,
+                    "function": "_read_arxiv"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/extract_paper_style.py",
+                    "line": 210,
+                    "inside_function": true,
+                    "function": "_read_http"
+                  },
+                  {
+                    "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/openalex_fetch.py",
+                    "line": 14,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "ufo",
+                "declared": false,
+                "count": 12,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 20,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 26,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 32,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 38,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 44,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 50,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 28,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 33,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 38,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 43,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 73,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 74,
+                    "inside_function": false,
+                    "function": null
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "win32clipboard",
+                "declared": false,
+                "count": 2,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                    "line": 124,
+                    "inside_function": true,
+                    "function": "copy_error_details"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                    "line": 206,
+                    "inside_function": true,
+                    "function": "replace_editor_text"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "win32com",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_indicator.py",
+                    "line": 290,
+                    "inside_function": true,
+                    "function": "excel_apps"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "win32con",
+                "declared": false,
+                "count": 2,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/quarantined_violations/far_v18_patch_test.py",
+                    "line": 13,
+                    "inside_function": true,
+                    "function": "open_radar_patched"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_alert.py",
+                    "line": 125,
+                    "inside_function": true,
+                    "function": "open_radar"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "win32gui",
+                "declared": false,
+                "count": 11,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/far_v9_scintilla.py",
+                    "line": 24,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/quarantined_violations/far_v18_patch_test.py",
+                    "line": 14,
+                    "inside_function": true,
+                    "function": "open_radar_patched"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/quarantined_violations/rr6_f06_fresh.py",
+                    "line": 48,
+                    "inside_function": true,
+                    "function": "sci_set_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/quarantined_violations/rr6_f06_v5.py",
+                    "line": 85,
+                    "inside_function": true,
+                    "function": "sci_set_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/rr6_f06_v6.py",
+                    "line": 37,
+                    "inside_function": true,
+                    "function": "sci_set_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/rr6_f06_v7.py",
+                    "line": 67,
+                    "inside_function": true,
+                    "function": "sci_set_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/rr6_f06_v8.py",
+                    "line": 59,
+                    "inside_function": true,
+                    "function": "sci_set_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_alert.py",
+                    "line": 126,
+                    "inside_function": true,
+                    "function": "open_radar"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                    "line": 179,
+                    "inside_function": true,
+                    "function": "replace_editor_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                    "line": 224,
+                    "inside_function": true,
+                    "function": "result_text"
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_screener_pipeline.py",
+                    "line": 135,
+                    "inside_function": true,
+                    "function": "close_pipeline_editor"
+                  }
+                ],
+                "files_truncated": 0
+              },
+              {
+                "module": "yaml",
+                "declared": false,
+                "count": 24,
+                "shipped_site_count": null,
+                "files": [
+                  {
+                    "path_rel": "DESKTOP/var-fda/far_asset_inventory.py",
+                    "line": 9,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 57,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                    "line": 66,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                    "line": 50,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/update_matrix.py",
+                    "line": 5,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "DESKTOP/var-fda/update_matrix_ufo2.py",
+                    "line": 5,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_gstack_rolemap.py",
+                    "line": 19,
+                    "inside_function": true,
+                    "function": "_load"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_DELIVERY/RUNNERS/probe_gstack_rolemap.py",
+                    "line": 19,
+                    "inside_function": true,
+                    "function": "_load"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/implementation/product/after/scripts/hgk-governed-runtime-controller.py",
+                    "line": 108,
+                    "inside_function": true,
+                    "function": "_protected_roots"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/implementation/product/before/scripts/hgk-governed-runtime-controller.py",
+                    "line": 105,
+                    "inside_function": true,
+                    "function": "_protected_roots"
+                  },
+                  {
+                    "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/round_documents/build_inventory.py",
+                    "line": 71,
+                    "inside_function": false,
+                    "function": null
+                  },
+                  {
+                    "path_rel": "EVIDENCE/LANE-RELIABILITY-CLOSURE-20261016/implementation/baseline/scripts/hgk-governed-runtime-controller.py",
+                    "line": 105,
+                    "inside_function": true,
+                    "function": "_protected_roots"
+                  }
+                ],
+                "files_truncated": 12
+              }
+            ],
+            "undeclared_local_only": [],
+            "declared_covers_imports": false,
+            "missing": [
+              "PIL",
+              "aiohttp",
+              "cairosvg",
+              "cryptography",
+              "exa_py",
+              "fitz",
+              "hermes_cli",
+              "httpx",
+              "jsonschema",
+              "lark_oapi",
+              "oasf",
+              "openai",
+              "pipd_ls_sp",
+              "playwright",
+              "psutil",
+              "pytest",
+              "pythoncom",
+              "pywinauto",
+              "requests",
+              "ufo",
+              "win32clipboard",
+              "win32com",
+              "win32con",
+              "win32gui",
+              "yaml"
+            ],
+            "note": "no pyproject.toml in the tracked tree: there is no declaration surface at all, so every third-party import is by definition undeclared"
+          }
+        ],
+        "excluded_nested_projects": [],
+        "declared_covers_imports": false,
+        "missing": [
+          "PIL",
+          "aiohttp",
+          "cairosvg",
+          "cryptography",
+          "exa_py",
+          "fitz",
+          "hermes_cli",
+          "httpx",
+          "jsonschema",
+          "lark_oapi",
+          "oasf",
+          "openai",
+          "pipd_ls_sp",
+          "playwright",
+          "psutil",
+          "pytest",
+          "pythoncom",
+          "pywinauto",
+          "requests",
+          "ufo",
+          "win32clipboard",
+          "win32com",
+          "win32con",
+          "win32gui",
+          "yaml"
+        ],
+        "undeclared_third_party": [
+          {
+            "module": "PIL",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/tests/test_xq_alert_backtest_run.py",
+                "line": 13,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/tests/test_xq_category_selector.py",
+                "line": 6,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/extract_pdf_figures.py",
+                "line": 89,
+                "inside_function": true,
+                "function": "_load_pil"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/preprocess_figures.py",
+                "line": 52,
+                "inside_function": true,
+                "function": "_load_pil"
+              }
+            ],
+            "count": 4
+          },
+          {
+            "module": "aiohttp",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/hgk-exec-model-frontdoor.py",
+                "line": 55,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "cairosvg",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/figure-spec/scripts/figure_renderer.py",
+                "line": 654,
+                "inside_function": true,
+                "function": "svg_to_png"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "cryptography",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric/consumers/owner_approval_receipt.py",
+                "line": 157,
+                "inside_function": true,
+                "function": "verify_detached_signature"
+              },
+              {
+                "path_rel": "FABRIC/fabric/consumers/owner_approval_receipt.py",
+                "line": 158,
+                "inside_function": true,
+                "function": "verify_detached_signature"
+              },
+              {
+                "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                "line": 186,
+                "inside_function": true,
+                "function": "crypto_available"
+              },
+              {
+                "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                "line": 193,
+                "inside_function": true,
+                "function": "fixture_signing_key"
+              },
+              {
+                "path_rel": "FABRIC/fabric/consumers/tests/test_policy_binding_forgery.py",
+                "line": 199,
+                "inside_function": true,
+                "function": "fixture_public_b64"
+              }
+            ],
+            "count": 5
+          },
+          {
+            "module": "exa_py",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/exa_search.py",
+                "line": 80,
+                "inside_function": true,
+                "function": "_get_client"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "fitz",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/extract_pdf_figures.py",
+                "line": 73,
+                "inside_function": true,
+                "function": "_load_fitz"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "hermes_cli",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 18,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_llm_canary.py",
+                "line": 13,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/verify_opencode_go.py",
+                "line": 10,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 3
+          },
+          {
+            "module": "httpx",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/llm-chat/server.py",
+                "line": 23,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/minimax-chat/server.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/_llm_chat_helpers.py",
+                "line": 7,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/_minimax_helpers.py",
+                "line": 7,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_minimax_integration.py",
+                "line": 225,
+                "inside_function": true,
+                "function": "test_live_api_url_is_correct"
+              }
+            ],
+            "count": 5
+          },
+          {
+            "module": "jsonschema",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/base_files/validate.py",
+                "line": 29,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/base_files_by_blob/validate.py",
+                "line": 29,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/candidate_files/validate.py",
+                "line": 32,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/validate_canidate_copy_for_recon.py",
+                "line": 32,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R7/RAW/pre_change/validate.py",
+                "line": 21,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_B/_main_validate.py",
+                "line": 42,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_B/post/validate.py",
+                "line": 53,
+                "inside_function": true,
+                "function": "_validator"
+              },
+              {
+                "path_rel": "FABRIC/rp002/scripts/rp002_b1_board.py",
+                "line": 121,
+                "inside_function": true,
+                "function": "main"
+              },
+              {
+                "path_rel": "FABRIC/rp002/scripts/rp002_b1_independent_checker.py",
+                "line": 33,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/rp002/scripts/rp002_f1_cutover.py",
+                "line": 73,
+                "inside_function": true,
+                "function": "main"
+              },
+              {
+                "path_rel": "FABRIC/rp002/scripts/rp002_f1_independent_checker.py",
+                "line": 26,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 11
+          },
+          {
+            "module": "lark_oapi",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/server.py",
+                "line": 29,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/server.py",
+                "line": 30,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 2
+          },
+          {
+            "module": "oasf",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/rp002/scripts/rp002_cf1_interop.py",
+                "line": 85,
+                "inside_function": true,
+                "function": "main"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "openai",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 58,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "pipd_ls_sp",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 50,
+                "inside_function": true,
+                "function": "_intake_pi"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 69,
+                "inside_function": true,
+                "function": "m03_intent_atom_forged"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 85,
+                "inside_function": true,
+                "function": "m04_profile_downgrade"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 99,
+                "inside_function": true,
+                "function": "m05_pi_oracle_poisoned"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 111,
+                "inside_function": true,
+                "function": "m06_domain_oracle_expected"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 127,
+                "inside_function": true,
+                "function": "m11_unguarded_release_claim"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 137,
+                "inside_function": true,
+                "function": "m12_self_pass_ceiling"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 147,
+                "inside_function": true,
+                "function": "m14_fake_repo_snapshot"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 168,
+                "inside_function": true,
+                "function": "m16_trace_digest_mismatch"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_mutations.py",
+                "line": 180,
+                "inside_function": true,
+                "function": "m18_remove_cand_flag"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_pipd_chain.py",
+                "line": 61,
+                "inside_function": true,
+                "function": "intake"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_pipd_chain.py",
+                "line": 74,
+                "inside_function": true,
+                "function": "intake_missing"
+              }
+            ],
+            "count": 90
+          },
+          {
+            "module": "playwright",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/measure.py",
+                "line": 142,
+                "inside_function": true,
+                "function": "cmd_measure"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/measure.py",
+                "line": 143,
+                "inside_function": true,
+                "function": "cmd_measure"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/polish.py",
+                "line": 263,
+                "inside_function": true,
+                "function": "cmd_polish"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/_posterly/polish.py",
+                "line": 264,
+                "inside_function": true,
+                "function": "cmd_polish"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/asset_check.py",
+                "line": 376,
+                "inside_function": true,
+                "function": "measure_rendered"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/asset_check.py",
+                "line": 377,
+                "inside_function": true,
+                "function": "measure_rendered"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/render_preview.py",
+                "line": 101,
+                "inside_function": true,
+                "function": "main"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/render_preview.py",
+                "line": 102,
+                "inside_function": true,
+                "function": "main"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/style_check.py",
+                "line": 999,
+                "inside_function": true,
+                "function": "run_render_gate"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/scripts/style_check.py",
+                "line": 1000,
+                "inside_function": true,
+                "function": "run_render_gate"
+              }
+            ],
+            "count": 10
+          },
+          {
+            "module": "psutil",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/capture_fingerprint.py",
+                "line": 39,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/rr6_f01_current.py",
+                "line": 46,
+                "inside_function": true,
+                "function": "exe_sha"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/apply/preimage/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/repaired_candidate/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre/preimage/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre2/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live2/scripts/freeze-subject-and-guard.py",
+                "line": 60,
+                "inside_function": true,
+                "function": "resolve_window"
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/lane_output_dir.py",
+                "line": 169,
+                "inside_function": true,
+                "function": "_process_create_time"
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/lane_output_dir.py",
+                "line": 193,
+                "inside_function": true,
+                "function": "process_liveness"
+              }
+            ],
+            "count": 11
+          },
+          {
+            "module": "pytest",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015-R10/tooling/test_dispatch_r10.py",
+                "line": 11,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/tests/test_credential_preflight.py",
+                "line": 345,
+                "inside_function": true,
+                "function": "test_D2_control_vetted_path_still_passes"
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/gcm-containment/tests/test_credential_preflight.py",
+                "line": 361,
+                "inside_function": true,
+                "function": "test_D2_control_bare_family_name_resolves_on_host_still_passes"
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_code_page_independence.py",
+                "line": 17,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_lane_preflight_classification.py",
+                "line": 10,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_mandatory_defects.py",
+                "line": 8,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_served_vs_declared_identity.py",
+                "line": 11,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/tests/w3_solution/test_substitution_gate.py",
+                "line": 8,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_arxiv_fetch.py",
+                "line": 12,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_copilot_native_evidence.py",
+                "line": 10,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_deepxiv_fetch.py",
+                "line": 6,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_exa_search.py",
+                "line": 6,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 18
+          },
+          {
+            "module": "pythoncom",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_indicator.py",
+                "line": 289,
+                "inside_function": true,
+                "function": "excel_apps"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "pywinauto",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/capture_fingerprint.py",
+                "line": 14,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/close_success_dialog.py",
+                "line": 10,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_final_loop.py",
+                "line": 12,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_final_v2.py",
+                "line": 12,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_recovered_loop.py",
+                "line": 14,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s10_select.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s11_geom.py",
+                "line": 8,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s15_contenttab.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s16_refresh.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s17_content.py",
+                "line": 12,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s18_loop.py",
+                "line": 12,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/dod17_s19_tabmsg.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 172
+          },
+          {
+            "module": "requests",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/extract_paper_style.py",
+                "line": 194,
+                "inside_function": true,
+                "function": "_read_arxiv"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/extract_paper_style.py",
+                "line": 210,
+                "inside_function": true,
+                "function": "_read_http"
+              },
+              {
+                "path_rel": "FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/openalex_fetch.py",
+                "line": 14,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 3
+          },
+          {
+            "module": "ufo",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 20,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 26,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 32,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 38,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 44,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 50,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 28,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 33,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 38,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 43,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 73,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 74,
+                "inside_function": false,
+                "function": null
+              }
+            ],
+            "count": 12
+          },
+          {
+            "module": "win32clipboard",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                "line": 124,
+                "inside_function": true,
+                "function": "copy_error_details"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                "line": 206,
+                "inside_function": true,
+                "function": "replace_editor_text"
+              }
+            ],
+            "count": 2
+          },
+          {
+            "module": "win32com",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_indicator.py",
+                "line": 290,
+                "inside_function": true,
+                "function": "excel_apps"
+              }
+            ],
+            "count": 1
+          },
+          {
+            "module": "win32con",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/quarantined_violations/far_v18_patch_test.py",
+                "line": 13,
+                "inside_function": true,
+                "function": "open_radar_patched"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_alert.py",
+                "line": 125,
+                "inside_function": true,
+                "function": "open_radar"
+              }
+            ],
+            "count": 2
+          },
+          {
+            "module": "win32gui",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/far_v9_scintilla.py",
+                "line": 24,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/quarantined_violations/far_v18_patch_test.py",
+                "line": 14,
+                "inside_function": true,
+                "function": "open_radar_patched"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/quarantined_violations/rr6_f06_fresh.py",
+                "line": 48,
+                "inside_function": true,
+                "function": "sci_set_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/quarantined_violations/rr6_f06_v5.py",
+                "line": 85,
+                "inside_function": true,
+                "function": "sci_set_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/rr6_f06_v6.py",
+                "line": 37,
+                "inside_function": true,
+                "function": "sci_set_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/rr6_f06_v7.py",
+                "line": 67,
+                "inside_function": true,
+                "function": "sci_set_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/rr6_f06_v8.py",
+                "line": 59,
+                "inside_function": true,
+                "function": "sci_set_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_alert.py",
+                "line": 126,
+                "inside_function": true,
+                "function": "open_radar"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                "line": 179,
+                "inside_function": true,
+                "function": "replace_editor_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_compile.py",
+                "line": 224,
+                "inside_function": true,
+                "function": "result_text"
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/xq_screener_pipeline.py",
+                "line": 135,
+                "inside_function": true,
+                "function": "close_pipeline_editor"
+              }
+            ],
+            "count": 11
+          },
+          {
+            "module": "yaml",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "DESKTOP/var-fda/far_asset_inventory.py",
+                "line": 9,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 57,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load.py",
+                "line": 66,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/run_ufo2_effective_load_v2.py",
+                "line": 50,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/update_matrix.py",
+                "line": 5,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "DESKTOP/var-fda/update_matrix_ufo2.py",
+                "line": 5,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RUNNERS/probe_gstack_rolemap.py",
+                "line": 19,
+                "inside_function": true,
+                "function": "_load"
+              },
+              {
+                "path_rel": "EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_DELIVERY/RUNNERS/probe_gstack_rolemap.py",
+                "line": 19,
+                "inside_function": true,
+                "function": "_load"
+              },
+              {
+                "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/implementation/product/after/scripts/hgk-governed-runtime-controller.py",
+                "line": 108,
+                "inside_function": true,
+                "function": "_protected_roots"
+              },
+              {
+                "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/implementation/product/before/scripts/hgk-governed-runtime-controller.py",
+                "line": 105,
+                "inside_function": true,
+                "function": "_protected_roots"
+              },
+              {
+                "path_rel": "EVIDENCE/FAR-REMEDIATION-AND-CLOSURE-20261016/round_documents/build_inventory.py",
+                "line": 71,
+                "inside_function": false,
+                "function": null
+              },
+              {
+                "path_rel": "EVIDENCE/LANE-RELIABILITY-CLOSURE-20261016/implementation/baseline/scripts/hgk-governed-runtime-controller.py",
+                "line": 105,
+                "inside_function": true,
+                "function": "_protected_roots"
+              }
+            ],
+            "count": 24
+          }
+        ],
+        "undeclared_but_not_in_built_distribution": [],
+        "scope_note": "declared = project.dependencies UNION every project.optional-dependencies group (an extra is a declaration, but it is also why a bare `pip install .` can still fail at runtime); stdlib from sys.stdlib_module_names; first-party = any module name that exists as a .py stem or package dir in the tracked tree. Scanning is limited to each pyproject's src/ (or its package roots) plus root-level *.py, exactly as the work order specifies -- tools/ and tests/ are out of scope. `declared_covers_imports` is a verdict about the BUILT distribution: a site in a directory that no declared [tool.setuptools] packages entry covers is reported separately, because it cannot fail an install of the wheel."
+      },
+      "ci": {
+        "workflow_files": [
+          {
+            "path_rel": ".github/workflows/fhs-entry-check.yml",
+            "jobs": [
+              "fhs-nav-static"
+            ],
+            "job_count": 1,
+            "supply_chain_related": false,
+            "keyword_hit_count": 0,
+            "bytes": 786
+          }
+        ],
+        "workflow_file_count": 1,
+        "keyword_hits": [],
+        "keyword_hit_count": 0,
+        "ci_presence": "PRESENT",
+        "evidence": "workflow_files=1 (glob .github/workflows/*.yml|*.yaml over git ls-files); jobs=['fhs-nav-static']"
+      },
+      "sbom": {
+        "candidates": [],
+        "count": 0,
+        "primary": null
+      },
+      "post_status_porcelain": [],
+      "post_dirty": false,
+      "status_changed": false
+    },
+    "hgk": {
+      "label": "HG-KSEOS (HG-KSEOS)",
+      "path": "C:\\Projects\\Agent_Workspace\\HG-KSEOS",
+      "head": "6c9fc73377c11d941d2815d08b55d658208844ab",
+      "branch": "fix/owner-window-imports-20261103",
+      "slug": "shw097-team/HG-KSEOS",
+      "tracked_files_total": 2184,
+      "tracked_files_scanned": 1695,
+      "pre_status_porcelain": [
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v2.json",
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v3.json"
+      ],
+      "pre_dirty": true,
+      "licence": {
+        "root_licence": {
+          "present": false,
+          "files": []
+        },
+        "nested_licences": [
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/candidate/package/LICENSE",
+            "depth": 5,
+            "bytes": 475,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "proprietary: first 2KB contains 'All rights reserved' + 'No permission is granted' (no open-source grant)",
+            "licences_named_in_first_2KB": [],
+            "file_class": "LICENCE",
+            "bytes_scanned": 475
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/candidate/package/NOTICE",
+            "depth": 5,
+            "bytes": 615,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "NOTICE only: declares no third-party components, names no licence",
+            "licences_named_in_first_2KB": [],
+            "file_class": "NOTICE",
+            "bytes_scanned": 615
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/rollback-root/LICENSE",
+            "depth": 5,
+            "bytes": 475,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "proprietary: first 2KB contains 'All rights reserved' + 'No permission is granted' (no open-source grant)",
+            "licences_named_in_first_2KB": [],
+            "file_class": "LICENCE",
+            "bytes_scanned": 475
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/rollback-root/NOTICE",
+            "depth": 5,
+            "bytes": 615,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "NOTICE only: declares no third-party components, names no licence",
+            "licences_named_in_first_2KB": [],
+            "file_class": "NOTICE",
+            "bytes_scanned": 615
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/stage-root/LICENSE",
+            "depth": 5,
+            "bytes": 475,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "proprietary: first 2KB contains 'All rights reserved' + 'No permission is granted' (no open-source grant)",
+            "licences_named_in_first_2KB": [],
+            "file_class": "LICENCE",
+            "bytes_scanned": 475
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/stage-root/NOTICE",
+            "depth": 5,
+            "bytes": 615,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "NOTICE only: declares no third-party components, names no licence",
+            "licences_named_in_first_2KB": [],
+            "file_class": "NOTICE",
+            "bytes_scanned": 615
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/tamper-root/LICENSE",
+            "depth": 5,
+            "bytes": 475,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "proprietary: first 2KB contains 'All rights reserved' + 'No permission is granted' (no open-source grant)",
+            "licences_named_in_first_2KB": [],
+            "file_class": "LICENCE",
+            "bytes_scanned": 475
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/tamper-root/NOTICE",
+            "depth": 5,
+            "bytes": 615,
+            "matched_by": "name",
+            "kind": "other",
+            "kind_basis": "NOTICE only: declares no third-party components, names no licence",
+            "licences_named_in_first_2KB": [],
+            "file_class": "NOTICE",
+            "bytes_scanned": 615
+          }
+        ],
+        "nested_count_by_rule": {
+          "name_matched": 8,
+          "inside_LICENSES_dir": 0,
+          "total": 8
+        },
+        "excluded_from_scope": {
+          "count": 0,
+          "sample": [],
+          "note": "licence-ish tracked files left OUT of the count by the scope rule; listed so the exclusion is auditable rather than silent"
+        },
+        "claim": {
+          "root_licence_present": false,
+          "nested_licence_count": 8,
+          "scope_note": "root directory licence files: none. The tracked tree carries 8 nested licence/NOTICE file(s) at depth 5-5; the absence holds for the root directory only, and a tree-scope absence claim would be false."
+        },
+        "hosted_licence_api": {
+          "state": "HOSTED_NOT_OBSERVED",
+          "reason": "no GH_TOKEN/GITHUB_TOKEN in this environment and no gh CLI on PATH; the hosted licence API is a different evidence class (what the platform detected) from what is committed here, so it is not guessed or nulled",
+          "command_to_observe": "curl -sS -H 'Authorization: Bearer $GH_TOKEN' https://api.github.com/repos/shw097-team/HG-KSEOS/license"
+        }
+      },
+      "dependencies": {
+        "units": [
+          {
+            "pyproject": "pyproject.toml",
+            "runtime_dependencies": [
+              "cryptography>=42"
+            ],
+            "optional_dependencies": {},
+            "declared_any_normalised": [
+              "cryptography"
+            ],
+            "scan_roots": [
+              "src"
+            ],
+            "py_files_scanned": 33,
+            "packaging_allow_list": null,
+            "third_party_modules_imported": [
+              "cryptography",
+              "yaml"
+            ],
+            "covered_modules": [
+              "cryptography"
+            ],
+            "undeclared_third_party": [
+              {
+                "module": "yaml",
+                "declared": false,
+                "count": 1,
+                "shipped_site_count": 1,
+                "files": [
+                  {
+                    "path_rel": "src/hg_kseos/lane_policy.py",
+                    "line": 71,
+                    "inside_function": true,
+                    "function": "_yaml_load_unique",
+                    "in_built_distribution": true
+                  }
+                ],
+                "files_truncated": 0
+              }
+            ],
+            "undeclared_local_only": [],
+            "declared_covers_imports": false,
+            "missing": [
+              "yaml"
+            ]
+          }
+        ],
+        "excluded_nested_projects": [
+          {
+            "path_rel": "HG-KSEOS-far-minimax-r2/pyproject.toml",
+            "reason": "prefix 'HG-KSEOS-far-minimax-r2/' (frozen candidate snapshot, not the live distribution)",
+            "dependencies_declared": {
+              "runtime": [],
+              "optional": {}
+            }
+          }
+        ],
+        "declared_covers_imports": false,
+        "missing": [
+          "yaml"
+        ],
+        "undeclared_third_party": [
+          {
+            "module": "yaml",
+            "declared": false,
+            "files": [
+              {
+                "path_rel": "src/hg_kseos/lane_policy.py",
+                "line": 71,
+                "inside_function": true,
+                "function": "_yaml_load_unique",
+                "in_built_distribution": true
+              }
+            ],
+            "count": 1
+          }
+        ],
+        "undeclared_but_not_in_built_distribution": [],
+        "scope_note": "declared = project.dependencies UNION every project.optional-dependencies group (an extra is a declaration, but it is also why a bare `pip install .` can still fail at runtime); stdlib from sys.stdlib_module_names; first-party = any module name that exists as a .py stem or package dir in the tracked tree. Scanning is limited to each pyproject's src/ (or its package roots) plus root-level *.py, exactly as the work order specifies -- tools/ and tests/ are out of scope. `declared_covers_imports` is a verdict about the BUILT distribution: a site in a directory that no declared [tool.setuptools] packages entry covers is reported separately, because it cannot fail an install of the wheel."
+      },
+      "ci": {
+        "workflow_files": [],
+        "workflow_file_count": 0,
+        "keyword_hits": [],
+        "keyword_hit_count": 0,
+        "ci_presence": "ABSENT",
+        "evidence": "workflow_files=0; .github directory exists = False"
+      },
+      "sbom": {
+        "candidates": [
+          {
+            "path_rel": "evidence/review/HG-KSEOS_WORKBENCH_SBOM_EXTENSION.json",
+            "format": "other",
+            "spec_version": null,
+            "components": 2,
+            "has_signature_field": false,
+            "parseable": true
+          },
+          {
+            "path_rel": "evidence/wave-13/SBOM_RECONCILIATION.json",
+            "format": "other",
+            "spec_version": null,
+            "components": null,
+            "has_signature_field": false,
+            "parseable": true
+          },
+          {
+            "path_rel": "evidence/wave-13/sbom.cdx.json",
+            "format": "CycloneDX",
+            "spec_version": "1.6",
+            "components": 102,
+            "has_signature_field": false,
+            "parseable": true
+          },
+          {
+            "path_rel": "ops/session-20261031/r18-durable/receipts/WP19_SBOM_RESCAN.json",
+            "format": "other",
+            "spec_version": null,
+            "components": null,
+            "has_signature_field": false,
+            "parseable": true
+          }
+        ],
+        "count": 4,
+        "primary": null
+      },
+      "cryptography_audit": {
+        "files": [
+          {
+            "path_rel": "src/hg_kseos/native_admission.py",
+            "site_count": 6,
+            "sites": [
+              {
+                "line": 130,
+                "module": "cryptography.hazmat.primitives",
+                "inside_function": true,
+                "function": "verify_signature",
+                "guarded": true,
+                "guard_at_line": 129,
+                "guard_catches": [
+                  "ImportError",
+                  "(ValueError, KeyError, TypeError, InvalidSignature)"
+                ],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "caught by `except ImportError` at line 144 -> refuse('CRYPTO_DEPENDENCY')",
+                "evidence_lines": [
+                  {
+                    "line": 130,
+                    "text": "from cryptography.hazmat.primitives import hashes,serialization"
+                  },
+                  {
+                    "line": 144,
+                    "text": "except ImportError:refuse('CRYPTO_DEPENDENCY')"
+                  },
+                  {
+                    "line": 145,
+                    "text": "except (ValueError,KeyError,TypeError,InvalidSignature):refuse('SIGNATURE')"
+                  }
+                ]
+              },
+              {
+                "line": 131,
+                "module": "cryptography.hazmat.primitives.asymmetric",
+                "inside_function": true,
+                "function": "verify_signature",
+                "guarded": true,
+                "guard_at_line": 129,
+                "guard_catches": [
+                  "ImportError",
+                  "(ValueError, KeyError, TypeError, InvalidSignature)"
+                ],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "caught by `except ImportError` at line 144 -> refuse('CRYPTO_DEPENDENCY')",
+                "evidence_lines": [
+                  {
+                    "line": 131,
+                    "text": "from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa"
+                  },
+                  {
+                    "line": 144,
+                    "text": "except ImportError:refuse('CRYPTO_DEPENDENCY')"
+                  },
+                  {
+                    "line": 145,
+                    "text": "except (ValueError,KeyError,TypeError,InvalidSignature):refuse('SIGNATURE')"
+                  }
+                ]
+              },
+              {
+                "line": 132,
+                "module": "cryptography.exceptions",
+                "inside_function": true,
+                "function": "verify_signature",
+                "guarded": true,
+                "guard_at_line": 129,
+                "guard_catches": [
+                  "ImportError",
+                  "(ValueError, KeyError, TypeError, InvalidSignature)"
+                ],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "caught by `except ImportError` at line 144 -> refuse('CRYPTO_DEPENDENCY')",
+                "evidence_lines": [
+                  {
+                    "line": 132,
+                    "text": "from cryptography.exceptions import InvalidSignature"
+                  },
+                  {
+                    "line": 144,
+                    "text": "except ImportError:refuse('CRYPTO_DEPENDENCY')"
+                  },
+                  {
+                    "line": 145,
+                    "text": "except (ValueError,KeyError,TypeError,InvalidSignature):refuse('SIGNATURE')"
+                  }
+                ]
+              },
+              {
+                "line": 135,
+                "module": "cryptography",
+                "inside_function": true,
+                "function": "verify_signature",
+                "guarded": true,
+                "guard_at_line": 129,
+                "guard_catches": [
+                  "ImportError",
+                  "(ValueError, KeyError, TypeError, InvalidSignature)"
+                ],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "caught by `except ImportError` at line 144 -> refuse('CRYPTO_DEPENDENCY')",
+                "evidence_lines": [
+                  {
+                    "line": 135,
+                    "text": "from cryptography import x509"
+                  },
+                  {
+                    "line": 144,
+                    "text": "except ImportError:refuse('CRYPTO_DEPENDENCY')"
+                  },
+                  {
+                    "line": 145,
+                    "text": "except (ValueError,KeyError,TypeError,InvalidSignature):refuse('SIGNATURE')"
+                  }
+                ]
+              },
+              {
+                "line": 272,
+                "module": "cryptography.hazmat.primitives",
+                "inside_function": true,
+                "function": "_ed25519_spki",
+                "guarded": false,
+                "guard_at_line": null,
+                "guard_catches": [],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "no try/except covers this import: ImportError propagates out of `_ed25519_spki()` -- loud failure, no silent fallback, no degraded path",
+                "evidence_lines": [
+                  {
+                    "line": 272,
+                    "text": "from cryptography.hazmat.primitives import serialization"
+                  },
+                  {
+                    "line": 273,
+                    "text": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey"
+                  },
+                  {
+                    "line": 274,
+                    "text": "try:"
+                  }
+                ]
+              },
+              {
+                "line": 273,
+                "module": "cryptography.hazmat.primitives.asymmetric.ed25519",
+                "inside_function": true,
+                "function": "_ed25519_spki",
+                "guarded": false,
+                "guard_at_line": null,
+                "guard_catches": [],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "no try/except covers this import: ImportError propagates out of `_ed25519_spki()` -- loud failure, no silent fallback, no degraded path",
+                "evidence_lines": [
+                  {
+                    "line": 273,
+                    "text": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey"
+                  },
+                  {
+                    "line": 274,
+                    "text": "try:"
+                  },
+                  {
+                    "line": 275,
+                    "text": "raw=base64.b64decode(raw_b64,validate=True)"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "path_rel": "src/hg_kseos/user_trust.py",
+            "site_count": 2,
+            "sites": [
+              {
+                "line": 30,
+                "module": "cryptography.hazmat.primitives",
+                "inside_function": false,
+                "function": null,
+                "guarded": false,
+                "guard_at_line": null,
+                "guard_catches": [],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "no try/except covers this import: ImportError propagates out of the module import -- loud failure, no silent fallback, no degraded path",
+                "evidence_lines": [
+                  {
+                    "line": 30,
+                    "text": "from cryptography.hazmat.primitives import serialization"
+                  },
+                  {
+                    "line": 31,
+                    "text": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey"
+                  },
+                  {
+                    "line": 32,
+                    "text": ""
+                  }
+                ]
+              },
+              {
+                "line": 31,
+                "module": "cryptography.hazmat.primitives.asymmetric.ed25519",
+                "inside_function": false,
+                "function": null,
+                "guarded": false,
+                "guard_at_line": null,
+                "guard_catches": [],
+                "fail_mode": "FAIL_CLOSED",
+                "mechanism": "no try/except covers this import: ImportError propagates out of the module import -- loud failure, no silent fallback, no degraded path",
+                "evidence_lines": [
+                  {
+                    "line": 31,
+                    "text": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey"
+                  },
+                  {
+                    "line": 32,
+                    "text": ""
+                  },
+                  {
+                    "line": 33,
+                    "text": "ASSURANCE = \"USER_SCOPED_SOFTWARE_KEY\""
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "file_count": 2,
+        "import_occurrences": 8,
+        "all_fail_closed": true,
+        "snapshot_copy_observation": [],
+        "method": "ast over src/**.py: every Import/ImportFrom whose top module is 'cryptography', plus the innermost enclosing Try and its handler body"
+      },
+      "post_status_porcelain": [
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v2.json",
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v3.json"
+      ],
+      "post_dirty": true,
+      "status_changed": false
+    }
+  },
+  "repos_mutated": false,
+  "mutation_log": [],
+  "summary": {
+    "root_licence": {
+      "sbl": true,
+      "fabric": false,
+      "hgk": false
+    },
+    "nested_licence_count": {
+      "sbl": 2,
+      "fabric": 6,
+      "hgk": 8
+    },
+    "declared_covers_imports": {
+      "sbl": true,
+      "fabric": false,
+      "hgk": false
+    },
+    "missing_modules": {
+      "sbl": [],
+      "fabric": [
+        "PIL",
+        "aiohttp",
+        "cairosvg",
+        "cryptography",
+        "exa_py",
+        "fitz",
+        "hermes_cli",
+        "httpx",
+        "jsonschema",
+        "lark_oapi",
+        "oasf",
+        "openai",
+        "pipd_ls_sp",
+        "playwright",
+        "psutil",
+        "pytest",
+        "pythoncom",
+        "pywinauto",
+        "requests",
+        "ufo",
+        "win32clipboard",
+        "win32com",
+        "win32con",
+        "win32gui",
+        "yaml"
+      ],
+      "hgk": [
+        "yaml"
+      ]
+    },
+    "ci_presence": {
+      "sbl": "PRESENT",
+      "fabric": "PRESENT",
+      "hgk": "ABSENT"
+    },
+    "ci_jobs": {
+      "sbl": [
+        "test",
+        "supply-chain",
+        "pipd-compat"
+      ],
+      "fabric": [
+        "fhs-nav-static"
+      ],
+      "hgk": []
+    },
+    "hgk_cryptography": {
+      "files": 2,
+      "import_occurrences": 8,
+      "all_fail_closed": true,
+      "root_pyproject_declares": true
+    },
+    "sbl_self_test_exit": 0,
+    "sbl_refused_codes": [
+      "LICENSE_MISSING_FOR_REQUIRED",
+      "SBOM_COMPONENT_MISMATCH",
+      "UNDECLARED_DEPENDENCY"
+    ],
+    "sbl_hosted_state": "NOT_OBSERVED"
+  },
+  "notes": "V-06: the licence claim is now three fields and cannot be stated unscoped. SBL root_licence_present=True (['LICENSE', 'NOTICE']) with 2 nested; Fabric root_licence_present=False with 6 nested (by rule {'name_matched': 5, 'inside_LICENSES_dir': 1, 'total': 6}); HG-KSEOS root_licence_present=False with 8 nested. The prior round's 'Fabric/HG-KSEOS have no licence' held at ROOT scope only; at tree scope it is false for both. HG-KSEOS's 8 are all inside the WP-FHS-17 handoff evidence tree (4 proprietary 'all rights reserved' LICENSE + 4 NOTICE declaring no third-party components). A-01: HG-KSEOS HEAD pyproject.toml declares dependencies=[\"cryptography>=42\"], so the prior appendix's 'dependencies = []' does NOT match the live root distribution -- that empty list is true only of the frozen snapshot HG-KSEOS-far-minimax-r2/pyproject.toml, reported here as an excluded_nested_project. The real HG-KSEOS undeclared import is 'yaml' (src/hg_kseos/lane_policy.py, guarded `try/except Exception: return None`), and its consequence is that duplicate-key rejection is silently unavailable when PyYAML is absent. SBL's built distribution is covered (jsonschema + cryptography, both in the tpm-pre-v2 extra); the only SBL 'yaml' import sits in an un-packaged private-overlay subtree, reported separately rather than as a wheel defect. A-03: SBL's supply-chain claim is split into offline_reproducible (executed; exit 0; the gate refused all three mutations) and hosted_conclusion (NOT_OBSERVED, no token) and the two are explicitly non-substitutable.",
+  "json_sha256_rule": "sha256 over the canonical JSON (sort_keys=True, separators=(',',':'), UTF-8) of this document with the json_sha256 key REMOVED, so the field cannot hash itself",
+  "json_sha256": "9d54d0552f2572d85eead81ae14eb22a7e258fcc5388c1a8e7844460b5417776"
+}
