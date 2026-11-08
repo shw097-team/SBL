@@ -1,0 +1,1125 @@
+{
+  "schema": "FHS.WP15.METHOD_DEPENDENCE/1",
+  "generated_at": "2026-11-08T10:10:30+0800",
+  "tool": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/C/tools/method_dependence.py",
+  "tool_sha256": "023f55e847e9eef1c0aad2486338aeca69ece1a074b3564f9cd5d2b1e27a8987",
+  "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+  "claim_ceiling_note": "Every number below was measured by this tool on the bytes it names. This file asserts nothing about acceptance, authority or world effect; an independent verifier must re-run the tool before any of it becomes evidence.",
+  "status": "MEASURED_METHOD_DEPENDENT_RANGES_STATED",
+  "anchor_checks": {
+    "char5gram_jaccard_PA_equals_0.245432": true,
+    "structural_R2_equals_25201": true,
+    "per_line_R3_equals_111331": true,
+    "gate_g18_parsed": true,
+    "all_four_readings_tile_31_of_31": true,
+    "current_manifests_all_resolve": true
+  },
+  "r1_blocks": 22672,
+  "r2_blocks": 25201,
+  "r3_blocks": 111331,
+  "r4_blocks": 25198,
+  "char5_max": 0.245432,
+  "tfidf_max": 0.365479,
+  "max_overall": 0.519037,
+  "max_overall_argmax": "P-G x char5gram_cosine_tf",
+  "three_counts_explained": "三個數字是三個集合，不是三個答案。(1) 27/27（GATE G18）的分母 = gate 執行當下 out/stage 底下所有 MANIFEST/PROVENANCE 的 files[] 條目總數：SBL 26 + Fabric 1 = 27，每一條都在自己的 payload 目錄內解析成功；manifest 從不把自己列進 files[]，所以分母不含 manifest 本身。(2) 26+1 是同一批 27 條按 payload 拆開寫（SBL 載荷 26/26、Fabric 1/1），分子分母完全相同，只是分開列而不是相加，不是第二個獨立量測。(3) 34/34 是現樹：兩份 manifest 都在 gate 之後被重寫（SBL 32 + Fabric 2 = 34，全部解析成功），多出來的 7 條是重 stage 時才納入的（含 gate 自己產生的 gate/*.json 四個）。因此 27 與 34 的差不是 7 條 digest 壞掉，而是兩個時間點、兩個集合；磁碟上共 36 個檔 = 34 條宣告 + 2 份 manifest 自身。引用時必須連快照時間與『宣告條目數』這個分母定義一起寫。",
+  "V02": {
+    "question": "V-02: r9 published max_overall=0.245432 as 'the largest of eight breakdown values'. The grid is 3 pairs x 7 methods = 21 measured values, so the maximum is method-bound.",
+    "inputs": {
+      "P": {
+        "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs\\product_SPEC.md",
+        "bytes": 9116,
+        "sha256": "6a1e9255a690e3de57d4b6790c4d3f7fee162a894849c9e7d2c419be86ce1d59"
+      },
+      "A": {
+        "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs\\architecture_SPEC.md",
+        "bytes": 9267,
+        "sha256": "221ff09a29426c815bc77a64839af8c90fc451a2f742e43c35269bfc91b19b3b"
+      },
+      "G": {
+        "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs\\program_SPEC.md",
+        "bytes": 9691,
+        "sha256": "c7b21c1c504cb26b9c6d899098d5da356c1700178c2d0e25d3bef3f8da77a60f"
+      }
+    },
+    "normalisation": {
+      "rules": [
+        "CRLF->LF",
+        "U+3000->space",
+        "[ \\t]+ -> one space",
+        "strip leading/trailing space on every line",
+        "3+ newlines -> 2",
+        "punctuation and newlines retained"
+      ],
+      "sentence_split": "split after [。！？!?；;] or at newline; empty fragments dropped",
+      "tokenisation": "latin/digit/underscore run = 1 token; each CJK char = 1 token; punctuation dropped (the other readings are measured in token3gram_sensitivity)",
+      "char5gram": "all whitespace removed, then 5-character sliding windows",
+      "line_set": "non-empty lines after strip",
+      "tf_idf": {
+        "term": "char5gram",
+        "idf_corpus": "the 31 W0 source files (df estimated over that 31-document corpus)",
+        "idf": "log((1+N)/(1+df)) + 1, N=31",
+        "tf": "1 + log(tf)",
+        "vector": "L2-normalised, cosine",
+        "why_not_3_specs": "with the 3 SPECs alone every gram has df=3 (or 2), so idf is a constant and the vector degenerates to plain tf cosine; an idf corpus must be declared, and that declaration alone moves the value"
+      }
+    },
+    "matrix": {
+      "P-A": {
+        "sentence_2gram_jaccard": 0.105,
+        "sentence_3gram_jaccard": 0.052885,
+        "char5gram_jaccard": 0.245432,
+        "token3gram_jaccard": 0.130466,
+        "line_jaccard": 0.235294,
+        "char5gram_cosine_tf": 0.506559,
+        "char5gram_cosine_tfidf": 0.365479
+      },
+      "P-G": {
+        "sentence_2gram_jaccard": 0.094527,
+        "sentence_3gram_jaccard": 0.048077,
+        "char5gram_jaccard": 0.241181,
+        "token3gram_jaccard": 0.122741,
+        "line_jaccard": 0.227273,
+        "char5gram_cosine_tf": 0.519037,
+        "char5gram_cosine_tfidf": 0.354743
+      },
+      "A-G": {
+        "sentence_2gram_jaccard": 0.092233,
+        "sentence_3gram_jaccard": 0.046948,
+        "char5gram_jaccard": 0.243413,
+        "token3gram_jaccard": 0.132082,
+        "line_jaccard": 0.225806,
+        "char5gram_cosine_tf": 0.467517,
+        "char5gram_cosine_tfidf": 0.342543
+      }
+    },
+    "max_per_method": {
+      "sentence_2gram_jaccard": 0.105,
+      "sentence_3gram_jaccard": 0.052885,
+      "char5gram_jaccard": 0.245432,
+      "token3gram_jaccard": 0.132082,
+      "line_jaccard": 0.235294,
+      "char5gram_cosine_tf": 0.519037,
+      "char5gram_cosine_tfidf": 0.365479
+    },
+    "argmax_per_method": {
+      "sentence_2gram_jaccard": "P-A",
+      "sentence_3gram_jaccard": "P-A",
+      "char5gram_jaccard": "P-A",
+      "token3gram_jaccard": "A-G",
+      "line_jaccard": "P-A",
+      "char5gram_cosine_tf": "P-G",
+      "char5gram_cosine_tfidf": "P-A"
+    },
+    "max_by_pair": {
+      "P-A": 0.506559,
+      "P-G": 0.519037,
+      "A-G": 0.467517
+    },
+    "argmax_by_pair": {
+      "P-A": "char5gram_cosine_tf",
+      "P-G": "char5gram_cosine_tf",
+      "A-G": "char5gram_cosine_tf"
+    },
+    "max_overall": 0.519037,
+    "max_overall_argmax": {
+      "pair": "P-G",
+      "method": "char5gram_cosine_tf"
+    },
+    "min_overall": 0.046948,
+    "min_overall_argmin": {
+      "pair": "A-G",
+      "method": "sentence_3gram_jaccard"
+    },
+    "range": {
+      "min": 0.046948,
+      "max": 0.519037,
+      "span": 0.472089
+    },
+    "range_set_jaccard_only": {
+      "min": 0.046948,
+      "max": 0.245432,
+      "argmax": {
+        "pair": "P-A",
+        "method": "char5gram_jaccard"
+      }
+    },
+    "range_without_cosine": {
+      "min": 0.046948,
+      "max": 0.245432,
+      "argmax": {
+        "pair": "P-A",
+        "method": "char5gram_jaccard"
+      }
+    },
+    "published_value_audit": {
+      "value": 0.245432,
+      "found_at": {
+        "pair": "P-A",
+        "method": "char5gram_jaccard"
+      },
+      "reproduced_exactly": true,
+      "reproduced_value": 0.245432,
+      "is_global_max_here": false,
+      "why_it_was_called_max": "it is the maximum over the five set-Jaccard methods only; r9's grid held no cosine family, and 8 breakdown values were reported while the grid held 15 (5 families x 3 pairs)",
+      "quoted_from": "out/GATE_R9.json :: G14 MAXIMUM_IS_GLOBAL detail = 'max_overall=0.245432 equals the largest of 8 breakdown values; negative control fired' -- the phrase '8 breakdown values' is the whole published justification, and it does not name the grid",
+      "role_after_this_file": "the largest SET-JACCARD value, not an upper bound on similarity"
+    },
+    "external_char5_check": {
+      "external_value": 0.267852,
+      "exists_as_char5_jaccard_whitespace_stripped": false,
+      "exists_as_char5_jaccard_whitespace_retained": false,
+      "is_a_char5_cosine_value": false,
+      "char5_cosine_band_here": {
+        "tf": [
+          0.467517,
+          0.519037
+        ],
+        "tfidf": [
+          0.342543,
+          0.365479
+        ],
+        "note": "a char5 COSINE over these three documents is 0.467517-0.519037 (tf) or 0.342543-0.365479 (tf-idf); 0.267852 is below both, so it is a Jaccard-shaped number, not a cosine one"
+      },
+      "whitespace_retained_variant": {
+        "rule": "identical to char5gram_jaccard except whitespace is NOT stripped before windowing, so spaces and newlines are part of the 5-gram stream",
+        "values": {
+          "P-A": 0.267462,
+          "P-G": 0.262639,
+          "A-G": 0.268131
+        },
+        "band": {
+          "min": 0.262639,
+          "max": 0.268131
+        },
+        "argmax": {
+          "pair": "A-G",
+          "value": 0.268131
+        }
+      },
+      "nearest_measured": {
+        "variant": "char5_jaccard_whitespace_retained",
+        "pair": "A-G",
+        "value": 0.268131,
+        "delta": 0.000279
+      },
+      "verdict": "0.267852 does not reproduce to 6 dp under any variant measured here, but it is not a mystery number: it lies inside the whitespace-RETAINED char5 Jaccard band [0.262639, 0.268131]. The published 0.245432 and the external 0.267852 differ by 0.022420 on P-A, while flipping only the whitespace decision (strip -> retain) moves P-A by 0.022030 -- the same size, same sign. So the two numbers measure the same three documents under two window rules, and the residual 0.000279 is the external's exact regex, which its report does not state. Under the retained variant the argmax also moves from P-A to A-G, so the named pair is normalisation-bound too."
+    },
+    "external_tfidf_check": {
+      "external_value": 0.368972,
+      "variants": [
+        {
+          "variant": "primary_declared",
+          "idf_corpus": "31_sources",
+          "idf": "smooth log((1+N)/(1+df))+1",
+          "tf": "sublinear 1+log(tf)",
+          "values": {
+            "P-A": 0.365479,
+            "P-G": 0.354743,
+            "A-G": 0.342543
+          },
+          "max": 0.365479,
+          "argmax": "P-A",
+          "delta_to_external": 0.003493
+        },
+        {
+          "variant": "nfkc_lower_same_corpus",
+          "idf_corpus": "31_sources (NFKC+lower)",
+          "idf": "smooth log((1+N)/(1+df))+1",
+          "tf": "sublinear 1+log(tf)",
+          "values": {
+            "P-A": 0.360553,
+            "P-G": 0.350256,
+            "A-G": 0.339693
+          },
+          "max": 0.360553,
+          "argmax": "P-A",
+          "delta_to_external": 0.008419
+        },
+        {
+          "variant": "raw_tf_unsmoothed_idf",
+          "idf_corpus": "31_sources",
+          "idf": "log(N/df)",
+          "tf": "raw tf",
+          "values": {
+            "P-A": 0.362839,
+            "P-G": 0.356741,
+            "A-G": 0.313351
+          },
+          "max": 0.362839,
+          "argmax": "P-A",
+          "delta_to_external": 0.006133
+        },
+        {
+          "variant": "nfkc_lower_raw_tf_unsmoothed",
+          "idf_corpus": "31_sources (NFKC+lower)",
+          "idf": "log(N/df)",
+          "tf": "raw tf",
+          "values": {
+            "P-A": 0.368276,
+            "P-G": 0.36512,
+            "A-G": 0.325253
+          },
+          "max": 0.368276,
+          "argmax": "P-A",
+          "delta_to_external": 0.000696
+        },
+        {
+          "variant": "specs3_corpus",
+          "idf_corpus": "3_specs (degenerate: df=3 for every gram)",
+          "idf": "smooth log((1+N)/(1+df))+1",
+          "tf": "sublinear 1+log(tf)",
+          "values": {
+            "P-A": 0.239798,
+            "P-G": 0.241005,
+            "A-G": 0.227804
+          },
+          "max": 0.241005,
+          "argmax": "P-G",
+          "delta_to_external": 0.127967
+        }
+      ],
+      "band": {
+        "min": 0.241005,
+        "max": 0.368276
+      },
+      "band_declared_corpora_only": {
+        "min": 0.360553,
+        "max": 0.368276,
+        "note": "excludes the degenerate 3-SPEC idf corpus, where every gram has df=3"
+      },
+      "nearest_measured": "nfkc_lower_raw_tf_unsmoothed",
+      "nearest_value": 0.368276,
+      "nearest_delta": 0.000696,
+      "verdict": "0.368972 is not reproduced exactly, and that is the point: a tf-idf value is a function of an idf corpus and a tf form, neither of which r9 published (r9 published no tf-idf value at all). Across the 5 declared variants here the tf-idf max spans [0.241005, 0.368276]; the external 0.368972 sits ABOVE the top of that band by 0.000696 (0.19% of the external value) and is closest to variant 'nfkc_lower_raw_tf_unsmoothed' (0.368276, delta 0.000696). The gap is a weighting/post-processing difference, not a data disagreement -- the three files have the same digest before and after every one of these computations."
+    },
+    "token3gram_sensitivity": {
+      "why": "r9's note says only '拉丁/數字連續段為一詞；CJK 逐字為一 token'. That does not say whether punctuation is a token, so the same family yields four different numbers depending on an unstated choice.",
+      "variants": {
+        "punctuation_is_a_token": {
+          "P-A": 0.205791,
+          "P-G": 0.194252,
+          "A-G": 0.209041
+        },
+        "punctuation_dropped (declared here)": {
+          "P-A": 0.130466,
+          "P-G": 0.122741,
+          "A-G": 0.132082
+        },
+        "whitespace_chunk_then_cjk": {
+          "P-A": 0.115761,
+          "P-G": 0.11064,
+          "A-G": 0.112837
+        },
+        "unicode_word_runs": {
+          "P-A": 0.129555,
+          "P-G": 0.122093,
+          "A-G": 0.119004
+        }
+      },
+      "band": {
+        "min": 0.11064,
+        "max": 0.209041
+      },
+      "published_r9_values": {
+        "P-A": 0.118884,
+        "P-G": 0.11439,
+        "A-G": 0.123887
+      },
+      "published_reproduced_by": [],
+      "verdict": "r9's published token3gram values (P-A 0.118884) are reproduced by none of the four readings of its own sentence; they span [0.110640, 0.209041] and the published value sits inside that band but on no declared point. This is the same defect as V-02 itself, one level down: even after naming the family, the tokeniser must be named."
+    },
+    "claim": {
+      "statement_zh": "相似度上限不是一個數字，而是隨方法變動的區間：本檔在 3 對 × 7 族 = 21 個量測值上，區間為 [0.046948, 0.519037]。集合式 Jaccard 五族的區間是 [0.046948, 0.245432]（其中最大為 P-A × char5gram_jaccard）；把 cosine 兩族算進來，最大變成 P-G × char5gram_cosine_tf = 0.519037。任何引用都必須帶 pair × method，不得再以 0.245432 或任何單一數字當作相似度上限。",
+      "interval": [
+        0.046948,
+        0.519037
+      ],
+      "method_list": [
+        "sentence_2gram_jaccard",
+        "sentence_3gram_jaccard",
+        "char5gram_jaccard",
+        "token3gram_jaccard",
+        "line_jaccard",
+        "char5gram_cosine_tf",
+        "char5gram_cosine_tfidf"
+      ],
+      "forbidden": "a single number presented as the similarity ceiling",
+      "note": "the published 0.245432 remains correct AS A MEASUREMENT of P-A under char5gram_jaccard with whitespace stripped; it is wrong as a statement about 'the maximum'."
+    }
+  },
+  "V04": {
+    "question": "V-04: r9 published structural=25,201 as if 'structural blocks' named one object. It names one reading of one classifier.",
+    "source_root": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources",
+    "files": 31,
+    "bytes_sum": 22281767,
+    "lines_sum": 111331,
+    "readings": {
+      "R1": {
+        "definition": "fence = one block (open delimiter + interior + close delimiter); table = one block per contiguous table run; heading = one block per heading LINE; html_comment / blank / text = one block per same-class run (the prior-round rule shape)",
+        "segments": "fence_block | table_row | heading | html_comment | blank | text (runs merged)"
+      },
+      "R2": {
+        "definition": "per-line classification, then merge every maximal run of ADJACENT lines sharing one class; the class vocabulary has no fence_body, so a fence becomes delimiter blocks with text/blank runs between them (the r9 rule)",
+        "segments": "same-class line run"
+      },
+      "R3": {
+        "definition": "per-line classification with NO merging: one block per physical line",
+        "segments": "physical line"
+      },
+      "R4": {
+        "definition": "R2, but html_comment is folded into text before run merging",
+        "segments": "same-class line run after folding html_comment into text"
+      }
+    },
+    "counts": {
+      "R1": 22672,
+      "R2": 25201,
+      "R3": 111331,
+      "R4": 25198
+    },
+    "tiling": {
+      "R1": {
+        "files_tiled": 31,
+        "files_total": 31,
+        "assertion": "31/31"
+      },
+      "R2": {
+        "files_tiled": 31,
+        "files_total": 31,
+        "assertion": "31/31"
+      },
+      "R3": {
+        "files_tiled": 31,
+        "files_total": 31,
+        "assertion": "31/31"
+      },
+      "R4": {
+        "files_tiled": 31,
+        "files_total": 31,
+        "assertion": "31/31"
+      }
+    },
+    "all_readings_tile_31_of_31": true,
+    "class_line_histogram": {
+      "html_comment": 1099,
+      "blank": 10541,
+      "text": 66758,
+      "heading": 4335,
+      "table_row": 27576,
+      "code_fence_delim": 1022
+    },
+    "spread": {
+      "structural_readings_R1_R2_R4": [
+        22672,
+        25201,
+        25198
+      ],
+      "structural_min": 22672,
+      "structural_max": 25201,
+      "span": 2529,
+      "with_per_line_R3": {
+        "min": 22672,
+        "max": 111331
+      }
+    },
+    "published_value_audit": {
+      "value": 25201,
+      "reproduced_under": [
+        "R2"
+      ],
+      "reproduced_exactly_under_R2": true,
+      "only_under": "R2",
+      "readings_that_do_not_produce_it": {
+        "R1": 22672,
+        "R3": 111331,
+        "R4": 25198
+      }
+    },
+    "external_range_check": {
+      "external_range": [
+        23692,
+        26080
+      ],
+      "external_alternate": 25602,
+      "this_tool_structural_band": [
+        22672,
+        25201
+      ],
+      "this_band_inside_external_range": false,
+      "verdict": "The external range [23,692, 26,080] and its alternate 25,602 are other readings of the same bytes, and this tool's four counts bracket them rather than agree with them. R1 (22672) is BELOW the external minimum because R1 folds a whole fenced block -- both delimiters and the interior -- into ONE block, coarser than any per-line reading; R4 (25198) and R2 (25201) sit inside the external band, above its minimum and below its maximum. Nothing here can be reconciled to one number, and 25,201 is exactly R2 and nothing else. Because the external did not publish its table/heading predicates, the residual gap cannot be attributed to any single toggle -- which is the defect itself: without the rule alongside it, a block count is not checkable."
+    },
+    "statement_zh": "25,201 只在 R2（逐行分類後合併同類連續區間）下成立。同一個分類器換一種讀法就得到 R1=22672、R3=111331、R4=25198；四種讀法都對 31/31 檔逐位元貼齊，都合法。所以這不是誰算錯，是**規則沒有隨數字一起公布**：一個『結構塊』數字若不附讀法，讀者無從判斷它在數什麼。",
+    "statement_en": "25,201 holds only under R2 (per-line classes merged into maximal same-class runs). R1=22672, R3=111331, R4=25198 on identical bytes, and every reading tiles 31/31 files byte for byte. The defect is not a wrong count; it is a count published without its rule.",
+    "per_file": [
+      {
+        "file": "00_INDEX_AND_DECISION(4).md",
+        "bytes": 8236,
+        "lines": 83,
+        "sha256": "cb4727d5b0c190aba40559f72b6989964659923eed6c27504ab62acfdc3b2635",
+        "blocks": {
+          "R1": 55,
+          "R2": 55,
+          "R3": 83,
+          "R4": 55
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "01_PRODUCT_AUTHORITY_SPINE(4).md",
+        "bytes": 17661,
+        "lines": 145,
+        "sha256": "e257dfcd01f2e8afeda1dd88fdd33b4ef7346bf224572e60935bf9834d25b02c",
+        "blocks": {
+          "R1": 81,
+          "R2": 81,
+          "R3": 145,
+          "R4": 81
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+        "bytes": 73292,
+        "lines": 858,
+        "sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+        "blocks": {
+          "R1": 353,
+          "R2": 431,
+          "R3": 858,
+          "R4": 431
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+        "bytes": 12144,
+        "lines": 106,
+        "sha256": "58628861e63956ae31b1ac17404c093533226688f975f5fa11b9b82adecd1284",
+        "blocks": {
+          "R1": 59,
+          "R2": 59,
+          "R3": 106,
+          "R4": 59
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "04_FABRIC_HGK_CONTROL(4).md",
+        "bytes": 16794,
+        "lines": 120,
+        "sha256": "a7d54bdeb9129e7e1979bbc1af1944189b1054760e76424f8ffd8547a682eb1f",
+        "blocks": {
+          "R1": 69,
+          "R2": 71,
+          "R3": 120,
+          "R4": 71
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "05_COMMANDER_GUIDE_AND_NATIVE_PLAN(3).md",
+        "bytes": 6726,
+        "lines": 59,
+        "sha256": "ee47e07455767c063fd0700440b46d27592caea4638c39407b9af1309a2b44d5",
+        "blocks": {
+          "R1": 39,
+          "R2": 39,
+          "R3": 59,
+          "R4": 39
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "06_FHS_EXECUTE_HERMES_RUNTIME(4).md",
+        "bytes": 16807,
+        "lines": 117,
+        "sha256": "6bc5de0d26c8d13f4227ac9b48a66b808af0eb1108dc3012941e9c0c1ee362d5",
+        "blocks": {
+          "R1": 73,
+          "R2": 75,
+          "R3": 117,
+          "R4": 75
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "07_ACCEPTANCE_CHALLENGE(4).md",
+        "bytes": 211405,
+        "lines": 1370,
+        "sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+        "blocks": {
+          "R1": 577,
+          "R2": 577,
+          "R3": 1370,
+          "R4": 577
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md",
+        "bytes": 1128554,
+        "lines": 5900,
+        "sha256": "1df04680319796aa253256c5da9c8adea47a5601abfe17086f3598d4f0470f8d",
+        "blocks": {
+          "R1": 2272,
+          "R2": 2272,
+          "R3": 5900,
+          "R4": 2272
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "09A_R15_949_ORIGINAL_ATOMS(4).md",
+        "bytes": 1855910,
+        "lines": 12639,
+        "sha256": "ce14d5d45ef76ded7cd60e4faec34119749c29fee31d9b6e1b78738179612410",
+        "blocks": {
+          "R1": 4230,
+          "R2": 4230,
+          "R3": 12639,
+          "R4": 4230
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "09B_KIND_MODE_HOST_192(4).md",
+        "bytes": 474159,
+        "lines": 3050,
+        "sha256": "aed2234821768307d81991aa56d5ff3a98fc9b884ff79e2930f2b9c4ae8e441d",
+        "blocks": {
+          "R1": 1315,
+          "R2": 1315,
+          "R3": 3050,
+          "R4": 1315
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "09_SBL_DOC00_13_FULL_UPGRADE(4).md",
+        "bytes": 300559,
+        "lines": 2198,
+        "sha256": "1a0fcbdd77998bc9beed039407b96a1163c634052583813a98193f4d49769185",
+        "blocks": {
+          "R1": 118,
+          "R2": 703,
+          "R3": 2198,
+          "R4": 703
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "10A_B1_TQAEP_120_124_38(4).md",
+        "bytes": 572218,
+        "lines": 8042,
+        "sha256": "39ffde0115cdf894806a4d3bf270046b68f8786956507480db47b2a154a8c4e1",
+        "blocks": {
+          "R1": 2331,
+          "R2": 2655,
+          "R3": 8042,
+          "R4": 2655
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "10B_B1_PI27_PD31(4).md",
+        "bytes": 44264,
+        "lines": 405,
+        "sha256": "7c33e2472a6510a6c15b5b8eee2fca6dd9e4865c7ad3beb8c19d1e4618886f64",
+        "blocks": {
+          "R1": 147,
+          "R2": 147,
+          "R3": 405,
+          "R4": 147
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "10_B1_W18_SELF_BOOTSTRAP(4).md",
+        "bytes": 7761,
+        "lines": 76,
+        "sha256": "13b0764732bc1501e7c823b12be0d0be3a54afdaec5f77a5e90111c1947fa70a",
+        "blocks": {
+          "R1": 47,
+          "R2": 49,
+          "R3": 76,
+          "R4": 49
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "11_WORKPACKAGES_AND_DAG(4).md",
+        "bytes": 46467,
+        "lines": 380,
+        "sha256": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+        "blocks": {
+          "R1": 104,
+          "R2": 104,
+          "R3": 380,
+          "R4": 104
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "12_VERIFICATION_AND_DELIVERY(4).md",
+        "bytes": 15368,
+        "lines": 153,
+        "sha256": "e4f7512a27ecbec1ce6a4569654ce33c4bf3265361a5ec141418a313fd25dd45",
+        "blocks": {
+          "R1": 77,
+          "R2": 85,
+          "R3": 153,
+          "R4": 85
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-00(1).md",
+        "bytes": 465363,
+        "lines": 1591,
+        "sha256": "bd9c1a85ea0cae68fa8cde617e5592fca6123f72b4caf1a9d2894167d9a82e01",
+        "blocks": {
+          "R1": 302,
+          "R2": 304,
+          "R3": 1591,
+          "R4": 304
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-01(1).md",
+        "bytes": 1041962,
+        "lines": 4938,
+        "sha256": "43a0a7ed26d2adf9c2803062032019ccb6acce27cebb49af4d37c3cd4b0a3a2f",
+        "blocks": {
+          "R1": 1043,
+          "R2": 1091,
+          "R3": 4938,
+          "R4": 1091
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-02(1).md",
+        "bytes": 1148207,
+        "lines": 11084,
+        "sha256": "4ff0cda5ab00ba5f577151e5b004d2167d933e912e302c9e3529b237ccb9e035",
+        "blocks": {
+          "R1": 1635,
+          "R2": 1761,
+          "R3": 11084,
+          "R4": 1761
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-03(1).md",
+        "bytes": 1704253,
+        "lines": 4851,
+        "sha256": "ea69e1d3718ed86aecd74a3ebcc933960eacc30b586ab80fcb9f733037e33476",
+        "blocks": {
+          "R1": 566,
+          "R2": 642,
+          "R3": 4851,
+          "R4": 642
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-04(1).md",
+        "bytes": 618110,
+        "lines": 3036,
+        "sha256": "ee90cb1c86f6f7350c11c9c962233a89b035ca41ff82c8968f7968608fc6f6e0",
+        "blocks": {
+          "R1": 754,
+          "R2": 796,
+          "R3": 3036,
+          "R4": 796
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-05(1).md",
+        "bytes": 2382349,
+        "lines": 7888,
+        "sha256": "3b47a0b6224b1984a4047cf53aac5ac50615c93a560fea46e1b43d079a5d9f27",
+        "blocks": {
+          "R1": 204,
+          "R2": 1100,
+          "R3": 7888,
+          "R4": 1099
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-06(1).md",
+        "bytes": 1554880,
+        "lines": 2858,
+        "sha256": "64ea4977dab3093301f82dc7469413cc754998fc53946467842e06d83645102b",
+        "blocks": {
+          "R1": 362,
+          "R2": 382,
+          "R3": 2858,
+          "R4": 382
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-07(1).md",
+        "bytes": 1265128,
+        "lines": 3620,
+        "sha256": "a366d3783c82089c5593ffabb0704d8507632cce45622684f7a0186f2ae310f8",
+        "blocks": {
+          "R1": 770,
+          "R2": 794,
+          "R3": 3620,
+          "R4": 794
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-08(1).md",
+        "bytes": 925526,
+        "lines": 11139,
+        "sha256": "c7029c1ff07abe3135d33d3abf858a5fecedd911b494cd69c16eb1ddb8158288",
+        "blocks": {
+          "R1": 368,
+          "R2": 424,
+          "R3": 11139,
+          "R4": 424
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-09(1).md",
+        "bytes": 904598,
+        "lines": 3978,
+        "sha256": "6450f7c15915ec8b304f4e5fd4093ea707434db8bae9d2bb6e66c30ab6eed2e1",
+        "blocks": {
+          "R1": 720,
+          "R2": 753,
+          "R3": 3978,
+          "R4": 751
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-10(1).md",
+        "bytes": 1397936,
+        "lines": 3888,
+        "sha256": "a64aa21c977334dd74d660a86377ee10c4d329aa5fde0dae25ff81a3e69e8d8f",
+        "blocks": {
+          "R1": 780,
+          "R2": 824,
+          "R3": 3888,
+          "R4": 824
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-11(1).md",
+        "bytes": 1831131,
+        "lines": 5005,
+        "sha256": "12f8705d780b76f264457c194a6ff359da8d74b5d6d8c83fa245b74d2a37508e",
+        "blocks": {
+          "R1": 1254,
+          "R2": 1327,
+          "R3": 5005,
+          "R4": 1327
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-12(1).md",
+        "bytes": 982931,
+        "lines": 7940,
+        "sha256": "d1e470d82ca14319582cb8947aa52007927aa38e726249b1430804cfe8c8ca56",
+        "blocks": {
+          "R1": 899,
+          "R2": 959,
+          "R3": 7940,
+          "R4": 959
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      },
+      {
+        "file": "SBL_PIPD-LS-PKG_DOC-13(1).md",
+        "bytes": 1251068,
+        "lines": 3814,
+        "sha256": "7cc0c8b17311130c875910b2548b93c28bd4e1c8ee04d300f85fc33d4c09beb1",
+        "blocks": {
+          "R1": 1068,
+          "R2": 1096,
+          "R3": 3814,
+          "R4": 1096
+        },
+        "tiles": {
+          "R1": true,
+          "R2": true,
+          "R3": true,
+          "R4": true
+        }
+      }
+    ]
+  },
+  "V05": {
+    "question": "V-05: 27/27 (gate), 26+1 (report) and 34/34 (current tree) look like three answers to one question. They are three different sets, snapshotted at three times.",
+    "gate": {
+      "path": "out/GATE_R9.json",
+      "generated_at": "2026-11-08T08:03:11+08:00",
+      "check": "G18 DIGEST_LOCALITY",
+      "detail": "27/27 digests resolve inside their own payload across 2 manifests",
+      "parsed": {
+        "resolved": 27,
+        "declared": 27,
+        "manifests": 2
+      },
+      "scope": "out/stage/**: every file named MANIFEST.json or PROVENANCE.json, recursing the whole tree; each entry's digest must resolve inside that manifest's own directory"
+    },
+    "manifests_now": [
+      {
+        "manifest": "out/stage/fabric/INTEGRATION/FHS/docs/as-built/W0/r9/PROVENANCE.json",
+        "payload": "fabric",
+        "generated_at": "2026-11-08T10:20:00+08:00",
+        "declared_entries": 2,
+        "resolved_entries": 2,
+        "self_listed": false,
+        "files_on_disk_in_payload": 3,
+        "files_on_disk_excluding_manifest": 2,
+        "problems": []
+      },
+      {
+        "manifest": "out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/MANIFEST.json",
+        "payload": "sbl",
+        "generated_at": "2026-11-08T10:20:00+08:00",
+        "declared_entries": 32,
+        "resolved_entries": 32,
+        "self_listed": false,
+        "files_on_disk_in_payload": 33,
+        "files_on_disk_excluding_manifest": 32,
+        "problems": []
+      }
+    ],
+    "current_totals": {
+      "declared": 34,
+      "resolved": 34
+    },
+    "report_quote": {
+      "path": "out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/FHS_W0_R9_IMPLEMENTATION_REPAIR_REPORT_2026-11-08.md",
+      "line": "| `V-05` manifest 跨 payload | **r8 已修，本輪加閘** | SBL 載荷 26/26、Fabric 1/1 皆在自身 payload 內解析 | `out/stage/**/MANIFEST.json` |",
+      "pairs_found": [
+        [
+          26,
+          26
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    },
+    "mtimes": {
+      "out/GATE_R9.json": "2026-11-08T08:03:11+0800",
+      "out/stage/fabric/INTEGRATION/FHS/docs/as-built/W0/r9/PROVENANCE.json": "2026-11-08T10:10:29+0800",
+      "out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/MANIFEST.json": "2026-11-08T08:34:14+0800"
+    },
+    "snapshot_evidence": {
+      "gate_written": "2026-11-08T08:03:11+0800",
+      "manifests_written_after_gate": true,
+      "self_reference_proof": "the current sbl manifest DECLARES gate/GATE_R9.json and gate/GATE_R9_ON_PRIOR.json, which are outputs of the gate that scanned it; a manifest cannot have declared a digest of a file that did not exist when it was scanned, so the scanned manifest and the current manifest are different objects"
+    },
+    "reconciliation": [
+      {
+        "value": "27/27",
+        "where": "out/GATE_R9.json :: G18 detail",
+        "set_it_counts": "every digest entry DECLARED inside the payload manifests found under out/stage at gate time (sbl 26 + fabric 1 = 27), each resolved against the bytes in its own payload tree",
+        "numerator": 27,
+        "denominator": 27,
+        "denominator_rule": "sum of len(manifest.files) over all MANIFEST.json / PROVENANCE.json under out/stage",
+        "includes_manifest_itself": false,
+        "why_not_34": "a manifest never lists itself, and the sbl manifest of that moment had 26 entries"
+      },
+      {
+        "value": "26+1",
+        "where": "FHS_W0_R9_IMPLEMENTATION_REPAIR_REPORT_2026-11-08.md (V-05 row): 'SBL 載荷 26/26、Fabric 1/1'",
+        "set_it_counts": "the same 27 entries, split per payload instead of summed: SBL payload 26, Fabric payload 1",
+        "numerator": 27,
+        "denominator": 27,
+        "denominator_rule": "per-payload breakdown of the same 2 manifests",
+        "includes_manifest_itself": false,
+        "why_not_34": "it is the same set as the gate's 27/27, only per payload"
+      },
+      {
+        "value": "34/34",
+        "where": "the manifests as they stand in the tree now: sbl MANIFEST.json + fabric PROVENANCE.json",
+        "set_it_counts": "every digest entry declared by the CURRENT manifests (sbl 32 + fabric 2 = 34), each resolved against its own payload",
+        "numerator": 34,
+        "denominator": 34,
+        "denominator_rule": "sum of len(manifest.files) over the two manifests present now",
+        "includes_manifest_itself": false,
+        "why_not_27": "the two manifests were rewritten AFTER the gate ran (see mtimes), so this is a later snapshot of a different set"
+      }
+    ],
+    "three_counts_explained": "三個數字是三個集合，不是三個答案。(1) 27/27（GATE G18）的分母 = gate 執行當下 out/stage 底下所有 MANIFEST/PROVENANCE 的 files[] 條目總數：SBL 26 + Fabric 1 = 27，每一條都在自己的 payload 目錄內解析成功；manifest 從不把自己列進 files[]，所以分母不含 manifest 本身。(2) 26+1 是同一批 27 條按 payload 拆開寫（SBL 載荷 26/26、Fabric 1/1），分子分母完全相同，只是分開列而不是相加，不是第二個獨立量測。(3) 34/34 是現樹：兩份 manifest 都在 gate 之後被重寫（SBL 32 + Fabric 2 = 34，全部解析成功），多出來的 7 條是重 stage 時才納入的（含 gate 自己產生的 gate/*.json 四個）。因此 27 與 34 的差不是 7 條 digest 壞掉，而是兩個時間點、兩個集合；磁碟上共 36 個檔 = 34 條宣告 + 2 份 manifest 自身。引用時必須連快照時間與『宣告條目數』這個分母定義一起寫。",
+    "statement_zh": "同一個 digest 檢查在三個時刻報了三個數字，因為分母是「當時樹上 manifest 宣告的條目數」，而 manifest 在 gate 之後被重寫。要把 27/34 並列引用時，必須連快照時間一起寫。",
+    "limits": [
+      "digest resolution proves bytes match a declaration; it proves nothing about whether the declared bytes are the right bytes."
+    ]
+  },
+  "limits": [
+    "Similarity values are properties of (pair, method, normalisation, idf corpus), not of the documents. Any citation of one number without those four is unverifiable.",
+    "Block counts are properties of (classifier, merge rule). Four readings over identical bytes give four counts; none of them is a count of semantic units.",
+    "Digest counts are properties of a snapshot of the manifest set. State the snapshot time with the number.",
+    "This file does not modify, and does not vouch for, any upstream round."
+  ]
+}

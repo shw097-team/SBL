@@ -1,0 +1,310 @@
+{
+ "schema": "FHS.W0R10.TraceAudit/1",
+ "generated_at": "2026-11-08T10:00:11+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "subject": "FHS_W0_R9_REPAIR_20261108 的敘述／交接／時序不一致",
+ "rounds_read": [
+  "FHS_W0_R9_REPAIR_20261108",
+  "FHS_W0_R10_ACCEPT_20261108"
+ ],
+ "items": [
+  {
+   "id": "T-01",
+   "title": "r9 正文位元組數（HANDOVER ↔ 實體檔）",
+   "claimed": 552210,
+   "claimed_raw": "552,210",
+   "claimed_location": "HANDOVER_R9_2026-11-08.md:18",
+   "measured": 552605,
+   "delta": 395,
+   "measured_sha256": "c15693d88d034679740f194fa3c873f7ada13e50a2056b282e3a1cda826bce9d",
+   "doc_mtime": "2026-11-08T08:23:49+08:00",
+   "stale_copies_of_claim": [
+    {
+     "path": "FHS_W0_R9_REPAIR_20261108/out/KANBAN_FINAL.json",
+     "line": 17,
+     "raw": "552210"
+    }
+   ],
+   "fix": "HANDOVER §2 改 552,605 B，並把 sha256 前綴 c15693d8 一併寫進同一行；KANBAN_FINAL WK-10 detail 同步改成 552605。"
+  },
+  {
+   "id": "T-02",
+   "title": "PR head SHA（HANDOVER §5／PR_OPEN ↔ PR_READBACK／git）",
+   "claimed": {
+    "eeffd055bcca": 51,
+    "080f26b0fffc": 52
+   },
+   "claimed_location": "HANDOVER_R9_2026-11-08.md:51-52",
+   "measured": {
+    "SBL": "1fdad4edad769864a0b8d322b41b29d3beb9713f",
+    "Fabric": "d17ad52bfc5e7c4db64121773166276705fd8ff8"
+   },
+   "recorded_at_pr_open": {
+    "SBL": "96a2825ea772e38938e41883ca18ebf5c1379bcc",
+    "Fabric": "4fa351b114f0e4bf5f07bc2a4d93653a93d6e728"
+   },
+   "measured_location": "out/PR_READBACK.json（API 回讀）",
+   "object_exists_in_local_repo": {
+    "eeffd055bcca": "commit",
+    "080f26b0fffc": "",
+    "1fdad4edad769864a0b8d322b41b29d3beb9713f": "commit",
+    "d17ad52bfc5e7c4db64121773166276705fd8ff8": "",
+    "96a2825ea772e38938e41883ca18ebf5c1379bcc": "commit",
+    "4fa351b114f0e4bf5f07bc2a4d93653a93d6e728": ""
+   },
+   "reflog": {
+    "SBL": [
+     {
+      "sha12": "1fdad4edad76",
+      "when": "2026-11-08T08:34:14+08:00",
+      "what": "commit (amend): evidence(fhs-w0): r9 implementation repair — ten gate checks and the fixes behind them"
+     },
+     {
+      "sha12": "eeffd055bcca",
+      "when": "2026-11-08T08:24:08+08:00",
+      "what": "commit (amend): evidence(fhs-w0): r9 implementation repair — ten gate checks and the fixes behind them"
+     },
+     {
+      "sha12": "96a2825ea772",
+      "when": "2026-11-08T08:09:31+08:00",
+      "what": "commit: evidence(fhs-w0): r9 implementation repair — ten gate checks and the fixes behind them"
+     }
+    ],
+    "Fabric": [
+     {
+      "sha12": "d17ad52bfc5e",
+      "when": "2026-11-08T08:34:15+08:00",
+      "what": "commit (amend): docs(fhs): W0 r9 candidate mirror under INTEGRATION/FHS/docs/as-built/W0/r9"
+     },
+     {
+      "sha12": "080f26b0fffc",
+      "when": "2026-11-08T08:24:08+08:00",
+      "what": "commit (amend): docs(fhs): W0 r9 candidate mirror under INTEGRATION/FHS/docs/as-built/W0/r9"
+     },
+     {
+      "sha12": "4fa351b114f0",
+      "when": "2026-11-08T08:09:31+08:00",
+      "what": "commit: docs(fhs): W0 r9 candidate mirror under INTEGRATION/FHS/docs/as-built/W0/r9"
+     }
+    ]
+   },
+   "fix": "HANDOVER §5 兩個 head 換成 1fdad4edad76（SBL #52）與 d17ad52bfc5e（Fabric #38）；eefd…／080f… 是被 amend 掉的 08:24 版本，96a2825e／4fa351b1 是 08:09 開 PR 時的版本，三者不可互代。"
+  },
+  {
+   "id": "T-03",
+   "title": "A-03 命名是否落在正文（traceability）",
+   "a03_mentions": 0,
+   "g20_mentions": 1,
+   "a01_mentions": 2,
+   "a02_mentions": 2,
+   "a03_hits": [],
+   "g20_hits": [
+    {
+     "line": 2866,
+     "section": "D.3 閘：繼承 16 ＋ 新增 10，並用差分與注入各證明一次"
+    }
+   ],
+   "a01_sections": [
+    "D.2 四項「前輪寫法被本輪量測推翻」的更正",
+    "副本登記簿與 A-01 patch"
+   ],
+   "a02_sections": [
+    "D.2 四項「前輪寫法被本輪量測推翻」的更正"
+   ],
+   "report_claims_a03_closed": [
+    {
+     "path": "FHS_W0_R9_REPAIR_20261108/out/FHS_W0_R9_IMPLEMENTATION_REPAIR_REPORT_2026-11-08.md",
+     "line": 33
+    }
+   ],
+   "trace_gap": true,
+   "fix": "在 r9 正文 §gate 表（G20 SUPPLY_CHAIN_SPLIT 那列）與相鄰說明補上 `A-03` 標籤，或把修補報告的 `A-03 CLOSED` 改指 `G20`——否則報告的 evidence 欄指不到正文任何字串。"
+  },
+  {
+   "id": "T-04",
+   "title": "`--selftest` 的 exit code（HANDOVER §4 ↔ 實跑）",
+   "claimed": 1,
+   "claimed_location": "HANDOVER_R9_2026-11-08.md:[40, 45]",
+   "measured": 0,
+   "checks": 10,
+   "baseline_pass": 10,
+   "mutated_fired": 10,
+   "stderr_tail": [],
+   "fix": "HANDOVER §4 第三行與 §4 註記改成 `exit 0`；並改寫理由為「baseline 全 PASS 且 10/10 mutation FIRED 時回 0，任一 mutation 沒咬才回 1」——與 gate_w0r9.py:539 的實作一致。"
+  },
+  {
+   "id": "T-05",
+   "title": "SHA256SUMS 逐條驗證",
+   "entries": 59,
+   "entries_claimed_in_handover": 57,
+   "failing": [
+    {
+     "path": "out/LAYER_AUDIT.json",
+     "recorded": "b4dea468157d73342eee53b7788ffaf67d99eff4c48ee7bea0c8e1d67c02802f",
+     "actual": "2cd28b06e168bb24aea2b4890b0476e77336dc3b7d597bfebed6fc2b345a28ae",
+     "mtime": "2026-11-08T08:43:11+08:00"
+    }
+   ],
+   "missing": [],
+   "shell_sha256sum_failed": [
+    "out/LAYER_AUDIT.json"
+   ],
+   "cause": {
+    "verdict": "file_rewritten_after_sums",
+    "detail": "SHA256SUMS 寫出時刻早於該檔 mtime，且該檔內部 generated_at 與 mtime 同秒 —— 代表 sums 產生後該檔又被工具重跑覆寫，sums 本身在產生時是對的。",
+    "sums_mtime": "2026-11-08T08:43:10+08:00",
+    "file_mtime": "2026-11-08T08:43:11+08:00",
+    "gap_seconds": 0.673,
+    "file_internal_generated_at": "2026-11-08T08:43:11+08:00",
+    "generator": "tools/layer_audit.py:119,143（每次執行都寫入 generated_at 到 out/LAYER_AUDIT.json）",
+    "why_unstable": "輸出含執行時刻，沒有固定輸入 → 不可能對 sums 穩定；重跑一次就換 digest。"
+   },
+   "fix": "out/LAYER_AUDIT.json 在 make_sums 之後被 layer_audit.py 重跑覆寫（+0.67 s）。修法：把 layer_audit 排到 make_sums 之前，或讓 layer_audit 支援 `--out` 不覆寫既有檔；同時 HANDOVER §8 的「57 檔」改成實際 59 條。"
+  },
+  {
+   "id": "T-06",
+   "title": "generated_at 與 commit time 的時序",
+   "artifact_ts": "2026-11-08T10:20:00+08:00",
+   "artifact_ts_files": [
+    "FHS_W0_R9_REPAIR_20261108/out/stage/fabric/INTEGRATION/FHS/docs/as-built/W0/r9/PROVENANCE.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/MANIFEST.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_CLOSEOUT_DECISION.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_EVIDENCE_INDEX.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_HOLD_RESUME.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_REVISION_MANIFEST.json",
+    "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_WP_MATRIX.json",
+    "FHS_W0_R9_REPAIR_20261108/writeback/W0/W0_CLOSEOUT_DECISION.json"
+   ],
+   "artifact_ts_count": 13,
+   "min_ts": "2026-11-08T07:42:45+08:00",
+   "min_ts_file": "FHS_W0_R9_REPAIR_20261108/lanes/A/SOURCE_LOCK_V2.json",
+   "distinct_values": {
+    "2026-11-08T07:42:45+08:00": 2,
+    "2026-11-08T07:44:25+08:00": 2,
+    "2026-11-08T07:44:38+08:00": 4,
+    "2026-11-08T07:45:02+08:00": 2,
+    "2026-11-08T07:47:26+0800": 2,
+    "2026-11-08T07:50:00+0800": 2,
+    "2026-11-08T07:53:39+08:00": 2,
+    "2026-11-08T07:57:22+08:00": 2,
+    "2026-11-08T07:57:45+08:00": 2,
+    "2026-11-08T08:03:11+08:00": 2,
+    "2026-11-08T08:33:53+08:00": 1,
+    "2026-11-08T08:43:11+08:00": 1,
+    "2026-11-08T10:05:00+0800": 1,
+    "2026-11-08T10:20:00+08:00": 13
+   },
+   "commit_ts": {
+    "SBL": {
+     "commit_ts": "2026-11-08T08:34:14+08:00",
+     "head": "1fdad4edad76",
+     "worktree": "worktrees/pub-w0r9-sbl"
+    },
+    "Fabric": {
+     "commit_ts": "2026-11-08T08:34:15+08:00",
+     "head": "d17ad52bfc5e",
+     "worktree": "worktrees/pub-w0r9-fabric"
+    }
+   },
+   "skew_seconds": {
+    "SBL": 6346,
+    "Fabric": 6345
+   },
+   "max_skew_seconds": 6346,
+   "doc_mtime": "2026-11-08T08:23:49+08:00",
+   "verdict": "IMPOSSIBLE_ORDERING：13 個檔（含 MANIFEST／PROVENANCE／五個 sidecar）宣稱 10:20:00 產生，但這些檔的實體 mtime 是 08:23:49，而把它們送上分支的 commit 是 08:34:1x —— 宣稱時刻晚於自己被 commit 的時刻 6346 秒（約 1 小時 45 分）。",
+   "fix": "把 13 個 generated_at 改成實際寫檔時刻（08:23:49 一帶，逐檔不同）並重跑 manifest；若堅持用單一回合時間戳，必須早於 commit time，且由工具從系統時鐘取，不得寫死。"
+  },
+  {
+   "id": "T-07",
+   "title": "逐項判定計數與「8 of 10 closed」的出處",
+   "counts": {
+    "HOLD": 2,
+    "CLOSED_WITH_DRIFT": 3,
+    "CLOSED": 4,
+    "NOT_CLOSED": 1
+   },
+   "closed_plus_drift": 7,
+   "hold_plus_not_closed": 3,
+   "per_item": {
+    "V-01": "HOLD",
+    "V-02": "CLOSED_WITH_DRIFT",
+    "V-03": "CLOSED",
+    "V-04": "CLOSED_WITH_DRIFT",
+    "V-05": "CLOSED",
+    "V-06": "HOLD",
+    "V-07": "CLOSED",
+    "A-01": "NOT_CLOSED",
+    "A-02": "CLOSED_WITH_DRIFT",
+    "A-03": "CLOSED"
+   },
+   "aggregate_in_file": {
+    "closed": 4,
+    "closed_with_drift": 3,
+    "hold_or_not_closed": 3,
+    "original_ack": 0,
+    "note": "a single aggregate would hide that the three holds are the three that involve a second checkout"
+   },
+   "phrase": "8 of 10 closed",
+   "phrase_has_source": true,
+   "phrase_sources": [
+    {
+     "path": "FHS_W0_R9_REPAIR_20261108/writeback/W0/W0_CLOSEOUT_DECISION.json",
+     "line": 5,
+     "context": "\"basis\": \"8 of 10 defects are closed in tools and artifacts; 2 are owner-scoped and named\","
+    },
+    {
+     "path": "FHS_W0_R9_REPAIR_20261108/out/stage/sbl/evidence/fhs-w0-r9-repair-20261108/sidecars/W0_CLOSEOUT_DECISION.json",
+     "line": 5,
+     "context": "\"basis\": \"8 of 10 defects are closed in tools and artifacts; 2 are owner-scoped and named\","
+    }
+   ],
+   "verdict": "出處存在但推論不成立：片語出自 r9 自己的 W0_CLOSEOUT_DECISION.json:5 `basis`，不是 R10 的量測；R10 逐項是 CLOSED 4／CLOSED_WITH_DRIFT 3／其餘 3，寬鬆算法也只有 7 of 10。",
+   "fix": "引用時寫「4 CLOSED / 3 CLOSED_WITH_DRIFT / 3 HOLD-or-NOT_CLOSED」；W0_CLOSEOUT_DECISION.json 的 `basis` 改成逐項計數並註明它只是作者端宣告。"
+  }
+ ],
+ "summary": {
+  "status": "SEVEN_DISCREPANCIES_CONFIRMED",
+  "bytes": {
+   "claimed": 552210,
+   "measured": 552605,
+   "delta": 395
+  },
+  "pr_head": {
+   "claimed": {
+    "eeffd055bcca": 51,
+    "080f26b0fffc": 52
+   },
+   "measured": {
+    "SBL": "1fdad4edad769864a0b8d322b41b29d3beb9713f",
+    "Fabric": "d17ad52bfc5e7c4db64121773166276705fd8ff8"
+   }
+  },
+  "a03_mentions": 0,
+  "g20_mentions": 1,
+  "trace_gap": true,
+  "selftest_exit": 0,
+  "sums": {
+   "entries": 59,
+   "failing": [
+    "out/LAYER_AUDIT.json"
+   ]
+  },
+  "timing": {
+   "artifact_ts": "2026-11-08T10:20:00+08:00",
+   "max_skew_seconds": 6346
+  },
+  "verdict_counts": {
+   "HOLD": 2,
+   "CLOSED_WITH_DRIFT": 3,
+   "CLOSED": 4,
+   "NOT_CLOSED": 1
+  }
+ },
+ "non_claims": [
+  "ORIGINAL_ACK",
+  "INDEPENDENT_PASS",
+  "RELEASE_GRANTED",
+  "NATIVE_WORLDRAW"
+ ]
+}
