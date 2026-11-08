@@ -1,0 +1,2697 @@
+{
+ "schema": "FHS.W0.GateForensics/1",
+ "generated_at": "2026-11-08T10:13:15+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "not_claimed": [
+  "INDEPENDENT_REVIEW",
+  "GATE_FIXED",
+  "ACCEPTANCE",
+  "OWNER_ACK"
+ ],
+ "subject": {
+  "gate": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/tools/gate_w0r9.py",
+  "gate_sha256": "e40b283ca687bb0e55d9ea87ce762e9ef037b92b31c499638aaf8995f701a48a",
+  "round": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108",
+  "sandbox": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/A/_sandbox/round"
+ },
+ "definitions": {
+  "key_present_in_artifact": "true when every .get(\"literal\") key path the check reads in its r9 branch is written somewhere in the artifact it reads",
+  "checks_with_missing_keys": "number of the ten checks that read at least one key path the artifact never writes; .get() then returns None and the branch behind it cannot fire",
+  "dead_read": "a read whose EVERY candidate path is absent, i.e. the assertion that depends on it can never be exercised",
+  "reads": "key paths resolved from the AST (assignment chains + list scopes), not regex hits",
+  "fired": "the check returned ok is False after the artifact's real field was mutated"
+ },
+ "integrity": {
+  "sha256sums_file": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/SHA256SUMS",
+  "verified_ok": 58,
+  "not_ok": 1,
+  "failures": [
+   {
+    "path": "out/LAYER_AUDIT.json",
+    "why": "MISMATCH"
+   }
+  ],
+  "note": "the audit reads the upstream round and mutates only lanes/A/_sandbox/round; the one MISMATCH (out/LAYER_AUDIT.json) is older than this run — it was written 0.7s after SHA256SUMS in the r9 build — and is reported, not repaired. Running the gate's own --selftest (required evidence here) rewrites six artifacts in place and restores them: mtimes change, content does not, and SHA256SUMS re-verifies OK for every one of them."
+ },
+ "summary": {
+  "checks_total": 10,
+  "baseline_pass": 10,
+  "checks_reading_absent_keys": [
+   "G11",
+   "G13",
+   "G17",
+   "G18",
+   "G20"
+  ],
+  "checks_with_missing_keys": 5,
+  "mutations_fired": 9,
+  "mutations_silent": [
+   "G13"
+  ]
+ },
+ "checks": [
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "function": "g11_line_convention",
+   "reads_extracted_from": "g11_line_convention",
+   "artifact": "lanes/A/SOURCE_LOCK_V2.json",
+   "reads": [
+    {
+     "key": "records",
+     "receiver": "a",
+     "lineno": 157,
+     "paths": [
+      "records"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "sources",
+     "receiver": "a",
+     "lineno": 157,
+     "paths": [
+      "sources"
+     ],
+     "present": true,
+     "satisfied_by": "sources"
+    },
+    {
+     "key": "match",
+     "receiver": "rec",
+     "lineno": 160,
+     "paths": [
+      "sources[*].match"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "key",
+     "receiver": "inner",
+     "lineno": 162,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "sha256_match",
+     "receiver": "rec",
+     "lineno": 164,
+     "paths": [
+      "sources[*].sha256_match",
+      "sources[*].sha_match"
+     ],
+     "present": true,
+     "satisfied_by": "sources[*].sha_match"
+    },
+    {
+     "key": "sha_match",
+     "receiver": "rec",
+     "lineno": 164,
+     "paths": [
+      "sources[*].sha_match"
+     ],
+     "present": true,
+     "satisfied_by": "sources[*].sha_match"
+    },
+    {
+     "key": "f\"{key}_match\"",
+     "receiver": "rec",
+     "lineno": 165,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "source_id",
+     "receiver": "bad[0]",
+     "lineno": 171,
+     "paths": [
+      "<unresolved>.source_id"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "totals",
+     "receiver": "a",
+     "lineno": 172,
+     "paths": [
+      "totals"
+     ],
+     "present": true,
+     "satisfied_by": "totals"
+    },
+    {
+     "key": "declared_lines_sum",
+     "receiver": "tot",
+     "lineno": 173,
+     "paths": [
+      "totals.declared_lines_sum"
+     ],
+     "present": true,
+     "satisfied_by": "totals.declared_lines_sum"
+    },
+    {
+     "key": "observed_lines_sum",
+     "receiver": "tot",
+     "lineno": 173,
+     "paths": [
+      "totals.observed_lines_sum"
+     ],
+     "present": true,
+     "satisfied_by": "totals.observed_lines_sum"
+    },
+    {
+     "key": "convention",
+     "receiver": "a",
+     "lineno": 176,
+     "paths": [
+      "convention"
+     ],
+     "present": true,
+     "satisfied_by": "convention"
+    },
+    {
+     "key": "chosen",
+     "receiver": "conv",
+     "lineno": 177,
+     "paths": [
+      "convention.chosen"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "lines_posix_definition",
+     "receiver": "conv",
+     "lineno": 177,
+     "paths": [
+      "convention.lines_posix_definition"
+     ],
+     "present": true,
+     "satisfied_by": "convention.lines_posix_definition"
+    },
+    {
+     "key": "semantics_posix",
+     "receiver": "conv",
+     "lineno": 177,
+     "paths": [
+      "convention.semantics_posix"
+     ],
+     "present": true,
+     "satisfied_by": "convention.semantics_posix"
+    },
+    {
+     "key": "match_counts",
+     "receiver": "a",
+     "lineno": 181,
+     "paths": [
+      "match_counts"
+     ],
+     "present": true,
+     "satisfied_by": "match_counts"
+    },
+    {
+     "key": "match_counts",
+     "receiver": "tot",
+     "lineno": 181,
+     "paths": [
+      "totals.match_counts"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "lines",
+     "receiver": "mc",
+     "lineno": 182,
+     "paths": [
+      "match_counts.lines",
+      "totals.match_counts.lines",
+      "match_counts.lines_match",
+      "totals.match_counts.lines_match"
+     ],
+     "present": true,
+     "satisfied_by": "match_counts.lines_match"
+    },
+    {
+     "key": "lines_match",
+     "receiver": "mc",
+     "lineno": 182,
+     "paths": [
+      "match_counts.lines_match",
+      "totals.match_counts.lines_match"
+     ],
+     "present": true,
+     "satisfied_by": "match_counts.lines_match"
+    }
+   ],
+   "reads_total": 16,
+   "reads_missing": [
+    "records",
+    "sources[*].match",
+    "convention.chosen",
+    "totals.match_counts"
+   ],
+   "reads_missing_detail": [
+    {
+     "key": "records",
+     "paths": [
+      "records"
+     ],
+     "lineno": 157
+    },
+    {
+     "key": "match",
+     "paths": [
+      "sources[*].match"
+     ],
+     "lineno": 160
+    },
+    {
+     "key": "chosen",
+     "paths": [
+      "convention.chosen"
+     ],
+     "lineno": 177
+    },
+    {
+     "key": "match_counts",
+     "paths": [
+      "totals.match_counts"
+     ],
+     "lineno": 181
+    }
+   ],
+   "reads_unresolved": [
+    "key",
+    "f\"{key}_match\"",
+    "<unresolved>.source_id"
+   ],
+   "reads_with_missing_keys": 4,
+   "dead_reads": 4,
+   "artifact_writes": [
+    "absent",
+    "adopted_here",
+    "adopted_here_basis",
+    "all_three_match",
+    "assertions",
+    "assertions_all_pass",
+    "bytes_match",
+    "declared",
+    "declared_lines_sum",
+    "expected_lines_sum",
+    "false_fields",
+    "file",
+    "files",
+    "lines_match",
+    "lines_posix_definition",
+    "lines_split_crlf_delta_vs_declared",
+    "lines_split_crlf_delta_vs_newline_count",
+    "lines_verdict_basis",
+    "observed",
+    "observed_bytes_sum",
+    "observed_lines_sum",
+    "observed_posix_sum",
+    "observed_split_crlf_sum",
+    "old_convention_error",
+    "old_convention_expression",
+    "path",
+    "r6_verdict_rule_defect",
+    "semantics_posix",
+    "sha_match",
+    "source_id",
+    "verdict",
+    "verdict_rule",
+    "why_split_equals_old"
+   ],
+   "key_present_in_artifact": false,
+   "artifact_mutation_target": "lanes/A/SOURCE_LOCK_V2.json::sources.0.lines_match",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "31/31 bytes+lines+sha; sums 111331/111331; convention stated"
+   },
+   "mutation": {
+    "before": true,
+    "after": false,
+    "verdict": "FAIL",
+    "code": "LINE_FIELD_FALSE",
+    "fired": true
+   }
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "function": "g12_segmentation_rule",
+   "reads_extracted_from": "g12_segmentation_rule",
+   "artifact": "lanes/B/U0_PARTITION_V2.json",
+   "reads": [
+    {
+     "key": "totals",
+     "receiver": "a",
+     "lineno": 200,
+     "paths": [
+      "totals"
+     ],
+     "present": true,
+     "satisfied_by": "totals"
+    },
+    {
+     "key": "per_line_segments_sum",
+     "receiver": "tot",
+     "lineno": 201,
+     "paths": [
+      "totals.per_line_segments_sum"
+     ],
+     "present": true,
+     "satisfied_by": "totals.per_line_segments_sum"
+    },
+    {
+     "key": "structural_blocks_sum",
+     "receiver": "tot",
+     "lineno": 201,
+     "paths": [
+      "totals.structural_blocks_sum"
+     ],
+     "present": true,
+     "satisfied_by": "totals.structural_blocks_sum"
+    },
+    {
+     "key": "all_tile_exactly",
+     "receiver": "tot",
+     "lineno": 208,
+     "paths": [
+      "totals.all_tile_exactly"
+     ],
+     "present": true,
+     "satisfied_by": "totals.all_tile_exactly"
+    },
+    {
+     "key": "rule_semantics",
+     "receiver": "a",
+     "lineno": 210,
+     "paths": [
+      "rule_semantics"
+     ],
+     "present": true,
+     "satisfied_by": "rule_semantics"
+    },
+    {
+     "key": "files",
+     "receiver": "a",
+     "lineno": 214,
+     "paths": [
+      "files"
+     ],
+     "present": true,
+     "satisfied_by": "files"
+    },
+    {
+     "key": "per_line",
+     "receiver": "f.get(\"tiles_exactly\", {})",
+     "lineno": 215,
+     "paths": [
+      "files[*].tiles_exactly.per_line"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].tiles_exactly.per_line"
+    },
+    {
+     "key": "source_id",
+     "receiver": "f",
+     "lineno": 215,
+     "paths": [
+      "files[*].source_id"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].source_id"
+    },
+    {
+     "key": "structural",
+     "receiver": "f.get(\"tiles_exactly\", {})",
+     "lineno": 215,
+     "paths": [
+      "files[*].tiles_exactly.structural"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].tiles_exactly.structural"
+    },
+    {
+     "key": "tiles_exactly",
+     "receiver": "f",
+     "lineno": 215,
+     "paths": [
+      "files[*].tiles_exactly"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].tiles_exactly"
+    },
+    {
+     "key": "tiles_exactly",
+     "receiver": "f",
+     "lineno": 215,
+     "paths": [
+      "files[*].tiles_exactly"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].tiles_exactly"
+    }
+   ],
+   "reads_total": 11,
+   "reads_missing": [],
+   "reads_missing_detail": [],
+   "reads_unresolved": [],
+   "reads_with_missing_keys": 0,
+   "dead_reads": 0,
+   "artifact_writes": [
+    "all_tile_exactly",
+    "all_tile_per_line",
+    "all_tile_structural",
+    "bytes",
+    "bytes_sum",
+    "class_histogram_per_line",
+    "class_histogram_structural",
+    "decode",
+    "degraded_files",
+    "ends_with_newline",
+    "expected_per_line_segments",
+    "fence_delimiters",
+    "fence_open_at_eof",
+    "file",
+    "files",
+    "files_with_per_line_tiling",
+    "files_with_structural_tiling",
+    "first_3_structural_blocks",
+    "html_comment_open_at_eof",
+    "newlines",
+    "per_line",
+    "per_line_segments",
+    "per_line_segments_sum",
+    "sha256_source",
+    "source_id",
+    "structural",
+    "structural_blocks",
+    "structural_blocks_sum",
+    "tile_detail",
+    "tiles_exactly"
+   ],
+   "key_present_in_artifact": true,
+   "artifact_mutation_target": "lanes/B/U0_PARTITION_V2.json::totals.structural_blocks_sum",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "per_line=111331 structural=25201 files=31 both rules tile"
+   },
+   "mutation": {
+    "before": 25201,
+    "after": 111331,
+    "verdict": "FAIL",
+    "code": "RULES_COLLAPSED",
+    "fired": true
+   }
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "function": "g13_count_scope",
+   "reads_extracted_from": "g13_count_scope",
+   "artifact": "lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json",
+   "reads": [
+    {
+     "key": "in_set",
+     "receiver": "a",
+     "lineno": 230,
+     "paths": [
+      "in_set"
+     ],
+     "present": true,
+     "satisfied_by": "in_set"
+    },
+    {
+     "key": "in_set_31",
+     "receiver": "a",
+     "lineno": 230,
+     "paths": [
+      "in_set_31"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "k",
+     "receiver": "a",
+     "lineno": 234,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "scope",
+     "receiver": "blk",
+     "lineno": 238,
+     "paths": [
+      "[*].scope"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "match_rule",
+     "receiver": "blk",
+     "lineno": 241,
+     "paths": [
+      "[*].match_rule"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "duplicate_basename_groups",
+     "receiver": "inb",
+     "lineno": 243,
+     "paths": [
+      "in_set.duplicate_basename_groups",
+      "in_set_31.duplicate_basename_groups",
+      "in_set.duplicate_names",
+      "in_set_31.duplicate_names"
+     ],
+     "present": true,
+     "satisfied_by": "in_set.duplicate_basename_groups"
+    },
+    {
+     "key": "duplicate_names",
+     "receiver": "inb",
+     "lineno": 243,
+     "paths": [
+      "in_set.duplicate_names",
+      "in_set_31.duplicate_names"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "duplicate_digest_groups",
+     "receiver": "inb",
+     "lineno": 244,
+     "paths": [
+      "in_set.duplicate_digest_groups",
+      "in_set_31.duplicate_digest_groups",
+      "in_set.duplicate_digests",
+      "in_set_31.duplicate_digests"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "duplicate_digests",
+     "receiver": "inb",
+     "lineno": 244,
+     "paths": [
+      "in_set.duplicate_digests",
+      "in_set_31.duplicate_digests"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "source_files_with_at_least_one_divergent_copy",
+     "receiver": "blk",
+     "lineno": 249,
+     "paths": [
+      "[*].source_files_with_at_least_one_divergent_copy"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "canonical_resolution",
+     "receiver": "a",
+     "lineno": 253,
+     "paths": [
+      "canonical_resolution"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution"
+    },
+    {
+     "key": "state",
+     "receiver": "a.get(\"canonical_resolution\", {})",
+     "lineno": 253,
+     "paths": [
+      "canonical_resolution.state"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution.state"
+    },
+    {
+     "key": "canonical_resolution",
+     "receiver": "a",
+     "lineno": 254,
+     "paths": [
+      "canonical_resolution"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution"
+    },
+    {
+     "key": "state",
+     "receiver": "a.get('canonical_resolution', {})",
+     "lineno": 254,
+     "paths": [
+      "canonical_resolution.state"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution.state"
+    }
+   ],
+   "reads_total": 10,
+   "reads_missing": [
+    "in_set_31",
+    "in_set.duplicate_names",
+    "in_set.duplicate_digest_groups",
+    "in_set.duplicate_digests"
+   ],
+   "reads_missing_detail": [
+    {
+     "key": "in_set_31",
+     "paths": [
+      "in_set_31"
+     ],
+     "lineno": 230
+    },
+    {
+     "key": "duplicate_names",
+     "paths": [
+      "in_set.duplicate_names",
+      "in_set_31.duplicate_names"
+     ],
+     "lineno": 243
+    },
+    {
+     "key": "duplicate_digest_groups",
+     "paths": [
+      "in_set.duplicate_digest_groups",
+      "in_set_31.duplicate_digest_groups",
+      "in_set.duplicate_digests",
+      "in_set_31.duplicate_digests"
+     ],
+     "lineno": 244
+    },
+    {
+     "key": "duplicate_digests",
+     "paths": [
+      "in_set.duplicate_digests",
+      "in_set_31.duplicate_digests"
+     ],
+     "lineno": 244
+    }
+   ],
+   "reads_unresolved": [
+    "k",
+    "[*].scope",
+    "[*].match_rule",
+    "[*].source_files_with_at_least_one_divergent_copy"
+   ],
+   "reads_with_missing_keys": 4,
+   "dead_reads": 4,
+   "artifact_writes": [
+    "candidate_population_scope",
+    "candidates_requiring_owner_choice",
+    "collisions_total",
+    "denominator",
+    "distinct_basenames",
+    "distinct_sha256",
+    "distinct_source_ids",
+    "duplicate_basename_extra_files",
+    "duplicate_basename_groups",
+    "duplicate_basename_values",
+    "duplicate_sha256_extra_files",
+    "duplicate_sha256_groups",
+    "duplicate_sha256_values",
+    "duplicate_source_id_extra_rows",
+    "duplicate_source_id_groups",
+    "duplicate_source_id_values",
+    "not_performed",
+    "note",
+    "owner_decision_needed_on",
+    "population",
+    "scope",
+    "state",
+    "why"
+   ],
+   "key_present_in_artifact": false,
+   "artifact_mutation_target": "lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json::in_set.duplicate_sha256_groups",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED"
+   },
+   "mutation": {
+    "before": 0,
+    "after": 4,
+    "verdict": "PASS",
+    "code": "OK",
+    "fired": false
+   }
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "function": "g14_maximum_is_global",
+   "reads_extracted_from": "g14_maximum_is_global",
+   "artifact": "lanes/C/DISTINCTNESS_V2.json",
+   "reads": [
+    {
+     "key": "max_overall",
+     "receiver": "a",
+     "lineno": 270,
+     "paths": [
+      "max_overall"
+     ],
+     "present": true,
+     "satisfied_by": "max_overall"
+    },
+    {
+     "key": "k",
+     "receiver": "a",
+     "lineno": 275,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "prior_claim",
+     "receiver": "a",
+     "lineno": 283,
+     "paths": [
+      "prior_claim"
+     ],
+     "present": true,
+     "satisfied_by": "prior_claim"
+    },
+    {
+     "key": "reproduced_as_maximum",
+     "receiver": "pc",
+     "lineno": 284,
+     "paths": [
+      "prior_claim.reproduced_as_maximum"
+     ],
+     "present": true,
+     "satisfied_by": "prior_claim.reproduced_as_maximum"
+    },
+    {
+     "key": "value",
+     "receiver": "pc",
+     "lineno": 284,
+     "paths": [
+      "prior_claim.value"
+     ],
+     "present": true,
+     "satisfied_by": "prior_claim.value"
+    },
+    {
+     "key": "negative_control",
+     "receiver": "a",
+     "lineno": 286,
+     "paths": [
+      "negative_control"
+     ],
+     "present": true,
+     "satisfied_by": "negative_control"
+    },
+    {
+     "key": "negative_control_bites",
+     "receiver": "a",
+     "lineno": 287,
+     "paths": [
+      "negative_control_bites"
+     ],
+     "present": true,
+     "satisfied_by": "negative_control_bites"
+    },
+    {
+     "key": "bites",
+     "receiver": "nc",
+     "lineno": 289,
+     "paths": [
+      "negative_control.bites"
+     ],
+     "present": true,
+     "satisfied_by": "negative_control.bites"
+    },
+    {
+     "key": "similarities",
+     "receiver": "nc",
+     "lineno": 291,
+     "paths": [
+      "negative_control.similarities"
+     ],
+     "present": true,
+     "satisfied_by": "negative_control.similarities"
+    },
+    {
+     "key": "sentence_threshold",
+     "receiver": "a.get(\"thresholds\", {})",
+     "lineno": 292,
+     "paths": [
+      "thresholds.sentence_threshold"
+     ],
+     "present": true,
+     "satisfied_by": "thresholds.sentence_threshold"
+    },
+    {
+     "key": "thresholds",
+     "receiver": "a",
+     "lineno": 292,
+     "paths": [
+      "thresholds"
+     ],
+     "present": true,
+     "satisfied_by": "thresholds"
+    }
+   ],
+   "reads_total": 10,
+   "reads_missing": [],
+   "reads_missing_detail": [],
+   "reads_unresolved": [
+    "k"
+   ],
+   "reads_with_missing_keys": 0,
+   "dead_reads": 0,
+   "artifact_writes": [
+    "bite_rule",
+    "bites",
+    "char5_threshold",
+    "cleaned_up",
+    "clone_bytes",
+    "clone_sha256",
+    "delta_nearest_v2",
+    "description",
+    "field_it_actually_belongs_to",
+    "id",
+    "len_delta",
+    "max",
+    "measured_value_here",
+    "mutated_line",
+    "nearest_5_v2",
+    "original_bytes",
+    "per_method",
+    "prior_replication",
+    "prior_replication_max",
+    "reproduced_as_maximum",
+    "reproduced_at_all",
+    "reproduced_exact_value",
+    "reproduction_normalization",
+    "sentence_threshold",
+    "similarities",
+    "v2_hits_at_0075",
+    "v2_nearest",
+    "value",
+    "verdict"
+   ],
+   "key_present_in_artifact": true,
+   "artifact_mutation_target": "lanes/C/DISTINCTNESS_V2.json::max_overall",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "max_overall=0.245432 equals the largest of 8 breakdown values; negative control fired"
+   },
+   "mutation": {
+    "before": 0.245432,
+    "after": 0.0,
+    "verdict": "FAIL",
+    "code": "MAXIMUM_IS_NOT_GLOBAL",
+    "fired": true
+   }
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "function": "g15_licence_layer",
+   "reads_extracted_from": "g15_licence_layer",
+   "artifact": "lanes/D/WP19_V2.json",
+   "reads": [
+    {
+     "key": "claim",
+     "receiver": "r",
+     "lineno": 322,
+     "paths": [
+      "[*].claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "claim",
+     "receiver": "r.get(\"licence\") or {}",
+     "lineno": 324,
+     "paths": [
+      "[*].licence.claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "licence",
+     "receiver": "r",
+     "lineno": 324,
+     "paths": [
+      "[*].licence"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "root_licence_present",
+     "receiver": "cl",
+     "lineno": 327,
+     "paths": [
+      "repos[*].licence.claim.root_licence_present",
+      "repos[*].claim.root_licence_present"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].licence.claim.root_licence_present"
+    },
+    {
+     "key": "nested_licence_count",
+     "receiver": "cl",
+     "lineno": 329,
+     "paths": [
+      "repos[*].licence.claim.nested_licence_count",
+      "repos[*].claim.nested_licence_count"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].licence.claim.nested_licence_count"
+    },
+    {
+     "key": "scope_note",
+     "receiver": "cl",
+     "lineno": 331,
+     "paths": [
+      "repos[*].licence.claim.scope_note",
+      "repos[*].claim.scope_note"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].licence.claim.scope_note"
+    },
+    {
+     "key": "claim",
+     "receiver": "r",
+     "lineno": 334,
+     "paths": [
+      "[*].claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "claim",
+     "receiver": "r.get('licence') or {}",
+     "lineno": 334,
+     "paths": [
+      "[*].licence.claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "licence",
+     "receiver": "r",
+     "lineno": 334,
+     "paths": [
+      "[*].licence"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "root_licence_present",
+     "receiver": "r.get('claim') or (r.get('licence') or {}).get('claim') or {}",
+     "lineno": 334,
+     "paths": [
+      "[*].claim.root_licence_present",
+      "[*].licence.claim.root_licence_present"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "claim",
+     "receiver": "r",
+     "lineno": 335,
+     "paths": [
+      "[*].claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "claim",
+     "receiver": "r.get('licence') or {}",
+     "lineno": 335,
+     "paths": [
+      "[*].licence.claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "licence",
+     "receiver": "r",
+     "lineno": 335,
+     "paths": [
+      "[*].licence"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "nested_licence_count",
+     "receiver": "r.get('claim') or (r.get('licence') or {}).get('claim') or {}",
+     "lineno": 335,
+     "paths": [
+      "[*].claim.nested_licence_count",
+      "[*].licence.claim.nested_licence_count"
+     ],
+     "present": null,
+     "satisfied_by": null
+    }
+   ],
+   "reads_total": 3,
+   "reads_missing": [],
+   "reads_missing_detail": [],
+   "reads_unresolved": [
+    "[*].claim",
+    "[*].licence.claim",
+    "[*].licence",
+    "[*].claim",
+    "[*].licence.claim",
+    "[*].licence",
+    "[*].claim.root_licence_present",
+    "[*].claim",
+    "[*].licence.claim",
+    "[*].licence",
+    "[*].claim.nested_licence_count"
+   ],
+   "reads_with_missing_keys": 0,
+   "dead_reads": 0,
+   "artifact_writes": [
+    "nested_licence_count",
+    "root_licence_present",
+    "scope_note"
+   ],
+   "key_present_in_artifact": true,
+   "artifact_mutation_target": "lanes/D/WP19_V2.json::repos.sbl.licence.claim.scope_note",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "sbl:root=True,nested=2; fabric:root=False,nested=6; hgk:root=False,nested=8"
+   },
+   "mutation": {
+    "before": "root directory licence files: LICENSE (1068B), NOTICE (684B); the tracked tree also carries 2 nested licence/NOTICE file(s) (deepest depth 3). Any licence statement must name which scope it measured.",
+    "after": "",
+    "verdict": "FAIL",
+    "code": "LICENCE_SCOPE_NOTE",
+    "fired": true
+   }
+  },
+  {
+   "check": "G16",
+   "name": "DECLARED_COVERS_IMPORTS",
+   "function": "g16_declared_covers_imports",
+   "reads_extracted_from": "g16_declared_covers_imports",
+   "artifact": "lanes/D/WP19_V2.json",
+   "reads": [
+    {
+     "key": "dependencies",
+     "receiver": "r",
+     "lineno": 356,
+     "paths": [
+      "[*].dependencies"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "module",
+     "receiver": "u",
+     "lineno": 359,
+     "paths": [
+      "repos[*].dependencies.undeclared_third_party[*].module"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.undeclared_third_party[*].module"
+    },
+    {
+     "key": "undeclared_third_party",
+     "receiver": "deps",
+     "lineno": 359,
+     "paths": [
+      "repos[*].dependencies.undeclared_third_party"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.undeclared_third_party"
+    },
+    {
+     "key": "declared_covers_imports",
+     "receiver": "deps",
+     "lineno": 360,
+     "paths": [
+      "repos[*].dependencies.declared_covers_imports"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.declared_covers_imports"
+    },
+    {
+     "key": "dependencies",
+     "receiver": "row",
+     "lineno": 364,
+     "paths": [
+      "repos[*].dependencies"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies"
+    },
+    {
+     "key": "module",
+     "receiver": "u",
+     "lineno": 365,
+     "paths": [
+      "repos[*].dependencies.undeclared_third_party[*].module"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.undeclared_third_party[*].module"
+    },
+    {
+     "key": "undeclared_third_party",
+     "receiver": "deps",
+     "lineno": 365,
+     "paths": [
+      "repos[*].dependencies.undeclared_third_party"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.undeclared_third_party"
+    },
+    {
+     "key": "declared_covers_imports",
+     "receiver": "deps",
+     "lineno": 372,
+     "paths": [
+      "repos[*].dependencies.declared_covers_imports"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].dependencies.declared_covers_imports"
+    }
+   ],
+   "reads_total": 7,
+   "reads_missing": [],
+   "reads_missing_detail": [],
+   "reads_unresolved": [
+    "[*].dependencies"
+   ],
+   "reads_with_missing_keys": 0,
+   "dead_reads": 0,
+   "artifact_writes": [
+    "branch",
+    "ci",
+    "count",
+    "cryptography_audit",
+    "declared",
+    "declared_covers_imports",
+    "dependencies",
+    "excluded_nested_projects",
+    "files",
+    "head",
+    "label",
+    "licence",
+    "missing",
+    "module",
+    "path",
+    "post_dirty",
+    "post_status_porcelain",
+    "pre_dirty",
+    "pre_status_porcelain",
+    "sbom",
+    "scope_note",
+    "slug",
+    "status_changed",
+    "supply_chain_claim",
+    "tracked_files_scanned",
+    "tracked_files_total",
+    "undeclared_but_not_in_built_distribution",
+    "undeclared_third_party",
+    "units"
+   ],
+   "key_present_in_artifact": true,
+   "artifact_mutation_target": "lanes/D/WP19_V2.json::repos.hgk.dependencies.undeclared_third_party(+cryptography)",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "hgk: undeclared=['yaml']; declared_covers_imports=False"
+   },
+   "mutation": {
+    "before": [
+     "yaml"
+    ],
+    "after": [
+     "yaml",
+     "cryptography"
+    ],
+    "verdict": "FAIL",
+    "code": "CRYPTOGRAPHY_FALSELY_MARKED_UNDECLARED",
+    "fired": true
+   }
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "function": "g17_enum_slash_safe",
+   "reads_extracted_from": "g17_enum_slash_safe",
+   "artifact": "lanes/E/WP21_ENUM_V2.json",
+   "reads": [
+    {
+     "key": "denominators",
+     "receiver": "a",
+     "lineno": 382,
+     "paths": [
+      "denominators"
+     ],
+     "present": true,
+     "satisfied_by": "denominators"
+    },
+    {
+     "key": "k",
+     "receiver": "d",
+     "lineno": 385,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "measured",
+     "receiver": "cell",
+     "lineno": 386,
+     "paths": [
+      "denominators[*].measured"
+     ],
+     "present": true,
+     "satisfied_by": "denominators[*].measured"
+    },
+    {
+     "key": "naive_undercount",
+     "receiver": "a",
+     "lineno": 389,
+     "paths": [
+      "naive_undercount"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount"
+    },
+    {
+     "key": "naive",
+     "receiver": "nu",
+     "lineno": 390,
+     "paths": [
+      "naive_undercount.naive"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.naive"
+    },
+    {
+     "key": "robust",
+     "receiver": "nu",
+     "lineno": 390,
+     "paths": [
+      "naive_undercount.robust"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.robust"
+    },
+    {
+     "key": "missing_id",
+     "receiver": "nu",
+     "lineno": 392,
+     "paths": [
+      "naive_undercount.missing_id"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.missing_id"
+    },
+    {
+     "key": "seam",
+     "receiver": "a",
+     "lineno": 394,
+     "paths": [
+      "seam"
+     ],
+     "present": true,
+     "satisfied_by": "seam"
+    },
+    {
+     "key": "expected_ids",
+     "receiver": "seam",
+     "lineno": 395,
+     "paths": [
+      "seam.expected_ids"
+     ],
+     "present": true,
+     "satisfied_by": "seam.expected_ids"
+    },
+    {
+     "key": "ids",
+     "receiver": "seam",
+     "lineno": 395,
+     "paths": [
+      "seam.ids"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "seam_ids",
+     "receiver": "a",
+     "lineno": 395,
+     "paths": [
+      "seam_ids"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "naive_ids",
+     "receiver": "seam",
+     "lineno": 399,
+     "paths": [
+      "seam.naive_ids"
+     ],
+     "present": true,
+     "satisfied_by": "seam.naive_ids"
+    },
+    {
+     "key": "oracle_cross_product",
+     "receiver": "a",
+     "lineno": 402,
+     "paths": [
+      "oracle_cross_product"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "oracle_cross_product",
+     "receiver": "seam",
+     "lineno": 402,
+     "paths": [
+      "seam.oracle_cross_product"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "groups",
+     "receiver": "a",
+     "lineno": 403,
+     "paths": [
+      "groups"
+     ],
+     "present": true,
+     "satisfied_by": "groups"
+    },
+    {
+     "key": "oracle96",
+     "receiver": "a.get(\"groups\") or {}",
+     "lineno": 403,
+     "paths": [
+      "groups.oracle96"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96"
+    },
+    {
+     "key": "class_count",
+     "receiver": "x",
+     "lineno": 404,
+     "paths": [
+      "oracle_cross_product.class_count",
+      "seam.oracle_cross_product.class_count",
+      "groups.oracle96.class_count"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96.class_count"
+    },
+    {
+     "key": "classes",
+     "receiver": "x",
+     "lineno": 404,
+     "paths": [
+      "oracle_cross_product.classes",
+      "seam.oracle_cross_product.classes",
+      "groups.oracle96.classes"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96.classes"
+    },
+    {
+     "key": "type_count",
+     "receiver": "x",
+     "lineno": 405,
+     "paths": [
+      "oracle_cross_product.type_count",
+      "seam.oracle_cross_product.type_count",
+      "groups.oracle96.type_count"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96.type_count"
+    },
+    {
+     "key": "types",
+     "receiver": "x",
+     "lineno": 405,
+     "paths": [
+      "oracle_cross_product.types",
+      "seam.oracle_cross_product.types",
+      "groups.oracle96.types"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96.types"
+    },
+    {
+     "key": "complete",
+     "receiver": "x",
+     "lineno": 406,
+     "paths": [
+      "oracle_cross_product.complete",
+      "seam.oracle_cross_product.complete",
+      "groups.oracle96.complete"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "complete_12x8",
+     "receiver": "x",
+     "lineno": 406,
+     "paths": [
+      "oracle_cross_product.complete_12x8",
+      "seam.oracle_cross_product.complete_12x8",
+      "groups.oracle96.complete_12x8",
+      "oracle_cross_product.complete",
+      "seam.oracle_cross_product.complete",
+      "groups.oracle96.complete"
+     ],
+     "present": true,
+     "satisfied_by": "groups.oracle96.complete_12x8"
+    },
+    {
+     "key": "k",
+     "receiver": "x",
+     "lineno": 408,
+     "paths": [],
+     "present": null,
+     "note": "DYNAMIC_KEY"
+    },
+    {
+     "key": "missing_id",
+     "receiver": "nu",
+     "lineno": 409,
+     "paths": [
+      "naive_undercount.missing_id"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.missing_id"
+    },
+    {
+     "key": "naive",
+     "receiver": "nu",
+     "lineno": 409,
+     "paths": [
+      "naive_undercount.naive"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.naive"
+    },
+    {
+     "key": "robust",
+     "receiver": "nu",
+     "lineno": 409,
+     "paths": [
+      "naive_undercount.robust"
+     ],
+     "present": true,
+     "satisfied_by": "naive_undercount.robust"
+    }
+   ],
+   "reads_total": 24,
+   "reads_missing": [
+    "seam.ids",
+    "seam_ids",
+    "oracle_cross_product",
+    "seam.oracle_cross_product",
+    "oracle_cross_product.complete"
+   ],
+   "reads_missing_detail": [
+    {
+     "key": "ids",
+     "paths": [
+      "seam.ids"
+     ],
+     "lineno": 395
+    },
+    {
+     "key": "seam_ids",
+     "paths": [
+      "seam_ids"
+     ],
+     "lineno": 395
+    },
+    {
+     "key": "oracle_cross_product",
+     "paths": [
+      "oracle_cross_product"
+     ],
+     "lineno": 402
+    },
+    {
+     "key": "oracle_cross_product",
+     "paths": [
+      "seam.oracle_cross_product"
+     ],
+     "lineno": 402
+    },
+    {
+     "key": "complete",
+     "paths": [
+      "oracle_cross_product.complete",
+      "seam.oracle_cross_product.complete",
+      "groups.oracle96.complete"
+     ],
+     "lineno": 406
+    }
+   ],
+   "reads_unresolved": [
+    "k",
+    "k"
+   ],
+   "reads_with_missing_keys": 5,
+   "dead_reads": 5,
+   "artifact_writes": [
+    "ac15",
+    "cause",
+    "cause_detail",
+    "claimed",
+    "class_count",
+    "classes",
+    "complete_12x8",
+    "contiguous",
+    "count",
+    "delta",
+    "duplicate_pairs",
+    "expected_ids",
+    "extra",
+    "h4",
+    "match",
+    "measured",
+    "missing",
+    "missing_id",
+    "missing_pairs",
+    "naive",
+    "naive_count",
+    "naive_ids",
+    "naive_measured",
+    "naive_rejected_rows",
+    "naive_whitespace_only",
+    "naive_whitespace_only_count",
+    "note",
+    "occurrence_counts",
+    "occurrence_lines",
+    "oracle96",
+    "pair_count",
+    "pattern",
+    "robust",
+    "robust_count",
+    "robust_equals_01_11",
+    "robust_ids",
+    "total_occurrences",
+    "type_count",
+    "types",
+    "unique_ids"
+   ],
+   "key_present_in_artifact": false,
+   "artifact_mutation_target": "lanes/E/WP21_ENUM_V2.json::denominators.seam.measured",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "ac15=15 oracle96=96 h4=12 seam=11; naive=10 robust=11 missing=SEAM-09"
+   },
+   "mutation": {
+    "before": 11,
+    "after": 10,
+    "verdict": "FAIL",
+    "code": "DENOMINATOR_SEAM",
+    "fired": true
+   }
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "function": "g18_digest_locality",
+   "reads_extracted_from": "verify_manifest_locality (helper called by G18)",
+   "artifact": "out/stage/**/{MANIFEST,PROVENANCE}.json (2 manifests)",
+   "reads": [
+    {
+     "key": "artifacts",
+     "receiver": "doc",
+     "lineno": 117,
+     "paths": [
+      "artifacts"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "entries",
+     "receiver": "doc",
+     "lineno": 117,
+     "paths": [
+      "entries"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "files",
+     "receiver": "doc",
+     "lineno": 117,
+     "paths": [
+      "files"
+     ],
+     "present": true,
+     "satisfied_by": "files"
+    },
+    {
+     "key": "artifact",
+     "receiver": "e",
+     "lineno": 127,
+     "paths": [
+      "files[*].artifact",
+      "entries[*].artifact",
+      "artifacts[*].artifact"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "file",
+     "receiver": "e",
+     "lineno": 127,
+     "paths": [
+      "files[*].file",
+      "entries[*].file",
+      "artifacts[*].file"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "path",
+     "receiver": "e",
+     "lineno": 127,
+     "paths": [
+      "files[*].path",
+      "entries[*].path",
+      "artifacts[*].path"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].path"
+    },
+    {
+     "key": "digest",
+     "receiver": "e",
+     "lineno": 128,
+     "paths": [
+      "files[*].digest",
+      "entries[*].digest",
+      "artifacts[*].digest"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "sha256",
+     "receiver": "e",
+     "lineno": 128,
+     "paths": [
+      "files[*].sha256",
+      "entries[*].sha256",
+      "artifacts[*].sha256"
+     ],
+     "present": true,
+     "satisfied_by": "files[*].sha256"
+    }
+   ],
+   "reads_total": 8,
+   "reads_missing": [
+    "artifacts",
+    "entries",
+    "files[*].artifact",
+    "files[*].file",
+    "files[*].digest"
+   ],
+   "reads_missing_detail": [
+    {
+     "key": "artifacts",
+     "paths": [
+      "artifacts"
+     ],
+     "lineno": 117
+    },
+    {
+     "key": "entries",
+     "paths": [
+      "entries"
+     ],
+     "lineno": 117
+    },
+    {
+     "key": "artifact",
+     "paths": [
+      "files[*].artifact",
+      "entries[*].artifact",
+      "artifacts[*].artifact"
+     ],
+     "lineno": 127
+    },
+    {
+     "key": "file",
+     "paths": [
+      "files[*].file",
+      "entries[*].file",
+      "artifacts[*].file"
+     ],
+     "lineno": 127
+    },
+    {
+     "key": "digest",
+     "paths": [
+      "files[*].digest",
+      "entries[*].digest",
+      "artifacts[*].digest"
+     ],
+     "lineno": 128
+    }
+   ],
+   "reads_unresolved": [],
+   "reads_with_missing_keys": 5,
+   "dead_reads": 5,
+   "artifact_writes": [
+    "bytes",
+    "bytes_round",
+    "normalised_from_crlf",
+    "path",
+    "sha256",
+    "sha256_round"
+   ],
+   "key_present_in_artifact": false,
+   "artifact_mutation_target": "out/stage/fabric/INTEGRATION/FHS/docs/as-built/W0/r9/PROVENANCE.json::files[0].sha256",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "34/34 digests resolve inside their own payload across 2 manifests"
+   },
+   "mutation": {
+    "before": "c15693d88d034679740f194fa3c873f7ada13e50a2056b282e3a1cda826bce9d",
+    "after": "0000000000000000000000000000000000000000000000000000000000000000",
+    "verdict": "FAIL",
+    "code": "DIGEST_CROSSES_PAYLOAD",
+    "fired": true
+   }
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "function": "g19_copy_register",
+   "reads_extracted_from": "g19_copy_register",
+   "artifact": "out/SOURCE_COPY_REGISTER.json",
+   "reads": [
+    {
+     "key": "identity_31",
+     "receiver": "a",
+     "lineno": 452,
+     "paths": [
+      "identity_31"
+     ],
+     "present": true,
+     "satisfied_by": "identity_31"
+    },
+    {
+     "key": "files",
+     "receiver": "ident",
+     "lineno": 453,
+     "paths": [
+      "identity_31.files"
+     ],
+     "present": true,
+     "satisfied_by": "identity_31.files"
+    },
+    {
+     "key": "files",
+     "receiver": "ident",
+     "lineno": 454,
+     "paths": [
+      "identity_31.files"
+     ],
+     "present": true,
+     "satisfied_by": "identity_31.files"
+    },
+    {
+     "key": "duplicate_digests",
+     "receiver": "ident",
+     "lineno": 455,
+     "paths": [
+      "identity_31.duplicate_digests"
+     ],
+     "present": true,
+     "satisfied_by": "identity_31.duplicate_digests"
+    },
+    {
+     "key": "duplicate_names",
+     "receiver": "ident",
+     "lineno": 455,
+     "paths": [
+      "identity_31.duplicate_names"
+     ],
+     "present": true,
+     "satisfied_by": "identity_31.duplicate_names"
+    },
+    {
+     "key": "ambiguous",
+     "receiver": "a",
+     "lineno": 457,
+     "paths": [
+      "ambiguous"
+     ],
+     "present": true,
+     "satisfied_by": "ambiguous"
+    },
+    {
+     "key": "distinct_digests",
+     "receiver": "g",
+     "lineno": 459,
+     "paths": [
+      "ambiguous[*].distinct_digests"
+     ],
+     "present": true,
+     "satisfied_by": "ambiguous[*].distinct_digests"
+    },
+    {
+     "key": "name",
+     "receiver": "g",
+     "lineno": 460,
+     "paths": [
+      "ambiguous[*].name"
+     ],
+     "present": true,
+     "satisfied_by": "ambiguous[*].name"
+    },
+    {
+     "key": "differing_bytes",
+     "receiver": "g",
+     "lineno": 461,
+     "paths": [
+      "ambiguous[*].differing_bytes"
+     ],
+     "present": true,
+     "satisfied_by": "ambiguous[*].differing_bytes"
+    },
+    {
+     "key": "name",
+     "receiver": "g",
+     "lineno": 462,
+     "paths": [
+      "ambiguous[*].name"
+     ],
+     "present": true,
+     "satisfied_by": "ambiguous[*].name"
+    },
+    {
+     "key": "canonical_resolution",
+     "receiver": "a",
+     "lineno": 463,
+     "paths": [
+      "canonical_resolution"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution"
+    },
+    {
+     "key": "state",
+     "receiver": "a.get(\"canonical_resolution\", {})",
+     "lineno": 463,
+     "paths": [
+      "canonical_resolution.state"
+     ],
+     "present": true,
+     "satisfied_by": "canonical_resolution.state"
+    },
+    {
+     "key": "names_registered",
+     "receiver": "a",
+     "lineno": 465,
+     "paths": [
+      "names_registered"
+     ],
+     "present": true,
+     "satisfied_by": "names_registered"
+    }
+   ],
+   "reads_total": 13,
+   "reads_missing": [],
+   "reads_missing_detail": [],
+   "reads_unresolved": [],
+   "reads_with_missing_keys": 0,
+   "dead_reads": 0,
+   "artifact_writes": [
+    "candidates_requiring_owner_choice",
+    "copies",
+    "difference_context",
+    "differing_bytes",
+    "distinct_digests",
+    "duplicate_digests",
+    "duplicate_names",
+    "files",
+    "first_difference_offset",
+    "lengths",
+    "members",
+    "name",
+    "predicate",
+    "scope",
+    "state",
+    "why"
+   ],
+   "key_present_in_artifact": true,
+   "artifact_mutation_target": "out/SOURCE_COPY_REGISTER.json::identity_31.files",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "49 names, 1 ambiguous group(s), canonical OWNER_UNRESOLVED"
+   },
+   "mutation": {
+    "before": 31,
+    "after": 30,
+    "verdict": "FAIL",
+    "code": "REGISTER_SOURCE_COUNT",
+    "fired": true
+   }
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_SPLIT",
+   "function": "g20_supply_chain_split",
+   "reads_extracted_from": "g20_supply_chain_split",
+   "artifact": "lanes/D/WP19_V2.json",
+   "reads": [
+    {
+     "key": "supply_chain_claim",
+     "receiver": "a",
+     "lineno": 475,
+     "paths": [
+      "supply_chain_claim"
+     ],
+     "present": false,
+     "satisfied_by": null
+    },
+    {
+     "key": "supply_chain_claim",
+     "receiver": "r",
+     "lineno": 479,
+     "paths": [
+      "[*].supply_chain_claim"
+     ],
+     "present": null,
+     "satisfied_by": null
+    },
+    {
+     "key": "hosted_conclusion",
+     "receiver": "sc",
+     "lineno": 483,
+     "paths": [
+      "supply_chain_claim.hosted_conclusion",
+      "repos[*].supply_chain_claim.hosted_conclusion"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].supply_chain_claim.hosted_conclusion"
+    },
+    {
+     "key": "offline_reproducible",
+     "receiver": "sc",
+     "lineno": 483,
+     "paths": [
+      "supply_chain_claim.offline_reproducible",
+      "repos[*].supply_chain_claim.offline_reproducible"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].supply_chain_claim.offline_reproducible"
+    },
+    {
+     "key": "claim_shape",
+     "receiver": "sc",
+     "lineno": 485,
+     "paths": [
+      "supply_chain_claim.claim_shape",
+      "repos[*].supply_chain_claim.claim_shape"
+     ],
+     "present": true,
+     "satisfied_by": "repos[*].supply_chain_claim.claim_shape"
+    }
+   ],
+   "reads_total": 4,
+   "reads_missing": [
+    "supply_chain_claim"
+   ],
+   "reads_missing_detail": [
+    {
+     "key": "supply_chain_claim",
+     "paths": [
+      "supply_chain_claim"
+     ],
+     "lineno": 475
+    }
+   ],
+   "reads_unresolved": [
+    "[*].supply_chain_claim"
+   ],
+   "reads_with_missing_keys": 1,
+   "dead_reads": 1,
+   "artifact_writes": [
+    "claim_shape",
+    "hosted_conclusion",
+    "offline_reproducible",
+    "tool"
+   ],
+   "key_present_in_artifact": false,
+   "artifact_mutation_target": "lanes/D/WP19_V2.json::repos.sbl.supply_chain_claim.claim_shape",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "offline and hosted halves recorded separately, non-substitution stated"
+   },
+   "mutation": {
+    "before": "The SBL supply-chain claim has two halves in DIFFERENT evidence classes and neither substitutes for the other. (1) offline_reproducible: `tools/supply_chain_check.py --self-test` mutates a COPY in a TemporaryDirectory and asserts the gate refuses each mutation -- this is author-side, re-runnable with no network, and proves the gate DISCRIMINATES. (2) hosted_conclusion: the check-run/actions conclusion for a specific commit sha -- this is readback of what a hosted platform reported, is not re-runnable locally, and proves nothing about discrimination. A green hosted run over a gate that cannot see a defect is not evidence about that defect; a local self-test does not prove the hosted job ran at all. Reporting (1) as 'CI proved it' or (2) as 'the gate works' would each be a category error.",
+    "after": "green CI proves the offline gate too; neither substitutable",
+    "verdict": "FAIL",
+    "code": "SUPPLY_CHAIN_SUBSTITUTION_ALLOWED",
+    "fired": true
+   }
+  }
+ ],
+ "mutations": [
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "31/31 bytes+lines+sha; sums 111331/111331; convention stated",
+    "fired": false
+   },
+   "mutated_field": "lanes/A/SOURCE_LOCK_V2.json::sources.0.lines_match",
+   "before": true,
+   "after": false,
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "LINE_FIELD_FALSE",
+    "detail": "1 records have a false match field; first=SBL-DOC-00",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "per_line=111331 structural=25201 files=31 both rules tile",
+    "fired": false
+   },
+   "mutated_field": "lanes/B/U0_PARTITION_V2.json::totals.structural_blocks_sum",
+   "before": 25201,
+   "after": 111331,
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "RULES_COLLAPSED",
+    "detail": "both rules report 111331: they are not two rules",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED",
+    "fired": false
+   },
+   "mutated_field": "lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json::in_set.duplicate_sha256_groups",
+   "before": 0,
+   "after": 4,
+   "after_mutation": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED",
+    "fired": false
+   },
+   "fired": false,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "PASS"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "max_overall=0.245432 equals the largest of 8 breakdown values; negative control fired",
+    "fired": false
+   },
+   "mutated_field": "lanes/C/DISTINCTNESS_V2.json::max_overall",
+   "before": 0.245432,
+   "after": 0.0,
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "MAXIMUM_IS_NOT_GLOBAL",
+    "detail": "max_overall=0.0 but the largest breakdown value is 0.245432",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "sbl:root=True,nested=2; fabric:root=False,nested=6; hgk:root=False,nested=8",
+    "fired": false
+   },
+   "mutated_field": "lanes/D/WP19_V2.json::repos.sbl.licence.claim.scope_note",
+   "before": "root directory licence files: LICENSE (1068B), NOTICE (684B); the tracked tree also carries 2 nested licence/NOTICE file(s) (deepest depth 3). Any licence statement must name which scope it measured.",
+   "after": "",
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "LICENCE_SCOPE_NOTE",
+    "detail": "sbl: no scope_note",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G16",
+   "name": "DECLARED_COVERS_IMPORTS",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "hgk: undeclared=['yaml']; declared_covers_imports=False",
+    "fired": false,
+    "hgk_undeclared": [
+     "yaml"
+    ]
+   },
+   "mutated_field": "lanes/D/WP19_V2.json::repos.hgk.dependencies.undeclared_third_party(+cryptography)",
+   "before": [
+    "yaml"
+   ],
+   "after": [
+    "yaml",
+    "cryptography"
+   ],
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "CRYPTOGRAPHY_FALSELY_MARKED_UNDECLARED",
+    "detail": "the artifact repeats the previous round's claim that cryptography is undeclared; pyproject declares cryptography>=42",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "ac15=15 oracle96=96 h4=12 seam=11; naive=10 robust=11 missing=SEAM-09",
+    "fired": false
+   },
+   "mutated_field": "lanes/E/WP21_ENUM_V2.json::denominators.seam.measured",
+   "before": 11,
+   "after": 10,
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "DENOMINATOR_SEAM",
+    "detail": "seam measured 10 expected 11",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "baseline": {
+    "verdict": "PASS"
+   },
+   "mutated_field": "out/stage/fabric/INTEGRATION/FHS/docs/as-built/W0/r9/PROVENANCE.json::files[0].sha256",
+   "before": "c15693d88d034679740f194fa3c873f7ada13e50a2056b282e3a1cda826bce9d",
+   "after": "0000000000000000000000000000000000000000000000000000000000000000",
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "DIGEST_CROSSES_PAYLOAD",
+    "detail": "1 unresolved: [{'entry': 'FHS_PIPD-LS-PKG_W0_r9.md', 'why': 'SHA_MISMATCH', 'declared': '0000000000000000', 'actual': 'c15693d88d034679', 'manifest': 'out\\\\stage\\\\fabric\\\\INTEGRATION\\\\FHS\\\\docs\\\\as-built\\\\W0\\\\r9\\\\PROVENANCE.json'}]",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "49 names, 1 ambiguous group(s), canonical OWNER_UNRESOLVED",
+    "fired": false
+   },
+   "mutated_field": "out/SOURCE_COPY_REGISTER.json::identity_31.files",
+   "before": 31,
+   "after": 30,
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "REGISTER_SOURCE_COUNT",
+    "detail": "30 sources registered",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_SPLIT",
+   "baseline": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "offline and hosted halves recorded separately, non-substitution stated",
+    "fired": false
+   },
+   "mutated_field": "lanes/D/WP19_V2.json::repos.sbl.supply_chain_claim.claim_shape",
+   "before": "The SBL supply-chain claim has two halves in DIFFERENT evidence classes and neither substitutes for the other. (1) offline_reproducible: `tools/supply_chain_check.py --self-test` mutates a COPY in a TemporaryDirectory and asserts the gate refuses each mutation -- this is author-side, re-runnable with no network, and proves the gate DISCRIMINATES. (2) hosted_conclusion: the check-run/actions conclusion for a specific commit sha -- this is readback of what a hosted platform reported, is not re-runnable locally, and proves nothing about discrimination. A green hosted run over a gate that cannot see a defect is not evidence about that defect; a local self-test does not prove the hosted job ran at all. Reporting (1) as 'CI proved it' or (2) as 'the gate works' would each be a category error.",
+   "after": "green CI proves the offline gate too; neither substitutable",
+   "after_mutation": {
+    "verdict": "FAIL",
+    "code": "SUPPLY_CHAIN_SUBSTITUTION_ALLOWED",
+    "detail": "claim_shape does not state that the halves are different evidence classes",
+    "fired": true
+   },
+   "fired": true,
+   "sandbox_restored_byte_identical": true,
+   "check_verdict": "FAIL"
+  }
+ ],
+ "g13_dead_assertion": {
+  "baseline": {
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED",
+   "fired": false
+  },
+  "mutate_written_field": {
+   "mutated_field": "lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json::in_set.duplicate_sha256_groups",
+   "before": 0,
+   "after": 4,
+   "mutated_to": 4,
+   "verdict": {
+    "verdict": "PASS",
+    "code": "OK",
+    "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED",
+    "fired": false
+   },
+   "sandbox_restored_byte_identical": true
+  },
+  "mutate_read_key": {
+   "mutated_field": "lanes/A/AUTHORITY_CONFLICT_LEDGER_V2.json::in_set.duplicate_digests",
+   "before": null,
+   "after": 4,
+   "mutated_to": 4,
+   "verdict": {
+    "verdict": "FAIL",
+    "code": "IN_SET_COLLISION_PRESENT",
+    "detail": "{\"scope\": \"IN_SET_31\", \"population\": \"the 31 declared source files in C:\\\\Projects\\\\Agent_Workspace\\\\FHS_W1_Work_Final\\\\FHS_W1_Work_Final\\\\sources\", \"denominator\": 31, \"distinct_basenames\": 31, \"distinct_sha256\": 31, \"di",
+    "fired": true
+   },
+   "sandbox_restored_byte_identical": true
+  },
+  "restored_baseline": {
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "in-set dup=0; divergent by scope {'kb_external_exact': 0, 'kb_external_normalised': 17}; canonical OWNER_UNRESOLVED",
+   "fired": false
+  }
+ },
+ "g16_three_scenarios": {
+  "baseline": {
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "hgk: undeclared=['yaml']; declared_covers_imports=False",
+   "fired": false,
+   "hgk_undeclared": [
+    "yaml"
+   ]
+  },
+  "scenario_b_cryptography_added": {
+   "verdict": "FAIL",
+   "code": "CRYPTOGRAPHY_FALSELY_MARKED_UNDECLARED",
+   "detail": "the artifact repeats the previous round's claim that cryptography is undeclared; pyproject declares cryptography>=42",
+   "fired": true
+  },
+  "scenario_c_yaml_resolved": {
+   "verdict": "FAIL",
+   "code": "YAML_NOT_LOCATED",
+   "detail": "undeclared modules found: []",
+   "fired": true
+  },
+  "scenario_c_prime_naive_fix": {
+   "verdict": "FAIL",
+   "code": "DEPENDENCY_VERDICT_INCOHERENT",
+   "detail": "hgk: verdict=False but undeclared=[]",
+   "fired": true
+  }
+ },
+ "g10_parent_resolution": {
+  "child_doc": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/writeback/W0/FHS_PIPD-LS-PKG_W0_r9.md",
+  "appendix_offset_bytes": 475271,
+  "declared_parent_basename_used": "FHS_PIPD-LS-PKG_W0_r7.md",
+  "resolved_digest": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+  "resolved_bytes": 492290,
+  "declaration_line_consumed": 2494,
+  "appendix_heading_lineno": 2340,
+  "appendix_heading_at_offset": {
+   "lineno": 2340,
+   "title": "實作後回寫（As-Built）— W0 r6"
+  },
+  "declaration_lines_matching_parent_basename": [
+   {
+    "lineno": 2494,
+    "digest": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+    "text": "> **Parent／Supersedes**：`FHS_PIPD-LS-PKG_W0_r7.md` @ `264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845`（492,290 bytes）",
+    "chapter": {
+     "lineno": 2491,
+     "title": "驗收後回寫（Verification Round）— W0 r7 獨立重驗與作者端修補"
+    }
+   },
+   {
+    "lineno": 2788,
+    "digest": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+    "text": "本檔 = `FHS_PIPD-LS-PKG_W0_r7.md` 全文（**492,290 bytes**，sha256 `264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845`）＋本章。r7 的全部章節（含其 A.1–A.6 與 B.1–B.6）逐位元保留於本檔前綴，本章不修改、不摘要、不覆蓋任何 r7 條款。",
+    "chapter": {
+     "lineno": 2491,
+     "title": "驗收後回寫（Verification Round）— W0 r7 獨立重驗與作者端修補"
+    }
+   }
+  ],
+  "frontmatter_parent_fields": [
+   {
+    "lineno": 7,
+    "text": "parent_candidate_body_sha256: 44a55d6d4af26fd51f36fdb1bdfaf511bfcface6f379b4afc9232b949c18439c"
+   },
+   {
+    "lineno": 8,
+    "text": "historical_parent_r3_body_sha256: 0e4f1ed002f024bc9030fe50937e53ddeb1fcd921c1d015f3b0d51165166b328"
+   },
+   {
+    "lineno": 15,
+    "text": "r3_status: HISTORICAL_PARENT_ONLY_NOT_CURRENT"
+   },
+   {
+    "lineno": 21,
+    "text": "previous_generation_draft_sha256: 56d0df3db6765ee780689ea687824ca891f5a366797e04cfe6ae7c0928173f2a"
+   },
+   {
+    "lineno": 24,
+    "text": "supersedes_sha256: 0fed31f593fd132ba4f1f2d18df89a03e22e3fbdb6a75ded8bb479f86db884b4"
+   },
+   {
+    "lineno": 46,
+    "text": "superseded_complete_zip_sha256: 2e7ace8530ce5ad9c885dd7d9a6a8e337e052df2cdbc6c98cf1b8da810297d0c"
+   },
+   {
+    "lineno": 48,
+    "text": "repair_audit_sha256: e971ce3cb307351f285e3b4fa47505e451fc793b98746fa60b4cacf09b649e79"
+   },
+   {
+    "lineno": 57,
+    "text": "semantic_plan_sha256: c8cf1087255ebd811a0f7902403bc1ef4615f0be25c6fb732c6db3739cc213db"
+   }
+  ],
+  "document_own_parent_declarations": [
+   {
+    "lineno": 2343,
+    "digest": "60b0c36e1bde6d0be1127461aa87a6bbb91dd69d6a31875d216ad8ddc88dbf0b",
+    "text": "> **Parent／Supersedes**：`FHS_PIPD-LS-PKG_W0_r5.md` @ `60b0c36e1bde6d0be1127461aa87a6bbb91dd69d6a31875d216ad8ddc88dbf0b`（475,265 bytes）",
+    "chapter": {
+     "lineno": 2340,
+     "title": "實作後回寫（As-Built）— W0 r6"
+    }
+   },
+   {
+    "lineno": 2409,
+    "digest": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+    "text": "> **Parent／Supersedes**：`FHS_PIPD-LS-PKG_W0_r6.md` @ `69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5`（481,212 bytes）",
+    "chapter": {
+     "lineno": 2406,
+     "title": "實作後回寫（As-Built）— W0 r7"
+    }
+   },
+   {
+    "lineno": 2494,
+    "digest": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+    "text": "> **Parent／Supersedes**：`FHS_PIPD-LS-PKG_W0_r7.md` @ `264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845`（492,290 bytes）",
+    "chapter": {
+     "lineno": 2491,
+     "title": "驗收後回寫（Verification Round）— W0 r7 獨立重驗與作者端修補"
+    }
+   },
+   {
+    "lineno": 2804,
+    "digest": "ccd545b5c7b4eecbf62bcd23e650a91d7832bfefe62f08ce2e589a58df087e22",
+    "text": "> **Parent／Supersedes**：`FHS_PIPD-LS-PKG_W0_r8.md` @ `ccd545b5c7b4eecbf62bcd23e650a91d7832bfefe62f08ce2e589a58df087e22`（539,712 bytes）",
+    "chapter": {
+     "lineno": 2801,
+     "title": "實作修補回寫（Implementation Repair）— W0 r9"
+    }
+   }
+  ],
+  "chain_link": {
+   "state": "RESOLVED",
+   "declared_parent_sha256": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+   "chained_parent_path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\writeback\\W0\\FHS_PIPD-LS-PKG_W0_r7.md",
+   "chained_parent_sha256": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845",
+   "resolved_to": "C:\\Projects\\Agent_Workspace\\FHS_W0_R6_20261108\\writeback\\W0\\FHS_PIPD-LS-PKG_W0_r7.md",
+   "body_preserved_byte_identical": true,
+   "prefix_preserved_byte_identical": true
+  },
+  "chain_stdout_tail": [
+   "r6 -> r7: COPY_AMBIGUITY declared=69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5 chained=9f9eb261c44f body=True copies=2",
+   "r7 -> extra1: RESOLVED declared=264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845 chained=264787b065fb body=True copies=1",
+   "VERDICT CHAIN_CLAIM_NOT_RESOLVED exit=1"
+  ],
+  "source_lines": {
+   "excerpt_5": [
+    {
+     "lineno": 42,
+     "text": "APPENDIX = re.compile(r\"^## (?:實作後回寫|驗收後回寫)\", re.M)"
+    },
+    {
+     "lineno": 53,
+     "text": "    m = APPENDIX.search(text)"
+    },
+    {
+     "lineno": 54,
+     "text": "    return len(text[:m.start()].encode(\"utf-8\")) if m else len(b)"
+    },
+    {
+     "lineno": 68,
+     "text": "    for line in cur[ap:].decode(\"utf-8\").split(\"\\n\"):"
+    },
+    {
+     "lineno": 75,
+     "text": "        return h.group(1), (int(by.group(1).replace(\",\", \"\")) if by else None)"
+    }
+   ],
+   "full": [
+    {
+     "lineno": 42,
+     "text": "APPENDIX = re.compile(r\"^## (?:實作後回寫|驗收後回寫)\", re.M)"
+    },
+    {
+     "lineno": 51,
+     "text": "def appendix_offset(b: bytes) -> int:"
+    },
+    {
+     "lineno": 52,
+     "text": "    text = b.decode(\"utf-8\")"
+    },
+    {
+     "lineno": 53,
+     "text": "    m = APPENDIX.search(text)"
+    },
+    {
+     "lineno": 54,
+     "text": "    return len(text[:m.start()].encode(\"utf-8\")) if m else len(b)"
+    },
+    {
+     "lineno": 66,
+     "text": "def declare(cur: bytes, parent_basename: str):"
+    },
+    {
+     "lineno": 67,
+     "text": "    ap = appendix_offset(cur)"
+    },
+    {
+     "lineno": 68,
+     "text": "    for line in cur[ap:].decode(\"utf-8\").split(\"\\n\"):"
+    },
+    {
+     "lineno": 69,
+     "text": "        if parent_basename not in line:"
+    },
+    {
+     "lineno": 70,
+     "text": "            continue"
+    },
+    {
+     "lineno": 71,
+     "text": "        h = HEX64.search(line)"
+    },
+    {
+     "lineno": 72,
+     "text": "        if not h:"
+    },
+    {
+     "lineno": 73,
+     "text": "            continue"
+    },
+    {
+     "lineno": 74,
+     "text": "        by = BYTES.search(line)"
+    },
+    {
+     "lineno": 75,
+     "text": "        return h.group(1), (int(by.group(1).replace(\",\", \"\")) if by else None)"
+    },
+    {
+     "lineno": 76,
+     "text": "    return None, None"
+    }
+   ],
+   "gate_w0r7.py": [
+    {
+     "lineno": 56,
+     "text": "    cproc = subprocess.run([sys.executable, CHAIN, chain_json, \"--also\", a.chain_child],"
+    },
+    {
+     "lineno": 59,
+     "text": "    child = os.path.basename(a.chain_child)"
+    },
+    {
+     "lineno": 60,
+     "text": "    name_of = {os.path.basename(d.get(\"path\", \"\")): d.get(\"name\") for d in chain.get(\"documents\", [])}"
+    },
+    {
+     "lineno": 62,
+     "text": "    link = next((l for l in chain.get(\"links\", []) if l.get(\"child\") == child_key), None)"
+    },
+    {
+     "lineno": 68,
+     "text": "        chain_ok = (link.get(\"state\") in (\"RESOLVED\",)"
+    },
+    {
+     "lineno": 69,
+     "text": "                    and bool(link.get(\"body_preserved_byte_identical\") or link.get(\"prefix_preserved_byte_identical\")))"
+    },
+    {
+     "lineno": 70,
+     "text": "        chain_detail = (f\"state={link.get('state')} declared parent {link.get('declared_parent_sha256')} \""
+    }
+   ]
+  }
+ },
+ "g18_containment": {
+  "demo_root": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/A/_g18_demo",
+  "manifest_declares": [
+   "inside.json",
+   "../payload-evil/cross.json"
+  ],
+  "gate_result": {
+   "resolved": 2,
+   "declared": 2,
+   "problems": [],
+   "verdict": "PASS"
+  },
+  "startswith_says_inside": true,
+  "commonpath_says_inside": false,
+  "resolved_file_is_outside_payload": true,
+  "symlink": {
+   "created": false,
+   "realpath_stays_inside": null,
+   "error": "OSError: [WinError 1314] 用戶端沒有這項特殊權限。: 'C:\\\\Projects\\\\Agent_Workspace\\\\FHS_W0_R10_REPAIR_20261108\\\\lanes\\\\A\\\\_g18_demo\\\\payload-evil\\\\cross.json' -> 'C:\\\\Projects\\\\Agent_Workspace\\\\FHS_W0_R10_REPAIR_20261108\\\\lanes\\\\A\\\\_g18_demo\\\\payload\\\\link_out.json'"
+  },
+  "note": "the digest of the outside file is correct, so only containment separates the two cases; str.startswith accepts the sibling directory because 'payload-evil'.startswith('payload')"
+ },
+ "selftest": {
+  "cmd": "python tools/gate_w0r9.py --round <R9> --selftest",
+  "exit_code": 0,
+  "stdout_last_line": "]",
+  "stdout_tail": [
+   "  \"mutated_code\": \"SUPPLY_CHAIN_SUBSTITUTION_ALLOWED\",",
+   "  \"mutated_detail\": \"claim_shape does not state that the halves are different evidence classes\"",
+   " }",
+   "]"
+  ],
+  "parsed_counts": {
+   "checks": 10,
+   "baseline_pass": 10,
+   "mutated_fired": 10,
+   "baseline_not_pass": [],
+   "mutated_not_fired": []
+  },
+  "stderr_tail": []
+ },
+ "handover_claims_about_selftest": [
+  {
+   "lineno": 40,
+   "text": "tools/gate_w0r9.py --round . --selftest                    → 10/10 FIRED  exit 1（因 baseline 全 PASS，selftest 以 1 表示「有檢查被執行」並附 JSON）"
+  },
+  {
+   "lineno": 45,
+   "text": "注意：`--selftest` 的 exit 1 不是失敗。它是「每一項都被 mutation 觸發」的訊號；判讀請看 `out/GATE_R9_SELFTEST.json` 的 `mutated` 欄。這一點若被誤讀成紅燈，會讓下一個人去修一個沒壞的東西。"
+  }
+ ]
+}
