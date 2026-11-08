@@ -1,0 +1,166 @@
+{
+ "schema": "FHS.W0.GateSelftest/3",
+ "results": [
+  {
+   "check": "G10",
+   "name": "CHAIN_INTEGRITY",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "chain r6→r7→r8→r9→r10→r11→r12; own parent 24fb2d9ec5d2 == r11; 8 declarations, the last one counts",
+   "mutated": "FIRED",
+   "mutated_code": "CHAIN_LATEST_DIGEST"
+  },
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "31/31 re-hashed from sources: lines 111,331, bytes 22,281,767",
+   "mutated": "FIRED",
+   "mutated_code": "LINE_FIELD_FALSE"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "per_line=111331 structural=25201 rule published",
+   "mutated": "FIRED",
+   "mutated_code": "RULES_COLLAPSED"
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "duplicate_sha256_groups=0 (key present); external [('kb_external_exact', 0), ('kb_external_normalised', 17)]",
+   "mutated": "FIRED",
+   "mutated_code": "IN_SET_COLLISION_PRESENT"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "21 cells, range [0.046948, 0.519037]",
+   "mutated": "FIRED",
+   "mutated_code": "MAXIMUM_IS_NOT_GLOBAL"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0",
+   "mutated": "FIRED",
+   "mutated_code": "LICENCE_SCOPE_NOTE_NO_HEAD"
+  },
+  {
+   "check": "G16a",
+   "name": "DEPENDENCY_TRUTHFUL",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "3 subjects agree with what can be verified here",
+   "mutated": "FIRED",
+   "mutated_code": "DEPENDENCY_ARTIFACT_DISAGREES_WITH_TREE"
+  },
+  {
+   "check": "G16b",
+   "name": "DEPENDENCY_CLOSED",
+   "severity": "REPORTING",
+   "baseline": "FAIL",
+   "detail": "{\"incomplete\": {\"hgk-main\": {\"scan_complete\": false, \"note\": \"only the three files fetched at the pinned commit are scanned; the rest of that tree was not materialised here\"}}, \"gaps\": {\"hgk-main\": {\"undeclared_required\": [\"cryptography\", \"yaml\"], \"provided_only_by_extra\": [], \"module_level\": []}, \"hgk-local\": {\"undeclared_required\": [\"yaml\"], \"provided_only_by_extra\": [], \"module_level\": []}, \"hg",
+   "mutated": "BASELINE_RED"
+  },
+  {
+   "check": "G16c",
+   "name": "OPTIONAL_SEMANTICS",
+   "severity": "REPORTING",
+   "baseline": "PASS",
+   "detail": "2 non-required modules carry a measured absent-state: {'yaml': 'DEGRADED_BUT_BOUNDED', 'cryptography': 'LOUD_REJECT'}",
+   "mutated": "FIRED",
+   "mutated_code": "OPTIONAL_SEMANTICS_UNQUALIFIED"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "15/96/12/11; naive(slash)=10 robust=11",
+   "mutated": "FIRED",
+   "mutated_code": "DENOMINATOR_SEAM"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "45/45 resolve inside their own payload (realpath), 3 manifests, entry sets match",
+   "mutated": "FIRED",
+   "mutated_code": "DIGEST_CROSSES_PAYLOAD"
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "45 names, r6 copies=3 in ['FHS_W0W2_R4_20261107', 'worktrees/r4-fabric', '知識庫'], digests=2",
+   "mutated": "FIRED",
+   "mutated_code": "R6_COPY_COUNT"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_CLAIM_SHAPE",
+   "severity": "REPORTING",
+   "baseline": "PASS",
+   "detail": "offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)",
+   "mutated": "FIRED",
+   "mutated_code": "SUPPLY_CHAIN_SUBSTITUTION_ALLOWED"
+  },
+  {
+   "check": "G21",
+   "name": "NUMBER_CONSISTENCY",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "handover states 582,469 B (and no stale size) with a matching digest",
+   "mutated": "EXEMPT",
+   "exempt_reason": "reads the handover that documents this run; mutating it would invalidate the run it is part of"
+  },
+  {
+   "check": "G22",
+   "name": "SELFTEST_CONTRACT",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "documented exit 0 == actual",
+   "mutated": "EXEMPT",
+   "exempt_reason": "learns the exit code by invoking this program; a mutation inside it would recurse"
+  },
+  {
+   "check": "G23",
+   "name": "TRACE_ID_NAMED",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "17 defects, all closed ones named in the body",
+   "mutated": "FIRED",
+   "mutated_code": "TRACE_ID_NOT_NAMED"
+  },
+  {
+   "check": "G24",
+   "name": "IDENTITY_CLAIMS",
+   "severity": "BLOCKING",
+   "baseline": "PASS",
+   "detail": "55 claims consistent with the revision manifest; 15 composition sentence(s) state a parent's size and were not counted as identity claims; 1 file(s) declared themselves defect reports quoting wrong values: ['lanes/C/STALE_LOCATORS.json']",
+   "mutated": "FIRED",
+   "mutated_code": "STALE_IDENTITY_CLAIM"
+  },
+  {
+   "check": "G25",
+   "name": "EXTRA_QUALIFIED",
+   "severity": "REPORTING",
+   "baseline": "PASS",
+   "detail": "3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extra adds ['yaml']",
+   "mutated": "FIRED",
+   "mutated_code": "EXTRA_QUALIFICATION_FAILED"
+  }
+ ]
+}
