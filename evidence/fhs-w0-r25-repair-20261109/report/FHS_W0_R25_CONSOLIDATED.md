@@ -1,7 +1,7 @@
 # FHS_PIPD-LS-PKG_W0 r25｜整合說明（給外部驗收官）
 
-**主體**：`writeback/W0/FHS_PIPD-LS-PKG_W0_r25.md`，663,601 bytes，
-`9b35b6ee6a850afd6cabde3ea9d7ec3b117d95b47379efcb7c4edfac9d2e0829`，r24 的逐位元前綴。
+**主體**：`writeback/W0/FHS_PIPD-LS-PKG_W0_r25.md`，663,677 bytes，
+`6b3596303e99672f11d59da5bc20785779ee6a9794dbadd58727bf40b9eb94e6`，r24 的逐位元前綴。
 **這一輪的性質**：針對 `FHS_W0_r24_External_Challenge_PostRepair_Acceptance_Report_2026-11-09`
 （`review_verdict: FAIL`）的受界修補，不是重做整套 W0。
 

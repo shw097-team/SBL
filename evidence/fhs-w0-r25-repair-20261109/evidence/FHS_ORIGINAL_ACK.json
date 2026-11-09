@@ -4,8 +4,8 @@
  "count": "6/6",
  "document": {
   "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r25.md",
-  "bytes": 663601,
-  "sha256": "9b35b6ee6a850afd6cabde3ea9d7ec3b117d95b47379efcb7c4edfac9d2e0829",
+  "bytes": 663677,
+  "sha256": "6b3596303e99672f11d59da5bc20785779ee6a9794dbadd58727bf40b9eb94e6",
   "read_by": "one stat + one read of the delivered file, in this build",
   "history": [
    {
@@ -13,11 +13,11 @@
     "note": "r24 shipped this path with r24's bytes and sha; the mismatch is recorded here and closed"
    }
   ],
-  "owner_signed_candidate_sha256": "9b35b6ee6a850afd6cabde3ea9d7ec3b117d95b47379efcb7c4edfac9d2e0829",
+  "owner_signed_candidate_sha256": "6b3596303e99672f11d59da5bc20785779ee6a9794dbadd58727bf40b9eb94e6",
   "owner_signed_candidate_version": "r25",
   "owner_signed_candidate_is_the_delivered_file": true,
   "owner_signed_candidate_status": "SIGNED_AFTER_VERIFY",
-  "owner_signed_candidate_note": "signed at 2026-11-09T18:56:56+08:00 in window WIN-118e9c697152"
+  "owner_signed_candidate_note": "signed at 2026-11-09T19:34:09+08:00 in window WIN-d22f4ba2eae6"
  },
  "owner_order_verbatim": "把ORIGINAL_ACK 6/6 改標成「FHS_ORIGINAL_ACK 6/6」，代表是經由「FABRIC治理 + HGK控制 + SBL各角色 + 三獨立車道 + OWNER口令授權」的合規「FHS_ORIGINAL_ACK 6/6」，並非一般傳統的「ORIGINAL_ACK」",
  "composition": {
@@ -30,10 +30,19 @@
    "VERIFY": "openai-codex/gpt-6.1-sol"
   },
   "owner_authorisation": {
-   "window": "WIN-fc83c1d80cb6",
-   "ops_used": 8,
-   "max_ops": 8,
-   "signed": "1 semantic acceptance + 6 reader receipts (v2, qualified kind)"
+   "window": "WIN-118e9c697152",
+   "ops_used": 2,
+   "signed": "2 affected reader receipts re-signed (ops 3,4) + 1 semantic acceptance in its own window",
+   "semantic_window": "WIN-d22f4ba2eae6",
+   "semantic_status": "SIGNED",
+   "history": [
+    {
+     "window": "WIN-fc83c1d80cb6",
+     "ops": 8,
+     "note": "r20 era: 6 reader receipts + 1 semantic acceptance (historical; superseded by the r25 re-signs)"
+    }
+   ],
+   "semantic_ops": 1
   }
  },
  "five_conditions": [
@@ -167,11 +176,11 @@
    },
    "owner_semantic_ack": {
     "candidate": "r25",
-    "sha256": "9b35b6ee6a850afd6cabde3ea9d7ec3b117d95b47379efcb7c4edfac9d2e0829",
+    "sha256": "6b3596303e99672f11d59da5bc20785779ee6a9794dbadd58727bf40b9eb94e6",
     "status": "SIGNED_AFTER_VERIFY",
     "note": "this round's semantic acceptance signs the delivered r25 bytes, and is signed only after the VERIFY lane passes",
-    "signed_at": "2026-11-09T18:56:56+08:00",
-    "payload_sha256": "be0328bf7a546d5d6c9d7652e22613bc4bf05e68b00de8809a55674099e05302",
+    "signed_at": "2026-11-09T19:34:09+08:00",
+    "payload_sha256": "fa5441267e427d57de5465328dde476acb19baebb43354042ee70d61cf45cd6d",
     "file": "receipts/OWNER_SEMANTIC_ACK_R25.signed.json"
    }
   },
