@@ -1,0 +1,64 @@
+{
+ "schema": "FHS.W0.LabelDisciplineRun/1",
+ "generated_at": "2026-11-09T14:54:45+08:00",
+ "tool": "tools/label_discipline.py",
+ "exit": 0,
+ "violations": 0,
+ "prose_count": 0,
+ "machine_count": 0,
+ "scan_scope": [
+  "out/*.json",
+  "receipts/**/*.json",
+  "evidence/*.json"
+ ],
+ "excluded": [
+  {
+   "path": "out/history/**",
+   "reason": "superseded signed artefacts retained verbatim (the r19 reader receipts v1). The current receipts are in receipts/reader/ and are in scope; this directory is history, not a claim.",
+   "json_files": 8
+  },
+  {
+   "path": "out/GATE_R1*",
+   "reason": "superseded revision records (r12-r19). History is retained verbatim and is not relabelled; the current revision's gate is GATE_R20.json and it is in scope.",
+   "json_files": 14
+  },
+  {
+   "path": "out/OWNER_RULING_W0_R1*",
+   "reason": "owner rulings for superseded revisions; a ruling is the owner's words and editing it would rewrite the record. Current ruling: out/OWNER_RULING_W0_R20.json.",
+   "json_files": 7
+  },
+  {
+   "path": "out/KANBAN_FINAL.json",
+   "reason": "the r12 board, superseded by out/KANBAN_R20.json which is in scope.",
+   "json_files": 1
+  },
+  {
+   "path": "out/KANBAN_R15.json",
+   "reason": "the r15 board, superseded by out/KANBAN_R20.json which is in scope.",
+   "json_files": 1
+  },
+  {
+   "path": "out/ACCEPTANCE_FINAL.json",
+   "reason": "the r12 acceptance record, superseded by out/ACCEPTANCE_R20.json which is in scope.",
+   "json_files": 1
+  },
+  {
+   "path": "out/stage/**",
+   "reason": "a rebuildable copy of out/, receipts/ and evidence/; scanning it double-counts rather than widening.",
+   "json_files": 83
+  },
+  {
+   "path": "lanes/**",
+   "reason": "other lanes' verbatim verdict text and briefs; the author may quote a lane but must not relabel it.",
+   "json_files": 961
+  },
+  {
+   "path": "officer/**",
+   "reason": "the independent officer's own artefacts, kept as received.",
+   "json_files": 42
+  }
+ ],
+ "document": "FHS_PIPD-LS-PKG_W0_r24.md",
+ "document_sha256": "16b5ee71bb435d8aaef99e6d0cf431d791ca612d4a55806a376b6f370c3c82f9",
+ "rule": "every ORIGINAL_ACK token must carry FHS_ unless the same string is negative, sits under a not_claimed / *_verbatim key, or is an explicit rename record (bare token -> fhs_ token, both sides named)"
+}
