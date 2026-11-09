@@ -6,11 +6,8 @@
  "owner_authorisation_verbatim": "全系統唯一OWER & issuer裁決：在獨立LANE驗收完成，並並符合全部藍圖規劃的前提下，OWNER同意簽 = OWNER_SEMANTIC_ACK。",
  "precondition_1": {
   "name": "independent lane acceptance",
-  "state": "DERIVED_AT_SIGNING_TIME",
-  "read": "officer/VERDICT_R13_OFFICER_FINAL.json -> terminal.overall",
-  "why_a_pointer": "any baked value here would be a fact about the officer's record, and that record gains a round whenever a round runs, so a baked value is stale the moment the next verdict lands - the failure this round's officer found twice",
-  "observed_at_build": "PASS",
-  "evidence": "officer/VERDICT_R13_OFFICER_FINAL.json - terminal round 12 PASS, 27 PASS / 0 FAIL / 1 NOT_VERIFIABLE; 12 rounds recorded including every NACK"
+  "state": "SATISFIED_AT_VERIFY_PASS_3",
+  "read": "officer bundle terminal + lanes/VERIFY_ACK_VERDICT_3.json"
  },
  "precondition_2": {
   "name": "aligned to the four blueprints",
@@ -50,10 +47,30 @@
   }
  ],
  "signature": {
-  "signed_by": null,
-  "signed_at": null,
-  "provenance": "PENDING_OWNER_SIGNATURE",
-  "what_a_signature_would_mean": "the owner, as the original domain owner of all six domains, accepts each receipt's subject at OWNER_SEMANTIC_ACK level; it is not an ORIGINAL_ACK and not NATIVE_SIGNED"
+  "signed_by": "owner",
+  "signed_at": "2026-11-09T08:05:09+08:00",
+  "provenance": "OWNER_SEMANTIC_ACK_SIGNED_AND_VERIFIED",
+  "signed_artifact": {
+   "path": "receipts/OWNER_SEMANTIC_ACK.signed.json",
+   "sha256": "e06d17781cf3e1cbe4f8d5ec3ddef1b92c6119b3c699e8aa4a2f0e058b807ca1"
+  },
+  "payload_sha256": "08b6398c1388c617086545db607b1ba559621d1735c46e556688953a1861cd4f",
+  "signature_hex_prefix": "214e61c5ad68926eb7bcd002",
+  "window_id": "WIN-df9526589010",
+  "ops_used": 2,
+  "owner_fingerprint": "412b351937be72a1",
+  "verified_by": {
+   "lane": "VERIFY_SECURITY",
+   "model": "gpt-6.1-sol",
+   "pass": 3,
+   "overall": "PASS",
+   "artifact": "lanes/VERIFY_ACK_VERDICT_3.json",
+   "sha256": "0edda345233b6510ced6cf1a2fdcfd962eb305c47918b1f24a63129557a15398"
+  },
+  "retired": {
+   "v1": "receipts/OWNER_SEMANTIC_ACK.signed.v1.json",
+   "why": "signed body carried a field name with two meanings (VERIFY ACK-1 NACK)"
+  }
  },
  "ceiling_if_signed": "OWNER_SEMANTIC_ACK - owner-level semantic acceptance, repo-bound provenance, not a cryptographic native signature"
 }
