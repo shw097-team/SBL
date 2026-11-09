@@ -1,0 +1,110 @@
+{
+ "schema": "FHS.W0.CloseoutDecision/2",
+ "round": "FHS_W0_R18_ACCEPTANCE_20261108",
+ "completion_level": "W0_AUTHOR_DESIGN_COMPLETE",
+ "superseded_wording": {
+  "value": "HOLD_NOT_ACCEPTED",
+  "why": "the external report's phrase states a grade ceiling as a verdict; skeleton L81 makes AUTHOR_DESIGN the completion state when ACK is absent"
+ },
+ "basis": [
+  "W0 skeleton 2026-11-04 r4, line 81 (W0 minimal evidence and exit)",
+  "owner statement 2026-11-08: sole holder of every copy in this system"
+ ],
+ "transitions_this_round": [
+  {
+   "id": "V-01",
+   "from": "OWNER_UNRESOLVED",
+   "to": "DECIDED_BY_OWNER",
+   "by": "owner statement"
+  },
+  {
+   "id": "G13",
+   "from": "reads artefact",
+   "to": "re-derives from the 31 files"
+  },
+  {
+   "id": "G19",
+   "from": "reads artefact",
+   "to": "re-hashes each member and walks each root"
+  },
+  {
+   "id": "G22",
+   "from": "BLOCKING",
+   "to": "REPORTING (SELF_REPORTED_BY_THE_SUBJECT)"
+  },
+  {
+   "id": "completion",
+   "from": "HOLD_NOT_ACCEPTED",
+   "to": "W0_AUTHOR_DESIGN_COMPLETE"
+  }
+ ],
+ "defects": {
+  "completion-wording": "CLOSED",
+  "V-01-canonical": "CLOSED",
+  "G13-artefact-read": "CLOSED",
+  "G19-artefact-read": "CLOSED",
+  "G22-self-report": "CLOSED",
+  "r12-parent-label": "CLOSED"
+ },
+ "defect_evidence": [
+  {
+   "id": "completion-wording",
+   "evidence": "W0 skeleton L81 quoted in chapter 14.1; closeout records the superseded wording"
+  },
+  {
+   "id": "V-01-canonical",
+   "evidence": "both ledgers now DECIDED_BY_OWNER; G13/G19 fail an OWNER_UNRESOLVED declaration"
+  },
+  {
+   "id": "G13-artefact-read",
+   "evidence": "G13 re-groups the 31 files by digest and basename in-process"
+  },
+  {
+   "id": "G19-artefact-read",
+   "evidence": "G19 re-hashes each member and walks each root for undeclared same-named copies"
+  },
+  {
+   "id": "G22-self-report",
+   "evidence": "downgraded to REPORTING and labelled SELF_REPORTED_BY_THE_SUBJECT"
+  },
+  {
+   "id": "r12-parent-label",
+   "evidence": "corrected in the revision manifest with parent_version_corrected_from recorded"
+  }
+ ],
+ "still_open": [
+  {
+   "id": "formal_w0_acceptance",
+   "owner": "owner or a distinct acceptance officer",
+   "why": "no signable kind expresses it; the control plane forbids maker self-acceptance"
+  },
+  {
+   "id": "ORIGINAL_ACK",
+   "owner": "each original domain reader",
+   "measured": "0/6"
+  },
+  {
+   "id": "G16b",
+   "owner": "owner (named HG-KSEOS authorisation)",
+   "why": "acd9196f still declares no cryptography"
+  },
+  {
+   "id": "LICENCE",
+   "owner": "owner",
+   "why": "legal act"
+  },
+  {
+   "id": "PIPD-15-VALUESET",
+   "owner": "owner",
+   "why": "product semantics"
+  },
+  {
+   "id": "R1-ISSUER-REV14",
+   "owner": "owner (protected terminal)",
+   "why": "registry mutation"
+  }
+ ],
+ "owner_signing_demand_measured": 0,
+ "owner_window_opened": false,
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED_WITH_SCOPED_HOLDS"
+}

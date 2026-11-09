@@ -1,0 +1,58 @@
+{
+ "schema": "FHS.W0.FalseGreenProof/1",
+ "generated_at": "2026-11-08T13:47:27+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "gate_sha256": "198e67250d38d0fee89201c99572b341c0db7adc10dd7a1aa9b2abccbd007603",
+ "method": "import the shipped check functions and run them against small fixtures; no copy of the gate, no model of it",
+ "results": [
+  {
+   "case": "C1_files_empty",
+   "ok": false,
+   "code": "EXPECTED_ENTRY_SET_EMPTY",
+   "detail": "p: files=[] — an empty manifest cannot vouch for anything",
+   "expected": "must not pass",
+   "pass": true
+  },
+  {
+   "case": "C1_files_key_absent",
+   "ok": false,
+   "code": "FIELD_ABSENT",
+   "detail": "p/MANIFEST.json: no 'files' key",
+   "expected": "must not pass",
+   "pass": true
+  },
+  {
+   "case": "C1_expected_set_absent",
+   "ok": false,
+   "code": "EXPECTED_ENTRY_SET_ABSENT",
+   "detail": "p: the payload does not declare expected_entry_set",
+   "expected": "must not pass",
+   "pass": true
+  },
+  {
+   "case": "C1_control_correct",
+   "ok": true,
+   "code": "OK",
+   "detail": "1/1 resolve inside their own payload (realpath), 1 manifests, entry sets match",
+   "expected": "must pass",
+   "pass": true
+  },
+  {
+   "case": "C2_scan_incomplete",
+   "ok": true,
+   "code": "DERIVED_COVERS",
+   "detail": "scan_complete=False undeclared=[]",
+   "expected": "the derived set is empty but the scan admits it is partial; G16b must refuse",
+   "pass": true
+  },
+  {
+   "case": "C3_optional_extra_only",
+   "ok": false,
+   "code": "default_profile_missing",
+   "detail": "required=[] extras=['pyyaml', 'yaml'] provided_only_by_extra=['yaml'] with_extras=True",
+   "expected": "default install does not provide yaml, so coverage must be false",
+   "pass": true
+  }
+ ],
+ "all_closed": true
+}

@@ -1,0 +1,76 @@
+{
+ "schema": "FHS.W0.OwnerSemanticAck/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "instrument": "OWNER_SEMANTIC_ACK",
+ "authority": "L0.md:310 ADR-05 (Reader/Owner missing evidence keeps OWNER_SEMANTIC_ACK_HOLD)",
+ "owner_authorisation_verbatim": "全系統唯一OWER & issuer裁決：在獨立LANE驗收完成，並並符合全部藍圖規劃的前提下，OWNER同意簽 = OWNER_SEMANTIC_ACK。",
+ "precondition_1": {
+  "name": "independent lane acceptance",
+  "state": "SATISFIED_AT_VERIFY_PASS_3",
+  "read": "officer bundle terminal + lanes/VERIFY_ACK_VERDICT_3.json"
+ },
+ "precondition_2": {
+  "name": "aligned to the four blueprints",
+  "state": "SATISFIED_WITH_NAMED_PENDING",
+  "evidence": "receipt field set from L0.md:377; completion level from W0.md:81; ACK route from L0.md:310"
+ },
+ "receipts": [
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-00",
+   "wp": "WP-FHS-00",
+   "sha256": "6f49398baf625244068a49d1009a8070cf092c67d5c7b0a61d7c9b6571e7a940"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-01",
+   "wp": "WP-FHS-01",
+   "sha256": "46cdecb450e45537343b3ca434e5e40b25b168b6bc98d65513737f9cb8057c13"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-15",
+   "wp": "WP-FHS-15",
+   "sha256": "19c50c65300e17a79b2a9aabc1704dc90050ef9577e51bef2f5e5f08b618f38f"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-16",
+   "wp": "WP-FHS-16",
+   "sha256": "29f26cf2efe6eacc27c62dbddee6c69fdf3a3f92cb84ecb48d11b8983b7e2e2e"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-19",
+   "wp": "WP-FHS-19",
+   "sha256": "78af8080184e4078729f00bf0b7d7180eb6b657106285e1d5de7b338248fdba3"
+  },
+  {
+   "receipt_id": "W0-RCPT-WP-FHS-21",
+   "wp": "WP-FHS-21",
+   "sha256": "2a2a9935387fbe43aa8912faab58086e4d5e1d7304615a0430e3195adb9e2aa7"
+  }
+ ],
+ "signature": {
+  "signed_by": "owner",
+  "signed_at": "2026-11-09T08:05:09+08:00",
+  "provenance": "OWNER_SEMANTIC_ACK_SIGNED_AND_VERIFIED",
+  "signed_artifact": {
+   "path": "receipts/OWNER_SEMANTIC_ACK.signed.json",
+   "sha256": "e06d17781cf3e1cbe4f8d5ec3ddef1b92c6119b3c699e8aa4a2f0e058b807ca1"
+  },
+  "payload_sha256": "08b6398c1388c617086545db607b1ba559621d1735c46e556688953a1861cd4f",
+  "signature_hex_prefix": "214e61c5ad68926eb7bcd002",
+  "window_id": "WIN-df9526589010",
+  "ops_used": 2,
+  "owner_fingerprint": "412b351937be72a1",
+  "verified_by": {
+   "lane": "VERIFY_SECURITY",
+   "model": "gpt-6.1-sol",
+   "pass": 3,
+   "overall": "PASS",
+   "artifact": "lanes/VERIFY_ACK_VERDICT_3.json",
+   "sha256": "0edda345233b6510ced6cf1a2fdcfd962eb305c47918b1f24a63129557a15398"
+  },
+  "retired": {
+   "v1": "receipts/OWNER_SEMANTIC_ACK.signed.v1.json",
+   "why": "signed body carried a field name with two meanings (VERIFY ACK-1 NACK)"
+  }
+ },
+ "ceiling_if_signed": "OWNER_SEMANTIC_ACK - owner-level semantic acceptance, repo-bound provenance, not a cryptographic native signature"
+}

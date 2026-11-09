@@ -1,0 +1,54 @@
+{
+ "schema": "FHS.W0.SigningRecord/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "generated_at": "2026-11-09T08:02:25+08:00",
+ "instrument": "OWNER_SEMANTIC_ACK",
+ "authority": "L0.md:310 ADR-05 - owner semantic ACK where reader evidence is absent; owner order 2026-11-09 authorising OWENR_SEMANTIC_ACK",
+ "signed_artifact": {
+  "path": "receipts/OWNER_SEMANTIC_ACK.signed.json",
+  "bytes": 2958,
+  "sha256": "cf5b447427ad5e68487e2eef681a5a36b99532adcf3e75b565317c2f1dc0109f"
+ },
+ "payload_sha256_recomputed_at_record_time": "1e0dbdd8dfa1de0c3e9343b2aa3de4dbcaebf1f92698c1bf5deb9759bde89ac1",
+ "payload_sha256_recorded": "1e0dbdd8dfa1de0c3e9343b2aa3de4dbcaebf1f92698c1bf5deb9759bde89ac1",
+ "they_match": true,
+ "signature_prefix": "665bbef9c90ef36590388467",
+ "alg": "ed25519",
+ "window": {
+  "window_id": "WIN-df9526589010",
+  "ops_used": 1,
+  "signed_at": "2026-11-09T08:01:22+08:00",
+  "instructions_signed_with": "kind=owner_semantic_accept via window",
+  "policy_epoch_at_open": 13
+ },
+ "owner_fingerprint": "412b351937be72a1",
+ "roles": {
+  "owner_signer": "OWNER",
+  "execute_assembler": "EXECUTE",
+  "verify_certifier": "VERIFY"
+ },
+ "lane_arms_served": {
+  "PLAN": "gpt-6.1-sol",
+  "EXECUTE": "opencode_go/deepseek-v4.1-flash (bare id)",
+  "VERIFY": "gpt-6.1-sol"
+ },
+ "deviations": [
+  {
+   "field": "window.ops_used",
+   "action": "removed",
+   "why": "does not exist until after signing"
+  },
+  {
+   "field": "canonical_bytes_sha256",
+   "action": "computed_by_runner",
+   "why": "python was not on PATH inside the EXECUTE sandbox"
+  }
+ ],
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED",
+  "principal_separation"
+ ],
+ "claim_ceiling": "OWNER_SEMANTIC_ACK_CRYPTOGRAPHICALLY_SIGNED_BY_ENROLLED_OWNER_KEY"
+}
