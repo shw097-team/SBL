@@ -23,10 +23,10 @@ jobs:
         run: python tools/verify_payload_manifest.py --root .
       - name: gate (payload profile)
         working-directory: evidence/fhs-w0-r22-repair-20261109
-        run: python tools/gate_r20.py --round . --profile payload --skip-hygiene
+        run: python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene
       - name: selftest contract (read-only safe, in-process overlay, no temp dir)
         working-directory: evidence/fhs-w0-r22-repair-20261109
-        run: python tools/gate_r20.py --round . --profile payload --skip-hygiene --selftest --quiet
+        run: python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene --selftest --quiet
       - name: checksums
         working-directory: evidence/fhs-w0-r22-repair-20261109
         run: sha256sum -c SHA256SUMS
