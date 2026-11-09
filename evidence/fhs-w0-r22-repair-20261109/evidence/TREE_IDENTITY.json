@@ -1,0 +1,1959 @@
+{
+  "schema": "HGK-TREE-IDENTITY/2",
+  "generated_at": "2026-11-08T10:08:05+08:00",
+  "generated_at_offset": "+08:00",
+  "lane": "B",
+  "round": "FHS_W0_R10_REPAIR_20261108",
+  "tool": "lanes/B/tools/tree_identity.py",
+  "tool_sha256": "c9078621f5d470610ccc21c8b2e7094a013aeb22ccf9a6a9e98f8332dd13a16a",
+  "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+  "raw_inputs": {
+    "main_tree_json": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/B/raw/main_tree.json",
+    "main_tree_json_note": "GitHub trees API response for acd9196f (recursive, truncated=false)",
+    "main_src_tarball": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/B/raw/main_src.tar.gz",
+    "main_src_tarball_bytes": 69560271,
+    "main_src_tarball_sha256": "b68f7438186d3d6fc52ac9331757c225316640e459d0fa8a03a4ccb137fcabcc",
+    "why": "codeload tarball of the same commit, so the import scan covers all 38 src/**/*.py files instead of only the two evidence originals; every file it supplies is cross-checked against the evidence bundle",
+    "prune_note": "70 MB raw input; safe to delete after verification (the JSON records its sha256 and the reproduce command), but the script needs it to re-run"
+  },
+  "claim_ceiling_note": "AUTHOR_SIDE_MEASURED: every number below was produced by this script from the bytes of the named tree at the named HEAD. It is an author-side measurement, not an independent verification; patches were validated only in throw-away copies.",
+  "measurement_unit": "one subject = one (repo, HEAD) pair; no value is shared across subjects",
+  "subjects": [
+    {
+      "subject": "HG-KSEOS@6c9fc73",
+      "kind": "repo",
+      "root": "C:/Projects/Agent_Workspace/HG-KSEOS",
+      "head": "6c9fc73377c11d941d2815d08b55d658208844ab",
+      "pyproject": {
+        "path": "C:/Projects/Agent_Workspace/HG-KSEOS/pyproject.toml",
+        "sha256": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+        "bytes": 356,
+        "line_endings": "CRLF",
+        "requires_python": ">=3.12",
+        "runtime_dependencies": [
+          "cryptography>=42"
+        ],
+        "optional_dependencies": {},
+        "L6": {
+          "line": 6,
+          "text": "dependencies = [\"cryptography>=42\"]"
+        }
+      },
+      "imports": {
+        "scan_scope": "33 files under src/**/*.py",
+        "scan_stats": {
+          "files_scanned": 33,
+          "import_lines": 178,
+          "stdlib_excluded": 168,
+          "self_excluded": 1,
+          "relative_excluded": 64
+        },
+        "raw_module_counts": {
+          "__future__": 30,
+          "argparse": 1,
+          "ast": 1,
+          "base64": 4,
+          "collections": 1,
+          "contextlib": 2,
+          "copy": 1,
+          "cryptography": 8,
+          "csv": 2,
+          "ctypes": 5,
+          "dataclasses": 9,
+          "datetime": 8,
+          "hashlib": 6,
+          "json": 20,
+          "msvcrt": 1,
+          "os": 5,
+          "pathlib": 25,
+          "platform": 1,
+          "re": 7,
+          "run_acceptance": 1,
+          "secrets": 2,
+          "shutil": 1,
+          "sqlite3": 8,
+          "subprocess": 4,
+          "sys": 2,
+          "typing": 19,
+          "uuid": 3,
+          "yaml": 1
+        },
+        "excluded_self_stems": [
+          "__init__",
+          "__main__",
+          "agents",
+          "assurance",
+          "bootstrap",
+          "capability_delta",
+          "capture_hermes_install",
+          "capture_hermes_runtime_validation",
+          "capture_local_verification",
+          "case_executors",
+          "case_executors_depth",
+          "check_acceptance_independent",
+          "check_package_local",
+          "check_security_nrtv",
+          "cli",
+          "compile_acceptance_cases",
+          "compile_requirements",
+          "control_validation",
+          "doctor",
+          "errors",
+          "evidence_graph",
+          "evolution",
+          "generate_sbom",
+          "harness",
+          "hlpe",
+          "knowledge",
+          "lane_admission",
+          "lane_policy",
+          "lane_route_resolver",
+          "lifecycle",
+          "mandate_gate",
+          "materialize_controls",
+          "meta_gates",
+          "named_methods",
+          "native_admission",
+          "observability",
+          "package_local",
+          "providers",
+          "r15_ledger",
+          "recovery",
+          "release",
+          "repo_intelligence",
+          "restore_drill",
+          "role_binding",
+          "run_acceptance",
+          "security",
+          "semantic_oracle",
+          "spine",
+          "task013_write_evidence_part1",
+          "task013_write_evidence_part2",
+          "user_trust",
+          "util",
+          "verify_hlpe"
+        ],
+        "self_exclusion_evidence": [
+          {
+            "module": "run_acceptance",
+            "resolved_to": "tools/run_acceptance.py",
+            "why": "repo-internal module (loaded via sys.path insertion), not a distribution"
+          }
+        ],
+        "third_party_modules": [
+          "cryptography",
+          "yaml"
+        ]
+      },
+      "third_party_analysis": {
+        "cryptography": {
+          "module": "cryptography",
+          "distribution": "cryptography",
+          "import_sites": 8,
+          "verdict": "UNGUARDED",
+          "verdicts_seen": [
+            "FAIL_CLOSED",
+            "UNGUARDED"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 130,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives import hashes,serialization | from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 131,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True)",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 132,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True) | if 'public_certificate_der_b64' in key:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 135,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography import x509 | public=x509.load_der_x509_certificate(base64.b64decode(key['public_certificate_der_b64'],validate=True)).public_key() | else:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 272,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try:",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 273,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try: | raw=base64.b64decode(raw_b64,validate=True)",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 30,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 31,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey | ASSURANCE = \"USER_SCOPED_SOFTWARE_KEY\"",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            }
+          ]
+        },
+        "yaml": {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "import_sites": 1,
+          "verdict": "FAIL_OPEN",
+          "verdicts_seen": [
+            "FAIL_OPEN"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/lane_policy.py",
+              "line": 71,
+              "inside_function": "_yaml_load_unique",
+              "guarded": true,
+              "verdict": "FAIL_OPEN",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_OPEN",
+                  "handler_line": 72,
+                  "raises": [],
+                  "calls": [],
+                  "returns_none": true
+                }
+              ],
+              "quote": "import yaml  # local import; optional dependency | except Exception:  # pragma: no cover - only when PyYAML absent | return None",
+              "note": "absent distribution is swallowed and yields None / pass, so the capability is silently disabled (fail-open)"
+            }
+          ]
+        }
+      },
+      "declared_covers_imports": false,
+      "undeclared": [
+        {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "verdict": "FAIL_OPEN",
+          "import_sites": 1,
+          "paths": [
+            "src/hg_kseos/lane_policy.py"
+          ]
+        }
+      ],
+      "undeclared_count": 1,
+      "issuer_binding": {
+        "present": false,
+        "path": "src/hg_kseos/fhs/issuer_binding.py",
+        "lines": 0,
+        "sha256": null,
+        "line_endings": null,
+        "imports_cryptography": false,
+        "cryptography_import_lines": [],
+        "note": "file absent from this tree at this HEAD (measured by directory enumeration)"
+      },
+      "licences": {
+        "root_files": [],
+        "nested": [
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/candidate/package/LICENSE",
+            "depth": 4,
+            "bytes": 475,
+            "kind": "proprietary package licence (all rights reserved, redistribution withheld)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/candidate/package/NOTICE",
+            "depth": 4,
+            "bytes": 615,
+            "kind": "NOTICE (attribution notice, not a grant)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/rollback-root/LICENSE",
+            "depth": 4,
+            "bytes": 475,
+            "kind": "proprietary package licence (all rights reserved, redistribution withheld)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/rollback-root/NOTICE",
+            "depth": 4,
+            "bytes": 615,
+            "kind": "NOTICE (attribution notice, not a grant)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/stage-root/LICENSE",
+            "depth": 4,
+            "bytes": 475,
+            "kind": "proprietary package licence (all rights reserved, redistribution withheld)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/stage-root/NOTICE",
+            "depth": 4,
+            "bytes": 615,
+            "kind": "NOTICE (attribution notice, not a grant)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/tamper-root/LICENSE",
+            "depth": 4,
+            "bytes": 475,
+            "kind": "proprietary package licence (all rights reserved, redistribution withheld)"
+          },
+          {
+            "path_rel": "fhs_msc_handoff_20261030/WP-FHS-17/evidence/tamper-root/NOTICE",
+            "depth": 4,
+            "bytes": 615,
+            "kind": "NOTICE (attribution notice, not a grant)"
+          }
+        ],
+        "claim": {
+          "root_licence_present": false,
+          "nested_licence_count": 8,
+          "measured": true,
+          "scope_note": "HG-KSEOS@6c9fc73 (HEAD 6c9fc73): root licence files = NONE; nested licence-like files = 8. Scope is this exact tree at this exact commit -- a licence measured here says nothing about any other branch, worktree or commit. Nested licence files sit deep inside evidence/handoff fixture directories; a fixture copy is not a repo-level grant."
+        }
+      },
+      "ci": {
+        "workflow_files": [],
+        "workflow_count": 0,
+        "ci_config_present": false,
+        "searched_patterns": [
+          ".github/workflows/*.yml|yaml",
+          ".gitlab-ci.yml",
+          "azure-pipelines.yml",
+          "Jenkinsfile",
+          ".circleci/config.yml",
+          "bitbucket-pipelines.yml"
+        ],
+        "any_supply_chain_step": false,
+        "note": "no CI configuration file exists in the tracked tree at this commit, so job names and supply-chain steps are absent -- measured absent, not unknown"
+      },
+      "sbom": {
+        "files": [
+          {
+            "path": "HG-KSEOS-far-minimax-r2/evidence/review/HG-KSEOS_WORKBENCH_SBOM_EXTENSION.json",
+            "bytes": 17737,
+            "format": "JSON receipt (HGK-WORKBENCH-SBOM-EXTENSION/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "HG-KSEOS-far-minimax-r2/evidence/wave-13/SBOM_RECONCILIATION.json",
+            "bytes": 433,
+            "format": "JSON receipt (HGK-SBOM-RECONCILIATION/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "HG-KSEOS-far-minimax-r2/evidence/wave-13/sbom.cdx.json",
+            "bytes": 32717,
+            "format": "CycloneDX 1.6",
+            "is_standard_sbom": true
+          },
+          {
+            "path": "HG-KSEOS-far-minimax-r2/scripts/sbom.ps1",
+            "bytes": 427,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "HG-KSEOS-far-minimax-r2/tools/generate_sbom.py",
+            "bytes": 3513,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "evidence/review/HG-KSEOS_WORKBENCH_SBOM_EXTENSION.json",
+            "bytes": 17737,
+            "format": "JSON receipt (HGK-WORKBENCH-SBOM-EXTENSION/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "evidence/wave-13/SBOM_RECONCILIATION.json",
+            "bytes": 433,
+            "format": "JSON receipt (HGK-SBOM-RECONCILIATION/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "evidence/wave-13/sbom.cdx.json",
+            "bytes": 32717,
+            "format": "CycloneDX 1.6",
+            "is_standard_sbom": true
+          },
+          {
+            "path": "ops/session-20261031/r18-durable/receipts/WP19_SBOM_RESCAN.json",
+            "bytes": 10241,
+            "format": "JSON receipt (R18.WP19_SBOM_RESCAN/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "ops/session-20261031/r18-durable/tools/repair_and_sbom_proof.py",
+            "bytes": 6718,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "scripts/sbom.ps1",
+            "bytes": 419,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "tools/generate_sbom.py",
+            "bytes": 3431,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          }
+        ],
+        "count": 12,
+        "standard_sbom_count": 2,
+        "note": "Most matches are receipts or generator scripts that merely carry 'sbom' in the name; only entries with is_standard_sbom=true are SBOM documents."
+      }
+    },
+    {
+      "subject": "worktrees/r4-hgk@a7046a3",
+      "kind": "repo",
+      "root": "C:/Projects/Agent_Workspace/worktrees/r4-hgk",
+      "head": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+      "pyproject": {
+        "path": "C:/Projects/Agent_Workspace/worktrees/r4-hgk/pyproject.toml",
+        "sha256": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58",
+        "bytes": 338,
+        "line_endings": "CRLF",
+        "requires_python": ">=3.12",
+        "runtime_dependencies": [],
+        "optional_dependencies": {},
+        "L6": {
+          "line": 6,
+          "text": "dependencies = []"
+        }
+      },
+      "imports": {
+        "scan_scope": "38 files under src/**/*.py",
+        "scan_stats": {
+          "files_scanned": 38,
+          "import_lines": 204,
+          "stdlib_excluded": 192,
+          "self_excluded": 1,
+          "relative_excluded": 64
+        },
+        "raw_module_counts": {
+          "__future__": 34,
+          "argparse": 1,
+          "ast": 1,
+          "base64": 4,
+          "collections": 1,
+          "contextlib": 2,
+          "copy": 1,
+          "cryptography": 10,
+          "csv": 2,
+          "ctypes": 5,
+          "dataclasses": 9,
+          "datetime": 8,
+          "hashlib": 10,
+          "json": 24,
+          "msvcrt": 1,
+          "os": 8,
+          "pathlib": 27,
+          "platform": 1,
+          "re": 8,
+          "run_acceptance": 1,
+          "secrets": 2,
+          "shutil": 1,
+          "sqlite3": 8,
+          "subprocess": 4,
+          "sys": 2,
+          "time": 2,
+          "typing": 23,
+          "uuid": 3,
+          "yaml": 1
+        },
+        "excluded_self_stems": [
+          "__init__",
+          "__main__",
+          "agents",
+          "assurance",
+          "bootstrap",
+          "capability_delta",
+          "capture_hermes_install",
+          "capture_hermes_runtime_validation",
+          "capture_local_verification",
+          "case_executors",
+          "case_executors_depth",
+          "check_acceptance_independent",
+          "check_package_local",
+          "check_security_nrtv",
+          "cli",
+          "compare_lane_receipts",
+          "compile_acceptance_cases",
+          "compile_requirements",
+          "config_drift",
+          "control_validation",
+          "doctor",
+          "errors",
+          "evidence_graph",
+          "evidence_reconcile",
+          "evolution",
+          "generate_sbom",
+          "harness",
+          "hlpe",
+          "knowledge",
+          "lane_admission",
+          "lane_policy",
+          "lane_route_resolver",
+          "lifecycle",
+          "mandate_gate",
+          "materialize_controls",
+          "meta_gates",
+          "named_methods",
+          "native_admission",
+          "observability",
+          "package_local",
+          "providers",
+          "r15_ledger",
+          "recovery",
+          "release",
+          "render_owner_requests",
+          "repo_intelligence",
+          "restore_drill",
+          "role_binding",
+          "run_acceptance",
+          "security",
+          "semantic_oracle",
+          "spine",
+          "task013_write_evidence_part1",
+          "task013_write_evidence_part2",
+          "user_trust",
+          "util",
+          "verify_hlpe",
+          "w1_asset_pins",
+          "w1_capboot_qualify"
+        ],
+        "self_exclusion_evidence": [
+          {
+            "module": "run_acceptance",
+            "resolved_to": "tools/run_acceptance.py",
+            "why": "repo-internal module (loaded via sys.path insertion), not a distribution"
+          }
+        ],
+        "third_party_modules": [
+          "cryptography",
+          "yaml"
+        ]
+      },
+      "third_party_analysis": {
+        "cryptography": {
+          "module": "cryptography",
+          "distribution": "cryptography",
+          "import_sites": 10,
+          "verdict": "UNGUARDED",
+          "verdicts_seen": [
+            "FAIL_CLOSED",
+            "UNGUARDED"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/fhs/issuer_binding.py",
+              "line": 71,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 73,
+                  "raises": [
+                    "_invalid(f'signature verification unavailable: {exc}')"
+                  ],
+                  "calls": [
+                    "_invalid"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.exceptions import InvalidSignature | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | except Exception as exc:  # pragma: no cover - environment failure, not a test path",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/fhs/issuer_binding.py",
+              "line": 72,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 73,
+                  "raises": [
+                    "_invalid(f'signature verification unavailable: {exc}')"
+                  ],
+                  "calls": [
+                    "_invalid"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | except Exception as exc:  # pragma: no cover - environment failure, not a test path | raise _invalid(f\"signature verification unavailable: {exc}\") from None",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 130,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives import hashes,serialization | from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 131,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True)",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 132,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True) | if 'public_certificate_der_b64' in key:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 135,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography import x509 | public=x509.load_der_x509_certificate(base64.b64decode(key['public_certificate_der_b64'],validate=True)).public_key() | else:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 272,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try:",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 273,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try: | raw=base64.b64decode(raw_b64,validate=True)",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 30,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey",
+              "note": "module-level, unguarded: importing hg_kseos.user_trust without the cryptography distribution is impossible, yet pyproject declares dependencies = [] -- the package metadata claims a stdlib-only install that the source does not support."
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 31,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey | ASSURANCE = \"USER_SCOPED_SOFTWARE_KEY\"",
+              "note": "module-level, unguarded: importing hg_kseos.user_trust without the cryptography distribution is impossible, yet pyproject declares dependencies = [] -- the package metadata claims a stdlib-only install that the source does not support."
+            }
+          ]
+        },
+        "yaml": {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "import_sites": 1,
+          "verdict": "FAIL_OPEN",
+          "verdicts_seen": [
+            "FAIL_OPEN"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/lane_policy.py",
+              "line": 71,
+              "inside_function": "_yaml_load_unique",
+              "guarded": true,
+              "verdict": "FAIL_OPEN",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_OPEN",
+                  "handler_line": 72,
+                  "raises": [],
+                  "calls": [],
+                  "returns_none": true
+                }
+              ],
+              "quote": "import yaml  # local import; optional dependency | except Exception:  # pragma: no cover - only when PyYAML absent | return None",
+              "note": "validated as fail-open BY DESIGN (comment 'optional dependency'); it still is an undeclared import today because no optional extra declares PyYAML."
+            }
+          ]
+        }
+      },
+      "declared_covers_imports": false,
+      "undeclared": [
+        {
+          "module": "cryptography",
+          "distribution": "cryptography",
+          "verdict": "UNGUARDED",
+          "import_sites": 10,
+          "paths": [
+            "src/hg_kseos/fhs/issuer_binding.py",
+            "src/hg_kseos/native_admission.py",
+            "src/hg_kseos/user_trust.py"
+          ]
+        },
+        {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "verdict": "FAIL_OPEN",
+          "import_sites": 1,
+          "paths": [
+            "src/hg_kseos/lane_policy.py"
+          ]
+        }
+      ],
+      "undeclared_count": 2,
+      "issuer_binding": {
+        "present": true,
+        "path": "src/hg_kseos/fhs/issuer_binding.py",
+        "lines": 193,
+        "sha256": "11cb34a8b83eec7edc2cc157032a92c838838163eb09a65fcc1f186a1f863cfd",
+        "line_endings": "CRLF",
+        "imports_cryptography": true,
+        "cryptography_import_lines": [
+          71,
+          72
+        ]
+      },
+      "licences": {
+        "root_files": [],
+        "nested": [],
+        "claim": {
+          "root_licence_present": false,
+          "nested_licence_count": 0,
+          "measured": true,
+          "scope_note": "worktrees/r4-hgk@a7046a3 (HEAD a7046a3): root licence files = NONE; nested licence-like files = 0. Scope is this exact tree at this exact commit -- a licence measured here says nothing about any other branch, worktree or commit. No licence or NOTICE file anywhere in the tracked tree at this commit: no grant is measured here, at any depth."
+        }
+      },
+      "ci": {
+        "workflow_files": [],
+        "workflow_count": 0,
+        "ci_config_present": false,
+        "searched_patterns": [
+          ".github/workflows/*.yml|yaml",
+          ".gitlab-ci.yml",
+          "azure-pipelines.yml",
+          "Jenkinsfile",
+          ".circleci/config.yml",
+          "bitbucket-pipelines.yml"
+        ],
+        "any_supply_chain_step": false,
+        "note": "no CI configuration file exists in the tracked tree at this commit, so job names and supply-chain steps are absent -- measured absent, not unknown"
+      },
+      "sbom": {
+        "files": [
+          {
+            "path": "evidence/r18/WP19_SBOM_RESCAN.json",
+            "bytes": 10241,
+            "format": "JSON receipt (R18.WP19_SBOM_RESCAN/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+            "bytes": 10241,
+            "format": "JSON receipt (R18.WP19_SBOM_RESCAN/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+            "bytes": 681,
+            "format": "HG-KSEOS inventory JSON (not a standard SBOM)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "scripts/sbom.ps1",
+            "bytes": 427,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "tools/generate_sbom.py",
+            "bytes": 3513,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          }
+        ],
+        "count": 5,
+        "standard_sbom_count": 0,
+        "note": "Most matches are receipts or generator scripts that merely carry 'sbom' in the name; only entries with is_standard_sbom=true are SBOM documents."
+      }
+    },
+    {
+      "subject": "GitHub-main@acd9196f",
+      "kind": "github",
+      "root": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/B/raw/main_head/HG-KSEOS-acd9196fcd748638673848bf62a426dcc3c22dc1",
+      "head": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+      "pyproject": {
+        "path": "pyproject.toml (origin/main acd9196, anchored on evidence/HGK_MAIN_pyproject.toml)",
+        "sha256": "0e06e26975d96ef3aaddaafc2726930707af107f918d8c390a748b21c4f5ad49",
+        "bytes": 321,
+        "line_endings": "LF",
+        "requires_python": ">=3.12",
+        "runtime_dependencies": [],
+        "optional_dependencies": {},
+        "L6": {
+          "line": 6,
+          "text": "dependencies = []"
+        }
+      },
+      "imports": {
+        "scan_scope": "38 files under src/**/*.py",
+        "scan_stats": {
+          "files_scanned": 38,
+          "import_lines": 204,
+          "stdlib_excluded": 192,
+          "self_excluded": 1,
+          "relative_excluded": 64
+        },
+        "raw_module_counts": {
+          "__future__": 34,
+          "argparse": 1,
+          "ast": 1,
+          "base64": 4,
+          "collections": 1,
+          "contextlib": 2,
+          "copy": 1,
+          "cryptography": 10,
+          "csv": 2,
+          "ctypes": 5,
+          "dataclasses": 9,
+          "datetime": 8,
+          "hashlib": 10,
+          "json": 24,
+          "msvcrt": 1,
+          "os": 8,
+          "pathlib": 27,
+          "platform": 1,
+          "re": 8,
+          "run_acceptance": 1,
+          "secrets": 2,
+          "shutil": 1,
+          "sqlite3": 8,
+          "subprocess": 4,
+          "sys": 2,
+          "time": 2,
+          "typing": 23,
+          "uuid": 3,
+          "yaml": 1
+        },
+        "excluded_self_stems": [
+          "__init__",
+          "__main__",
+          "agents",
+          "assurance",
+          "bootstrap",
+          "capability_delta",
+          "capture_hermes_install",
+          "capture_hermes_runtime_validation",
+          "capture_local_verification",
+          "case_executors",
+          "case_executors_depth",
+          "check_acceptance_independent",
+          "check_package_local",
+          "check_security_nrtv",
+          "cli",
+          "compare_lane_receipts",
+          "compile_acceptance_cases",
+          "compile_requirements",
+          "config_drift",
+          "control_validation",
+          "doctor",
+          "errors",
+          "evidence_graph",
+          "evidence_reconcile",
+          "evolution",
+          "generate_sbom",
+          "harness",
+          "hlpe",
+          "knowledge",
+          "lane_admission",
+          "lane_policy",
+          "lane_route_resolver",
+          "lifecycle",
+          "mandate_gate",
+          "materialize_controls",
+          "meta_gates",
+          "named_methods",
+          "native_admission",
+          "observability",
+          "package_local",
+          "providers",
+          "r15_ledger",
+          "recovery",
+          "release",
+          "render_owner_requests",
+          "repo_intelligence",
+          "restore_drill",
+          "role_binding",
+          "run_acceptance",
+          "security",
+          "semantic_oracle",
+          "spine",
+          "task013_write_evidence_part1",
+          "task013_write_evidence_part2",
+          "user_trust",
+          "util",
+          "verify_hlpe",
+          "w1_asset_pins",
+          "w1_capboot_qualify"
+        ],
+        "self_exclusion_evidence": [
+          {
+            "module": "run_acceptance",
+            "resolved_to": "tools/run_acceptance.py",
+            "why": "repo-internal module (loaded via sys.path insertion), not a distribution"
+          }
+        ],
+        "third_party_modules": [
+          "cryptography",
+          "yaml"
+        ]
+      },
+      "third_party_analysis": {
+        "cryptography": {
+          "module": "cryptography",
+          "distribution": "cryptography",
+          "import_sites": 10,
+          "verdict": "UNGUARDED",
+          "verdicts_seen": [
+            "FAIL_CLOSED",
+            "UNGUARDED"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/fhs/issuer_binding.py",
+              "line": 71,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 73,
+                  "raises": [
+                    "_invalid(f'signature verification unavailable: {exc}')"
+                  ],
+                  "calls": [
+                    "_invalid"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.exceptions import InvalidSignature | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | except Exception as exc:  # pragma: no cover - environment failure, not a test path",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/fhs/issuer_binding.py",
+              "line": 72,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 73,
+                  "raises": [
+                    "_invalid(f'signature verification unavailable: {exc}')"
+                  ],
+                  "calls": [
+                    "_invalid"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | except Exception as exc:  # pragma: no cover - environment failure, not a test path | raise _invalid(f\"signature verification unavailable: {exc}\") from None",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 130,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives import hashes,serialization | from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 131,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.hazmat.primitives.asymmetric import ed25519,padding,rsa | from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True)",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 132,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography.exceptions import InvalidSignature | raw=base64.b64decode(signature,validate=True) | if 'public_certificate_der_b64' in key:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 135,
+              "inside_function": "verify_signature",
+              "guarded": true,
+              "verdict": "FAIL_CLOSED",
+              "handlers": [
+                {
+                  "types": [
+                    "ImportError"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 144,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                },
+                {
+                  "types": [
+                    "(ValueError, KeyError, TypeError, InvalidSignature)"
+                  ],
+                  "kind": "FAIL_CLOSED",
+                  "handler_line": 145,
+                  "raises": [],
+                  "calls": [
+                    "refuse"
+                  ],
+                  "returns_none": false
+                }
+              ],
+              "quote": "from cryptography import x509 | public=x509.load_der_x509_certificate(base64.b64decode(key['public_certificate_der_b64'],validate=True)).public_key() | else:",
+              "note": "absent/broken distribution is converted into a typed refusal (raise / refuse()), so the capability fails closed"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 272,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try:",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/native_admission.py",
+              "line": 273,
+              "inside_function": "_ed25519_spki",
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey | try: | raw=base64.b64decode(raw_b64,validate=True)",
+              "note": "import is not inside try/except: if the distribution is absent the ImportError propagates (hard runtime dependency, no degraded mode)"
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 30,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives import serialization | from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey",
+              "note": "same unguarded module-level import on origin/main: absent cryptography makes hg_kseos.user_trust unimportable while dependencies = [] declares nothing."
+            },
+            {
+              "path": "src/hg_kseos/user_trust.py",
+              "line": 31,
+              "inside_function": null,
+              "guarded": false,
+              "verdict": "UNGUARDED",
+              "handlers": [],
+              "quote": "from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey | ASSURANCE = \"USER_SCOPED_SOFTWARE_KEY\"",
+              "note": "same unguarded module-level import on origin/main: absent cryptography makes hg_kseos.user_trust unimportable while dependencies = [] declares nothing."
+            }
+          ]
+        },
+        "yaml": {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "import_sites": 1,
+          "verdict": "FAIL_OPEN",
+          "verdicts_seen": [
+            "FAIL_OPEN"
+          ],
+          "worst_case_note": "module verdict is the WORST import site in the tree: one unguarded site makes the distribution a hard requirement no matter how many other sites are guarded",
+          "files": [
+            {
+              "path": "src/hg_kseos/lane_policy.py",
+              "line": 71,
+              "inside_function": "_yaml_load_unique",
+              "guarded": true,
+              "verdict": "FAIL_OPEN",
+              "handlers": [
+                {
+                  "types": [
+                    "Exception"
+                  ],
+                  "kind": "FAIL_OPEN",
+                  "handler_line": 72,
+                  "raises": [],
+                  "calls": [],
+                  "returns_none": true
+                }
+              ],
+              "quote": "import yaml  # local import; optional dependency | except Exception:  # pragma: no cover - only when PyYAML absent | return None",
+              "note": "same fail-open yaml import on origin/main; no optional extra exists to declare it."
+            }
+          ]
+        }
+      },
+      "declared_covers_imports": false,
+      "undeclared": [
+        {
+          "module": "cryptography",
+          "distribution": "cryptography",
+          "verdict": "UNGUARDED",
+          "import_sites": 10,
+          "paths": [
+            "src/hg_kseos/fhs/issuer_binding.py",
+            "src/hg_kseos/native_admission.py",
+            "src/hg_kseos/user_trust.py"
+          ]
+        },
+        {
+          "module": "yaml",
+          "distribution": "PyYAML",
+          "verdict": "FAIL_OPEN",
+          "import_sites": 1,
+          "paths": [
+            "src/hg_kseos/lane_policy.py"
+          ]
+        }
+      ],
+      "undeclared_count": 2,
+      "issuer_binding": {
+        "present": true,
+        "path": "src/hg_kseos/fhs/issuer_binding.py",
+        "lines": 193,
+        "sha256": "43089c4a06d16fc57c25ace411285fb99f09a2078ab23bf561ccbc5a0cb75b24",
+        "line_endings": "LF",
+        "imports_cryptography": true,
+        "cryptography_import_lines": [
+          71,
+          72
+        ]
+      },
+      "licences": {
+        "root_files": [],
+        "nested": [],
+        "claim": {
+          "root_licence_present": false,
+          "nested_licence_count": 0,
+          "measured": true,
+          "scope_note": "GitHub-main@acd9196f (HEAD acd9196): root licence files = NONE; nested licence-like files = 0. Scope is this exact tree at this exact commit -- a licence measured here says nothing about any other branch, worktree or commit. No licence or NOTICE file anywhere in the tracked tree at this commit: no grant is measured here, at any depth."
+        }
+      },
+      "ci": {
+        "workflow_files": [],
+        "workflow_count": 0,
+        "ci_config_present": false,
+        "searched_patterns": [
+          ".github/workflows/*.yml|yaml",
+          ".gitlab-ci.yml",
+          "azure-pipelines.yml",
+          "Jenkinsfile",
+          ".circleci/config.yml",
+          "bitbucket-pipelines.yml"
+        ],
+        "any_supply_chain_step": false,
+        "note": "no CI configuration file exists in the tracked tree at this commit, so job names and supply-chain steps are absent -- measured absent, not unknown"
+      },
+      "sbom": {
+        "files": [
+          {
+            "path": "evidence/r18/WP19_SBOM_RESCAN.json",
+            "bytes": 10146,
+            "format": "JSON receipt (R18.WP19_SBOM_RESCAN/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+            "bytes": 10146,
+            "format": "JSON receipt (R18.WP19_SBOM_RESCAN/1) - not an SBOM",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+            "bytes": 663,
+            "format": "HG-KSEOS inventory JSON (not a standard SBOM)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "scripts/sbom.ps1",
+            "bytes": 419,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          },
+          {
+            "path": "tools/generate_sbom.py",
+            "bytes": 3431,
+            "format": "generator script (not an SBOM document)",
+            "is_standard_sbom": false
+          }
+        ],
+        "count": 5,
+        "standard_sbom_count": 0,
+        "note": "Most matches are receipts or generator scripts that merely carry 'sbom' in the name; only entries with is_standard_sbom=true are SBOM documents."
+      }
+    }
+  ],
+  "dependency_matrix": {
+    "HG-KSEOS@6c9fc73": {
+      "head": "6c9fc73377c11d941d2815d08b55d658208844ab",
+      "runtime_dependencies": [
+        "cryptography>=42"
+      ],
+      "optional_dependencies": {},
+      "third_party_imports": [
+        "cryptography",
+        "yaml"
+      ],
+      "undeclared": [
+        "yaml"
+      ],
+      "declared_covers_imports": false,
+      "issuer_binding_present": false,
+      "nested_licence_count": 8,
+      "root_licence_present": false
+    },
+    "worktrees/r4-hgk@a7046a3": {
+      "head": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+      "runtime_dependencies": [],
+      "optional_dependencies": {},
+      "third_party_imports": [
+        "cryptography",
+        "yaml"
+      ],
+      "undeclared": [
+        "cryptography",
+        "yaml"
+      ],
+      "declared_covers_imports": false,
+      "issuer_binding_present": true,
+      "nested_licence_count": 0,
+      "root_licence_present": false
+    },
+    "GitHub-main@acd9196f": {
+      "head": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+      "runtime_dependencies": [],
+      "optional_dependencies": {},
+      "third_party_imports": [
+        "cryptography",
+        "yaml"
+      ],
+      "undeclared": [
+        "cryptography",
+        "yaml"
+      ],
+      "declared_covers_imports": false,
+      "issuer_binding_present": true,
+      "nested_licence_count": 0,
+      "root_licence_present": false
+    }
+  },
+  "cross_tree_contradiction": {
+    "field": "pyproject.toml line 6 (dependencies)",
+    "per_subject": [
+      {
+        "subject": "HG-KSEOS@6c9fc73",
+        "line": 6,
+        "text": "dependencies = [\"cryptography>=42\"]",
+        "pyproject_sha256": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+        "file_line_endings": "CRLF"
+      },
+      {
+        "subject": "worktrees/r4-hgk@a7046a3",
+        "line": 6,
+        "text": "dependencies = []",
+        "pyproject_sha256": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58",
+        "file_line_endings": "CRLF"
+      },
+      {
+        "subject": "GitHub-main@acd9196f",
+        "line": 6,
+        "text": "dependencies = []",
+        "pyproject_sha256": "0e06e26975d96ef3aaddaafc2726930707af107f918d8c390a748b21c4f5ad49",
+        "file_line_endings": "LF"
+      }
+    ],
+    "distinct_value_count": 2,
+    "distinct_values": [
+      "dependencies = [\"cryptography>=42\"]",
+      "dependencies = []"
+    ],
+    "honest_note": "Three subjects were measured; two of them happen to carry the same literal value (`dependencies = []`). That is the measurement, not a gap: the values must NOT be padded to three distinct strings. What differs is the tree each value belongs to -- HG-KSEOS@6c9fc73 declares cryptography at line 6, while r4-hgk@a7046a3 and GitHub-main@acd9196f both declare nothing at line 6. Any statement of the form 'cryptography is / is not declared' without naming repo+HEAD is a cross-tree comparison and is not a measurement.",
+    "canonical_decision": "OWNER_DECIDES: which of these three values is canonical for the next round is an owner decision (which tree becomes the source of truth); no lane may pick one by convention.",
+    "prior_claim_A01_audit": {
+      "claim": "'both earlier findings are wrong: cryptography is already declared and issuer_binding.py does not exist'",
+      "verdict": "NOT_A_MEASUREMENT (cross-tree comparison)",
+      "detail": [
+        "'cryptography is declared' is true only for HG-KSEOS@6c9fc73 (dependencies = [\"cryptography>=42\"]); false for worktrees/r4-hgk@a7046a3 and GitHub-main@acd9196f, both dependencies = [].",
+        "'issuer_binding.py does not exist' is true only for HG-KSEOS@6c9fc73 (src/hg_kseos/fhs/ absent); the file exists at 193 lines in worktrees/r4-hgk@a7046a3 (sha256 11cb34a8, CRLF) AND at origin/main acd9196f (sha256 43089c4a, LF) -- same 193 lines, different bytes.",
+        "Each claim was true of one tree and false of the other; quoting them together manufactures a contradiction that no single subject exhibits."
+      ]
+    }
+  },
+  "patch_plan": {
+    "applied_to_any_repo": false,
+    "applied_note": "NEITHER PATCH WAS APPLIED. Writing into HG-KSEOS or worktrees/r4-hgk is outside this round's permission (no commit / checkout / clean allowed). Both were proven only against throw-away copies under lanes/B/_verify/.",
+    "main": {
+      "base": "evidence/HGK_MAIN_pyproject.toml = origin/main acd9196 pyproject.toml (sha256 0e06e26975d96ef3aaddaafc2726930707af107f918d8c390a748b21c4f5ad49)",
+      "edit": {
+        "old": "dependencies = []",
+        "new_lines": 5,
+        "nl": "LF"
+      },
+      "patch_file": "lanes/B/HGK_MAIN_declare_crypto_yaml.patch",
+      "candidate_file": "lanes/B/HGK_MAIN_pyproject.candidate.toml",
+      "verify": {
+        "verify_dir": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/B/_verify/main_patch",
+        "dry_run_command": "patch --binary -p1 --dry-run -i pyproject.patch",
+        "apply_command": "patch --binary -p1 -i pyproject.patch",
+        "base_sha256": "0e06e26975d96ef3aaddaafc2726930707af107f918d8c390a748b21c4f5ad49",
+        "patch_sha256": "fefcca9839b5f5eb4fe63e3e256f0d0917c13cb84c5fb5d6794ecf059273e738",
+        "patch_bytes": 370,
+        "patch_crlf": false,
+        "patch_content_line_endings": "LF",
+        "dry_run_rc": 0,
+        "dry_run_stdout": "checking file pyproject.toml",
+        "dry_run_ok": true,
+        "apply_rc": 0,
+        "apply_stdout": "patching file pyproject.toml",
+        "applied_sha256": "565f0995ce1e08470b389cb1663fa1f3a6006cfa85b8bc69a680eca86e1479bc",
+        "candidate_sha256": "565f0995ce1e08470b389cb1663fa1f3a6006cfa85b8bc69a680eca86e1479bc",
+        "byte_identical_to_candidate": true,
+        "base_untouched_in_repo": true
+      },
+      "coverage_before": {
+        "covers": false,
+        "undeclared": [
+          "cryptography",
+          "yaml"
+        ],
+        "declared": {}
+      },
+      "coverage_after": {
+        "covers": true,
+        "undeclared": [],
+        "declared": {
+          "cryptography": {
+            "req": "cryptography>=42",
+            "owner": "runtime"
+          },
+          "pyyaml": {
+            "req": "PyYAML>=6",
+            "owner": "optional:yaml"
+          }
+        }
+      },
+      "coverage_flip": {
+        "before": false,
+        "after": true,
+        "flipped": true
+      }
+    },
+    "worktree": {
+      "base": "worktrees/r4-hgk/pyproject.toml at a7046a3 (sha256 906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58)",
+      "edit": {
+        "old": "dependencies = []",
+        "new_lines": 5,
+        "nl": "CRLF"
+      },
+      "patch_file": "lanes/B/R4HGK_declare_crypto_yaml.patch",
+      "candidate_file": "lanes/B/R4HGK_pyproject.candidate.toml",
+      "verify": {
+        "verify_dir": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/lanes/B/_verify/worktree_patch",
+        "dry_run_command": "patch --binary -p1 --dry-run -i pyproject.patch",
+        "apply_command": "patch --binary -p1 -i pyproject.patch",
+        "base_sha256": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58",
+        "patch_sha256": "df567320787110d67517119c1655db11f11b939a9e0e88a1507c1eae64488a2b",
+        "patch_bytes": 381,
+        "patch_crlf": true,
+        "patch_content_line_endings": "CRLF (matches CRLF base)",
+        "dry_run_rc": 0,
+        "dry_run_stdout": "checking file pyproject.toml",
+        "dry_run_ok": true,
+        "apply_rc": 0,
+        "apply_stdout": "patching file pyproject.toml",
+        "applied_sha256": "d7b8b918471ea16f7e0ea1ff26d53c924c5bb9f0b7d373544e34ac379594738e",
+        "candidate_sha256": "d7b8b918471ea16f7e0ea1ff26d53c924c5bb9f0b7d373544e34ac379594738e",
+        "byte_identical_to_candidate": true,
+        "base_untouched_in_repo": true
+      },
+      "coverage_before": {
+        "covers": false,
+        "undeclared": [
+          "cryptography",
+          "yaml"
+        ],
+        "declared": {}
+      },
+      "coverage_after": {
+        "covers": true,
+        "undeclared": [],
+        "declared": {
+          "cryptography": {
+            "req": "cryptography>=42",
+            "owner": "runtime"
+          },
+          "pyyaml": {
+            "req": "PyYAML>=6",
+            "owner": "optional:yaml"
+          }
+        }
+      },
+      "coverage_flip": {
+        "before": false,
+        "after": true,
+        "flipped": true,
+        "rollback": null
+      }
+    },
+    "line_ending_policy": "Each patch carries the line endings of ITS OWN base so the result is byte-exact: the origin/main patch is pure LF (0 CR bytes); the r4-hgk patch carries CRLF in content lines because that file is CRLF. GNU patch refuses a LF-context hunk against a CRLF file ('different line endings'), so forcing LF there would make the patch unappliable rather than cleaner.",
+    "line_endings": {
+      "main_base_line_endings": "LF",
+      "main_patch_cr_bytes": 0,
+      "main_patch_lf_only": true,
+      "worktree_base_line_endings": "CRLF",
+      "worktree_patch_cr_bytes": 11,
+      "worktree_patch_note": "content lines keep the CRLF of their own base because GNU patch rejects a LF-context hunk against a CRLF file ('different line endings'); a LF patch here would be unappliable, not cleaner"
+    },
+    "reproduce": [
+      "python FHS_W0_R10_REPAIR_20261108/lanes/B/tools/tree_identity.py",
+      "mkdir -p /tmp/v && cp <base pyproject> /tmp/v/pyproject.toml",
+      "cd /tmp/v && patch --binary -p1 --dry-run -i <patch>",
+      "cd /tmp/v && patch --binary -p1 -i <patch> && cmp pyproject.toml <candidate>"
+    ]
+  },
+  "summary": {
+    "subjects_measured": 3,
+    "undeclared_by_subject": {
+      "HG-KSEOS@6c9fc73": [
+        "yaml"
+      ],
+      "worktrees/r4-hgk@a7046a3": [
+        "cryptography",
+        "yaml"
+      ],
+      "GitHub-main@acd9196f": [
+        "cryptography",
+        "yaml"
+      ]
+    },
+    "patches_apply": true,
+    "patches_applied": false
+  },
+  "cross_tree_src_comparison": {
+    "pair": [
+      "worktrees/r4-hgk@a7046a3",
+      "GitHub-main@acd9196f"
+    ],
+    "shared_src_files": 38,
+    "identical": 0,
+    "differing": 38,
+    "differing_paths": [
+      "src/hg_kseos/__init__.py",
+      "src/hg_kseos/__main__.py",
+      "src/hg_kseos/agents.py",
+      "src/hg_kseos/assurance.py",
+      "src/hg_kseos/bootstrap.py",
+      "src/hg_kseos/capability_delta.py",
+      "src/hg_kseos/cli.py",
+      "src/hg_kseos/control_validation.py",
+      "src/hg_kseos/doctor.py",
+      "src/hg_kseos/errors.py",
+      "src/hg_kseos/evidence_graph.py",
+      "src/hg_kseos/evolution.py",
+      "src/hg_kseos/fhs/__init__.py",
+      "src/hg_kseos/fhs/consumer_receipt.py",
+      "src/hg_kseos/fhs/issuer_binding.py",
+      "src/hg_kseos/fhs/plan_cas.py",
+      "src/hg_kseos/fhs/runtime_binding.py",
+      "src/hg_kseos/harness.py",
+      "src/hg_kseos/hlpe.py",
+      "src/hg_kseos/knowledge.py",
+      "src/hg_kseos/lane_admission.py",
+      "src/hg_kseos/lane_policy.py",
+      "src/hg_kseos/lane_route_resolver.py",
+      "src/hg_kseos/lifecycle.py",
+      "src/hg_kseos/meta_gates.py",
+      "src/hg_kseos/named_methods.py",
+      "src/hg_kseos/native_admission.py",
+      "src/hg_kseos/observability.py",
+      "src/hg_kseos/providers.py",
+      "src/hg_kseos/recovery.py",
+      "src/hg_kseos/release.py",
+      "src/hg_kseos/repo_intelligence.py",
+      "src/hg_kseos/role_binding.py",
+      "src/hg_kseos/security.py",
+      "src/hg_kseos/semantic_oracle.py",
+      "src/hg_kseos/spine.py",
+      "src/hg_kseos/user_trust.py",
+      "src/hg_kseos/util.py"
+    ],
+    "line_ending_only": [
+      "src/hg_kseos/__init__.py",
+      "src/hg_kseos/__main__.py",
+      "src/hg_kseos/agents.py",
+      "src/hg_kseos/assurance.py",
+      "src/hg_kseos/bootstrap.py",
+      "src/hg_kseos/capability_delta.py",
+      "src/hg_kseos/cli.py",
+      "src/hg_kseos/control_validation.py",
+      "src/hg_kseos/doctor.py",
+      "src/hg_kseos/errors.py",
+      "src/hg_kseos/evidence_graph.py",
+      "src/hg_kseos/evolution.py",
+      "src/hg_kseos/fhs/__init__.py",
+      "src/hg_kseos/fhs/consumer_receipt.py",
+      "src/hg_kseos/fhs/issuer_binding.py",
+      "src/hg_kseos/fhs/runtime_binding.py",
+      "src/hg_kseos/harness.py",
+      "src/hg_kseos/hlpe.py",
+      "src/hg_kseos/knowledge.py",
+      "src/hg_kseos/lane_admission.py",
+      "src/hg_kseos/lane_policy.py",
+      "src/hg_kseos/lane_route_resolver.py",
+      "src/hg_kseos/lifecycle.py",
+      "src/hg_kseos/meta_gates.py",
+      "src/hg_kseos/named_methods.py",
+      "src/hg_kseos/native_admission.py",
+      "src/hg_kseos/observability.py",
+      "src/hg_kseos/providers.py",
+      "src/hg_kseos/recovery.py",
+      "src/hg_kseos/release.py",
+      "src/hg_kseos/repo_intelligence.py",
+      "src/hg_kseos/role_binding.py",
+      "src/hg_kseos/security.py",
+      "src/hg_kseos/semantic_oracle.py",
+      "src/hg_kseos/spine.py",
+      "src/hg_kseos/user_trust.py",
+      "src/hg_kseos/util.py"
+    ],
+    "content_differing": [
+      "src/hg_kseos/fhs/plan_cas.py"
+    ],
+    "only_in_worktree": [],
+    "only_in_main": [],
+    "note": "Compared on raw bytes, not on decoded text: universal-newline decoding would hide CRLF/LF differences and report two different files as equal. Full byte equality here would be the only ground for quoting one tree's fact against the other."
+  },
+  "findings": [
+    "HG-KSEOS@6c9fc73: dependencies=['cryptography>=42'] optional={} undeclared=['yaml']",
+    "worktrees/r4-hgk@a7046a3: dependencies=[] optional={} undeclared=['cryptography', 'yaml']",
+    "GitHub-main@acd9196f: dependencies=[] optional={} undeclared=['cryptography', 'yaml']",
+    "issuer_binding.py: HG-KSEOS@6c9fc73 absent / worktrees/r4-hgk@a7046a3 present (193 lines, cryptography at [71, 72]) / GitHub-main@acd9196f present (193 lines)",
+    "no subject has a root licence file; only HG-KSEOS@6c9fc73 has nested licence-like files (8, all inside WP-FHS-17 fixture directories)",
+    "no CI configuration in any subject; the only standard SBOM is the CycloneDX 1.6 file tracked in HG-KSEOS@6c9fc73",
+    "r4-hgk worktree src vs origin/main src: 38 shared files, 0 byte-identical, 37 differ by line endings only (worktree is CRLF, main is LF), 1 differ in content (['src/hg_kseos/fhs/plan_cas.py']); the two trees are therefore not interchangeable sources for a single claim",
+    "patches: main dry-run rc=0 byte-identical=True; worktree dry-run rc=0 byte-identical=True; both UNAPPLIED by permission"
+  ],
+  "repo_state": {
+    "pre_porcelain": {
+      "HG-KSEOS@6c9fc73": [
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v2.json",
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v3.json"
+      ],
+      "worktrees/r4-hgk@a7046a3": [
+        "?? src/hg_kseos/__pycache__/__init__.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/errors.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/native_admission.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/user_trust.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/util.cpython-314.pyc"
+      ]
+    },
+    "post_porcelain": {
+      "HG-KSEOS@6c9fc73": [
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v2.json",
+        "?? ops/session-20261031/FHS-ALLPASS-20261031/WP-FHS-12/RUNTIME_PATH_LAB.v3.json"
+      ],
+      "worktrees/r4-hgk@a7046a3": [
+        "?? src/hg_kseos/__pycache__/__init__.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/errors.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/native_admission.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/user_trust.cpython-314.pyc",
+        "?? src/hg_kseos/__pycache__/util.cpython-314.pyc"
+      ]
+    },
+    "unchanged": true,
+    "pyproject_sha256_pre": {
+      "HG-KSEOS@6c9fc73": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+      "worktrees/r4-hgk@a7046a3": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58"
+    },
+    "pyproject_sha256_post": {
+      "HG-KSEOS@6c9fc73": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+      "worktrees/r4-hgk@a7046a3": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58"
+    },
+    "note": "porcelain captured before and after this run; identical lists mean this run wrote nothing into either repository",
+    "pyproject_untouched": true
+  }
+}
