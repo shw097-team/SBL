@@ -1,0 +1,144 @@
+{
+ "schema": "FHS.W0.FhsOriginalAck/2",
+ "label": "FHS_ORIGINAL_ACK",
+ "count": "6/6",
+ "document": {
+  "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r20.md",
+  "bytes": 648906,
+  "sha256": "16b5ee71bb435d8aaef99e6d0cf431d791ca612d4a55806a376b6f370c3c82f9",
+  "owner_signed_candidate_sha256": "3170a2f801b5d60e9f54fd3d144e4723d05fd3f77f1ce8d8d807983d05f56bd0",
+  "owner_signed_candidate_is_a_byte_exact_prefix": true
+ },
+ "owner_order_verbatim": "把ORIGINAL_ACK 6/6 改標成「FHS_ORIGINAL_ACK 6/6」，代表是經由「FABRIC治理 + HGK控制 + SBL各角色 + 三獨立車道 + OWNER口令授權」的合規「FHS_ORIGINAL_ACK 6/6」，並非一般傳統的「ORIGINAL_ACK」",
+ "composition": {
+  "fabric_governance": "governance contract and evidence routing",
+  "hgk_control_plane": "owner window, signing, acceptance state",
+  "sbl_roles": "Original Source/Requirement/Corpus Semantic Reader, product engineering entry",
+  "three_lanes": {
+   "PLAN": "openai-codex/gpt-6.1-sol",
+   "EXECUTE": "deepseek-v4.1-flash",
+   "VERIFY": "openai-codex/gpt-6.1-sol"
+  },
+  "owner_authorisation": {
+   "window": "WIN-fc83c1d80cb6",
+   "ops_used": 8,
+   "max_ops": 8,
+   "signed": "1 semantic acceptance + 6 reader receipts (v2, qualified kind)"
+  }
+ },
+ "five_conditions": [
+  {
+   "id": 1,
+   "what": "all seven signatures verify against the enrolled public key",
+   "measured": "6 receipts PASS + 1 semantic ack verified locally",
+   "evidence": [
+    "out/VERIFY_READER_ACK_R24.json",
+    "receipts/OWNER_SEMANTIC_ACK_R21.signed.json"
+   ],
+   "holds": true
+  },
+  {
+   "id": 2,
+   "what": "every clause_id resolves to a real L1 line whose bytes hash to the receipt",
+   "measured": "re-derived by tools/verify_reader_ack.py on every run; refusals on miss, no skip",
+   "evidence": "out/VERIFY_READER_ACK_R24.json",
+   "holds": true
+  },
+  {
+   "id": 3,
+   "what": "each work package has a negative whose mutation lands in the POS cell located structurally",
+   "measured": "6/6 by lanes/DEDICATED_NEGATIVES.json, asserted inside verify_reader_ack",
+   "evidence": "out/VERIFY_READER_ACK_R24.json",
+   "holds": true
+  },
+  {
+   "id": 4,
+   "what": "no open disagreement in the register",
+   "measured": "0 open",
+   "evidence": "lanes/DISAGREEMENT_REGISTER.json",
+   "holds": true
+  },
+  {
+   "id": 5,
+   "what": "the owner-signed candidate is a byte-exact prefix of the delivered document",
+   "measured": "r13 prefix of r20: True; r13 sha 60ba757b809058bb",
+   "evidence": "writeback/W0/W0_REVISION_MANIFEST.json",
+   "holds": true
+  }
+ ],
+ "receipts": [
+  {
+   "file": "receipts/reader/WP-FHS-00.signed.json",
+   "subject": "WP-FHS-00",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "180debe62dd48827e759d262a412bfac6f2c060cf68fc182b0245ee3f32f89b1",
+   "signature_hex_prefix": "070a2f87271de535db8c9771",
+   "ops_used": 1
+  },
+  {
+   "file": "receipts/reader/WP-FHS-01.signed.json",
+   "subject": "WP-FHS-01",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "5399c860b45916bff839592b9068bdc399939fa360ff13f05daafd275ba0a61f",
+   "signature_hex_prefix": "ca2b61d534575408e1bbdd66",
+   "ops_used": 2
+  },
+  {
+   "file": "receipts/reader/WP-FHS-15.signed.json",
+   "subject": "WP-FHS-15",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "b42363940bbf1184e238377f20d93ec3185f95fd38c50aead63f188df1a612a3",
+   "signature_hex_prefix": "e9ad2ef0017ab976a268d91f",
+   "ops_used": 3
+  },
+  {
+   "file": "receipts/reader/WP-FHS-16.signed.json",
+   "subject": "WP-FHS-16",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "76db3e09733c23af3a1d4dffa7c769faaaa978b7f8276ee2e866072f4f0660ec",
+   "signature_hex_prefix": "f45397fe23bda183beb13055",
+   "ops_used": 4
+  },
+  {
+   "file": "receipts/reader/WP-FHS-19.signed.json",
+   "subject": "WP-FHS-19",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "f230b50228a71e65f1d84240419867819576e60ff9a5f9b7a65e62b4f816dd87",
+   "signature_hex_prefix": "73f1e9199f84784db00f71a7",
+   "ops_used": 5
+  },
+  {
+   "file": "receipts/reader/WP-FHS-21.signed.json",
+   "subject": "WP-FHS-21",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "7e4b6964639c238a63604a1199c49ba6aac4219cc869e90543914ced1480358c",
+   "signature_hex_prefix": "65ac6391d2dafa91ca880424",
+   "ops_used": 6
+  }
+ ],
+ "traditional_definition_status": {
+  "value": "NOT_APPLICABLE_BY_DESIGN",
+  "retired_by": [
+   "chapter 18.3 HIST-01",
+   "chapter 23.4"
+  ],
+  "measured_history": "0/6: nobody ever signed in that capacity; kept as a measurement, not as a compliance state",
+  "why": "the reading 'a lane may not read for the owner' contradicts the blueprint's Native E2E intent (owner order 2026-11-09)"
+ },
+ "separation_level": "PROCESS_MODEL_LANE (not OS account, not human identity)",
+ "coverage_basis": "CANDIDATE_CITED_LOCATORS_ONLY",
+ "enforced_by": {
+  "tool": "tools/label_discipline.py",
+  "gate": "G27 (prose) + G28 (machine-readable)",
+  "run": "out/LABEL_DISCIPLINE_R24.json",
+  "rule": "every ORIGINAL_ACK token must carry FHS_ unless the same string is negative, sits under a not_claimed / *_verbatim key, or is an explicit rename record (bare token -> fhs_ token, both sides named)"
+ },
+ "not_claimed": [
+  "traditional per-domain ORIGINAL_ACK",
+  "U4 semantic closure",
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED",
+  "OS-account or human-identity separation",
+  "merged / reviewed / released"
+ ]
+}

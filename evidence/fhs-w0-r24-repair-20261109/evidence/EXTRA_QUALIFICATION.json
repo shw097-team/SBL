@@ -1,0 +1,1330 @@
+{
+  "schema": "hgk.extra-qualification/v1",
+  "generated_at": "2026-11-08T13:59:41+08:00",
+  "generated_at_zone": "+08:00",
+  "tool_sha256": "995d0928727396746b9406d1b2a5e79386a3704bceac75b67a81c17d4d43c21d",
+  "tool": {
+    "path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/tools/extra_qualification.py",
+    "sha256": "995d0928727396746b9406d1b2a5e79386a3704bceac75b67a81c17d4d43c21d",
+    "bytes": 35237,
+    "python_running_the_tool": "3.12.13"
+  },
+  "method": {
+    "interpreter": {
+      "path": "C:/Users/user/AppData/Roaming/uv/python/cpython-3.12-windows-x86_64-none/python.exe",
+      "python_version": "3.12.13",
+      "pip_version": "pip 26.2.1 from C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\site-packages\\pip (python 3.12)"
+    },
+    "offline": false,
+    "offline_note": "resolution goes to the configured index (PyPI) unless artifacts are in pip's cache; build isolation installs setuptools/wheel from the index. --ignore-installed makes the resolved set independent of the measuring venv. Set PIP_NO_INDEX=1 only if a pre-populated cache is acceptable for a re-run.",
+    "builds_a_wheel": true,
+    "wheel_note": "pip performs a real PEP 517 metadata build in an isolated env to obtain the wheel METADATA; --dry-run means the wheel is discarded, not installed. No wheel is retained; build isolation was observed per case.",
+    "command_template": "{python} -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report <report.json> ./[<extras>]",
+    "report_capture": "written to a file (not '-'): on pip 26.2.1 stdout also carries progress lines, so --report - would not be parseable as pure JSON",
+    "isolation_of_subject_source": "each subject is copied to lanes/B/staging/<id>/ before measuring; a PEP 517 build writes *.egg-info into the source dir, so measuring in place would mutate the repo",
+    "source_trees_modified": false,
+    "network_measured": {
+      "total_downloads": 0,
+      "total_cache_hits": 10,
+      "interpretation": "counts of 'Downloading ' and 'Using cached' lines over all cases; 0 downloads means every artifact came from pip's local HTTP cache, so this particular run needed no live index access -- a cold cache would (offline is false, not verified offline)."
+    },
+    "network_observed_per_case": "network_downloads_observed counts 'Downloading ' lines",
+    "repeatability": "sorted set comparison; identical inputs give identical resolved sets"
+  },
+  "claim_ceiling": {
+    "proves": [
+      "exactly which keys [project.optional-dependencies] declares in the three measured pyproject.toml artifacts (and that all three declare none)",
+      "pip 26.x on CPython 3.12/Windows returns exit 0 and prints 'does not provide the extra' for a nonexistent extra, with a resolved set identical to the no-extra baseline",
+      "a declared extra (fixture: yaml=[PyYAML>=6]) resolves an additional distribution, so the measurement can distinguish 'provided' from 'absent'",
+      "the same silent-equality behaviour for a near-miss typo (yaml vs yamlx) on the fixture"
+    ],
+    "does_not_prove": [
+      "that any code path in hg-kseos actually needs these extras, or that the app works with them installed (no import, no runtime check was performed)",
+      "anything about wheels built by uv/CI rather than by pip's PEP 517 isolated build",
+      "behaviour on other pip versions, other Python versions, or offline resolution",
+      "that a downstream checker actually reads these fields -- the contract is a proposal",
+      "that 'INSTALL_OK: exit 0' style gates elsewhere in the pipeline were fixed"
+    ],
+    "evidence_class": "measurement of pip CLI semantics + static parse of pyproject.toml artifacts",
+    "not_a_substitute_for": "an integration test that imports the extras-gated module"
+  },
+  "subjects": [
+    {
+      "subject_id": "HG-KSEOS",
+      "kind": "repo_tree",
+      "path": "C:/Projects/Agent_Workspace/HG-KSEOS",
+      "git_head": "6c9fc73",
+      "pyproject_sha256": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+      "pyproject_extras_table_present": false,
+      "pyproject_literal_mentions_of_optional_dependencies": 0,
+      "pyproject_bytes": 339,
+      "extras_declared": [],
+      "extras_declared_display": "none",
+      "extras_metadata_provided": [],
+      "extras_declared_but_missing_from_metadata": [],
+      "staging": {
+        "staged_from": "C:/Projects/Agent_Workspace/HG-KSEOS/pyproject.toml",
+        "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HG-KSEOS",
+        "staged_entries": [
+          "pyproject.toml",
+          "README.md",
+          "src/"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "baseline",
+          "expectation": "baseline",
+          "extras_requested": [],
+          "target_arg": "./",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HG-KSEOS__baseline.json ./",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HG-KSEOS",
+          "exit_code": 0,
+          "duration_s": 4.15,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42"
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HG-KSEOS__baseline.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": false,
+          "verdict_code": "BASELINE"
+        },
+        {
+          "case_id": "absent_yamlx",
+          "expectation": "absent",
+          "extras_requested": [
+            "yamlx"
+          ],
+          "target_arg": "./[yamlx]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HG-KSEOS__absent_yamlx.json ./[yamlx]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HG-KSEOS",
+          "exit_code": 0,
+          "duration_s": 4.08,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yamlx'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42"
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HG-KSEOS__absent_yamlx.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yamlx"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        },
+        {
+          "case_id": "notdeclared_yaml",
+          "expectation": "notdeclared",
+          "extras_requested": [
+            "yaml"
+          ],
+          "target_arg": "./[yaml]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HG-KSEOS__notdeclared_yaml.json ./[yaml]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HG-KSEOS",
+          "exit_code": 0,
+          "duration_s": 4.13,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yaml'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42"
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HG-KSEOS__notdeclared_yaml.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yaml"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        }
+      ],
+      "baseline_distributions": [
+        "cffi==2.1.1",
+        "cryptography==50.0.2",
+        "hg-kseos==0.1.0",
+        "pycparser==3.12"
+      ],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "subject_note": "repo_worktree at 6c9fc73"
+    },
+    {
+      "subject_id": "r4-hgk",
+      "kind": "repo_tree",
+      "path": "C:/Projects/Agent_Workspace/worktrees/r4-hgk",
+      "git_head": "a7046a3",
+      "pyproject_sha256": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58",
+      "pyproject_extras_table_present": false,
+      "pyproject_literal_mentions_of_optional_dependencies": 0,
+      "pyproject_bytes": 321,
+      "extras_declared": [],
+      "extras_declared_display": "none",
+      "extras_metadata_provided": [],
+      "extras_declared_but_missing_from_metadata": [],
+      "staging": {
+        "staged_from": "C:/Projects/Agent_Workspace/worktrees/r4-hgk/pyproject.toml",
+        "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/r4-hgk",
+        "staged_entries": [
+          "pyproject.toml",
+          "README.md",
+          "src/"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "baseline",
+          "expectation": "baseline",
+          "extras_requested": [],
+          "target_arg": "./",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\r4-hgk__baseline.json ./",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/r4-hgk",
+          "exit_code": 0,
+          "duration_s": 3.82,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/r4-hgk__baseline.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": false,
+          "verdict_code": "BASELINE"
+        },
+        {
+          "case_id": "absent_yamlx",
+          "expectation": "absent",
+          "extras_requested": [
+            "yamlx"
+          ],
+          "target_arg": "./[yamlx]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\r4-hgk__absent_yamlx.json ./[yamlx]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/r4-hgk",
+          "exit_code": 0,
+          "duration_s": 3.79,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yamlx'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/r4-hgk__absent_yamlx.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yamlx"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        },
+        {
+          "case_id": "notdeclared_yaml",
+          "expectation": "notdeclared",
+          "extras_requested": [
+            "yaml"
+          ],
+          "target_arg": "./[yaml]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\r4-hgk__notdeclared_yaml.json ./[yaml]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/r4-hgk",
+          "exit_code": 0,
+          "duration_s": 3.83,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yaml'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/r4-hgk__notdeclared_yaml.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yaml"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        }
+      ],
+      "baseline_distributions": [
+        "hg-kseos==0.1.0"
+      ],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "subject_note": "repo_worktree at a7046a3"
+    },
+    {
+      "subject_id": "HGK_MAIN",
+      "kind": "pyproject_artifact",
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/evidence",
+      "git_head": null,
+      "pyproject_sha256": "0e06e26975d96ef3aaddaafc2726930707af107f918d8c390a748b21c4f5ad49",
+      "pyproject_extras_table_present": false,
+      "pyproject_literal_mentions_of_optional_dependencies": 0,
+      "pyproject_bytes": 321,
+      "extras_declared": [],
+      "extras_declared_display": "none",
+      "extras_metadata_provided": [],
+      "extras_declared_but_missing_from_metadata": [],
+      "staging": {
+        "staged_from": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108/evidence/HGK_MAIN_pyproject.toml",
+        "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HGK_MAIN",
+        "staged_entries": [
+          "HGK_MAIN_pyproject.toml"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "baseline",
+          "expectation": "baseline",
+          "extras_requested": [],
+          "target_arg": "./",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HGK_MAIN__baseline.json ./",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 3.95,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HGK_MAIN__baseline.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": false,
+          "verdict_code": "BASELINE"
+        },
+        {
+          "case_id": "absent_yamlx",
+          "expectation": "absent",
+          "extras_requested": [
+            "yamlx"
+          ],
+          "target_arg": "./[yamlx]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HGK_MAIN__absent_yamlx.json ./[yamlx]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 4.06,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yamlx'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HGK_MAIN__absent_yamlx.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yamlx"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        },
+        {
+          "case_id": "notdeclared_yaml",
+          "expectation": "notdeclared",
+          "extras_requested": [
+            "yaml"
+          ],
+          "target_arg": "./[yaml]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\HGK_MAIN__notdeclared_yaml.json ./[yaml]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 4.27,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yaml'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "hg-kseos==0.1.0"
+          ],
+          "resolved_count": 1,
+          "self_metadata_provides_extra": [],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": null,
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 0,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/HGK_MAIN__notdeclared_yaml.json",
+          "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install hg-kseos-0.1.0",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yaml"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        }
+      ],
+      "baseline_distributions": [
+        "hg-kseos==0.1.0"
+      ],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "subject_note": "GitHub main pyproject.toml, only available as a materialised artifact (no tree)"
+    }
+  ],
+  "fixture": {
+    "subject_id": "fixture_extra_min",
+    "kind": "fixture",
+    "path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/fixture/extra_min",
+    "git_head": null,
+    "pyproject_sha256": "3162658ab7cb1125565c818bb0874c2a5e46744a14e5bc1f2e07014143f6747f",
+    "pyproject_extras_table_present": true,
+    "pyproject_literal_mentions_of_optional_dependencies": 1,
+    "pyproject_bytes": 323,
+    "extras_declared": [
+      "yaml"
+    ],
+    "extras_declared_display": [
+      "yaml"
+    ],
+    "extras_metadata_provided": [
+      "yaml"
+    ],
+    "extras_declared_but_missing_from_metadata": [],
+    "staging": {
+      "staged_from": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/fixture/extra_min/pyproject.toml",
+      "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/fixture_extra_min",
+      "staged_entries": [
+        "pyproject.toml"
+      ]
+    },
+    "cases": [
+      {
+        "case_id": "baseline",
+        "expectation": "baseline",
+        "extras_requested": [],
+        "target_arg": "./",
+        "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\fixture_extra_min__baseline.json ./",
+        "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/fixture_extra_min",
+        "exit_code": 0,
+        "duration_s": 3.9,
+        "stderr_has_extra_warning": false,
+        "warning_lines": [],
+        "report_written": true,
+        "report_error": null,
+        "report_schema_version": "1",
+        "resolved_distributions": [
+          "extra-fixture-min==0.1.0"
+        ],
+        "resolved_count": 1,
+        "self_metadata_provides_extra": [
+          "yaml"
+        ],
+        "self_entry_found": true,
+        "self_metadata_name": "extra-fixture-min",
+        "self_metadata_requires_dist": [
+          "PyYAML>=6; extra == \"yaml\""
+        ],
+        "network_downloads_observed": 0,
+        "cache_hits_observed": 0,
+        "build_isolation_observed": true,
+        "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/fixture_extra_min__baseline.json",
+        "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install extra-fixture-min-0.1.0",
+        "added_vs_baseline": [],
+        "removed_vs_baseline": [],
+        "identical_to_baseline": true,
+        "extras_declared_in_wheel_metadata": [],
+        "extras_missing_from_wheel_metadata": [],
+        "extra_actually_provided": false,
+        "verdict_code": "BASELINE"
+      },
+      {
+        "case_id": "declared_yaml",
+        "expectation": "declared",
+        "extras_requested": [
+          "yaml"
+        ],
+        "target_arg": "./[yaml]",
+        "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\fixture_extra_min__declared_yaml.json ./[yaml]",
+        "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/fixture_extra_min",
+        "exit_code": 0,
+        "duration_s": 3.8,
+        "stderr_has_extra_warning": false,
+        "warning_lines": [],
+        "report_written": true,
+        "report_error": null,
+        "report_schema_version": "1",
+        "resolved_distributions": [
+          "extra-fixture-min==0.1.0",
+          "PyYAML==6.0.3"
+        ],
+        "resolved_count": 2,
+        "self_metadata_provides_extra": [
+          "yaml"
+        ],
+        "self_entry_found": true,
+        "self_metadata_name": "extra-fixture-min",
+        "self_metadata_requires_dist": [
+          "PyYAML>=6; extra == \"yaml\""
+        ],
+        "network_downloads_observed": 0,
+        "cache_hits_observed": 1,
+        "build_isolation_observed": true,
+        "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/fixture_extra_min__declared_yaml.json",
+        "stdout_tail": "  Preparing metadata (pyproject.toml): finished with status 'done'\nCollecting PyYAML>=6 (from extra-fixture-min==0.1.0)\n  Using cached pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)\nWould install PyYAML-6.0.3 extra-fixture-min-0.1.0",
+        "added_vs_baseline": [
+          "PyYAML==6.0.3"
+        ],
+        "removed_vs_baseline": [],
+        "identical_to_baseline": false,
+        "extras_declared_in_wheel_metadata": [
+          "yaml"
+        ],
+        "extras_missing_from_wheel_metadata": [],
+        "extra_actually_provided": true,
+        "verdict_code": "EXTRA_PROVIDED"
+      },
+      {
+        "case_id": "absent_yamlx",
+        "expectation": "absent",
+        "extras_requested": [
+          "yamlx"
+        ],
+        "target_arg": "./[yamlx]",
+        "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\fixture_extra_min__absent_yamlx.json ./[yamlx]",
+        "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/fixture_extra_min",
+        "exit_code": 0,
+        "duration_s": 3.9,
+        "stderr_has_extra_warning": true,
+        "warning_lines": [
+          "WARNING: extra-fixture-min 0.1.0 does not provide the extra 'yamlx'"
+        ],
+        "report_written": true,
+        "report_error": null,
+        "report_schema_version": "1",
+        "resolved_distributions": [
+          "extra-fixture-min==0.1.0"
+        ],
+        "resolved_count": 1,
+        "self_metadata_provides_extra": [
+          "yaml"
+        ],
+        "self_entry_found": true,
+        "self_metadata_name": "extra-fixture-min",
+        "self_metadata_requires_dist": [
+          "PyYAML>=6; extra == \"yaml\""
+        ],
+        "network_downloads_observed": 0,
+        "cache_hits_observed": 0,
+        "build_isolation_observed": true,
+        "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/fixture_extra_min__absent_yamlx.json",
+        "stdout_tail": "  Getting requirements to build wheel: finished with status 'done'\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nWould install extra-fixture-min-0.1.0",
+        "added_vs_baseline": [],
+        "removed_vs_baseline": [],
+        "identical_to_baseline": true,
+        "extras_declared_in_wheel_metadata": [],
+        "extras_missing_from_wheel_metadata": [
+          "yamlx"
+        ],
+        "extra_actually_provided": false,
+        "verdict_code": "EXTRA_ABSENT"
+      }
+    ],
+    "baseline_distributions": [
+      "extra-fixture-min==0.1.0"
+    ],
+    "extras_installable": [
+      "yaml"
+    ],
+    "extras_noop_attempted": [],
+    "extras_absent_rejected": [
+      "yamlx"
+    ],
+    "subject_note": "positive control: declares [project.optional-dependencies] yaml=[PyYAML>=6]; proves the instrument can tell 'provided' from 'absent', because yaml does install and yamlx does not",
+    "fixture_pyproject_text": "[build-system]\nrequires = [\"setuptools>=68\"]\nbuild-backend = \"setuptools.build_meta\"\n\n[project]\nname = \"extra-fixture-min\"\nversion = \"0.1.0\"\ndescription = \"Minimal fixture proving that a declared extra is really installable\"\nrequires-python = \">=3.9\"\ndependencies = []\n\n[project.optional-dependencies]\nyaml = [\"PyYAML>=6\"]\n"
+  },
+  "candidates_measured_not_applied": [
+    {
+      "subject_id": "candidate__HGK_MAIN",
+      "kind": "pyproject_artifact",
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B",
+      "git_head": null,
+      "pyproject_sha256": "565f0995ce1e08470b389cb1663fa1f3a6006cfa85b8bc69a680eca86e1479bc",
+      "pyproject_extras_table_present": true,
+      "pyproject_literal_mentions_of_optional_dependencies": 1,
+      "pyproject_bytes": 393,
+      "extras_declared": [
+        "yaml"
+      ],
+      "extras_declared_display": [
+        "yaml"
+      ],
+      "extras_metadata_provided": [
+        "yaml"
+      ],
+      "extras_declared_but_missing_from_metadata": [],
+      "staging": {
+        "staged_from": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/HGK_MAIN_pyproject.candidate.toml",
+        "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__HGK_MAIN",
+        "staged_entries": [
+          "HGK_MAIN_pyproject.candidate.toml",
+          "README.md"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "baseline",
+          "expectation": "baseline",
+          "extras_requested": [],
+          "target_arg": "./",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__HGK_MAIN__baseline.json ./",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 4.27,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__HGK_MAIN__baseline.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": false,
+          "verdict_code": "BASELINE"
+        },
+        {
+          "case_id": "declared_yaml",
+          "expectation": "declared",
+          "extras_requested": [
+            "yaml"
+          ],
+          "target_arg": "./[yaml]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__HGK_MAIN__declared_yaml.json ./[yaml]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 4.07,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12",
+            "PyYAML==6.0.3"
+          ],
+          "resolved_count": 5,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 4,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__HGK_MAIN__declared_yaml.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install PyYAML-6.0.3 cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [
+            "PyYAML==6.0.3"
+          ],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": false,
+          "extras_declared_in_wheel_metadata": [
+            "yaml"
+          ],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": true,
+          "verdict_code": "EXTRA_PROVIDED"
+        },
+        {
+          "case_id": "absent_yamlx",
+          "expectation": "absent",
+          "extras_requested": [
+            "yamlx"
+          ],
+          "target_arg": "./[yamlx]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__HGK_MAIN__absent_yamlx.json ./[yamlx]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__HGK_MAIN",
+          "exit_code": 0,
+          "duration_s": 4.05,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yamlx'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__HGK_MAIN__absent_yamlx.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yamlx"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        }
+      ],
+      "baseline_distributions": [
+        "cffi==2.1.1",
+        "cryptography==50.0.2",
+        "hg-kseos==0.1.0",
+        "pycparser==3.12"
+      ],
+      "extras_installable": [
+        "yaml"
+      ],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx"
+      ],
+      "subject_note": "proposed pyproject.toml from lane B (HGK_MAIN_pyproject.candidate.toml); measured as an artifact only -- it is not applied to any tree, so this says what WOULD happen if the extra were declared, not what happens today"
+    },
+    {
+      "subject_id": "candidate__R4HGK",
+      "kind": "pyproject_artifact",
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B",
+      "git_head": null,
+      "pyproject_sha256": "d7b8b918471ea16f7e0ea1ff26d53c924c5bb9f0b7d373544e34ac379594738e",
+      "pyproject_extras_table_present": true,
+      "pyproject_literal_mentions_of_optional_dependencies": 1,
+      "pyproject_bytes": 393,
+      "extras_declared": [
+        "yaml"
+      ],
+      "extras_declared_display": [
+        "yaml"
+      ],
+      "extras_metadata_provided": [
+        "yaml"
+      ],
+      "extras_declared_but_missing_from_metadata": [],
+      "staging": {
+        "staged_from": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/R4HGK_pyproject.candidate.toml",
+        "staged_to": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__R4HGK",
+        "staged_entries": [
+          "R4HGK_pyproject.candidate.toml",
+          "README.md"
+        ]
+      },
+      "cases": [
+        {
+          "case_id": "baseline",
+          "expectation": "baseline",
+          "extras_requested": [],
+          "target_arg": "./",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__R4HGK__baseline.json ./",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__R4HGK",
+          "exit_code": 0,
+          "duration_s": 4.03,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__R4HGK__baseline.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": false,
+          "verdict_code": "BASELINE"
+        },
+        {
+          "case_id": "declared_yaml",
+          "expectation": "declared",
+          "extras_requested": [
+            "yaml"
+          ],
+          "target_arg": "./[yaml]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__R4HGK__declared_yaml.json ./[yaml]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__R4HGK",
+          "exit_code": 0,
+          "duration_s": 4.03,
+          "stderr_has_extra_warning": false,
+          "warning_lines": [],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12",
+            "PyYAML==6.0.3"
+          ],
+          "resolved_count": 5,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 4,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__R4HGK__declared_yaml.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install PyYAML-6.0.3 cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [
+            "PyYAML==6.0.3"
+          ],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": false,
+          "extras_declared_in_wheel_metadata": [
+            "yaml"
+          ],
+          "extras_missing_from_wheel_metadata": [],
+          "extra_actually_provided": true,
+          "verdict_code": "EXTRA_PROVIDED"
+        },
+        {
+          "case_id": "absent_yamlx",
+          "expectation": "absent",
+          "extras_requested": [
+            "yamlx"
+          ],
+          "target_arg": "./[yamlx]",
+          "command": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\python.exe -m pip install --dry-run --ignore-installed --no-input --disable-pip-version-check --report C:\\Projects\\Agent_Workspace\\FHS_W0_R12_REPAIR_20261108\\lanes\\B\\staging\\reports\\candidate__R4HGK__absent_yamlx.json ./[yamlx]",
+          "cwd": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/candidate__R4HGK",
+          "exit_code": 0,
+          "duration_s": 4.04,
+          "stderr_has_extra_warning": true,
+          "warning_lines": [
+            "WARNING: hg-kseos 0.1.0 does not provide the extra 'yamlx'"
+          ],
+          "report_written": true,
+          "report_error": null,
+          "report_schema_version": "1",
+          "resolved_distributions": [
+            "cffi==2.1.1",
+            "cryptography==50.0.2",
+            "hg-kseos==0.1.0",
+            "pycparser==3.12"
+          ],
+          "resolved_count": 4,
+          "self_metadata_provides_extra": [
+            "yaml"
+          ],
+          "self_entry_found": true,
+          "self_metadata_name": "hg-kseos",
+          "self_metadata_requires_dist": [
+            "cryptography>=42",
+            "PyYAML>=6; extra == \"yaml\""
+          ],
+          "network_downloads_observed": 0,
+          "cache_hits_observed": 3,
+          "build_isolation_observed": true,
+          "report_path": "C:/Projects/Agent_Workspace/FHS_W0_R12_REPAIR_20261108/lanes/B/staging/reports/candidate__R4HGK__absent_yamlx.json",
+          "stdout_tail": "  Using cached cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)\nCollecting pycparser (from cffi>=2.0.0->cryptography>=42->hg-kseos==0.1.0)\n  Using cached pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)\nWould install cffi-2.1.1 cryptography-50.0.2 hg-kseos-0.1.0 pycparser-3.12",
+          "added_vs_baseline": [],
+          "removed_vs_baseline": [],
+          "identical_to_baseline": true,
+          "extras_declared_in_wheel_metadata": [],
+          "extras_missing_from_wheel_metadata": [
+            "yamlx"
+          ],
+          "extra_actually_provided": false,
+          "verdict_code": "EXTRA_ABSENT"
+        }
+      ],
+      "baseline_distributions": [
+        "cffi==2.1.1",
+        "cryptography==50.0.2",
+        "hg-kseos==0.1.0",
+        "pycparser==3.12"
+      ],
+      "extras_installable": [
+        "yaml"
+      ],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx"
+      ],
+      "subject_note": "proposed pyproject.toml from lane B (R4HGK_pyproject.candidate.toml); measured as an artifact only -- it is not applied to any tree, so this says what WOULD happen if the extra were declared, not what happens today"
+    }
+  ],
+  "proofs": {
+    "absent_extra_exit_zero_with_warning": {
+      "value": true,
+      "n_cases": 9,
+      "all_exit_code_zero": true,
+      "all_stderr_warned": true,
+      "all_resolved_sets_identical_to_baseline": true,
+      "case_refs": [
+        "HG-KSEOS:absent_yamlx",
+        "HG-KSEOS:notdeclared_yaml",
+        "r4-hgk:absent_yamlx",
+        "r4-hgk:notdeclared_yaml",
+        "HGK_MAIN:absent_yamlx",
+        "HGK_MAIN:notdeclared_yaml",
+        "fixture_extra_min:absent_yamlx",
+        "candidate__HGK_MAIN:absent_yamlx",
+        "candidate__R4HGK:absent_yamlx"
+      ]
+    },
+    "present_extra_really_installs": {
+      "value": true,
+      "n_cases": 3,
+      "case_refs": [
+        "fixture_extra_min:declared_yaml",
+        "candidate__HGK_MAIN:declared_yaml",
+        "candidate__R4HGK:declared_yaml"
+      ],
+      "added_distributions": {
+        "fixture_extra_min:declared_yaml": [
+          "PyYAML==6.0.3"
+        ],
+        "candidate__HGK_MAIN:declared_yaml": [
+          "PyYAML==6.0.3"
+        ],
+        "candidate__R4HGK:declared_yaml": [
+          "PyYAML==6.0.3"
+        ]
+      }
+    },
+    "declared_but_noop_extras": {
+      "value": true,
+      "n_cases": 0,
+      "case_refs": []
+    }
+  },
+  "previous_round_recheck": {
+    "claim_under_test": "pip install .[yaml] exited 0 on all three trees and therefore 'extra install' had been treated as a qualification step",
+    "instrument": "same pip, but resolved sets are diffed instead of reading exit code",
+    "cases": [
+      {
+        "subject": "HG-KSEOS",
+        "case_id": "notdeclared_yaml",
+        "verdict_code": "EXTRA_ABSENT",
+        "exit_code": 0,
+        "stderr_has_extra_warning": true,
+        "identical_to_baseline": true
+      },
+      {
+        "subject": "r4-hgk",
+        "case_id": "notdeclared_yaml",
+        "verdict_code": "EXTRA_ABSENT",
+        "exit_code": 0,
+        "stderr_has_extra_warning": true,
+        "identical_to_baseline": true
+      },
+      {
+        "subject": "HGK_MAIN",
+        "case_id": "notdeclared_yaml",
+        "verdict_code": "EXTRA_ABSENT",
+        "exit_code": 0,
+        "stderr_has_extra_warning": true,
+        "identical_to_baseline": true
+      }
+    ],
+    "reconfirmed_as_noop": true,
+    "trees_declaring_no_optional_dependencies": [
+      "HG-KSEOS",
+      "r4-hgk",
+      "HGK_MAIN"
+    ]
+  },
+  "contract": {
+    "schema": "hgk.extras-check/v1",
+    "purpose": "Decide whether an extra is REALLY provided, using only fields that differ between an existing and a non-existing extra. Exit code does NOT: an absent extra exits 0.",
+    "required_fields": [
+      "extras_declared",
+      "extras_metadata_provided",
+      "extras_installable",
+      "extras_noop_attempted",
+      "extras_absent_rejected",
+      "verdict_code"
+    ],
+    "fields": {
+      "extras_declared": {
+        "type": "array[string]",
+        "source": "tomllib: [project.optional-dependencies] keys of the subject pyproject.toml",
+        "accept": "[] when the table is absent; otherwise the exact declared key set",
+        "why": "static ground truth; an extra that is not here cannot be provided"
+      },
+      "extras_metadata_provided": {
+        "type": "array[string]",
+        "source": "pip --report install[].metadata.provides_extra of the local project entry",
+        "accept": "subset of extras_declared (normalized); disagreement => builder drops extras",
+        "why": "proves the extra survived into the built wheel METADATA, not just the toml"
+      },
+      "extras_installable": {
+        "type": "array[string]",
+        "source": "computed: extras whose dry-run resolved >=1 distribution absent from baseline",
+        "accept": "must equal the required extras exactly; [] means no extra installs anything",
+        "why": "the only behavioural proof that the extra pulls dependencies"
+      },
+      "extras_noop_attempted": {
+        "type": "array[string]",
+        "source": "computed: extra declared in metadata but resolved delta == baseline",
+        "accept": "[] (a declared-but-empty extra is a defect, not a pass)",
+        "why": "catches EXTRA_NOOP: 'successful' install that installs nothing extra"
+      },
+      "extras_absent_rejected": {
+        "type": "array[string]",
+        "source": "computed: extra names requested in the probe that are not declared",
+        "accept": "non-empty only for deliberately nonexistent names (probe proof)",
+        "why": "proves the probe itself would notice a typo; must never contain a required extra"
+      },
+      "exit_code": {
+        "type": "integer",
+        "accept": "0 -- recorded for the record, but NEVER used as the pass condition",
+        "why": "absent extra returns 0; using exit code as the gate is the original false green"
+      },
+      "stderr_has_extra_warning": {
+        "type": "boolean",
+        "accept": "true iff stderr contains 'does not provide the extra'; advisory only",
+        "why": "a warning alone is not a failure signal in pip; and pip prints it on stderr, which CI frequently discards"
+      },
+      "resolved_distributions": {
+        "type": "array[string]",
+        "accept": "'name==version' strings, sorted; compared as a set per subject",
+        "why": "the raw material for the delta; the pip report does not record which extras were requested, so the diff is the only place extras become visible"
+      },
+      "verdict_code": {
+        "type": "string",
+        "enum": [
+          "EXTRA_PROVIDED",
+          "EXTRA_NOOP",
+          "EXTRA_ABSENT",
+          "BASELINE"
+        ],
+        "accept": "EXTRA_PROVIDED for every required extra",
+        "why": "single machine-readable decision derived from the fields above"
+      }
+    },
+    "verdict_rules": {
+      "EXTRA_PROVIDED": "extra in provides_extra AND resolved delta has >=1 addition",
+      "EXTRA_NOOP": "extra in provides_extra AND resolved delta == baseline",
+      "EXTRA_ABSENT": "extra not in provides_extra (pip warns, exit stays 0, delta == baseline)",
+      "BASELINE": "no extra requested; the diff reference point"
+    },
+    "pass_rule": "PASS iff exit_code == 0 for every case AND required_extras ⊆ extras_declared AND required_extras == extras_installable AND extras_noop_attempted == [] AND extras_absent_rejected ∩ required_extras == {}",
+    "fail_codes": {
+      "EXTRA_ABSENT": "requested extra is not declared -> the install silently equals the default",
+      "EXTRA_NOOP": "extra is declared but resolves nothing -> same silent equality",
+      "EXTRA_METADATA_DRIFT": "declared in toml but absent from wheel Provides-Extra"
+    },
+    "computation_notes": [
+      "extras_installable and extras_noop_attempted are empty for a subject with no declared extras -- 'no extras' is not the same claim as 'extras work'.",
+      "Extra names are PEP 685 normalized (lowercase, [-_.]+ -> '-') before comparison.",
+      "Compare resolved sets, not counts: a version bump inside the default set would change counts without any extra being involved.",
+      "Use --ignore-installed so the resolved set never depends on the measuring venv."
+    ]
+  },
+  "contract_conformance": [
+    {
+      "subject_id": "HG-KSEOS",
+      "extras_declared": [],
+      "extras_metadata_provided": [],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "verdict_code": "EXTRA_ABSENT_ONLY_NO_EXTRAS_DECLARED",
+      "accept": {
+        "declared_equals_metadata": true,
+        "every_required_extra_installable": true,
+        "no_noop": true,
+        "absent_names_disjoint_from_required": true
+      },
+      "qualification_usable_for_these_trees": false
+    },
+    {
+      "subject_id": "r4-hgk",
+      "extras_declared": [],
+      "extras_metadata_provided": [],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "verdict_code": "EXTRA_ABSENT_ONLY_NO_EXTRAS_DECLARED",
+      "accept": {
+        "declared_equals_metadata": true,
+        "every_required_extra_installable": true,
+        "no_noop": true,
+        "absent_names_disjoint_from_required": true
+      },
+      "qualification_usable_for_these_trees": false
+    },
+    {
+      "subject_id": "HGK_MAIN",
+      "extras_declared": [],
+      "extras_metadata_provided": [],
+      "extras_installable": [],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx",
+        "yaml"
+      ],
+      "verdict_code": "EXTRA_ABSENT_ONLY_NO_EXTRAS_DECLARED",
+      "accept": {
+        "declared_equals_metadata": true,
+        "every_required_extra_installable": true,
+        "no_noop": true,
+        "absent_names_disjoint_from_required": true
+      },
+      "qualification_usable_for_these_trees": false
+    },
+    {
+      "subject_id": "fixture_extra_min",
+      "extras_declared": [
+        "yaml"
+      ],
+      "extras_metadata_provided": [
+        "yaml"
+      ],
+      "extras_installable": [
+        "yaml"
+      ],
+      "extras_noop_attempted": [],
+      "extras_absent_rejected": [
+        "yamlx"
+      ],
+      "verdict_code": "EXTRA_PROVIDED",
+      "accept": {
+        "declared_equals_metadata": true,
+        "every_required_extra_installable": true,
+        "no_noop": true,
+        "absent_names_disjoint_from_required": true
+      },
+      "qualification_usable_for_these_trees": true,
+      "role": "positive_control"
+    }
+  ],
+  "answer": {
+    "absent_extra_exit_code": 0,
+    "absent_extra_warns": true,
+    "absent_extra_identical_to_default": true,
+    "present_extra_installs": true
+  },
+  "status": "ok"
+}

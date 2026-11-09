@@ -1,0 +1,127 @@
+{
+ "schema": "FHS.W0.OwnerSemanticAckSigned/4",
+ "round": "FHS_W0_R21_ACCEPTANCE_20261109",
+ "body": {
+  "kind": "owner_semantic_accept",
+  "round": "FHS_W0_R21_ACCEPTANCE_20261109",
+  "candidate": {
+   "sha256": "3170a2f801b5d60e9f54fd3d144e4723d05fd3f77f1ce8d8d807983d05f56bd0",
+   "bytes": 634869,
+   "version": "r21",
+   "owner_signed_candidate_sha256": "60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514",
+   "owner_signed_candidate_is_a_byte_exact_prefix": true
+  },
+  "source": {
+   "sha256": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+   "locators": 6
+  },
+  "scope": "W0 work packages WP-FHS-00,01,15,16,19,21 at the locators the candidate itself cites",
+  "host": "Windows 11, one OS account, three separate lane processes",
+  "policy_epoch": 13,
+  "original_consumer": "SBL Original Source/Requirement/Corpus Semantic Reader",
+  "adopts_reader_receipts": [
+   {
+    "subject": "WP-FHS-00",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "180debe62dd48827e759d262a412bfac6f2c060cf68fc182b0245ee3f32f89b1",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-01",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "5399c860b45916bff839592b9068bdc399939fa360ff13f05daafd275ba0a61f",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-15",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "b42363940bbf1184e238377f20d93ec3185f95fd38c50aead63f188df1a612a3",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-16",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "76db3e09733c23af3a1d4dffa7c769faaaa978b7f8276ee2e866072f4f0660ec",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-19",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "f230b50228a71e65f1d84240419867819576e60ff9a5f9b7a65e62b4f816dd87",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-21",
+    "kind": "fhs_original_reader_ack",
+    "sha256_of_body": "7e4b6964639c238a63604a1199c49ba6aac4219cc869e90543914ced1480358c",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   }
+  ],
+  "repairs_adopted": {
+   "CE-07": {
+    "what": "selftest mutations are applied in an in-process read overlay; nothing is written",
+    "mechanism": "tools/gate_r20.py: mutated_bytes() + tree_fingerprint(exclude=self_report)",
+    "correction": "chapter 20 described a temp-copy mechanism that measurement rejected (no writable temp dir under codex read-only); chapter 21 corrects it",
+    "referenced_report": "out/GATE_R20_SELFTEST.json"
+   },
+   "CE-08": {
+    "what": "the qualifier rule reaches every machine-readable artefact",
+    "mechanism": "tools/label_discipline.py v2 scan_json + tools/gate_r20.py G28",
+    "referenced_report": "out/LABEL_DISCIPLINE_R20.json"
+   }
+  },
+  "binding_policy": {
+   "bound": [
+    "candidate bytes",
+    "source set",
+    "scope",
+    "host",
+    "policy epoch",
+    "original consumer",
+    "the six reader receipt bodies it adopts"
+   ],
+   "referenced_not_bound": [
+    "out/GATE_R20.json",
+    "out/GATE_R20_SELFTEST.json",
+    "lane verdicts"
+   ],
+   "why": "a gate report is a timestamped observation; binding one inside a signature means any later re-run breaks the signature"
+  },
+  "lane_disagreement": {
+   "open": 0,
+   "rule": "a property is decided when >=2 judging lanes agree; UNKNOWN abstains; no majority means the work package is not issuable"
+  },
+  "not_claimed": [
+   "traditional per-domain ORIGINAL_ACK (measured 0/6)",
+   "NATIVE_SIGNED",
+   "RELEASE_GRANTED",
+   "OS-account or human-identity separation",
+   "merged / reviewed / released"
+  ]
+ },
+ "canonical_rule": {
+  "function": "jcs-compact",
+  "encoding": "utf-8",
+  "notes": "sorted keys, separators (',',':'), ensure_ascii=False"
+ },
+ "payload_sha256": "091d0d64b18274413af2f3b494dd567909389b1d8be4288e83b6afd2ccbf8eb7",
+ "signature_hex": "6ad18f2ec4c8362ace11daa55da44cab0ee80fcd67dfc6eb67bd8cb79396bf642d81e6c6994fa1a3fd55453ed34184cfd66177d97ecb2c58b10f854f4d696300",
+ "alg": "ed25519",
+ "signature_meta": {
+  "window_id": "WIN-fc83c1d80cb6",
+  "ops_used": 8,
+  "signed_at": "2026-11-09T11:53:46+08:00",
+  "registry_rev_at_open": 13
+ },
+ "owner_fingerprint": "412b351937be72a1",
+ "verified_locally_against": "owner_enrollment.public_hex",
+ "supersedes": [
+  "receipts/OWNER_SEMANTIC_ACK.signed.json (r19)",
+  "receipts/OWNER_SEMANTIC_ACK_R20.signed.json (which described the temp-copy mechanism)"
+ ],
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED"
+ ]
+}

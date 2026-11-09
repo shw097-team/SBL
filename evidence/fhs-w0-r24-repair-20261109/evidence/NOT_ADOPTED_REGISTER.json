@@ -1,0 +1,40 @@
+{
+ "schema": "FHS.W0.NotAdoptedRegister/1",
+ "generated_at": "2026-11-09T14:08:27+08:00",
+ "why": "A retired definition that is only 'not claimed' reads as a missing prerequisite. Recording it as not-applicable-by-design, with its reason and its counter-examples, is what stops later rounds from chasing it again.",
+ "entries": [
+  {
+   "id": "HIST-01",
+   "what": "per-domain human reader signs the acknowledgement himself; a lane may not read on the owner's behalf",
+   "status": "DEPRECATED",
+   "retired_by": [
+    "chapter 18.3 (HIST-01)",
+    "chapter 23.4 (status wording)"
+   ],
+   "why_retired": "it presupposes that reading cannot be delegated, which contradicts the blueprint's Native E2E closed loop and unattended-automation intent (L0.md:377 role not person; L0.md:1242 the verification unit can be mechanised; L0.md:1564 owner-ordered automation is permitted but separation and true negatives are not skipped)",
+   "machine_field": "traditional_definition_status",
+   "machine_value": "NOT_APPLICABLE_BY_DESIGN",
+   "measured_history": "0/6 — nobody ever signed in that capacity; kept as a measurement, not as a compliance state",
+   "replacement": "FHS_ORIGINAL_ACK 6/6 (chapters 17, 23)",
+   "do_not": [
+    "re-open it as a prerequisite",
+    "cite it as a gap in a status report",
+    "delete this entry"
+   ]
+  }
+ ],
+ "counterexamples": [
+  {
+   "id": "CE-09",
+   "wrong_reading": "a lane may not read for the owner, so Done requires the owner to read every clause",
+   "consequence": "breaks the Native E2E closed loop and makes unattended delivery structurally impossible",
+   "correct": "three independent lanes read, complement and correct each other; the owner authorises and accepts risk"
+  },
+  {
+   "id": "CE-10",
+   "wrong_reading": "the traditional per-domain acknowledgement is still 0/6, so W0 is incomplete",
+   "consequence": "treats a retired definition as a missing prerequisite and sends every later round after a requirement that no longer exists",
+   "correct": "ask whether the five conditions on the FHS_ORIGINAL_ACK path hold"
+  }
+ ]
+}

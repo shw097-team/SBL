@@ -1,0 +1,58 @@
+{
+ "schema": "FHS.W0.InterpretationCorrection/1",
+ "generated_at": "2026-11-09T14:08:27+08:00",
+ "kind": "SUPPLEMENTARY_INTERPRETATION_CORRECTION",
+ "authority": "owner direct ruling, 2026-11-09; recorded verbatim; revocable by a later owner order",
+ "owner_ruling_verbatim": "一般傳統的「ORIGINAL_ACK」並不適用於本次FHS的藍圖和實作，傳統ORIGINAL_ACK是「車道不能替OWNER讀」這完全違反設計原意，必須以符合「Native E2E 自主執行閉環、 適合無人值守高自動化執行」的正確角度重新解讀/執行藍圖，這一段的設計經OWNER親自授權導正，必須導正成「經由合規的FHS-3LANE(獨立三車道)機制，幫OWNER閱讀並確認無誤，而且OWNER以輸入口令預授權/信任/接受自動化風險，並預授權等待VERIFY LANE過審後讓FHS直接進行OWNER授權簽核」的做法，所以真正的設計機制其實是讓「FHS的治理/控制 + 獨立三車道 + 各車道的角色」都要去讀並相互補足/糾錯，並非叫用戶自己去讀。",
+ "blueprint_basis": [
+  {
+   "line": "L0.md:377",
+   "supports": "Original Reader is a role, not a person",
+   "quote_head": "Done requires a Receipt verified by the Original Reader"
+  },
+  {
+   "line": "L0.md:1242",
+   "supports": "the verification unit can be machine-instantiated",
+   "quote_head": "獨立子 / Original Reader"
+  },
+  {
+   "line": "L0.md:1564",
+   "supports": "owner-ordered automation is permitted; separation and true negatives are not skipped",
+   "quote_head": "even when one human owner orders full automation"
+  }
+ ],
+ "corrected_mechanism": {
+  "sequence": [
+   "three independent lanes read (distinct process, model, evidence path)",
+   "they complement and correct each other: span-level locators, dedicated negatives that bite, cross-lane disagreement register",
+   "an independent VERIFY lane re-derives and passes the candidate read-only",
+   "the OWNER pre-authorises by passphrase: trust in the mechanism, acceptance of automation risk, and pre-authorisation to sign once VERIFY passes",
+   "FHS completes the signing (owner_semantic_accept + fhs_original_reader_ack) after that pass"
+  ],
+  "roles_that_must_all_be_present": [
+   "Fabric governance contract",
+   "HG-KSEOS control plane (window, signing, state)",
+   "SBL product engineering entry",
+   "three independent lanes"
+  ],
+  "owner_action": "adjudicate, authorise, accept risk, decide escalations — not read every clause"
+ },
+ "status_change": {
+  "before": "NOT_CLAIMED (0/6)",
+  "after": "NOT_APPLICABLE_BY_DESIGN (HIST-01)",
+  "why": "the retired definition is not a gap; treating it as one manufactures a prerequisite"
+ },
+ "what_does_not_change": [
+  "every existing signature",
+  "every clause span",
+  "every dedicated negative",
+  "the disagreement register",
+  "the prefix bindings r13 → r22 → r23"
+ ],
+ "not_claimed": [
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED",
+  "OS-account or human-identity separation",
+  "that a party outside this round has accepted it"
+ ]
+}
