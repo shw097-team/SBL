@@ -24,7 +24,7 @@ jobs:
       - name: gate (payload profile)
         working-directory: evidence/fhs-w0-r22-repair-20261109
         run: python tools/gate_r20.py --round . --profile payload --skip-hygiene
-      - name: selftest contract (read-only safe: in-process overlay, no temp dir)
+      - name: selftest contract (read-only safe, in-process overlay, no temp dir)
         working-directory: evidence/fhs-w0-r22-repair-20261109
         run: python tools/gate_r20.py --round . --profile payload --skip-hygiene --selftest --quiet
       - name: checksums
