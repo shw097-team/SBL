@@ -2,10 +2,12 @@ name: fhs-w0-gate
 on:
   push:
     paths:
+      - 'evidence/fhs-w0-r25-repair-20261109/**'
       - 'evidence/fhs-w0-r24-repair-20261109/**'
       - '.github/workflows/fhs-w0-gate.yml'
   pull_request:
     paths:
+      - 'evidence/fhs-w0-r25-repair-20261109/**'
       - 'evidence/fhs-w0-r24-repair-20261109/**'
       - '.github/workflows/fhs-w0-gate.yml'
   workflow_dispatch:
@@ -18,7 +20,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: payload manifest resolves inside its own payload
+      - name: r25 payload manifest resolves inside its own payload
+        working-directory: evidence/fhs-w0-r25-repair-20261109
+        run: python tools/verify_payload_manifest.py --root .
+      - name: r25 gate (payload profile, includes G29)
+        working-directory: evidence/fhs-w0-r25-repair-20261109
+        run: python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene
+      - name: r25 signed vote quorum (7 cases)
+        working-directory: evidence/fhs-w0-r25-repair-20261109
+        run: python tools/verify_quorum.py --selftest
+      - name: r25 selftest contract
+        working-directory: evidence/fhs-w0-r25-repair-20261109
+        run: python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene --selftest --quiet
+      - name: r25 checksums
+        working-directory: evidence/fhs-w0-r25-repair-20261109
+        run: sha256sum -c SHA256SUMS
+
+      - name: r24 payload manifest resolves inside its own payload
         working-directory: evidence/fhs-w0-r24-repair-20261109
         run: python tools/verify_payload_manifest.py --root .
       - name: gate (payload profile)
