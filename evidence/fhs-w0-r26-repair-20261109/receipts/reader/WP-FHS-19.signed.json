@@ -1,0 +1,166 @@
+{
+ "schema": "FHS.W0.OriginalReaderAckSigned/2",
+ "body": {
+  "kind": "fhs_original_reader_ack",
+  "Subject": "WP-FHS-19",
+  "SourceSHA": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+  "CandidateSHA": "f69677fc5b86bdb0b27824862113ed3c1b155e1e0cfa7268ff731eec916a6bc1",
+  "Scope": "WP-FHS-19:L1:854, WP-FHS-19:L1:856",
+  "Host": "Windows 11, one OS account, three separate lane processes",
+  "PolicyEpoch": 13,
+  "OriginalConsumer": "SBL Original Source/Requirement/Corpus Semantic Reader",
+  "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)",
+  "reader_role": "original_reader",
+  "lane_of_record": "A",
+  "clauses": [
+   {
+    "clause_id": "WP-FHS-19:L1:854",
+    "span": {
+     "line_start": 854,
+     "line_end": 854,
+     "byte_start": 147123,
+     "byte_end": 147616
+    },
+    "clause_sha256": "23a72b4677ececfe3932afbabc9b66047039a01ff8f04ca5b5dd7194b4802169",
+    "preservation": {
+     "parent_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "exceptions_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "negations_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "scope_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     }
+    }
+   },
+   {
+    "clause_id": "WP-FHS-19:L1:856",
+    "span": {
+     "line_start": 856,
+     "line_end": 856,
+     "byte_start": 148156,
+     "byte_end": 148686
+    },
+    "clause_sha256": "ff2afa052c2355717da620dddf57e2ff6df41d4623deb5bd95a7692bf0d0fdd8",
+    "preservation": {
+     "parent_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "exceptions_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "negations_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     },
+     "scope_preserved": {
+      "value": true,
+      "votes": {
+       "A": true,
+       "B": true
+      },
+      "state": "DECIDED"
+     }
+    }
+   }
+  ],
+  "dual_lane_comparison": [
+   {
+    "lane": "A",
+    "arm": "openai-codex/gpt-6.1-sol",
+    "judged": 32
+   },
+   {
+    "lane": "B",
+    "arm": "opencode_go/deepseek-v4.1-flash",
+    "judged": 32
+   },
+   {
+    "lane": "T",
+    "arm": "openai-codex/gpt-6.1-sol",
+    "judged": 2
+   }
+  ],
+  "negative_fixture_ref": "lanes/DEDICATED_NEGATIVES.json#WP-FHS-19",
+  "coverage_basis": "CANDIDATE_CITED_LOCATORS_ONLY",
+  "citation_density": "UNDER_CITED",
+  "signed_at": null,
+  "window_id": null,
+  "not_claimed": [
+   "OS-account separation",
+   "human-identity separation",
+   "that the candidate is semantically complete beyond these locators"
+  ],
+  "label_amendment": {
+   "changed": "kind: original_reader_ack -> fhs_original_reader_ack",
+   "supersedes_payload_sha256": "a8b171a9c1f3d52e74c08602098aaa129561cfa8d6ee8b40e5f4fcfe0b646e10",
+   "not_changed": [
+    "clauses",
+    "spans",
+    "preservation",
+    "reader_identity",
+    "dual_lane_comparison",
+    "negative_fixture_ref",
+    "candidate prefix"
+   ],
+   "basis": "owner order 2026-11-09 (verbatim): 「把ORIGINAL_ACK 6/6 改標成「FHS_ORIGINAL_ACK 6/6」，代表是經由「FABRIC治理 + HGK控制 + SBL各角色 + 三獨立車道 + OWNER口令授權」的合規「FHS_ORIGINAL_ACK 6/6」，並非一般傳統的「ORIGINAL_ACK」」",
+   "why_resigned": "the label is part of what the reader attested; a label applied in a sidecar is not covered by the signature, which is how the bare kind survived four rounds",
+   "v1_retained_at": "out/history/r19_reader_v1/WP-FHS-19.signed.json"
+  },
+  "binding": {
+   "candidate_bytes": 629772,
+   "candidate_sha256": "421617aad37094c441270b316462d355ea0bf54d0b585c11b1631edd2dfc6cab",
+   "signed_candidate_r13_is_a_prefix": true,
+   "r13_sha256": "60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514"
+  }
+ },
+ "recorded_after_signing": {
+  "signed_at": "2026-11-09T11:37:57+08:00",
+  "window_id": "WIN-fc83c1d80cb6",
+  "why_outside_the_body": "these two values exist only once the signature is made"
+ },
+ "payload_sha256": "f230b50228a71e65f1d84240419867819576e60ff9a5f9b7a65e62b4f816dd87",
+ "signature_hex": "73f1e9199f84784db00f71a7227c7fc35c8ea622efb3c24a422dd6bb5bc11cb31790fca1d6b2ac17f2975faae294ece2147a78fd833296201e1c62befdf6a507",
+ "alg": "ed25519",
+ "ops_used": 5,
+ "owner_fingerprint": "412b351937be72a1",
+ "verified_locally_against": "owner_enrollment.public_hex"
+}

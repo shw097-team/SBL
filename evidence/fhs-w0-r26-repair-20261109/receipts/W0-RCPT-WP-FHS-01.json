@@ -1,0 +1,38 @@
+{
+ "schema": "FHS.W0.Receipt/1",
+ "receipt_id": "W0-RCPT-WP-FHS-01",
+ "wp": "WP-FHS-01",
+ "subject": "WP-FHS-01 Authority/Oracle/Profile",
+ "source_sha": {
+  "value": "a191213d1a05189c687ca04a68ea5f2146e383811a9ffdf7cf6656aa92cf1216",
+  "rule": "sha256 over sorted 'name\\tsha256' lines of the 31 sources",
+  "documents": 31,
+  "payload_bytes": 2967,
+  "sources_dir": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources"
+ },
+ "candidate_sha": {
+  "value": "60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514",
+  "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r13.md",
+  "bytes": 592369
+ },
+ "scope": "SOURCE_READ",
+ "host": "Windows 11 / AMD64 / python 3.14.9",
+ "policy_epoch": 40,
+ "original_consumer": "原 Authority / Profile Owner",
+ "evidence_refs": [
+  {
+   "kind": "candidate",
+   "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r13.md",
+   "sha256": "60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514"
+  }
+ ],
+ "why_only_inputs_are_bound": "a receipt may not bind an artefact that depends on the receipt. The gate report does (G26 recomputes these bindings), and the officer verdict bundle records the verdicts on these receipts, so it moves whenever a round is added. What is bound here is the candidate and, in source_sha, the 31 documents: inputs that cannot move because a receipt did.",
+ "status": "OWNER_READER_ACK_PENDING",
+ "ack_state": "OWNER_SEMANTIC_ACK_HOLD",
+ "ack_authority": "L0.md:310 (ADR-05) - when reader evidence is absent the owner holds the semantic ACK; the maker may assemble the receipt and may not sign it",
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED"
+ ]
+}

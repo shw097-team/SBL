@@ -1,0 +1,32 @@
+{
+ "schema": "FHS.W0.PrincipalDefinition/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "recorded_at": "2026-11-09T09:46:16+08:00",
+ "owner_order_verbatim": "把藍圖的「principal」視為是「FHS治理架構下的自定義principal」，是指必須有三個各自獨立的LANE來執行，而非傳統意義的principal。",
+ "definition_in_use": {
+  "fhs_principal": "an independent lane: its own process, its own model, its own evidence path, its own verdict artefact, and no write access to the candidate it judges",
+  "count": 3,
+  "roles": {
+   "PLAN": "openai-codex/gpt-6.1-sol",
+   "EXECUTE": "opencode_go provider + bare id deepseek-v4.1-flash",
+   "VERIFY": "openai-codex/gpt-6.1-sol"
+  }
+ },
+ "what_this_definition_does_not_claim": [
+  "distinct OS accounts (all three lanes run under one Windows user)",
+  "distinct human identities (one owner)",
+  "SOD006-C4 independence between PLAN and VERIFY (same arm, owner-ordered, declared)",
+  "that same-host correlated blind spots are absent"
+ ],
+ "why_the_definition_is_lawful": {
+  "L0.md:377": "Done requires a Receipt verified by the Original Reader - a role, not a person",
+  "L0.md:1242": "names 獨立子 claim alongside Original Reader, i.e. the verification unit can be machine-instantiated",
+  "L0.md:1564": "even when one human owner orders full automation, technical permission separation and true negatives may not be skipped - which presupposes automation is permitted",
+  "owner order 2026-11-09": "defines the FHS principal as three independent lanes"
+ },
+ "conditions_the_blueprint_attaches_to_automation": {
+  "technical_permission_separation": "SATISFIED_AT_LANE_LEVEL - separate processes, separate models, read-only candidate, separate evidence paths; NOT satisfied at account level and not claimed",
+  "true_negative_examples": "PENDING - six per-work-package negative fixtures are being specified this round; a receipt is not issuable until its fixture is rejected by a program"
+ },
+ "consequence": "FHS_ORIGINAL_ACK 6/6 may be issued by the reader role instantiated as lanes, signed under the owner key, provided each receipt carries spans, a biting negative fixture, and a closed disagreement record. It may not be described as OS- or person-level independence, and the traditional per-domain ORIGINAL_ACK is not claimed (0/6)."
+}

@@ -1,0 +1,72 @@
+{
+ "schema": "FHS.W0.ScanScope/1",
+ "why": "A qualifier rule is only as wide as its scope. The scope is written here, next to the exclusions and their reasons, so a reader sees which machine-readable artefacts the rule covers instead of inferring it from globs in code.",
+ "scan": [
+  "out/PRINCIPAL_DEFINITION.json",
+  "out/FHS_ORIGINAL_ACK.json",
+  "out/SIGNING_RECORD.json",
+  "out/OWNER_DECLARATION_2026-11-09.json",
+  "out/NORMALISATION.json",
+  "out/GATE_R20.json",
+  "out/GATE_R20_SELFTEST.json",
+  "out/OWNER_RULING_W0_R20.json",
+  "out/KANBAN_R20.json",
+  "out/ACCEPTANCE_R20.json",
+  "out/SCAN_SCOPE.json",
+  "receipts/*",
+  "evidence/*.json",
+  "out/LABEL_DISCIPLINE_R21.json",
+  "out/VERIFY_READER_ACK_R21.json",
+  "out/KANBAN_R21.json",
+  "out/OWNER_RULING_W0_R21.json",
+  "out/LABEL_DISCIPLINE_R22.json",
+  "out/VERIFY_READER_ACK_R22.json",
+  "out/KANBAN_R22.json",
+  "out/OWNER_RULING_W0_R22.json",
+  "out/GOAL_R23.json",
+  "out/NOT_ADOPTED_REGISTER.json",
+  "out/INTERPRETATION_CORRECTION_R23.json",
+  "out/LABEL_DISCIPLINE_R24.json",
+  "out/VERIFY_READER_ACK_R24.json",
+  "out/KANBAN_R24.json",
+  "out/OWNER_RULING_W0_R24.json"
+ ],
+ "exclude": [
+  {
+   "pattern": "out/history/**",
+   "reason": "superseded signed artefacts retained verbatim (the r19 reader receipts v1). The current receipts are in receipts/reader/ and are in scope; this directory is history, not a claim."
+  },
+  {
+   "pattern": "out/GATE_R1*",
+   "reason": "superseded revision records (r12-r19). History is retained verbatim and is not relabelled; the current revision's gate is GATE_R20.json and it is in scope."
+  },
+  {
+   "pattern": "out/OWNER_RULING_W0_R1*",
+   "reason": "owner rulings for superseded revisions; a ruling is the owner's words and editing it would rewrite the record. Current ruling: out/OWNER_RULING_W0_R20.json."
+  },
+  {
+   "pattern": "out/KANBAN_FINAL.json",
+   "reason": "the r12 board, superseded by out/KANBAN_R20.json which is in scope."
+  },
+  {
+   "pattern": "out/KANBAN_R15.json",
+   "reason": "the r15 board, superseded by out/KANBAN_R20.json which is in scope."
+  },
+  {
+   "pattern": "out/ACCEPTANCE_FINAL.json",
+   "reason": "the r12 acceptance record, superseded by out/ACCEPTANCE_R20.json which is in scope."
+  },
+  {
+   "pattern": "out/stage/**",
+   "reason": "a rebuildable copy of out/, receipts/ and evidence/; scanning it double-counts rather than widening."
+  },
+  {
+   "pattern": "lanes/**",
+   "reason": "other lanes' verbatim verdict text and briefs; the author may quote a lane but must not relabel it."
+  },
+  {
+   "pattern": "officer/**",
+   "reason": "the independent officer's own artefacts, kept as received."
+  }
+ ]
+}

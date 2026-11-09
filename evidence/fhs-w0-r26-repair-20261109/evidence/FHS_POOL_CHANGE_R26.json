@@ -1,0 +1,152 @@
+{
+ "schema": "FHS.W0.PoolChange/1",
+ "order": "OWNER 2026-11-09 (verbatim in chapter 26.1)",
+ "epoch_before": 40,
+ "epoch_after": 41,
+ "hgk_branch": "config/plan-mimo-flash-20261109",
+ "hgk_branch_head": "86f40ec114f19bbd35314e376da4d0bed9805b22",
+ "hgk_main": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+ "hgk_main_epoch": 33,
+ "hgk_main_is_ancestor": true,
+ "commits_ahead_of_main": 327,
+ "retired": [
+  "opencode-go/mimo-v2.6-pro"
+ ],
+ "admitted": {
+  "PLAN": "opencode-go/mimo-v2.6-flash@rank4"
+ },
+ "measured": {
+  "menu_admitted": "9/9",
+  "retirement_check": "PASS",
+  "policy_validate": "fatal:false (one pre-existing PROJECTION_DEBT warn)",
+  "diff_live": "fatal:false, 0 items",
+  "assert_arm_retired": "exit 9"
+ },
+ "menu": {
+  "schema": "FHS.3LM.Menu/1",
+  "generated_at": "2026-11-09T20:10:14+08:00",
+  "epoch": {
+   "registry_sha256": "811bf1a5eea4304c057dfc95974e31b4b7655a588091f674db2cf57dbb3055c3"
+  },
+  "pool_sha256": "628e7db6c0062fa64da07e7356d8f943f7a9ce0e9e4800f06095c19fa142c577",
+  "lanes": [
+   {
+    "lane": "PLAN",
+    "pool_lane": "PLAN",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "GPT 6.1 SOL-MEDIUM",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "gpt-6.1-sol",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 4,
+      "transport_model": "opencode-go/mimo-v2.6-flash",
+      "why_not": null
+     }
+    ]
+   },
+   {
+    "lane": "EXECUTE",
+    "pool_lane": "EXECUTE",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/mimo-v2.6-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "GPT-6-luna",
+      "model": "gpt-6-luna",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 3,
+      "transport_model": "gpt-6-luna",
+      "why_not": null
+     }
+    ]
+   },
+   {
+    "lane": "VERIFY",
+    "pool_lane": "VERIFY_SECURITY",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "GPT 6.1 SOL-MEDIUM",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "gpt-6.1-sol",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 3,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/mimo-v2.6-flash",
+      "why_not": null
+     }
+    ]
+   }
+  ],
+  "rule": "choose a slot; a slot whose arm is not in the lane pool is shown but refused (NOT_IN_LANE_POOL) — adding an arm is a control-plane epoch change, not something this task may do"
+ },
+ "not_claimed": [
+  "HGK main merged",
+  "327 commits merged",
+  "live inference probe of mimo-v2.6-flash on PLAN",
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED"
+ ],
+ "recorded_at": "2026-11-09T20:10:14+08:00"
+}
