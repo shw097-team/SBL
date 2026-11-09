@@ -1,0 +1,101 @@
+{
+ "officer": "acceptance-officer/codex-cli/gpt-6.1-sol",
+ "mode": "VERIFY_ONLY",
+ "items": [
+  {
+   "id": 1,
+   "claim": "Byte-exact r12 prefix",
+   "verdict": "PASS",
+   "evidence": "Read both files as bytes and compared all 582469 parent bytes against r13; every byte matched."
+  },
+  {
+   "id": 2,
+   "claim": "r13 manifest identity",
+   "verdict": "PASS",
+   "evidence": "Actual r13: 589408 bytes; SHA256 e756c9a70aa1f1733ba2db05bec8a5c571e484fe54a8615365602f5c0386d92f. Both match the manifest."
+  },
+  {
+   "id": 3,
+   "claim": "r12 parent correction consistency",
+   "verdict": "PASS",
+   "evidence": "The r12 entry names r11 and digest 24fb2d9ec5d2f220496647088463819bbc0a3082fc5fc754491408bda1d1316e, matching the actual r11 file. parent_version_corrected_from is r10; the correction explicitly identifies the former label error."
+  },
+  {
+   "id": 4,
+   "claim": "Completion level and defect identifiers",
+   "verdict": "PASS",
+   "evidence": "Closeout declares W0_AUTHOR_DESIGN_COMPLETE. All six CLOSED defect IDs appear in the document's chapter 14.6. This verifies identifier coverage, not the substantive correctness of every closure."
+  },
+  {
+   "id": 5,
+   "claim": "No document self-identity",
+   "verdict": "PASS",
+   "evidence": "The candidate contains neither its actual byte count, in plain or comma-separated form, nor its actual SHA256. Chapter 14 identifies the parent instead."
+  },
+  {
+   "id": 6,
+   "claim": "Correct parent identity",
+   "verdict": "PASS",
+   "evidence": "Document line 3304 states r12 is 582469 bytes with SHA256 139ff440136543731c1401b17b03ff56e886f80b7dcc08b5fb83892032744c46; independently measured values match."
+  },
+  {
+   "id": 7,
+   "claim": "ORIGINAL_ACK remains zero",
+   "verdict": "PASS",
+   "evidence": "Document lines 3319 and 3388 declare 0/6; the handover and closeout agree. Reviewed occurrences deny obtaining ORIGINAL_ACK."
+  },
+  {
+   "id": 8,
+   "claim": "No forbidden achievement assertions",
+   "verdict": "PASS",
+   "evidence": "Searched candidate and round text artifacts for all four tokens. Occurrences describe exclusions, still-open requirements, definitions, quoted instructions, or source-code vocabulary—not achieved acceptance, release, native-world evidence, or independent passage."
+  },
+  {
+   "id": 9,
+   "claim": "Recorded gate blocking failures",
+   "verdict": "PASS",
+   "evidence": "out/GATE_R13.json reports summary.blocking_fail = 0; its listed BLOCKING checks all report PASS."
+  },
+  {
+   "id": 10,
+   "claim": "G11 reads and hashes corpus bytes",
+   "verdict": "PASS",
+   "evidence": "gate_r13.py lines 319–384: g11_line_convention calls _remeasure_sources, which opens each declared source in binary mode and computes SHA256 from its bytes. A source-unavailable round-profile fallback exists, but the corpus-present branch genuinely re-hashes."
+  },
+  {
+   "id": 11,
+   "claim": "G13 re-derives duplicate counts",
+   "verdict": "PASS",
+   "evidence": "gate_r13.py lines 409–435 lists corpus files, requires 31, reads their bytes, groups SHA256 values and lowercase filenames, and compares independently derived duplicate-group counts with declarations."
+  },
+  {
+   "id": 12,
+   "claim": "G19 covers every declared copy and root",
+   "verdict": "FAIL",
+   "evidence": "COPY_REGISTER_ALL.json declares 45 names_exact groups, 45 names_normalised groups, and 25 roots_scanned. However, g19_copy_register lines 732–765 only hashes r6_focus.members (three copies) and derives roots solely from those members (three roots). It never iterates the other declared copy groups or roots_scanned. Therefore it does not re-hash each declared copy or walk each declared root."
+  },
+  {
+   "id": 13,
+   "claim": "G22 is explicitly self-reported reporting",
+   "verdict": "PASS",
+   "evidence": "CHECKS registers G22 as REPORTING. GATE_R13.json agrees and includes SELF_REPORTED_BY_THE_SUBJECT in its detail."
+  },
+  {
+   "id": 14,
+   "claim": "Measured owner-signature demand",
+   "verdict": "PASS",
+   "evidence": "Assessment declares required_signatures = 0 and explains why no envelope was opened. Independently parsed the named registry: registry_rev 13, 31 rows, all INSTALLED, zero rows missing owner-signature values or key IDs. These counts match the assessment."
+  },
+  {
+   "id": 15,
+   "claim": "Still-open lists agree",
+   "verdict": "PASS",
+   "evidence": "Chapter 14.5 and closeout.still_open contain the same six IDs: formal_w0_acceptance, ORIGINAL_ACK, G16b, LICENCE, PIPD-15-VALUESET, R1-ISSUER-REV14."
+  }
+ ],
+ "overall": "NACK",
+ "blocking_defects": [
+  "Item 12: G19 checks only the three r6-focus copies and their three roots, not every copy and root declared in COPY_REGISTER_ALL.json."
+ ],
+ "notes": "Stopped after confirming the G19 coverage defect. No repairs or writes were attempted; gate and mutation selftests were not executed. The recorded zero-blocking-failure result does not establish the broader G19 claim. Existing G22 output also records documented selftest exit 0 versus actual 1, and the supplied selftest records G19 DID_NOT_FIRE."
+}

@@ -1,0 +1,90 @@
+{
+ "schema": "FHS.W0.OwnerRuling/1",
+ "ruling_id": "OWNER-RULING-W0-R12-20261108",
+ "issued_by": "owner (interactive session, this conversation)",
+ "recorded_at": "2026-11-08T14:20:00+08:00",
+ "verbatim_instruction": "OWNER正式裁決，授權你必須對前輪提出的W0全部問題，依照並對齊四份上位藍圖，進行完整自研究、自修補、自迭代、自驗收，把前輪提出的全部問題、HOLD、缺口、瑕疵，進行完整修補和解決。",
+
+ "what_this_authorises": {
+  "scope": "the maker may decide and act on the items previously parked as 'owner decision', inside the W0 evidence and publication repos",
+  "boundary_kept_1": "ORIGINAL_ACK: an authorisation cannot stand in for a domain reader's signature. ORIGINAL_ACK stays 0/6 and no receipt may be minted under this ruling.",
+  "boundary_kept_2": "no write to any repository's main; repair travels as a branch and a PR",
+  "boundary_kept_3": "HG-KSEOS AGENTS.md forbids an agent pushing to that repository or broadening permissions; that is a repository invariant, not a preference, so the dependency repair stays a verified-but-unapplied patch until an owner line names that repository explicitly"
+ },
+
+ "decisions": [
+  {
+   "id": "HGK-REF-CANONICAL",
+   "decision": "GitHub main acd9196fcd748638673848bf62a426dcc3c22dc1 is the W0 baseline for dependency and licence facts",
+   "authority": "MAKER_DECISION_UNDER_OWNER_AUTHORISATION",
+   "why": "it is the remote line of record, it is the commit the external review pinned, and a baseline that is not on the remote cannot be cited by anyone else",
+   "consequences": {
+    "hgk-local 6c9fc73": "lineage only; its dependencies=[cryptography>=42] does not describe the baseline",
+    "r4-hgk a7046a3": "lineage only",
+    "gate_effect": "G16a/G16b describe the baseline first and the other two as lineage, never as 'the repository'"
+   },
+   "reversible": true,
+   "reversal_cost": "one field in out/DEPENDENCY_SUBJECTS.json plus a re-run"
+  },
+  {
+   "id": "AUTHORITY-COLLISIONS",
+   "decision": "for FHS_PIPD-LS-PKG_W0_r6.md the authoritative digest is 69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "authority": "MAKER_DECISION_UNDER_OWNER_AUTHORISATION",
+   "why": "two of the three locations carry it byte for byte; the knowledge-base copy differs by 4 bytes inside an appended 產生時間 line, which is a transcription artefact rather than a different document",
+   "consequences": {
+    "9f9eb261c44f96488c2f0a3156b0a9fdc6ea91ddac823800fb8c1a593a9b6234": "recorded as a diverged duplicate; not deleted, not authoritative",
+    "registry_effect": "AUTHORITY-COLLISIONS moves from OWNER_UNRESOLVED to DECIDED, with the losing copy kept visible"
+   },
+   "reversible": true
+  },
+  {
+   "id": "HGK-DEPENDENCY-EXTRA",
+   "decision": "the repair is two lines in pyproject.toml: cryptography into [project] dependencies, PyYAML as an optional extra named yaml",
+   "authority": "MAKER_DECISION_UNDER_OWNER_AUTHORISATION",
+   "why": "cryptography is imported at module level in user_trust.py and is required for signature verification, so it belongs in runtime; PyYAML is imported inside a function with a bounded fallback, so it belongs in an extra",
+   "state": "PATCH_VERIFIED_NOT_APPLIED",
+   "blocked_by": "HG-KSEOS AGENTS.md (agent may not push to that repository); needs an owner line naming HG-KSEOS",
+   "measured_effect_if_applied": "declared_covers_imports false -> true on both r4-hgk and acd9196f; extras_installable becomes ['yaml'] and pip install .[yaml] really adds PyYAML==6.0.3"
+  },
+  {
+   "id": "LICENCE-FABRIC-HGK",
+   "decision": "NOT_DECIDED",
+   "authority": "TAKEOFF_REFUSED",
+   "why": "choosing a licence is a legal act; an authorisation to repair engineering defects is not an authorisation to select terms of use",
+   "state": "OPEN_CARRY_FORWARD",
+   "what_would_close_it": "the owner naming a licence and its text"
+  },
+  {
+   "id": "HGK-CI-ABSENT",
+   "decision": "a minimal gate workflow that runs the round's checks against its own payload is the right shape; whether HG-KSEOS gets one is not decided here",
+   "authority": "MAKER_DECISION_UNDER_OWNER_AUTHORISATION",
+   "why": "SBL proved that green CI which never invokes the gate means nothing; the same shape belongs in HGK, but HGK is a separate control plane whose repository rules I am not authorised to change",
+   "state": "SHAPE_DECIDED_APPLICATION_WITHHELD"
+  },
+  {
+   "id": "PIPD-15-VALUESET",
+   "decision": "still open",
+   "authority": "NOT_A_MAKER_DECISION",
+   "why": "the fifteen contract families' value sets are product semantics; inventing them would be fabricating requirements, which is the one thing this whole line of rounds exists to stop",
+   "state": "OPEN_CARRY_FORWARD"
+  },
+  {
+   "id": "ORIGINAL-ACK-18",
+   "decision": "cannot be closed by this ruling",
+   "authority": "OUT_OF_SCOPE_BY_NATURE",
+   "why": "a receipt is evidence from a named original-domain reader; the maker writing one is exactly the forged-ACK failure this stack has a skill for",
+   "state": "OPEN_CARRY_FORWARD"
+  },
+  {
+   "id": "R1-ISSUER-REV14",
+   "decision": "not executable in this round",
+   "authority": "REQUIRES_PROTECTED_TERMINAL",
+   "why": "minting registry rev 14 requires the owner key inside the protected window; the registry is untouched this round and owner signing demand measures 0 for everything else",
+   "state": "OPEN_CARRY_FORWARD"
+  }
+ ],
+
+ "not_claimed": ["ORIGINAL_ACK", "NATIVE_WORLDRAW", "INDEPENDENT_PASS", "RELEASE_GRANTED", "MERGED", "REVIEWED", "RELEASED"],
+ "claim_ceiling": "MAKER_DECISION_UNDER_OWNER_AUTHORISATION_WITH_SCOPED_HOLDS",
+ "how_to_read_this": "each decision names its own authority. MAKER_DECISION_UNDER_OWNER_AUTHORISATION means the owner authorised the act of deciding, not that the owner chose this value; TAKEOFF_REFUSED and NOT_A_MAKER_DECISION mean the item is not mine to close no matter how broad the authorisation is."
+}
