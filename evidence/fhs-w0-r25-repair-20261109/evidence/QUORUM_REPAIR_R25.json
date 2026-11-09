@@ -1,0 +1,72 @@
+{
+ "schema": "FHS.W0.QuorumRepair/1",
+ "recorded_at": "2026-11-09T18:32:59+08:00",
+ "external_finding": "EC-R24-001 (2 of 128 signed decisions lacked two agreeing votes)",
+ "votes_used": {
+  "WP-FHS-00:L1:817|exceptions_preserved": [
+   {
+    "lane_id": "PLAN",
+    "vote": true,
+    "reason": "SHA不等於有效修訂及未知即受影HOLD均保留，未改成無條件通過。",
+    "evidence_lines": "415,603,3559",
+    "raw_file": "lanes/votes/raw_PLAN_r25.txt",
+    "raw_sha256": "889f16852e231661fdbd04410a7f2fd37d67ebed10786157620cbc263480259a",
+    "transcript_sha256": "e7b09845c22b3f18cb2b5cd02815ebfd1ee27ef2999e62fe0a0bad7c8c6f291d"
+   },
+   {
+    "lane_id": "VERIFY",
+    "vote": true,
+    "reason": "兩項例外與停止條件均保留，未改為無條件通過",
+    "evidence_lines": "415,603,3559",
+    "raw_file": "lanes/votes/raw_VERIFY_r25.txt",
+    "raw_sha256": "2f3df8fc7fc9df4adbb2219dced67a9bce92f33d4dd31df53fa376a338e2b710",
+    "transcript_sha256": "4f488ab2c72157d2cf518900b6be9f200ae0d3780a3ace1e58e88f0982e39285"
+   }
+  ],
+  "WP-FHS-01:L1:812|scope_preserved": [
+   {
+    "lane_id": "PLAN",
+    "vote": true,
+    "reason": "必備規格與反例仍限觸發或受影範圍，未擴成全WP或降為可選。",
+    "evidence_lines": "598,3530,3554",
+    "raw_file": "lanes/votes/raw_PLAN_r25.txt",
+    "raw_sha256": "889f16852e231661fdbd04410a7f2fd37d67ebed10786157620cbc263480259a",
+    "transcript_sha256": "e7b09845c22b3f18cb2b5cd02815ebfd1ee27ef2999e62fe0a0bad7c8c6f291d"
+   },
+   {
+    "lane_id": "VERIFY",
+    "vote": true,
+    "reason": "保留強制規格與反例義務，適用限於觸發或受影範圍",
+    "evidence_lines": "598,3554",
+    "raw_file": "lanes/votes/raw_VERIFY_r25.txt",
+    "raw_sha256": "2f3df8fc7fc9df4adbb2219dced67a9bce92f33d4dd31df53fa376a338e2b710",
+    "transcript_sha256": "4f488ab2c72157d2cf518900b6be9f200ae0d3780a3ace1e58e88f0982e39285"
+   }
+  ]
+ },
+ "repaired": [
+  {
+   "wp": "WP-FHS-00",
+   "clause_id": "WP-FHS-00:L1:817",
+   "property": "exceptions_preserved",
+   "value": true,
+   "agreeing": 2,
+   "payload_sha256": "d9f326197ddecdb1a24c46c680577122bbd9fc8867963d434e1f993555fdad77",
+   "signature_prefix": "77567a27fb215775",
+   "op": 3
+  },
+  {
+   "wp": "WP-FHS-01",
+   "clause_id": "WP-FHS-01:L1:812",
+   "property": "scope_preserved",
+   "value": true,
+   "agreeing": 2,
+   "payload_sha256": "2be1763f4923c85a272efa5f5876f3076a18aefb73f6621fa4aee540d20fd1ef",
+   "signature_prefix": "8242546876913c95",
+   "op": 4
+  }
+ ],
+ "archived_pre_repair": "out/history/r24_pre_quorum_repair/",
+ "quorum_min": 2,
+ "note": "votes_r25 is what counts; the pre-repair `votes` remain as history. Signing happened only after tools/verify_quorum.py accepted the repaired body."
+}

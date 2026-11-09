@@ -1,0 +1,167 @@
+Reading additional input from stdin...
+OpenAI Codex v0.164.0
+--------
+workdir: C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108
+model: gpt-6.1-sol
+provider: desktop_router
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a1bfcf-3945-7151-9bc1-67ed34361ad0
+--------
+user
+你是 PLAN 車道（lane identity: PLAN，arm: openai-codex/gpt-6.1-sol）。# FHS W0 受影條款重讀投票包（r25）
+
+## 你要做的一件事
+針對下面兩個「受影條款」，各自回答一個是非題。你只讀，不改檔，不寫任何東西。
+每一題都必須給 `true` / `false` / `UNKNOWN` 之一，並附一句不超過 40 字的理由。
+`UNKNOWN` 代表你讀完後仍無法判定——不要為了湊票而猜。
+
+## 題目 1：WP-FHS-00:L1:817，性質 `exceptions_preserved`
+
+**原文（L1 藍圖第 817 行，節錄）**
+```
+| FHS-DR-020 | ...／r4:L39–74 | 資料與來源／A | 來源 Currentness 由原有權 Reader 讀回 |
+SourceBytesSHA≠Owner EffectiveRevision；unknown→affected HOLD | [CH-04] |
+SBL Original Source/Requirement/Corpus Semantic Reader | 新舊版本衝突不會被靜默覆蓋 |
+作者端 SHA 自封 OWNER_CURRENT_CONFIRMED | MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY | OWNER_READER_ACK_PENDING |
+```
+
+**候選（FHS_PIPD-LS-PKG_W0_r24.md）在該條款的三處落地**
+```
+415: | `FHS-DR-020` `L1-r4:L817` | W0 | SBL Original Source/Requirement/Corpus Semantic Reader | 新舊版本衝突不會被靜默覆蓋 | 作者端 SHA 自封 OWNER_CURRENT_CONFIRMED；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+603: | `FHS-DR-020` `L1-r4:L817` | `W0_REQUIRED` | W0/`WP-FHS-00` | 資料與來源／A；來源 Currentness 由原有權 Reader 讀回；SourceBytesSHA≠Owner EffectiveRevision；unknown→affected HOLD；[CH-04](#ch-04) | SBL Original Source/Requirement/Corpus Semantic Reader | 新舊版本衝突不會被靜默覆蓋 | 作者端 SHA 自封 OWNER_CURRENT_CONFIRMED；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+3559: | `FHS-DR-020` | L817 | `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` | `db25b1ada1312254` |
+```
+
+**問題**：候選是否保存了原文的 **例外條件（exception）**——特別是
+「`SourceBytesSHA≠Owner EffectiveRevision`」與「`unknown→affected HOLD`」這兩個必須保留的例外／停止條件，
+且沒有把它們改寫成無條件通過？
+
+## 題目 2：WP-FHS-01:L1:812，性質 `scope_preserved`
+
+**原文（L1 藍圖第 812 行，節錄）**
+```
+| FHS-DR-015 | ...／r4:L74–109 | 資料與來源／A | 每個原 Parent/Child/NEG/Exception/Applicability 必保存 |
+Source span/Parent Context/OriginalID/OriginalOwner/Consumer Crosswalk | [CH-03]/[CH-27] |
+SBL Original Source/Requirement/Corpus Semantic Reader | 每個原 ID 有候選或具名 HOLD |
+原字串關鍵字命中代 SOURCE_TRACE_PASS | MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE | OWNER_READER_ACK_PENDING |
+```
+
+**候選的落地**：`FHS-DR-015` 在 `W0_REQUIRED` 交叉表中由 `WP-FHS-01` 承接，
+範圍限定為 `IF_TRIGGERED_OR_AFFECTED_SCOPE`（觸發或受影才適用），並要求
+「每個原 ID 有候選或具名 HOLD」，反例為「原字串關鍵字命中代 SOURCE_TRACE_PASS」。
+
+**問題**：候選是否保存了原文的 **適用範圍（scope）**——也就是
+「`MANDATORY_SPEC_AND_NEG` 搭配 `IF_TRIGGERED_OR_AFFECTED_SCOPE`」這個有條件的範圍，
+而沒有把它擴大成「所有 WP 一律必做」或縮小成「可選」？
+
+## 輸出格式（只輸出這一個 JSON，不要其他文字）
+```json
+{"lane":"PLAN|VERIFY","arm":"<你被指派的 lane 名稱>","read_source_bytes":true,
+ "votes":[
+  {"clause_id":"WP-FHS-00:L1:817","property":"exceptions_preserved","vote":true,
+   "reason":"<=40 字","evidence_lines":"415,603,3559"},
+  {"clause_id":"WP-FHS-01:L1:812","property":"scope_preserved","vote":true,
+   "reason":"<=40 字","evidence_lines":"<你實際引用的候選行號>"}
+ ],
+ "notes":"<=60 字，可寫你認為還缺什麼"}
+```
+`vote` 只能是 `true`、`false` 或 `"UNKNOWN"`。整體以 `FHS_VOTE_OK` 結尾。
+exec
+"C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe" -Command 'Get-ChildItem -LiteralPath . -File | Select-Object -ExpandProperty Name' in C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108
+ succeeded in 728ms:
+HANDOVER_R13_2026-11-08.md
+HANDOVER_R14_2026-11-08.md
+HANDOVER_R15_2026-11-08.md
+HANDOVER_R17_2026-11-08.md
+HANDOVER_R18_2026-11-08.md
+HANDOVER_R19.md
+HANDOVER_R19_2026-11-08.md
+HANDOVER_R20_2026-11-08.md
+HANDOVER_R21_2026-11-08.md
+HANDOVER_R22_2026-11-08.md
+HANDOVER_R23_2026-11-08.md
+HANDOVER_R24_2026-11-08.md
+SHA256SUMS
+
+exec
+"C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe" -Command "Get-ChildItem -LiteralPath . -Recurse -File -Filter 'FHS_PIPD-LS-PKG_W0_r24.md' | Select-Object -ExpandProperty FullName; Get-ChildItem -LiteralPath . -Recurse -File -Filter 'AGENTS.md' | Select-Object -ExpandProperty FullName" in C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108
+ succeeded in 771ms:
+C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108\out\stage\fabric\INTEGRATION\FHS\docs\as-built\W0\r24\FHS_PIPD-LS-PKG_W0_r24.md
+C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108\out\stage\sbl\evidence\fhs-w0-r24-repair-20261109\doc\FHS_PIPD-LS-PKG_W0_r24.md
+C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108\writeback\W0\FHS_PIPD-LS-PKG_W0_r24.md
+
+exec
+"C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe" -Command '$p = '"'.\\out\\stage\\fabric\\INTEGRATION\\FHS\\docs\\as-built\\W0\\r24\\FHS_PIPD-LS-PKG_W0_r24.md'; "'$lines = Get-Content -LiteralPath $p -Encoding UTF8; for ($i=0; $i -lt $lines.Count; $i++) { if ($lines[$i] -match '"'FHS-DR-015|FHS-DR-020') { '{0}: {1}' -f ("'$i+1),$lines[$i] } }; Get-ChildItem -LiteralPath . -Recurse -File | Where-Object { $_.Name -match '"'L1|Blueprint|藍圖' } | Select-Object -ExpandProperty FullName" in C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108
+ succeeded in 627ms:
+379: | `FHS-DR-015` `L1-r4:L812` | W0 | SBL Original Source/Requirement/Corpus Semantic Reader | 每個原 ID 有候選或具名 HOLD | 原字串關鍵字命中代 SOURCE_TRACE_PASS；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+415: | `FHS-DR-020` `L1-r4:L817` | W0 | SBL Original Source/Requirement/Corpus Semantic Reader | 新舊版本衝突不會被靜默覆蓋 | 作者端 SHA 自封 OWNER_CURRENT_CONFIRMED；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+598: | `FHS-DR-015` `L1-r4:L812` | `W0_REQUIRED` | W0/`WP-FHS-01` | 資料與來源／A；每個原 Parent/Child/NEG/Exception/Applicability 必保存；Source span/Parent Context/OriginalID/OriginalOwner/Consumer Crosswalk；[CH-03](#ch-03)/[CH-27](#ch-27) | SBL Original Source/Requirement/Corpus Semantic Reader | 每個原 ID 有候選或具名 HOLD | 原字串關鍵字命中代 SOURCE_TRACE_PASS；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+603: | `FHS-DR-020` `L1-r4:L817` | `W0_REQUIRED` | W0/`WP-FHS-00` | 資料與來源／A；來源 Currentness 由原有權 Reader 讀回；SourceBytesSHA≠Owner EffectiveRevision；unknown→affected HOLD；[CH-04](#ch-04) | SBL Original Source/Requirement/Corpus Semantic Reader | 新舊版本衝突不會被靜默覆蓋 | 作者端 SHA 自封 OWNER_CURRENT_CONFIRMED；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+1275: | `FHS-DR-015` `L1-r4:L812` | W0 | SBL Original Source/Requirement/Corpus Semantic Reader | 每個原 ID 有候選或具名 HOLD | 原字串關鍵字命中代 SOURCE_TRACE_PASS；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+3554: | `FHS-DR-015` | L812 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `2c40eb9fb731d08d` |
+3559: | `FHS-DR-020` | L817 | `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` | `db25b1ada1312254` |
+
+exec
+"C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps\\pwsh.exe" -Command '$p = '"'.\\out\\stage\\fabric\\INTEGRATION\\FHS\\docs\\as-built\\W0\\r24\\FHS_PIPD-LS-PKG_W0_r24.md'; "'$lines = Get-Content -LiteralPath $p -Encoding UTF8; foreach ($range in @(@(575,583),@(3518,3539))) { for ($n=$range[0];$n -le $range[1];$n++) { '"'{0}: {1}' -f "'$n,$lines[$n-1] } }; Select-String -LiteralPath $p -Pattern '"'IF_TRIGGERED_OR_AFFECTED_SCOPE|MANDATORY_SPEC_AND_NEG|所有 WP|所有WP' -Encoding UTF8 | Select-Object -First 15 LineNumber,Line" in C:\Projects\Agent_Workspace\FHS_W0_R13_ACCEPTANCE_20261108
+ succeeded in 553ms:
+575: | `INT-16` `L1-r4:L784` | `W1-W4_HANDOFF` | W3/`WP-FHS-13` | 選型不丟給 Owner；Need→Occupant→Qualified EffectiveLoad→Consumer→Retire；[CH-22](#ch-22)/[CH-23](#ch-23)/[CH-24](#ch-24)/[CH-25](#ch-25)/[CH-26](#ch-26)/[CH-47](#ch-47) | SBL Original Source/Requirement/Corpus Semantic Reader、Original Tech/License/Host/Method Owner → Capability Consumer | Need→Occupant→Qualified EffectiveLoad→Consumer→Retire | 只讀 485 身份卡便強制安裝 485 件或把必備 Default 改 OPTIONAL；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+576: | `INT-17` `L1-r4:L785` | `W1-W4_HANDOFF` | W3/`WP-FHS-20` | 有用且可逆的 CLI/Skill/Plugin；GJ01 clean CLI、GJ02 bounded patch、GJ03 live skill invoke；[CH-09](#ch-09)/[CH-21](#ch-21)/[CH-38](#ch-38) | SBL Product/Kind/Host Original Consumer、SBL Product Owner → CLI Host Consumer、SBL Product Owner → Original Skill/Agent Host Registry Consumer | GJ01 clean CLI、GJ02 bounded patch、GJ03 live skill invoke | GJ01 只有 SPEC、GJ02 缺 Repo Diff、GJ03 只有 Resume；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+577: | `INT-18` `L1-r4:L786` | `W0_REQUIRED` | W0/`WP-FHS-15` | 恰好安全，非全面發行治理；六類 Effect 對應最低充分原 Evidence；[CH-15](#ch-15)/[CH-39](#ch-39)/[CH-43](#ch-43) | SBL-hosted PIPD canonical Compiler/Original Source/Repo/Case Reader、HGK Original Issuer/SharedSpine/Protected Checker Reader、Effect-specific original | 六類 Effect 對應最低充分原 Evidence | 缺 OPS/RELEASE Permission 使合法 READ/DRAFT 全域停工；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+578: | `INT-19` `L1-r4:L787` | `W1-W4_HANDOFF` | W2/`WP-FHS-18` | 研究可導入但有原消費者；FAR Typed Envelope／R8 Consumer ACK/NACK；[CH-10](#ch-10)/[CH-17](#ch-17)/[CH-40](#ch-40) | Fabric FHS Navigation/Policy/FAR Reader → Original Consumer、Original Program/DAG/Delivery Consumer | FAR Typed Envelope／R8 Consumer ACK/NACK | 研究文章／FAR Finding 無原 R8 Consumer ACK 卻宣 policy 已落地；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+579: | `INT-20` `L1-r4:L788` | `W1-W4_HANDOFF` | W3/`WP-FHS-13` | 升級可退場且舊有效功能不回歸；Callgraph 等價+Consumer 轉交+受影 POS/NEG+Rollback；[CH-23](#ch-23)/[CH-24](#ch-24)/[CH-44](#ch-44) | Original Tech/License/Host/Method Owner → Capability Consumer、Original Program/DAG/Delivery Consumer | Callgraph 等價+Consumer 轉交+受影 POS/NEG+Rollback | 未驗 Caller/Consumer 等價便刪舊技術，HotSwap 後不可回退；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+580: | `INT-21` `L1-r4:L789` | `W1-W4_HANDOFF` | W2/`WP-FHS-04` | 真正模型服務與政策吻合；Requested/Required/Selected/Spawn/Protocol/ActualServed/Usage；[CH-19](#ch-19) | Original Domain Owner/Reader (scope binding pending)、Hermes original Runtime/Launcher/Provider Raw Reader → HGK Lane/Journal Consumer | Requested/Required/Selected/Spawn/Protocol/ActualServed/Usage | Selected model 存在但沒有 Request/Transport/ActualServed Raw 即宣 Served；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+581: | `INT-22` `L1-r4:L790` | `W1-W4_HANDOFF` | W3/`WP-FHS-12` | W18 普通 Goal 無長 Prompt 綁架；Fresh PID 正常 Goal/Task/E33–E42/合法退出；[CH-36](#ch-36)/[CH-38](#ch-38) | Hermes original Runtime/Launcher/Provider Raw Reader → HGK Lane/Journal Consumer | Fresh PID 正常 Goal/Task/E33–E42/合法退出 | W18 用 B1 長 Prompt 或測試專用 Profile 冒真普通 Goal；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+582: | `INT-23` `L1-r4:L791` | `W0_REQUIRED` | W0/`WP-FHS-00` | 所有工作包不因重分波改身份；保留 WP-FHS-00..21；WP15 先讀草稿，WP06 受護後做；[CH-37](#ch-37) | Original FHS BODY-11 Program/DAG Reader → L2 Planner | 保留 WP-FHS-00..21；WP15 先讀草稿，WP06 受護後做 | 改動依賴邊或 Scheduled 當 Done，WP17↔WP06 造成環；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+583: | `INT-24` `L1-r4:L792` | `W1-W4_HANDOFF` | W1/`WP-FHS-16` | OpenSpec/gstack 是方法而非再一套法定流程；OpenSpec proposal/validate；gstack review/QA 轉原 Consumer；[CH-47](#ch-47) | Original Tech/License/Host/Method Owner → Capability Consumer | OpenSpec proposal/validate；gstack review/QA 轉原 Consumer | OpenSpec/gstack 自發 Canonical PI/Independent Verdict/Publisher Release；`DESIGN_OBLIGATION_MISSING`（若失卡） |
+3518: **不能**：`ORIGINAL_ACK`（仍 **0/6**，需各原域 Reader 本人）；principal 分離；`NATIVE_SIGNED`；
+3519: `RELEASE_GRANTED`；已併、已審、已發行。
+3520: 
+3521: ### 15.7 仍然開著的具名項目
+3522: 
+3523: `ORIGINAL_ACK` 0/6、`G16b`（HG-KSEOS 兩棵 checkout 未宣告 `cryptography`）、`LICENCE`、
+3524: `PIPD-15-VALUESET`、`R1-ISSUER-REV14`（需 owner 金鑰窗），以及 principal 分離本身。
+3525: 
+3526: ---
+3527: 
+3528: ## 第十六章｜適用範圍回填（append-only，不改動前十四章）
+3529: 
+3530: **為什麼有這一章**：候選的設計卡表只有五欄（`DesignID／原定位 | Primary W | Producer/Consumer | POS | NEG`），**沒有適用範圍欄**。原 L1 的義務列帶有 `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` 這類限定，它決定義務**在什麼時候**成立；少了它，讀者無法判斷觸發條件，而這正是 `WP-FHS-00`／`WP-FHS-01` 的讀者車道分歧所在。
+3531: 
+3532: **這一章怎麼產生**：只從候選自己引用的 `L1-r4:L<行號>` 取該行，從該行取出適用範圍格。不引入候選未引用的條款，不改寫任何既有章節。
+3533: 
+3534: **量測**：候選共引註 **114** 組 `(DesignID, L1 行)`；可回填 **60**，回填不到 **54**。分母是 114，不是 60。
+3535: 
+3536: ### 16.1 回填表
+3537: 
+3538: | DesignID | L1 行 | 原適用範圍 | 該行 sha256（前 16） |
+3539: |---|---|---|---|
+
+LineNumber Line                                                                                                        
+---------- ----                                                                                                        
+      3530 **為什麼有這一章**：候選的設計卡表只有五欄（`DesignID／原定位 | Primary W | Producer/Consumer | POS | NEG`），**沒有適用範圍欄**。原 L1 的義務列...
+      3540 | `FHS-DR-001` | L798 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `b6e655bfb7ad651d` |      
+      3541 | `FHS-DR-002` | L799 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `0e4eea7b0c7d07e7` |      
+      3542 | `FHS-DR-003` | L800 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `0afabbb3b885a38f` |      
+      3543 | `FHS-DR-004` | L801 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `f5092b0b781b36c1` |      
+      3544 | `FHS-DR-005` | L802 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `72d6cc9c859862fa` |      
+      3545 | `FHS-DR-006` | L803 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `54bd5b8f5dcce09a` |      
+      3546 | `FHS-DR-007` | L804 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `8e209f4c829274be` |      
+      3547 | `FHS-DR-008` | L805 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `46fae508903b584a` |      
+      3548 | `FHS-DR-009` | L806 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `3106ccc0ff7f2a5f` |      
+      3549 | `FHS-DR-010` | L807 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `58f5e74755613400` |      
+      3550 | `FHS-DR-011` | L808 | `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` | `06084112e1a66769` |             
+      3551 | `FHS-DR-012` | L809 | `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` | `bdcff7670a259ae5` |             
+      3552 | `FHS-DR-013` | L810 | `MANDATORY_SPEC_AND_NEG；CONDITIONAL_EFFECT_ONLY` | `dd581d09f148f0e7` |             
+      3553 | `FHS-DR-014` | L811 | `MANDATORY_SPEC_AND_NEG；IF_TRIGGERED_OR_AFFECTED_SCOPE` | `dfda482b1889acac` |      
+
+
+
+codex
+{"lane":"PLAN","arm":"openai-codex/gpt-6.1-sol","read_source_bytes":true,"votes":[{"clause_id":"WP-FHS-00:L1:817","property":"exceptions_preserved","vote":true,"reason":"SHA不等於有效修訂及未知即受影HOLD均保留，未改成無條件通過。","evidence_lines":"415,603,3559"},{"clause_id":"WP-FHS-01:L1:812","property":"scope_preserved","vote":true,"reason":"必備規格與反例仍限觸發或受影範圍，未擴成全WP或降為可選。","evidence_lines":"598,3530,3554"}],"notes":"已唯讀核對候選實檔；本票僅判定指定兩項性質。FHS_VOTE_OK"}
+tokens used
+28,177
+{"lane":"PLAN","arm":"openai-codex/gpt-6.1-sol","read_source_bytes":true,"votes":[{"clause_id":"WP-FHS-00:L1:817","property":"exceptions_preserved","vote":true,"reason":"SHA不等於有效修訂及未知即受影HOLD均保留，未改成無條件通過。","evidence_lines":"415,603,3559"},{"clause_id":"WP-FHS-01:L1:812","property":"scope_preserved","vote":true,"reason":"必備規格與反例仍限觸發或受影範圍，未擴成全WP或降為可選。","evidence_lines":"598,3530,3554"}],"notes":"已唯讀核對候選實檔；本票僅判定指定兩項性質。FHS_VOTE_OK"}
+EXIT=0

@@ -1,0 +1,68 @@
+{
+ "schema": "FHS.W0.PublicVerificationBundle/1",
+ "purpose": "what an external reviewer can check without the owner's private key, the passphrase or the original Windows host",
+ "public_key": {
+  "hex": "d42c654cd1afba803ef78bee501aa3e2a3d33ff1305c52f914d3ff27bb9be379",
+  "key_id": "OWNER-B1-d42c654cd1afba80",
+  "algorithm": "Ed25519",
+  "enrollment_sha256": "3254714b05ecc4345806664d3bb0690f67ae1bd5218be24b793d838b08ec9d57"
+ },
+ "signatures": [
+  {
+   "file": "receipts/reader/WP-FHS-00.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "d9f326197ddecdb1a24c46c680577122bbd9fc8867963d434e1f993555fdad77",
+   "signature_hex_prefix": "77567a27fb215775"
+  },
+  {
+   "file": "receipts/reader/WP-FHS-01.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "2be1763f4923c85a272efa5f5876f3076a18aefb73f6621fa4aee540d20fd1ef",
+   "signature_hex_prefix": "8242546876913c95"
+  },
+  {
+   "file": "receipts/reader/WP-FHS-15.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "b42363940bbf1184e238377f20d93ec3185f95fd38c50aead63f188df1a612a3",
+   "signature_hex_prefix": "e9ad2ef0017ab976"
+  },
+  {
+   "file": "receipts/reader/WP-FHS-16.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "76db3e09733c23af3a1d4dffa7c769faaaa978b7f8276ee2e866072f4f0660ec",
+   "signature_hex_prefix": "f45397fe23bda183"
+  },
+  {
+   "file": "receipts/reader/WP-FHS-19.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "f230b50228a71e65f1d84240419867819576e60ff9a5f9b7a65e62b4f816dd87",
+   "signature_hex_prefix": "73f1e9199f84784d"
+  },
+  {
+   "file": "receipts/reader/WP-FHS-21.signed.json",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "7e4b6964639c238a63604a1199c49ba6aac4219cc869e90543914ced1480358c",
+   "signature_hex_prefix": "65ac6391d2dafa91"
+  }
+ ],
+ "sequence": {
+  "state": "SIGNED",
+  "preauth_at": "2026-11-09T18:16:44",
+  "verify_pass_at": "2026-11-09T18:56:56+08:00",
+  "signed_at": "2026-11-09T18:56:56+08:00",
+  "holds": true,
+  "rule": "preauth_at < verify_pass_at <= signed_at",
+  "same_second": true
+ },
+ "cannot_be_checked_here": [
+  "signature validity without the enrolled key registry",
+  "owner passphrase or window transcript",
+  "native host effects"
+ ],
+ "semantic_ack": {
+  "file": "receipts/OWNER_SEMANTIC_ACK_R25.signed.json",
+  "payload_sha256": "be0328bf7a546d5d6c9d7652e22613bc4bf05e68b00de8809a55674099e05302",
+  "signature_hex_prefix": "aad147946c46191d",
+  "kind": "fhs_owner_semantic_accept"
+ }
+}

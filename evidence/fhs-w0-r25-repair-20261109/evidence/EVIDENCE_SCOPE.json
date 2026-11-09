@@ -1,0 +1,23 @@
+{
+ "schema": "FHS.W0.EvidenceScope/1",
+ "profiles": {
+  "full": {
+   "checks": 22,
+   "where": "this host, author run",
+   "command": "python tools/gate_r20.py --round .",
+   "excluded": {
+    "G11,G13,G16a,G16b,G19,G26": "need the 31 local source volumes; not runnable in CI"
+   }
+  },
+  "payload": {
+   "checks": 16,
+   "where": "CI",
+   "command": "python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene",
+   "excluded": {
+    "G11,G13,G16a,G16b,G19,G26": "same reason"
+   }
+  }
+ },
+ "rule": "the two profiles measure different things and may not be quoted for one another; a payload 15/15 is not a full 22/22 and a full 22/22 is not a CI observation",
+ "g29_in_payload": true
+}
