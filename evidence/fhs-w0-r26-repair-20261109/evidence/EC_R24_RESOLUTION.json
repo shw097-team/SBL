@@ -1,0 +1,80 @@
+{
+ "schema": "FHS.W0.ExternalChallengeResolution/1",
+ "report": "FHS_W0_r24_External_Challenge_PostRepair_Acceptance_Report_2026-11-09",
+ "subject_sha256": "16b5ee71bb435d8aaef99e6d0cf431d791ca612d4a55806a376b6f370c3c82f9",
+ "findings": [
+  {
+   "id": "EC-R24-001",
+   "level": "CRITICAL",
+   "was": "2 of 128 signed DECIDED decisions had one agreeing vote",
+   "now": "both re-read by two lane instances, 2/2 agreeing each, both envelopes re-signed",
+   "state": "CLOSED_IN_THIS_ROUND",
+   "evidence": "out/QUORUM_REPAIR_R25.json"
+  },
+  {
+   "id": "EC-R24-002",
+   "level": "HIGH",
+   "was": "verifier checked only that value was a boolean",
+   "now": "tools/verify_quorum.py + G29 BLOCKING + 8 deterministic cases + in-memory mutation",
+   "state": "CLOSED_IN_THIS_ROUND",
+   "evidence": "tools/verify_quorum.py, out/GATE_R25_SELFTEST.json"
+  },
+  {
+   "id": "EC-R24-003",
+   "level": "HIGH",
+   "was": "signed r15/bound r20/semantic r21/delivered r24, roles unnamed",
+   "now": "subject_scope block names all four and states what the prefix argument cannot prove",
+   "state": "CLOSED_IN_THIS_ROUND",
+   "evidence": "out/FHS_ORIGINAL_ACK.json"
+  },
+  {
+   "id": "EC-R24-004",
+   "level": "MAJOR",
+   "was": "ack document.path pointed at r20 while bytes/sha were r24",
+   "now": "document is one object built from one read of r25; r20 path kept in history",
+   "state": "CLOSED_IN_THIS_ROUND",
+   "evidence": "out/FHS_ORIGINAL_ACK.json"
+  },
+  {
+   "id": "EC-R24-005",
+   "level": "MAJOR",
+   "was": "payload 15/15 quoted next to full 20/21 without a boundary",
+   "now": "out/EVIDENCE_SCOPE.json states both profiles and forbids quoting one for the other",
+   "state": "CLOSED_IN_THIS_ROUND",
+   "evidence": "out/EVIDENCE_SCOPE.json"
+  },
+  {
+   "id": "EC-R24-006",
+   "level": "MAJOR",
+   "was": "no secret-free way to check ordering or keys",
+   "now": "public bundle carries the key, the enrollment digest and the three ordered timestamps; the signature exists and the order holds",
+   "state": "CLOSED_AFTER_SIGNATURE",
+   "evidence": "out/PUBLIC_VERIFICATION_BUNDLE.json"
+  },
+  {
+   "id": "EC-R24-007",
+   "level": "MAJOR",
+   "was": "HGK dependencies=[] and no root licence",
+   "now": "unchanged; scoped to HGK Host/Issuer effects only",
+   "state": "OPEN_SCOPED",
+   "why_not_blocking": "W0 source reading and isolated SPEC do not need HGK crypto/YAML"
+  },
+  {
+   "id": "EC-R24-008",
+   "level": "MAJOR",
+   "was": "Fabric mirror merged but not in INTEGRATION/MANIFEST.json",
+   "now": "unchanged; this round claims MIRROR_MERGED, not POLICY_EFFECTIVE",
+   "state": "OPEN_SCOPED",
+   "why_not_blocking": "policy admission is a Fabric reader decision, not a maker write"
+  },
+  {
+   "id": "EC-R24-009",
+   "level": "OPEN_EXTERNAL",
+   "was": "U0-U4, 96 Oracle, native effects unproven",
+   "now": "unchanged; W0 scope only",
+   "state": "OPEN_EXTERNAL",
+   "why_not_blocking": "these are W1-W4 effects"
+  }
+ ],
+ "verdict_this_round": "REPAIR_SUBMITTED_FOR_INDEPENDENT_CHALLENGE"
+}

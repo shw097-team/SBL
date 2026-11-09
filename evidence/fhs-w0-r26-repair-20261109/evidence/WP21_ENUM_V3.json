@@ -1,0 +1,1277 @@
+{
+ "schema": "FHS.W0.WP21Enum/3",
+ "generated_at": "2026-11-08T10:55:30+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "source": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources/07_ACCEPTANCE_CHALLENGE(4).md",
+ "denominators": {
+  "ac15": {
+   "claimed": 15,
+   "measured": 15,
+   "match": true,
+   "missing": [],
+   "extra": [],
+   "contiguous": true
+  },
+  "oracle96": {
+   "claimed": 96,
+   "measured": 96,
+   "match": true,
+   "missing": [],
+   "extra": [],
+   "contiguous": true
+  },
+  "h4": {
+   "claimed": 12,
+   "measured": 12,
+   "match": true,
+   "missing": [],
+   "extra": [],
+   "contiguous": true
+  },
+  "seam": {
+   "claimed": 11,
+   "measured": 11,
+   "match": true,
+   "missing": [],
+   "extra": [],
+   "contiguous": true,
+   "naive_measured": 10
+  }
+ },
+ "naive_undercount": {
+  "naive": 10,
+  "robust": 11,
+  "delta": 1,
+  "missing_id": "SEAM-09",
+  "cause": "斜線標題使 token 切分失敗",
+  "cause_detail": "SEAM-09 的標題 'Replay/stale' 使該列 cell 的 '/' 分段由 2 變 3，slash-first 解析器判定該列結構不符而丟棄；robust 以行首錨定抓行內第一個 SEAM-(\\d{2})，不受標題內斜線影響。",
+  "naive_whitespace_only": 11,
+  "note": "僅按空白切 token 而不把 '/' 當分隔符時可數到 11；低估只發生在把 '/' 視為欄位分隔（即 'ID Title / SRC-nn:Lxxx' 欄位假設）的解析器，此即 A-02 描述者。",
+  "naive_word_boundary": 11,
+  "naive_slash_split_recount": 10,
+  "which_parsers_undercount": "only the parser that treats '/' as a field separator; a word-boundary regex and whitespace-only splitting both reach 11"
+ },
+ "evidence_rows": {
+  "rule": "one anchor row per unique id (line of first occurrence), UTF-8 byte offsets",
+  "row_count": 134,
+  "max": 200,
+  "truncated": false,
+  "lines_containing_any_target_id": 328,
+  "rows": [
+   {
+    "group": "ac15",
+    "id": "AC-E01",
+    "line_no": 18,
+    "byte_start": 1699,
+    "byte_end": 1731,
+    "col": 8,
+    "raw": "### 8.1 AC-E01～E15 原 Handoff"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E02",
+    "line_no": 31,
+    "byte_start": 2646,
+    "byte_end": 2686,
+    "col": 5,
+    "raw": "#### AC-E02｜SBL TPM → 原PIPD Intake"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E03",
+    "line_no": 41,
+    "byte_start": 3556,
+    "byte_end": 3619,
+    "col": 5,
+    "raw": "#### AC-E03｜原Source/Profile Writer → 原PIPD DOC02 Writer"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E04",
+    "line_no": 51,
+    "byte_start": 4479,
+    "byte_end": 4531,
+    "col": 5,
+    "raw": "#### AC-E04｜原PIPD DOC02 → 原PIPD DOC03 Binder"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E05",
+    "line_no": 61,
+    "byte_start": 5381,
+    "byte_end": 5436,
+    "col": 5,
+    "raw": "#### AC-E05｜原PD Writer → 原DOC05 ECP/DOC07 TQAEP"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E06",
+    "line_no": 71,
+    "byte_start": 6328,
+    "byte_end": 6381,
+    "col": 5,
+    "raw": "#### AC-E06｜原PIPD ECP/Admission → 原HGK Issuer"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E07",
+    "line_no": 81,
+    "byte_start": 7299,
+    "byte_end": 7355,
+    "col": 5,
+    "raw": "#### AC-E07｜原HGK Admission → 原Hermes SharedSpine"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E08",
+    "line_no": 91,
+    "byte_start": 8229,
+    "byte_end": 8288,
+    "col": 5,
+    "raw": "#### AC-E08｜原Hermes Worker → 原World Effect Receiver"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E09",
+    "line_no": 101,
+    "byte_start": 9223,
+    "byte_end": 9285,
+    "col": 5,
+    "raw": "#### AC-E09｜原World Raw Reader → 原Frozen Readset Reader"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E10",
+    "line_no": 111,
+    "byte_start": 10125,
+    "byte_end": 10179,
+    "col": 5,
+    "raw": "#### AC-E10｜Frozen Reader → SBL External Challenge"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E11",
+    "line_no": 121,
+    "byte_start": 11080,
+    "byte_end": 11139,
+    "col": 5,
+    "raw": "#### AC-E11｜SBL Challenge Advisory → 原HGK AO Receiver"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E12",
+    "line_no": 131,
+    "byte_start": 12082,
+    "byte_end": 12139,
+    "col": 5,
+    "raw": "#### AC-E12｜原AO Receiver ACK → 原Protected Checker"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E13",
+    "line_no": 141,
+    "byte_start": 13163,
+    "byte_end": 13216,
+    "col": 5,
+    "raw": "#### AC-E13｜Protected AO Checker → 原HGK Reducer"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E14",
+    "line_no": 151,
+    "byte_start": 14129,
+    "byte_end": 14198,
+    "col": 5,
+    "raw": "#### AC-E14｜原Reducer/Native Commander → 原Maker/Authorized Dev"
+   },
+   {
+    "group": "ac15",
+    "id": "AC-E15",
+    "line_no": 161,
+    "byte_start": 15123,
+    "byte_end": 15183,
+    "col": 5,
+    "raw": "#### AC-E15｜Closed B1 Evidence → 原W18 NormalMode Owner"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-DETERMINISTIC",
+    "line_no": 172,
+    "byte_start": 16215,
+    "byte_end": 16244,
+    "col": 5,
+    "raw": "#### AC-C39-POS-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-STATE_READBACK",
+    "line_no": 184,
+    "byte_start": 18072,
+    "byte_end": 18102,
+    "col": 5,
+    "raw": "#### AC-C39-POS-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-PROPERTY",
+    "line_no": 196,
+    "byte_start": 20002,
+    "byte_end": 20026,
+    "col": 5,
+    "raw": "#### AC-C39-POS-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-REFERENCE_OUTPUT",
+    "line_no": 208,
+    "byte_start": 21863,
+    "byte_end": 21895,
+    "col": 5,
+    "raw": "#### AC-C39-POS-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-STATISTICAL",
+    "line_no": 220,
+    "byte_start": 23772,
+    "byte_end": 23799,
+    "col": 5,
+    "raw": "#### AC-C39-POS-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-SEMANTIC_JUDGE",
+    "line_no": 232,
+    "byte_start": 25664,
+    "byte_end": 25694,
+    "col": 5,
+    "raw": "#### AC-C39-POS-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-HUMAN",
+    "line_no": 244,
+    "byte_start": 27598,
+    "byte_end": 27619,
+    "col": 5,
+    "raw": "#### AC-C39-POS-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-POS-COMPOSITE",
+    "line_no": 256,
+    "byte_start": 29438,
+    "byte_end": 29463,
+    "col": 5,
+    "raw": "#### AC-C39-POS-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-DETERMINISTIC",
+    "line_no": 268,
+    "byte_start": 31304,
+    "byte_end": 31333,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-STATE_READBACK",
+    "line_no": 280,
+    "byte_start": 33104,
+    "byte_end": 33134,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-PROPERTY",
+    "line_no": 292,
+    "byte_start": 34977,
+    "byte_end": 35001,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-REFERENCE_OUTPUT",
+    "line_no": 304,
+    "byte_start": 36781,
+    "byte_end": 36813,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-STATISTICAL",
+    "line_no": 316,
+    "byte_start": 38633,
+    "byte_end": 38660,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-SEMANTIC_JUDGE",
+    "line_no": 328,
+    "byte_start": 40469,
+    "byte_end": 40499,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-HUMAN",
+    "line_no": 340,
+    "byte_start": 42347,
+    "byte_end": 42368,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-NEG-COMPOSITE",
+    "line_no": 352,
+    "byte_start": 44131,
+    "byte_end": 44156,
+    "col": 5,
+    "raw": "#### AC-C39-NEG-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-DETERMINISTIC",
+    "line_no": 364,
+    "byte_start": 45941,
+    "byte_end": 45971,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-STATE_READBACK",
+    "line_no": 376,
+    "byte_start": 47726,
+    "byte_end": 47757,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-PROPERTY",
+    "line_no": 388,
+    "byte_start": 49584,
+    "byte_end": 49609,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-REFERENCE_OUTPUT",
+    "line_no": 400,
+    "byte_start": 51373,
+    "byte_end": 51406,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-STATISTICAL",
+    "line_no": 412,
+    "byte_start": 53210,
+    "byte_end": 53238,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-SEMANTIC_JUDGE",
+    "line_no": 424,
+    "byte_start": 55030,
+    "byte_end": 55061,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-HUMAN",
+    "line_no": 436,
+    "byte_start": 56892,
+    "byte_end": 56914,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-EDGE-COMPOSITE",
+    "line_no": 448,
+    "byte_start": 58660,
+    "byte_end": 58686,
+    "col": 5,
+    "raw": "#### AC-C39-EDGE-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-DETERMINISTIC",
+    "line_no": 460,
+    "byte_start": 60454,
+    "byte_end": 60483,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-STATE_READBACK",
+    "line_no": 472,
+    "byte_start": 62301,
+    "byte_end": 62331,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-PROPERTY",
+    "line_no": 484,
+    "byte_start": 64221,
+    "byte_end": 64245,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-REFERENCE_OUTPUT",
+    "line_no": 496,
+    "byte_start": 66072,
+    "byte_end": 66104,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-STATISTICAL",
+    "line_no": 508,
+    "byte_start": 67971,
+    "byte_end": 67998,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-SEMANTIC_JUDGE",
+    "line_no": 520,
+    "byte_start": 69854,
+    "byte_end": 69884,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-HUMAN",
+    "line_no": 532,
+    "byte_start": 71779,
+    "byte_end": 71800,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-SEC-COMPOSITE",
+    "line_no": 544,
+    "byte_start": 73610,
+    "byte_end": 73635,
+    "col": 5,
+    "raw": "#### AC-C39-SEC-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-DETERMINISTIC",
+    "line_no": 556,
+    "byte_start": 75466,
+    "byte_end": 75496,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-STATE_READBACK",
+    "line_no": 568,
+    "byte_start": 77706,
+    "byte_end": 77737,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-PROPERTY",
+    "line_no": 580,
+    "byte_start": 80019,
+    "byte_end": 80044,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-REFERENCE_OUTPUT",
+    "line_no": 592,
+    "byte_start": 82263,
+    "byte_end": 82296,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-STATISTICAL",
+    "line_no": 604,
+    "byte_start": 84555,
+    "byte_end": 84583,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-SEMANTIC_JUDGE",
+    "line_no": 616,
+    "byte_start": 86833,
+    "byte_end": 86864,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-HUMAN",
+    "line_no": 628,
+    "byte_start": 89153,
+    "byte_end": 89175,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PERF-COMPOSITE",
+    "line_no": 640,
+    "byte_start": 91379,
+    "byte_end": 91405,
+    "col": 5,
+    "raw": "#### AC-C39-PERF-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-DETERMINISTIC",
+    "line_no": 652,
+    "byte_start": 93628,
+    "byte_end": 93660,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-STATE_READBACK",
+    "line_no": 664,
+    "byte_start": 95532,
+    "byte_end": 95565,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-PROPERTY",
+    "line_no": 676,
+    "byte_start": 97509,
+    "byte_end": 97536,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-REFERENCE_OUTPUT",
+    "line_no": 688,
+    "byte_start": 99417,
+    "byte_end": 99452,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-STATISTICAL",
+    "line_no": 700,
+    "byte_start": 101373,
+    "byte_end": 101403,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-SEMANTIC_JUDGE",
+    "line_no": 712,
+    "byte_start": 103312,
+    "byte_end": 103345,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-HUMAN",
+    "line_no": 724,
+    "byte_start": 105293,
+    "byte_end": 105317,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-PARITY-COMPOSITE",
+    "line_no": 736,
+    "byte_start": 107180,
+    "byte_end": 107208,
+    "col": 5,
+    "raw": "#### AC-C39-PARITY-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-DETERMINISTIC",
+    "line_no": 748,
+    "byte_start": 109093,
+    "byte_end": 109127,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-STATE_READBACK",
+    "line_no": 760,
+    "byte_start": 110975,
+    "byte_end": 111010,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-PROPERTY",
+    "line_no": 772,
+    "byte_start": 112930,
+    "byte_end": 112959,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-REFERENCE_OUTPUT",
+    "line_no": 784,
+    "byte_start": 114816,
+    "byte_end": 114853,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-STATISTICAL",
+    "line_no": 796,
+    "byte_start": 116750,
+    "byte_end": 116782,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-SEMANTIC_JUDGE",
+    "line_no": 808,
+    "byte_start": 118668,
+    "byte_end": 118703,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-HUMAN",
+    "line_no": 820,
+    "byte_start": 120628,
+    "byte_end": 120654,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-RECOVERY-COMPOSITE",
+    "line_no": 832,
+    "byte_start": 122494,
+    "byte_end": 122524,
+    "col": 5,
+    "raw": "#### AC-C39-RECOVERY-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-DETERMINISTIC",
+    "line_no": 844,
+    "byte_start": 124385,
+    "byte_end": 124418,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-STATE_READBACK",
+    "line_no": 856,
+    "byte_start": 126171,
+    "byte_end": 126205,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-PROPERTY",
+    "line_no": 868,
+    "byte_start": 128030,
+    "byte_end": 128058,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-REFERENCE_OUTPUT",
+    "line_no": 880,
+    "byte_start": 129820,
+    "byte_end": 129856,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-STATISTICAL",
+    "line_no": 892,
+    "byte_start": 131658,
+    "byte_end": 131689,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-SEMANTIC_JUDGE",
+    "line_no": 904,
+    "byte_start": 133479,
+    "byte_end": 133513,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-HUMAN",
+    "line_no": 916,
+    "byte_start": 135342,
+    "byte_end": 135367,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UPGRADE-COMPOSITE",
+    "line_no": 928,
+    "byte_start": 137111,
+    "byte_end": 137140,
+    "col": 5,
+    "raw": "#### AC-C39-UPGRADE-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-DETERMINISTIC",
+    "line_no": 940,
+    "byte_start": 138906,
+    "byte_end": 138940,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-STATE_READBACK",
+    "line_no": 952,
+    "byte_start": 140823,
+    "byte_end": 140858,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-PROPERTY",
+    "line_no": 964,
+    "byte_start": 142813,
+    "byte_end": 142842,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-REFERENCE_OUTPUT",
+    "line_no": 976,
+    "byte_start": 144734,
+    "byte_end": 144771,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-STATISTICAL",
+    "line_no": 988,
+    "byte_start": 146703,
+    "byte_end": 146735,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-SEMANTIC_JUDGE",
+    "line_no": 1000,
+    "byte_start": 148656,
+    "byte_end": 148691,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-HUMAN",
+    "line_no": 1012,
+    "byte_start": 150651,
+    "byte_end": 150677,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-ROLLBACK-COMPOSITE",
+    "line_no": 1024,
+    "byte_start": 152552,
+    "byte_end": 152582,
+    "col": 5,
+    "raw": "#### AC-C39-ROLLBACK-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-DETERMINISTIC",
+    "line_no": 1036,
+    "byte_start": 154478,
+    "byte_end": 154513,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-STATE_READBACK",
+    "line_no": 1048,
+    "byte_start": 156370,
+    "byte_end": 156406,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-PROPERTY",
+    "line_no": 1060,
+    "byte_start": 158335,
+    "byte_end": 158365,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-REFERENCE_OUTPUT",
+    "line_no": 1072,
+    "byte_start": 160231,
+    "byte_end": 160269,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-STATISTICAL",
+    "line_no": 1084,
+    "byte_start": 162175,
+    "byte_end": 162208,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-SEMANTIC_JUDGE",
+    "line_no": 1096,
+    "byte_start": 164103,
+    "byte_end": 164139,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-HUMAN",
+    "line_no": 1108,
+    "byte_start": 166073,
+    "byte_end": 166100,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-UNINSTALL-COMPOSITE",
+    "line_no": 1120,
+    "byte_start": 167949,
+    "byte_end": 167980,
+    "col": 5,
+    "raw": "#### AC-C39-UNINSTALL-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-DETERMINISTIC",
+    "line_no": 1132,
+    "byte_start": 169850,
+    "byte_end": 169879,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-STATE_READBACK",
+    "line_no": 1144,
+    "byte_start": 171640,
+    "byte_end": 171670,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-PROPERTY",
+    "line_no": 1156,
+    "byte_start": 173503,
+    "byte_end": 173527,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-REFERENCE_OUTPUT",
+    "line_no": 1168,
+    "byte_start": 175297,
+    "byte_end": 175329,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-STATISTICAL",
+    "line_no": 1180,
+    "byte_start": 177139,
+    "byte_end": 177166,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-SEMANTIC_JUDGE",
+    "line_no": 1192,
+    "byte_start": 178968,
+    "byte_end": 178998,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-HUMAN",
+    "line_no": 1204,
+    "byte_start": 180839,
+    "byte_end": 180860,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-MUT-COMPOSITE",
+    "line_no": 1216,
+    "byte_start": 182616,
+    "byte_end": 182641,
+    "col": 5,
+    "raw": "#### AC-C39-MUT-COMPOSITE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-DETERMINISTIC",
+    "line_no": 1228,
+    "byte_start": 184415,
+    "byte_end": 184448,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-DETERMINISTIC"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-STATE_READBACK",
+    "line_no": 1240,
+    "byte_start": 186459,
+    "byte_end": 186493,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-STATE_READBACK"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-PROPERTY",
+    "line_no": 1252,
+    "byte_start": 188576,
+    "byte_end": 188604,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-PROPERTY"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-REFERENCE_OUTPUT",
+    "line_no": 1264,
+    "byte_start": 190624,
+    "byte_end": 190660,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-REFERENCE_OUTPUT"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-STATISTICAL",
+    "line_no": 1276,
+    "byte_start": 192720,
+    "byte_end": 192751,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-STATISTICAL"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-SEMANTIC_JUDGE",
+    "line_no": 1288,
+    "byte_start": 194799,
+    "byte_end": 194833,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-SEMANTIC_JUDGE"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-HUMAN",
+    "line_no": 1300,
+    "byte_start": 196920,
+    "byte_end": 196945,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-HUMAN"
+   },
+   {
+    "group": "oracle96",
+    "id": "AC-C39-JOURNEY-COMPOSITE",
+    "line_no": 1312,
+    "byte_start": 198947,
+    "byte_end": 198976,
+    "col": 5,
+    "raw": "#### AC-C39-JOURNEY-COMPOSITE"
+   },
+   {
+    "group": "h4",
+    "id": "H4-01",
+    "line_no": 1340,
+    "byte_start": 201871,
+    "byte_end": 202363,
+    "col": 2,
+    "raw": "| H4-01 Fresh Context / SRC-01:L202 | 原 checker_principal, loaded_history_ids, write_cap → fresh-context-proof；Consumer/Owner Checker Registry；換真獨立 context／re-run；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS checker≠maker、無重疊私有歷史、無受審檔寫權；NEG 看過 Maker private notes 或可寫候選 → CHECKER_CONTEXT_TAINTED；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-02",
+    "line_no": 1341,
+    "byte_start": 202364,
+    "byte_end": 202797,
+    "col": 2,
+    "raw": "| H4-02 Frozen Binding / SRC-01:L203 | 原 subject sha, source manifest, raw refs → exact-hash-binding；Consumer/Owner Source Owner；重凍結後重測；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 每個 SourceLocator 可讀且 sha 與 frozen 一致；NEG source[3] 漂移 → FROZEN_BINDING_MISMATCH；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-03",
+    "line_no": 1342,
+    "byte_start": 202798,
+    "byte_end": 203243,
+    "col": 2,
+    "raw": "| H4-03 A∪B∪C / SRC-01:L204 | 原 stable A/B/C IDs, waiver → attack union ledger；Consumer/Owner Challenge Owner；補原攻擊而非改分母；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS A={x,y}, B={y,z}, C={w} 得唯一 4 件且都有 disposition；NEG count=3 或藏未測 → ATTACK_DENOMINATOR_UNDERCOUNT；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-04",
+    "line_no": 1343,
+    "byte_start": 203244,
+    "byte_end": 203712,
+    "col": 2,
+    "raw": "| H4-04 Anti-Correlation / SRC-01:L205 | 原 high-risk flags, challenge origin/principal → independence matrix；Consumer/Owner Protected Checker；獨立再生案例；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 高風險有至少一條非 Maker 派生的攻擊與新 context；NEG tests 全取同一 Maker Memo → CORRELATED_BLIND_SPOT；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-05",
+    "line_no": 1344,
+    "byte_start": 203713,
+    "byte_end": 204151,
+    "col": 2,
+    "raw": "| H4-05 11 Seams / SRC-01:L206 | 原 seam_case_ids[11]，tamper fields → SeamTestLedger；Consumer/Owner Security/Native Owners；逐 Seam 真測；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 11 個不同故障面各一正一負且對應不同 FirstFail；NEG 11 個僅改標題、未實測 → SEAM_UNTESTED；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-06",
+    "line_no": 1345,
+    "byte_start": 204152,
+    "byte_end": 204581,
+    "col": 2,
+    "raw": "| H4-06 Next-Wave / SRC-01:L207 | 原 current+next-wave consumer, policy → under-enforcement check；Consumer/Owner Policy Owner；保持拒收；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 當前沒消費但 next-wave 仍必拒過期權；NEG no current reader 竟豁免 → NEXT_WAVE_UNDERENFORCED；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-07",
+    "line_no": 1346,
+    "byte_start": 204582,
+    "byte_end": 205030,
+    "col": 2,
+    "raw": "| H4-07 Regression Retention / SRC-01:L208 | 原 previous F IDs, new SHA, change cone → regression matrix；Consumer/Owner Regression Owner；舊判決保留；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 過往 F17 仍在新 SHA 重測集，除非受權變更；NEG 靜默刪 prior rejection → REGRESSION_SILENT_DROP；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-08",
+    "line_no": 1347,
+    "byte_start": 205031,
+    "byte_end": 205466,
+    "col": 2,
+    "raw": "| H4-08 Two-Pass Blind / SRC-01:L209 | 原 PassA seal time/SHA, PassB open time → order proof；Consumer/Owner Checker Owner；新 Session 重新盲審；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS A immutable frozen 後才開 B，能重算 timestamp；NEG B 先開或封印被改 → BLIND_REVIEW_INVALID；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-09",
+    "line_no": 1348,
+    "byte_start": 205467,
+    "byte_end": 205906,
+    "col": 2,
+    "raw": "| H4-09 Dual Axis / SRC-01:L210 | 原 candidate truth, reviewer process qualified → two-axis result；Consumer/Owner AO；分軸判斷不可平均；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS candidate=FAIL、process=PASS 時全案仍 HOLD；NEG reviewer 合格便宣稱 candidate PASS → DUAL_AXIS_COLLAPSE；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-10",
+    "line_no": 1349,
+    "byte_start": 205907,
+    "byte_end": 206321,
+    "col": 2,
+    "raw": "| H4-10 Native Receipt / SRC-01:L211 | 原 issuer/subject/raw digest/sig → trusted binding；Consumer/Owner HGK Native Owner；驗真 key/ACL；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS sig+scope+raw 同 Subject 有效；NEG S2 收據重播給 S1 → NATIVE_RECEIPT_SUBJECT_MISMATCH；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-11",
+    "line_no": 1350,
+    "byte_start": 206322,
+    "byte_end": 206767,
+    "col": 2,
+    "raw": "| H4-11 RepairCone / SRC-01:L212 | 原 first failing invariant, DAG, legal writeset → minimal repair cone；Consumer/Owner Maker/Repair Owner；用受限 L2 ECP；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 只修依賴受影最小集合，重測對應案；NEG 擴寫無關 Source/Oracle → REPAIR_SCOPE_OVERREACH；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "h4",
+    "id": "H4-12",
+    "line_no": 1351,
+    "byte_start": 206768,
+    "byte_end": 207184,
+    "col": 2,
+    "raw": "| H4-12 PRE-W3 / SRC-01:L213 | 原 first W3 packet, SWOF Gate, dispatch raw → non-dispatch proof；Consumer/Owner SWOF Owner；正式 Gate 前只 shadow；本版只產 H4CaseProposal，Reader=Protected AO/適用 Reviewer。 | POS 沒正式 Gate 時 NOT_DISPATCHED 可驗；NEG 無 Gate 卻寫 W3 → PREW3_GATE_BYPASS；FirstFail 受影 H4 停止，原 Checker Owner 證明退出／重測，不影響無關案。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-01",
+    "line_no": 1352,
+    "byte_start": 207185,
+    "byte_end": 207459,
+    "col": 2,
+    "raw": "| SEAM-01 Activation / SRC-01:L221 | host_loader.trigger_route 必註冊；受影 Domain Reader=Host Operator。 | 合法 Skill 真觸發；不存在 route 卻稱 Active → HOST_NOT_EFFECTIVE；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-02",
+    "line_no": 1353,
+    "byte_start": 207460,
+    "byte_end": 207737,
+    "col": 2,
+    "raw": "| SEAM-02 Pre-gate bypass / SRC-01:L222 | gate.receipt_ref 在 dispatch 前驗；受影 Domain Reader=HGK Issuer/Receiver。 | 有權 Gate 先於 effect；dispatch_at<admit_at → PRE_GATE_BYPASS；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-03",
+    "line_no": 1354,
+    "byte_start": 207738,
+    "byte_end": 208028,
+    "col": 2,
+    "raw": "| SEAM-03 Input downgrade / SRC-01:L223 | schema_version/security attributes 不降；受影 Domain Reader=Schema/PIPD Owner。 | 不變欄被保留；v1 threat fields 被刪成 v0 → SCHEMA_DOWNGRADE_DENIED；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-04",
+    "line_no": 1355,
+    "byte_start": 208029,
+    "byte_end": 208288,
+    "col": 2,
+    "raw": "| SEAM-04 Internal Oracle / SRC-01:L224 | oracle.principal_id != maker；受影 Domain Reader=Oracle/Checker Owners。 | 有權 Checker 真分離；Maker 上白名單 → TQ_SOD；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-05",
+    "line_no": 1356,
+    "byte_start": 208289,
+    "byte_end": 208545,
+    "col": 2,
+    "raw": "| SEAM-05 Canonical Owner / SRC-01:L225 | pi.writer_namespace 唯 PIPD；受影 Domain Reader=PIPD Owner。 | 正式 PI Writer 正確；SBL 假 PI → SECOND_CANONICAL_WRITER；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-06",
+    "line_no": 1357,
+    "byte_start": 208546,
+    "byte_end": 208835,
+    "col": 2,
+    "raw": "| SEAM-06 Fallback compatibility / SRC-01:L226 | provider-off 必保持 Required FUO；受影 Domain Reader=Product/Host Owner。 | fallback 有同等 FUO；缺 delete 仍稱 parity → PROVIDER_OFF_FUO_LOSS；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-07",
+    "line_no": 1358,
+    "byte_start": 208836,
+    "byte_end": 209125,
+    "col": 2,
+    "raw": "| SEAM-07 Alternate route / SRC-01:L227 | 每條 route 保持 issuer authority；受影 Domain Reader=HGK/SWOF Owners。 | 本地與連線 Route 不換權威；secondary local grant → WRONG_AUTHORITY_GRANT；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-08",
+    "line_no": 1359,
+    "byte_start": 209126,
+    "byte_end": 209404,
+    "col": 2,
+    "raw": "| SEAM-08 Post-gate effect / SRC-01:L228 | Dispatch 實時 nonce/expiry valid；受影 Domain Reader=HGK Receiver。 | 當下可驗效期；plan 後過期仍動手 → POST_GATE_PERMISSION_EXPIRED；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-09",
+    "line_no": 1360,
+    "byte_start": 209405,
+    "byte_end": 209660,
+    "col": 2,
+    "raw": "| SEAM-09 Replay/stale / SRC-01:L229 | nonce/op_id at-most-once；受影 Domain Reader=Hermes/Issuer。 | Unknown 先 readback；timeout blind retry → EFFECT_REPLAY_DENIED；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-10",
+    "line_no": 1361,
+    "byte_start": 209661,
+    "byte_end": 209913,
+    "col": 2,
+    "raw": "| SEAM-10 TOCTOU / SRC-01:L230 | repo_context.head_sha 鎖 preimage；受影 Domain Reader=L2 Repo Owner。 | 写前 HEAD 同凍結版；中途漂移 → TOCTOU_REPO_HEAD；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   },
+   {
+    "group": "seam",
+    "id": "SEAM-11",
+    "line_no": 1362,
+    "byte_start": 209914,
+    "byte_end": 210202,
+    "col": 2,
+    "raw": "| SEAM-11 Exact evidence / SRC-01:L231 | raw_receipt.subject_sha 同候選；受影 Domain Reader=Evidence/Checker Owner。 | candidate/raw/manifest exact match；舊 SHA Raw 冒用 → RAW_SUBJECT_MISMATCH；FirstFail 停受影 Receiver；原 Owner 更正/驗原 Raw 後才可重入。 |"
+   }
+  ]
+ },
+ "carried_from": {
+  "path": "FHS_W0_R9_REPAIR_20261108/lanes/E/WP21_ENUM_V2.json",
+  "sha256": "46146400976c78a43739709b996cf0a24472f7b30fc8f9e77b6447a8e567ae58"
+ },
+ "re_measured_here": [
+  "naive_word_boundary",
+  "naive_slash_split_recount"
+ ]
+}
