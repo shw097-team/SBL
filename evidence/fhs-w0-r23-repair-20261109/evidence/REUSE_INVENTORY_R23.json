@@ -1,0 +1,122 @@
+{
+ "schema": "FHS.W0.ReuseInventory/1",
+ "why": "owner order 2026-11-09: search the cross-session work on 'principal separation / six WP dedicated negativES / cross-lane disagreement register / 3-lane PLAN-EXECUTE-VERIFY' and REUSE it instead of rebuilding",
+ "reused": [
+  {
+   "path": "out/PRINCIPAL_DEFINITION.json",
+   "bytes": 2351,
+   "sha256": "6805569ff049446f0a1ce110f19c432b2688fa4c1ac146a11d28af094662e346",
+   "origin": "R15（owner order 2026-11-09：principal = 三獨立車道）",
+   "reuse_note": "澄清 principal 定義；r23 只改 consequence 的限定詞，未重建"
+  },
+  {
+   "path": "lanes/DEDICATED_NEGATIVES.json",
+   "bytes": 5531,
+   "sha256": "005d4e625a594248e70271ad2f12e7608f283eca88fc8e91c2d674ea2fa6ec5b",
+   "origin": "R15",
+   "reuse_note": "六個 WP 的專屬負例；r23 原樣沿用"
+  },
+  {
+   "path": "lanes/DISAGREEMENT_REGISTER.json",
+   "bytes": 1097,
+   "sha256": "4853a475e9f80a3843bc23b1e4e67ec123031b80ea2fee87acceef2e77a169a1",
+   "origin": "R15",
+   "reuse_note": "跨車道分歧登記簿（0 open）；r23 原樣沿用"
+  },
+  {
+   "path": "lanes/CLAUSES.json",
+   "bytes": 34179,
+   "sha256": "e6b53e8214c67040226f016a5b5eda93153ccada1e57e495cd89892948c1e6fd",
+   "origin": "R15",
+   "reuse_note": "32 個 clause 定位；receipts 的 span 由它重導"
+  },
+  {
+   "path": "lanes/CLAUSES_INLINE.json",
+   "bytes": 20173,
+   "sha256": "5d3e8efb285deed81394d02ebe6cecf030f697c98a50dcce0f5dd2b37ece84d0",
+   "origin": "R15",
+   "reuse_note": "inline 定位副本"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-00.signed.json",
+   "bytes": 10732,
+   "sha256": "1b5fe462a51b2e33bf42a16738ff33c0d17fc6864250866b3e7a967369a98232",
+   "origin": "R20 重簽（label amendment）",
+   "reuse_note": "kind=fhs_original_reader_ack，簽章內含"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-01.signed.json",
+   "bytes": 7973,
+   "sha256": "6850b4675efeb9347f427269dc999e4d803903322ed1a3cc1453ae2380d9552e",
+   "origin": "R20 重簽",
+   "reuse_note": "同上"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-15.signed.json",
+   "bytes": 14145,
+   "sha256": "3434c91582b2d753dd2c4982f2021e324171d91e4268eb6b47579aea020dd3c8",
+   "origin": "R20 重簽",
+   "reuse_note": "同上"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-16.signed.json",
+   "bytes": 6801,
+   "sha256": "637af008dd6ebb85829fba336b043e090249aff48c7e7bc532339c8534442724",
+   "origin": "R20 重簽",
+   "reuse_note": "同上"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-19.signed.json",
+   "bytes": 4966,
+   "sha256": "4e39d69ec9256ef4a46d71c847c2bf5e6ebd353128bf838da39190b899f4c362",
+   "origin": "R20 重簽",
+   "reuse_note": "同上"
+  },
+  {
+   "path": "receipts/reader/WP-FHS-21.signed.json",
+   "bytes": 4048,
+   "sha256": "90765bd3e6a46779b304b031a4a29e877cf40ca3f071758085b3012d9e5a9d6b",
+   "origin": "R20 重簽",
+   "reuse_note": "同上"
+  },
+  {
+   "path": "tools/verify_reader_ack.py",
+   "bytes": 8326,
+   "sha256": "967e547a2f9e6ec6aa40582dc37edd778903e3b27b6d36faa0aaa77706de639c",
+   "origin": "R19→R20",
+   "reuse_note": "簽章先於結構、span 重導、負例會咬"
+  },
+  {
+   "path": "tools/dedicated_negatives.py",
+   "bytes": 7700,
+   "sha256": "aeb1a63431eefd7e6e63b626a62789482634537394b5fbf3a7ebaf704f8adf49",
+   "origin": "R15",
+   "reuse_note": "負例產生器"
+  },
+  {
+   "path": "tools/label_discipline.py",
+   "bytes": 15314,
+   "sha256": "f6f83a11dc18702cb74470c86509bdc9d9dccf0308f6cecd6424865970811fee",
+   "origin": "R20–R22",
+   "reuse_note": "限定詞紀律（散文 + 機器可讀）"
+  },
+  {
+   "path": "tools/gate_r20.py",
+   "bytes": 102944,
+   "sha256": "5b0e997a5dfc0fa86ca401c36b4040e30b57dd6d7a78989fb3c44cb3ff51047f",
+   "origin": "R20–R22",
+   "reuse_note": "閘 v6（21 項）"
+  }
+ ],
+ "rebuilt_this_round": [],
+ "not_rebuilt": [
+  "receipt bodies, clause spans, negatives, register — unchanged; only their labels/status words moved"
+ ],
+ "cross_session_records": [
+  "out/OWNER_RULING_W0_R15.json",
+  "out/OWNER_RULING_W0_R17.json",
+  "out/OWNER_RULING_W0_R18.json",
+  "out/PRINCIPAL_DEFINITION.json",
+  "FHS_W0_R13_ACCEPTANCE_20261108/HANDOVER_R15..R22"
+ ]
+}
