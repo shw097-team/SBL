@@ -1,0 +1,578 @@
+{
+ "schema": "FHS.W0R11.GateCounterexamples/1",
+ "generated_at": "2026-11-08T12:37:38+08:00",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "claim_ceiling_note": "measured by the author against the shipped gate_r10.py on this host; it is not an external acceptance, and it does not assert anything about the tree beyond the fixtures named here",
+ "subject_of_measurement": {
+  "gate": "../FHS_W0_R10_REPAIR_20261108/tools/gate_r10.py",
+  "gate_sha256": "470a35210542ea0a98c4640688ba064cf6200d7c22096ebdb78c1f2493f4f11d",
+  "gate_bytes": 38076,
+  "load_method": "importlib.util.spec_from_file_location — the shipped module is imported, never copied",
+  "python": "3.14.9",
+  "platform": "win32"
+ },
+ "verdict_summary": {
+  "c1_reproduced": true,
+  "c2_reproduced": true,
+  "c3_reproduced": true,
+  "controls_behaved": true
+ },
+ "claims": [
+  {
+   "id": "EC-R10-002",
+   "function": "g18_digest_locality",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "reproduced": true,
+   "verdict_code_today": "OK / 0/0",
+   "suggested_code": [
+    "FIELD_ABSENT",
+    "EXPECTED_ENTRY_SET_EMPTY"
+   ],
+   "suggested_field": "manifest.entry_count"
+  },
+  {
+   "id": "EC-R10-003",
+   "function": "g16b_dependency_closed",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "reproduced": true,
+   "verdict_code_today": "OK",
+   "suggested_code": [
+    "UNQUALIFIED_INCOMPLETE_SCAN"
+   ],
+   "suggested_field": "dependency_closed_qualified"
+  },
+  {
+   "id": "EC-R10-004",
+   "function": "_declared / derive_subject",
+   "line_numbers": [
+    103,
+    110,
+    112,
+    114,
+    116,
+    161,
+    164,
+    177
+   ],
+   "reproduced": true,
+   "verdict_code_today": "declared_covers_imports=true (extra folded into runtime)",
+   "suggested_code": [
+    "DECLARED_ONLY_UNDER_EXTRA"
+   ],
+   "suggested_field": "declared_covers_imports_by_profile"
+  }
+ ],
+ "items": [
+  {
+   "id": "EC-R10-002a",
+   "claim": "EC-R10-002: G18 returns PASS 0/0 when the manifest declares no files",
+   "function": "g18_digest_locality",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c1/files_empty",
+    "manifest": "lanes/A/evidence/fixtures/c1/files_empty/out/stage/payload/MANIFEST.json",
+    "manifest_content": {
+     "schema": "FHS.Payload.Manifest/1",
+     "files": []
+    },
+    "why": "MANIFEST.json declares files: [] — nothing to resolve"
+   },
+   "expected_should_be": {
+    "verdict": "FAIL",
+    "code": "EXPECTED_ENTRY_SET_EMPTY",
+    "field": "manifest.entry_count",
+    "reason": "a locality check over zero declared entries measures nothing; zero entries is not the same fact as 'every entry stays inside its payload'"
+   },
+   "actual_verdict": {
+    "ok": true,
+    "code": "OK",
+    "detail": "0/0 resolve inside their own payload (realpath containment), 1 manifests"
+   },
+   "reproduced": true,
+   "role": "variant"
+  },
+  {
+   "id": "EC-R10-002b",
+   "claim": "EC-R10-002: G18 returns PASS 0/0 when the manifest declares no files",
+   "function": "g18_digest_locality",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c1/files_absent",
+    "manifest": "lanes/A/evidence/fixtures/c1/files_absent/out/stage/payload/MANIFEST.json",
+    "manifest_content": {
+     "schema": "FHS.Payload.Manifest/1",
+     "note": "writer omitted the files key entirely"
+    },
+    "why": "MANIFEST.json has no files key at all"
+   },
+   "expected_should_be": {
+    "verdict": "FAIL",
+    "code": "FIELD_ABSENT",
+    "field": "manifest.entry_count",
+    "reason": "a locality check over zero declared entries measures nothing; zero entries is not the same fact as 'every entry stays inside its payload'"
+   },
+   "actual_verdict": {
+    "ok": true,
+    "code": "OK",
+    "detail": "0/0 resolve inside their own payload (realpath containment), 1 manifests"
+   },
+   "reproduced": true,
+   "role": "variant"
+  },
+  {
+   "id": "EC-R10-002-control-positive",
+   "claim": "control: one declared file with a correct digest must PASS 1/1 (instrument is live)",
+   "function": "g18_digest_locality",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c1/control_valid",
+    "manifest_content": {
+     "schema": "FHS.Payload.Manifest/1",
+     "files": [
+      {
+       "path": "data/a.txt",
+       "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+       "bytes": 6
+      }
+     ]
+    }
+   },
+   "expected_should_be": {
+    "verdict": "PASS",
+    "code": "OK"
+   },
+   "actual_verdict": {
+    "ok": true,
+    "code": "OK",
+    "detail": "1/1 resolve inside their own payload (realpath containment), 1 manifests"
+   },
+   "reproduced": true,
+   "role": "control-positive"
+  },
+  {
+   "id": "EC-R10-002-control-negative",
+   "claim": "control: an entry escaping the payload must FAIL (instrument is live)",
+   "function": "g18_digest_locality",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c1/control_escape",
+    "manifest_content": {
+     "schema": "FHS.Payload.Manifest/1",
+     "files": [
+      {
+       "path": "../outside.txt",
+       "sha256": "92a214fa61579091222f97eaf8e9bf11c1a728af5a077a3b5568231b6dc5be43"
+      }
+     ]
+    }
+   },
+   "expected_should_be": {
+    "verdict": "FAIL",
+    "code": "DIGEST_CROSSES_PAYLOAD"
+   },
+   "actual_verdict": {
+    "ok": false,
+    "code": "DIGEST_CROSSES_PAYLOAD",
+    "detail": "1: [{'entry': '../outside.txt', 'why': 'PATH_OUTSIDE_PAYLOAD'}]"
+   },
+   "reproduced": true,
+   "role": "control-negative"
+  },
+  {
+   "id": "EC-R10-003",
+   "claim": "EC-R10-003: G16b returns PASS when a subject has scan_complete=false and its scanned files happen to contain no third-party import",
+   "function": "g16b_dependency_closed",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c2/scan_incomplete_clean",
+    "subjects": "lanes/A/evidence/fixtures/c2/scan_incomplete_clean/out/DEPENDENCY_SUBJECTS.json",
+    "subject": {
+     "name": "c2-scan-incomplete-clean",
+     "scan_complete": false,
+     "source_root": "lanes/A/evidence/fixtures/c2/scan_incomplete_clean/src",
+     "source_files": [
+      "lanes/A/evidence/fixtures/c2/scan_incomplete_clean/src/mod.py"
+     ]
+    },
+    "scanned_file_body": "\"\"\"Fixture module with no third-party imports.\"\"\"\n\nimport os\nfrom pathlib import Path\n\n\ndef where() -> str:\n    return str(Path(os.getcwd()))\n"
+   },
+   "expected_should_be": {
+    "verdict": "FAIL (or PASS only as a qualified claim)",
+    "code": "UNQUALIFIED_INCOMPLETE_SCAN",
+    "field": "dependency_closed_qualified",
+    "reason": "closure is a statement about a tree; a scan that admits it did not cover the tree cannot support it. The verdict must be reported as qualified, not as OK"
+   },
+   "actual_verdict": {
+    "ok": true,
+    "code": "OK",
+    "detail": "every subject's declared set covers its imports"
+   },
+   "derived_subject": {
+    "scan_complete": false,
+    "undeclared": [],
+    "third_party_imported": [],
+    "declared_covers_imports": true
+   },
+   "reproduced": true,
+   "role": "variant"
+  },
+  {
+   "id": "EC-R10-003-control-scan-complete",
+   "claim": "control: the same clean tree with scan_complete=true also PASSes — i.e. the flag changes nothing",
+   "function": "g16b_dependency_closed",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c2/scan_complete_clean",
+    "scan_complete": true
+   },
+   "expected_should_be": {
+    "verdict": "PASS",
+    "code": "OK"
+   },
+   "actual_verdict": {
+    "ok": true,
+    "code": "OK",
+    "detail": "every subject's declared set covers its imports"
+   },
+   "reproduced": true,
+   "role": "control-positive"
+  },
+  {
+   "id": "EC-R10-003-control-visible-import",
+   "claim": "control: a visible undeclared import must still FAIL (instrument is live)",
+   "function": "g16b_dependency_closed",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "input_fixture": {
+    "round_dir": "lanes/A/evidence/fixtures/c2/scan_incomplete_dirty",
+    "scan_complete": false,
+    "import": "yaml"
+   },
+   "expected_should_be": {
+    "verdict": "FAIL",
+    "code": "UNDECLARED_DEPENDENCY_OPEN"
+   },
+   "actual_verdict": {
+    "ok": false,
+    "code": "UNDECLARED_DEPENDENCY_OPEN",
+    "detail": "{\"c2-scan-incomplete-dirty\": {\"undeclared\": [\"yaml\"], \"module_level\": [\"yaml\"], \"scan_complete\": false}}"
+   },
+   "reproduced": true,
+   "role": "control-negative"
+  },
+  {
+   "id": "EC-R10-003-live",
+   "claim": "context measurement, not a counterexample: does the shipped r10 artifact already exhibit the false green through a scan_complete=false subject?",
+   "function": "derive_subject",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "input_fixture": {
+    "subjects_file": "../FHS_W0_R10_REPAIR_20261108/out/DEPENDENCY_SUBJECTS.json"
+   },
+   "expected_should_be": {
+    "verdict": "no false green here — the shipped incomplete subject also has open gaps, so g16b fails on it",
+    "note": "this item bounds the claim: the defect is reachable (fixtures) but is not already firing in r10"
+   },
+   "actual_verdict": {
+    "available": true,
+    "subjects_file": "../FHS_W0_R10_REPAIR_20261108/out/DEPENDENCY_SUBJECTS.json",
+    "subjects": [
+     {
+      "name": "hgk-main",
+      "scan_complete": false,
+      "third_party_imported": [
+       "cryptography",
+       "yaml"
+      ],
+      "undeclared": [
+       "cryptography",
+       "yaml"
+      ],
+      "declared_covers_imports": false
+     },
+     {
+      "name": "hgk-local",
+      "scan_complete": true,
+      "third_party_imported": [
+       "cryptography",
+       "yaml"
+      ],
+      "undeclared": [
+       "yaml"
+      ],
+      "declared_covers_imports": false
+     },
+     {
+      "name": "hgk-worktree",
+      "scan_complete": true,
+      "third_party_imported": [
+       "cryptography",
+       "yaml"
+      ],
+      "undeclared": [
+       "cryptography",
+       "yaml"
+      ],
+      "declared_covers_imports": false
+     }
+    ]
+   },
+   "shipped_incomplete_subjects": [
+    "hgk-main"
+   ],
+   "reproduced": false,
+   "interpretation": "the shipped scan_complete=false subject is incomplete AND open, so r10's own G16b failure comes from the gaps, not from the missing scan. The false green needs an incomplete scan whose scanned subset is clean — the C2 fixture — which is why the fix is about qualification, not about this artifact's numbers.",
+   "role": "live-context"
+  },
+  {
+   "id": "EC-R10-004",
+   "claim": "EC-R10-004: _declared() unions project.optional-dependencies into the declared set, so a single [yaml] extra makes declared_covers_imports true although `pip install .` installs nothing",
+   "function": "_declared / derive_subject",
+   "line_numbers": [
+    103,
+    110,
+    112,
+    114,
+    116,
+    161,
+    164,
+    177
+   ],
+   "input_fixture": {
+    "root": "lanes/A/evidence/fixtures/c3/optional_extra",
+    "pyproject": "lanes/A/evidence/fixtures/c3/optional_extra/pyproject.toml",
+    "pyproject_body": "[build-system]\nrequires = [\"setuptools>=61\"]\nbuild-backend = \"setuptools.build_meta\"\n\n[project]\nname = \"c3-optional-extra-demo\"\nversion = \"0.0.1\"\ndescription = \"minimal fixture: runtime dependencies empty, yaml only in an optional extra\"\nrequires-python = \">=3.9\"\ndependencies = []\n\n[project.optional-dependencies]\nyaml = [\"PyYAML>=6\"]\n\n[tool.setuptools]\npackages = [\"pkg\"]\n",
+    "importing_file": "lanes/A/evidence/fixtures/c3/optional_extra/pkg/mod.py",
+    "importing_file_body": "\"\"\"Runtime module that needs PyYAML at import time.\"\"\"\n\nimport yaml\n\n\ndef cfg(path):\n    with open(path, encoding=\"utf-8\") as fh:\n        return yaml.safe_load(fh)\n",
+    "dependencies": [],
+    "optional_dependencies": {
+     "yaml": [
+      "PyYAML>=6"
+     ]
+    }
+   },
+   "expected_should_be": {
+    "verdict": "declared_covers_imports must be PER-PROFILE",
+    "code": "DECLARED_ONLY_UNDER_EXTRA",
+    "field": "declared_covers_imports_by_profile.default",
+    "reason": "the default install profile carries no PyYAML requirement, so a module that imports yaml at module level is undeclared there; only profile 'yaml' covers it"
+   },
+   "actual_verdict": {
+    "declared_flat": [
+     "pyyaml",
+     "yaml"
+    ],
+    "declared_detail": {
+     "optional_extra": {
+      "runtime": [],
+      "optional": {
+       "yaml": [
+        "pyyaml"
+       ]
+      }
+     }
+    },
+    "derived": {
+     "declared_flat": [
+      "pyyaml",
+      "yaml"
+     ],
+     "third_party_imported": [
+      "yaml"
+     ],
+     "undeclared": [],
+     "undeclared_used_at_module_level": [],
+     "declared_covers_imports": true
+    },
+    "gate_passes_g16b": true,
+    "pip": {
+     "method": "pip 24.0 offline resolution: wheel built from fixture, `pip install --dry-run --no-index` on the plain wheel vs the [yaml] wheel",
+     "instrument_available": true,
+     "wheel": "lanes/A/evidence/fixtures/c3/dist/c3_optional_extra_demo-0.0.1-py3-none-any.whl",
+     "requires_dist": [
+      "PyYAML>=6; extra == \"yaml\""
+     ],
+     "default_profile_installs": [
+      "c3-optional-extra-demo"
+     ],
+     "default_profile_exit": 0,
+     "default_profile_decisive": [
+      "Would install c3-optional-extra-demo-0.0.1"
+     ],
+     "default_profile_output": "Processing c:\\projects\\agent_workspace\\fhs_w0_r11_repair_20261108\\lanes\\a\\evidence\\fixtures\\c3\\dist\\c3_optional_extra_demo-0.0.1-py3-none-any.whl\nWould install c3-optional-extra-demo-0.0.1\n",
+     "yaml_extra_profile_installs": [],
+     "yaml_extra_profile_exit": 1,
+     "yaml_extra_profile_decisive": [
+      "ERROR: Could not find a version that satisfies the requirement PyYAML>=6; extra == \"yaml\" (from c3-optional-extra-demo[yaml]) (from versions: none)",
+      "ERROR: No matching distribution found for PyYAML>=6; extra == \"yaml\""
+     ],
+     "yaml_extra_profile_output": "Processing c:\\projects\\agent_workspace\\fhs_w0_r11_repair_20261108\\lanes\\a\\evidence\\fixtures\\c3\\dist\\c3_optional_extra_demo-0.0.1-py3-none-any.whl (from c3-optional-extra-demo==0.0.1)\nINFO: pip is looking at multiple versions of c3-optional-extra-demo[yaml] to determine which version is compatible with other requirements. This could take a while.\n"
+    }
+   },
+   "profile_partition": {
+    "default": {
+     "install_command": "pip install .",
+     "extras": [],
+     "installs_pyyaml": false,
+     "declared_covers_imports": false,
+     "correct_verdict": "FAIL (declared_covers_imports=false)",
+     "note": "Requires-Dist entries carrying `extra == \"yaml\"` are inactive in this profile"
+    },
+    "yaml": {
+     "install_command": "pip install .[yaml]",
+     "extras": [
+      "yaml"
+     ],
+     "installs_pyyaml": true,
+     "declared_covers_imports": true,
+     "correct_verdict": "PASS under this profile only"
+    }
+   },
+   "reproduced": true,
+   "method": "pip 24.0 offline resolution: wheel built from fixture, `pip install --dry-run --no-index` on the plain wheel vs the [yaml] wheel",
+   "role": "variant"
+  }
+ ],
+ "recommended_repairs": [
+  {
+   "gate": "G18",
+   "line_numbers": [
+    355,
+    363,
+    370,
+    390
+   ],
+   "finding": "`for e in doc.get(\"files\", [])` turns an absent or empty entry list into a loop that never runs, and the function then returns OK '0/0 resolve'",
+   "repairs": [
+    {
+     "change": "resolve the key with require(doc, \"files\") so an absent key raises FieldAbsent",
+     "verdict_code": "FIELD_ABSENT",
+     "field": "manifest.files"
+    },
+    {
+     "change": "if the list is empty, fail instead of iterating zero times",
+     "verdict_code": "EXPECTED_ENTRY_SET_EMPTY",
+     "field": "manifest.entry_count"
+    },
+    {
+     "change": "publish the denominator next to the verdict and require entry_count > 0 and resolved == entry_count before OK",
+     "verdict_code": "DIGEST_DENOMINATOR_ZERO",
+     "field": "resolved_over_declared"
+    }
+   ]
+  },
+  {
+   "gate": "G16b",
+   "line_numbers": [
+    120,
+    122,
+    322,
+    328,
+    329,
+    332
+   ],
+   "finding": "scan_complete is derived and carried into each gap record, but it is never consulted on the success path: no undeclared imports among the files that happened to be scanned is returned as an unqualified PASS",
+   "repairs": [
+    {
+     "change": "fail (or report as qualified, never OK) when any subject has scan_complete=false and no gap was found; name the unmeasured remainder",
+     "verdict_code": "UNQUALIFIED_INCOMPLETE_SCAN",
+     "field": "dependency_closed_qualified"
+    },
+    {
+     "change": "split the claim: publish dependency_closed_observed (what the scan saw) and dependency_closed_qualified (observed AND complete), and only the latter may be OK",
+     "verdict_code": "UNQUALIFIED_INCOMPLETE_SCAN",
+     "field": "dependency_closed_qualified"
+    }
+   ]
+  },
+  {
+   "gate": "_declared / G16b",
+   "line_numbers": [
+    103,
+    110,
+    112,
+    114,
+    116,
+    161,
+    164,
+    177
+   ],
+   "finding": "`flat |= set(run) | {n for v in opt.values() for n in v}` folds every extra into the runtime declared set, so declared_covers_imports answers a question no install profile asks",
+   "repairs": [
+    {
+     "change": "return declared per profile: {'default': run, **optional} and evaluate coverage once per profile; the gate's OK must come from the default profile",
+     "verdict_code": "DECLARED_ONLY_UNDER_EXTRA",
+     "field": "declared_covers_imports_by_profile"
+    },
+    {
+     "change": "keep the union only as a separate, clearly labelled field so the extra can still be seen without being counted as coverage",
+     "verdict_code": "DECLARED_ONLY_UNDER_EXTRA",
+     "field": "declared_flat_with_extras"
+    },
+    {
+     "change": "record which profile each subject was measured under in the artifact",
+     "verdict_code": "PROFILE_UNSTATED",
+     "field": "install_profile"
+    }
+   ]
+  }
+ ]
+}
