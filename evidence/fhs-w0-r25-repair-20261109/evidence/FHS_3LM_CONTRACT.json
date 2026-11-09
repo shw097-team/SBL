@@ -1,0 +1,143 @@
+{
+ "schema": "FHS.3LM.Contract/1",
+ "consumes": {
+  "hgk_pool": "HG-KSEOS/config/lane-route-slots.candidate.json",
+  "hgk_registry": "HG-KSEOS/config/lane-routing-registry.yaml",
+  "mode": "read_only"
+ },
+ "owns": "nothing in routing; it is an entry contract over the existing control plane",
+ "entry_rule": "a session that is about to run an FHS task must run `python tools/fhs_3lm.py --menu`, choose a slot, then `--bind LANE SLOT`; the binding record is the only lane declaration that `--assert` accepts",
+ "planes": {
+  "lane_control_plane": "binding record with epoch and pool digest",
+  "session_interaction_plane": "the desktop app's model pin; never read as a lane binding"
+ },
+ "sod": {
+  "mandated": false,
+  "why": "owner ruling: the blueprint may not force SoD or model type; a shared arm across lanes is recorded, not refused"
+ },
+ "menu_snapshot": {
+  "schema": "FHS.3LM.Menu/1",
+  "generated_at": "2026-11-09T18:52:51+08:00",
+  "epoch": {
+   "registry_sha256": "b87fc8f7cb7925e8c642b33e8814624d4ac05f0e23632643a4eb9e6a9e2ab280"
+  },
+  "pool_sha256": "4cf43923fb9c521a8ffbeea00d4827e2a71043ec1fbdf9a998f41c7d7ee6e325",
+  "lanes": [
+   {
+    "lane": "PLAN",
+    "pool_lane": "PLAN",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "GPT 6.1 SOL-MEDIUM",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "gpt-6.1-sol",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": false,
+      "pool_rank": null,
+      "transport_model": null,
+      "why_not": "NOT_IN_LANE_POOL"
+     }
+    ]
+   },
+   {
+    "lane": "EXECUTE",
+    "pool_lane": "EXECUTE",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/mimo-v2.6-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "GPT-6-luna",
+      "model": "gpt-6-luna",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 3,
+      "transport_model": "gpt-6-luna",
+      "why_not": null
+     }
+    ]
+   },
+   {
+    "lane": "VERIFY",
+    "pool_lane": "VERIFY_SECURITY",
+    "slots": [
+     {
+      "slot": "primary",
+      "label": "GPT 6.1 SOL-MEDIUM",
+      "model": "gpt-6.1-sol",
+      "provider": "openai-codex",
+      "admitted": true,
+      "pool_rank": 1,
+      "transport_model": "gpt-6.1-sol",
+      "why_not": null
+     },
+     {
+      "slot": "opt1",
+      "label": "DEEPSEEK V4.1 FLASH",
+      "model": "deepseek-v4.1-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 3,
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "why_not": null
+     },
+     {
+      "slot": "opt2",
+      "label": "MiMo-V2.6-Flash",
+      "model": "mimo-v2.6-flash",
+      "provider": "opencode-go",
+      "admitted": true,
+      "pool_rank": 2,
+      "transport_model": "opencode-go/mimo-v2.6-flash",
+      "why_not": null
+     }
+    ]
+   }
+  ],
+  "rule": "choose a slot; a slot whose arm is not in the lane pool is shown but refused (NOT_IN_LANE_POOL) — adding an arm is a control-plane epoch change, not something this task may do"
+ },
+ "refusals": {
+  "NOT_IN_LANE_POOL": 6,
+  "EPOCH_DRIFT": 7,
+  "UNKNOWN_LANE_OR_SLOT": 8
+ },
+ "generated_at": "2026-11-09T18:52:51+08:00"
+}
