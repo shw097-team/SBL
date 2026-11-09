@@ -1,0 +1,97 @@
+{
+ "schema": "FHS.W0.OwnerSemanticAckSigned/2",
+ "round": "FHS_W0_R15_READER_ACKS",
+ "body": {
+  "kind": "owner_semantic_accept",
+  "round": "FHS_W0_R15_READER_ACKS",
+  "candidate": {
+   "sha256": "f69677fc5b86bdb0b27824862113ed3c1b155e1e0cfa7268ff731eec916a6bc1",
+   "bytes": 607038,
+   "version": "r15",
+   "owner_signed_candidate_sha256": "60ba757b809058bb48af3d67caea9b39cbe21ee51751c86e6628911e8ba1c514",
+   "owner_signed_candidate_is_a_byte_exact_prefix": true
+  },
+  "source": {
+   "sha256": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+   "locators": 6
+  },
+  "scope": "W0 work packages WP-FHS-00,01,15,16,19,21 at the locators the candidate itself cites",
+  "host": "Windows 11, one OS account, three separate lane processes",
+  "policy_epoch": 13,
+  "original_consumer": "SBL Original Source/Requirement/Corpus Semantic Reader",
+  "adopts_reader_receipts": [
+   {
+    "subject": "WP-FHS-00",
+    "sha256_of_body": "3425b26a1d11f88461a488ffcdb2c433c878de55975873e0fa68795689ec1ffb",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-01",
+    "sha256_of_body": "d94681b2d773b37f46d6ea518d50766eaeb8c94e94f80cfcee605c1af9448f8e",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-15",
+    "sha256_of_body": "0c449cee5b3fd446a7d028506f347da8bedac81039399ab4d983e3deb953d956",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-16",
+    "sha256_of_body": "bb6407236158a176d40c9f4fc8408615c452b5d7661c65d4d22383ae1abae7d5",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-19",
+    "sha256_of_body": "a8b171a9c1f3d52e74c08602098aaa129561cfa8d6ee8b40e5f4fcfe0b646e10",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   },
+   {
+    "subject": "WP-FHS-21",
+    "sha256_of_body": "4e0afdebdb3fbc95aee6a2b96bc2e9bb693c398a5db03cd4598835aef9d6fdd0",
+    "reader_identity": "reader-lanes:A|B|T (gpt-6.1-sol; deepseek-v4.1-flash; gpt-6.1-sol)"
+   }
+  ],
+  "binding_policy": {
+   "bound": [
+    "candidate bytes",
+    "source set",
+    "scope",
+    "host",
+    "policy epoch",
+    "original consumer",
+    "the six reader receipt bodies it adopts"
+   ],
+   "referenced_not_bound": [
+    "out/GATE_R15.json",
+    "officer verdicts"
+   ],
+   "why": "a gate report is a timestamped observation; binding one inside a signature means any later re-run breaks the signature, which is exactly what the previous attempt did"
+  },
+  "lane_disagreement": {
+   "open": 0,
+   "rule": "a property is decided when >=2 judging lanes agree; UNKNOWN abstains; no majority means the work package is not issuable"
+  },
+  "not_claimed": [
+   "ORIGINAL_ACK beyond the six receipts adopted here",
+   "NATIVE_SIGNED",
+   "RELEASE_GRANTED",
+   "OS-account or human-identity separation"
+  ]
+ },
+ "canonical_rule": {
+  "function": "jcs-compact",
+  "encoding": "utf-8"
+ },
+ "payload_sha256": "c766916c7c269361b38333395b62ce2c2bb3b1b71d6b456f591abb939f63f681",
+ "signature_hex": "f92443236ea7931956292c8c79079adc851e1398e55ca9f17d7df9d97f047a9f4aa2c4bac2f8caafbfc1b323d1236b9bbd78ec8161f8d9d161e875759f202e03",
+ "alg": "ed25519",
+ "signature_meta": {
+  "window_id": "WIN-375531a530fb",
+  "ops_used": 1,
+  "signed_at": "2026-11-09T10:03:43+08:00",
+  "registry_rev_at_open": 13
+ },
+ "owner_fingerprint": "412b351937be72a1",
+ "verified_locally_against": "owner_enrollment.public_hex",
+ "supersedes": "receipts/OWNER_SEMANTIC_ACK.signed.json (v2, which bound the gate report)"
+}

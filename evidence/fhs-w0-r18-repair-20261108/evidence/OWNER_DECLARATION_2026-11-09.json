@@ -1,0 +1,27 @@
+{
+ "schema": "FHS.W0.OwnerDeclaration/1",
+ "round": "FHS_W0_R13_ACCEPTANCE_20261108",
+ "declared_at": "2026-11-09T08:04:52+08:00",
+ "verbatim": "我的接受，已經由親手填口令的時候，一併預授權等 VERIFY 的判定並預先接受了",
+ "read_as": {
+  "act_1": "entering the passphrase at 2026-11-09 unlocked the owner key and authorised exactly the signatures made in that window (ops_used 1, kind owner_semantic_accept)",
+  "act_2": "the owner pre-authorises acceptance pending the VERIFY verdict, rather than issuing a second signature after it"
+ },
+ "what_this_converts": [
+  "the signature is the owner's act, not the maker's",
+  "no further passphrase is required for the acceptance act itself"
+ ],
+ "what_this_cannot_convert": [
+  "a NACK into a PASS: if VERIFY returns NACK, what the owner pre-accepted is that NACK, and the item is not accepted",
+  "ORIGINAL_ACK: untouched at 0/6",
+  "principal separation: unchanged"
+ ],
+ "state_at_recording": {
+  "verify_round": "ACK-1",
+  "verify_overall": "NACK",
+  "blocking": [
+   "body.window.policy_epoch_at_open=40 vs signature_meta.policy_epoch_at_open=13 - same name, two meanings"
+  ],
+  "consequence": "the acceptance is NOT complete; the defect is in the signed bytes and must be corrected in the signed bytes"
+ }
+}

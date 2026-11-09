@@ -1,0 +1,48 @@
+{
+ "schema": "FHS.W0.KanbanR20/1",
+ "generated_at": "2026-11-09T12:46:34+08:00",
+ "items": [
+  {
+   "id": "R20-1",
+   "what": "CE-07 selftest isolation",
+   "state": "DONE",
+   "evidence": "tools/gate_r20.py mirror_round/tree_fingerprint; out/GATE_R20_SELFTEST.json"
+  },
+  {
+   "id": "R20-2",
+   "what": "CE-08 machine-readable qualifier",
+   "state": "DONE",
+   "evidence": "tools/label_discipline.py v2; G28; out/LABEL_DISCIPLINE_R22.json"
+  },
+  {
+   "id": "R20-3",
+   "what": "six reader receipts re-signed with the qualified kind",
+   "state": "DONE",
+   "evidence": "receipts/reader/*.signed.json; out/RESIGN_READER_V2.json"
+  },
+  {
+   "id": "R20-4",
+   "what": "r20 document + revision manifest",
+   "state": "DONE",
+   "evidence": "writeback/W0/FHS_PIPD-LS-PKG_W0_r20.md"
+  },
+  {
+   "id": "R20-5",
+   "what": "gate v6 (21 checks) + selftest in a read-only-safe form",
+   "state": "IN_REVIEW",
+   "evidence": "out/GATE_R20.json"
+  },
+  {
+   "id": "R20-6",
+   "what": "independent VERIFY lane (read-only, codex gpt-6.1-sol)",
+   "state": "PENDING",
+   "evidence": "lanes/VERIFY_R20_VERDICT.json"
+  },
+  {
+   "id": "R20-7",
+   "what": "publish + merge PR #58 / #44",
+   "state": "BLOCKED_ON_VERDICT",
+   "evidence": "PR readback"
+  }
+ ]
+}
