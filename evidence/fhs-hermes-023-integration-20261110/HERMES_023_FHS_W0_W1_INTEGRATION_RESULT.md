@@ -143,8 +143,8 @@
 
 | Repo | 分支 | Commit | PR | 遠端讀回 |
 |---|---|---|---|---|
-| Fabric | `docs/fhs-hermes-023-integration-20261110` | `957346353806c7e67fc4b9f4d4f6341a598a5fb4`（最終 head；首個 commit `f623ff04…`） | **#50** https://github.com/shw097-team/Fabric/pull/50 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
-| SBL | `evidence/fhs-hermes-023-integration-20261110` | `d5cd8b2823cd8137ba0816bedec15385c758f3de`（最終 head；首個 commit `3c4e89f9…`） | **#65** https://github.com/shw097-team/SBL/pull/65 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
+| Fabric | `docs/fhs-hermes-023-integration-20261110` | `957346353806c7e67fc4b9f4d4f6341a598a5fb4`（**讀回時刻 head**；PR 頁面為權威，後續 commit 會移動它） | **#50** https://github.com/shw097-team/Fabric/pull/50 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
+| SBL | `evidence/fhs-hermes-023-integration-20261110` | `d5cd8b2823cd8137ba0816bedec15385c758f3de`（**讀回時刻 head**；PR 頁面為權威，後續 commit 會移動它） | **#65** https://github.com/shw097-team/SBL/pull/65 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
 | HG-KSEOS | — | — | — | **`PUBLISH_HOLD`**（具名理由見下） |
 
 ### 9.1 發表結果與界線
