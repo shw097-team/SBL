@@ -1226,6 +1226,79 @@ def g20_supply_chain_split(ctx: Ctx):
 
 
 
+def _g24_source_contract_bytes(ctx: Ctx):
+    r"""Re-derive every declared `bytes`/`lines` for L0/L1/L2 and the W1-W4 skeletons from the file.
+
+    EC-R26-011 was a *line* total (111,331 — the 31 source volumes' line sum) sitting in L1's `bytes`
+    field, and no check in the gate had ever opened the L1 file to notice. A number that no reader
+    re-derives is a claim, not a measurement, so this refuses instead of warning:
+
+        SOURCE_CONTRACT_BYTES_MISMATCH   declared bytes/lines != os.stat / split(b"\n") of the file
+        SOURCE_CONTRACT_SHA_MISMATCH     declared sha256      != sha256 of the file
+        SOURCE_CONTRACT_ABSENT           the ACK declares no L0/L1/L2/skeleton unit at all
+        SOURCE_CONTRACT_DECLARATION_INCOMPLETE  a unit lacks path/bytes/lines
+
+    Convention: `lines` is `len(read_bytes().split(b"\n"))`, the r26 round's published convention
+    (SOURCE_LOCK_V3.json#convention), NOT `raw.count(b"\n")` — they differ by one for every file that
+    ends in a newline, and picking the other one silently redefines the denominator.
+
+    A unit whose `path` is an absolute host path outside the payload (the 31-volume corpus plus the
+    four L0/L1/L2 blueprints live outside it) is counted as NOT_DERIVED_HERE and named in the detail;
+    a unit whose `path` is payload-relative and missing is a refusal, because that is a file the
+    payload claims to carry.
+    """
+    ack = ctx.load("evidence/FHS_ORIGINAL_ACK.json")
+    sc = (ack.get("subject_scope") or {}).get("source_contract") or {}
+    units = {}
+    for k in ("l0", "l1", "l2"):
+        if isinstance(sc.get(k), dict):
+            units[k] = sc[k]
+    for k, v in (sc.get("w_skeletons") or {}).items():
+        if isinstance(v, dict):
+            units[f"skeleton:{k}"] = v
+    if not units:
+        return False, "SOURCE_CONTRACT_ABSENT", (
+            "source_contract declares no L0/L1/L2/skeleton bytes+lines, so nothing can be re-derived; "
+            "a check with an empty denominator is not a pass")
+
+    derived, skipped, bad_b, bad_s = [], [], [], []
+    for name, u in sorted(units.items()):
+        p, wb, wl, ws = u.get("path"), u.get("bytes"), u.get("lines"), u.get("sha256")
+        if not p or wb is None or wl is None:
+            bad_b.append({"unit": name, "why": "DECLARATION_INCOMPLETE",
+                          "has": {k: u.get(k) for k in ("path", "bytes", "lines", "sha256")}})
+            continue
+        if not os.path.isfile(p):
+            if is_abs(p):
+                skipped.append(name)
+                continue
+            bad_b.append({"unit": name, "why": "PAYLOAD_PATH_ABSENT", "path": p})
+            continue
+        raw = read_long(p)
+        gb, gl = os.stat(p).st_size, len(raw.split(b"\n"))
+        if gb != wb or gl != wl:
+            bad_b.append({"unit": name, "path": p,
+                          "declared": {"bytes": wb, "lines": wl},
+                          "derived": {"bytes": gb, "lines": gl}})
+        if ws and sha_file(p) != ws:
+            bad_s.append({"unit": name, "path": p, "declared_sha256": str(ws)[:16],
+                          "derived_sha256": sha_file(p)[:16]})
+        else:
+            derived.append(name)
+    if bad_b:
+        first = bad_b[0]
+        return False, "SOURCE_CONTRACT_BYTES_MISMATCH", (
+            f"{len(bad_b)} declared unit(s) disagree with the file they name; first={first}")
+    if bad_s:
+        return False, "SOURCE_CONTRACT_SHA_MISMATCH", (
+            f"{len(bad_s)} declared unit(s) hash differently than declared; first={bad_s[0]}")
+    tail = (f"; {len(skipped)} unit(s) NOT_DERIVED_HERE (absolute corpus path not shipped with the "
+            f"payload): {skipped}") if skipped else ""
+    return True, "OK", (
+        f"{len(derived)}/{len(units)} source-contract units re-derived "
+        f"from their own file (bytes=os.stat, lines=split(b'\\n')){tail}")
+
+
 def g24_identity_claims(ctx: Ctx):
     """Every claim a shipped document makes about a revision's bytes must be true.
 
@@ -1234,6 +1307,12 @@ def g24_identity_claims(ctx: Ctx):
     documents and checks each claim against the revision manifest, which is the only place the set of
     true identities is recorded.
     """
+    # EC-R26-011: a number in a metadata field is not a measurement until something re-derives it.
+    # The source contract is checked first: if L1's own bytes/lines do not reproduce, every claim
+    # downstream of them (the quorum denominator, the unaffected-proof arithmetic) is unanchored.
+    _sc_ok, _sc_code, _sc_detail = _g24_source_contract_bytes(ctx)
+    if not _sc_ok:
+        return False, _sc_code, _sc_detail
     try:
         man = ctx.load("writeback/W0/W0_REVISION_MANIFEST.json")
     except FileNotFoundError:
@@ -1311,7 +1390,8 @@ def g24_identity_claims(ctx: Ctx):
         return False, "STALE_IDENTITY_CLAIM", f"{len(stale)} stale of {claims}: {stale[:4]}"
     tail = f"; {composition} composition sentence(s) state a parent's size and were not counted as identity claims"
     tail += f"; {len(skipped)} file(s) declared themselves defect reports quoting wrong values: {skipped}" if skipped else ""
-    return True, "OK", f"{claims} claims consistent with the revision manifest{tail}"
+    return True, "OK", (f"source contract: {_sc_detail}; "
+                        f"{claims} claims consistent with the revision manifest{tail}")
 
 
 def g25_extra_qualified(ctx: Ctx):
