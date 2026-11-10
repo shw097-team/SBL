@@ -1,6 +1,6 @@
 # EVIDENCE INDEX — FHS W0 r26 post-repair round
 
-files: 772 — unreadable: 0
+files: 777 — unreadable: 0
 
 | path | bytes | sha256 |
 |---|---:|---|
@@ -745,13 +745,17 @@ files: 772 — unreadable: 0
 | `lanes/runs-fg/VERIFY_SECURITY/receipt.json` | 8734 | `b1fbd73aa2abf70d30d0eceb1b5107d32518376aff46f3186c8dc4e47c82d468` |
 | `lanes/runs-fg/VERIFY_SECURITY/receipt.json.attempts.ndjson` | 3023 | `b9d779997f28b415fee6b94bbbf40f691e802e17aac4fedfb646b1e6655ba7c5` |
 | `lanes/runs-fg/VERIFY_SECURITY/receipt.json.log` | 9943 | `78c30a122b8ac4db79585d742eeb3f68e83afad281e2c5524e65e2828e51aa57` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/attempt-14948-1794328462-1-stderr.txt` | 659 | `824aea65b21c5d7205ffeb87cbcad223a8492e1b17b6a68d85d0e290b9fe98d9` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/attempt-14948-1794328462-1-stdout.txt` | 103819 | `3efb8590e15a1f79a5b478b750e85f5684282fd04857b22a83d083973a3ea66a` |
 | `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/dispatch.log` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/receipt.json.log` | 1111 | `9ea25bce5f47b23d2ff6a333c46469a37fd1266f0dc30b9c2ab51d0952914b08` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/receipt.json` | 9087 | `8585d86a86f19d930cac51076af48cc077c446e61563584f8e11a800eb2c91e3` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/receipt.json.attempts.ndjson` | 3058 | `2df68ab59f87844e248a0e370b1c756f6c65eb6897cee7686fbf9f97d0e937c9` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/receipt.json.log` | 10286 | `bd3c0262d81e13ac631e9463a763ea4f20acdcc55f09f1de14e6af0196062048` |
 | `lanes/VERIFY_BRIEF.md` | 5088 | `2049b7b1343f7b91ed3c005c415089fce8a47b3c138f3d400c04387401c1127e` |
 | `out/BLUEPRINT_AFFECTED_SCOPE_DELTA.json` | 26798 | `12d7b68480e9d42ab1e7f05e00a37893d634792caaf7fe454747ebab213774db` |
 | `out/BLUEPRINT_AFFECTED_SCOPE_DELTA.md` | 25942 | `0fdbf02832a894a35c0f361c2aee1acc1be07b71655fd7a5e2beaf2f90ad8fc6` |
 | `out/CLAIM_CEILING_STATEMENT.md` | 5778 | `5657506ac9b6ba0c4ea58750cd56f536863576f118a78f1f080d608072fe3ed0` |
-| `out/FHS_W0_R27_POSTREPAIR_RESULT.md` | 21182 | `b692ac331e9ac6998db656f6e32d9381f3caff3c509c8a771dfbbd082732ae1a` |
+| `out/FHS_W0_R27_POSTREPAIR_RESULT.md` | 24571 | `c2d371a291fddd77935b673cad6716f8df139d7f1d3863fcd2f6157af9fd1985` |
 | `out/H0_DAG_RECONCILIATION.json` | 7438 | `1a214fde5e82b760cd826199d0c2aaa5680be4e8ac7d68d3d62445e99139aae4` |
 | `out/H1_CONFIG_DELTA_LEDGER.json` | 11252 | `6b97028d75e8e7be7d4143eb83a26882e72759dbcbbf0878fa439389ede9f232` |
 | `out/L1_RESULT.json` | 17995 | `c5f23524cb689db24a9edf716fa9591a9224693e36e4d4c44d764ed43dab3e86` |
@@ -771,6 +775,7 @@ files: 772 — unreadable: 0
 | `out/PR_BODY_FABRIC.md` | 2803 | `7a5b99c9a386c30eb85435c9291d77cfe00b2b247ff05c2d85c72b0b39bdca57` |
 | `out/PR_BODY_HGK.md` | 6093 | `0d5e6ba7145eed7cbd1809eaf271a8031beb5b6d4dbb831294192b932dc9601c` |
 | `out/PR_BODY_SBL.md` | 4980 | `ca79246192db24ee15806cca518ab38ee5d0a682c11411b5666ac9658b93f27d` |
+| `out/VERIFY_LANE_VERDICT.md` | 6573 | `b6abe4aaa0269371e2553ce2ca26622a4a3daebe4bf0a7e3003c502e3773895f` |
 | `tools/acceptance_rerun.py` | 6485 | `b3f7406e89a740293c68ed9187dae72115d723897fa5eaba907ff1483078616b` |
 | `tools/make_index.py` | 2255 | `af926f6aa6ae1e849267990155b1c6488bf7d3f0b3204e379ac3b7f0f52a4419` |
 | `tools/publish_evidence.py` | 3330 | `556824bb73fdfd63308b0195374f8a0f9edee09a6b6cd80e2e6f7f7ec806f86c` |

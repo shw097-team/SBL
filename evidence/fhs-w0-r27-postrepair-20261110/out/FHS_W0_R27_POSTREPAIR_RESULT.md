@@ -93,7 +93,7 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 | `R26-08` 分批 main 衍生 PR | **OPENED（draft）** | PR #16，未合併 |
 | `R26-09` Fabric mirror 准入 | **CLOSED（repo 內）** | PR #54 |
 | `R26-10` r27 + 七份藍圖差額 | **CLOSED（候選）** | r27 append-only + 七份 `PROPOSED_FOR_RATIFICATION` |
-| `R26-11` 獨立受護重驗 | **PARTIAL：短回合 lane 已 served；長回合無收據** | VERIFY_SECURITY `gpt-6.1-sol` 的 probe 回合有收據（exit 0、nonce、23.26 s）；但同一 lane 的**長驗收回合連兩次（wrapper detached 與前景直呼）都只留下 `receipt.json.log` 的兩行 WARN、零 attempt、無收據** → 記 `VERIFY_LONG_TURN_NO_RECEIPT`。故本輪的 acceptance challenge 實際由 **Commander 另起新行程、另存證據路徑** 重跑（§5，14/14），那是 **process + evidence-path separation，不是 model separation** |
+| `R26-11` 獨立受護重驗 | **EXECUTED_BY_LANE — 5 CONFIRMED / 12 UNPROVEN / 0 REFUTED** | VERIFY_SECURITY 車道（`openai-codex/gpt-6.1-sol`，獨立 Codex CLI 行程、read-only）真實完成：`ok=true`、exit 0、nonce present、**306.37 s**、usage 1,194,662 in / 10,542 out。它**確認** C9（L1 metadata）、C10（76 分母）、C11（EVIDENCE_SCOPE）、C12（append-only）、C13（DISJOINT），並以 Node 密碼學**獨立驗到 7/7 簽章**；其餘 12 項標 `UNPROVEN`（非 REFUTED），原因有三：其子行程 `spawn ...python.exe ENOENT`（無法起 Python）、我的 brief 要求 read-only 卻又叫它跑會寫 scratch 的自測（**我自己的 brief 缺陷**）、`git` 在該子行程回 `detected dubious ownership`。全文見 `out/VERIFY_LANE_VERDICT.md` |
 | `R26-12` 發行 | **NOT_APPLIED（本輪不涉發行）** | — |
 
 ---
@@ -106,9 +106,10 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 |---|---|---|---|---|
 | **Commander & PLAN** | `openai-codex/gpt-6.1-sol` (medium, OpenAI OAuth) | 同 | ✅ `hgk-lane-run.sh probe PLAN` | **`openai-codex/gpt-6.1-sol`，exit 0，nonce present，60.16 s** |
 | **EXECUTE（bounded writer）** | `opencode-go/deepseek-v4.1-flash` | 同 | ✅ | **`opencode-go/deepseek-v4.1-flash`，exit 0，20.61 s**（另有 7 個 Hermes 子代理實作車道跑在同一 arm） |
-| **VERIFY / SECURITY / Acceptance Challenge** | `openai-codex/gpt-6.1-sol`（Codex CLI checker） | 同 | ✅（probe 回合） | **`openai-codex/gpt-6.1-sol`，exit 0，23.26 s**。**但長驗收回合無收據**：`R27VERIFYACCEPT`（wrapper detached）與 `R27VERIFYFG`（前景直呼）兩次都只留下 `receipt.json.log` 的 `WARN_GUARD_SUBJECT_OUTSIDE_REPO` + `WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE`，**0 個 attempt 列、無 `receipt.json`、無 child 存活** → `VERIFY_LONG_TURN_NO_RECEIPT`。驗收因此改由 §5 的獨立行程重跑，並在 §5.1 明列「這是 process 分離，不是 model 分離」 |
+| **VERIFY / SECURITY / Acceptance Challenge** | `openai-codex/gpt-6.1-sol`（Codex CLI checker） | 同 | ✅ 兩次（probe + acceptance） | **`openai-codex/gpt-6.1-sol`：probe 23.26 s；acceptance challenge 306.37 s，`ok=true`、exit 0、nonce present、usage 1,194,662 in / 10,542 out**。裁決 5 CONFIRMED / 12 UNPROVEN / 0 REFUTED（全文 `out/VERIFY_LANE_VERDICT.md`） |
 
-**沒有**把 `Selected` 當 PASS：三個 lane 的 probe 回合都有 `HGK-LANE-RESOLUTION/1` 收據且 `required_arm == served_arm`；長回合沒有收據者一律不計入 PASS，只記 BLOCKED。
+**沒有**把 `Selected` 當 PASS：三個 lane 都有 `HGK-LANE-RESOLUTION/1` 收據且 `required_arm == served_arm`。
+**另記**：我先前的前景重跑（`R27VERIFYFG`，330 s）以 `ERR_LANE_ALL_ROUTES_EXHAUSTED` + `exit=TIMEOUT` 結束 — 同一 arm 的長回合會超過 330 s，需 ≥480 s 視窗（wrapper 那次用 480 s 才成功）。
 
 ---
 
@@ -158,11 +159,20 @@ L6.pytest P0 · L6.validate P0 · L5.selftest P0 · L5.pytest P0
 2. **七份簽章**：`7/7 signatures verified against owner key d42c654cd1afba80` + `FINDING_R26-06_TZ_UNQUALIFIED`。
 3. **r27 append-only**：`prefix identical: True`，r27 688,148 B vs r26 667,205 B（payload LF 分身）。
 
-### 5.1 這一節算什麼獨立性，不算什麼
+### 5.1 獨立 VERIFY_SECURITY 車道的裁決，以及它抓到我的兩個錯
 
-- **算**：`acceptance_rerun.py` 對每個檢查都 spawn 新行程、用另一棵證據目錄、由不是寫該檢查的車道啟動；`L1.r25-scan` 是我自己對真收據的掃描，不是轉述。
-- **不算**：這仍是**同一個模型家族**（本 session 的 EXECUTE arm）在做驗收。**model separation 沒有成立**。
-- **不算**：長回合的 VERIFY_SECURITY 車道（`gpt-6.1-sol`）**沒有拿到收據**，因此不能說「已由異模型獨立驗收」。兩次嘗試的失敗都留在 `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-…/` 與 `lanes/runs-fg/VERIFY_SECURITY/`，錯誤為零 attempt、無 receipt（`VERIFY_LONG_TURN_NO_RECEIPT`）。要把這一段補成真正的異模型驗收，需要在原 Host 上讓長 brief 的 lane turn 能落收據（短 probe 回合已證明該 arm 可服務）。
+`R27VERIFYACCEPT`（`openai-codex/gpt-6.1-sol`，獨立 Codex CLI 行程、read-only，306.37 s，usage 1,194,662 in / 10,542 out）回的是 **5 CONFIRMED / 12 UNPROVEN / 0 REFUTED**，全文在 `out/VERIFY_LANE_VERDICT.md`。
+
+**它確認的**：C9（L1 `6224679` B / `28005` lines / `cbdd75fd…`）、C10（19 clauses → **76** properties，逐 WP 給出 32/20/48/16/8/4）、C11（`full.excluded={}`，六項在 `not_runnable_in_CI`）、C12（r27 prefix 逐位元等於 r26；667,205 B / `09c666da…` vs 688,148 B / `151645f8…`）、C13（`merge-base` 空輸出 exit 1、`90 / 328`）。另外它用 Node 的 crypto **獨立驗到 7/7 簽章**，並自行重做了「反轉一個 byte 必失敗」的變異。
+
+**它沒能驗的 12 項，原因不是修補可疑，而是三個環境／設計問題，其中兩個是我的錯**：
+
+1. **`spawn ...Python311/python.exe ENOENT`** — checker 的子行程起不來 Python，所以所有 Python 支撐的檢查（C1–C4、C7、C15–C17）根本沒開始，`exit` 是 `ENOENT` 而不是應用程式的退出碼。它誠實寫 `UNPROVEN` 而非 `REFUTED`。
+2. **我的 brief 自相矛盾（我的缺陷）** — 我一面要求 read-only，一面要它跑「會寫 scratch fixture」的自測（`verify_quorum.py:441–452` 寫檔、`selftest_fhs_3lm.py` 會 `shutil.rmtree`）。它依規定拒絕寫入，於是 C5/C6 無法執行。這是**驗收 brief 的設計錯誤**，不是修補的缺陷。
+3. **`fatal: detected dubious ownership`** — git 在它那個子行程身分下拒絕讀 `hgk-bridge`，C14 因此 UNPROVEN。
+4. C17 還暴露我給的複現命令不完整：`--profile payload` 不會選到 payload scope，需要 `--scope payload`（`gate_r20.py:2048/2050/2072`）。命令是我寫錯的，不是 gate 壞了。
+
+**這一節因此說明兩件事**：真正的異模型／異行程驗收**已經發生**且**有收據**；而它最有價值的產出不是「PASS」，是**抓出 maker 的驗收指令本身有三處不可執行**。
 
 ---
 
@@ -193,6 +203,9 @@ is-shallow: false ; grafts: none ; refs/replace: none
 | assignment 投影 vs pool 不一致 | 5 個槽 spawn 前被拒；修它屬於 registry/assignment 語義變更 | HGK owner |
 | HGK full 22-gate / 31 冊原 round | 本機無 31 冊 corpus，`--profile full` exit 2 | 原 Windows round owner |
 | 七份藍圖生效 | 全部 `PROPOSED_FOR_RATIFICATION`，需各原 Reader ratify | 各原域 Reader |
+| **新**：checker 子行程起不了 Python | 獨立驗收的 12 項因此 `UNPROVEN`；`spawn …python.exe ENOENT` | 原 Host（lane sandbox exec surface） |
+| **新**：驗收 brief 自己要 read-only 又要跑會寫檔的自測 | 我的 brief 缺陷；C5/C6 未執行 | 下一輪：把自測拆成「唯讀重導向到暫存」或允許 checker 在隔離副本寫 | 
+| **新**：`git "dubious ownership"` | checker 無法讀 bridge 的 git 物件，C14 UNPROVEN | 原 Host 的 git safe.directory／擁有者設定 |
 
 ---
 
@@ -228,8 +241,9 @@ g24_falsified_by_round: SOURCE_CONTRACT_BYTES_MISMATCH
 owner_signatures: SEVEN_OF_SEVEN_ED25519_VERIFIED
 hgk_ancestry: DISJOINT_MERGE_BASE_EXIT_1_ROOTS_DIFFER
 lane_actual_served: PLAN_sol / EXECUTE_deepseek / VERIFY_sol   # 3 served, 5 refused pre-spawn ERR_ARM_NOT_IN_ASSIGNMENT
-verify_lane_long_turn: VERIFY_LONG_TURN_NO_RECEIPT   # probe turns served; the long acceptance turn produced no receipt twice
-acceptance_independence: PROCESS_AND_EVIDENCE_PATH_ONLY   # model separation NOT established
+verify_lane_long_turn: SERVED_IN_480S_WINDOW   # the 330 s foreground retry timed out; the wrapper's 480 s turn succeeded
+verify_lane_verdict: 5_CONFIRMED_12_UNPROVEN_0_REFUTED   # out/VERIFY_LANE_VERDICT.md
+acceptance_independence: DISTINCT_PROCESS_AND_MODEL_FOR_THE_VERIFY_TURN   # gpt-6.1-sol vs deepseek-v4.1-flash; child exec surface limited its reach
 full_w0_closeout: HOLD_NOT_ACCEPTED
 native_signed: NOT_GRANTED
 independent_pass_challenge: NOT_APPLIED
@@ -238,3 +252,19 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 ```
 
 **給 owner 的結論**：外審指出的「會產生假綠」的三個類別（票、綁定、metadata）在本輪已由真實負例封住，且**其中一個新加的檢查被本輪自己反證過**（G24 對 `111331` 失敗）；HGK「327 commits」的作者宣稱已被本地 DAG 證據推翻，因此主線只能走受界內容移植，不能快轉合併。三個 PR 都在等你的合併決定；`EC-R26-001` 的機制已在 repo 內生效，但把它鋪到其他 Session／Host 之前，必須先決定那 122 個測試怎麼取得合法 binding——這件事不是 agent 能自行決定的治理問題。
+
+---
+
+## 10｜本報告對自身先前版本的更正（append-only，不覆寫）
+
+先前 commit `d4a4fa1` 的本報告寫著 `VERIFY_LONG_TURN_NO_RECEIPT`，理由是兩次長回合都看不到收據。**那個結論是錯的，原因是我讀得太早**：wrapper 那一次（`R27VERIFYACCEPT`）實際在 **306.37 s** 後成功並落地 `receipt.json`（`ok=true`、exit 0、nonce present、usage 1,194,662 in / 10,542 out），只是我檢查目錄時它還沒寫完。
+
+更正如下，舊敘述在 §2 `R26-11`、§3 VERIFY 列與 §5.1 已被取代：
+
+| 舊敘述 | 更正後 |
+|---|---|
+| 長回合無收據 → 只能靠 Commander 自跑 | **長回合 served 並有收據**；獨立異模型驗收成立，其裁決為 5 CONFIRMED / 12 UNPROVEN / 0 REFUTED |
+| `acceptance_independence: PROCESS_AND_EVIDENCE_PATH_ONLY` | `DISTINCT_PROCESS_AND_MODEL_FOR_THE_VERIFY_TURN`（但 child exec surface 限制了它的可達範圍） |
+| `VERIFY_LONG_TURN_NO_RECEIPT` | `SERVED_IN_480S_WINDOW`；前檯 330 s 重跑確實 `TIMEOUT`，那是視窗太短，不是 lane 不服務 |
+
+教訓（寫進本輪自己的紀錄）：**在 detached lane 上「看不到檔案」不等於「沒有產出」；收據是延遲寫入的，宣告 BLOCKED 之前必須先確認行程是否仍活著、或等到 timeout 邊界之後再看一次。** 這正是本輪在修的同一類假綠／假紅問題。
