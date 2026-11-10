@@ -141,15 +141,19 @@
 - 順序：Fabric（讀 `AGENTS.md`／`INTEGRATION/FHS/README.md`／`get FHS/AGENTS.md`／repository-map 語義）→ SBL（`integrations/pipd` 為 canonical）→ HG-KSEOS（僅去敏量測／具名缺口）。
 - 邊界：不改 `INTEGRATION/MANIFEST.json`、不改 `repository-map.json`、不改 HGK 三車道與 registry；只新增本輪證據目錄。
 
-| Repo | 分支 | Commit | PR | 狀態 |
+| Repo | 分支 | Commit | PR | 遠端讀回 |
 |---|---|---|---|---|
-| Fabric | `fhs/hermes-023-w0-w1-integration-20261110` | 見 §9.1 | 見 §9.1 | 待推送 |
-| SBL | `evidence/hermes-023-integration-20261110` | 見 §9.1 | 見 §9.1 | 待推送 |
-| HG-KSEOS | — | — | — | 見 §9.1 |
+| Fabric | `docs/fhs-hermes-023-integration-20261110` | `f623ff04b8fb7a77a6f75836a0d996d2a3d328a5` | **#50** https://github.com/shw097-team/Fabric/pull/50 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
+| SBL | `evidence/fhs-hermes-023-integration-20261110` | `3c4e89f921ac4dd5f67c1607380669668a7c41b7` | **#65** https://github.com/shw097-team/SBL/pull/65 | `open`／base `main`／head sha 相符／`mergeable_state=unstable` |
+| HG-KSEOS | — | — | — | **`PUBLISH_HOLD`**（具名理由見下） |
 
-### 9.1 推送後回填
+### 9.1 發表結果與界線
 
-（推送完成後以實際 URL 覆寫本小節。）
+- **兩個 PR 皆已建立且遠端可讀回**（HTTP 201 → 再讀 `state=open`，head sha 與本地推送一致）。`unstable` 只表示檢查未定，**不是** merge、**不是** CI PASS、**不是** 任何原域 ACK。
+- **Fabric 的提交以 plumbing 完成**（`hash-object` → `update-index` → `write-tree` → `commit-tree` → `push`），因為該機磁碟只剩 16 MB，`git worktree add` 無法 materialise 4,253 個檔案（`No space left on device`）。物件與 tree 完全相同，差別只在沒有 checkout 到工作區。
+- **HG-KSEOS 不發 PR，記 `PUBLISH_HOLD`**：本輪對該庫沒有真正的領域差額——唯二的 HGK 事實（本地 in-force epoch **41** 對 GitHub `main` epoch **33**；Codex app/runtime 版本錯位造成的工具面缺陷）都屬 HGK 自己的控制平面，需要 Owner 決策，且 HGK `main` 沒有 CI 可驗證變更。發一個純說明 PR 只會製造「看起來處理了」的假象。Resume：Owner 決定是否要一份 HGK evidence note。
+- 三個庫的 `INTEGRATION/MANIFEST.json`、`repository-map.json`、lane registry、pool、assignment **均未改動**；本輪只新增各自目錄下的檔案。
+- Falcon 檢查：Token 只經由 `git credential fill`（`GIT_ASKPASS`）取得，並以 curl 的 **stdin config** 傳遞；未出現在 argv、stdout、日誌、URL 或任何 Repo 檔案中。
 
 ## 10｜明顯**不**主張的事
 
