@@ -1,0 +1,211 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "PLAN",
+  "role": "writer",
+  "role_binding_source": null,
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\toolchain\\codex\\0.164.0-alpha.11.1\\codex.exe",
+  "codex_home": "C:\\Users\\user\\.codex",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": false,
+  "human_home_transport_acknowledged": true,
+  "skipped_arms": [],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "workspace-write",
+  "sandbox_by_role_default": "read-only",
+  "sandbox_escalation_authorised": true,
+  "cwd": "C:\\Projects\\Agent_Workspace\\FHS\\HG-KSEOS",
+  "side_effect_note": "no write access granted by the sandbox mode",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\FHS\\HG-KSEOS\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "forced_rank",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\.codex",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "openai-codex",
+        "model": "gpt-6.1-sol",
+        "requirement": "relay_pool",
+        "ok": true,
+        "detail": "non-empty refreshable credential present in codex-accounts.json"
+      }
+    ],
+    "degraded": false,
+    "required_arm": "openai-codex/gpt-6.1-sol"
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "files_before": 4,
+    "files_after": 10,
+    "added": [
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/ClaimLedger.tsv",
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/ContradictionLedger.tsv",
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/OpenQuestionLedger.tsv",
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/RejectedAlternativeLedger.tsv",
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/ResearchSourceDenominator.tsv",
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111/ResearchSynthesis.md"
+    ],
+    "removed": [],
+    "changed": [],
+    "mutated": false,
+    "mutated_known": true,
+    "inconclusive": false,
+    "verdict": "CLEAN",
+    "rule": "removed/changed => verdict void; added is recorded, not fatal; an empty side => INCONCLUSIVE (never a clean verdict from nothing)",
+    "guard_roots": [
+      "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111"
+    ],
+    "subject_digest_sha256_before": "bc6bd6c4c56dbaf3df8a5334c8269101ae62df2a96d38cf4eae6aa013ca521f1",
+    "subject_digest_sha256_after": "95b45e09fcd12a909dcc8df4c6f0239e8f050e6122ec3a3bbf259d48b7877c97"
+  },
+  "attempt_log_dir": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/lanes/far-runs/PLAN/FARW0R27PLAN-20261111T011922",
+  "output_dir_policy": {
+    "mode": "explicit-path",
+    "derived": null,
+    "existing": true
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "openai-codex",
+      "model": "gpt-6.1-sol",
+      "transport_model": "gpt-6.1-sol",
+      "sandbox": "workspace-write",
+      "reasoning_effort": "medium",
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 311.44,
+      "nonce_present": true,
+      "nonce_present_raw_stdout": true,
+      "nonce_present_anywhere": true,
+      "nonce_in_agent_message": true,
+      "producer": {
+        "script_sha256": "872bf631d812c23a887be4fca0ed7456d1b9ed61519b538c06286de69c1df1a3",
+        "git_head": "86f40ec114f19bbd35314e376da4d0bed9805b22",
+        "schema": "HGK-LANE-DISPATCH-PRODUCER/1"
+      },
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 0,
+      "usage_offset": 36061082,
+      "usage_provider": null,
+      "usage_model": null,
+      "usage_status": null,
+      "usage_receipt_ok": true,
+      "usage_receipt_reason": "no usage row was appended after the attempt offset",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/lanes/far-runs/PLAN/FARW0R27PLAN-20261111T011922",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\lanes\\far-runs\\PLAN\\FARW0R27PLAN-20261111T011922\\attempt-20584-1794331163-1-stdout.txt",
+      "stdout_bytes": 705181,
+      "stdout_sha256": "bfbfddfc876a3826c7e51ff958d80e7dc4646005c42e1b30a94945b7744dc8f3",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\lanes\\far-runs\\PLAN\\FARW0R27PLAN-20261111T011922\\attempt-20584-1794331163-1-stderr.txt",
+      "stderr_bytes": 659,
+      "stderr_sha256": "d34d93c968f5d779f56de127d6d21b0af87bba0bbdf755e6015a6609fc04a1ff",
+      "stdout_tail": "the already demonstrated instruments—scoped claims, independent rereads, superseding signatures, in-memory mutation overlays, qualified interpreter paths, and isolated fixtures—without relabelling them as canonical acceptance.\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":2023076,\"cached_input_tokens\":1838464,\"cache_write_input_tokens\":0,\"output_tokens\":9798,\"reasoning_output_tokens\":1228}}\n",
+      "stderr_tail": "te unified exec process: orchestrator_helper_launch_failed: setup refresh failed to launch helper: helper=codex-windows-sandbox-setup.exe, cwd=C:\\\\\\\\Projects\\\\\\\\Agent_Workspace\\\\\\\\FHS\\\\\\\\HG-KSEOS, log=C:\\\\\\\\Users\\\\\\\\user\\\\\\\\.codex\\\\\\\\.sandbox\\\\\\\\sandbox.2026-11-10.log, error=program not found\\\")\" }\n",
+      "console_window_events_delta": 0,
+      "console_window_ledger": "C:\\Projects\\Agent_Workspace\\FHS\\HG-KSEOS\\var\\console-window-events.jsonl",
+      "console_window_owners": [],
+      "identity_source": "codex-rollout",
+      "identity_rollout": "C:\\Users\\user\\.codex\\sessions\\2026\\11\\11\\rollout-2026-11-11T01-19-24-01a1c678-bfea-73f3-9834-ac0fee53c778.jsonl",
+      "identity_note": "served arm read from the codex rollout written for this run and cwd"
+    }
+  ],
+  "used_rank": 1,
+  "used_transport_model": "gpt-6.1-sol",
+  "used_seconds": 311.44,
+  "generated_utc": "2026-11-10T17:24:36.224206+00:00",
+  "assignment_posture": {
+    "enforced": false,
+    "posture": {
+      "ok": true,
+      "arms": [
+        "gpt-6.1-sol",
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "revision": 43,
+      "role": "PLAN",
+      "authority": "owner-order-20261024-s205-od01-plan-verify-gpt61sol-execute-deepseek",
+      "shape": "role",
+      "primary_arms": [
+        "gpt-6.1-sol",
+        "openai-codex/gpt-6.1-sol"
+      ],
+      "fallback_arms": [],
+      "declared_fallbacks": [],
+      "fallbacks_declared": false,
+      "alternates_are_operator_selectable": false
+    },
+    "arms_outside_assignment": []
+  },
+  "producer": {
+    "script_sha256": "872bf631d812c23a887be4fca0ed7456d1b9ed61519b538c06286de69c1df1a3",
+    "git_head": "86f40ec114f19bbd35314e376da4d0bed9805b22",
+    "schema": "HGK-LANE-DISPATCH-PRODUCER/1"
+  },
+  "comparison_policy": "compare two receipts ONLY when producer.script_sha256 is equal; tools/compare_lane_receipts.py refuses otherwise (TT-R20-9)",
+  "selection_filter": {
+    "required_arm": "openai-codex/gpt-6.1-sol",
+    "candidates_before": [
+      "openai-codex/gpt-6.1-sol"
+    ],
+    "candidates_after": [
+      "openai-codex/gpt-6.1-sol"
+    ],
+    "why": "selection constrained by --require-arm (alias-equivalent), not only judged after the call"
+  },
+  "served_arm_assigned": true,
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": true,
+  "identity_source": "codex-rollout",
+  "guard_subject_outside_repo": [
+    "C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-far/FABRIC/fabric-autonomous-research/runs/FAR-W0-R27-UNBLOCK-20261111"
+  ],
+  "warnings": [
+    "WARN_GUARD_SUBJECT_OUTSIDE_REPO"
+  ],
+  "completion_evidence": {
+    "checked": false
+  },
+  "usage_receipt_ok": true,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "required_arm": "openai-codex/gpt-6.1-sol",
+  "required_arm_satisfied": true,
+  "required_arm_note": "no arm served; the pin is recorded, not satisfied",
+  "served_arm_raw": "openai-codex/gpt-6.1-sol",
+  "served_arm": "openai-codex/gpt-6.1-sol"
+}

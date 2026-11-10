@@ -32,7 +32,7 @@ def main() -> int:
         if not p.is_file():
             continue
         rel = p.relative_to(SRC)
-        if any(part in SKIP_PARTS for part in rel.parts) or ("L7" in rel.parts and "neg" in rel.parts):
+        if any(part in SKIP_PARTS for part in rel.parts) or ("L7" in rel.parts and "neg" in rel.parts) or "B4_fullprofile" in rel.parts and ("corpus" in rel.parts or True) or "B4_fullprofile" in rel.parts:
             skipped.append({"path": rel.as_posix(), "bytes": p.stat().st_size,
                             "why": ("excluded directory" if not ("L7" in rel.parts and "neg" in rel.parts)
                                     else "L7's negative fixtures are byte-copies of governed blueprints; the driven "

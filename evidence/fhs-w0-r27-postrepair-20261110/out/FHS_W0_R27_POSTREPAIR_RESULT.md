@@ -284,3 +284,30 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 | 5 | 硬入口已接到 wrapper 鏈 | `scripts/hgk-lane-run.sh` 在 `origin/main` **本來就未被追蹤**（untracked，pre-existing）；已發布的攔截點是 `scripts/hgk-lane-dispatch.py` 的 spawn 邊界 | PR 內只宣稱 dispatcher 層強制；wrapper 鏈的 W0/W1/W2 只存在於本機證據，不入 PR |
 
 另外：r27 文件在合併時兩邊都改過同一個生成檔，已改採車道的最終版（**689,974 B / `9f2af277…` / CH27.V**，prefix 仍逐位元等於 r26，0 個 conflict marker）。VERIFY 車道先前確認的 C12 是 **prefix 性質**，兩版都成立，所以那條確認不因換版失效。
+
+---
+
+## 12｜更正：31 份來源文件**在**，我先前的「corpus 已處置」是錯的
+
+owner 指出兩個知識庫資料夾後，我以 `SOURCE_LOCK_V3.json` 的 **declared sha256** 逐一比對（不是比檔名）：
+
+```
+declared sources: 31 · MATCHED: 31 · MISSING: 0
+declared_lines_sum 111331 · observed_bytes_sum 22281767 · sha256 match 31/31
+```
+
+把 31 份按 declared 檔名 staged 成一個 corpus 目錄後，正確呼叫
+`gate_r20.py --profile round --scope full --sources ./corpus` 得到：
+
+```
+VERDICT FAIL pass=17/22 blocking_fail=3
+G11 LINE_CONVENTION  → 轉綠（先前 ABSENT:SBL_PIPD-LS-PKG_DOC-00(1).md）
+G13 COUNT_SCOPE      → 轉綠（先前 17 files at the corpus, expected 31）
+```
+
+剩下 3 個 blocking 全是**路徑搬遷**，不是語義：
+`G16a/G16b` 找 `C:/Projects/Agent_Workspace/HG-KSEOS/pyproject.toml`（repo 已搬到 `.../FHS/HG-KSEOS`）、
+`G19` 的 25 個 copy-register root 有 24 個在 2026-11-10 清理中處置、`G24` 找 `evidence/FHS_ORIGINAL_ACK.json`（本 round 佈局在 `out/`）。
+
+**因此 §7 的「full profile 需要 31 冊、本機沒有」作廢**：31 冊在知識庫，複製改名＋一個 `--sources` 就是幾分鐘。
+證據：`evidence/B4_fullprofile/full_profile_corpus.log`。
