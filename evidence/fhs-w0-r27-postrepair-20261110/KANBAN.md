@@ -31,18 +31,18 @@ subject_sha256: 0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f
 
 | # | 卡 | finding / predicate | 車道 | 狀態 |
 |---|---|---|---|---|
-| K01 | G29 票証嚴格化 + 3 新負例 + CI | EC-R26-003 / R26-01 | L1 sbl-quorum | TODO |
-| K02 | FHS-3L&M 綁定：去硬編碼/數值 epoch/per-run 原子檔/雙 SHA/退役/TTL | EC-R26-002 / R26-04 | L2 sbl-3lm | TODO |
-| K03 | L1 bytes/lines、76 properties、EVIDENCE_SCOPE、G24 typed check | EC-R26-004/009/011 / R26-02 | L3 sbl-meta | TODO |
-| K04 | 七份 owner 簽章 Ed25519 真驗 + preauth 時區 finding | EC-R26-008 / R26-06 | L3 sbl-meta | TODO |
-| K05 | HGK H0 DAG 鑑識 + H1 config 差額台帳 + H2 main 衍生橋接 | EC-R26-005/006 / R26-07/08 | L4 hgk-bridge | TODO |
-| K06 | 機械硬入口：pre-dispatch guard + token + fresh-PID bypass NEG | EC-R26-001 / R26-03 | L5 hgk-hook | TODO |
-| K07 | Fabric r26 mirror 政策准入 + manifest + 消費軌跡 + 2 負例 | EC-R26-013 / R26-09 | L6 fabric-mirror | TODO |
-| K08 | r27 append-only 候選 + 七份藍圖差額 + claim ceiling | EC-R26-010/012 / R26-10 | L7 sbl-docs | TODO |
-| K09 | ActualServed 實測（relay/codex 車道） | EC-R26-007 / R26-05 | Commander | TODO |
-| K10 | 整合驗收（獨立 process/evidence path 重跑） | R26-11 | VERIFY | TODO |
-| K11 | 發佈：SBL / HGK / Fabric 三庫 branch + PR | — | Commander | TODO |
-| K12 | 最終報告 + 證據索引 | all | Commander | TODO |
+| K01 | G29 票証嚴格化 + 3 新負例 + CI | EC-R26-003 / R26-01 | L1 sbl-quorum | **DONE**（128/128 掃描 0 findings） |
+| K02 | FHS-3L&M 綁定：去硬編碼/數值 epoch/per-run 原子檔/雙 SHA/退役/TTL | EC-R26-002 / R26-04 | L2 sbl-3lm | **DONE**（E00–E11 全跑） |
+| K03 | L1 bytes/lines、76 properties、EVIDENCE_SCOPE、G24 typed check | EC-R26-004/009/011 / R26-02 | L3 sbl-meta | **DONE**（G24 負例由 Commander 反證） |
+| K04 | 七份 owner 簽章 Ed25519 真驗 + preauth 時區 finding | EC-R26-008 / R26-06 | L3 sbl-meta | **DONE（驗章）／HOLD_OWNER（時區重簽）** |
+| K05 | HGK H0 DAG 鑑識 + H1 config 差額台帳 + H2 main 衍生橋接 | EC-R26-005/006 / R26-07/08 | L4 hgk-bridge | **DONE**（DISJOINT；PR #16 draft） |
+| K06 | 機械硬入口：pre-dispatch guard + token + fresh-PID bypass NEG | EC-R26-001 / R26-03 | L5 hgk-hook | **DONE_WITH_DEBT**（122 個既有測試待遷移） |
+| K07 | Fabric r26 mirror 政策准入 + manifest + 消費軌跡 + 2 負例 | EC-R26-013 / R26-09 | L6 fabric-mirror | **DONE**（PR #54） |
+| K08 | r27 append-only 候選 + 七份藍圖差額 + claim ceiling | EC-R26-010/012 / R26-10 | L7 sbl-docs | **DONE**（prefix 逐位元相同） |
+| K09 | ActualServed 實測（relay/codex 車道） | EC-R26-007 / R26-05 | Commander | **PARTIAL**（3 served / 5 pre-spawn refused） |
+| K10 | 整合驗收（獨立 process/evidence path 重跑） | R26-11 | VERIFY | **PARTIAL**（14/14 重跑；長回合車道無收據） |
+| K11 | 發佈：SBL / HGK / Fabric 三庫 branch + PR | — | Commander | **DONE**（#66 / #16 draft / #54） |
+| K12 | 最終報告 + 證據索引 | all | Commander | **DONE** |
 
 ## 3. Done 的定義
 

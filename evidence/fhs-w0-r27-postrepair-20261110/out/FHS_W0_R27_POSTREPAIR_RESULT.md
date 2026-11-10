@@ -93,7 +93,7 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 | `R26-08` 分批 main 衍生 PR | **OPENED（draft）** | PR #16，未合併 |
 | `R26-09` Fabric mirror 准入 | **CLOSED（repo 內）** | PR #54 |
 | `R26-10` r27 + 七份藍圖差額 | **CLOSED（候選）** | r27 append-only + 七份 `PROPOSED_FOR_RATIFICATION` |
-| `R26-11` 獨立受護重驗 | **APPLIED_BY_LANE_RUN** | VERIFY_SECURITY `gpt-6.1-sol` Codex CLI 車道收據見 `lanes/runs/VERIFY_SECURITY/` |
+| `R26-11` 獨立受護重驗 | **PARTIAL：短回合 lane 已 served；長回合無收據** | VERIFY_SECURITY `gpt-6.1-sol` 的 probe 回合有收據（exit 0、nonce、23.26 s）；但同一 lane 的**長驗收回合連兩次（wrapper detached 與前景直呼）都只留下 `receipt.json.log` 的兩行 WARN、零 attempt、無收據** → 記 `VERIFY_LONG_TURN_NO_RECEIPT`。故本輪的 acceptance challenge 實際由 **Commander 另起新行程、另存證據路徑** 重跑（§5，14/14），那是 **process + evidence-path separation，不是 model separation** |
 | `R26-12` 發行 | **NOT_APPLIED（本輪不涉發行）** | — |
 
 ---
@@ -106,9 +106,9 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 |---|---|---|---|---|
 | **Commander & PLAN** | `openai-codex/gpt-6.1-sol` (medium, OpenAI OAuth) | 同 | ✅ `hgk-lane-run.sh probe PLAN` | **`openai-codex/gpt-6.1-sol`，exit 0，nonce present，60.16 s** |
 | **EXECUTE（bounded writer）** | `opencode-go/deepseek-v4.1-flash` | 同 | ✅ | **`opencode-go/deepseek-v4.1-flash`，exit 0，20.61 s**（另有 7 個 Hermes 子代理實作車道跑在同一 arm） |
-| **VERIFY / SECURITY / Acceptance Challenge** | `openai-codex/gpt-6.1-sol`（Codex CLI checker） | 同 | ✅ | **`openai-codex/gpt-6.1-sol`，exit 0，23.26 s**；acceptance challenge 車道另跑一次（見 §5） |
+| **VERIFY / SECURITY / Acceptance Challenge** | `openai-codex/gpt-6.1-sol`（Codex CLI checker） | 同 | ✅（probe 回合） | **`openai-codex/gpt-6.1-sol`，exit 0，23.26 s**。**但長驗收回合無收據**：`R27VERIFYACCEPT`（wrapper detached）與 `R27VERIFYFG`（前景直呼）兩次都只留下 `receipt.json.log` 的 `WARN_GUARD_SUBJECT_OUTSIDE_REPO` + `WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE`，**0 個 attempt 列、無 `receipt.json`、無 child 存活** → `VERIFY_LONG_TURN_NO_RECEIPT`。驗收因此改由 §5 的獨立行程重跑，並在 §5.1 明列「這是 process 分離，不是 model 分離」 |
 
-**沒有**把 `Selected` 當 PASS：三個 lane 都有 `HGK-LANE-RESOLUTION/1` 收據，`required_arm == served_arm`。
+**沒有**把 `Selected` 當 PASS：三個 lane 的 probe 回合都有 `HGK-LANE-RESOLUTION/1` 收據且 `required_arm == served_arm`；長回合沒有收據者一律不計入 PASS，只記 BLOCKED。
 
 ---
 
@@ -157,6 +157,12 @@ L6.pytest P0 · L6.validate P0 · L5.selftest P0 · L5.pytest P0
 1. **G24 負例**：把 `l1.bytes` 改回 `111331` 的 payload 鏡像 → `VERDICT FAIL pass=13/16 blocking_fail=2`，首個 FAIL 為 `G24 SOURCE_CONTRACT_BYTES_MISMATCH`。
 2. **七份簽章**：`7/7 signatures verified against owner key d42c654cd1afba80` + `FINDING_R26-06_TZ_UNQUALIFIED`。
 3. **r27 append-only**：`prefix identical: True`，r27 688,148 B vs r26 667,205 B（payload LF 分身）。
+
+### 5.1 這一節算什麼獨立性，不算什麼
+
+- **算**：`acceptance_rerun.py` 對每個檢查都 spawn 新行程、用另一棵證據目錄、由不是寫該檢查的車道啟動；`L1.r25-scan` 是我自己對真收據的掃描，不是轉述。
+- **不算**：這仍是**同一個模型家族**（本 session 的 EXECUTE arm）在做驗收。**model separation 沒有成立**。
+- **不算**：長回合的 VERIFY_SECURITY 車道（`gpt-6.1-sol`）**沒有拿到收據**，因此不能說「已由異模型獨立驗收」。兩次嘗試的失敗都留在 `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-…/` 與 `lanes/runs-fg/VERIFY_SECURITY/`，錯誤為零 attempt、無 receipt（`VERIFY_LONG_TURN_NO_RECEIPT`）。要把這一段補成真正的異模型驗收，需要在原 Host 上讓長 brief 的 lane turn 能落收據（短 probe 回合已證明該 arm 可服務）。
 
 ---
 
@@ -222,6 +228,8 @@ g24_falsified_by_round: SOURCE_CONTRACT_BYTES_MISMATCH
 owner_signatures: SEVEN_OF_SEVEN_ED25519_VERIFIED
 hgk_ancestry: DISJOINT_MERGE_BASE_EXIT_1_ROOTS_DIFFER
 lane_actual_served: PLAN_sol / EXECUTE_deepseek / VERIFY_sol   # 3 served, 5 refused pre-spawn ERR_ARM_NOT_IN_ASSIGNMENT
+verify_lane_long_turn: VERIFY_LONG_TURN_NO_RECEIPT   # probe turns served; the long acceptance turn produced no receipt twice
+acceptance_independence: PROCESS_AND_EVIDENCE_PATH_ONLY   # model separation NOT established
 full_w0_closeout: HOLD_NOT_ACCEPTED
 native_signed: NOT_GRANTED
 independent_pass_challenge: NOT_APPLIED

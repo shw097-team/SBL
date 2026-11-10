@@ -1,6 +1,6 @@
 # EVIDENCE INDEX — FHS W0 r26 post-repair round
 
-files: 762 — unreadable: 0
+files: 772 — unreadable: 0
 
 | path | bytes | sha256 |
 |---|---:|---|
@@ -692,7 +692,7 @@ files: 762 — unreadable: 0
 | `evidence/L7/prefix_only.bin` | 667205 | `09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7` |
 | `evidence/L7/run_amendment_negatives.py` | 6088 | `8f5cf306f5791264562b7bfa43dda7335d96791fe1acce9a64a34cc55ac344b1` |
 | `evidence/OWNER_PREAUTH.json` | 2591 | `fcafa064c37321bcce3726df11391fe02fcfc88aeff11fb289af988b502baefd` |
-| `KANBAN.md` | 3821 | `6abbacae5da3b300a99d50753469ca08adc798dfbe334513482937b3eac2a427` |
+| `KANBAN.md` | 4287 | `84fa76d8547beac7c8db2bdd0effeb65709d78717a2a459bc3e35df79ce7b34d` |
 | `lanes/PLAN_BRIEF.md` | 2589 | `f38c0219934fa3e4c823f58231e8494af385dc1651a387cafb3615f68c2b5346` |
 | `lanes/probes/PROBE_BRIEF.md` | 398 | `6c654375afbd86aa29ddb8cb8707471092ee470d927981bc0af5e94e25918433` |
 | `lanes/runs/EXECUTE/R27PROBEEXE1-20261111T001533/attempt-19548-1794327334-1-stderr.txt` | 659 | `9bb7bae2612b3b748936342c0dffdf7201352a1cadb7845bd4e23cc897152f65` |
@@ -734,14 +734,24 @@ files: 762 — unreadable: 0
 | `lanes/runs/VERIFY_SECURITY/R27PROBEVER3-20261111T002126/dispatch.log` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | `lanes/runs/VERIFY_SECURITY/R27PROBEVER3-20261111T002126/receipt.json` | 1075 | `a983285df383bd9df0a40a1f8b6f88fc3570002afeefce0099f361c6d075938b` |
 | `lanes/runs/VERIFY_SECURITY/R27PROBEVER3-20261111T002126/receipt.json.log` | 1196 | `2d057198f93975ce5e7a324b0d9d32cd163484de38a0347f735d86d9c2a2ae75` |
+| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/attempt-4800-1794327946-1-stderr.txt` | 659 | `1b59eec5ba00d9d08e6021896ea2f669f5437b15212fb7979a7d63ed8f29b838` |
+| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/attempt-4800-1794327946-1-stdout.txt` | 441339 | `6a90ccec4da10bdeb304ff7860a0f260303ba3860ff0ff439936a6de90f8e67f` |
 | `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/dispatch.log` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/receipt.json.log` | 1121 | `982cfc4245b46bd58d355618a444caa2619d6fc8727344065531a3dc76368b10` |
-| `lanes/runs-fg/VERIFY_SECURITY/receipt.json.log` | 1122 | `a215620e5bf85d8a47db89a395750103e1b3fe8117e0e11f2a44ab9cd3320b83` |
+| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/receipt.json` | 9112 | `5eec31054c22cc1d25d6453ee379f269c2f5a8a994393dac747e89e5e4b6ba12` |
+| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/receipt.json.attempts.ndjson` | 3090 | `d5b1cf758c7683b1d48d36216eb24f2599a06c9429e2a282dc0080661ef9701b` |
+| `lanes/runs/VERIFY_SECURITY/R27VERIFYACCEPT-20261111T002546/receipt.json.log` | 10324 | `78eb813aa319f244b0bf031e755c6caabca49b6eb2bee1e8c2766264eb9f60d9` |
+| `lanes/runs-fg/VERIFY_SECURITY/attempt-19564-1794328162-1-stderr.txt` | 659 | `17f9a4515330735f3121402edc9a877df1b5b50eabd9db9b71c2a256170417fb` |
+| `lanes/runs-fg/VERIFY_SECURITY/attempt-19564-1794328162-1-stdout.txt` | 390091 | `b923ff0404a48895504ced4b353605b0cd5ce3e0b348983a9c72fe6a7867869e` |
+| `lanes/runs-fg/VERIFY_SECURITY/receipt.json` | 8734 | `b1fbd73aa2abf70d30d0eceb1b5107d32518376aff46f3186c8dc4e47c82d468` |
+| `lanes/runs-fg/VERIFY_SECURITY/receipt.json.attempts.ndjson` | 3023 | `b9d779997f28b415fee6b94bbbf40f691e802e17aac4fedfb646b1e6655ba7c5` |
+| `lanes/runs-fg/VERIFY_SECURITY/receipt.json.log` | 9943 | `78c30a122b8ac4db79585d742eeb3f68e83afad281e2c5524e65e2828e51aa57` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/dispatch.log` | 0 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `lanes/runs-plan/PLAN/R27PLANWORK2-20261111T003421/receipt.json.log` | 1111 | `9ea25bce5f47b23d2ff6a333c46469a37fd1266f0dc30b9c2ab51d0952914b08` |
 | `lanes/VERIFY_BRIEF.md` | 5088 | `2049b7b1343f7b91ed3c005c415089fce8a47b3c138f3d400c04387401c1127e` |
 | `out/BLUEPRINT_AFFECTED_SCOPE_DELTA.json` | 26798 | `12d7b68480e9d42ab1e7f05e00a37893d634792caaf7fe454747ebab213774db` |
 | `out/BLUEPRINT_AFFECTED_SCOPE_DELTA.md` | 25942 | `0fdbf02832a894a35c0f361c2aee1acc1be07b71655fd7a5e2beaf2f90ad8fc6` |
 | `out/CLAIM_CEILING_STATEMENT.md` | 5778 | `5657506ac9b6ba0c4ea58750cd56f536863576f118a78f1f080d608072fe3ed0` |
-| `out/FHS_W0_R27_POSTREPAIR_RESULT.md` | 19155 | `475af42859a5cd821d507f619d5c62225bc53ea127058f11b9ee1b05f742e035` |
+| `out/FHS_W0_R27_POSTREPAIR_RESULT.md` | 21182 | `b692ac331e9ac6998db656f6e32d9381f3caff3c509c8a771dfbbd082732ae1a` |
 | `out/H0_DAG_RECONCILIATION.json` | 7438 | `1a214fde5e82b760cd826199d0c2aaa5680be4e8ac7d68d3d62445e99139aae4` |
 | `out/H1_CONFIG_DELTA_LEDGER.json` | 11252 | `6b97028d75e8e7be7d4143eb83a26882e72759dbcbbf0878fa439389ede9f232` |
 | `out/L1_RESULT.json` | 17995 | `c5f23524cb689db24a9edf716fa9591a9224693e36e4d4c44d764ed43dab3e86` |
@@ -763,6 +773,6 @@ files: 762 — unreadable: 0
 | `out/PR_BODY_SBL.md` | 4980 | `ca79246192db24ee15806cca518ab38ee5d0a682c11411b5666ac9658b93f27d` |
 | `tools/acceptance_rerun.py` | 6485 | `b3f7406e89a740293c68ed9187dae72115d723897fa5eaba907ff1483078616b` |
 | `tools/make_index.py` | 2255 | `af926f6aa6ae1e849267990155b1c6488bf7d3f0b3204e379ac3b7f0f52a4419` |
-| `tools/publish_evidence.py` | 2994 | `71100368db85992ce4b80b384724dd97d68cc684ecbfeaf1bf5cf0930d5d7ae9` |
+| `tools/publish_evidence.py` | 3330 | `556824bb73fdfd63308b0195374f8a0f9edee09a6b6cd80e2e6f7f7ec806f86c` |
 | `tools/publish_r27.py` | 5300 | `34111febf72e656a98be97984a056b04d25be1787f1ed71cff5b024fc5a5453c` |
 | `tools/regen_payload_integrity.py` | 4426 | `7d4cef3af9b0bcfbff9c0fc6364c508fe3317f4761469a31d889487c1d42f837` |
