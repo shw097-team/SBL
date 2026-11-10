@@ -268,3 +268,19 @@ claim_ceiling: MECHANISM_REPAIRED_AND_LOCALLY_EXECUTED_WITH_SCOPE_BOUND_HOLDS
 | `VERIFY_LONG_TURN_NO_RECEIPT` | `SERVED_IN_480S_WINDOW`；前檯 330 s 重跑確實 `TIMEOUT`，那是視窗太短，不是 lane 不服務 |
 
 教訓（寫進本輪自己的紀錄）：**在 detached lane 上「看不到檔案」不等於「沒有產出」；收據是延遲寫入的，宣告 BLOCKED 之前必須先確認行程是否仍活著、或等到 timeout 邊界之後再看一次。** 這正是本輪在修的同一類假綠／假紅問題。
+
+---
+
+## 11｜七個車道自報回來後，必須修正／補記的五件事
+
+車道的最終自報與我先前的紀錄有五處不一致。以下每一條都以磁碟上的檔案重驗過，不是轉述。
+
+| # | 我先前的敘述 | 車道最終自報／重驗結果 | 處置 |
+|---|---|---|---|
+| 1 | `R26-01` 「每票十欄必填」 | L1 實測：**4 張真票沒有一張帶 `session_id`／`process_id`**（0/4）。若硬性要求，會拒掉本回合自己已簽的票。車道選了 **(b) 只在 `--strict` 模式強制**，並用 alias 表讀 `raw_file`/`at`（4/4） | 記為 `R26-01_PARTIAL`：型別、candidate binding、raw rehash 是硬性；**Session/process 身分只在 strict 模式生效**。契約 §C3 的「唯一 Session/process identity」因此**尚未硬性落地** |
+| 2 | L3 只回報時區那一個 open finding | L3 另外量到：r26 表格的 **W4 digest 只有 62 個 hex 字元**（截斷的 SHA-256），不是別檔的 digest | 新增 `FINDING_W4_DIGEST_TRUNCATED`，已在 ACK 記錄，凍結文字由 r27 文件承接 |
+| 3 | 「九槽」 | epoch-41 pool 實際是 **15 個臂**（PLAN 6 / EXECUTE 4 / VERIFY 5）；「9」是 owner 的 **3×3 選單格位**，不是 pool 臂數 | 措辭已區分：**menu slots 9** vs **pool arms 15**；`--menu` 的 9 格全部 admitted 仍成立 |
+| 4 | PR #16 可望 CI 綠 | 移植後仍有 **3 個 fatal drift**（都在本 PR 刻意不移植的檔案），且**新增一個測試失敗**：`PoolSelectionTests.MANDATE` 硬編碼 epoch-33 的 PLAN rank-1，被 epoch-41 取代 | PR 維持 **draft**、明列「不宣稱 CI 綠」；修那個測試＝改既有測試，本輪禁止 |
+| 5 | 硬入口已接到 wrapper 鏈 | `scripts/hgk-lane-run.sh` 在 `origin/main` **本來就未被追蹤**（untracked，pre-existing）；已發布的攔截點是 `scripts/hgk-lane-dispatch.py` 的 spawn 邊界 | PR 內只宣稱 dispatcher 層強制；wrapper 鏈的 W0/W1/W2 只存在於本機證據，不入 PR |
+
+另外：r27 文件在合併時兩邊都改過同一個生成檔，已改採車道的最終版（**689,974 B / `9f2af277…` / CH27.V**，prefix 仍逐位元等於 r26，0 個 conflict marker）。VERIFY 車道先前確認的 C12 是 **prefix 性質**，兩版都成立，所以那條確認不因換版失效。
