@@ -1,0 +1,185 @@
+{
+ "schema": "FHS.HERMES023.wiring/1",
+ "edges": [
+  {
+   "edge": "E01",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-01",
+   "wave": "W0→W0",
+   "producer_artifact": {
+    "path": "WP00/raw/SOURCE_LOCK.json",
+    "bytes": 22730,
+    "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+   },
+   "consumer_artifact": {
+    "path": "WP01/AUTHORITY_CONFLICT_LEDGER.json",
+    "bytes": 260989,
+    "sha256": "c9160ec3086bbb5fd57958e48be73c60227f3d74148a762636a8e1afe47ae139"
+   },
+   "consumption_evidence": {
+    "consumer_sources_root": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources",
+    "same_source_dir_as_producer": true,
+    "files_on_disk": 31,
+    "sha_match": 31,
+    "source_ids_crossed": 31
+   },
+   "verdict": "CONSUMED",
+   "note": "the ledger re-hashes the same 31 files and keeps the 14+17 scope split, so the SourceManifest is consumed, not merely referenced"
+  },
+  {
+   "edge": "E27",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-15",
+   "wave": "W0→W0",
+   "producer_artifact": {
+    "path": "WP00/raw/SOURCE_LOCK.json",
+    "bytes": 22730,
+    "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+   },
+   "consumer_artifact": {
+    "path": "WP15/specs/product_SPEC.json",
+    "bytes": 14401,
+    "sha256": "13e64bf4e33f49071c1be739c0283bb841288e809c8ad23c53bc2b92caca76b9"
+   },
+   "consumption_evidence": {
+    "spans_verified": 52,
+    "spans_total": 52,
+    "files_scanned": 6,
+    "source_files_used": [
+     "01_PRODUCT_AUTHORITY_SPINE(4).md",
+     "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+     "03_ARCHITECTURE_ABI_AND_EFFECT(4).md",
+     "11_WORKPACKAGES_AND_DAG(4).md"
+    ]
+   },
+   "verdict": "CONSUMED",
+   "note": "52/52 quoted spans re-slice to the same bytes; a SPEC that quoted the wrong file would fail the slice, so this is consumption of source bytes, not a filename check"
+  },
+  {
+   "edge": "E28",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-16",
+   "wave": "W0→W0",
+   "producer_artifact": {
+    "path": "WP00/raw/SOURCE_LOCK.json",
+    "bytes": 22730,
+    "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+   },
+   "consumer_artifact": {
+    "path": "WP16/tables/DONOR24.json",
+    "bytes": 76729,
+    "sha256": "ae17b9fabbb791b3ba9312ab3a7947145912ca5d22e44efde8bc13718fe01b90"
+   },
+   "consumption_evidence": {
+    "checks_passed": 13,
+    "checks_total": 13,
+    "donor": 24,
+    "method": 25,
+    "source": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources/08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md"
+   },
+   "verdict": "CONSUMED",
+   "note": "C04 re-slices all 49 source_refs to their quoted_text; C11 re-slices the chapter refs"
+  },
+  {
+   "edge": "E33",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-19",
+   "wave": "W0→W0",
+   "producer_artifact": {
+    "path": "WP00/raw/SOURCE_LOCK.json",
+    "bytes": 22730,
+    "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+   },
+   "consumer_artifact": {
+    "path": "WP19/SCAN_SUMMARY.json",
+    "bytes": 5154,
+    "sha256": "6878c368d97cc1f4b43b011379128beba506254b3c2f9b8b77fe7e8ce48ff2a2"
+   },
+   "consumption_evidence": {
+    "scan_cites_source_manifest_digest": false,
+    "scan_inputs_are": "repo HEADs + workflow/dependency files (live API)",
+    "repos": [
+     "Fabric",
+     "SBL",
+     "HG-KSEOS"
+    ]
+   },
+   "verdict": "PARTIAL",
+   "note": "WP19 consumes repo state, not the 31-book SourceManifest; the edge's expected_source_raw (WP-00 SourceSHA) does not appear inside the scan artefacts.  Filled by the handoff envelope below, which is author-side wiring and says so."
+  },
+  {
+   "edge": "E36",
+   "producer": "WP-FHS-01",
+   "consumer": "WP-FHS-21",
+   "wave": "W0→W0",
+   "producer_artifact": {
+    "path": "WP01/PROFILE_ORACLE_BINDING.json",
+    "bytes": 56453,
+    "sha256": "6d60f80ed3c42e4497ac51cb46440e052a25e35a2d5c8cb0c5eed300fce8905f"
+   },
+   "consumer_artifact": {
+    "path": "WP21/REPORT.json",
+    "bytes": 10749,
+    "sha256": "8b6789c33eebc70a39a0812c4f0bb9e2a74f7a065bbf63b70a74d5a71e0176bb"
+   },
+   "consumption_evidence": {
+    "plan_cites_binding": false,
+    "plan_source": "07_ACCEPTANCE_CHALLENGE(4).md",
+    "families_bound": 19,
+    "families_with_enum": 4,
+    "families_hold": 0,
+    "hold_code": {
+     "ORACLE_ENUM_ABSENT": 15
+    }
+   },
+   "verdict": "PARTIAL",
+   "note": "the 134 oracle rows are compiled from BODY-07's TestClass×OracleType matrix, not from the 19 contract families; no digest of the binding appears in the plan.  The binding's 15/19 ORACLE_ENUM_ABSENT hold is therefore carried as an independent hold, not consumed."
+  }
+ ],
+ "later_wave": [
+  {
+   "edge": "E12",
+   "producer": "WP-FHS-15",
+   "consumer": "WP-FHS-07",
+   "wave": "W1",
+   "effect": "Native PLAN revision",
+   "handoff_present": "three SPECDraft + TaskSpecSeed candidate",
+   "hold_code": "W1_PLAN_EFFECT_NOT_RUN",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "note": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E35",
+   "producer": "WP-FHS-16",
+   "consumer": "WP-FHS-20",
+   "wave": "W1",
+   "effect": "Kind×Mode×Host matrix",
+   "handoff_present": "49 slot translations",
+   "hold_code": "W1_HOST_MATRIX_NOT_RUN",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "note": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E26",
+   "producer": "WP-FHS-19",
+   "consumer": "WP-FHS-14",
+   "wave": "W4",
+   "effect": "Release-ready supply-chain receipt",
+   "handoff_present": "live CI/licence/NOTICE/SBOM inventory",
+   "hold_code": "W4_RELEASE_EFFECT_NOT_RUN",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "note": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E16",
+   "producer": "WP-FHS-21",
+   "consumer": "WP-FHS-09",
+   "wave": "W2",
+   "effect": "Protected checker run",
+   "handoff_present": "134-row oracle plan with runner unbound",
+   "hold_code": "W2_PROTECTED_RUN_NOT_QUALIFIED",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "note": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  }
+ ]
+}
