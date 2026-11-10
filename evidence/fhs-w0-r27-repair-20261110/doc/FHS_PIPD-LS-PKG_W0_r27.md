@@ -4665,6 +4665,11 @@ L1_PIPD-LS-PKG_藍圖_r4  bytes=6224679 lines_lf_split=28005 sha256=cbdd75fd609b
 （`…/藍圖/FHS_PIPD-LS-PKG_藍圖_r4.md`）。這個值與 r26 ACK 自己宣告的 `l1.sha256` **一字不差**——錯的
 從來不是 digest，是它旁邊那個 `bytes`。
 
+**落地狀態（本輪實測，`evidence/L7/logs/14_landing_status.log`）**：`sbl-meta` 車道 branch
+`r27/metadata-hygiene` @ `8353ae6` 的 `FHS_ORIGINAL_ACK.json` 已改為
+`"l1": {path, sha256, bytes: 6224679, lines: 28005, declared_sha256_in_r26_doc, sha_agrees_with_r26_doc: true}`
+——與本章的數值一致。本章因此**不再只是契約**：這個修法已有一個可 `git grep` 的落地點。
+
 ---
 
 ### CH27.3 (EC-R26-011) — `unaffected_proof` 的分母：19 clauses → 76 properties，不是 `32-4=28`
@@ -4739,8 +4744,13 @@ profiles.full.not_runnable_in_CI = [
 
 `profiles.payload.excluded` 保留那 6 個（payload 的 16 個 gate 本來就不含它們），語義上不變。
 任何綁定 `EVIDENCE_SCOPE` 的 digest／manifest 必須重算，並把新舊 sha 一起記錄（舊：
-`dad2d715d40e35814c38ed801d59ea4e575b9a28937032fb03a5808d1e99120c`，711 bytes）——由 sbl-meta 車道
-（branch `r27/metadata-hygiene`）落地並回報，本章只記錄契約與量測。
+`dad2d715d40e35814c38ed801d59ea4e575b9a28937032fb03a5808d1e99120c`，711 bytes）。
+
+**落地狀態（本輪實測，`evidence/L7/logs/14_landing_status.log`）**：`sbl-meta` 車道 branch
+`r27/metadata-hygiene` @ `8353ae6` 的 `EVIDENCE_SCOPE.json` 已是 schema **`FHS.W0.EvidenceScope/2`**，
+`profiles.full.excluded = {}`，並有六項 `not_runnable_in_CI`（`G11,G13,G16a,G16b,G19,G26`，各附一句
+理由）；typed check `SOURCE_CONTRACT_BYTES_MISMATCH` 已出現在 `tools/gate_r20.py` 與 ACK。也就是說，
+本章描述的修法不是提案，而是一個已落地、可反查的狀態。
 
 ---
 
@@ -4766,11 +4776,25 @@ profiles.full.not_runnable_in_CI = [
 `FHS_ENTRY_ARM_MISMATCH`(25)、`FHS_ENTRY_BINDING_EXPIRED`(26)、`FHS_ENTRY_GUARD_UNRESOLVED`(27)、
 `FHS_ENTRY_TOKEN_REQUIRED`(28)、`FHS_ENTRY_TOKEN_CONSUMED`(29)。
 
-**落地狀態必須與契約分開陳述**（本輪實測，`evidence/L7/m06_contract_codes.log`）：在上述檔案的
-branch HEAD `1cb8abb` 上，**只有 `RETIRED_ARM` 已經存在**（`fhs_3lm.py` 與 `FHS_3LM_CONTRACT.json`，
-r26 就有）；其餘九個在本輪寫入時仍是**契約名、尚未在任何已落地 commit 中出現**。因此本章主張的是
-「契約已命名、位置已指定、每個拒絕碼有擁有者」，**不主張**「十個拒絕碼都已可執行」——那要等各車道
-自己的 selftest log 落地後，由那份 log 主張。
+**落地狀態必須與契約分開陳述**，因此分兩次量測：
+
+| 時點 | 量測 | 結果 |
+|---|---|---|
+| 寫本章第 1 版時（sibling 車道尚未 commit） | `evidence/L7/m06_contract_codes.log` | 於 HEAD `1cb8abb` 只有 `RETIRED_ARM` 存在；其餘皆 `ABSENT_AT_HEAD` |
+| 本章定稿前（sibling 車道已 commit） | `evidence/L7/logs/14_landing_status.log` | 見下表 |
+
+| 代碼 | 落地的 branch @ HEAD | 檔案 |
+|---|---|---|
+| `VOTE_TYPE_INVALID`／`MISSING_CANDIDATE_BINDING`／`RAW_DIGEST_MISMATCH`／`PROCESS_ID_DUPLICATE` | `r27/quorum-g29` @ `3099dec` | `…/tools/verify_quorum.py` |
+| `POOL_DIGEST_DRIFT`／`RETIRED_ARM`／`BINDING_EXPIRED`／`BINDING_TAMPERED`／`HOLD_REGISTRY_POOL_DRIFT`／`BINDING_ALREADY_EXISTS`／`ERR_HGK_ROOT_UNRESOLVED`／`ERR_EPOCH_UNRESOLVED` | `r27/fhs3lm-binding` @ `5402fe3` | `…/tools/fhs_3lm.py`（＋`selftest_fhs_3lm.py`） |
+| `FHS_ENTRY_*`（十個） | **尚未落地**（`r27/fhs-entry-hook` 仍停在 `acd9196`） | — |
+
+注意兩件事。其一，上表是**字串存在性**（`git grep` 可證），**不是**「會拒絕」的證明；可執行性由各車道
+自己的 selftest log 主張，本章不代為主張。其二，`hgk-hook` 的 `BINDING_EXPIRED` 命中屬於 HG-KSEOS
+既有的 `src/hg_kseos/role_binding.py`，那是另一個模組的同名概念，**不是**本契約的實作，不能拿來充數。
+
+因此本章主張的是「契約已命名、位置已指定、多數已有落地點、`FHS_ENTRY_*` 仍欠」；
+**不主張**「二十個拒絕碼都已可執行」。
 
 **為什麼要按名寫死**：EC-R26-002／003 的原始形狀不是「驗證器壞了」，而是「驗證器會對不該接受的東西
 回 `ACCEPTABLE_FOR_FHS_READER_SCOPE`」。修這種缺陷，唯一可稽核的成果形式是**具名拒絕碼 + 非零 exit**
