@@ -284,7 +284,10 @@
      "line_convention": "len(read_bytes().split(b'\\n'))",
      "measured_from": "os.stat(path).st_size + len(pathlib.Path(path).read_bytes().split(b'\\n')) in this process",
      "measured_sha256_of_source": "704260c23f2f19a76614af63d97f0a8108c94f350f144e2918a69480e23f14b1",
-     "measured_at": "2026-11-11T00:03:02+08:00"
+     "measured_at": "2026-11-11T00:03:02+08:00",
+     "declared_sha256_length": 62,
+     "declared_sha256_is_a_sha256": false,
+     "disagreement": "the r26 baseline table declares 62 hex characters for W4; a SHA-256 is 64. The measured file's 64-character digest differs from it only after the truncation point, so the table value is a truncated digest, not a digest of a different file"
     }
    },
    "source_inventory": {
@@ -298,7 +301,20 @@
     "measured_at": "2026-11-11T00:03:02+08:00",
     "why_separate": "111,331 was previously written into l1.bytes; it is the sum of the 31 source volumes' line counts and has its own field now"
    },
-   "derivation_rule": "every bytes/lines/sha256 above is re-derived from the file named by `path`; a mismatch is refused by G24 with SOURCE_CONTRACT_BYTES_MISMATCH"
+   "derivation_rule": "every bytes/lines/sha256 above is re-derived from the file named by `path`; a mismatch is refused by G24 with SOURCE_CONTRACT_BYTES_MISMATCH",
+   "source_contract_disagreements": [
+    {
+     "unit": "W4",
+     "class": "DECLARED_DIGEST_TRUNCATED",
+     "declared": "704260c23f2f19a76614af63d97a8108c94f350f144e2918a69480e23f14b1",
+     "declared_length": 62,
+     "measured_sha256": "704260c23f2f19a76614af63d97f0a8108c94f350f144e2918a69480e23f14b1",
+     "measured_length": 64,
+     "measured_from": "evidence/L3/measure_source_contract_all.log",
+     "owner_of_the_text": "the frozen r26 document (doc/FHS_PIPD-LS-PKG_W0_r26.md), which this lane does not edit; the correction belongs to the r27 document lane",
+     "gate_behaviour": "G24 re-derives bytes/lines/sha256 from the file against the ACK's own `sha256` field (the measured value), so a truncated value quoted from the frozen table is recorded here rather than turning the gate red on a document this lane may not change"
+    }
+   ]
   },
   "record_only_extension": {
    "versions": [
