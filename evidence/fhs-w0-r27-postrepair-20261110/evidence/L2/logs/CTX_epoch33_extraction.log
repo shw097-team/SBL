@@ -1,0 +1,12 @@
+$ cd C:/Projects/Agent_Workspace/FHS_R26_WT/hgk-bridge && git rev-parse HEAD && git rev-parse --abbrev-ref HEAD
+acd9196fcd748638673848bf62a426dcc3c22dc1
+r27/epoch41-bridge
+$ git show origin/main:config/lane-routing-registry.yaml | head -4
+schema: HGK-LANE-ROUTING-REGISTRY/1
+status: CANDIDATE
+epoch: 33
+authorization_basis: 'Owner order 2026-10-23 (R15): the main model is opencode-go/deepseek-v4.1-flash; the deprecated arm opencode-go/minimax-m3.1-flash-free (HTTP 410 ModelDeprecated, measured 2026-10-23) is DELETED from every lane pool, and MiMo-V2.6-Flash takes the main-model fallback-1 position in the Hermes deployment plane. Owner instruction 2026-10-22: PLAN openai-codex/gpt-6.1-sol (medium, OpenAI OAuth); EXECUTE opencode-go/minimax-m3.1-flash-free; VERIFY_SECURITY (ACCEPTANCE, SECURITY REVIEW, VERIFY) opencode-go/deepseek-v4.1-flash. Checker slots retain their positions but all bind the same checker; no alternate checker identity or diversity is implied.'
+$ sha256sum probe/epoch33/config/*
+970b925b8a5f5d18b4c47df94d24be1210b4af9f2815d401daf098feb5160b27 *probe/epoch33/config/lane-routing-registry.yaml
+3e632ca41b66250b44bbfef913762fe2bb397e1c21b150c50ecbe036d689ac78 *probe/epoch33/config/lane-route-slots.candidate.json
+EXIT=0

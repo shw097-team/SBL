@@ -1,0 +1,27 @@
+$ for d in sbl-quorum sbl-3lm hgk-hook sbl-meta; do printf "## %%s branch=%%s HEAD=%%s\n" "$d" "$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d branch --show-current)" "$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d rev-parse HEAD)"; done; for c in VOTE_TYPE_INVALID MISSING_CANDIDATE_BINDING RAW_DIGEST_MISMATCH PROCESS_ID_DUPLICATE POOL_DIGEST_DRIFT RETIRED_ARM BINDING_EXPIRED BINDING_TAMPERED HOLD_REGISTRY_POOL_DRIFT BINDING_ALREADY_EXISTS ERR_HGK_ROOT_UNRESOLVED ERR_EPOCH_UNRESOLVED FHS_ENTRY_ASSERT_REQUIRED FHS_ENTRY_BINDING_INVALID FHS_ENTRY_EPOCH_DRIFT FHS_ENTRY_RETIRED_ARM FHS_ENTRY_ARM_MISMATCH FHS_ENTRY_BINDING_EXPIRED FHS_ENTRY_GUARD_UNRESOLVED FHS_ENTRY_TOKEN_REQUIRED FHS_ENTRY_TOKEN_CONSUMED SOURCE_CONTRACT_BYTES_MISMATCH; do printf "%%-32s" "$c"; for d in sbl-quorum sbl-3lm hgk-hook sbl-meta; do hits=$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d grep -l "$c" HEAD 2>/dev/null | sed "s/^HEAD://" | grep -v "doc/FHS_PIPD" | tr "\n" "," | sed "s/,$//"); printf " %%s[%%s]" "$d" "${hits:-NONE}"; done; echo; done
+## %s branch=%s HEAD=%s
+## %s branch=%s HEAD=%s
+## %s branch=%s HEAD=%s
+## %s branch=%s HEAD=%s
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]
+%-32s %s[%s] %s[%s] %s[%s] %s[%s]

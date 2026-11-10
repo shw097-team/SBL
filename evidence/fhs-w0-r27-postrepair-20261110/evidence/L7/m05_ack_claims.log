@@ -1,0 +1,76 @@
+== unaffected_proof
+null
+== model_sharing_exception
+{
+ "PLAN": "openai-codex/gpt-6.1-sol",
+ "EXECUTE": "opencode-go/deepseek-v4.1-flash",
+ "VERIFY": "openai-codex/gpt-6.1-sol",
+ "statement": "PLAN and VERIFY share one model by explicit owner order. This is not three distinct models, not three OS accounts and not three people; what separates the lanes is process, lane identity and evidence path, and the owner forbade mandating SoD or model type."
+}
+== quorum
+{
+ "rule": "a DECIDED preservation property needs >=2 agreeing valid votes from distinct lane identities on the same candidate and span",
+ "properties_checked": 128,
+ "findings": 0,
+ "repaired_this_round": [
+  {
+   "wp": "WP-FHS-00",
+   "clause_id": "WP-FHS-00:L1:817",
+   "property": "exceptions_preserved",
+   "value": true,
+   "agreeing": 2,
+   "payload_sha256": "d9f326197ddecdb1a24c46c680577122bbd9fc8867963d434e1f993555fdad77",
+   "signature_prefix": "77567a27fb215775",
+   "op": 3
+  },
+  {
+   "wp": "WP-FHS-01",
+   "clause_id": "WP-FHS-01:L1:812",
+   "property": "scope_preserved",
+   "value": true,
+   "agreeing": 2,
+   "payload_sha256": "2be1763f4923c85a272efa5f5876f3076a18aefb73f6621fa4aee540d20fd1ef",
+   "signature_prefix": "8242546876913c95",
+   "op": 4
+  }
+ ],
+ "checker": "tools/verify_quorum.py (also G29 SIGNED_VOTE_QUORUM, BLOCKING, mutation-tested)"
+}
+== separation_level
+"PROCESS_LANE_EVIDENCE_SEPARATION_ONLY"
+{
+ "rule": "a WP is unaffected only if none of its cited L1 locators changed value or state in r23-r25",
+ "unaffected": [
+  "WP-FHS-15",
+  "WP-FHS-16",
+  "WP-FHS-19",
+  "WP-FHS-21"
+ ],
+ "measured": "the four receipts' 32-4=28 properties still pass tools/verify_quorum.py unchanged; their envelope bytes are identical to r24",
+ "not_a_prefix_argument": "being a byte-exact prefix of the delivered document is not evidence of semantic unchangedness; the claim here rests on the per-property re-scan, not on the prefix"
+}
+== EVIDENCE_SCOPE raw:
+{
+ "schema": "FHS.W0.EvidenceScope/1",
+ "profiles": {
+  "full": {
+   "checks": 22,
+   "where": "this host, author run",
+   "command": "python tools/gate_r20.py --round .",
+   "excluded": {
+    "G11,G13,G16a,G16b,G19,G26": "need the 31 local source volumes; not runnable in CI"
+   }
+  },
+  "payload": {
+   "checks": 16,
+   "where": "CI",
+   "command": "python tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene",
+   "excluded": {
+    "G11,G13,G16a,G16b,G19,G26": "same reason"
+   }
+  }
+ },
+ "rule": "the two profiles measure different things and may not be quoted for one another; a payload 15/15 is not a full 22/22 and a full 22/22 is not a CI observation",
+ "g29_in_payload": true
+}
+

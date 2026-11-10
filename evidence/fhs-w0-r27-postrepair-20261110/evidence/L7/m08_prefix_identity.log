@@ -1,0 +1,52 @@
+$ python evidence/L7/check_append_only.py --r26 <r26> --r27 <r27>
+prefix_identical: True   prefix_bytes: 667205   r26_bytes: 667205   r27_bytes: 688148   appended_bytes: 20943
+r26 sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7  (667205 bytes)
+r27 prefix sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7
+r27 sha256 = 151645f86e20a79f2a3b8def52d61cc9d80f98d5b61afdf8a33ed730351d63d5  (688148 bytes)
+{
+ "r26": {
+  "path": "evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md",
+  "bytes": 667205,
+  "sha256": "09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7"
+ },
+ "r27": {
+  "path": "evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md",
+  "bytes": 688148,
+  "sha256": "151645f86e20a79f2a3b8def52d61cc9d80f98d5b61afdf8a33ed730351d63d5"
+ },
+ "prefix": {
+  "bytes": 667205,
+  "sha256": "09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7"
+ },
+ "prefix_identical": true,
+ "prefix_bytes": 667205,
+ "r27_bytes": 688148,
+ "appended_bytes": 20943,
+ "code": "PREFIX_IDENTICAL",
+ "status": "ACCEPT"
+}
+EXIT=0
+
+$ head -c $(stat -c%s r26) r27 | cmp - r26
+cmp_exit=0
+
+$ sha256sum prefix_only.bin r26
+09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7 *C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L7/prefix_only.bin
+09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7 *evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md
+
+$ wc -c r26 r27
+ 667205 evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md
+ 688148 evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md
+1355353 total
+
+$ git hash-object r26 r27  # 9b3d0119 = the r26 blob in HEAD
+9b3d0119fb07d0e9af511aaf36636c605fc8f403
+84fcf0a98f1aa2c6660017e9bc58f27270f59576
+
+$ git hash-object <raw 668540 copy>  # same document, CRLF form, normalised by .gitattributes eol=lf
+9b3d0119fb07d0e9af511aaf36636c605fc8f403
+EXIT=0
+
+$ grep -c $'\r' r27   # a CR would be normalised away by the repo and break the prefix claim
+0
+cr_grep_exit=1

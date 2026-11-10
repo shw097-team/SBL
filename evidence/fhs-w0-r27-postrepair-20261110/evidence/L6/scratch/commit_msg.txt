@@ -1,0 +1,32 @@
+FHS W0 r26 governance mirror admitted for navigation, digest bound from the mirrored file (EC-R26-013 / R26-09)
+
+INTEGRATION/MANIFEST.json gains ONE additive key, subject_admissions[], holding one
+entry for the r26 mirror: 668540 bytes, sha256 0ea0554..., source
+shw097-team/SBL@1cb8abb..., effect_permission NONE, admission_state
+ADMITTED_FOR_NAVIGATION_ONLY, claim ceiling navigation-only. The digest was re-hashed
+from the mirrored file inside this worktree; it was not copied from r26/MANIFEST.json
+or from any report. No existing key, value or array element moved (25 insertions,
+0 deletions; key-by-key equality checked against 3b47550:INTEGRATION/MANIFEST.json).
+
+The r26 payload directory stays byte-identical: its own PROVENANCE.json asserts it
+"describes exactly the files beside it" and r26/MIRROR_STATUS.md is digest-pinned in
+two places, so the Fabric-side state lives in the sibling
+INTEGRATION/FHS/docs/as-built/W0/r26-admission/ instead: MIRROR_STATUS_FABRIC.md
+(candidate/not policy loaded -> ADMITTED_FOR_NAVIGATION_ONLY, with the reason that
+consumption would need a loader this repo does not have) and
+F0_POLICY_CONSUMER_TRACE.json in the RP002-F0-POLICY-CONSUMER-TRACE/1 shape.
+
+New reader INTEGRATION/FHS/tools/validate_manifest_admission.py (stdlib, read-only)
+re-derives the digest from the file, refuses an effect permission that outranks
+FHS-NAV/v2, refuses an admission state or claim ceiling the permission denies, and
+with --baseline refuses any rewrite of an older entry. Executed negatives, each exit 2:
+MIRROR_DIGEST_MISMATCH, EFFECT_PERMISSION_ESCALATION,
+ADMISSION_STATE_PERMISSION_MISMATCH + CLAIM_CEILING_ESCALATION, ADDITIVE_ONLY_VIOLATION,
+plus a control through the same binary that exits 0 on the admitted entry.
+INTEGRATION/FHS/tests/test_manifest_admission.py adds 21 tests; the suite is 51 passed
+under both pytest and unittest discovery, and validate_entry.py is unchanged.
+
+Not claimed: owner ratification, external acceptance, policy load, write authority,
+live world effect.
+
+subject_sha256=0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f

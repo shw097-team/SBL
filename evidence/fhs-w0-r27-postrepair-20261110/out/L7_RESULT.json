@@ -1,0 +1,355 @@
+{
+ "lane": "L7",
+ "status": "PASS",
+ "verdict": "R27_APPEND_ONLY_CORRECTION_RECORDED",
+ "changed_files": [
+  "evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md",
+  "out/L7_RESULT.json",
+  "out/L7_RESULT.md",
+  "out/BLUEPRINT_AFFECTED_SCOPE_DELTA.json",
+  "out/BLUEPRINT_AFFECTED_SCOPE_DELTA.md",
+  "out/CLAIM_CEILING_STATEMENT.md",
+  "evidence/L7/ (scripts: measure_l7.py, pin_r26_identity.py, build_r27.py, check_append_only.py, check_blueprint_amendment.py, run_amendment_negatives.py, pin_anchors.py, build_delta.py, emit_result.py, emit_manifest.py, anchors.json, ch27_chapter.md; artifacts: blueprint_measure.json, prefix_identity.json, amendment_negatives.json, prefix_only.bin, neg/; logs: logs/*.log)"
+ ],
+ "subject": {
+  "r27_path": "evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md",
+  "r27_bytes": 689974,
+  "r27_sha256": "9f2af277450669e3c4f71d3fff4e36c53dcdaa988db00f7f651ac4e24b077dbc",
+  "r26_lf": {
+   "bytes": 667205,
+   "sha256": "09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7",
+   "git_blob": "9b3d0119fb07d0e9af511aaf36636c605fc8f403"
+  },
+  "r26_raw_declared": {
+   "bytes": 668540,
+   "sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+   "relation": "same document; differs from the LF form only by 1,335 CRLF line endings (first differing byte 481255); CR-stripped equality proved, and `git hash-object` of the raw copy is the same blob 9b3d0119"
+  },
+  "prefix_identical": true,
+  "prefix_bytes": 667205,
+  "appended_bytes": 22769
+ },
+ "commands": [
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe pin_r26_identity.py",
+   "exit": 0,
+   "log": "evidence/L7/logs/01_pin_r26_identity.log",
+   "log_sha256": "429261f5e0c966acd208982d4dd3be7e8e02c781de40302307cebc126dc68740"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe build_r27.py",
+   "exit": 0,
+   "log": "evidence/L7/logs/02_build_r27.log",
+   "log_sha256": "58041c56b654dbf24662d1b9e800716cdff32b1ba909abd0f06acd4996082388"
+  },
+  {
+   "cmd": "head -c \"$(stat -c%s 'C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md')\" 'C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md' | cmp - 'C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md'",
+   "exit": 0,
+   "log": "evidence/L7/logs/03_cmp_prefix.log",
+   "log_sha256": "85ed308944c960d10b95cf4529fb3b3a06f0b13ac62a40167dde965ea6f25926"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe check_append_only.py --r26 C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md --r27 C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r27-repair-20261110/doc/FHS_PIPD-LS-PKG_W0_r27.md --json C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L7\\prefix_identity.json",
+   "exit": 0,
+   "log": "evidence/L7/logs/04_check_append_only_pos.log",
+   "log_sha256": "5d72daaa8daa9521f3cc353b9863f21b41facc08994afaad41863d740ddb48dc"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe check_append_only.py --r26 C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md --r27 C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L7\\neg\\r27_prefix_byte_flipped.md --json C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L7\\neg_flip.json",
+   "exit": 1,
+   "log": "evidence/L7/logs/05_neg_prefix_flip.log",
+   "log_sha256": "93b44765c2e53e608dcb7b229470d501c97859dff42119fcf32c7b0d2ff2ea80"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe check_append_only.py --r26 C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md --r27 C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L7\\neg\\r27_truncated.md --json C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L7\\neg_trunc.json",
+   "exit": 2,
+   "log": "evidence/L7/logs/06_neg_truncated.log",
+   "log_sha256": "a3392931d24145b0dde8f9def1f376860ac84d852070819a7d47a6b752aa7187"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe run_amendment_negatives.py",
+   "exit": 0,
+   "log": "evidence/L7/logs/07_amendment_negatives.log",
+   "log_sha256": "726a31b6dfe4d62aa06f180be8f85b3452d73100eb7bd72a84126f099f326a37"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe pin_anchors.py",
+   "exit": 0,
+   "log": "evidence/L7/logs/08_pin_anchors.log",
+   "log_sha256": "5417c344fd077b498264e28adfa1dc848ae3a2f4d6642fb43d2f0cbe764bdf4e"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe measure_l7.py blueprint_measure.json",
+   "exit": 0,
+   "log": "evidence/L7/logs/09_measure_l7.log",
+   "log_sha256": "e48cf84377c0aaaa04b6ef17dd9aee9d4a1fa7d6e90f95e5907c1def07d7c4b0"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe build_delta.py",
+   "exit": 0,
+   "log": "evidence/L7/logs/10_build_delta.log",
+   "log_sha256": "597e87630271cc67a47387ad53a79e95883ae4daaa85341aa12be8d530f59baf"
+  },
+  {
+   "cmd": "for c in VOTE_TYPE_INVALID MISSING_CANDIDATE_BINDING RAW_DIGEST_MISMATCH PROCESS_ID_DUPLICATE POOL_DIGEST_DRIFT RETIRED_ARM BINDING_EXPIRED BINDING_TAMPERED HOLD_REGISTRY_POOL_DRIFT FHS_ENTRY_ASSERT_REQUIRED FHS_ENTRY_BINDING_INVALID FHS_ENTRY_EPOCH_DRIFT FHS_ENTRY_RETIRED_ARM FHS_ENTRY_TOKEN_REQUIRED FHS_ENTRY_TOKEN_CONSUMED BINDING_ALREADY_EXISTS ERR_HGK_ROOT_UNRESOLVED SOURCE_CONTRACT_BYTES_MISMATCH; do hits=$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs grep -l \"$c\" HEAD 2>/dev/null | sed \"s/^HEAD://\" | grep -v \"doc/FHS_PIPD-LS-PKG\" | tr \"\\n\" \" \"); printf \"%-32s %s\\n\" \"$c\" \"${hits:-ABSENT_AT_HEAD}\"; done",
+   "exit": 0,
+   "log": "evidence/L7/logs/11_contract_codes.log",
+   "log_sha256": "2f188e38aa6c66a5d91b542897d4124d71bd290885d91f79a07086bbc41a6277"
+  },
+  {
+   "cmd": "for d in sbl-quorum sbl-3lm hgk-hook sbl-meta; do printf \"## %%s branch=%%s HEAD=%%s\\n\" \"$d\" \"$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d branch --show-current)\" \"$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d rev-parse HEAD)\"; done; for c in VOTE_TYPE_INVALID MISSING_CANDIDATE_BINDING RAW_DIGEST_MISMATCH PROCESS_ID_DUPLICATE POOL_DIGEST_DRIFT RETIRED_ARM BINDING_EXPIRED BINDING_TAMPERED HOLD_REGISTRY_POOL_DRIFT BINDING_ALREADY_EXISTS ERR_HGK_ROOT_UNRESOLVED ERR_EPOCH_UNRESOLVED FHS_ENTRY_ASSERT_REQUIRED FHS_ENTRY_BINDING_INVALID FHS_ENTRY_EPOCH_DRIFT FHS_ENTRY_RETIRED_ARM FHS_ENTRY_ARM_MISMATCH FHS_ENTRY_BINDING_EXPIRED FHS_ENTRY_GUARD_UNRESOLVED FHS_ENTRY_TOKEN_REQUIRED FHS_ENTRY_TOKEN_CONSUMED SOURCE_CONTRACT_BYTES_MISMATCH; do printf \"%%-32s\" \"$c\"; for d in sbl-quorum sbl-3lm hgk-hook sbl-meta; do hits=$(git -C C:/Projects/Agent_Workspace/FHS_R26_WT/$d grep -l \"$c\" HEAD 2>/dev/null | sed \"s/^HEAD://\" | grep -v \"doc/FHS_PIPD\" | tr \"\\n\" \",\" | sed \"s/,$//\"); printf \" %%s[%%s]\" \"$d\" \"${hits:-NONE}\"; done; echo; done",
+   "exit": 0,
+   "log": "evidence/L7/logs/13_landing_status.log",
+   "log_sha256": "92bbeb2cf5643146cf8cfe41d810688a6839ae0ed6938b2112de3c78117c2feb"
+  },
+  {
+   "cmd": "git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-parse 52c9c21 86f40ec; echo \"rev-parse EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base --is-ancestor 52c9c21 86f40ec; echo \"is-ancestor-52-in-86 EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-list --count 52c9c21..86f40ec; echo \"count EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base acd9196f 86f40ec; echo \"merge-base-main-head EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base --is-ancestor acd9196f 86f40ec; echo \"is-ancestor-main-in-head EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-list --left-right --count acd9196f...86f40ec; echo \"leftright EXIT=$?\"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-parse --is-shallow-repository; echo \"shallow EXIT=$?\"",
+   "exit": 0,
+   "log": "evidence/L7/logs/12_hgk_ancestry.log",
+   "log_sha256": "2886e5ccceef802b4238243e106707ad6cabc2347d31f8eb159469545c4e78e2"
+  }
+ ],
+ "negatives": [
+  {
+   "id": "neg_flip",
+   "expected_code": "PREFIX_NOT_IDENTICAL",
+   "observed_code": "PREFIX_NOT_IDENTICAL",
+   "exit": 1,
+   "log": "evidence/L7/logs/05_neg_prefix_flip.log"
+  },
+  {
+   "id": "neg_trunc",
+   "expected_code": "PREFIX_TRUNCATED",
+   "observed_code": "PREFIX_TRUNCATED",
+   "exit": 2,
+   "log": "evidence/L7/logs/06_neg_truncated.log"
+  },
+  {
+   "id": "L0/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L0/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L0/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L1/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L1/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L1/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L1/NEG_DESIGNID",
+   "expected_code": "DESIGNID_COUNT_DRIFT",
+   "observed_code": "DESIGNID_COUNT_DRIFT",
+   "exit": 4,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L2/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L2/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "L2/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W1/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W1/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W1/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W2/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W2/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W2/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W3/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W3/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W3/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W4/NEG_PREFIX@1000",
+   "expected_code": "AMENDMENT_PREFIX_MISMATCH",
+   "observed_code": "AMENDMENT_PREFIX_MISMATCH",
+   "exit": 1,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W4/NEG_ANCHOR",
+   "expected_code": "AMENDMENT_ANCHOR_MISSING",
+   "observed_code": "AMENDMENT_ANCHOR_MISSING",
+   "exit": 3,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  },
+  {
+   "id": "W4/NEG_MARKER",
+   "expected_code": "MARKER_MISSING",
+   "observed_code": "MARKER_MISSING",
+   "exit": 5,
+   "log": "evidence/L7/logs/07_amendment_negatives.log"
+  }
+ ],
+ "findings_closed": [
+  "EC-R26-010",
+  "EC-R26-012"
+ ],
+ "findings_recorded_by_reference": {
+  "EC-R26-004": "CH27.2 (L1 bytes/lines, 111331 belongs to source_inventory.total_lines)",
+  "EC-R26-011": "CH27.3 (76 preservation properties, 19 clauses x 4)",
+  "EC-R26-009": "CH27.4 (profiles.full.excluded = {}, six gates -> not_runnable_in_CI)",
+  "EC-R26-002/EC-R26-003": "CH27.5 (refusal-code contract by name + landing status measured at HEAD 1cb8abb)",
+  "EC-R26-005/EC-R26-006": "CH27.6 (DISJOINT roots, 90/328, 327 retracted, main-derived bridge)"
+ },
+ "blueprints": {
+  "count": 7,
+  "status": "PROPOSED_FOR_RATIFICATION",
+  "documents": [
+   {
+    "doc": "L0",
+    "bytes": 291351,
+    "sha256": "7befcac3570caf9e1ade2ed231bd04de6a561f9b3038fef89597233f3566b75d",
+    "spans": 4
+   },
+   {
+    "doc": "L1",
+    "bytes": 6224679,
+    "sha256": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+    "spans": 3
+   },
+   {
+    "doc": "L2",
+    "bytes": 874793,
+    "sha256": "bb970a439fe31faf23e86c054f6282e538d369b84841d778e3b35b69ce5d4d37",
+    "spans": 1
+   },
+   {
+    "doc": "W1",
+    "bytes": 588819,
+    "sha256": "6b60f9f64cfb8589ae4a572cce724be07f57a2a8eca0996e0ad66ebf80ee86fb",
+    "spans": 1
+   },
+   {
+    "doc": "W2",
+    "bytes": 250300,
+    "sha256": "7c99e29d00df2da2860965488c0994c435baa0b8cbbc5937934f1a73aba136ec",
+    "spans": 1
+   },
+   {
+    "doc": "W3",
+    "bytes": 1544950,
+    "sha256": "47e75d3f808538d0ccce44b412440e418c50e9721d7836b0159dc90bae3da5cd",
+    "spans": 1
+   },
+   {
+    "doc": "W4",
+    "bytes": 209294,
+    "sha256": "704260c23f2f19a76614af63d97f0a8108c94f350f144e2918a69480e23f14b1",
+    "spans": 1
+   }
+  ]
+ },
+ "not_claimed": [
+  "FULL_W0_CLOSEOUT",
+  "NATIVE_SIGNED",
+  "INDEPENDENT_PASS_CHALLENGE",
+  "RELEASE_GRANTED",
+  "CROSS_SESSION_HARD_ENTRY (for any host)",
+  "any of the seven blueprint amendments being in force (all are PROPOSED_FOR_RATIFICATION)",
+  "any CH27.5 refusal code being *proven to refuse* by this lane: what is measured here is string presence at a branch HEAD, not a captured refusal (that belongs to each lane's selftest log)",
+  "FHS_ENTRY_* being landed anywhere (r27/fhs-entry-hook is still at acd9196)",
+  "main_is_ancestor=true",
+  "327 commits ahead",
+  "r27 being signed, published, merged, or independently reviewed"
+ ],
+ "notes": "1) Identity drift, recorded not reconciled: the brief names the frozen r26 as 668540 bytes / 0ea0554..., but the file at the worktree path is the LF form 667205 / 09c666d (git blob 9b3d0119). They are one document: 1,335 CRLF lines, CR-stripped equality proved (logs/01_pin_r26_identity.log), and `git hash-object` of the raw copy returns the same blob. r27's prefix is byte-identical to the LF form (cmp exit 0) and therefore to the declared identity under the repo's own eol=lf rule. 2) The CH27.5 status was measured twice on purpose: logs/11_contract_codes.log at HEAD 1cb8abb (before the sibling lanes committed) shows only RETIRED_ARM; logs/13_landing_status.log shows the current state (quorum codes in r27/quorum-g29@3099dec, binding codes in r27/fhs3lm-binding@5402fe3, FHS_ENTRY_* still absent, hgk-hook at acd9196). CH27.5 carries both, and claims string presence only. 3) No code changes, no pushes, no merges; r25/r26 untouched (byte-identical before and after). 4) 12_hgk_ancestry is a chained shell command: its process exit is the last echo's, so the interesting sub-exits (merge-base exit 1, is-ancestor exit 1) are printed inside the log rather than surfaced as the process status."
+}

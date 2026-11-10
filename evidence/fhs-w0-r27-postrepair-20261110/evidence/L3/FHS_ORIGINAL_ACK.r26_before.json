@@ -1,0 +1,262 @@
+{
+ "schema": "FHS.W0.FhsOriginalAck/3",
+ "label": "FHS_ORIGINAL_ACK",
+ "count": "6/6",
+ "document": {
+  "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r26.md",
+  "bytes": 668540,
+  "sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+  "read_by": "one stat + one read of the delivered file, in this build",
+  "history": [
+   {
+    "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r20.md",
+    "note": "r24 shipped this path with r24's bytes and sha; the mismatch is recorded here and closed"
+   }
+  ],
+  "owner_signed_candidate_sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+  "owner_signed_candidate_version": "r26",
+  "owner_signed_candidate_is_the_delivered_file": true,
+  "owner_signed_candidate_status": "SIGNED_AFTER_VERIFY",
+  "owner_signed_candidate_note": "signed at 2026-11-09T20:10:02+08:00 in window WIN-d22f4ba2eae6"
+ },
+ "owner_order_verbatim": "把ORIGINAL_ACK 6/6 改標成「FHS_ORIGINAL_ACK 6/6」，代表是經由「FABRIC治理 + HGK控制 + SBL各角色 + 三獨立車道 + OWNER口令授權」的合規「FHS_ORIGINAL_ACK 6/6」，並非一般傳統的「ORIGINAL_ACK」",
+ "composition": {
+  "fabric_governance": "governance contract and evidence routing",
+  "hgk_control_plane": "owner window, signing, acceptance state",
+  "sbl_roles": "Original Source/Requirement/Corpus Semantic Reader, product engineering entry",
+  "three_lanes": {
+   "PLAN": "openai-codex/gpt-6.1-sol",
+   "EXECUTE": "deepseek-v4.1-flash",
+   "VERIFY": "openai-codex/gpt-6.1-sol"
+  },
+  "owner_authorisation": {
+   "window": "WIN-118e9c697152",
+   "ops_used": 2,
+   "signed": "2 affected reader receipts re-signed (ops 3,4) + 1 semantic acceptance in its own window",
+   "semantic_window": "WIN-d22f4ba2eae6",
+   "semantic_status": "SIGNED",
+   "history": [
+    {
+     "window": "WIN-fc83c1d80cb6",
+     "ops": 8,
+     "note": "r20 era: 6 reader receipts + 1 semantic acceptance (historical; superseded by the r25 re-signs)"
+    }
+   ],
+   "semantic_ops": 2
+  }
+ },
+ "five_conditions": [
+  {
+   "id": 1,
+   "what": "all seven signatures verify against the enrolled public key",
+   "measured": "6 receipts PASS + 1 semantic ack verified locally",
+   "evidence": [
+    "out/VERIFY_READER_ACK_R24.json",
+    "receipts/OWNER_SEMANTIC_ACK_R21.signed.json"
+   ],
+   "holds": true
+  },
+  {
+   "id": 2,
+   "what": "every clause_id resolves to a real L1 line whose bytes hash to the receipt",
+   "measured": "re-derived by tools/verify_reader_ack.py on every run; refusals on miss, no skip",
+   "evidence": "out/VERIFY_READER_ACK_R24.json",
+   "holds": true
+  },
+  {
+   "id": 3,
+   "what": "each work package has a negative whose mutation lands in the POS cell located structurally",
+   "measured": "6/6 by lanes/DEDICATED_NEGATIVES.json, asserted inside verify_reader_ack",
+   "evidence": "out/VERIFY_READER_ACK_R24.json",
+   "holds": true
+  },
+  {
+   "id": 4,
+   "what": "no open disagreement in the register",
+   "measured": "0 open",
+   "evidence": "lanes/DISAGREEMENT_REGISTER.json",
+   "holds": true
+  },
+  {
+   "id": 5,
+   "what": "the owner-signed subject is the delivered bytes, and every DECIDED property has two agreeing votes",
+   "measured": "r26 sha == owner semantic subject; 128/128 properties pass the quorum predicate; the acceptance was signed after the VERIFY pass",
+   "evidence": [
+    "out/QUORUM_REPAIR_R25.json",
+    "out/GATE_R26.json"
+   ],
+   "holds": true
+  }
+ ],
+ "receipts": [
+  {
+   "file": "receipts/reader/WP-FHS-00.signed.json",
+   "subject": "WP-FHS-00",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "d9f326197ddecdb1a24c46c680577122bbd9fc8867963d434e1f993555fdad77",
+   "signature_hex_prefix": "77567a27fb215775",
+   "ops_used": 1
+  },
+  {
+   "file": "receipts/reader/WP-FHS-01.signed.json",
+   "subject": "WP-FHS-01",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "2be1763f4923c85a272efa5f5876f3076a18aefb73f6621fa4aee540d20fd1ef",
+   "signature_hex_prefix": "8242546876913c95",
+   "ops_used": 2
+  },
+  {
+   "file": "receipts/reader/WP-FHS-15.signed.json",
+   "subject": "WP-FHS-15",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "b42363940bbf1184e238377f20d93ec3185f95fd38c50aead63f188df1a612a3",
+   "signature_hex_prefix": "e9ad2ef0017ab976",
+   "ops_used": 3
+  },
+  {
+   "file": "receipts/reader/WP-FHS-16.signed.json",
+   "subject": "WP-FHS-16",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "76db3e09733c23af3a1d4dffa7c769faaaa978b7f8276ee2e866072f4f0660ec",
+   "signature_hex_prefix": "f45397fe23bda183",
+   "ops_used": 4
+  },
+  {
+   "file": "receipts/reader/WP-FHS-19.signed.json",
+   "subject": "WP-FHS-19",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "f230b50228a71e65f1d84240419867819576e60ff9a5f9b7a65e62b4f816dd87",
+   "signature_hex_prefix": "73f1e9199f84784d",
+   "ops_used": 5
+  },
+  {
+   "file": "receipts/reader/WP-FHS-21.signed.json",
+   "subject": "WP-FHS-21",
+   "kind": "fhs_original_reader_ack",
+   "payload_sha256": "7e4b6964639c238a63604a1199c49ba6aac4219cc869e90543914ced1480358c",
+   "signature_hex_prefix": "65ac6391d2dafa91",
+   "ops_used": 6
+  }
+ ],
+ "traditional_definition_status": {
+  "value": "NOT_APPLICABLE_BY_DESIGN",
+  "retired_by": [
+   "chapter 18.3 HIST-01",
+   "chapter 23.4"
+  ],
+  "measured_history": "0/6: nobody ever signed in that capacity; kept as a measurement, not as a compliance state",
+  "why": "the reading 'a lane may not read for the owner' contradicts the blueprint's Native E2E intent (owner order 2026-11-09)"
+ },
+ "separation_level": "PROCESS_LANE_EVIDENCE_SEPARATION_ONLY",
+ "coverage_basis": "CANDIDATE_CITED_LOCATORS_ONLY",
+ "enforced_by": {
+  "tool": "tools/label_discipline.py",
+  "gate": "G27 (prose) + G28 (machine-readable)",
+  "run": "out/LABEL_DISCIPLINE_R24.json",
+  "rule": "every ORIGINAL_ACK token must carry FHS_ unless the same string is negative, sits under a not_claimed / *_verbatim key, or is an explicit rename record (bare token -> fhs_ token, both sides named)"
+ },
+ "not_claimed": [
+  "NATIVE_SIGNED",
+  "RELEASE_GRANTED",
+  "external acceptance officer PASS",
+  "three distinct models / OS account separation / three people",
+  "G16b closed",
+  "Fabric policy effective (the mirror is merged, INTEGRATION/MANIFEST.json is not updated)",
+  "HGK dependencies or licensing resolved",
+  "U0-U4 semantic closure",
+  "96 Oracle executed"
+ ],
+ "subject_scope": {
+  "why": "r24 carried four different candidate identities next to one another (signed r15, bound r20, semantic r21, delivered r24) without naming their roles. r25 names them.",
+  "signed_subject": {
+   "reader_receipts": {
+    "candidate": "r15",
+    "sha256": "f69677fc5b86bdb0b27824862113ed3c1b155e1e0cfa7268ff731eec916a6bc1",
+    "note": "the six WP receipts were signed over the r15 candidate; they are not signatures over r24"
+   },
+   "owner_semantic_ack": {
+    "candidate": "r26",
+    "sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+    "status": "SIGNED_AFTER_VERIFY",
+    "note": "signed only after the VERIFY lane passes on r26",
+    "signed_at": "2026-11-09T20:10:02+08:00",
+    "payload_sha256": "08d5db98528a41a1853cf7092ed2eaf4e42f18e8c7d48309f8f4a19b1960f2fe",
+    "file": "receipts/OWNER_SEMANTIC_ACK_R26.signed.json"
+   }
+  },
+  "source_contract": {
+   "l1": {
+    "sha256": "cbdd75fd609b5353cd9bd4893feffa19a68389300869091c618239ef2cabdf5b",
+    "bytes": 111331
+   },
+   "coverage_basis": "CANDIDATE_CITED_LOCATORS_ONLY",
+   "cited_locators": 32,
+   "what_it_does_not_cover": "the 31 source volumes' U0-U4 semantics; those stay W1+ scope (EC-R24-009)",
+   "not_the_gate_line_count": "the gate's 111,331 is the total line count across the 31 source volumes; L1 alone is counted in `l1.lines` and its size in `l1.bytes`"
+  },
+  "record_only_extension": {
+   "versions": [
+    "r23",
+    "r24",
+    "r25"
+   ],
+   "what": "the interpretation correction and this repair chapter; they register and correct, they do not extend the signed product semantics",
+   "proof": "each version is a byte-exact prefix of the next, entries in W0_REVISION_MANIFEST.json"
+  },
+  "affected_semantic_delta": {
+   "clauses": [
+    "WP-FHS-00:L1:817/exceptions_preserved",
+    "WP-FHS-01:L1:812/scope_preserved"
+   ],
+   "action": "re-read by two lane instances and re-signed (ops 1 and 2 of the owner window)",
+   "evidence": "out/QUORUM_REPAIR_R25.json",
+   "supersedes_payload_sha256": true
+  },
+  "unaffected_proof": {
+   "rule": "a WP is unaffected only if none of its cited L1 locators changed value or state in r23-r25",
+   "unaffected": [
+    "WP-FHS-15",
+    "WP-FHS-16",
+    "WP-FHS-19",
+    "WP-FHS-21"
+   ],
+   "measured": "the four receipts' 32-4=28 properties still pass tools/verify_quorum.py unchanged; their envelope bytes are identical to r24",
+   "not_a_prefix_argument": "being a byte-exact prefix of the delivered document is not evidence of semantic unchangedness; the claim here rests on the per-property re-scan, not on the prefix"
+  }
+ },
+ "model_sharing_exception": {
+  "PLAN": "openai-codex/gpt-6.1-sol",
+  "EXECUTE": "opencode-go/deepseek-v4.1-flash",
+  "VERIFY": "openai-codex/gpt-6.1-sol",
+  "statement": "PLAN and VERIFY share one model by explicit owner order. This is not three distinct models, not three OS accounts and not three people; what separates the lanes is process, lane identity and evidence path, and the owner forbade mandating SoD or model type."
+ },
+ "quorum": {
+  "rule": "a DECIDED preservation property needs >=2 agreeing valid votes from distinct lane identities on the same candidate and span",
+  "properties_checked": 128,
+  "findings": 0,
+  "repaired_this_round": [
+   {
+    "wp": "WP-FHS-00",
+    "clause_id": "WP-FHS-00:L1:817",
+    "property": "exceptions_preserved",
+    "value": true,
+    "agreeing": 2,
+    "payload_sha256": "d9f326197ddecdb1a24c46c680577122bbd9fc8867963d434e1f993555fdad77",
+    "signature_prefix": "77567a27fb215775",
+    "op": 3
+   },
+   {
+    "wp": "WP-FHS-01",
+    "clause_id": "WP-FHS-01:L1:812",
+    "property": "scope_preserved",
+    "value": true,
+    "agreeing": 2,
+    "payload_sha256": "2be1763f4923c85a272efa5f5876f3076a18aefb73f6621fa4aee540d20fd1ef",
+    "signature_prefix": "8242546876913c95",
+    "op": 4
+   }
+  ],
+  "checker": "tools/verify_quorum.py (also G29 SIGNED_VOTE_QUORUM, BLOCKING, mutation-tested)"
+ },
+ "round": "r26"
+}

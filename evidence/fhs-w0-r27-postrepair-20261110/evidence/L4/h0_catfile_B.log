@@ -1,0 +1,13 @@
+$ git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS cat-file -p 86f40ec
+tree 575c27eda320648095a9e9d0470ae5627af6e1dc
+parent 52c9c21c9f8330132183c553571446fb1792948b
+author FHS Maker <maker@fhs.local> 1794226046 +0800
+committer FHS Maker <maker@fhs.local> 1794226046 +0800
+
+the retirement moved the arm but left two pinned projections pointing at the old one
+
+lane_projections pinned /lane_chains/PLAN/3/model to mimo-v2.6-pro and /revision to 41, so
+scripts/hgk-lane-policy.py validate returned fatal:true with DRIFT_VALUE after the arm swap. Both pointers now
+read mimo-v2.6-flash and 43. Measured after: validate fatal=false with one pre-existing PROJECTION_DEBT
+(config/hermes.json install_root points at a venv, warn only), and diff-live fatal=false with 0 items.
+EXIT=0

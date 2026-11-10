@@ -1,0 +1,46 @@
+$ C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe scripts/lane_epoch_validate.py --root C:\Projects\Agent_Workspace\FHS_W0_R26_POSTREPAIR_20261110\evidence\L4\neg\neg_h2
+--- stdout ---
+{
+ "schema": "HGK.LANE-EPOCH-VALIDATE/1",
+ "verdict": "REFUSED",
+ "primary_code": "EPOCH_UNPARSEABLE",
+ "codes": [
+  "EPOCH_UNPARSEABLE"
+ ],
+ "epoch": "forty-one",
+ "contract_epoch": 34,
+ "status": "IN_FORCE",
+ "retired_arms": [
+  "opencode-go/mimo-v2.6-pro"
+ ],
+ "lanes": [
+  "EXECUTE",
+  "PLAN",
+  "VERIFY_SECURITY"
+ ],
+ "slots": {
+  "total": 15,
+  "admitted": 15,
+  "by_lane": {
+   "PLAN": 6,
+   "EXECUTE": 4,
+   "VERIFY_SECURITY": 5
+  },
+  "distinct_arms": 7
+ },
+ "findings": [
+  {
+   "code": "EPOCH_UNPARSEABLE",
+   "detail": "epoch 'forty-one' is not an integer literal",
+   "site": "epoch"
+  }
+ ],
+ "inputs": {
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h2\\config\\lane-routing-registry.yaml": "0f13f3290e17ca02445aa25f06b1c96312101aa373d09f9f2facab70b898cce0",
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h2\\config\\lane-route-slots.candidate.json": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h2\\config\\model-lane-assignment.json": "206ec9b850457791e02482b7f890ea565b0d64d0aa08834e54c453b6b433e838"
+ }
+}
+--- stderr ---
+REFUSED EPOCH_UNPARSEABLE: 1 code(s) ['EPOCH_UNPARSEABLE']
+EXIT=2

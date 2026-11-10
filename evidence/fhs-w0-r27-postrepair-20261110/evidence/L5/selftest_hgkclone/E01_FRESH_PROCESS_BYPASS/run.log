@@ -1,0 +1,47 @@
+# case E01_FRESH_PROCESS_BYPASS
+# argv: ["C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\scripts\\hgk-lane-dispatch.py", "--lane", "EXECUTE", "--prompt", "PROBE_FHS_ENTRY", "--nonce", "PROBE_NONCE", "--codex-executable", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\tests\\fixtures\\stub_lane_child_echo_prompt.py", "--max-candidates", "1", "--json-out", "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E01_FRESH_PROCESS_BYPASS\\receipt.json", "--fhs-hgk-root", "C:\\Projects\\Agent_Workspace\\FHS\\HG-KSEOS", "--fhs-binding-reader", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py"]
+# env: {"HGK_STUB_PROMPT_OUT": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E01_FRESH_PROCESS_BYPASS\\child_sentinel.txt", "FHS_3LM_PATH": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py"}
+# exit: 20
+# --- stdout ---
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "ok": false,
+  "lane": "EXECUTE",
+  "code": "FHS_ENTRY_ASSERT_REQUIRED",
+  "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+  "generated_utc": "2026-11-10T16:21:37.711820+00:00",
+  "fhs_entry": {
+    "schema": "FHS-ENTRY-GUARD/1",
+    "ok": false,
+    "code": "FHS_ENTRY_ASSERT_REQUIRED",
+    "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+    "lane": "EXECUTE",
+    "arm": "opencode-go/deepseek-v4.1-flash",
+    "gate": {
+      "schema": "FHS-ENTRY-GUARD/1",
+      "ok": false,
+      "code": "FHS_ENTRY_ASSERT_REQUIRED",
+      "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+      "generated_utc": "2026-11-10T16:21:37+00:00",
+      "lane": "EXECUTE",
+      "arm": "opencode-go/deepseek-v4.1-flash",
+      "checks": [
+        {
+          "id": "binding_present",
+          "ok": false,
+          "reason": "no --binding supplied"
+        }
+      ],
+      "check": "FHS_ENTRY_ASSERT_REQUIRED"
+    }
+  },
+  "attempts": [],
+  "zero_spawn": true,
+  "stage": "fhs_entry (before any child process)",
+  "say": "the FHS entry gate refused this dispatch before any child existed: an unbound fresh process (or an unspent/absent capability) does not reach a spawn",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "codex_home_is_declared_lane_home": true
+}
+
+# --- stderr ---
+

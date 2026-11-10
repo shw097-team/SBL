@@ -1,0 +1,26 @@
+[ok  ] G10   CHAIN_INTEGRITY                                             payload: shipped copy is the LF form (09c666dad4f31099); the normalisation record reconciles it to the author 
+[FAIL] G11   LINE_CONVENTION          UNQUALIFIED_NO_SOURCES             the 31 source documents are not in this payload, so nothing can be re-hashed here
+[ok  ] G12   SEGMENTATION_RULE        OK                                 per_line=111331 structural=25201 rule published
+[FAIL] G13   COUNT_SCOPE              UNQUALIFIED_NO_SOURCES             the 31 source documents are not reachable, so the zeros cannot be re-derived
+[ok  ] G14   MAXIMUM_IS_GLOBAL        OK                                 21 cells, range [0.046948, 0.519037]
+[ok  ] G15   LICENCE_LAYER            OK                                 HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0
+[ABS ] G16a  DEPENDENCY_TRUTHFUL      ARTIFACT_ABSENT                    C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-meta\evidence\fhs-w0-r26-repair-20261109\evidence\DEPENDENCY_SUBJEC
+[ABS ] G16b  DEPENDENCY_CLOSED        ARTIFACT_ABSENT                    C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-meta\evidence\fhs-w0-r26-repair-20261109\evidence\DEPENDENCY_SUBJEC
+[ok  ] G16c  OPTIONAL_SEMANTICS       OK                                 2 non-required modules carry a measured absent-state: {'yaml': 'DEGRADED_BUT_BOUNDED', 'cryptography': 'LOUD_R
+[ok  ] G17   ENUM_SLASH_SAFE          OK                                 15/96/12/11; naive(slash)=10 robust=11
+[ok  ] G18   DIGEST_LOCALITY          OK                                 64/64 resolve inside their own payload (realpath), 1 manifests, entry sets match
+[FAIL] G19   COPY_REGISTER            ROOT_ABSENT                        24 of 25 roots declared present are gone: ['FHS_W0W2_R4_20261107', 'FHS_W0_R6_20261108', 'FHS_W0_R7_VERIFY_202
+[ok  ] G20   SUPPLY_CHAIN_CLAIM_SHAPE OK                                 offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)
+[ok  ] G21   NUMBER_CONSISTENCY       OK                                 handover states 668,540 B (and no stale size) with a matching digest
+[OPEN] G22   SELFTEST_CONTRACT        SELFTEST_EXIT_DOCUMENTED_WRONG     SELF_REPORTED_BY_THE_SUBJECT documented=0 actual=1; rows not fired: ['G11:BASELINE_RED:FAIL', 'G13:BASELINE_RE
+[ok  ] G23   TRACE_ID_NAMED           OK                                 6 defects, all closed ones named in the body
+[ok  ] G24   IDENTITY_CLAIMS          OK                                 source contract: 8/8 source-contract units re-derived from their own file (bytes=os.stat, lines=split(b'\n'));
+[ok  ] G25   EXTRA_QUALIFIED          OK                                 3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extr
+[FAIL] G26   RECEIPT_BINDING          RECEIPT_BINDING_BROKEN             [["W0-RCPT-WP-FHS-00.json", "CANDIDATE_DIGEST_STALE", "60ba757b8090 != 09c666dad4f3 and is not a proven prefix
+[ok  ] G27   LABEL_DISCIPLINE                                            no bare ORIGINAL_ACK claim; the qualified label holds
+[ok  ] G28   MACHINE_READABLE_QUALIFIER                                    0 bare sites across 43 scanned json artefact(s); 1 exclusion(s) carry a reason
+[ok  ] G29   SIGNED_VOTE_QUORUM                                          128 preservation properties across 10 signed envelope(s); every DECIDED one has >=2 agreeing valid votes
+
+VERDICT FAIL pass=15/22 blocking_fail=5 open_reporting=1 hygiene=0
+open findings (reported, not gating):
+  - G22 SELFTEST_EXIT_DOCUMENTED_WRONG: SELF_REPORTED_BY_THE_SUBJECT documented=0 actual=1; rows not fired: ['G11:BASELINE_RED:FAIL', 'G13:BASELINE_RED:FAIL', 'G16a:SKIPPED:ABSENT'

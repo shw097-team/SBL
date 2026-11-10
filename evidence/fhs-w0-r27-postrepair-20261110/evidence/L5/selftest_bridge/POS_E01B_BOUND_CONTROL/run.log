@@ -1,0 +1,355 @@
+# case POS_E01B_BOUND_CONTROL
+# argv: ["C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\scripts\\hgk-lane-dispatch.py", "--lane", "EXECUTE", "--prompt", "PROBE_FHS_ENTRY", "--nonce", "PROBE_NONCE", "--codex-executable", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\tests\\fixtures\\stub_lane_child_echo_prompt.py", "--max-candidates", "1", "--json-out", "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\receipt.json", "--fhs-binding", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json", "--fhs-entry-token", "l5-selftest-20261110t162134z-17332", "--fhs-hgk-root", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge", "--fhs-binding-reader", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py", "--fhs-entry-dir", "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\entry-dir"]
+# env: {"HGK_STUB_PROMPT_OUT": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\child_sentinel.txt"}
+# exit: 3
+# --- stdout ---
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "lane": "EXECUTE",
+  "role": "writer",
+  "role_binding_source": null,
+  "engine": "codex-cli",
+  "codex_executable": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\tests\\fixtures\\stub_lane_child_echo_prompt.py",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "relay_base": "http://127.0.0.1:10101/v1",
+  "codex_home_is_declared_lane_home": true,
+  "human_home_transport_acknowledged": false,
+  "skipped_arms": [],
+  "transport": "opencodex relay via per-invocation -c openai_base_url (no config mutation)",
+  "transport_target": "http://127.0.0.1:10101/v1",
+  "front_door_port": null,
+  "front_door_note": "the lane-scoped pool door (10103 VERIFY_SECURITY / 10105 EXECUTE) carries the hop and ledgers every decision; the sealed single-model 10100 door is unchanged and unused; None here means direct to the relay on 10101",
+  "sandbox": "danger-full-access",
+  "sandbox_by_role_default": "danger-full-access",
+  "sandbox_escalation_authorised": false,
+  "cwd": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook",
+  "side_effect_note": "danger-full-access has NO sandbox root: any absolute path is writable, so a read-only subject must be a frozen copy checked afterwards by digest",
+  "receipt_binding": "usage rows appended after this attempt started (byte offset bound)",
+  "pool": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\config\\lane-route-slots.candidate.json",
+  "candidates_considered": [
+    1
+  ],
+  "mode": "pinned_primary",
+  "unguarded_escalation_acknowledged": false,
+  "inject_429_first": false,
+  "identity_gate": {
+    "state": "enforced",
+    "lane_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+    "relay_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\opencodex-hermes",
+    "arms": [
+      {
+        "rank": 1,
+        "provider": "opencode-go",
+        "model": "deepseek-v4.1-flash",
+        "requirement": "none",
+        "ok": true,
+        "detail": "key-auth arm: no human-attended identity"
+      }
+    ],
+    "degraded": false,
+    "required_arm": null
+  },
+  "authorization": {
+    "checked": false
+  },
+  "subject_mutation": {
+    "state": "not_guarded"
+  },
+  "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\receipt.json.logs",
+  "output_dir_policy": {
+    "mode": "explicit-path",
+    "derived": null,
+    "existing": false
+  },
+  "repair_precondition": {
+    "checked": false
+  },
+  "remote_write_precheck": {
+    "mode": "DETECTION_ONLY",
+    "ran": false
+  },
+  "attempts": [
+    {
+      "rank": 1,
+      "provider": "opencode-go",
+      "model": "deepseek-v4.1-flash",
+      "transport_model": "opencode-go/deepseek-v4.1-flash",
+      "sandbox": "danger-full-access",
+      "reasoning_effort": null,
+      "exit": 0,
+      "timed_out": false,
+      "seconds": 0.08,
+      "nonce_present": false,
+      "nonce_present_raw_stdout": false,
+      "nonce_present_anywhere": false,
+      "nonce_in_agent_message": false,
+      "producer": {
+        "script_sha256": "e369b459fc4d6326c2bd2f6dcd4f68c58fccd0a842755be3d2e9445dfba4ee49",
+        "git_head": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+        "schema": "HGK-LANE-DISPATCH-PRODUCER/1"
+      },
+      "nonce_source": "item.completed/agent_message",
+      "usage_rows_after_offset": 0,
+      "usage_offset": 36061082,
+      "usage_provider": null,
+      "usage_model": null,
+      "usage_status": null,
+      "usage_receipt_ok": false,
+      "usage_receipt_reason": "no usage row was appended after the attempt offset",
+      "usage_ledger_rewritten": false,
+      "usage_rows_shape_invalid": 0,
+      "usage_rows_undecodable": 0,
+      "carrier_lines_undecodable": 0,
+      "carrier_lines_surrogate": 0,
+      "credential_posture": {
+        "verdict": "INCONCLUSIVE",
+        "decision": "WARN_CONTINUE",
+        "reason": "helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN",
+        "prompt_capable_helper": null,
+        "origin": null,
+        "git_terminal_prompt": "0"
+      },
+      "attempt_log_dir": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\receipt.json.logs",
+      "stdout_byte_exact": true,
+      "stdout_path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\receipt.json.logs\\attempt-l5-selftest-20261110t162134z-17332-1-stdout.txt",
+      "stdout_bytes": 90,
+      "stdout_sha256": "d7a196a61d8c9343dab31d0578417db72467341ee52d3a2f006aacbc5c4fba99",
+      "stderr_byte_exact": true,
+      "stderr_path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\POS_E01B_BOUND_CONTROL\\receipt.json.logs\\attempt-l5-selftest-20261110t162134z-17332-1-stderr.txt",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "{\"type\": \"item.completed\", \"item\": {\"type\": \"agent_message\", \"text\": \"PROBE_FHS_ENTRY\"}}\r\n",
+      "stderr_tail": ""
+    }
+  ],
+  "used_rank": null,
+  "used_transport_model": null,
+  "used_seconds": null,
+  "generated_utc": "2026-11-10T16:21:35.811413+00:00",
+  "assignment_posture": {
+    "enforced": false,
+    "posture": {
+      "ok": true,
+      "arms": [
+        "opencode-go/deepseek-v4.1-flash"
+      ],
+      "revision": 35,
+      "role": "EXECUTE",
+      "authority": "owner-order-20261022-r14-plan-gpt61sol-execute-minimax",
+      "shape": "role",
+      "primary_arms": [
+        "opencode-go/deepseek-v4.1-flash"
+      ],
+      "primary_source": "assigned_provider/assigned_model + declared transport_model only",
+      "fallback_arms": [],
+      "declared_fallbacks": [],
+      "fallbacks_declared": false,
+      "alternates_are_operator_selectable": false
+    },
+    "arms_outside_assignment": []
+  },
+  "fhs_entry": {
+    "schema": "FHS-ENTRY-GUARD/1",
+    "ok": true,
+    "code": null,
+    "detail": null,
+    "lane": "EXECUTE",
+    "arm": "opencode-go/deepseek-v4.1-flash",
+    "run_id": "l5-selftest-20261110t162134z-17332",
+    "gate": {
+      "schema": "FHS-ENTRY-GUARD/1",
+      "ok": true,
+      "code": null,
+      "detail": null,
+      "generated_utc": "2026-11-10T16:21:35+00:00",
+      "lane": "EXECUTE",
+      "arm": "opencode-go/deepseek-v4.1-flash",
+      "checks": [
+        {
+          "id": "binding_parse",
+          "ok": true,
+          "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+          "run_id": "l5-selftest-20261110t162134z-17332"
+        },
+        {
+          "id": "control_plane_readable",
+          "ok": true,
+          "epoch": 41,
+          "pool_epoch": 41
+        },
+        {
+          "id": "arm_resolved",
+          "ok": true,
+          "arm": "opencode-go/deepseek-v4.1-flash",
+          "arm_source": "flag:--arm"
+        },
+        {
+          "id": "registry_digest",
+          "ok": true,
+          "sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+          "epoch": 41
+        },
+        {
+          "id": "pool_digest",
+          "ok": true,
+          "sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5"
+        },
+        {
+          "id": "retirement_ledger",
+          "ok": true,
+          "arm": "opencode-go/deepseek-v4.1-flash"
+        },
+        {
+          "id": "binding_expiry",
+          "ok": true,
+          "expires_at": "2026-11-10T17:21:34+00:00"
+        },
+        {
+          "id": "arm_match",
+          "ok": true,
+          "arm": "opencode-go/deepseek-v4.1-flash"
+        },
+        {
+          "id": "require_bound",
+          "ok": true,
+          "enforced": false
+        },
+        {
+          "id": "reader_resolved",
+          "ok": true,
+          "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py",
+          "source": "flag:--binding-reader"
+        },
+        {
+          "id": "reader_assert",
+          "ok": true,
+          "exit": 0
+        }
+      ],
+      "binding_path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json",
+      "binding_sha256": "7b4255d788518288bfa07ee27aa5513882dcf3ae8c467ff370657e4bc3fc138f",
+      "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+      "binding_run_id": "l5-selftest-20261110t162134z-17332",
+      "binding_session_id": "sess-l5-selftest-20261110t162134z-17332",
+      "hgk_root": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge",
+      "hgk_root_source": "flag:--hgk-root",
+      "registry": {
+        "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge\\config\\lane-routing-registry.yaml",
+        "sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+        "epoch": 41,
+        "status": "IN_FORCE",
+        "contract_epoch": "34",
+        "error": null
+      },
+      "pool": {
+        "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge\\config\\lane-route-slots.candidate.json",
+        "sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+        "epoch": 41,
+        "error": null
+      },
+      "arm_source": "flag:--arm",
+      "reader_source": "flag:--binding-reader",
+      "reader": {
+        "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py",
+        "argv": [
+          "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py",
+          "--assert",
+          "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json"
+        ],
+        "hgk_root_env": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge",
+        "exit": 0,
+        "stdout_sha256": "a365edc51f10be257cd5ef4101d1b0b8d98c3bae09b30a604d400a890fad85ce",
+        "stdout": "{\n \"ok\": true,\n \"binding_ok\": true,\n \"path\": \"C:\\\\Projects\\\\Agent_Workspace\\\\FHS_R26_WT\\\\sbl-3lm\\\\evidence\\\\fhs-w0-r26-repair-20261109\\\\lanes\\\\bindings\\\\l5-selftest-20261110t162134z-17332\\\\EXECUTE_primary_2311cc810d5e1e99.json\",\n \"run_id\": \"l5-selftest-20261110t162134z-17332\",\n \"session_id\": \"sess-l5-selftest-20261110t162134z-17332\",\n \"work_id\": \"L5-SELFTEST\",\n \"lane\": \"EXECUTE\",\n \"slot\": \"primary\",\n \"arm\": \"opencode-go/deepseek-v4.1-flash\",\n \"pool_rank\": 1,\n \"policy_epoch\": 41,\n \"registry_sha256\": \"5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6\",\n \"pool_sha256\": \"544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5\",\n \"binding_id\": \"7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc\",\n \"nonce\": \"2311cc810d5e1e99\",\n \"expires_at\": \"2026-11-11T01:21:34+08:00\",\n \"same_arm_lanes\": false,\n \"retired_ledger_sha256_bound\": \"e957edbbd392724e64f5d94e1acd5161481918a84b115cf892d3b5e19ce89ca7\",\n \"retired_ledger_sha256_now\": \"e957edbbd392724e64f5d94e1acd5161481918a84b115cf892d3b5e19ce89ca7\",\n \"retired_ledger_changed\": false,\n \"epoch_unchanged\": true,\n \"pool_unchanged\": true,\n \"arm_pooled\": true,\n \"not_retired\": true\n}\n",
+        "ok": true,
+        "code": null,
+        "detail": null,
+        "body": {
+          "ok": true,
+          "binding_ok": true,
+          "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json",
+          "run_id": "l5-selftest-20261110t162134z-17332",
+          "session_id": "sess-l5-selftest-20261110t162134z-17332",
+          "work_id": "L5-SELFTEST",
+          "lane": "EXECUTE",
+          "slot": "primary",
+          "arm": "opencode-go/deepseek-v4.1-flash",
+          "pool_rank": 1,
+          "policy_epoch": 41,
+          "registry_sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+          "pool_sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+          "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+          "nonce": "2311cc810d5e1e99",
+          "expires_at": "2026-11-11T01:21:34+08:00",
+          "same_arm_lanes": false,
+          "retired_ledger_sha256_bound": "e957edbbd392724e64f5d94e1acd5161481918a84b115cf892d3b5e19ce89ca7",
+          "retired_ledger_sha256_now": "e957edbbd392724e64f5d94e1acd5161481918a84b115cf892d3b5e19ce89ca7",
+          "retired_ledger_changed": false,
+          "epoch_unchanged": true,
+          "pool_unchanged": true,
+          "arm_pooled": true,
+          "not_retired": true
+        }
+      },
+      "check": "PASS"
+    },
+    "token": {
+      "schema": "FHS-ENTRY-CAPABILITY/1",
+      "path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\entry-dir\\l5-selftest-20261110t162134z-17332.json",
+      "run_id": "l5-selftest-20261110t162134z-17332",
+      "capability": {
+        "arm": "opencode-go/deepseek-v4.1-flash",
+        "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+        "binding_path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json",
+        "binding_sha256": "7b4255d788518288bfa07ee27aa5513882dcf3ae8c467ff370657e4bc3fc138f",
+        "capability_id": "559c44f040932380079ca21579178e12141575fa0c3c490f7f2bb491ef5de90c",
+        "expires_at": "2026-11-10T16:26:34+00:00",
+        "lane": "EXECUTE",
+        "minted_at": "2026-11-10T16:21:34+00:00",
+        "minted_by_pid": 18952,
+        "pool_sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+        "registry_sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+        "run_id": "l5-selftest-20261110t162134z-17332",
+        "schema": "FHS-ENTRY-CAPABILITY/1",
+        "scope": "one dispatch run; consumed by scripts/hgk-lane-dispatch.py before any child",
+        "spent": true,
+        "token": "PROBE_TOKEN_POS",
+        "ttl_seconds": 300,
+        "consumed_at": "2026-11-10T16:21:35+00:00",
+        "consumer_pid": 13740
+      },
+      "ok": true,
+      "code": null,
+      "consumed_at": "2026-11-10T16:21:35+00:00"
+    }
+  },
+  "producer": {
+    "script_sha256": "e369b459fc4d6326c2bd2f6dcd4f68c58fccd0a842755be3d2e9445dfba4ee49",
+    "git_head": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+    "schema": "HGK-LANE-DISPATCH-PRODUCER/1"
+  },
+  "comparison_policy": "compare two receipts ONLY when producer.script_sha256 is equal; tools/compare_lane_receipts.py refuses otherwise (TT-R20-9)",
+  "selection_filter": {
+    "required_arm": null,
+    "candidates_before": [
+      "opencode-go/deepseek-v4.1-flash"
+    ],
+    "candidates_after": null,
+    "why": null
+  },
+  "served_arm_assigned": null,
+  "claim_ceiling": "a pass here proves the Codex-CLI lane served this turn through the relay with a matching usage receipt; it is not an acceptance of any subject",
+  "ok": false,
+  "identity_source": "relay-usage",
+  "completion_evidence": {
+    "checked": false
+  },
+  "usage_receipt_ok": false,
+  "usage_rows_shape_invalid": 0,
+  "usage_rows_undecodable": 0,
+  "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED"
+}
+
+# --- stderr ---
+WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.
+WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: credential posture could not be decided (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); CONTINUING (a detector fault must not become a lane outage; L1 remains the structural control; INCONCLUSIVE is NOT a pass).
+

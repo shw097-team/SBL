@@ -1,0 +1,194 @@
+{
+  "lane": "L5",
+  "status": "PASS",
+  "headline": "the FHS entry is now mechanical inside this repo's dispatcher: no binding => exit 20 with zero child spawns (executed), a bound run with a spent capability gets PAST the guard and fails at the next stage (executed), and a spent capability cannot be replayed",
+  "changed_files": [
+    "scripts/fhs_entry_guard.py (new)",
+    "scripts/hgk-lane-run.sh (new)",
+    "scripts/selftest_fhs_entry_guard.py (new)",
+    "tests/test_fhs_entry_guard.py (new)",
+    "scripts/hgk-lane-dispatch.py (+96/-4: five entry flags, the by-path guard import, fhs_entry_precheck(), one hook at the spawn boundary, one receipt field)",
+    "AGENTS.md (+11: non-authoritative note naming the two scripts)"
+  ],
+  "commands": [
+    {
+      "cmd": "python scripts/selftest_fhs_entry_guard.py --hgk-root C:/Projects/Agent_Workspace/FHS_R26_WT/hgk-bridge --workdir run:evidence/L5/selftest_bridge",
+      "exit": 0,
+      "log": "run:evidence/L5/selftest_bridge.out",
+      "log_sha256": "18775fd668d946751b71f5fceec5177c6df0d2eeb8e80a8eedccb4d5785a032b"
+    },
+    {
+      "cmd": "python scripts/selftest_fhs_entry_guard.py --hgk-root C:/Projects/Agent_Workspace/FHS/HG-KSEOS --workdir run:evidence/L5/selftest_hgkclone",
+      "exit": 0,
+      "log": "run:evidence/L5/selftest_hgkclone.out",
+      "log_sha256": "87211b55dcfecbdefa45221687b624034c69c019325d9e3534b042884c96f889"
+    },
+    {
+      "cmd": "python -m pytest tests/test_fhs_entry_guard.py -q -p no:cacheprovider",
+      "exit": 0,
+      "log": "run:evidence/L5/pytest_fhs_entry_guard.out",
+      "log_sha256": "c9accd2469ad46c49bc458cc2fdca669662295320964046322d5f5eacb9cbebc"
+    },
+    {
+      "cmd": "python -m pytest tests/test_lane_dispatch_ao_guard.py tests/test_lane_dispatch_r20_gates.py tests/test_lane_identity_rollout.py tests/test_matrix_d_full.py tests/test_matrix_m02_resume.py tests/test_role_binding_enforcement.py tests/test_sp_identity_commander_plan.py tests/test_sp_identity_prespawn.py tests/test_c13_standing_scope_no_routine_hitl.py tests/test_far_lane_fix_20261015.py tests/test_lane_assignment_fallbacks.py -q -p no:cacheprovider",
+      "exit": 1,
+      "log": "run:evidence/L5/pytest_existing_suites.out",
+      "log_sha256": "7049b7c1be2992028a847bfd045e3908b15e936d038cffbfbb432a71838bd6fc"
+    },
+    {
+      "cmd": "sh scripts/hgk-lane-run.sh run EXECUTE N <brief>   # FHS_BINDING unset",
+      "exit": 2,
+      "log": "run:evidence/L5/wrap_W0.out",
+      "log_sha256": "fb1c4d875893b08f7d8e67beef12153a0562b88986f1904948b48ed1913c33c9"
+    },
+    {
+      "cmd": "FHS_BINDING=<bridge binding> sh scripts/hgk-lane-run.sh run EXECUTE NONCE-L5-WRAP-BRIDGE <brief> 120",
+      "exit": 4,
+      "log": "run:evidence/L5/wrap_W1.out",
+      "log_sha256": "392dd4df057b18575eeea55fede4561fb4c52fc3846a45eb0c4ab684c0918582"
+    },
+    {
+      "cmd": "FHS_BINDING=<same bridge binding> sh scripts/hgk-lane-run.sh run EXECUTE NONCE-L5-WRAP-BRIDGE <brief> 120",
+      "exit": 29,
+      "log": "run:evidence/L5/wrap_W2.out",
+      "log_sha256": "b4645349bd3145ab3b21b1377f375b5f15e32cca133f8fb4d6dc5598c580148d"
+    }
+  ],
+  "negatives": [
+    {
+      "id": "E01_FRESH_PROCESS_BYPASS",
+      "expected_code": "FHS_ENTRY_ASSERT_REQUIRED",
+      "observed_code": "FHS_ENTRY_ASSERT_REQUIRED",
+      "exit": 20,
+      "log": "run:evidence/L5/selftest_bridge/E01_FRESH_PROCESS_BYPASS/run.log",
+      "evidence": {
+        "child_sentinel_written": false,
+        "attempts": [],
+        "zero_spawn": true,
+        "stage": "fhs_entry (before any child process)"
+      }
+    },
+    {
+      "id": "E02_TOKEN_REPLAY",
+      "expected_code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "observed_code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "exit": 29,
+      "log": "run:evidence/L5/selftest_bridge/E02_TOKEN_REPLAY/run.log",
+      "evidence": {
+        "attempts": [],
+        "child_sentinel_written": false
+      }
+    },
+    {
+      "id": "E03_EPOCH_DRIFT",
+      "expected_code": "FHS_ENTRY_EPOCH_DRIFT",
+      "observed_code": "FHS_ENTRY_EPOCH_DRIFT",
+      "exit": 22,
+      "log": "run:evidence/L5/selftest_bridge/E03_EPOCH_DRIFT/run.log"
+    },
+    {
+      "id": "E04_RETIRED_ARM",
+      "expected_code": "FHS_ENTRY_RETIRED_ARM",
+      "observed_code": "FHS_ENTRY_RETIRED_ARM",
+      "exit": 24,
+      "log": "run:evidence/L5/selftest_bridge/E04_RETIRED_ARM/run.log",
+      "evidence": {
+        "replacement_named": "opencode-go/mimo-v2.6-flash",
+        "reader_refuses_same_arm_exit": 9
+      }
+    },
+    {
+      "id": "E05_NO_CAPABILITY",
+      "expected_code": "FHS_ENTRY_TOKEN_REQUIRED",
+      "observed_code": "FHS_ENTRY_TOKEN_REQUIRED",
+      "exit": 28,
+      "log": "run:evidence/L5/selftest_bridge/E05_NO_CAPABILITY/run.log",
+      "evidence": {
+        "attempts": [],
+        "child_sentinel_written": false
+      }
+    },
+    {
+      "id": "W2_WRAPPER_REPLAY",
+      "expected_code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "observed_code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "exit": 29,
+      "log": "run:evidence/L5/wrap_W2.out",
+      "log_sha256": "b4645349bd3145ab3b21b1377f375b5f15e32cca133f8fb4d6dc5598c580148d"
+    }
+  ],
+  "positive_control": {
+    "id": "POS_E01B_BOUND_CONTROL",
+    "what": "same dispatch argv as E01 plus a reader-minted binding and a spent capability",
+    "observed_exit": 3,
+    "guard_code": null,
+    "post_guard_failure_code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+    "attempts": 1,
+    "child_sentinel_written": true,
+    "token_spent": true,
+    "bound_registry_sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+    "bound_epoch": 41,
+    "log": "run:evidence/L5/selftest_bridge/POS_E01B_BOUND_CONTROL/run.log",
+    "receipt": "run:evidence/L5/selftest_bridge/POS_E01B_BOUND_CONTROL/receipt.json"
+  },
+  "wrapper_chain": {
+    "W0_no_binding": {
+      "exit": 2,
+      "log": "run:evidence/L5/wrap_W0.out"
+    },
+    "W1_bound_run": {
+      "exit": 4,
+      "code": "ERR_LANE_PIN_IDENTITY_INVALID",
+      "meaning": "past the entry guard; refused at the declared toolchain pin (environment-dependent, no spawn, no model call)",
+      "log": "run:evidence/L5/wrap_W1.out"
+    },
+    "W2_replay": {
+      "exit": 29,
+      "code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "log": "run:evidence/L5/wrap_W2.out"
+    }
+  },
+  "suites": {
+    "new_suite": {
+      "passed": 21,
+      "log": "run:evidence/L5/pytest_fhs_entry_guard.out",
+      "log_sha256": "c9accd2469ad46c49bc458cc2fdca669662295320964046322d5f5eacb9cbebc"
+    },
+    "selftest_bridge": {
+      "cases": 6,
+      "failed": [],
+      "log": "run:evidence/L5/selftest_bridge/SELFTEST_RESULT.json",
+      "log_sha256": "a0981d020232ce0f8e4743bb097791f000602c3df1d7508635833e974ca1c3d3"
+    },
+    "selftest_hgk_clone": {
+      "cases": 6,
+      "failed": [],
+      "log": "run:evidence/L5/selftest_hgkclone/SELFTEST_RESULT.json",
+      "log_sha256": "b19c30a6f9690c32a98c2b95f4ad92b488a81bd85154c720f6098be1121c37ec"
+    }
+  },
+  "blast_radius": {
+    "suites": "the 11 pre-existing test files that invoke scripts/hgk-lane-dispatch.py",
+    "failed": 122,
+    "passed": 127,
+    "distinct_refusal_codes_observed": [
+      "FHS_ENTRY_ASSERT_REQUIRED"
+    ],
+    "cause": "every failure is the SAME mechanical refusal: those tests dispatch an unbound process, which is exactly what the finding says must be refused. No test failed with any other FHS_ENTRY_* code.",
+    "log": "run:evidence/L5/pytest_existing_suites.out",
+    "log_sha256": "7049b7c1be2992028a847bfd045e3908b15e936d038cffbfbb432a71838bd6fc",
+    "resume_predicate": "migrate the dispatcher suite onto a bound-entry fixture: a session-scoped binding minted through fhs_3lm.py plus a per-call capability. Blocked on a governance decision for the tests that dispatch SYNTHETIC arms (arms the control plane does not admit), because a binding for such an arm cannot be issued by the sanctioned issuer and issuing one in the harness would be a second issuer."
+  },
+  "findings_closed": [
+    "EC-R26-001",
+    "R26-03"
+  ],
+  "not_claimed": [
+    "The guard proves interception INSIDE this repo's dispatcher (scripts/hgk-lane-dispatch.py + scripts/hgk-lane-run.sh). A desktop-app session, another host or another repo that does not adopt this ABI is NOT covered and cannot be covered from here.",
+    "The 122 pre-existing dispatcher tests are NOT migrated; they now fail closed with FHS_ENTRY_ASSERT_REQUIRED (see blast_radius). That is the guard working, not a lane failure, but the suite is red until the fixture migration lands.",
+    "The dispatcher's own pool (config/lane-route-slots.candidate.json at this repo's epoch) is not compared with the HGK control plane's pool: the binding is verified against the HGK root the caller names, and the load-bearing cross-check is that the binding's ARM equals the arm about to be spawned. Reconciling this repo's config/ with HGK is L4's port, not this lane's.",
+    "A capability authorizes the ENTRY (lane + first arm), not each retry: after the entry, a pooled advance to a fallback arm is not re-gated by a new capability.",
+    "No model call, no relay contact and no network was used anywhere in this lane; the POS control spawns a deterministic stub child, and the wrapper control is refused by the declared toolchain pin before any spawn."
+  ],
+  "notes": "Control plane used: BOTH are recorded. The brief-named epoch-41 copy is C:/Projects/Agent_Workspace/FHS_R26_WT/hgk-bridge (registry sha256 5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6, epoch 41, status IN_FORCE); the real clone C:/Projects/Agent_Workspace/FHS/HG-KSEOS (registry sha256 811bf1a5eea4304c057dfc95974e31b4b7655a588091f674db2cf57dbb3055c3, epoch 41) was used for the second selftest run. The two files differ in bytes (the bridge copy is L4's content port), which is why a binding is only valid against the root whose bytes it names. The SBL reader is L2's repaired tool at C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-3lm/evidence/fhs-w0-r26-repair-20261109/tools/fhs_3lm.py (sha256 49a1eea688a40649767ee08a11e8d87f83cc6efe38245f61abb91e36400f4afb, committed at 5402fe3, schema FHS.3LM.Binding/2). The reader's own --bind wrote run-scoped binding dirs under its round tree; those dirs were removed after the runs and their bytes preserved under evidence/L5/bindings/ with evidence/L5/bindings_sha256_before_cleanup.txt, so the L2 worktree is left as found."
+}

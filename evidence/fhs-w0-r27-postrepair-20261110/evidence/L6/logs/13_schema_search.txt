@@ -1,0 +1,17 @@
+# cmd: ls -d schemas; find . -type d -name schemas; grep -rl FABRIC-INTEGRATION-MIRROR .; grep -rl MIRROR --include=*.schema.json .
+$ ls -d schemas
+ls: cannot access 'schemas': No such file or directory
+$ find . -type d -name schemas -not -path "./.git/*"
+./EVIDENCE/CNV-PIPD-LS-SP-20261015/R6_DELIVERY/RAW/scratch_pipd/schemas
+./FABRIC/profiles/construction-acceptance-oracle/schemas
+$ grep -rl "FABRIC-INTEGRATION-MIRROR" . (excluding .git)
+./INTEGRATION/FHS/tests/test_manifest_admission.py
+./INTEGRATION/FHS/tests/__pycache__/test_manifest_admission.cpython-311-pytest-9.1.1.pyc
+./INTEGRATION/FHS/tests/__pycache__/test_manifest_admission.cpython-311.pyc
+./INTEGRATION/FHS/tools/validate_manifest_admission.py
+./INTEGRATION/FHS/tools/__pycache__/validate_manifest_admission.cpython-311.pyc
+./INTEGRATION/MANIFEST.json
+$ grep -rl "MIRROR" --include="*.schema.json" .
+# conclusion: no schema file in any schemas/ directory names INTEGRATION/MANIFEST.json or its id.
+# The manifest carries its contract id as data (schema = FABRIC-INTEGRATION-MIRROR/3); no JSON Schema document exists to validate it against. Recorded, not invented.
+# exit=0

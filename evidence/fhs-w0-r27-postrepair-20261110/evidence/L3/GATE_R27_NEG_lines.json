@@ -1,0 +1,181 @@
+{
+ "schema": "FHS.W0.Gate/6",
+ "gate": "GSTACK v6",
+ "round": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L3/mirror",
+ "generated_at": "2026-11-11T00:14:42+08:00",
+ "checks": [
+  {
+   "check": "G10",
+   "name": "CHAIN_INTEGRITY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "payload: shipped copy is the LF form (09c666dad4f31099); the normalisation record reconciles it to the author bytes the chain and the signatures bind (0ea0554449947885)"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "per_line=111331 structural=25201 rule published"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "21 cells, range [0.046948, 0.519037]"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0"
+  },
+  {
+   "check": "G16c",
+   "name": "OPTIONAL_SEMANTICS",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "2 non-required modules carry a measured absent-state: {'yaml': 'DEGRADED_BUT_BOUNDED', 'cryptography': 'LOUD_REJECT'}"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "15/96/12/11; naive(slash)=10 robust=11"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "DIGEST_CROSSES_PAYLOAD",
+   "detail": "1: [{'entry': 'evidence/FHS_ORIGINAL_ACK.json', 'why': 'SHA_MISMATCH'}]"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_CLAIM_SHAPE",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)"
+  },
+  {
+   "check": "G21",
+   "name": "NUMBER_CONSISTENCY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "handover states 668,540 B (and no stale size) with a matching digest"
+  },
+  {
+   "check": "G22",
+   "name": "SELFTEST_CONTRACT",
+   "severity": "REPORTING",
+   "verdict": "OPEN",
+   "code": "SELFTEST_EXIT_DOCUMENTED_WRONG",
+   "detail": "SELF_REPORTED_BY_THE_SUBJECT documented=0 actual=1; rows not fired: ['G18:BASELINE_RED:FAIL', 'G24:BASELINE_RED:FAIL']"
+  },
+  {
+   "check": "G23",
+   "name": "TRACE_ID_NAMED",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "6 defects, all closed ones named in the body"
+  },
+  {
+   "check": "G24",
+   "name": "IDENTITY_CLAIMS",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "SOURCE_CONTRACT_BYTES_MISMATCH",
+   "detail": "1 declared unit(s) disagree with the file they name; first={'unit': 'l1', 'path': 'C:/Projects/Agent_Workspace/知識庫/實作相關DOC/FHS／FHS-MSC／SBL/FHS/FHS_PIPD-LS-PKG/藍圖/FHS_PIPD-LS-PKG_藍圖_r4.md', 'declared': {'bytes': 6224679, 'lines': 28004}, 'derived': {'bytes': 6224679, 'lines': 28005}}"
+  },
+  {
+   "check": "G25",
+   "name": "EXTRA_QUALIFIED",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extra adds ['yaml']"
+  },
+  {
+   "check": "G27",
+   "name": "LABEL_DISCIPLINE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "no bare ORIGINAL_ACK claim; the qualified label holds"
+  },
+  {
+   "check": "G28",
+   "name": "MACHINE_READABLE_QUALIFIER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "0 bare sites across 43 scanned json artefact(s); 1 exclusion(s) carry a reason"
+  },
+  {
+   "check": "G29",
+   "name": "SIGNED_VOTE_QUORUM",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "128 preservation properties across 10 signed envelope(s); every DECIDED one has >=2 agreeing valid votes"
+  }
+ ],
+ "summary": {
+  "total": 16,
+  "pass": 13,
+  "blocking_fail": 2,
+  "open_reporting_findings": 1
+ },
+ "hygiene": {
+  "count": 0,
+  "exempted": 0,
+  "findings": []
+ },
+ "scope": "payload",
+ "excluded_in_this_scope": [
+  {
+   "check": "G11",
+   "why": "the 31 source documents are not shipped; re-hashing them needs the corpus"
+  },
+  {
+   "check": "G13",
+   "why": "same corpus as G11: the in-set zeros are re-derived from the files"
+  },
+  {
+   "check": "G16a",
+   "why": "two of three dependency subjects are checkouts outside the payload; only identity is checkable"
+  },
+  {
+   "check": "G16b",
+   "why": "same reason as G16a; coverage of external trees cannot be recomputed here"
+  },
+  {
+   "check": "G19",
+   "why": "the copy register describes four roots outside the payload"
+  },
+  {
+   "check": "G26",
+   "why": "receipts bind the round layout; the payload ships them but not the gate report they cite"
+  }
+ ],
+ "claim_ceiling": "GATE_VERDICT_NOT_ACCEPTANCE",
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_WORLDRAW",
+  "RELEASE_GRANTED",
+  "INDEPENDENT_PASS"
+ ]
+}
