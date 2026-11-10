@@ -196,7 +196,7 @@ files: 778 — unreadable: 0
 | `evidence/L1/06_gate_payload.log` | 2446 | `05514dbdead8ad6b724835f79ffa7037ee94b44d9f2aaa3254881f725d36b2c7` |
 | `evidence/L1/07_reader_ack.log` | 911 | `d4e57a935f0a60d7ff8d98df32afdd4e4111224c8f9f20e0a48bc6eb97c0d75d` |
 | `evidence/L1/08_ci_steps.log` | 11196 | `539cf3403ff45b218f9e62effc459c40c08dc514ed1b570ba8c72561d5ac009f` |
-| `evidence/L1/08_replay_ci_steps.sh` | 1104 | `3358156cd0314e59bec3b90471cab1000959c3a31cbfc466f56585cca590d842` |
+| `evidence/L1/08_replay_ci_steps.sh.txt` | 1104 | `3358156cd0314e59bec3b90471cab1000959c3a31cbfc466f56585cca590d842` |
 | `evidence/L1/10_neg_FG1_DICT_NO_BINDING.log` | 1141 | `c1a5c3311e2156e700306786838dda2acc3ebad0fb9e9c5783c7851340555659` |
 | `evidence/L1/10_neg_FG2_FABRICATED_RAW.log` | 1110 | `e9ea5cc838570de08cd3d481c93b37f04d692c137caaa22781dbf646c78c83ae` |
 | `evidence/L1/10_neg_FG3_INT_ONE_VOTE.log` | 826 | `031ece07fe19b6a00997fcaf7d806927a43826b9d9bf1c973b95f570bba6383e` |
@@ -392,7 +392,7 @@ files: 778 — unreadable: 0
 | `evidence/L4/pos_h4_stdout_raw.json` | 1049 | `46a67b5e9e996896c0d06e27e6a39310c4dfee2fb09bcbce46ee81878b4dbee1` |
 | `evidence/L4/precommit_hook_defect.log` | 990 | `5029971afdd1fde81108ac7e787f8a62071439047711cedb34c5b3d43b1ab8ee` |
 | `evidence/L4/review_lock_gate_executed.log` | 426 | `b36d6c502d21900c5853b347ed43690d0e840234e787181f8cc688f62e2e44ff` |
-| `evidence/L4/run_h0.sh` | 1451 | `8e7e6d69e6e1bcc680f63ff5889062a7df8b234fb02eab9031777742a71e580f` |
+| `evidence/L4/run_h0.sh.txt` | 1451 | `8e7e6d69e6e1bcc680f63ff5889062a7df8b234fb02eab9031777742a71e580f` |
 | `evidence/L4/run_negatives_driver.log` | 1207 | `5c6a6b0854505f9439160570d85072e0ec3df2c42ff503864cfc98a9a6db23ea` |
 | `evidence/L4/run_pytest_lane_epoch_validate.log` | 107 | `bb1b6d4f254e423f681bf91d1dbccc41a16bc17982a090f75d59a7e0f533c245` |
 | `evidence/L4/scratch_probe/config/lane-arm-aliases.json` | 1081 | `da459ccf7af90ea0c532d942efc2991518f9bb7a668e77523e701c73861ad87a` |
@@ -418,7 +418,7 @@ files: 778 — unreadable: 0
 | `evidence/L4/tools/port_e41_config.py` | 7773 | `9adcf84243127d3c5e72cb4e42ce1a752abef9e9f541eb34395f8a4d7393766e` |
 | `evidence/L4/tools/reconcile_write_semantic_diff.py` | 2359 | `5a0e78e88a304775f0db131718b520c2529e3495aa18e52e0c0c166aab7d36bc` |
 | `evidence/L4/tools/run_negatives.py` | 4479 | `db337726a8bc3d489be9fefe5bbbdd7d3b7d385d8606ca3cff63b06baebcf1c1` |
-| `evidence/L4/tools/run_probes.sh` | 3006 | `c4ed09fbe2db9b19ab294d681073465ebfd2d49f13ed8cabd0f42ac7009a1005` |
+| `evidence/L4/tools/run_probes.sh.txt` | 3006 | `c4ed09fbe2db9b19ab294d681073465ebfd2d49f13ed8cabd0f42ac7009a1005` |
 | `evidence/L5/bindings/l5-drift-19064/EXECUTE_primary_6ecc963ca6efc58e.json` | 1481 | `f865e8ab47aa98c2d42eca1e0d110ec6bdd5686a77b13a6088881abee69b7505` |
 | `evidence/L5/bindings/l5-drift-20261110t161448z-18856/EXECUTE_primary_a8c7acf907c03917.json` | 1525 | `85651a1bc4f7ff524c5d51aa8afb664bfa2ecaf3799fade4532e5f2e8bd20095` |
 | `evidence/L5/bindings/l5-drift-20261110t161508z-8036/EXECUTE_primary_2df8911706727670.json` | 1523 | `ca8d223fa87cb35604e659c766725b63a36252714d3fbd02ecb39f5d8c6c2567` |
