@@ -1,0 +1,52 @@
+$ C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe scripts/lane_epoch_validate.py --root C:\Projects\Agent_Workspace\FHS_W0_R26_POSTREPAIR_20261110\evidence\L4\neg\neg_h1
+--- stdout ---
+{
+ "schema": "HGK.LANE-EPOCH-VALIDATE/1",
+ "verdict": "REFUSED",
+ "primary_code": "RETIREMENT_DRIFT",
+ "codes": [
+  "RETIREMENT_DRIFT",
+  "SLOT_CHAIN_DIVERGES"
+ ],
+ "epoch": 41,
+ "contract_epoch": 34,
+ "status": "IN_FORCE",
+ "retired_arms": [
+  "opencode-go/mimo-v2.6-pro"
+ ],
+ "lanes": [
+  "EXECUTE",
+  "PLAN",
+  "VERIFY_SECURITY"
+ ],
+ "slots": {
+  "total": 15,
+  "admitted": 14,
+  "by_lane": {
+   "PLAN": 6,
+   "EXECUTE": 4,
+   "VERIFY_SECURITY": 5
+  },
+  "distinct_arms": 8
+ },
+ "findings": [
+  {
+   "code": "RETIREMENT_DRIFT",
+   "detail": "opencode-go/mimo-v2.6-pro is live at ordered_pool rank 2 of EXECUTE but the registry retires it (ordered_by OWNER on 2026-11-09)",
+   "site": "pool:EXECUTE[2]"
+  },
+  {
+   "code": "SLOT_CHAIN_DIVERGES",
+   "detail": "EXECUTE pool is 4 arm(s) and the registry chain is 4; first difference at rank 2: pool=('opencode-go', 'mimo-v2.6-pro') registry=('opencode-go', 'mimo-v2.6-flash')",
+   "site": "pool:EXECUTE[2]"
+  }
+ ],
+ "inputs": {
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h1\\config\\lane-routing-registry.yaml": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h1\\config\\lane-route-slots.candidate.json": "54d72f6632f292a546b33f349a7623b5f33fc80d270b309d0ea4f4ec2f733e98",
+  "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L4\\neg\\neg_h1\\config\\model-lane-assignment.json": "206ec9b850457791e02482b7f890ea565b0d64d0aa08834e54c453b6b433e838"
+ }
+}
+--- stderr ---
+REFUSED RETIREMENT_DRIFT: 2 code(s) ['RETIREMENT_DRIFT', 'SLOT_CHAIN_DIVERGES']
+EXIT=2

@@ -1,0 +1,15 @@
+$ python scripts/lane_policy_reconcile.py --write   (on scratch_write; see ported_reconcile_write.log)
+input A (ported, untouched): C:\Projects\Agent_Workspace\FHS_W0_R26_POSTREPAIR_20261110\evidence\L4\scratch_probe\config\lane-route-slots.candidate.json  48476 bytes
+input B (after --write)    : C:\Projects\Agent_Workspace\FHS_W0_R26_POSTREPAIR_20261110\evidence\L4\scratch_write\config\lane-route-slots.candidate.json  49624 bytes
+top-level keys only in A: []  only in B: []
+changed top-level keys: ['revision', 'supersedes_revision', 'change_log']
+  revision: 36 -> 37
+  supersedes_revision: 36 -> 37
+change_log entries: 36 -> 37
+  appended: {"rev": 37, "at_utc": "2026-11-10T16:10:40+00:00", "reason": "projected from lane-routing-registry epoch 41: the owner order of 2026-10-24 puts PLAN and VERIFY/SECURITY rank 1 on openai-codex/gpt-6.1-sol and keeps EXECUTE on opencode-go/deepseek-v4.1-flash; the demoted primary stays reachable as fallback 1", "evidence": "config/lane-routing-registry.yaml sha256 5c7ce9de2c7602258bca7f0ce8b2dc1e295e
+ordered_pool chains identical: True
+  PLAN: ['openai-codex/gpt-6.1-sol', 'opencode-go/deepseek-v4.1-flash', 'opencode-go/glm-5.3-flash', 'opencode-go/mimo-v2.6-flash', 'nvidia/z-ai/glm-5.3-flash', 'nvidia/deepseek-ai/deepseek-v4.1-flash']
+  EXECUTE: ['opencode-go/deepseek-v4.1-flash', 'opencode-go/mimo-v2.6-flash', 'openai-codex/gpt-6-luna', 'nvidia/deepseek-ai/deepseek-v4.1-flash']
+  VERIFY_SECURITY: ['openai-codex/gpt-6.1-sol', 'opencode-go/mimo-v2.6-flash', 'opencode-go/deepseek-v4.1-flash', 'opencode-go/glm-5.3-flash', 'nvidia/deepseek-ai/deepseek-v4.1-flash']
+conclusion: --write would only advance revision/supersedes_revision and append one change_log entry; no arm, rank, default or automatic_selection changes. The 3026-line textual diff is whole-file re-serialisation, not a policy change.
+EXIT=0

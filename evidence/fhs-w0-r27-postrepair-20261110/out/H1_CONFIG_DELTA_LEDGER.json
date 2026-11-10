@@ -1,0 +1,213 @@
+{
+ "schema": "H1.CONFIG-DELTA-LEDGER/1",
+ "lane": "L4-hgk-bridge",
+ "base": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+ "branch": "86f40ec114f19bbd35314e376da4d0bed9805b22",
+ "method": "bounded classification: `git diff --name-only` counts 2470 changed paths; only the config/ control plane plus the two lane tools named by the brief are classified here. Nothing is silently dropped — every other path is one explicit OUT_OF_SCOPE row carrying the count.",
+ "totals": {
+  "changed_paths": 2470,
+  "config_paths": 14,
+  "classified_tools": 2,
+  "out_of_scope_paths": 2456,
+  "dispositions": {
+   "PORT": 3,
+   "REPLAY": 2,
+   "REIMPLEMENT": 0,
+   "DO_NOT_MERGE": 11
+  }
+ },
+ "rows": [
+  {
+   "path": "config/acceptance/CELL_STATE_VOCABULARY.md",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "e66eec601f8b81c84457084ca100e98e5387d17f6f432285104a9beea0562fb3",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Acceptance vocabulary document; evidence-plane, not control-plane."
+  },
+  {
+   "path": "config/active-policy.json",
+   "change": "M",
+   "main_sha256": "e8b9c9ad985429dc5e9e8f72e5ead097f6408f5d65838618ac6b8ea8a272fccb",
+   "branch_sha256": "6c01d2c01129a69594ae29bf42102ff12a381e192e0fe9b68d128a092104165a",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Front-door runtime policy; not needed to make the route+retire delta true, and it changes automatically-dispatched behaviour."
+  },
+  {
+   "path": "config/closed_paths.yaml",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "8a9f3977a70b47f027bc8e299bcb86ee7cb44358a1d6c1743f925e426875d307",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. New closed-path ACL surface (adds advisory deny rules); ACLs are explicitly out of scope for this PR."
+  },
+  {
+   "path": "config/hermes-codex-lane.json",
+   "change": "M",
+   "main_sha256": "a7cfe74314fc65093727aec6fff230587d920ae4eef86ed17dc3e737d27cb759",
+   "branch_sha256": "8e9d786be321317f756de90659fb55c15d4eca79bdcf4af9c22c9fbaf49f8e82",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. It carries host-level binary pins (/codex_version, /codex_sha256). Porting them would declare a codex build this host does not have; the branch's values already disagree with main's and neither is measured on this host in this round."
+  },
+  {
+   "path": "config/hermes-codex-lane.json.bak-pinrefresh-20261031101338",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "905636d267c7095113602b301304b77392b86df8a386c1f6acd80e25e161ec4a",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Timestamped backup of a file this PR does not touch; a backup of a not-ported file would only add a second stale truth to the tree."
+  },
+  {
+   "path": "config/hermes.json",
+   "change": "M",
+   "main_sha256": "fc7a1034ba4c9d9e46756a4c9d3f276c83d987e176e375b0ddbf76dd113729e4",
+   "branch_sha256": "8a6d6372765c146222b49c9f49be9a85330c89ab057a65a6a11a531200b02fbf",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. HGK-HERMES-BINDING/2 -> /3 plus install_root path moves; that is a runtime binding decision, not a route+retire port."
+  },
+  {
+   "path": "config/issuer/OWNER_AUTHORIZATION.json",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "164a531f8dcb289df51fd261836c8b4573da76360d3688eb1cc69148291b49c7",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Issuer authorization record; issuer keys/records are explicitly forbidden in this PR."
+  },
+  {
+   "path": "config/issuer/OWNER_AUTHORIZATION.json.bak-20261031",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "23a7cf846ae15321295935d50a038b9cf248aff07a7f45b9c029b021a4cc5f18",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Issuer backup blob; carries no authority a main-derived candidate needs."
+  },
+  {
+   "path": "config/issuer/issuer.pub",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "e93df1a3598f7e3cd1ae291b6a545580533bb5a7b54bbeff38b5add7be7eec1c",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Issuer public key; issuer material is explicitly forbidden in this PR."
+  },
+  {
+   "path": "config/lane-arm-aliases.json",
+   "change": "D",
+   "main_sha256": "7b4d1bea4497fa35b9ac8aaacb65fc7dc099ce06d1f9bb1960c925e8b3347170",
+   "branch_sha256": null,
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "the branch DELETES this file and carries the same one-pair alias inline in the registry's arm_aliases block. Deleting it on a main-derived branch would break main's own consumer (scripts/hgk-lane-dispatch.py reads it), so main's bytes stay. Kept consistent: both declare only desktop_router/gpt-6.1-sol -> openai-codex/gpt-6.1-sol."
+  },
+  {
+   "path": "config/lane-route-slots.candidate.json",
+   "change": "M",
+   "main_sha256": "3e632ca41b66250b44bbfef913762fe2bb397e1c21b150c50ecbe036d689ac78",
+   "branch_sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+   "identical": false,
+   "disposition": "PORT",
+   "reason": "the deployment-plane pool: 6/4/5 arms across PLAN/EXECUTE/VERIFY_SECURITY, byte-identical to the branch (sha256 match asserted in port_e41_report.json), so no arm was hand-typed."
+  },
+  {
+   "path": "config/lane-routing-registry.yaml",
+   "change": "M",
+   "main_sha256": "970b925b8a5f5d18b4c47df94d24be1210b4af9f2815d401daf098feb5160b27",
+   "branch_sha256": "811bf1a5eea4304c057dfc95974e31b4b7655a588091f674db2cf57dbb3055c3",
+   "identical": false,
+   "disposition": "PORT",
+   "reason": "the P0 route+retire authority this PR exists for: epoch 41 IN_FORCE, contract_epoch 34, retired_arms[opencode-go/mimo-v2.6-pro], PLAN rank 4 = opencode-go/mimo-v2.6-flash. Ported as bytes with three recorded edits (authorization_basis bridge note, source_of_routes LF digest + normalization note, port_provenance block)."
+  },
+  {
+   "path": "config/model-lane-assignment.json",
+   "change": "M",
+   "main_sha256": "6255e5954673081eca8f8b764c114dde6b636bd85f60e96d4ca9559686d87de0",
+   "branch_sha256": "206ec9b850457791e02482b7f890ea565b0d64d0aa08834e54c453b6b433e838",
+   "identical": false,
+   "disposition": "PORT",
+   "reason": "revision 43 / registry_epoch 39 with lane_chains that the branch's own reconcile tool derives from the registry (PORTED_RECONCILE_CHECK=CONSISTENT); byte-identical to the branch."
+  },
+  {
+   "path": "config/recurrence-ledger.json",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "4c0d74a5870e81fa90cf980b912dbe7be6cd510e2b1dbb6f2a12773ca42a627f",
+   "identical": false,
+   "disposition": "DO_NOT_MERGE",
+   "reason": "H3. Round recurrence ledger; record of what happened, not a route declaration."
+  },
+  {
+   "path": "scripts/lane_policy_reconcile.py",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "5e108aef744ef72e01ee75b007b786168b0ecfd488921799541a7f41522bcee7",
+   "identical": false,
+   "disposition": "REPLAY",
+   "reason": "absent on main and NOT ported (H3 scope). Replayed unmodified from 86f40ec inside evidence/L4/scratch_probe so its verdict is measured: --check reported CONSISTENT with dirty={} against the ported config, i.e. the projections already are what the registry derives."
+  },
+  {
+   "path": "scripts/lane_arm_retirement_check.py",
+   "change": "A",
+   "main_sha256": null,
+   "branch_sha256": "962a2da23579203c4f717ae41fdb947ed47c5cfa04ed96c513dabcaa72ab65ed",
+   "identical": false,
+   "disposition": "REPLAY",
+   "reason": "absent on main and NOT ported (H3 scope). Replayed unmodified from 86f40ec inside evidence/L4/scratch_probe: 60 live arm sites scanned, retired_still_live=[], required_missing=[], verdict PASS, exit 0. This is the branch's own retirement reader agreeing with the port."
+  }
+ ],
+ "out_of_scope": {
+  "disposition": "OUT_OF_SCOPE_FOR_THIS_PR",
+  "count": 2456,
+  "paths_sample_first_20": [
+   ".gitignore",
+   "03_PLAN_PROFILE/COMMAND_REGISTRY.json",
+   "AGENTS.md",
+   "HANDOFF-20261031-LANE-OPS.md",
+   "HG-KSEOS-far-minimax-r2/.gitignore",
+   "HG-KSEOS-far-minimax-r2/03_PLAN_PROFILE/COMMAND_REGISTRY.json",
+   "HG-KSEOS-far-minimax-r2/AGENTS.md",
+   "HG-KSEOS-far-minimax-r2/README.md",
+   "HG-KSEOS-far-minimax-r2/architecture/ADR-0001-CANONICAL-SHARED-SPINE.md",
+   "HG-KSEOS-far-minimax-r2/architecture/ADR-0002-WINDOWS-NATIVE-FOUNDATION.md",
+   "HG-KSEOS-far-minimax-r2/architecture/ADR-0003-RETRIEVAL-PROVIDER.md",
+   "HG-KSEOS-far-minimax-r2/config/hermes-codex-lane.json",
+   "HG-KSEOS-far-minimax-r2/config/hermes.json",
+   "HG-KSEOS-far-minimax-r2/config/lane-route-slots.candidate.json",
+   "HG-KSEOS-far-minimax-r2/config/lane-routing-registry.yaml",
+   "HG-KSEOS-far-minimax-r2/config/model-lane-assignment.json",
+   "HG-KSEOS-far-minimax-r2/config/project.json",
+   "HG-KSEOS-far-minimax-r2/control/AGENTS.md",
+   "HG-KSEOS-far-minimax-r2/control/agents/AP-01.md",
+   "HG-KSEOS-far-minimax-r2/control/agents/AP-02.md"
+  ],
+  "reason": "2456 non-config paths (src/, tests/, scripts/, evidence/, docs/, receipts/, var/ ...) are NOT classified in this PR: porting any of them is H3, a separate owner decision. The count is declared so the ledger cannot read as though the diff were 16 files.",
+  "explicit_not_portable_here": {
+   "issuer_keys": "config/issuer/*",
+   "acls": "config/closed_paths.yaml",
+   "dependencies_and_licences": "src/, requirements, licences under the non-config tree"
+  }
+ },
+ "normalization_finding": {
+  "what": "config/model-lane-assignment.json carries two identities: the tracked bytes are LF (sha256 206ec9b8...) and a Windows checkout materialises CRLF (sha256 8ac81357...). The epoch-41 registry pins the CRLF digest 8ac81357 and main's registry pins cfbff111, which matches NEITHER of its own assignment's digests.",
+  "why_it_matters": "a digest pin taken over a working-tree normalisation only holds on the host that wrote it; a Linux CI checkout would compute the LF digest and read a false drift",
+  "action_taken": "the port records both digests (source_of_routes.sha256 = CRLF twin inherited from the branch, source_of_routes.sha256_lf = the tracked bytes) and the validator accepts either; no pin was silently reconciled",
+  "main_pin_verdict": "main's own pin cfbff111 is stale and matches no digest of its own projection"
+ },
+ "pre_existing_main_defects": [
+  {
+   "id": "main-lane-policy-red",
+   "detail": "on PRISTINE main the repo's own drift reader reports 22 fatal findings (13 COVERAGE_GAP + 7 DRIFT_VALUE on config/model-lane-assignment.json, 2 DRIFT_VALUE on config/hermes-codex-lane.json) and tests/test_lane_policy.py is already 2 failed / 4 passed. Baseline captured before any edit: evidence/L4/baseline_drift_findings.json, evidence/L4/baseline_pytest_lane_policy.log."
+  },
+  {
+   "id": "stale-registry-pin",
+   "detail": "main's registry pins source_of_routes to cfbff111 while its own assignment hashes to 6255e595 (LF) / 105e49c4 (CRLF); the pin is not a digest of the file it names."
+  }
+ ]
+}

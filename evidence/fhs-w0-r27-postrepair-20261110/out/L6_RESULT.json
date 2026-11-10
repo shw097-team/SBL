@@ -1,0 +1,226 @@
+{
+ "lane": "L6",
+ "status": "PASS",
+ "finding": "EC-R26-013 / R26-09 — the r26 mirror was merged but never admitted",
+ "changed_files": [
+  "INTEGRATION/MANIFEST.json",
+  "INTEGRATION/FHS/tools/validate_manifest_admission.py",
+  "INTEGRATION/FHS/tests/test_manifest_admission.py",
+  "INTEGRATION/FHS/docs/as-built/W0/r26-admission/MIRROR_STATUS_FABRIC.md",
+  "INTEGRATION/FHS/docs/as-built/W0/r26-admission/F0_POLICY_CONSUMER_TRACE.json"
+ ],
+ "admission": {
+  "admission_id": "ADM-FABRIC-R26-FHS-W0-MIRROR-001",
+  "mirror_path": "INTEGRATION/FHS/docs/as-built/W0/r26/FHS_PIPD-LS-PKG_W0_r26.md",
+  "sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+  "bytes": 668540,
+  "digest_recomputed_from_mirrored_file": true,
+  "source": "shw097-team/SBL@1cb8abb0ef118bdd80b08961fd9ca54c657881b9",
+  "admission_state": "ADMITTED_FOR_NAVIGATION_ONLY",
+  "effect_permission": "NONE",
+  "claim_ceiling": "MIRROR_ADMITTED_FOR_NAVIGATION_WITH_BOUND_DIGEST_ONLY",
+  "nav_surface_effect_permission": "NONE",
+  "payload_directory_byte_identical": true
+ },
+ "commands": [
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --baseline C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/MANIFEST_baseline_3b47550.json",
+   "exit": 0,
+   "log": "logs/01_positive_validate.txt",
+   "log_sha256": "59dad38de8da77a8994965168d9da1d6a312ae600b9c16fd227b6fceebcadaa9",
+   "code": "OK",
+   "status": "PASS"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --candidate-entry C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/NEG_F1_candidate_digest_mismatch.json",
+   "exit": 2,
+   "log": "logs/02_neg_f1_digest_mismatch.txt",
+   "log_sha256": "e9f88dcb1d6d74cb192d610e93a24514153259738ea134c549ae95d5eba4fc08",
+   "code": "MIRROR_DIGEST_MISMATCH",
+   "status": "REFUSED"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --candidate-entry C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/NEG_F2_candidate_effect_write.json",
+   "exit": 2,
+   "log": "logs/03_neg_f2_effect_escalation.txt",
+   "log_sha256": "7c9ce9a492290413e864cbe5c76c3b42a0e06af1b8aabf50eb2e52d33af56230",
+   "code": "EFFECT_PERMISSION_ESCALATION",
+   "status": "REFUSED"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --candidate-entry C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/NEG_F3_candidate_claim_escalation.json",
+   "exit": 2,
+   "log": "logs/04_neg_f3_claim_ceiling.txt",
+   "log_sha256": "c867a59151b6074b6789c20ebe0089e22663beba29e086704125fcbf86b27b54",
+   "code": "ADMISSION_STATE_PERMISSION_MISMATCH",
+   "status": "REFUSED"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --candidate-entry C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/POS_candidate_admitted_entry.json",
+   "exit": 0,
+   "log": "logs/05_control_admitted_entry.txt",
+   "log_sha256": "14e128d2044a71511a3701d09246f5580783242e0c4c9b66db2d9d89cf73aec3",
+   "code": "OK",
+   "status": "PASS"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --manifest C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/NEG_F4_manifest_rewrites_existing_entry.json --baseline C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/MANIFEST_baseline_3b47550.json",
+   "exit": 2,
+   "log": "logs/06_neg_f4_additive_only.txt",
+   "log_sha256": "57c00b7e5b074080a42c22ab5e27f02a1525db68e937da2665a2bbf3debb2b18",
+   "code": "ADDITIVE_ONLY_VIOLATION",
+   "status": "REFUSED"
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/build_trace.py C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6 C:/Projects/Agent_Workspace/FHS_R26_WT/fabric-mirror",
+   "exit": 0,
+   "log": "logs/07_build_trace.txt",
+   "log_sha256": "4f97bf103a8da928254cc9bc95911c0e98d5d2c14fe81fc58190e76ea619bc96",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m pytest INTEGRATION/FHS/tests -q",
+   "exit": 0,
+   "log": "logs/08_pytest.txt",
+   "log_sha256": "4f16476ed601b21a8fd96c23b1bcf971c9de4bf01a9a2f7d03f2a68f6453ff38",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "sha256sum INTEGRATION/FHS/docs/as-built/W0/r26/FHS_PIPD-LS-PKG_W0_r26.md && stat -c %s <same file>",
+   "exit": 0,
+   "log": "logs/09_digest_recompute.txt",
+   "log_sha256": "f2aa5bc15b7e571dc2ccbaea70705634000a8b37e2fd73431e51d664fe9e418a",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m unittest discover -s INTEGRATION/FHS/tests -v",
+   "exit": 0,
+   "log": "logs/10_unittest_discover.txt",
+   "log_sha256": "27f7ffdc1076a481c6cc5160a59878c833b4f151f73107accb2e261ad20f777c",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/validate_entry.py",
+   "exit": 0,
+   "log": "logs/11_validate_entry.txt",
+   "log_sha256": "5e246accf7201df4965a6f81ca855eb273d499a5cf88b073954816786c6786d1",
+   "code": null,
+   "status": "STATIC_VALID_ONLY"
+  },
+  {
+   "cmd": "git diff --numstat -- INTEGRATION/MANIFEST.json; git diff --stat; git diff -U0 -- INTEGRATION/MANIFEST.json; git status --short -- INTEGRATION/FHS/docs/as-built/W0/r26/",
+   "exit": 0,
+   "log": "logs/12_git_diff_additive.txt",
+   "log_sha256": "142779c679e6cd0219221c97bbd5a82ee88513afc150a6e2b9f475e8ad6db1e3",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "ls -d schemas; find . -type d -name schemas; grep -rl FABRIC-INTEGRATION-MIRROR .; grep -rl MIRROR --include=*.schema.json .",
+   "exit": 0,
+   "log": "logs/13_schema_search.txt",
+   "log_sha256": "40aa9c20092cd747f61a2a78f2921fd7c646ee3864817536ebaf0195375a1a3d",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/check_additive.py INTEGRATION/MANIFEST.json C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/MANIFEST_baseline_3b47550.json",
+   "exit": 0,
+   "log": "logs/14_additive_keywise.txt",
+   "log_sha256": "1e1eb0092acea06a69dc94be40eb3bf738229f78dcd3d52bdae93e19f0124b87",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe -m pytest INTEGRATION/FHS/tests -q   (after the trace and status files exist)",
+   "exit": 0,
+   "log": "logs/15_final_pytest.txt",
+   "log_sha256": "37a7ffd544de82db20d7cb1ca0b286296916baaed592a6d4cda2269a7a971fc0",
+   "code": null,
+   "status": null
+  },
+  {
+   "cmd": "C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe INTEGRATION/FHS/tools/validate_manifest_admission.py --baseline C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L6/scratch/MANIFEST_baseline_3b47550.json",
+   "exit": 0,
+   "log": "logs/16_final_positive.txt",
+   "log_sha256": "63248aaa53e2f6a3eaecb2adfd26f0ae202f06d47e8a40fd55cd91ea51bcfcce",
+   "code": "OK",
+   "status": "PASS"
+  },
+  {
+   "cmd": "git log -1 --format=%H%n%s; git show --stat --oneline HEAD; git status --short; git status -sb; git diff 3b47550..HEAD --numstat; git rev-parse --abbrev-ref HEAD",
+   "exit": 0,
+   "log": "logs/17_post_commit.txt",
+   "log_sha256": "384775c3f77fa6e2495f306f2e606cfc9acd475d285bbe7d54768d6b49cdd20b",
+   "code": null,
+   "status": null
+  }
+ ],
+ "negatives": [
+  {
+   "id": "NEG-F1",
+   "expected_code": "MIRROR_DIGEST_MISMATCH",
+   "observed_code": "MIRROR_DIGEST_MISMATCH",
+   "exit": 2,
+   "log": "logs/02_neg_f1_digest_mismatch.txt",
+   "log_sha256": "e9f88dcb1d6d74cb192d610e93a24514153259738ea134c549ae95d5eba4fc08",
+   "refused": true
+  },
+  {
+   "id": "NEG-F2",
+   "expected_code": "EFFECT_PERMISSION_ESCALATION",
+   "observed_code": "EFFECT_PERMISSION_ESCALATION",
+   "exit": 2,
+   "log": "logs/03_neg_f2_effect_escalation.txt",
+   "log_sha256": "7c9ce9a492290413e864cbe5c76c3b42a0e06af1b8aabf50eb2e52d33af56230",
+   "refused": true
+  },
+  {
+   "id": "NEG-F3",
+   "expected_code": "ADMISSION_STATE_PERMISSION_MISMATCH",
+   "observed_code": "ADMISSION_STATE_PERMISSION_MISMATCH",
+   "exit": 2,
+   "log": "logs/04_neg_f3_claim_ceiling.txt",
+   "log_sha256": "c867a59151b6074b6789c20ebe0089e22663beba29e086704125fcbf86b27b54",
+   "refused": true
+  },
+  {
+   "id": "NEG-F4",
+   "expected_code": "ADDITIVE_ONLY_VIOLATION",
+   "observed_code": "ADDITIVE_ONLY_VIOLATION",
+   "exit": 2,
+   "log": "logs/06_neg_f4_additive_only.txt",
+   "log_sha256": "57c00b7e5b074080a42c22ab5e27f02a1525db68e937da2665a2bbf3debb2b18",
+   "refused": true
+  }
+ ],
+ "additive_only": {
+  "manifest_stat": "25 insertions, 0 deletions",
+  "keywise_check": "18 baseline keys SAME, 0 removed, 0 changed, 1 added",
+  "log": "logs/14_additive_keywise.txt"
+ },
+ "findings_closed": [
+  "EC-R26-013",
+  "R26-09"
+ ],
+ "not_claimed": [
+  "owner ratification of the admission",
+  "external acceptance of the mirror",
+  "policy load / consumption by any serving surface (no loader exists in Fabric)",
+  "any write authority; effect_permission stays NONE",
+  "reaching or verifying the SBL remote for 1cb8abb0ef118bdd80b08961fd9ca54c657881b9",
+  "that a schema file in schemas/ validates INTEGRATION/MANIFEST.json — no such schema exists",
+  "that FHS-NAV is effective for all sessions"
+ ],
+ "notes": "The r26 payload directory gained no file and lost no byte: PROVENANCE.json's 'exactly the files beside it' would be falsified by inserting admission artifacts there, and MIRROR_STATUS.md is digest-pinned in r26/MANIFEST.json and r26/SHA256SUMS. The Fabric-side state therefore sits in the sibling r26-admission/ directory.",
+ "commit": {
+  "branch": "r27/r26-mirror-admission",
+  "sha": "985a886bd4563a75ac58bb6abf93caf03cbf6bc2",
+  "pushed": false
+ },
+ "build_log_note": "logs/18_build_result.txt is the generator's own stdout and is therefore excluded from commands[]: a log cannot contain its own final digest. Its content is the run of scratch/build_result.py shown in evidence/L6/logs/."
+}

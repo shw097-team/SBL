@@ -1,0 +1,15 @@
+hook path: C:/Projects/Agent_Workspace/FHS/HG-KSEOS/.git/hooks/pre-commit
+hook sha256: 86d68be0f955619a817375d1bc9baf0bef85bcff4c650b44cca2bde73b0d2294
+--- hook body ---
+#!/bin/sh
+# Refuse a maker commit into a subject a checker is reading (scripts/review_lock.py).
+"C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python.exe" "$(git rev-parse --show-toplevel)/scripts/review_lock.py" check --staged || exit 1
+--- core.hooksPath (empty = unset) ---
+--- interpreter the hook hardcodes ---
+ls: cannot access 'C:/Users/user/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/hermes/hermes-agent/venv/Scripts/python.exe': No such file or directory
+--- scripts/review_lock.py at acd9196f ---
+fatal: path 'scripts/review_lock.py' does not exist in 'acd9196f'
+cat-file exit=128
+--- latest ref that does carry it ---
+dcba557 2026-10-31 the locks outlived their holders, and the window source was a grandchild
+EXIT=0

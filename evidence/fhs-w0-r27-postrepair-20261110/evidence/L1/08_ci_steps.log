@@ -1,0 +1,366 @@
+=== STEP: r26 payload manifest resolves inside its own payload
+=== CMD: C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe tools/verify_payload_manifest.py --root .
+{
+ "schema": "FHS.W0.PayloadVerify/2",
+ "root": "C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109",
+ "totals": {
+  "manifests": 1,
+  "entries": 63,
+  "resolved": 63
+ },
+ "problems": []
+}
+=== EXIT: 0
+
+=== STEP: r26 gate (payload profile, includes G29)
+=== CMD: C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene
+[ok  ] G10   CHAIN_INTEGRITY                                             payload: shipped copy is the LF form (09c666dad4f31099); the normalisation record reconciles it to the author 
+[ok  ] G12   SEGMENTATION_RULE        OK                                 per_line=111331 structural=25201 rule published
+[ok  ] G14   MAXIMUM_IS_GLOBAL        OK                                 21 cells, range [0.046948, 0.519037]
+[ok  ] G15   LICENCE_LAYER            OK                                 HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0
+[ok  ] G16c  OPTIONAL_SEMANTICS       OK                                 2 non-required modules carry a measured absent-state: {'yaml': 'DEGRADED_BUT_BOUNDED', 'cryptography': 'LOUD_R
+[ok  ] G17   ENUM_SLASH_SAFE          OK                                 15/96/12/11; naive(slash)=10 robust=11
+[ok  ] G18   DIGEST_LOCALITY          OK                                 63/63 resolve inside their own payload (realpath), 1 manifests, entry sets match
+[ok  ] G20   SUPPLY_CHAIN_CLAIM_SHAPE OK                                 offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)
+[ok  ] G21   NUMBER_CONSISTENCY       OK                                 handover states 668,540 B (and no stale size) with a matching digest
+[ok  ] G22   SELFTEST_CONTRACT        OK                                 SELF_REPORTED_BY_THE_SUBJECT documented exit 0 == actual
+[ok  ] G23   TRACE_ID_NAMED           OK                                 6 defects, all closed ones named in the body
+[ok  ] G24   IDENTITY_CLAIMS          OK                                 49 claims consistent with the revision manifest; 14 composition sentence(s) state a parent's size and were not
+[ok  ] G25   EXTRA_QUALIFIED          OK                                 3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extr
+[ok  ] G27   LABEL_DISCIPLINE                                            no bare ORIGINAL_ACK claim; the qualified label holds
+[ok  ] G28   MACHINE_READABLE_QUALIFIER                                    0 bare sites across 43 scanned json artefact(s); 1 exclusion(s) carry a reason
+[ok  ] G29   SIGNED_VOTE_QUORUM                                          128 preservation properties across 10 signed envelope(s); every DECIDED one has >=2 agreeing valid votes
+
+VERDICT PASS pass=16/16 blocking_fail=0 open_reporting=0 hygiene=0
+=== EXIT: 0
+
+=== STEP: r26 signed vote quorum (17 cases)
+=== CMD: C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe tools/verify_quorum.py --selftest
+{
+ "schema": "FHS.W0.VoteQuorum/1",
+ "cases": 17,
+ "failed": 0,
+ "strict": false,
+ "rows": [
+  {
+   "case": "NEG-Q1",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q2",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 1,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "POS-Q3",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 1,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q4",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "LANE_ID_DUPLICATE"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q7",
+   "expected": "REREAD_EVIDENCE_MISSING",
+   "got": "REREAD_EVIDENCE_MISSING",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q1b",
+   "expected": "STATE_NOT_DECIDED",
+   "got": "STATE_NOT_DECIDED",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q5",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "STALE_CANDIDATE_VOTE"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q8",
+   "expected": "MISSING_CANDIDATE_BINDING",
+   "got": "MISSING_CANDIDATE_BINDING",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "MISSING_CANDIDATE_BINDING",
+    "missing": [
+     "lane_id",
+     "candidate_sha256",
+     "source_sha256",
+     "clause_id",
+     "property",
+     "raw_path",
+     "raw_sha256",
+     "timestamp"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q9",
+   "expected": "RAW_DIGEST_MISMATCH",
+   "got": "RAW_DIGEST_MISMATCH",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_DIGEST_MISMATCH",
+    "tried": [
+     "lanes/votes/raw_fixture_r25.txt",
+     "votes/raw_fixture_r25.txt"
+    ],
+    "declared_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q10",
+   "expected": "VOTE_TYPE_INVALID",
+   "got": "VOTE_TYPE_INVALID",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "VOTE_TYPE_INVALID",
+    "type": "int",
+    "value": 1
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q11",
+   "expected": "PROCESS_ID_DUPLICATE",
+   "got": "PROCESS_ID_DUPLICATE",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "VERIFY",
+    "why": "PROCESS_ID_DUPLICATE",
+    "process_id": "p1",
+    "session_id": "s1",
+    "first_lane": "PLAN"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q13",
+   "expected": "RAW_EVIDENCE_UNREADABLE",
+   "got": "RAW_EVIDENCE_UNREADABLE",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_EVIDENCE_UNREADABLE",
+    "tried": [
+     "lanes/votes/absent_r25.txt",
+     "votes/absent_r25.txt"
+    ],
+    "declared_digest": "8176a14838c2b97135cebcd18b8a41a74229b9f785c1a52ee741e72b13ae18eb"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q15",
+   "expected": "VOTE_TYPE_INVALID",
+   "got": "VOTE_TYPE_INVALID",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "VOTE_TYPE_INVALID",
+    "type": "str",
+    "value": "true"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q16",
+   "expected": "STALE_CANDIDATE_VOTE",
+   "got": "STALE_CANDIDATE_VOTE",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "STALE_CANDIDATE_VOTE",
+    "vote_candidate": "cand-old",
+    "effective_candidate": "cand-eff"
+   },
+   "ok": true
+  },
+  {
+   "case": "POS-Q12",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q17",
+   "expected": "RAW_DIGEST_MISMATCH",
+   "got": "RAW_DIGEST_MISMATCH",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_DIGEST_MISMATCH",
+    "form": "manifest_as_measured",
+    "resolved": "votes/raw_copy_r25.txt",
+    "measured_from": "lanes/votes/raw_copy_r25.txt",
+    "declared_digest": "3aa2683da23b451a9b68ddf00fb199667b763c89c9dc48d31c9473b32e56ce67",
+    "payload_digest": "b03271e9afa333cccae4af9b1d76549c79d2926b896e72d591336cd55352d79b"
+   },
+   "ok": true
+  },
+  {
+   "case": "POS-Q14",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  }
+ ],
+ "SELFTEST": "OK"
+}
+=== EXIT: 0
+
+=== STEP: r26 signed vote quorum scan (signed receipts, fail-closed)
+=== CMD: C:\Users\user\AppData\Local\Programs\Python\Python311\python.exe tools/verify_quorum.py --root .
+{
+ "receipts": 10,
+ "properties_checked": 128,
+ "repair_properties": 2,
+ "legacy_properties": 126,
+ "raw_root": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-quorum\\evidence\\fhs-w0-r26-repair-20261109",
+ "strict": false,
+ "findings": [],
+ "ok": true,
+ "schema": "FHS.W0.VoteQuorumScan/1"
+}
+=== EXIT: 0
+
+=== STEP: r26 checksums
+=== CMD: sha256sum -c SHA256SUMS
+MANIFEST.json: OK
+doc/FHS_PIPD-LS-PKG_W0_r25.md: OK
+doc/FHS_PIPD-LS-PKG_W0_r26.md: OK
+evidence/AUTHORITY_LEDGER_V3.json: OK
+evidence/CLAUSES.json: OK
+evidence/COPY_REGISTER_ALL.json: OK
+evidence/DEDICATED_NEGATIVES.json: OK
+evidence/DEPENDENCY_SEMANTICS.json: OK
+evidence/DISAGREEMENT_REGISTER.json: OK
+evidence/EC_R24_RESOLUTION.json: OK
+evidence/EVIDENCE_SCOPE.json: OK
+evidence/EXTRA_QUALIFICATION.json: OK
+evidence/FHS_3LM_CONTRACT.json: OK
+evidence/FHS_ORIGINAL_ACK.json: OK
+evidence/FHS_POOL_CHANGE_R26.json: OK
+evidence/METHOD_DEPENDENCE.json: OK
+evidence/NORMALISATION.json: OK
+evidence/PRINCIPAL_DEFINITION.json: OK
+evidence/PUBLIC_VERIFICATION_BUNDLE.json: OK
+evidence/QUORUM_REPAIR_R25.json: OK
+evidence/SCAN_SCOPE.json: OK
+evidence/SIGNING_RECORD.json: OK
+evidence/SOURCE_LOCK_V3.json: OK
+evidence/TRACE_AUDIT.json: OK
+evidence/TREE_IDENTITY.json: OK
+evidence/U0_PARTITION_V3.json: OK
+evidence/W0_CLOSEOUT_DECISION.json: OK
+evidence/W0_REVISION_MANIFEST.json: OK
+evidence/WP19_V3.json: OK
+evidence/WP21_ENUM_V3.json: OK
+gate/GATE_R26.json: OK
+gate/GATE_R26_SELFTEST.json: OK
+lanes/LANE_BINDING_EXECUTE.json: OK
+lanes/LANE_BINDING_PLAN.json: OK
+lanes/LANE_BINDING_VERIFY.json: OK
+receipts/OWNER_SEMANTIC_ACK_R21.signed.json: OK
+receipts/OWNER_SEMANTIC_ACK_R23.signed.json: OK
+receipts/OWNER_SEMANTIC_ACK_R25.signed.json: OK
+receipts/OWNER_SEMANTIC_ACK_R26.signed.json: OK
+receipts/W0-RCPT-WP-FHS-00.json: OK
+receipts/W0-RCPT-WP-FHS-01.json: OK
+receipts/W0-RCPT-WP-FHS-15.json: OK
+receipts/W0-RCPT-WP-FHS-16.json: OK
+receipts/W0-RCPT-WP-FHS-19.json: OK
+receipts/W0-RCPT-WP-FHS-21.json: OK
+receipts/reader/WP-FHS-00.signed.json: OK
+receipts/reader/WP-FHS-01.signed.json: OK
+receipts/reader/WP-FHS-15.signed.json: OK
+receipts/reader/WP-FHS-16.signed.json: OK
+receipts/reader/WP-FHS-19.signed.json: OK
+receipts/reader/WP-FHS-21.signed.json: OK
+report/FHS_W0_R26_CONSOLIDATED.md: OK
+report/HANDOVER_R26_2026-11-08.md: OK
+tools/fhs_3lm.py: OK
+tools/gate_r20.py: OK
+tools/label_discipline.py: OK
+tools/verify_payload_manifest.py: OK
+tools/verify_quorum.py: OK
+tools/verify_reader_ack.py: OK
+votes/PACK_R25_VOTE.md: OK
+votes/raw_PLAN_r25.txt: OK
+votes/raw_VERIFY_r25.txt: OK
+votes/vote_PLAN_r25.json: OK
+votes/vote_VERIFY_r25.json: OK
+=== EXIT: 0
+=== ALL_STEPS_EXIT: 0

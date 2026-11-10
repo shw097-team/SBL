@@ -1,0 +1,597 @@
+{
+  "schema": "HGK-LANE-ROUTE-SLOTS/1",
+  "status": "CANDIDATE",
+  "artifact": "LANE_ROUTE_SLOTS_CANDIDATE",
+  "revision": 23,
+  "supersedes_revision": 22,
+  "round": "ROUND-R14-LANE-REBIND-20261022",
+  "declared_by": "Owner order 2026-10-23: main model DEEPSEEK V4.1 FLASH (OPENCODE GO); the deprecated fallback-first arm MiniMax M3.1 Flash is DELETED and MiMo-V2.6-Flash takes fallback 1. The arm opencode-go/minimax-m3.1-flash-free answers HTTP 410 ModelDeprecated, so deletion is a repair, not a preference. All three lanes stay opencode-go/deepseek-v4.1-flash at rank 1.",
+  "authority_basis": "the same owner order that rebind the registry routes, the assignment and the 87 projection bindings in HG-KSEOS 924af95; the pool is the deployment plane and must not disagree with the declared plane",
+  "claim_ceiling": "CANDIDATE_ONLY. Not promoted, not active. Selection is declarative; only entries marked DISPATCHABLE can be dispatched today.",
+  "change_log": [
+    "rev 9 -> rev 10 (round ROUND3-LANE-REBIND-AND-CLOSURE-20261016): owner order 2026-10-16 applied to the dispatch-time pool ranks -- PLAN glm-5.3-flash promoted to rank 1, VERIFY/SECURITY deepseek-v4.1-flash promoted to rank 1, EXECUTE untouched.",
+    "rev 7 -> rev 8: FAR-LANE-REPAIR-20261014 apply (owner-ordered): codex_home_config.windows_sandbox declared on PLAN/EXECUTE/VERIFY_SECURITY so the dispatcher injects -c windows.sandbox before --codex-arg; PLAN included deliberately to keep its read-only default from being refused by the new fail-closed gate.",
+    "rev 2 -> rev 3: the isolated relay's opencode-go credential was remediated (the previously pinned key was rejected as Invalid API key and the mandatory x-opencode-session header was absent). The opencode-go pool entries move from QUOTA_BLOCKED to DISPATCHABLE and are re-measured on the relay path.",
+    "rev 2 -> rev 3: nvidia and openai were re-registered through the ocx CLI after the first attempt proved non-durable; both remain CONFIG_COMPLETE_NOT_ACTIVATED.",
+    {
+      "revision": 5,
+      "at_utc": "2026-10-10T05:51:26.894711+00:00",
+      "what": "controlled window: relay-side OAuth completed and verified live; nvidia arm exposed but its credential is invalid; P2 still isolated"
+    },
+    {
+      "revision": 6,
+      "by": "owner instruction 2026-10-10 (achieve the 3-lane pool goal)",
+      "what": "additive transport_model per pool entry (measured per-provider vocabulary)",
+      "why": "neither existing column was universally correct: bare model breaks the nvidia arm; qualified token breaks the openai arm"
+    },
+    {
+      "revision": 7,
+      "by": "round FAR-LANE-HEALTH-REPAIR-20261011 (WO-LANE-HEALTH-013-EXEC)",
+      "what": "EXECUTE and VERIFY_SECURITY rank 2 (nvidia deepseek-ai/deepseek-v4.1-flash) corrected from CONFIG_COMPLETE_NOT_ACTIVATED to UNREACHABLE_MEASURED_20261011 with dispatchable=false",
+      "why": "the declared unblock (one relay restart) happened: the relay restarted (pid 15656 -> 2052, 08:32:28 2026-10-11) and the route now accepts and forwards, but the arm then times out (240.04 s in another session's smoke run; 90.03 s in this round's bounded --force-rank 2 probe) and has never served a normal turn - so the old 'CONFIG_COMPLETE_NOT_ACTIVATED' declaration was stale. The dispatcher now reads dispatchable/feasibility and skips the dead arm at zero cost; the measurement stays overridable via --force-rank."
+    },
+    {
+      "round": "FAR-LANE-HEALTH-REPAIR-20261011",
+      "pass": 5,
+      "by": "bounded writer WO-LANE-HEALTH-013-EXEC",
+      "what": "pass-5 repairs I1/I2/I3 land entirely in scripts/hgk-lane-dispatch.py + tests/test_lane_dispatch_ao_guard.py; this candidate artifact carries NO structural change and its ordered_pool entries are unchanged",
+      "fields_added_to_the_receipt": [
+        "usage_rows_shape_invalid -- count of appended usage rows whose JSON shape was not an object (a nonempty array / bare true / string / integer is now SKIPPED and COUNTED, never a crash and never a receipt)",
+        "usage_ledger_rewritten -- now also true when the ledger GREW but its pre-turn bytes [0:offset) are no longer byte-identical (content-based prefix digest, not a size comparison)"
+      ],
+      "i3_precedence": "the frozen oracle's C1 classification (ERR_NO_ARM_EMITTED_NONCE + nonce_absent_arms) takes precedence whenever an arm answered with exit 0 and a valid usage receipt",
+      "why": "a fourth independent VERIFY/SECURITY review of the PASS-4 bytes returned FAIL: the pass-4 shrinking-only ledger check missed a GROWING rewrite; a wrong-shaped usage row crashed the row parser with no receipt; and an invalid carrier overwrote a valid usage measurement and pre-empted the oracle's C1 classification"
+    },
+    {
+      "round": "FAR-LANE-HEALTH-REPAIR-20261011",
+      "pass": 6,
+      "by": "bounded writer WO-LANE-HEALTH-013-EXEC",
+      "what": "pass-6 class-level repairs J1/J2/J3/J4 land entirely in scripts/hgk-lane-dispatch.py + tests/test_lane_dispatch_ao_guard.py; this candidate artifact carries NO structural change and its ordered_pool entries are unchanged",
+      "fields_added_to_the_receipt": [
+        "usage_rows_undecodable -- count of appended ledger lines that FAILED strict UTF-8 decoding and were skipped (J1); such a line is never substituted with U+FFFD and never compared",
+        "carrier_shape_invalid_detail -- a per-attempt diagnostic string (J4); the carrier-shape condition is a DETAIL, not a top-level code"
+      ],
+      "j4_precedence_table": "TOP-LEVEL codes are derivable ONLY from the frozen requirement's table: (1) some arm produced an ACCEPTABLE turn (exit 0 + a valid usage receipt) and no arm emitted the nonce => ERR_NO_ARM_EMITTED_NONCE + nonce_absent_arms; (2) NO arm produced an acceptable turn (timeouts, errors, invalid usage, malformed evidence, rewritten ledger, undecodable line) => the generic ERR_LANE_ALL_ROUTES_EXHAUSTED (with timed_out_arms measured when every attempt timed out). ERR_CARRIER_SHAPE_INVALID and ERR_USAGE_LEDGER_REWRITTEN are NO LONGER top-level codes: they are per-attempt detail fields (carrier_shape_invalid / carrier_shape_invalid_detail / usage_ledger_rewritten / usage_receipt_reason).",
+      "typing_rule": "exact types and values only (J3): a str field equals only a str -- a JSON integer 7 is not the string \"7\"; no str()/int()/bool()/float() coercion ever decides a match",
+      "line_rule": "only COMPLETE, line-boundary-anchored lines are evidence (J2): the region is [offset, last newline]; a non-line-boundary offset (byte at offset-1 is not a newline) yields ZERO rows, and an unterminated tail is never a row",
+      "why": "a fifth independent VERIFY/SECURITY review returned FAIL: five instance-by-instance passes did not close the class of lossy-decodes / coerced types / loose comparisons / partial reads. Pass 6 closes the class by construction: strict UTF-8 decode everywhere, only line-complete evidence, exact typing (no coercion), and a single requirement-owned top-level code precedence table with diagnostics demoted to details"
+    },
+    {
+      "round": "FAR-STRICT-DECLARATION-20261011",
+      "pass": 2,
+      "by": "bounded writer WO-STRICT-DECLARATION-014-EXEC",
+      "what": "pass-2 repairs T1/T2/T3 land entirely in scripts/hgk-lane-dispatch.py, src/hg_kseos/lane_route_resolver.py + tests/test_lane_dispatch_ao_guard.py; this candidate artifact carries NO structural change and its ordered_pool entries are unchanged",
+      "fields_added_to_the_receipt": [
+        "carrier_lines_surrogate -- count of carrier texts SKIPPED for carrying a surrogate code point (U+D800-U+DFFF), e.g. an escaped \\ud800; such text never decides a verdict"
+      ],
+      "t1_line_rule": "the line's bytes are the bytes between the terminators (T1): the ONLY removal is at most ONE trailing CR (so CRLF still parses). The previous unrestricted pre-cleaning strip is gone; a leading NEL (U+0085), a trailing U+2028, a trailing vertical tab (U+000B) or any other non-JSON-whitespace character reaches the parser and makes it fail. JSON's own insignificant whitespace (space/tab/LF/CR) is left to the parser",
+      "t2_strict_parse": "every parsed value that can decide a verdict (carrier lines, usage rows, the pool artifact, the auth/relay credential documents) goes through one strict JSON parse with a raising parse_constant, so the non-JSON constants NaN / Infinity / -Infinity RAISE and are never accepted as a permissive float",
+      "t3_surrogate_rule": "text containing a surrogate code point (U+D800-U+DFFF) never decides a nonce or a shape judgement: it is skipped and counted, so a surrogate can never be searched as if it were the arm's message",
+      "why": "the pass-1 independent review constructed five further carrier shapes (trailing U+2028 / leading NEL / trailing U+000B / escaped lone surrogate \\ud800 / non-JSON NaN) that still reported success: an unrestricted strip deleted real characters before the parser saw them, a surrogate was searched after decoding, and json.loads accepted NaN by default. Pass 2 closes those three mechanisms and sweeps the reader for any remaining lossy decode, permissive default, substituted character, invented boundary, partial read or pre-clean that could decide a verdict"
+    },
+    {
+      "at": "2026-10-15T03:53:54.397037+00:00",
+      "round": "FAR-LANE-ROUTE-REBIND-20261015",
+      "what": "chain re-order per owner order; pre-bak chain: {\"PLAN\": [\"opencode-go/deepseek-v4.1-flash\", \"nvidia/deepseek-ai/deepseek-v4.1-flash\", \"openai-codex/gpt-6.1-sol\", \"opencode-go/glm-5.3-flash\", \"nvidia/z-ai/glm-5.3-flash\", \"opencode-go/mimo-v2.6-pro\"",
+      "evidence": "var/FAR-LANE-ROUTE-REBIND-20261015/"
+    },
+    {
+      "rev": "far-remediation-20261021",
+      "utc": "20261021T041007Z",
+      "note": "PLAN/VERIFY rank-1 = openai-codex/gpt-6.1-sol (DEFAULT), glm fallback1, deepseek fallback2 — owner order 2026-10-21. Rank and role labels now agree in every lane."
+    },
+    {
+      "rev": "11 -> 12",
+      "round": "OWNER-ORDER-20261021-GPT-QUOTA-RESTORED",
+      "date": "2026-10-21",
+      "what": "Owner order applied to the dispatch-time pool ranks: openai-codex/gpt-6.1-sol promoted to rank 1 for PLAN and for VERIFY_SECURITY (GPT 6.1 SOL-MEDIUM, OpenAI OAuth, transport_model gpt-6.1-sol = BARE id); the previous rank-1 (opencode-go/minimax-m3.1-flash-free) demoted to a reachable fallback on both lanes and NOT removed. EXECUTE is not named by the order: it is restored to opencode-go/deepseek-v4.1-flash at rank 1, because concurrent commit a1bd583 had moved it to minimax while simultaneously reverting declared_by to a text saying 'EXECUTE unchanged' -- the artifact contradicted itself.",
+      "measured": "VERIFY_SECURITY lane probe 2026-10-21 after the owner's quota notice (var/R7-LANES/probe_gpt_61sol_VERIFY3.json): ok=true, required_arm and served_arm both openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage_status=200, usage_receipt_ok=true, 3.11 s. The openai arm requires the BARE model id; a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable'.",
+      "claim_ceiling": "a measured arm availability on the lane, not an acceptance of any subject; the pool is CANDIDATE_ONLY and selection is declarative"
+    },
+    {
+      "rev": "note-repair -> 13",
+      "utc": "20261021T103955Z",
+      "round": "OWNER-ORDER-20261021-GPT-QUOTA-RESTORED",
+      "what": "Repaired each lane's selection_note so it states THAT lane's actual rank-1 arm. The notes still read 'minimax-m3.1-flash-free ... is rank 1' on all three lanes, contradicting the same file's declared_by, change_log and ordered_pool[0]. A reviewer reading the note would have concluded MiniMax was the PLAN binding -- exactly the lane-vs-session confusion the order was meant to end. The note is now generated from ordered_pool[0] so it cannot drift again.",
+      "lanes_changed": [
+        {
+          "lane": "PLAN",
+          "rank1": "openai-codex/gpt-6.1-sol"
+        },
+        {
+          "lane": "EXECUTE",
+          "rank1": "opencode-go/deepseek-v4.1-flash"
+        },
+        {
+          "lane": "VERIFY_SECURITY",
+          "rank1": "openai-codex/gpt-6.1-sol"
+        }
+      ]
+    },
+    {
+      "rev": "13 -> 14",
+      "round": "OWNER-ORDER-20261021-GPT-QUOTA-RESTORED",
+      "date": "2026-10-21",
+      "what": "Owner mandate applied to the dispatch-time pool ranks: EXECUTE is promoted to opencode-go/minimax-m3.1-flash-free at rank 1 (MiniMax M3.1 Flash, OPENCODE GO, Codex-CLI bounded writer); the previous EXECUTE rank-1 (opencode-go/deepseek-v4.1-flash) is demoted to fallback 1 and NOT removed. PLAN and VERIFY_SECURITY stay openai-codex/gpt-6.1-sol at rank 1 (GPT 6.1 SOL-MEDIUM, OpenAI OAuth, transport_model gpt-6.1-sol = BARE id), unchanged by this mandate.",
+      "measured": "VERIFY_SECURITY lane probe 2026-10-21 after the owner's quota notice (var/R7-LANES/probe_gpt_61sol_VERIFY3.json): ok=true, required_arm and served_arm both openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage_status=200, usage_receipt_ok=true, 3.11 s. The openai arm requires the BARE model id; a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable'.",
+      "claim_ceiling": "a measured arm availability on the lane, not an acceptance of any subject; the pool is CANDIDATE_ONLY and selection is declarative"
+    },
+    {
+      "rev": "note-repair -> 15",
+      "utc": "20261021T125731Z",
+      "round": "OWNER-ORDER-20261021-GPT-QUOTA-RESTORED",
+      "what": "Repaired each lane's selection_note so it states THAT lane's actual rank-1 arm. The notes still read 'minimax-m3.1-flash-free ... is rank 1' on all three lanes, contradicting the same file's declared_by, change_log and ordered_pool[0]. A reviewer reading the note would have concluded MiniMax was the PLAN binding -- exactly the lane-vs-session confusion the order was meant to end. The note is now generated from ordered_pool[0] so it cannot drift again.",
+      "lanes_changed": [
+        {
+          "lane": "EXECUTE",
+          "rank1": "opencode-go/minimax-m3.1-flash-free"
+        }
+      ]
+    },
+    {
+      "rev": "13 -> 14",
+      "round": "OWNER-ORDER-20261021-GPT-QUOTA-RESTORED",
+      "date": "2026-10-21",
+      "what": "Owner mandate applied to the dispatch-time pool ranks: EXECUTE is promoted to opencode-go/minimax-m3.1-flash-free at rank 1 (MiniMax M3.1 Flash, OPENCODE GO, Codex-CLI bounded writer); the previous EXECUTE rank-1 (opencode-go/deepseek-v4.1-flash) is demoted to fallback 1 and NOT removed. PLAN and VERIFY_SECURITY stay openai-codex/gpt-6.1-sol at rank 1 (GPT 6.1 SOL-MEDIUM, OpenAI OAuth, transport_model gpt-6.1-sol = BARE id), unchanged by this mandate.",
+      "measured": "VERIFY_SECURITY lane probe 2026-10-21 after the owner's quota notice (var/R7-LANES/probe_gpt_61sol_VERIFY3.json): ok=true, required_arm and served_arm both openai-codex/gpt-6.1-sol, used_transport_model=gpt-6.1-sol, usage_status=200, usage_receipt_ok=true, 3.11 s. The openai arm requires the BARE model id; a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable'.",
+      "claim_ceiling": "a measured arm availability on the lane, not an acceptance of any subject; the pool is CANDIDATE_ONLY and selection is declarative"
+    },
+    {
+      "rev": "15 -> 16",
+      "round": "OWNER-ORDER-20261021-HANDOVER-PLAN-MINIMAX-EXEC-DEEPSEEK",
+      "date": "2026-10-21",
+      "what": "Owner mandate applied to dispatch-time pool ranks: PLAN promoted to opencode-go/minimax-m3.1-flash-free at rank 1 (was gpt-6.1-sol); EXECUTE promoted to opencode-go/deepseek-v4.1-flash at rank 1 (was minimax-m3.1-flash-free). Both demoted arms are retained as reachable fallbacks. VERIFY_SECURITY unchanged at openai-codex/gpt-6.1-sol (medium, transport_model = BARE id).",
+      "measured": "Pre-rebind mandate gate, non-destructive, by --force-rank on the live pool (var/R10-GATE): PLAN rank 2 ok=true transport opencode-go/minimax-m3.1-flash-free served minimax-m3.1-flash-free usage_status 200 in 5.43 s; EXECUTE rank 2 ok=true transport opencode-go/deepseek-v4.1-flash served deepseek-v4.1-flash usage_status 200 in 2.51 s; VERIFY_SECURITY rank 1 ok=true served gpt-6.1-sol usage_status 200 in 3.60 s. All three echoed the nonce. The higher ranks were probed BEFORE the re-order precisely so the rebind could not be the thing that discovered a dead arm.",
+      "claim_ceiling": "a measured arm availability on each lane, not an acceptance of any subject; the pool is CANDIDATE_ONLY and selection is declarative"
+    },
+    {
+      "revision": 17,
+      "change": "rank 1 of PLAN and EXECUTE moved to the mandated arm; the demoted arm keeps its place in the chain (shift, never drop)"
+    },
+    {
+      "rev": 21,
+      "what": "Owner order 2026-10-23: EXECUTE rank 1 moved to opencode-go/deepseek-v4.1-flash because the former rank-1 arm opencode-go/minimax-m3.1-flash-free is DEPRECATED at the provider (relay returned HTTP 410 Gone on a live dispatch). minimax retained as rank-2 fallback, explicitly marked not dispatchable.",
+      "measured": "EXECUTE dispatch through run_lane --role EXECUTE returned ok=false in 9.21s with code=ERR_LANE_ALL_ROUTES_EXHAUSTED and provider error '410 Gone: Model minimax-m3.1-flash-free has been deprecated'; relay /v1/models no longer lists any minimax id (92 models, 0 minimax). opencode-go/deepseek-v4.1-flash is present in the relay model list.",
+      "declared_by": "Owner instruction 2026-10-23 (in-session): replace the deprecated EXECUTE arm with DeepSeek V4.1 Flash",
+      "before": [
+        [
+          1,
+          "opencode-go/minimax-m3.1-flash-free"
+        ],
+        [
+          2,
+          "opencode-go/deepseek-v4.1-flash"
+        ],
+        [
+          3,
+          "openai-codex/gpt-6-luna"
+        ],
+        [
+          4,
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ],
+      "after": [
+        [
+          1,
+          "opencode-go/deepseek-v4.1-flash"
+        ],
+        [
+          2,
+          "opencode-go/minimax-m3.1-flash-free"
+        ],
+        [
+          4,
+          "openai-codex/gpt-6-luna"
+        ],
+        [
+          5,
+          "nvidia/deepseek-ai/deepseek-v4.1-flash"
+        ]
+      ]
+    },
+    {
+      "rev": "note-repair -> 21",
+      "utc": "20261022T183418Z",
+      "round": "FAR-R12-RESIDUAL-REPAIR",
+      "what": "Repair the rev-21 rebind's leftover selection flag: EXECUTE automatic_selection moved off the deprecated rank-2 arm (opencode-go/minimax-m3.1-flash-free, 410 Gone at the provider) onto the rank-1 arm (opencode-go/deepseek-v4.1-flash), so automatic_selection and default agree on rank 1 as tests/test_lane_policy.py::PoolSelectionTests requires. The arm ORDER is unchanged (deepseek stays rank 1); only the misplaced flag moved. A numeric revision bump is deliberately NOT taken: no arm was added, removed or re-ranked, mirroring the note-repair precedent (rev 13/15) for in-place declaration-face repairs.",
+      "measured": "Before: tests/test_lane_policy.py + test_lane_scope_isolation.py -> 1 failed (PoolSelectionTests EXECUTE automatic_selection must be rank 1), 9 passed, 90 subtests, at HEAD 1dcc59d. After this repair: both suites green (see the commit that carries it).",
+      "claim_ceiling": "CANDIDATE_ONLY. A declaration-face consistency repair, not an acceptance of any subject; the pool is not promoted and not active.",
+      "scope": "This file is inert to the drift gate (check_drift reads the registry projections vs live sites, not this pool), so this edit cannot turn the drift gate red and no registry epoch / model-lane-assignment revision bump is taken here."
+    },
+    {
+      "round": "R15-MODEL-FALLBACK-20261023",
+      "revision": 22,
+      "by": "owner order 2026-10-23",
+      "what": "deleted the deprecated minimax-m3.1-flash-free entry from all three ordered pools; ranks renumbered; no other arm removed",
+      "why": "provider answers HTTP 410 ModelDeprecated (probe var/R15-MODEL-FALLBACK-20261023/probes/probe_opencode_go_20261023.json)"
+    },
+    {
+      "round": "R15-MODEL-FALLBACK-20261023",
+      "revision": 23,
+      "by": "self-repair J (SWARM W2 finding)",
+      "what": "regenerated every lane's selection_note from ordered_pool[0] and voided the identity-overlap entries that named the deleted arm",
+      "why": "the note contradicted the same object's ordered_pool[0] (it still named gpt-6.1-sol for PLAN and VERIFY_SECURITY), and the overlap list still reported ranks for a deleted arm",
+      "no_numeric_bump": "in-place declaration-face repair, following the rev 13/15 note-repair precedent"
+    }
+  ],
+  "placement_rationale": "Kept as a NEW file rather than folded into config/lane-routing-registry.yaml: the registry's routes[] values are bound as 90 drift-pinned JSON pointers across three live sites, so editing it forces a fully synchronised sweep + epoch bump. This file stays inert for the drift gate (verified: validate -> exit 0 / fatal false / 90 sites).",
+  "selection_semantics": {
+    "no_session_instruction": "rank 1 (默認/首選) is used",
+    "session_instruction": "the instructed entry replaces rank 1; an entry outside this pool is refused (ERR_SLOT_NOT_IN_POOL)",
+    "model_failure": "advance in rank order (備援1 -> 備援2 -> 可選) and record which rank actually served",
+    "sod": "NOT enforced at this revision (owner D1). Identity overlaps are recorded as facts only, not as refusals."
+  },
+  "lanes": [
+    {
+      "lane": "PLAN",
+      "engine": "hermes",
+      "transport": "hermes_provider_client",
+      "codex_home_config": {
+        "windows_sandbox": "elevated",
+        "required_for_modes": [
+          "read-only",
+          "workspace-write"
+        ],
+        "declared_by": "FAR-LANE-REPAIR-20261014 apply (owner-ordered)",
+        "evidence": "var/FAR-RO-TOOLREFUSAL-20261014/REPORT + var/FAR-LANE-REPAIR-20261014/",
+        "note": "the lane home carries no [windows] sandbox key; absent this declaration codex denies every command in read-only/workspace-write while the turn still exits 0"
+      },
+      "ordered_pool": [
+        {
+          "rank": 1,
+          "provider": "opencode-go",
+          "model": "deepseek-v4.1-flash",
+          "role": "DEFAULT/首選",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/deepseek-v4.1-flash",
+          "default": true,
+          "automatic_selection": true
+        },
+        {
+          "rank": 2,
+          "provider": "openai-codex",
+          "model": "gpt-6.1-sol",
+          "role": "FALLBACK1/備援1",
+          "auth": "openai_oauth",
+          "oauth": true,
+          "transport_model": "gpt-6.1-sol",
+          "reasoning_effort": "medium",
+          "transport_vocabulary_note": "the openai arm requires the BARE id: a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable' (measured 2026-10-21 on 127.0.0.1:10101; bare id -> 200). The governance identity provider=openai-codex / model=<id> is unchanged.",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 3,
+          "provider": "opencode-go",
+          "model": "glm-5.3-flash",
+          "role": "FALLBACK3/備援3",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/glm-5.3-flash",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 4,
+          "provider": "opencode-go",
+          "model": "mimo-v2.6-pro",
+          "role": "FALLBACK4/備援4",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/mimo-v2.6-pro",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 5,
+          "provider": "nvidia",
+          "model": "z-ai/glm-5.3-flash",
+          "role": "FALLBACK5/備援5",
+          "auth": "env_ref:NVIDIA_API_KEY",
+          "oauth": false,
+          "transport_model": "nvidia/z-ai/glm-5.3-flash",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 6,
+          "provider": "nvidia",
+          "model": "deepseek-ai/deepseek-v4.1-flash",
+          "role": "FALLBACK6/備援6",
+          "auth": "env_ref:NVIDIA_API_KEY",
+          "oauth": false,
+          "transport_model": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+          "default": false,
+          "automatic_selection": false
+        }
+      ],
+      "selection_note": "R15-MODEL-FALLBACK-20261023 (owner order 2026-10-23): the PLAN rank-1 arm is opencode-go/deepseek-v4.1-flash; the deprecated arm minimax-m3.1-flash-free is deleted (HTTP 410 at the provider) and MiMo-V2.6-Flash takes the fallback-1 slot it vacated. Generated from ordered_pool[0] so it cannot drift again."
+    },
+    {
+      "lane": "EXECUTE",
+      "engine": "codex-cli",
+      "transport": "opencodex relay 10101 via the isolated lane home (codex -> 10100 front-door port -> 10101); the openai-codex entry additionally has a human-home transport",
+      "codex_home_config": {
+        "windows_sandbox": "elevated",
+        "required_for_modes": [
+          "read-only",
+          "workspace-write"
+        ],
+        "declared_by": "FAR-LANE-REPAIR-20261014 apply (owner-ordered)",
+        "evidence": "var/FAR-RO-TOOLREFUSAL-20261014/REPORT + var/FAR-LANE-REPAIR-20261014/",
+        "note": "the lane home carries no [windows] sandbox key; absent this declaration codex denies every command in read-only/workspace-write while the turn still exits 0"
+      },
+      "ordered_pool": [
+        {
+          "rank": 1,
+          "provider": "opencode-go",
+          "model": "deepseek-v4.1-flash",
+          "role": "DEFAULT/首選",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/deepseek-v4.1-flash",
+          "probe_note": "Owner order 2026-10-23: substituted for minimax-m3.1-flash-free after the relay returned '410 Gone: Model minimax-m3.1-flash-free has been deprecated' (measured, EXECUTE dispatch 9.21s, receipt EXECUTE__BRIEF4.json).",
+          "default": true,
+          "automatic_selection": true
+        },
+        {
+          "model": "mimo-v2.6-flash",
+          "provider": "opencode-go",
+          "transport_model": "opencode-go/mimo-v2.6-flash",
+          "canonical_identity": "mimo-v2.6-flash",
+          "role": "fallback1_operator_selectable",
+          "default": false,
+          "automatic_selection": false,
+          "provenance": "R15-MODEL-FALLBACK-20261023: owner order 2026-10-23 promotes MiMo-V2.6-Flash into the slot the deleted arm held",
+          "rank": 2
+        },
+        {
+          "rank": 3,
+          "provider": "openai-codex",
+          "model": "gpt-6-luna",
+          "role": "FALLBACK2/備援2",
+          "auth": "openai_oauth",
+          "oauth": true,
+          "transport_model": "gpt-6-luna",
+          "transport_vocabulary_note": "the openai arm requires the BARE id: a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable' (measured 2026-10-21 on 127.0.0.1:10101; bare id -> 200). The governance identity provider=openai-codex / model=<id> is unchanged.",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 4,
+          "provider": "nvidia",
+          "model": "deepseek-ai/deepseek-v4.1-flash",
+          "role": "FALLBACK3/備援3",
+          "auth": "env_ref:NVIDIA_API_KEY",
+          "oauth": false,
+          "transport_model": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+          "default": false,
+          "automatic_selection": false
+        }
+      ],
+      "selection_note": "R15-MODEL-FALLBACK-20261023 (owner order 2026-10-23): the EXECUTE rank-1 arm is opencode-go/deepseek-v4.1-flash; the deprecated arm minimax-m3.1-flash-free is deleted (HTTP 410 at the provider) and MiMo-V2.6-Flash takes the fallback-1 slot it vacated. Generated from ordered_pool[0] so it cannot drift again."
+    },
+    {
+      "lane": "VERIFY_SECURITY",
+      "engine": "codex-cli",
+      "transport": "same as EXECUTE",
+      "codex_home_config": {
+        "windows_sandbox": "elevated",
+        "required_for_modes": [
+          "read-only",
+          "workspace-write"
+        ],
+        "declared_by": "FAR-LANE-REPAIR-20261014 apply (owner-ordered)",
+        "evidence": "var/FAR-RO-TOOLREFUSAL-20261014/REPORT + var/FAR-LANE-REPAIR-20261014/",
+        "note": "the lane home carries no [windows] sandbox key; absent this declaration codex denies every command in read-only/workspace-write while the turn still exits 0"
+      },
+      "ordered_pool": [
+        {
+          "rank": 1,
+          "provider": "opencode-go",
+          "model": "deepseek-v4.1-flash",
+          "role": "DEFAULT/首選",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/deepseek-v4.1-flash",
+          "default": true,
+          "automatic_selection": true
+        },
+        {
+          "rank": 2,
+          "provider": "openai-codex",
+          "model": "gpt-6.1-sol",
+          "role": "FALLBACK1/備援1",
+          "auth": "openai_oauth",
+          "oauth": true,
+          "transport_model": "gpt-6.1-sol",
+          "reasoning_effort": "medium",
+          "transport_vocabulary_note": "the openai arm requires the BARE id: a qualified 'openai-codex/<model>' is routed by the relay to the default provider and answers HTTP 400 'Model is unavailable' (measured 2026-10-21 on 127.0.0.1:10101; bare id -> 200). The governance identity provider=openai-codex / model=<id> is unchanged.",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 3,
+          "provider": "opencode-go",
+          "model": "glm-5.3-flash",
+          "role": "FALLBACK3/備援3",
+          "auth": "env_ref:OPENCODE_GO_API_KEY",
+          "oauth": false,
+          "transport_model": "opencode-go/glm-5.3-flash",
+          "default": false,
+          "automatic_selection": false
+        },
+        {
+          "rank": 4,
+          "provider": "nvidia",
+          "model": "deepseek-ai/deepseek-v4.1-flash",
+          "role": "FALLBACK4/備援4",
+          "auth": "env_ref:NVIDIA_API_KEY",
+          "oauth": false,
+          "transport_model": "nvidia/deepseek-ai/deepseek-v4.1-flash",
+          "default": false,
+          "automatic_selection": false
+        }
+      ],
+      "selection_note": "R15-MODEL-FALLBACK-20261023 (owner order 2026-10-23): the VERIFY_SECURITY rank-1 arm is opencode-go/deepseek-v4.1-flash; the deprecated arm minimax-m3.1-flash-free is deleted (HTTP 410 at the provider) and MiMo-V2.6-Flash takes the fallback-1 slot it vacated. Generated from ordered_pool[0] so it cannot drift again."
+    }
+  ],
+  "identity_overlaps_recorded_not_enforced": [
+    "nvidia/deepseek-ai/deepseek-v4.1-flash appears at EXECUTE rank 4, PLAN rank 7, VERIFY_SECURITY rank 5 - the same identity can occupy all three lanes",
+    "openai-codex/gpt-6.1-sol appears at PLAN rank 1, VERIFY_SECURITY rank 1 - the same identity can occupy all three lanes",
+    "openai-codex/gpt-6.1-sol: BY OWNER ORDER (2026-10-21, GPT quota restored): the PLAN lane and the Independent Acceptance Officer / VERIFY / SECURITY checker lane are BOTH openai-codex/gpt-6.1-sol. The collision is REAL and is declared SOD006-C4 (OPEN_OWNER_ORDERED); independence for this pair is PROCESS, LANE and EVIDENCE-PATH separation only, and model independence is NOT claimed. The EXECUTE writer is on a DIFFERENT model (opencode-go/deepseek-v4.1-flash), so the maker/checker separation holds on the model axis.",
+    "opencode-go/deepseek-v4.1-flash appears at EXECUTE rank 2, PLAN rank 4, VERIFY_SECURITY rank 4 - the same identity can occupy all three lanes",
+    "opencode-go/glm-5.3-flash appears at PLAN rank 3, VERIFY_SECURITY rank 3 - the same identity can occupy all three lanes",
+    "opencode-go/deepseek-v4.1-flash now occupies PLAN rank 1 and VERIFY_SECURITY rank 1 - the planner and the checker are the SAME canonical identity by owner order 2026-10-22 (SOD006-C6). Recorded, not hidden; process separation only.",
+    "VOIDED by R15-MODEL-FALLBACK-20261023: minimax-m3.1-flash-free was deleted from every pool, so the overlap entries that named it no longer describe any live identity (kept as this note, not as a live claim)."
+  ],
+  "transport_evidence": {
+    "relay_namespace_observed": [
+      "opencode-go/deepseek-v4.1-flash"
+    ],
+    "relay_is_not_an_allowlist": "the sibling opencode-go/deepseek-flash (excluded from the sanctioned set) returned HTTP 200 in 1.6 s through the relay's completion path, and opencode-go/glm-5.3-flash + opencode-go/mimo-v2.6-pro answered 200 through the relay while absent from /v1/models - consistent with the lane binding's own field child_model_enforcement: UNPROVEN_AS_ENFORCEMENT",
+    "isolated_lane_home_egress": "%LOCALAPPDATA%\\HG-KSEOS\\codex-hermes\\config.toml -> openai_base_url = http://127.0.0.1:10100/v1 (the sealed-lane front-door port, currently held by an unrelated bridge)",
+    "human_home_egress": "C:\\Users\\user\\.codex\\config.toml -> openai_base_url = http://127.0.0.1:10102/v1 (desktop-model-router)",
+    "ports_in_play": {
+      "10100": "hgk-lane-bridge/1 (PID 2920) - non-sanctioned, bound 0.0.0.0, relays to 10101",
+      "10101": "opencodex relay 2.11.0 (PID 15460), isolated home, boot-time namespace",
+      "10102": "desktop-model-router router.ts (PID 14328), providers: openai -> chatgpt.com/backend-api/codex, opencode-go -> openai-chat"
+    }
+  },
+  "activation_state": {
+    "config_complete": [
+      "nvidia provider (adapter openai-chat, base https://integrate.api.nvidia.com/v1)",
+      "canonical openai provider (adapter openai-responses)",
+      "opencode-go listing extended to deepseek-v4.1-flash/glm-5.3-flash/mimo-v2.6-pro"
+    ],
+    "not_activated": "the running relay holds its boot-time namespace; provider namespaces are read at boot in this build, and no reload command exists (ocx system has no reload; ocx models provider on / models selected reject unknown providers)",
+    "activation_costs": [
+      "one relay restart; ocx itself reports 'Restart safety: AT RISK after restart (custom local gateway lifecycle is not managed by opencodex)'",
+      "the sanctioned start path (start-hgk-hermes.ps1 -Action StartOpenCodex) asserts a 200 provider receipt for the declared single binding model, which the current 429 cannot satisfy - so the sanctioned activation gate cannot pass while the quota holds",
+      "the relay supervisor restarts ONLY through that launcher, at most 3 times per 300 s, and never kills an unidentified process"
+    ],
+    "owner_actions": [
+      "approve one relay-restart window, or wait out the opencode-go quota",
+      "run `ocx login openai` interactively to clear the relay-side OAuth arm's needs-reauth status"
+    ],
+    "receipt": "var/far-lane-route-slots-012/evidence/RELAY_NAMESPACE_CHANGE_RECEIPT.json"
+  },
+  "credential_remediation": {
+    "date": "2026-10-10",
+    "root_cause": "the isolated relay was pinned to a credential opencode.ai rejects (HTTP 401 AuthError Invalid API key) and was missing the mandatory x-opencode-session header - the weekly GoUsageLimitError was the relay's path, not evidence that the owner's quota was spent",
+    "applied": [
+      "ocx account add-key opencode-go (key piped via stdin)",
+      "ocx provider edit opencode-go --headers {x-opencode-session: 7776004, user-agent: hermes-hgk-codex-lane/1.0}",
+      "ocx provider selected opencode-go --set deepseek-v4.1-flash,glm-5.3-flash,mimo-v2.6-pro",
+      "ocx provider add nvidia and ocx provider add openai"
+    ],
+    "verified": [
+      "relay 200 for deepseek-v4.1-flash (1.0-1.52 s), glm-5.3-flash (1.35 s), mimo-v2.6-pro (1.91 s)",
+      "codex CLI lane end-to-end turn.completed / LANE_OK / exit 0",
+      "direct provider calls require x-opencode-session; any session value is accepted"
+    ],
+    "hot_vs_cold": "CREDENTIAL changes are hot (effective without a restart, verified); PROVIDER-NAMESPACE changes are cold (boot-time snapshot, need a restart)",
+    "quota_visibility": "ocx provider quota --refresh returns reports: none for api-key pools; remaining weekly quota is not measurable here",
+    "durability_lesson": "ocx rewrites the whole config.json from its own state on every write, so raw JSON edits are not durable; apply provider state with the CLI and re-verify after each write",
+    "receipt": "var/far-lane-route-slots-012/evidence/DUAL_KEY_ROUTING_RECEIPT.json",
+    "addendum": "var/far-lane-route-slots-012/evidence/FAR_DUAL_KEY_ADDENDUM.md"
+  },
+  "decisions_applied": {
+    "D1": "no maker==checker refuse rule; the ordered pool governs. SoD evaluation deliberately NOT wired at this revision.",
+    "D2": "low friction: a new inert candidate file + config-level provider registration, no src/** change, no registry rewrite, no projection sweep.",
+    "D3": "selection_semantics above encodes exactly the requested behaviour (default / instructed / fall back).",
+    "D4": "rank order is authoritative; rank 1 is the default selection.",
+    "D5": "B - namespace extension authorised and executed at config level; the single-model restriction control is explicitly declared substantively weakened (the relay serves unlisted ids today anyway).",
+    "D6": "A - router-mediated transport accepted for the openai-codex entries, with the ceiling stated, plus two zero-cost compensating assertions (record the resolved egress URL per dispatch; assert the router's declared openai baseUrl equals the subscription backend before use). Preferred target remains the in-relay canonical openai provider once the account is re-authenticated.",
+    "D7": "DEFERRED by owner instruction 2026-10-10 (complete authentication + isolated P2 testing first; a single controlled activation window comes after the pre-deployment conditions pass). No restart was performed.",
+    "D8": "EXECUTED with an adverse result, recorded honestly: the second supplied key (fingerprint 342f8893) belongs to the SAME weekly-exhausted workspace as the invalid key (wrk_01KGGG9C613DJ456K5VFGY87CA, HTTP 429), so dual-key rotation adds no capacity today. The pool now holds three entries; active = the verified-good key 7c75aa5c. Adding a key also flips the active credential, which briefly put the relay on the invalid key (401) - repaired with `ocx account use opencode-go 7c75aa5c` (relay back to 200)."
+  },
+  "deployment_window": {
+    "executed_utc": "2026-10-10T05:51:26.894711+00:00",
+    "window_receipt": "var/far-lane-route-slots-012/evidence/DEPLOYMENT_WINDOW_P1P2_RECEIPT.json",
+    "relay_side_oauth": "DONE_AND_VERIFIED - relay openai arm answered 200 / 'OA_OK' on gpt-5.6-luna",
+    "nvidia_arm": "EXPOSED_BUT_CREDENTIAL_INVALID - 401 Invalid JWT; the NVIDIA_API_KEY in the Hermes .env is not a valid NIM key",
+    "opencode_go_arm": "UNCHANGED - 200 (active key 7c75aa5c)",
+    "namespace": "89 models across openai/nvidia/google/meta/mistralai/deepseek-ai/z-ai/opencode/...",
+    "p2_wired": false,
+    "supervisor_restart_path": "BLOCKED by a stale relay-supervisor.cooldown.json.lock (2026-10-08); the sanctioned launcher was used directly"
+  },
+  "transport_vocabulary_measured": {
+    "date": "2026-10-10",
+    "relay": "127.0.0.1:10101",
+    "opencode-go": {
+      "bare": "200",
+      "qualified": "200"
+    },
+    "nvidia": {
+      "bare": "400",
+      "qualified": "200"
+    },
+    "openai-codex": {
+      "bare": "200",
+      "qualified": "400"
+    },
+    "evidence": [
+      "gpt-6.1-sol 200/4.35s",
+      "openai-codex/gpt-6.1-sol 400/0.52s",
+      "nvidia/deepseek-ai/deepseek-v4.1-flash 200/43s",
+      "deepseek-ai/deepseek-v4.1-flash 400"
+    ]
+  },
+  "rev": "far-closure-20261021-r2",
+  "history": [
+    {
+      "rev": 7,
+      "at_utc": "2026-10-10T09:35:00Z",
+      "reason": "transport_model for opencode-go entries changed from the bare model name to the provider-qualified slug: the codex model catalog is keyed by slug (opencode-go/<model>), so the bare name missed metadata entirely, fell back to fallback metadata, and every dispatch burned 7 websocket-upgrade retries per turn before falling back to HTTPS (measured: execute-door ledger ws-retry groups [7, 7]).",
+      "evidence": "E4 experiment"
+    },
+    {
+      "rev": 8,
+      "at_utc": "2026-10-10T14:00:00Z",
+      "reason": "declare identity_requirement per CODEX-CLI arm so the pre-spawn gate is declarative and owner-visible rather than implicit in code; record the owner ruling that keeps the OAuth arm in the unattended pool",
+      "evidence": "round FAR-AO-INDEPENDENCE-20261010"
+    },
+    {
+      "revision": 18,
+      "at": "2026-10-22",
+      "change": "normalised ordered_pool: entries that were str(dict) reprs are real objects again; rank is the list order; default/automatic_selection are true for rank 1 only. Measured cause: the rev-17 re-binding moved the chain but left default=true on the OLD arm, so the deployed dispatcher would still auto-select deepseek on EXECUTE while the registry declared minimax first - a declared-vs-actual gap that no test covered (the test named in test_lane_policy.py:113 did not exist)."
+    },
+    {
+      "round": "R15-MODEL-FALLBACK-20261023",
+      "revision": 23,
+      "by": "owner order 2026-10-23",
+      "what": "inserted opencode-go/mimo-v2.6-flash into the EXECUTE ordered pool at rank 2 -- the slot the deleted arm held -- and renumbered ranks 1..4",
+      "why": "the owner order promotes MiMo-V2.6-Flash to fallback 1; deleting the deprecated arm without filling its slot would have shifted every fallback up one rank (a silent re-ranking), which the artifact's own convention forbids",
+      "ceiling": "CANDIDATE_ONLY; selection is declarative"
+    }
+  ],
+  "identity_requirements_declared": {
+    "declared_by": "FAR-AO-INDEPENDENCE-20261010 (round), owner ruling 2026-10-10: the unattended window MUST keep gpt-6.1-sol available, so the OAuth arm is NOT removed from the pool",
+    "classes": {
+      "none": "key-auth arm; the RELAY holds the key. Measured: zero interactive prompts, zero identity side effects across three dispatched turns (E1/E2/E3).",
+      "cli_login": "the arm needs a login in the home the CLI runs from; missing => ERR_LANE_IDENTITY_NOT_PREAUTHORIZED, refused BEFORE spawn",
+      "relay_pool": "the arm consumes the relay's ChatGPT subscription credential; not refreshable => ERR_RELAY_OAUTH_NEEDS_REAUTH, refused BEFORE spawn"
+    },
+    "measured_basis": "an arm routed with `-c openai_base_url=<relay>` consumes the RELAY's credential, NOT the lane home's CLI login - so `codex login status` = Not logged in in the lane home is NOT a reason to refuse the openai arm (this corrects an earlier draft of the fix, which proposed seeding the lane home).",
+    "health_rule": "an expired ACCESS token is normal (the relay refreshes single-flight); only the absence of REFRESH material is a failure. The gate therefore checks refreshability, not expiry.",
+    "gate_scope": "CODEX-CLI lanes only (EXECUTE / VERIFY_SECURITY). The PLAN lane runs on the hermes engine and is not dispatched by scripts/hgk-lane-dispatch.py.",
+    "implementation": "scripts/hgk-lane-dispatch.py: default_identity_requirement() + identity_check() + the pre-spawn gate in main(); tests/test_lane_dispatch_ao_guard.py",
+    "require_arm_semantics": "--require-arm provider/model makes the run FAIL CLOSED instead of silently degrading to another arm when the named arm is refused"
+  },
+  "transport_vocabulary": {
+    "measured_at": "2026-10-21",
+    "relay": "http://127.0.0.1:10101",
+    "rule": "the transport id is per-provider: openai-codex REQUIRES the bare id; nvidia REQUIRES '<provider>/<model>'; opencode-go accepts bare or qualified.",
+    "openai_codex_bare_only": true,
+    "evidence": {
+      "gpt-6.1-sol": 200,
+      "openai/gpt-6.1-sol": 200,
+      "openai-codex/gpt-6.1-sol": 400,
+      "openai-codex/gpt-5.6-sol": 400,
+      "gpt-6.1-sol-high": 400
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+ "schema": "FHS.W0.NegativeMirrors/1",
+ "verifier": "C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py",
+ "verifier_sha256": "4a86ef7d4942dd064c43e5ec19be584d0be7a36f0115a03b174880ebf1a9d2a4",
+ "cases": 7,
+ "as_expected": 7,
+ "failed": 0,
+ "rows": [
+  {
+   "id": "FG1_DICT_NO_BINDING",
+   "expected_code": "MISSING_CANDIDATE_BINDING",
+   "observed_code": "MISSING_CANDIDATE_BINDING",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG1_DICT_NO_BINDING",
+   "detail": [
+    {
+     "lane": "A",
+     "why": "MISSING_CANDIDATE_BINDING",
+     "missing": [
+      "lane_id",
+      "candidate_sha256",
+      "source_sha256",
+      "clause_id",
+      "property",
+      "raw_path",
+      "raw_sha256",
+      "timestamp"
+     ]
+    },
+    {
+     "lane": "B",
+     "why": "MISSING_CANDIDATE_BINDING",
+     "missing": [
+      "lane_id",
+      "candidate_sha256",
+      "source_sha256",
+      "clause_id",
+      "property",
+      "raw_path",
+      "raw_sha256",
+      "timestamp"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "FG2_FABRICATED_RAW",
+   "expected_code": "RAW_DIGEST_MISMATCH",
+   "observed_code": "RAW_DIGEST_MISMATCH",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG2_FABRICATED_RAW",
+   "detail": [
+    {
+     "lane": "PLAN",
+     "why": "RAW_DIGEST_MISMATCH",
+     "tried": [
+      "lanes/votes/raw_r25.txt",
+      "votes/raw_r25.txt"
+     ],
+     "declared_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+     "lane": "VERIFY",
+     "why": "RAW_DIGEST_MISMATCH",
+     "tried": [
+      "lanes/votes/raw_r25.txt",
+      "votes/raw_r25.txt"
+     ],
+     "declared_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+   ]
+  },
+  {
+   "id": "FG3_INT_ONE_VOTE",
+   "expected_code": "VOTE_TYPE_INVALID",
+   "observed_code": "VOTE_TYPE_INVALID",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG3_INT_ONE_VOTE",
+   "detail": [
+    {
+     "lane": "PLAN",
+     "why": "VOTE_TYPE_INVALID",
+     "type": "int",
+     "value": 1
+    },
+    {
+     "lane": "VERIFY",
+     "why": "VOTE_TYPE_INVALID",
+     "type": "int",
+     "value": 1
+    }
+   ]
+  },
+  {
+   "id": "FG4_PROCESS_DUP",
+   "expected_code": "PROCESS_ID_DUPLICATE",
+   "observed_code": "PROCESS_ID_DUPLICATE",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG4_PROCESS_DUP",
+   "detail": [
+    {
+     "lane": "VERIFY",
+     "why": "PROCESS_ID_DUPLICATE",
+     "process_id": "p1",
+     "session_id": "s1",
+     "first_lane": "PLAN"
+    }
+   ]
+  },
+  {
+   "id": "FG5_RAW_ABSENT",
+   "expected_code": "RAW_EVIDENCE_UNREADABLE",
+   "observed_code": "RAW_EVIDENCE_UNREADABLE",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG5_RAW_ABSENT",
+   "detail": [
+    {
+     "lane": "PLAN",
+     "why": "RAW_EVIDENCE_UNREADABLE",
+     "tried": [
+      "lanes/votes/raw_r25.txt",
+      "votes/raw_r25.txt"
+     ],
+     "declared_digest": "8176a14838c2b97135cebcd18b8a41a74229b9f785c1a52ee741e72b13ae18eb"
+    },
+    {
+     "lane": "VERIFY",
+     "why": "RAW_EVIDENCE_UNREADABLE",
+     "tried": [
+      "lanes/votes/raw_r25.txt",
+      "votes/raw_r25.txt"
+     ],
+     "declared_digest": "8176a14838c2b97135cebcd18b8a41a74229b9f785c1a52ee741e72b13ae18eb"
+    }
+   ]
+  },
+  {
+   "id": "FG6_INT_ONE_VALUE",
+   "expected_code": "VALUE_NOT_BOOLEAN",
+   "observed_code": "VALUE_NOT_BOOLEAN",
+   "exit": 1,
+   "ok_field": false,
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "as_expected": true,
+   "mirror": "mirror_neg/FG6_INT_ONE_VALUE",
+   "detail": null
+  },
+  {
+   "id": "POS_CONTROL",
+   "expected_code": null,
+   "observed_code": null,
+   "exit": 0,
+   "ok_field": true,
+   "verdict": null,
+   "agreeing": null,
+   "as_expected": true,
+   "mirror": "mirror_neg/POS_CONTROL",
+   "detail": null
+  }
+ ],
+ "RESULT": "OK"
+}

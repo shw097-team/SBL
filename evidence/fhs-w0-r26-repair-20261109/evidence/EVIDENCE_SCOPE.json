@@ -1,13 +1,46 @@
 {
- "schema": "FHS.W0.EvidenceScope/1",
+ "schema": "FHS.W0.EvidenceScope/2",
  "profiles": {
   "full": {
    "checks": 22,
    "where": "this host, author run",
    "command": "python tools/gate_r20.py --round .",
-   "excluded": {
-    "G11,G13,G16a,G16b,G19,G26": "need the 31 local source volumes; not runnable in CI"
-   }
+   "excluded": {},
+   "not_runnable_in_CI": [
+    {
+     "gate": "G11",
+     "reason": "re-hashes the 31 source documents, which are not shipped inside the payload"
+    },
+    {
+     "gate": "G13",
+     "reason": "same 31-document corpus as G11; the in-set zero counts are re-derived from those files"
+    },
+    {
+     "gate": "G16a",
+     "reason": "two of the three dependency subjects are checkouts outside the payload; only identity is checkable from here"
+    },
+    {
+     "gate": "G16b",
+     "reason": "same external checkouts as G16a; scan completeness across those trees cannot be recomputed in CI"
+    },
+    {
+     "gate": "G19",
+     "reason": "the copy register describes four roots outside the payload; 437 copies live on the author host"
+    },
+    {
+     "gate": "G26",
+     "reason": "the receipts bind the round layout, not the payload layout, so CI cannot resolve their targets"
+    }
+   ],
+   "executed_on_the_author_host": [
+    "G11",
+    "G13",
+    "G16a",
+    "G16b",
+    "G19",
+    "G26"
+   ],
+   "executed_evidence": "gate/GATE_R26.json (scope=full, 22 checks, 21 PASS + 1 OPEN) carries a real detail line for each of the six"
   },
   "payload": {
    "checks": 16,
@@ -17,6 +50,25 @@
     "G11,G13,G16a,G16b,G19,G26": "same reason"
    }
   }
+ },
+ "meaning_of_each_key": {
+  "excluded": "the gate does not execute this check at all",
+  "not_runnable_in_CI": "the author host executes the check and its result is recorded; a CI runner cannot reproduce it",
+  "executed_on_the_author_host": "the six names claim nothing on their own; they are a reading aid for not_runnable_in_CI and each one must still resolve to a detail line in gate/GATE_R26.json"
+ },
+ "repaired_in_round": {
+  "round": "r27-metadata-hygiene",
+  "findings": [
+   "EC-R26-009"
+  ],
+  "repaired_from_sha256": "dad2d715d40e35814c38ed801d59ea4e575b9a28937032fb03a5808d1e99120c",
+  "what_changed": "profiles.full.excluded listed the six gates as if the author's full run had skipped them, while gate/GATE_R26.json shows all six executed with real measurements. full.excluded is now {} and the same six names sit under full.not_runnable_in_CI with one reason each",
+  "what_did_not_change": [
+   "the check counts (22 full / 16 payload)",
+   "the two profile commands",
+   "profiles.payload.excluded, which is factually correct: --scope payload really does remove those six from the run"
+  ],
+  "authority": "gate/GATE_R26.json"
  },
  "rule": "the two profiles measure different things and may not be quoted for one another; a payload 15/15 is not a full 22/22 and a full 22/22 is not a CI observation",
  "g29_in_payload": true

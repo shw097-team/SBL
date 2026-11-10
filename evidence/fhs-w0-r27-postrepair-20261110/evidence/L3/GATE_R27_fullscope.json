@@ -1,0 +1,204 @@
+{
+ "schema": "FHS.W0.Gate/6",
+ "gate": "GSTACK v6",
+ "round": "C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-meta/evidence/fhs-w0-r26-repair-20261109",
+ "generated_at": "2026-11-11T00:11:46+08:00",
+ "checks": [
+  {
+   "check": "G10",
+   "name": "CHAIN_INTEGRITY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "payload: shipped copy is the LF form (09c666dad4f31099); the normalisation record reconciles it to the author bytes the chain and the signatures bind (0ea0554449947885)"
+  },
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "UNQUALIFIED_NO_SOURCES",
+   "detail": "the 31 source documents are not in this payload, so nothing can be re-hashed here"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "per_line=111331 structural=25201 rule published"
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "UNQUALIFIED_NO_SOURCES",
+   "detail": "the 31 source documents are not reachable, so the zeros cannot be re-derived"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "21 cells, range [0.046948, 0.519037]"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0"
+  },
+  {
+   "check": "G16a",
+   "name": "DEPENDENCY_TRUTHFUL",
+   "severity": "BLOCKING",
+   "verdict": "ABSENT",
+   "code": "ARTIFACT_ABSENT",
+   "detail": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-meta\\evidence\\fhs-w0-r26-repair-20261109\\evidence\\DEPENDENCY_SUBJECTS.json"
+  },
+  {
+   "check": "G16b",
+   "name": "DEPENDENCY_CLOSED",
+   "severity": "REPORTING",
+   "verdict": "ABSENT",
+   "code": "ARTIFACT_ABSENT",
+   "detail": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-meta\\evidence\\fhs-w0-r26-repair-20261109\\evidence\\DEPENDENCY_SUBJECTS.json"
+  },
+  {
+   "check": "G16c",
+   "name": "OPTIONAL_SEMANTICS",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "2 non-required modules carry a measured absent-state: {'yaml': 'DEGRADED_BUT_BOUNDED', 'cryptography': 'LOUD_REJECT'}"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "15/96/12/11; naive(slash)=10 robust=11"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "64/64 resolve inside their own payload (realpath), 1 manifests, entry sets match"
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "ROOT_ABSENT",
+   "detail": "24 of 25 roots declared present are gone: ['FHS_W0W2_R4_20261107', 'FHS_W0_R6_20261108', 'FHS_W0_R7_VERIFY_20261108']"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_CLAIM_SHAPE",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)"
+  },
+  {
+   "check": "G21",
+   "name": "NUMBER_CONSISTENCY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "handover states 668,540 B (and no stale size) with a matching digest"
+  },
+  {
+   "check": "G22",
+   "name": "SELFTEST_CONTRACT",
+   "severity": "REPORTING",
+   "verdict": "OPEN",
+   "code": "SELFTEST_EXIT_DOCUMENTED_WRONG",
+   "detail": "SELF_REPORTED_BY_THE_SUBJECT documented=0 actual=1; rows not fired: ['G11:BASELINE_RED:FAIL', 'G13:BASELINE_RED:FAIL', 'G16a:SKIPPED:ABSENT', 'G16b:SKIPPED:ABSENT', 'G19:BASELINE_RED:FAIL', 'G26:BASELINE_RED:FAIL']"
+  },
+  {
+   "check": "G23",
+   "name": "TRACE_ID_NAMED",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "6 defects, all closed ones named in the body"
+  },
+  {
+   "check": "G24",
+   "name": "IDENTITY_CLAIMS",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "source contract: 8/8 source-contract units re-derived from their own file (bytes=os.stat, lines=split(b'\\n')); 49 claims consistent with the revision manifest; 14 composition sentence(s) state a parent's size and were not counted as identity claims"
+  },
+  {
+   "check": "G25",
+   "name": "EXTRA_QUALIFIED",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "3 subjects, 0 declared extras; 0 no-op attempt(s) record a warning and add nothing; fixture proves a real extra adds ['yaml']"
+  },
+  {
+   "check": "G26",
+   "name": "RECEIPT_BINDING",
+   "severity": "BLOCKING",
+   "verdict": "FAIL",
+   "code": "RECEIPT_BINDING_BROKEN",
+   "detail": "[[\"W0-RCPT-WP-FHS-00.json\", \"CANDIDATE_DIGEST_STALE\", \"60ba757b8090 != 09c666dad4f3 and is not a proven prefix\"], [\"W0-RCPT-WP-FHS-00.json\", \"EVIDENCE_ABSENT\", \"writeback/W0/FHS_PIPD-LS-PKG_W0_r13.md\"], [\"W0-RCPT-WP-FHS-01.json\", \"CANDIDATE_DIGEST_STALE\", \"60ba757b8090 != 09c666dad4f3 and is not a proven prefix\"], [\"W0-RCPT-WP-FHS-01.json\", \"EVIDENCE_ABSENT\", \"writeback/W0/FHS_PIPD-LS-PKG_W0_r13.md\"]]"
+  },
+  {
+   "check": "G27",
+   "name": "LABEL_DISCIPLINE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "no bare ORIGINAL_ACK claim; the qualified label holds"
+  },
+  {
+   "check": "G28",
+   "name": "MACHINE_READABLE_QUALIFIER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "0 bare sites across 43 scanned json artefact(s); 1 exclusion(s) carry a reason"
+  },
+  {
+   "check": "G29",
+   "name": "SIGNED_VOTE_QUORUM",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "",
+   "detail": "128 preservation properties across 10 signed envelope(s); every DECIDED one has >=2 agreeing valid votes"
+  }
+ ],
+ "summary": {
+  "total": 22,
+  "pass": 15,
+  "blocking_fail": 5,
+  "open_reporting_findings": 1
+ },
+ "hygiene": {
+  "count": 0,
+  "exempted": 0,
+  "findings": []
+ },
+ "scope": "full",
+ "excluded_in_this_scope": [],
+ "claim_ceiling": "GATE_VERDICT_NOT_ACCEPTANCE",
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_WORLDRAW",
+  "RELEASE_GRANTED",
+  "INDEPENDENT_PASS"
+ ]
+}

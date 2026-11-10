@@ -1,0 +1,33 @@
+r27/L1: G29 quorum refuses the three r26 false greens
+
+verify_quorum.py in the r26 payload now refuses each class with its own code
+and a non-zero exit, instead of returning ACCEPTABLE_FOR_FHS_READER_SCOPE:
+
+  MISSING_CANDIDATE_BINDING  a votes_r25 entry carrying no candidate binding
+                             (the dict shape was skipped entirely before)
+  RAW_DIGEST_MISMATCH        raw_sha256 re-derived from the transcript and
+                             contradicted, or a payload copy that drifted from
+                             its own manifest row
+  RAW_EVIDENCE_UNREADABLE    the raw transcript does not resolve under --raw-root
+  VOTE_TYPE_INVALID          type(vote) is not bool (JSON 1, "true", 1.0)
+  PROCESS_ID_DUPLICATE       two votes of one property share (session, process)
+  STALE_CANDIDATE_VOTE       now applies to the dict vote shape as well
+
+Integrity refusals veto a property on their own; a lane duplicate still only
+removes a vote and lets the quorum arithmetic decide, so NEG-Q4 keeps its
+SIGNED_VOTE_QUORUM_FAIL.
+
+--strict adds PROCESS_IDENTITY_MISSING for session_id/process_id. R26-01_GAP:
+measured 0/4 of the two signed r25 repairs carry them, so they stay opt-in
+rather than refusing the round's own signed votes. raw_path/timestamp are read
+through the declared alias table (raw_file/at, measured 4/4).
+
+--raw-root added (default = round root). With the payload as raw root the two
+signed r25 repairs bind through the manifest's as-measured identity; pointed at
+lanes/votes/ the same declared digests match the bytes exactly.
+
+Selftest 7 -> 17 cases (NEG-Q8/Q9/Q10/Q11/Q13/Q15/Q16/Q17, POS-Q12/Q14).
+CI gains a fail-closed receipt-scan step. MANIFEST.json and SHA256SUMS carry
+new digests for the repaired tool only; no signed receipt was edited.
+
+subject_sha256=0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f

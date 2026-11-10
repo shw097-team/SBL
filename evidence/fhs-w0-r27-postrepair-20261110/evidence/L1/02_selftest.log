@@ -1,0 +1,243 @@
+{
+ "schema": "FHS.W0.VoteQuorum/1",
+ "cases": 17,
+ "failed": 0,
+ "strict": false,
+ "rows": [
+  {
+   "case": "NEG-Q1",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q2",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 1,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "POS-Q3",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 1,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q4",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "LANE_ID_DUPLICATE"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q7",
+   "expected": "REREAD_EVIDENCE_MISSING",
+   "got": "REREAD_EVIDENCE_MISSING",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q1b",
+   "expected": "STATE_NOT_DECIDED",
+   "got": "STATE_NOT_DECIDED",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q5",
+   "expected": "SIGNED_VOTE_QUORUM_FAIL",
+   "got": "SIGNED_VOTE_QUORUM_FAIL",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "STALE_CANDIDATE_VOTE"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q8",
+   "expected": "MISSING_CANDIDATE_BINDING",
+   "got": "MISSING_CANDIDATE_BINDING",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "A",
+    "why": "MISSING_CANDIDATE_BINDING",
+    "missing": [
+     "lane_id",
+     "candidate_sha256",
+     "source_sha256",
+     "clause_id",
+     "property",
+     "raw_path",
+     "raw_sha256",
+     "timestamp"
+    ]
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q9",
+   "expected": "RAW_DIGEST_MISMATCH",
+   "got": "RAW_DIGEST_MISMATCH",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_DIGEST_MISMATCH",
+    "tried": [
+     "lanes/votes/raw_fixture_r25.txt",
+     "votes/raw_fixture_r25.txt"
+    ],
+    "declared_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q10",
+   "expected": "VOTE_TYPE_INVALID",
+   "got": "VOTE_TYPE_INVALID",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "VOTE_TYPE_INVALID",
+    "type": "int",
+    "value": 1
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q11",
+   "expected": "PROCESS_ID_DUPLICATE",
+   "got": "PROCESS_ID_DUPLICATE",
+   "verdict": "HOLD",
+   "agreeing": 1,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "VERIFY",
+    "why": "PROCESS_ID_DUPLICATE",
+    "process_id": "p1",
+    "session_id": "s1",
+    "first_lane": "PLAN"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q13",
+   "expected": "RAW_EVIDENCE_UNREADABLE",
+   "got": "RAW_EVIDENCE_UNREADABLE",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_EVIDENCE_UNREADABLE",
+    "tried": [
+     "lanes/votes/absent_r25.txt",
+     "votes/absent_r25.txt"
+    ],
+    "declared_digest": "8176a14838c2b97135cebcd18b8a41a74229b9f785c1a52ee741e72b13ae18eb"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q15",
+   "expected": "VOTE_TYPE_INVALID",
+   "got": "VOTE_TYPE_INVALID",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "VOTE_TYPE_INVALID",
+    "type": "str",
+    "value": "true"
+   },
+   "ok": true
+  },
+  {
+   "case": "NEG-Q16",
+   "expected": "STALE_CANDIDATE_VOTE",
+   "got": "STALE_CANDIDATE_VOTE",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "STALE_CANDIDATE_VOTE",
+    "vote_candidate": "cand-old",
+    "effective_candidate": "cand-eff"
+   },
+   "ok": true
+  },
+  {
+   "case": "POS-Q12",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  },
+  {
+   "case": "NEG-Q17",
+   "expected": "RAW_DIGEST_MISMATCH",
+   "got": "RAW_DIGEST_MISMATCH",
+   "verdict": "HOLD",
+   "agreeing": 0,
+   "dissenting": 0,
+   "first_drop": {
+    "lane": "PLAN",
+    "why": "RAW_DIGEST_MISMATCH",
+    "form": "manifest_as_measured",
+    "resolved": "votes/raw_copy_r25.txt",
+    "measured_from": "lanes/votes/raw_copy_r25.txt",
+    "declared_digest": "3aa2683da23b451a9b68ddf00fb199667b763c89c9dc48d31c9473b32e56ce67",
+    "payload_digest": "b03271e9afa333cccae4af9b1d76549c79d2926b896e72d591336cd55352d79b"
+   },
+   "ok": true
+  },
+  {
+   "case": "POS-Q14",
+   "expected": null,
+   "got": null,
+   "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+   "agreeing": 2,
+   "dissenting": 0,
+   "first_drop": null,
+   "ok": true
+  }
+ ],
+ "SELFTEST": "OK"
+}

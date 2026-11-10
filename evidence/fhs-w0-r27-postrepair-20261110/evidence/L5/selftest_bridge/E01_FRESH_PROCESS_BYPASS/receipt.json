@@ -1,0 +1,39 @@
+{
+  "schema": "HGK-LANE-RESOLUTION/1",
+  "ok": false,
+  "lane": "EXECUTE",
+  "code": "FHS_ENTRY_ASSERT_REQUIRED",
+  "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+  "generated_utc": "2026-11-10T16:21:34.563315+00:00",
+  "fhs_entry": {
+    "schema": "FHS-ENTRY-GUARD/1",
+    "ok": false,
+    "code": "FHS_ENTRY_ASSERT_REQUIRED",
+    "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+    "lane": "EXECUTE",
+    "arm": "opencode-go/deepseek-v4.1-flash",
+    "gate": {
+      "schema": "FHS-ENTRY-GUARD/1",
+      "ok": false,
+      "code": "FHS_ENTRY_ASSERT_REQUIRED",
+      "detail": "no --binding was supplied; a fresh process has no session binding, and an unbound run must not reach a spawn",
+      "generated_utc": "2026-11-10T16:21:34+00:00",
+      "lane": "EXECUTE",
+      "arm": "opencode-go/deepseek-v4.1-flash",
+      "checks": [
+        {
+          "id": "binding_present",
+          "ok": false,
+          "reason": "no --binding supplied"
+        }
+      ],
+      "check": "FHS_ENTRY_ASSERT_REQUIRED"
+    }
+  },
+  "attempts": [],
+  "zero_spawn": true,
+  "stage": "fhs_entry (before any child process)",
+  "say": "the FHS entry gate refused this dispatch before any child existed: an unbound fresh process (or an unspent/absent capability) does not reach a spawn",
+  "codex_home": "C:\\Users\\user\\AppData\\Local\\HG-KSEOS\\codex-hermes",
+  "codex_home_is_declared_lane_home": true
+}

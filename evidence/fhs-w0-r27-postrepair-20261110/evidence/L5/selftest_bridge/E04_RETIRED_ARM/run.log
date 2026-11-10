@@ -1,0 +1,119 @@
+# case E04_RETIRED_ARM
+# argv: ["C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\scripts\\fhs_entry_guard.py", "assert-entry", "--binding", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json", "--lane", "EXECUTE", "--arm", "opencode-go/mimo-v2.6-pro", "--require-bound", "--hgk-root", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge", "--binding-reader", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py"]
+# env: {}
+# exit: 24
+# --- stdout ---
+{
+  "schema": "FHS-ENTRY-GUARD/1",
+  "ok": false,
+  "code": "FHS_ENTRY_RETIRED_ARM",
+  "detail": "the arm opencode-go/mimo-v2.6-pro is RETIRED (wrong model family for this lane set; never selectable); replacement is 'opencode-go/mimo-v2.6-flash'; a retired arm is never selectable",
+  "generated_utc": "2026-11-10T16:21:36+00:00",
+  "lane": "EXECUTE",
+  "arm": "opencode-go/mimo-v2.6-pro",
+  "checks": [
+    {
+      "id": "binding_parse",
+      "ok": true,
+      "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+      "run_id": "l5-selftest-20261110t162134z-17332"
+    },
+    {
+      "id": "control_plane_readable",
+      "ok": true,
+      "epoch": 41,
+      "pool_epoch": 41
+    },
+    {
+      "id": "arm_resolved",
+      "ok": true,
+      "arm": "opencode-go/mimo-v2.6-pro",
+      "arm_source": "flag:--arm"
+    },
+    {
+      "id": "registry_digest",
+      "ok": true,
+      "sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+      "epoch": 41
+    },
+    {
+      "id": "pool_digest",
+      "ok": true,
+      "sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5"
+    },
+    {
+      "id": "retirement_ledger",
+      "ok": false,
+      "arm": "opencode-go/mimo-v2.6-pro",
+      "ledgers": [
+        {
+          "ledger": "registry",
+          "entry": {}
+        },
+        {
+          "ledger": "pool",
+          "entry": {
+            "retired_epoch": 41,
+            "ordered_by": "OWNER",
+            "ordered_at": "2026-11-09",
+            "reason": "wrong model family for this lane set; never selectable",
+            "replacement": "opencode-go/mimo-v2.6-flash"
+          }
+        }
+      ],
+      "replacement": "opencode-go/mimo-v2.6-flash",
+      "reason": "wrong model family for this lane set; never selectable",
+      "retired_epoch": 41,
+      "ordered_by": "OWNER"
+    }
+  ],
+  "binding_path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-selftest-20261110t162134z-17332\\EXECUTE_primary_2311cc810d5e1e99.json",
+  "binding_sha256": "7b4255d788518288bfa07ee27aa5513882dcf3ae8c467ff370657e4bc3fc138f",
+  "binding_id": "7a51f1cd134247bda880f907c69a47908cf21cff26a1d296b2b6e47a52f689dc",
+  "binding_run_id": "l5-selftest-20261110t162134z-17332",
+  "binding_session_id": "sess-l5-selftest-20261110t162134z-17332",
+  "hgk_root": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge",
+  "hgk_root_source": "flag:--hgk-root",
+  "registry": {
+    "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge\\config\\lane-routing-registry.yaml",
+    "sha256": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+    "epoch": 41,
+    "status": "IN_FORCE",
+    "contract_epoch": "34",
+    "error": null
+  },
+  "pool": {
+    "path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-bridge\\config\\lane-route-slots.candidate.json",
+    "sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+    "epoch": 41,
+    "error": null
+  },
+  "arm_source": "flag:--arm",
+  "retirement": {
+    "arm": "opencode-go/mimo-v2.6-pro",
+    "ledgers": [
+      {
+        "ledger": "registry",
+        "entry": {}
+      },
+      {
+        "ledger": "pool",
+        "entry": {
+          "retired_epoch": 41,
+          "ordered_by": "OWNER",
+          "ordered_at": "2026-11-09",
+          "reason": "wrong model family for this lane set; never selectable",
+          "replacement": "opencode-go/mimo-v2.6-flash"
+        }
+      }
+    ],
+    "replacement": "opencode-go/mimo-v2.6-flash",
+    "reason": "wrong model family for this lane set; never selectable",
+    "retired_epoch": 41,
+    "ordered_by": "OWNER"
+  },
+  "check": "FHS_ENTRY_RETIRED_ARM"
+}
+
+# --- stderr ---
+

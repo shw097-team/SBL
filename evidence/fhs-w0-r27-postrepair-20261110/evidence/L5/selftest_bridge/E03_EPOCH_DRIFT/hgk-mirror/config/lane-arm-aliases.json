@@ -1,0 +1,10 @@
+{
+ "schema": "HGK-LANE-ARM-ALIASES/1",
+ "why": "The relay labels an OpenCodex-served turn with its own provider name (desktop_router), while the governance identity of the same arm is openai-codex. Measured 2026-10-29: a run that selected openai-codex/gpt-6.1-sol (rank 2) reported usage provider=desktop_router, model=gpt-6.1-sol and was then refused with ERR_REQUIRED_ARM_NOT_SERVED after 210.09s -- the gate refused the arm it had just selected. Guessing this equivalence from the model basename would also equate opencode-go/gpt-6.1-sol (a DIFFERENT supply path), so the pair is declared here instead of inferred.",
+ "rule": "Only the pairs listed below are equivalent. A model-only match with an unlisted provider is NOT equivalent; the negative case (opencode-go/gpt-6.1-sol vs openai-codex/gpt-6.1-sol) must stay false.",
+ "declared_by": "OWNER (FAR-B1-v2 N-6: desktop_router/gpt-6.1-sol -> openai-codex/gpt-6.1-sol, payer owner-openai-oauth)",
+ "declared_utc": "2026-10-29T15:00:00Z",
+ "pairs": [
+  ["desktop_router/gpt-6.1-sol", "openai-codex/gpt-6.1-sol"]
+ ]
+}

@@ -1,0 +1,87 @@
+FF....                                                                   [100%]
+================================== FAILURES ===================================
+___________ TestLanePolicyConformance.test_drift_injection_subcases ___________
+
+self = <tests.test_lane_policy.TestLanePolicyConformance testMethod=test_drift_injection_subcases>
+
+    def test_drift_injection_subcases(self):
+        root = _source_root()
+        registry = lp.load_registry(_registry_path(root))
+    
+        scratch = Path(
+            os.environ.get("HGK_LANE_SCRATCH")
+            or (root / "var" / "far-lane-sod-003" / "scratch")
+        )
+        scratch.mkdir(parents=True, exist_ok=True)
+        work = Path(tempfile.mkdtemp(prefix="lane-drift-", dir=str(scratch)))
+        self.addCleanup(lambda: shutil.rmtree(work, ignore_errors=True))
+    
+        pristine = work / "pristine"
+        _copy_root(pristine, root)
+    
+        # Baseline MUST pass (only debt warnings) — the precondition for non-vacuity.
+        baseline = lp.check_drift(_registry_path(pristine), root=pristine, registry=registry)
+>       self.assertFalse(lp.drift_is_fatal(baseline),
+                         f"pristine baseline must not be fatal: {[f for f in baseline if f['severity']=='error']}")
+E       AssertionError: True is not false : pristine baseline must not be fatal: [{'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/registry_epoch', 'expected': 33, 'actual': 34, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/revision', 'expected': 33, 'actual': 35, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/provider', 'expected': 'openai-codex', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/model', 'expected': 'gpt-6-luna', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/transport', 'expected': 'codex-native-oauth', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/automatic_selection', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/default', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/role', 'expected': 'fallback1_operator_selectable', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/default', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/automatic_selection', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/lane_chains/VERIFY_SECURITY/1/automatic_selection', 'expected': False, 'actual': True, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/assigned_model', 'expected': 'deepseek-v4.1-flash', 'actual': 'gpt-6.1-sol', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/assigned_provider', 'expected': 'opencode-go', 'actual': 'openai-codex', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/assigned_model', 'expected': 'deepseek-v4.1-flash', 'actual': 'gpt-6.1-sol', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/assigned_provider', 'expected': 'opencode-go', 'actual': 'openai-codex', 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/reasoning_effort', 'expected': 'medium', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/unspecified_default/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/0/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/reasoning_effort', 'expected': 'medium', 'actual': None, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_version', 'expected': '0.163.0-alpha.11', 'actual': '0.165.0-alpha.1.2', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_sha256', 'expected': '00c0f1e4099246fddcd67ec620ca8ed50827c7d70e113b7224f7a2933cf2d67c', 'actual': '0c09e45bc76433756eb2d492f6db0ce6f269967e6618f4a6ae73e2fa239694b8', 'severity': 'error'}]
+
+tests\test_lane_policy.py:214: AssertionError
+________ TestLanePolicyConformance.test_registry_and_projection_shape _________
+
+self = <tests.test_lane_policy.TestLanePolicyConformance testMethod=test_registry_and_projection_shape>
+
+    def test_registry_and_projection_shape(self):
+        root = _source_root()
+        registry = lp.load_registry(_registry_path(root))
+    
+        self.assertEqual(registry["schema"], "HGK-LANE-ROUTING-REGISTRY/1")
+        lanes = [r["lane"] for r in registry["routes"]]
+        self.assertEqual(lanes, list(lp.LANE_ORDER), "exactly the three mandated lanes, in order")
+        # Owner chain 2026-10-22: PLAN and EXECUTE are unchanged; every
+        # VERIFY_SECURITY slot names opencode-go/deepseek-v4.1-flash.
+        # The same chain-head equality checks remain: no weakening of the
+        # default, fallback-order, admission, drift, or SoD assertions.
+        # R15-MODEL-FALLBACK-20261023: the deleted arm is gone from every position; the promoted
+        # arm (MiMo-V2.6-Flash) takes the fallback-1 slot it vacated, and every lane's rank 1 is
+        # the owner-declared primary opencode-go/deepseek-v4.1-flash.
+        owner_chain = {
+            "PLAN": [("opencode-go", "deepseek-v4.1-flash"), ("openai-codex", "gpt-6.1-sol"), ("opencode-go", "glm-5.3-flash"), ("opencode-go", "mimo-v2.6-pro"), ("nvidia", "z-ai/glm-5.3-flash"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+            "VERIFY_SECURITY": [("opencode-go", "deepseek-v4.1-flash"), ("openai-codex", "gpt-6.1-sol"), ("opencode-go", "glm-5.3-flash"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+            "EXECUTE": [("opencode-go", "deepseek-v4.1-flash"), ("opencode-go", "mimo-v2.6-flash"), ("openai-codex", "gpt-6-luna"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+        }
+        for route in registry["routes"]:
+            lane = route["lane"]
+            self.assertIn(lane, owner_chain, f"{lane} must be one of the three mandated lanes")
+            # rank-1 default must be the owner-declared default
+            self.assertEqual((route["provider"], route["model"]), owner_chain[lane][0],
+                             f"{lane} rank-1 default must be owner-declared")
+            got = [(b["provider"], b["model"]) for b in route["fallbacks"]]
+            self.assertEqual(got[:len(owner_chain[lane]) - 1], owner_chain[lane][1:],
+                             f"{lane} fallback order must match owner order (head of the chain)")
+            self.assertIn(route["admission_status"], {"ADMITTED", "REFUSED", "UNPROVEN"})
+        self.assertGreaterEqual(len(registry["projections"]), 3)
+        self.assertTrue(registry["sod_invariants"]["pairs"], "sod_invariants.pairs must be non-empty")
+    
+        # projection determinism
+        doc_a = lp.project_policy(registry, registry_path=_registry_path(root))
+        doc_b = lp.project_policy(registry, registry_path=_registry_path(root))
+        self.assertEqual(doc_a, doc_b, "project_policy must be deterministic")
+    
+        # baseline conformance: no fatal drift; recorded debt may warn.
+        findings = lp.check_drift(_registry_path(root), root=root, registry=registry)
+        errors = [f for f in findings if f["severity"] == "error"]
+>       self.assertEqual(errors, [], f"baseline must have zero fatal findings: {errors}")
+E       AssertionError: Lists differ: [{'code': 'DRIFT_VALUE', 'id': 'model-lane[4834 chars]or'}] != []
+E       
+E       First list contains 22 additional elements.
+E       First extra element 0:
+E       {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/registry_epoch', 'expected': 33, 'actual': 34, 'severity': 'error'}
+E       
+E       Diff is 5480 characters long. Set self.maxDiff to None to see it. : baseline must have zero fatal findings: [{'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/registry_epoch', 'expected': 33, 'actual': 34, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/revision', 'expected': 33, 'actual': 35, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/provider', 'expected': 'openai-codex', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/model', 'expected': 'gpt-6-luna', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/transport', 'expected': 'codex-native-oauth', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/automatic_selection', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/1/additional_routes/0/default', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/role', 'expected': 'fallback1_operator_selectable', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/default', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/automatic_selection', 'expected': False, 'actual': None, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/lane_chains/VERIFY_SECURITY/1/automatic_selection', 'expected': False, 'actual': True, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/assigned_model', 'expected': 'deepseek-v4.1-flash', 'actual': 'gpt-6.1-sol', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/assigned_provider', 'expected': 'opencode-go', 'actual': 'openai-codex', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/assigned_model', 'expected': 'deepseek-v4.1-flash', 'actual': 'gpt-6.1-sol', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/assigned_provider', 'expected': 'opencode-go', 'actual': 'openai-codex', 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/0/reasoning_effort', 'expected': 'medium', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/unspecified_default/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/0/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/supply_selector/arms/1/provider', 'expected': 'opencode-go', 'actual': None, 'severity': 'error'}, {'code': 'COVERAGE_GAP', 'id': 'model-lane-assignment', 'path': 'config/model-lane-assignment.json', 'pointer': '/assignment/2/reasoning_effort', 'expected': 'medium', 'actual': None, 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_version', 'expected': '0.163.0-alpha.11', 'actual': '0.165.0-alpha.1.2', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_sha256', 'expected': '00c0f1e4099246fddcd67ec620ca8ed50827c7d70e113b7224f7a2933cf2d67c', 'actual': '0c09e45bc76433756eb2d492f6db0ce6f269967e6618f4a6ae73e2fa239694b8', 'severity': 'error'}]
+
+tests\test_lane_policy.py:155: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_lane_policy.py::TestLanePolicyConformance::test_drift_injection_subcases
+FAILED tests/test_lane_policy.py::TestLanePolicyConformance::test_registry_and_projection_shape
+2 failed, 4 passed in 0.60s
+EXIT=1

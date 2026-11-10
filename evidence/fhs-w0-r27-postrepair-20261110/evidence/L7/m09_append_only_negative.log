@@ -1,0 +1,60 @@
+# 反向：同一個 append-only 檢查器對前綴損壞必須拒絕（負例，本輪實跑）
+
+$ python evidence/L7/check_append_only.py --r26 <r26> --r27 neg/r27_prefix_byte_flipped.md
+prefix_identical: False   prefix_bytes: 667205   r26_bytes: 667205   r27_bytes: 688148   appended_bytes: 0
+r26 sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7  (667205 bytes)
+r27 prefix sha256 = 849bb2b56b52ab6c6cec48d40b7cf8968d726ca47c4c36d7e3d10ecdc9a5752b
+r27 sha256 = 362663a7648f42f043bb78b852c36ad7d9d618490f994a17c919cfac15135526  (688148 bytes)
+{
+ "r26": {
+  "path": "C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md",
+  "bytes": 667205,
+  "sha256": "09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7"
+ },
+ "r27": {
+  "path": "neg/r27_prefix_byte_flipped.md",
+  "bytes": 688148,
+  "sha256": "362663a7648f42f043bb78b852c36ad7d9d618490f994a17c919cfac15135526"
+ },
+ "prefix": {
+  "bytes": 667205,
+  "sha256": "849bb2b56b52ab6c6cec48d40b7cf8968d726ca47c4c36d7e3d10ecdc9a5752b"
+ },
+ "prefix_identical": false,
+ "prefix_bytes": 667205,
+ "r27_bytes": 688148,
+ "first_diff_offset": 1000,
+ "code": "PREFIX_NOT_IDENTICAL",
+ "detail": "prefix diverges from r26 at byte 1000"
+}
+EXIT=1
+
+$ python evidence/L7/check_append_only.py --r26 <r26> --r27 neg/r27_truncated.md
+prefix_identical: False   prefix_bytes: 0   r26_bytes: 667205   r27_bytes: 500000   appended_bytes: 0
+r26 sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7  (667205 bytes)
+r27 prefix sha256 = 5fed0cad96e712bac05eab7554fd1b53de39368ea09afa0dff05ad1e79be8de4
+r27 sha256 = 5fed0cad96e712bac05eab7554fd1b53de39368ea09afa0dff05ad1e79be8de4  (500000 bytes)
+{
+ "r26": {
+  "path": "C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-docs/evidence/fhs-w0-r26-repair-20261109/doc/FHS_PIPD-LS-PKG_W0_r26.md",
+  "bytes": 667205,
+  "sha256": "09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7"
+ },
+ "r27": {
+  "path": "neg/r27_truncated.md",
+  "bytes": 500000,
+  "sha256": "5fed0cad96e712bac05eab7554fd1b53de39368ea09afa0dff05ad1e79be8de4"
+ },
+ "prefix_identical": false,
+ "code": "PREFIX_TRUNCATED",
+ "detail": "r27 (500000 bytes) is shorter than r26 (667205 bytes)"
+}
+EXIT=2
+
+# 對照：未受損的候選（同一支檢查器、同一支命令）
+$ python evidence/L7/check_append_only.py --r26 <r26> --r27 <r27>
+prefix_identical: True   prefix_bytes: 667205   r26_bytes: 667205   r27_bytes: 688148   appended_bytes: 20943
+r26 sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7  (667205 bytes)
+r27 prefix sha256 = 09c666dad4f31099f862c12cc5d3758620c46c70bc5f410af727c465bbb6b0f7
+r27 sha256 = 151645f86e20a79f2a3b8def52d61cc9d80f98d5b61afdf8a33ed730351d63d5  (688148 bytes)
+EXIT=0

@@ -1,0 +1,66 @@
+# case E03_EPOCH_DRIFT
+# argv: ["C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\hgk-hook\\scripts\\fhs_entry_guard.py", "assert-entry", "--binding", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-drift-20261110t162136z-17332\\EXECUTE_primary_86f3b21de1585686.json", "--lane", "EXECUTE", "--arm", "opencode-go/deepseek-v4.1-flash", "--require-bound", "--hgk-root", "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\E03_EPOCH_DRIFT\\hgk-mirror", "--binding-reader", "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py"]
+# env: {}
+# exit: 22
+# --- stdout ---
+{
+  "schema": "FHS-ENTRY-GUARD/1",
+  "ok": false,
+  "code": "FHS_ENTRY_EPOCH_DRIFT",
+  "detail": "the registry bytes moved since the binding was minted: bound 5c7ce9de2c760225..., now a23d29095855226e... (C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\E03_EPOCH_DRIFT\\hgk-mirror\\config\\lane-routing-registry.yaml)",
+  "generated_utc": "2026-11-10T16:21:36+00:00",
+  "lane": "EXECUTE",
+  "arm": "opencode-go/deepseek-v4.1-flash",
+  "checks": [
+    {
+      "id": "binding_parse",
+      "ok": true,
+      "binding_id": "8ac4aa5a9cbc22eadf7d7815383cf8d94a073612a506662b237632cf75396ab6",
+      "run_id": "l5-drift-20261110t162136z-17332"
+    },
+    {
+      "id": "control_plane_readable",
+      "ok": true,
+      "epoch": 41,
+      "pool_epoch": 41
+    },
+    {
+      "id": "arm_resolved",
+      "ok": true,
+      "arm": "opencode-go/deepseek-v4.1-flash",
+      "arm_source": "flag:--arm"
+    },
+    {
+      "id": "registry_digest",
+      "ok": false,
+      "bound": "5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6",
+      "now": "a23d29095855226e59afcc93a41cc8cc9d1f1e115981d87a83a6840cfb8c1baf"
+    }
+  ],
+  "binding_path": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\lanes\\bindings\\l5-drift-20261110t162136z-17332\\EXECUTE_primary_86f3b21de1585686.json",
+  "binding_sha256": "d3e488ba39529b52fa733ea3c45400f761b689963d4ced791309b65401782ab9",
+  "binding_id": "8ac4aa5a9cbc22eadf7d7815383cf8d94a073612a506662b237632cf75396ab6",
+  "binding_run_id": "l5-drift-20261110t162136z-17332",
+  "binding_session_id": "sess-l5-drift-20261110t162136z-17332",
+  "hgk_root": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\E03_EPOCH_DRIFT\\hgk-mirror",
+  "hgk_root_source": "flag:--hgk-root",
+  "registry": {
+    "path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\E03_EPOCH_DRIFT\\hgk-mirror\\config\\lane-routing-registry.yaml",
+    "sha256": "a23d29095855226e59afcc93a41cc8cc9d1f1e115981d87a83a6840cfb8c1baf",
+    "epoch": 41,
+    "status": "IN_FORCE",
+    "contract_epoch": "34",
+    "error": null
+  },
+  "pool": {
+    "path": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_bridge\\E03_EPOCH_DRIFT\\hgk-mirror\\config\\lane-route-slots.candidate.json",
+    "sha256": "544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5",
+    "epoch": 41,
+    "error": null
+  },
+  "arm_source": "flag:--arm",
+  "check": "FHS_ENTRY_EPOCH_DRIFT"
+}
+
+# --- stderr ---
+

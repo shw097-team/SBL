@@ -1,0 +1,13 @@
+$ git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-parse 52c9c21 86f40ec; echo "rev-parse EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base --is-ancestor 52c9c21 86f40ec; echo "is-ancestor-52-in-86 EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-list --count 52c9c21..86f40ec; echo "count EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base acd9196f 86f40ec; echo "merge-base-main-head EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS merge-base --is-ancestor acd9196f 86f40ec; echo "is-ancestor-main-in-head EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-list --left-right --count acd9196f...86f40ec; echo "leftright EXIT=$?"; git -C C:/Projects/Agent_Workspace/FHS/HG-KSEOS rev-parse --is-shallow-repository; echo "shallow EXIT=$?"
+52c9c21c9f8330132183c553571446fb1792948b
+86f40ec114f19bbd35314e376da4d0bed9805b22
+rev-parse EXIT=0
+is-ancestor-52-in-86 EXIT=0
+1
+count EXIT=0
+merge-base-main-head EXIT=1
+is-ancestor-main-in-head EXIT=1
+90	328
+leftright EXIT=0
+false
+shallow EXIT=0

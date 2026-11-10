@@ -1,0 +1,109 @@
+{
+  "schema": "FHS-ENTRY-SELFTEST/1",
+  "workdir": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone",
+  "run_id": "l5-selftest-20261110t162137z-1936",
+  "hgk_root": "C:\\Projects\\Agent_Workspace\\FHS\\HG-KSEOS",
+  "binding_reader": "C:\\Projects\\Agent_Workspace\\FHS_R26_WT\\sbl-3lm\\evidence\\fhs-w0-r26-repair-20261109\\tools\\fhs_3lm.py",
+  "generated_utc": "2026-11-10T16:21:41.423159+00:00",
+  "cases": [
+    {
+      "case": "E01_FRESH_PROCESS_BYPASS",
+      "expect_exit": "20",
+      "expect_code": "FHS_ENTRY_ASSERT_REQUIRED",
+      "ok": true,
+      "observed": {
+        "exit": 20,
+        "code": "FHS_ENTRY_ASSERT_REQUIRED",
+        "child_spawned": false,
+        "attempts": [],
+        "zero_spawn_flag": true,
+        "stage_is_entry": "fhs_entry (before any child process)"
+      },
+      "failures": [],
+      "note": "a fresh process with no binding must be refused before any child exists",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E01_FRESH_PROCESS_BYPASS\\run.log"
+    },
+    {
+      "case": "POS_E01B_BOUND_CONTROL",
+      "expect_exit": "not-20..29",
+      "expect_code": "past-the-guard",
+      "ok": true,
+      "observed": {
+        "mint_exit": 0,
+        "exit": 3,
+        "exit_outside_guard_codes": 3,
+        "entry_gate_passed": true,
+        "child_spawned": true,
+        "attempts_recorded": [
+          0
+        ],
+        "post_guard_failure": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+        "token_spent": true,
+        "binding_id_recorded": "opencode-go/deepseek-v4.1-flash"
+      },
+      "failures": [],
+      "note": "a bound run must get PAST the entry guard and fail only at the next stage",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\POS_E01B_BOUND_CONTROL\\run.log"
+    },
+    {
+      "case": "E02_TOKEN_REPLAY",
+      "expect_exit": "29",
+      "expect_code": "FHS_ENTRY_TOKEN_CONSUMED",
+      "ok": true,
+      "observed": {
+        "exit": 29,
+        "code": "FHS_ENTRY_TOKEN_CONSUMED",
+        "child_spawned": false,
+        "attempts": []
+      },
+      "failures": [],
+      "note": "a spent capability must not authorize a second dispatch",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E02_TOKEN_REPLAY\\run.log"
+    },
+    {
+      "case": "E03_EPOCH_DRIFT",
+      "expect_exit": "22",
+      "expect_code": "FHS_ENTRY_EPOCH_DRIFT",
+      "ok": true,
+      "observed": {
+        "exit": 22,
+        "code": "FHS_ENTRY_EPOCH_DRIFT",
+        "bound_sha_differs": true
+      },
+      "failures": [],
+      "note": "registry bytes replaced after the binding was minted must refuse",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E03_EPOCH_DRIFT\\run.log"
+    },
+    {
+      "case": "E04_RETIRED_ARM",
+      "expect_exit": "24",
+      "expect_code": "FHS_ENTRY_RETIRED_ARM",
+      "ok": true,
+      "observed": {
+        "exit": 24,
+        "code": "FHS_ENTRY_RETIRED_ARM",
+        "replacement_named": "opencode-go/mimo-v2.6-flash",
+        "reader_refuses_same_arm": 9
+      },
+      "failures": [],
+      "note": "the retired arm must be refused by name, with its replacement",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E04_RETIRED_ARM\\run.log"
+    },
+    {
+      "case": "E05_NO_CAPABILITY",
+      "expect_exit": "28",
+      "expect_code": "FHS_ENTRY_TOKEN_REQUIRED",
+      "ok": true,
+      "observed": {
+        "exit": 28,
+        "code": "FHS_ENTRY_TOKEN_REQUIRED",
+        "child_spawned": false,
+        "attempts": []
+      },
+      "failures": [],
+      "note": "a valid binding without a one-shot capability must not spawn",
+      "log": "C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L5\\selftest_hgkclone\\E05_NO_CAPABILITY\\run.log"
+    }
+  ],
+  "failed": []
+}

@@ -1,0 +1,350 @@
+{
+ "lane": "L4-hgk-bridge",
+ "status": "PASS",
+ "branch": "r27/epoch41-bridge",
+ "head": "26082923624ceb313b90efd3ff0bcb42d8f09666",
+ "base": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+ "ahead_of_origin_main": 1,
+ "pushed": false,
+ "merged": false,
+ "changed_files": [
+  "config/lane-route-slots.candidate.json",
+  "config/lane-routing-registry.yaml",
+  "config/model-lane-assignment.json",
+  "scripts/lane_epoch_validate.py",
+  "tests/test_lane_epoch_validate.py"
+ ],
+ "commands": [
+  {
+   "id": "H0-01",
+   "cmd": "bash evidence/L4/run_h0.sh",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_driver.log",
+   "log_sha256": "974db66c5d27a08ddce687b4da7ff201284e2a4ad21d2697ce7f755fa530a0ca",
+   "supports": "the whole H0 command set ran; every per-command log below is one row of it"
+  },
+  {
+   "id": "H0-02",
+   "cmd": "git -C HG-KSEOS merge-base acd9196f 86f40ec",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_mergebase.log",
+   "log_sha256": "f28b003881d553a3dc69a1ae19b0d518b9f0d1666bbbabd62eeae390cb310ce1",
+   "supports": "no common ancestor; empty stdout with exit 1"
+  },
+  {
+   "id": "H0-03",
+   "cmd": "git -C HG-KSEOS rev-list --max-parents=0 acd9196f",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_roots_A.log",
+   "log_sha256": "832284448db39b4081a2e8f3ba0e30fd2b596d842aa811b50c6a1b4519c46fd0",
+   "supports": "main's root is a2389c13"
+  },
+  {
+   "id": "H0-04",
+   "cmd": "git -C HG-KSEOS rev-list --max-parents=0 86f40ec",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_roots_B.log",
+   "log_sha256": "fd47f6a87dd2a45093235d078cb1e04935c5124cc2ef064d5bae09501d6890dc",
+   "supports": "the epoch-41 lineage's root is ec58a0be"
+  },
+  {
+   "id": "H0-05",
+   "cmd": "git -C HG-KSEOS rev-list --left-right --count acd9196f...86f40ec",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_leftright.log",
+   "log_sha256": "e1baa0e29dd7449799ec0905018e1b91c7e651d6842ee62bf2ed9d2a9b522fa9",
+   "supports": "90 and 328 are two whole histories side by side"
+  },
+  {
+   "id": "H0-06",
+   "cmd": "git -C HG-KSEOS merge-base --is-ancestor acd9196f 86f40ec",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_is_ancestor_AinB.log",
+   "log_sha256": "88eb2385ec67e9274beea6124836444f782aa2f50a9f5dd082dcaad1dfe97e4b",
+   "supports": "main is NOT an ancestor of the branch (exit 1)"
+  },
+  {
+   "id": "H0-07",
+   "cmd": "git -C HG-KSEOS merge-base --is-ancestor 86f40ec acd9196f",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_is_ancestor_BinA.log",
+   "log_sha256": "b496cbd2b3ebd6b6deaea9f6842af4bf50e434a28a7b46991114f5abb3b327db",
+   "supports": "and the reverse direction is also exit 1"
+  },
+  {
+   "id": "H0-08",
+   "cmd": "git -C HG-KSEOS rev-parse --is-shallow-repository",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_shallow.log",
+   "log_sha256": "51cb6531d9b5826e2ee799d0698f60f48a2f95f1d99ce82b82ae72f7618beb2f",
+   "supports": "the clone is not shallow, so the missing merge base is not a truncation artifact"
+  },
+  {
+   "id": "H0-09",
+   "cmd": "git -C HG-KSEOS cat-file -p acd9196f",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_catfile_A.log",
+   "log_sha256": "4e3c4db31d8112fb1ee2f1009883e364aeaa0bd11ffa54205973ba40dfd3157d",
+   "supports": "main is a 2-parent merge commit with tree a5a63872"
+  },
+  {
+   "id": "H0-10",
+   "cmd": "git -C HG-KSEOS cat-file -p 86f40ec",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_catfile_B.log",
+   "log_sha256": "3bc7cd0536488c438c027221dadf040bc40ec5ea81b1ab8fdd4fcc3bdbb0ae42",
+   "supports": "the branch head is a 1-parent commit with tree 575c27ed"
+  },
+  {
+   "id": "H0-11",
+   "cmd": "git -C HG-KSEOS rev-list --max-parents=0 --all",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/h0_roots_all_A.log",
+   "log_sha256": "235c24f426ac436cfa44a3aeb113e54de5168d4af9d9e71318d70c7ebe49e3cf",
+   "supports": "three roots exist in the clone; the third is reachable only from refs/stash"
+  },
+  {
+   "id": "H1-01",
+   "cmd": "git -C HG-KSEOS diff --name-only acd9196f 86f40ec | wc -l  (in gen_evidence.py)",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/gen_evidence.log",
+   "log_sha256": "beef438f290a50b2d0da7ffd40d19ffe44dd60f8e370e8b4e81ff1fa0401c316",
+   "supports": "2470 changed paths, 14 of them config/, 2456 declared OUT_OF_SCOPE"
+  },
+  {
+   "id": "BASE-01",
+   "cmd": "python -m pytest tests/test_lane_policy.py  (pristine main, before any edit)",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/baseline_pytest_lane_policy.log",
+   "log_sha256": "cbc750bbfe825f5d0cbf88f609e5e2a211a5ed05a8c54ef88855913772cea238",
+   "supports": "the repo's own lane-policy suite is ALREADY red on main: 2 failed / 4 passed"
+  },
+  {
+   "id": "BASE-02",
+   "cmd": "python evidence/L4/tools/drift_readback.py .  (pristine main)",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/baseline_drift_readback.log",
+   "log_sha256": "85f79c8b2bc4ced2b85a89b4d53e4370344132598ad4a5cdbfcafbf60a266d80",
+   "supports": "the repo's own drift reader reports 22 fatal findings on pristine main"
+  },
+  {
+   "id": "H2-01",
+   "cmd": "python evidence/L4/tools/port_e41_config.py . HG-KSEOS",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/port_e41_stderr.log",
+   "log_sha256": "418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b",
+   "supports": "the three config files were written from 86f40ec and the three registry edits applied; report in port_e41_report.json"
+  },
+  {
+   "id": "H2-02",
+   "cmd": "python scripts/lane_epoch_validate.py",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/final_pos_h4.log",
+   "log_sha256": "46a67b5e9e996896c0d06e27e6a39310c4dfee2fb09bcbce46ee81878b4dbee1",
+   "supports": "POS-H4: the ported tree passes; epoch 41 numeric, every slot admitted, retired arm absent"
+  },
+  {
+   "id": "H2-03",
+   "cmd": "python -m pytest tests/test_lane_epoch_validate.py",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/final_pytest_lane_epoch_validate.log",
+   "log_sha256": "2bf4d56a793a4d0488156b0206ca6c52590fa35e02739b40635ecbcd8ff0a3b8",
+   "supports": "all four cases pass as tests as well as at the CLI"
+  },
+  {
+   "id": "H2-04",
+   "cmd": "python evidence/L4/scratch_probe/scripts/lane_arm_retirement_check.py  (branch's own reader)",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/ported_lane_arm_retirement_check.log",
+   "log_sha256": "3f15edb43ec2b48ad28ee20dfccac8e686f259777398ff950cfe51e481b5bb6f",
+   "supports": "the branch's own retirement tool agrees: 60 live arm sites, none retired, exit 0"
+  },
+  {
+   "id": "H2-05",
+   "cmd": "python evidence/L4/scratch_probe/scripts/lane_policy_reconcile.py --check",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/ported_reconcile_check.log",
+   "log_sha256": "64ccd6de34d5da24b0f8f3026cbfe67cda01d11f47da7471cf6eee8c485274ff",
+   "supports": "the branch's own projection tool agrees: CONSISTENT, dirty={} — the projections were not hand-edited"
+  },
+  {
+   "id": "H2-06",
+   "cmd": "python evidence/L4/scratch_write/scripts/lane_policy_reconcile.py --write  + semantic diff",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/ported_reconcile_write_semantic_diff.log",
+   "log_sha256": "2976e2ec23ab6905dab591da00012fbc5113d4f29302fc647b7a3ef15875686f",
+   "supports": "what --write would change: revision 36->37 and one change_log entry; ordered_pool chains identical"
+  },
+  {
+   "id": "AFTER-01",
+   "cmd": "python evidence/L4/tools/drift_readback.py .  (ported tree)",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/after_drift_readback.log",
+   "log_sha256": "e2bd8b03ab0bf8c97831d176024d637a77984ec2bcad4d11e4aabd9f5bc3c0bf",
+   "supports": "drift findings fall 22 -> 3; the residual three are the two files this PR does not port"
+  },
+  {
+   "id": "AFTER-02",
+   "cmd": "python -m pytest tests/test_lane_policy.py  (ported tree)",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/after_pytest_lane_policy.log",
+   "log_sha256": "69155668e49ea9d7bbb7ccdb6e9fc74678c4d3374d2f98a0d79055aeb84b0edb",
+   "supports": "still red: the 2 pre-existing failures plus a third caused by the epoch-33 MANDATE pin"
+  },
+  {
+   "id": "GIT-01",
+   "cmd": "git commit -F evidence/L4/commit_message.txt  (with the installed pre-commit hook)",
+   "exit": 1,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/git_commit_with_hook.log",
+   "log_sha256": "600ba0d39478d80e621410d039f04852423c4de800b02ac539336cfdf0ab825c",
+   "supports": "the installed hook cannot execute (missing interpreter), so it cannot gate this commit"
+  },
+  {
+   "id": "GIT-02",
+   "cmd": "python scripts/_review_lock_probe_tmp.py check --staged  (the gate the hook names, run by hand)",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/review_lock_gate_executed.log",
+   "log_sha256": "b36d6c502d21900c5853b347ed43690d0e840234e787181f8cc688f62e2e44ff",
+   "supports": "the gate returned 0: no live review lock covers the staged paths"
+  },
+  {
+   "id": "GIT-03",
+   "cmd": "git commit --no-verify -F evidence/L4/commit_message.txt",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/git_commit_noverify.log",
+   "log_sha256": "ddbc66d6c34333b98847111f1a4a1b362a649e1481f221c95e88754e98a2a716",
+   "supports": "the commit lands on r27/epoch41-bridge only; nothing pushed"
+  },
+  {
+   "id": "GIT-04",
+   "cmd": "git cat-file -p HEAD:<path> | sha256sum  vs  sha256sum <path>",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/final_commit_identity.log",
+   "log_sha256": "caed6e32555c61b355e7b4958074819083a08d681b26ca53c1185cf2c3b2931d",
+   "supports": "every committed blob is byte-identical to the file that was validated"
+  },
+  {
+   "id": "GIT-05",
+   "cmd": "git cat-file -e acd9196f:scripts/review_lock.py",
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/precommit_hook_defect.log",
+   "log_sha256": "5029971afdd1fde81108ac7e787f8a62071439047711cedb34c5b3d43b1ab8ee",
+   "supports": "the hook's target script does not exist in main's tree either"
+  }
+ ],
+ "negatives": [
+  {
+   "id": "pos_h4_ported_epoch41",
+   "expected_code": null,
+   "observed_code": null,
+   "all_codes": [],
+   "exit": 0,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/pos_h4_ported_epoch41.log",
+   "log_sha256": "c330c43968b7e3deb30d3b177407abc0fe12353e31132317cb8a6ce849878da1",
+   "matches_expectation": true
+  },
+  {
+   "id": "neg_h1_retirement_drift",
+   "expected_code": "RETIREMENT_DRIFT",
+   "observed_code": "RETIREMENT_DRIFT",
+   "all_codes": [
+    "RETIREMENT_DRIFT",
+    "SLOT_CHAIN_DIVERGES"
+   ],
+   "exit": 2,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/neg_h1_retirement_drift.log",
+   "log_sha256": "8797f78ec33680e9cd46b5970c7a54fd5d7ee2dec140e00fd7128c531216d328",
+   "matches_expectation": true
+  },
+  {
+   "id": "neg_h2_epoch_unparseable",
+   "expected_code": "EPOCH_UNPARSEABLE",
+   "observed_code": "EPOCH_UNPARSEABLE",
+   "all_codes": [
+    "EPOCH_UNPARSEABLE"
+   ],
+   "exit": 2,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/neg_h2_epoch_unparseable.log",
+   "log_sha256": "bf6b4de05d37d9fc8105c0c7664fa162546e4782e6cb694a2a71e21a3433e4d8",
+   "matches_expectation": true
+  },
+  {
+   "id": "neg_h3_retired_arm_in_pool",
+   "expected_code": "RETIRED_ARM_IN_POOL",
+   "observed_code": "RETIRED_ARM_IN_POOL",
+   "all_codes": [
+    "RETIRED_ARM_IN_POOL",
+    "SLOT_CHAIN_DIVERGES"
+   ],
+   "exit": 2,
+   "log": "C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L4/neg_h3_retired_arm_in_pool.log",
+   "log_sha256": "26cf9fa010061c2fb8a659cec430a5352f4f8a88798e56eb73c4db47e165757c",
+   "matches_expectation": true
+  }
+ ],
+ "positive": {
+  "id": "POS-H4",
+  "exit": 0,
+  "verdict": "PASS",
+  "epoch": 41,
+  "epoch_is_int": true,
+  "contract_epoch": 34,
+  "status": "IN_FORCE",
+  "slots": {
+   "total": 15,
+   "admitted": 15,
+   "by_lane": {
+    "PLAN": 6,
+    "EXECUTE": 4,
+    "VERIFY_SECURITY": 5
+   },
+   "distinct_arms": 7
+  },
+  "retired_arms": [
+   "opencode-go/mimo-v2.6-pro"
+  ]
+ },
+ "findings_closed": [
+  "EC-R26-005",
+  "EC-R26-006",
+  "R26-07",
+  "R26-08"
+ ],
+ "findings": [
+  {
+   "id": "H0-DISJOINT",
+   "verdict": "CONFIRMED",
+   "detail": "merge-base exits 1 with no output; --is-ancestor is 1 in both directions; roots are a2389c13 (main) and ec58a0be (branch); left-right is 90/328. `main_is_ancestor=true` and `commits_ahead=327` are refuted on this clone. No shallow file, no grafts, no replace refs, so the read is the stored DAG."
+  },
+  {
+   "id": "H0-THIRD-ROOT",
+   "verdict": "OBSERVED",
+   "detail": "a third root 4ae646cb exists in the clone and is reachable only from refs/stash; it belongs to neither lineage and does not change the verdict."
+  },
+  {
+   "id": "H1-NORMALIZATION-TWIN",
+   "verdict": "OBSERVED",
+   "detail": "config/model-lane-assignment.json has two digests: tracked LF 206ec9b8... and the Windows CRLF twin 8ac81357..., which is what the epoch-41 registry pins. Main's own pin cfbff111 matches neither of its assignment's digests, i.e. it is already stale."
+  },
+  {
+   "id": "MAIN-LANE-POLICY-RED",
+   "verdict": "PRE_EXISTING",
+   "detail": "pristine main: 22 fatal drift findings and 2 failed / 4 passed in tests/test_lane_policy.py. After the port: 3 fatal findings (the two files this PR does not port) and 3 failed / 3 passed — the two pre-existing failures persist and a third appears because PoolSelectionTests.MANDATE pins the epoch-33 PLAN rank-1 that the epoch-41 registry supersedes."
+  },
+  {
+   "id": "PRECOMMIT-HOOK-BROKEN",
+   "verdict": "ENVIRONMENT",
+   "detail": "the shared clone's .git/hooks/pre-commit (sha256 86d68be0...) hardcodes an MSIX venv interpreter that no longer exists AND targets scripts/review_lock.py, which is absent at acd9196f. The gate it names was executed by hand (exit 0, no live lock) and the commit was then made with --no-verify."
+  }
+ ],
+ "not_claimed": [
+  "the epoch is NOT effective on any host: this is a candidate branch awaiting the owner's merge decision",
+  "no CI run: the repository's own lane-policy suite is red at baseline and this PR does not turn it green (repairing it requires editing an existing test, which this lane is forbidden to do)",
+  "no model was dispatched and no lane was served: nothing here asserts that any arm answers",
+  "no push, no merge, no force, no default-branch change, no rebase of either lineage",
+  "the 2456 non-config paths are not reviewed, not classified and not ported",
+  "the brief's 'nine slots' does not match its own enumeration or the branch bytes: the ported pool carries 15 (lane, rank) slots over 3 lanes (PLAN 6 / EXECUTE 4 / VERIFY_SECURITY 5) and the validator reports 15/15 admitted, not 9/9",
+  "the branch's EPOCH is asserted from file content only; no owner signature was re-verified because the registry itself declares signing: REPO_BOUND (not NATIVE_SIGNED)"
+ ],
+ "notes": "H2 is a content port, not a cherry-pick: the lineages are disjoint, so the epoch-41 authority bytes were re-applied onto a main-derived branch and the three deviations (authorization_basis bridge note, the second digest, port_provenance) are recorded inside the file itself. The two branch tools named by the brief are REPLAYED in evidence/L4/scratch_probe rather than ported, so the tree does not gain a second copy of a governed tool. The validator is deliberately stdlib-only and therefore does NOT read the registry with PyYAML; it walks the file with a restricted line grammar and fails closed (REGISTRY_UNPARSEABLE) instead of half-parsing. Its YAML-safety was nonetheless checked with PyYAML 6.0.3 in the port step, which is how two unescaped apostrophes in my first port were caught before the commit."
+}

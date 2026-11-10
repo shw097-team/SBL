@@ -1,0 +1,39 @@
+L4 r27: content-port the epoch-41 lane route+retire authority onto main
+
+H0 (EC-R26-005 / R26-07): the two lineages are DISJOINT at the root. `git merge-base
+acd9196f 86f40ec` exits 1 with no output, `--is-ancestor` is 1 in both directions, and the
+roots differ (a2389c13 vs ec58a0be); the left-right count 90/328 is two whole histories,
+not a fast-forward range. So the published `main_is_ancestor=true` / `commits_ahead=327`
+does not describe these two commits. Evidence: evidence/L4/h0_*.log,
+out/H0_DAG_RECONCILIATION.json.
+
+H1 (EC-R26-006 / R26-08): the config/ control plane is classified file by file (14 config
+paths + the two lane tools), and the remaining 2456 changed paths are declared once as
+OUT_OF_SCOPE_FOR_THIS_PR with the count — nothing dropped silently. Evidence:
+out/H1_CONFIG_DELTA_LEDGER.json.
+
+H2: content port, not a cherry-pick of branch history:
+  config/lane-routing-registry.yaml       epoch 41 / status IN_FORCE / contract_epoch 34,
+                                          retired_arms[opencode-go/mimo-v2.6-pro], PLAN rank 4 =
+                                          opencode-go/mimo-v2.6-flash, authorization_basis extended
+                                          with the r27 bridge note and the owner order 2026-11-09
+  config/lane-route-slots.candidate.json  byte-identical to 86f40ec (PLAN 6 / EXECUTE 4 / VERIFY 5)
+  config/model-lane-assignment.json       byte-identical to 86f40ec (revision 43, lane_chains 6/4/5)
+No issuer keys, ACLs, dependencies or licences are ported: that is H3.
+
+New this round: scripts/lane_epoch_validate.py (standard library only) and
+tests/test_lane_epoch_validate.py. Executed: POS-H4 exit 0 with 15/15 slots admitted and epoch
+41 numeric; NEG-H1 RETIREMENT_DRIFT, NEG-H2 EPOCH_UNPARSEABLE, NEG-H3 RETIRED_ARM_IN_POOL,
+each exit 2 with its raw log. The branch's own readers agree with the port: the retirement
+check reports 60 live arm sites and none retired (exit 0), and reconcile --check reports
+CONSISTENT with dirty={}. The repo's own drift reader falls from 22 fatal findings on pristine
+main to 3, and the residual 3 are the two files this PR deliberately does not port.
+
+Not claimed: the epoch is NOT effective on any host — this is a candidate branch awaiting the
+owner's merge decision. tests/test_lane_policy.py is still red: 2 failures pre-existed on
+pristine main, and a third appears because PoolSelectionTests.MANDATE pins the epoch-33 PLAN
+rank-1 (opencode-go/deepseek-v4.1-flash), which the epoch-41 registry supersedes with
+openai-codex/gpt-6.1-sol per the owner order of 2026-10-31. Repairing it means editing an
+existing test, which this lane is forbidden to do.
+
+subject_sha256=0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f

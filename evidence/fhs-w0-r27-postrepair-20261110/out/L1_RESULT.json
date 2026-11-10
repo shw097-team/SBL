@@ -1,0 +1,447 @@
+{
+ "lane": "L1",
+ "status": "PASS",
+ "changed_files": [
+  ".github/workflows/fhs-w0-gate.yml",
+  "evidence/fhs-w0-r26-repair-20261109/MANIFEST.json",
+  "evidence/fhs-w0-r26-repair-20261109/SHA256SUMS",
+  "evidence/fhs-w0-r26-repair-20261109/tools/verify_quorum.py"
+ ],
+ "file_digests": {
+  ".github/workflows/fhs-w0-gate.yml": "ea5b98cd1e458c8279ba7710945fdbbe57f08fddeb58d90328aab2fd5a52e7f1",
+  "evidence/fhs-w0-r26-repair-20261109/MANIFEST.json": "c775cf38dafeade572f5aaac01ffea8384d969c46b0fa89e8373e309decea7d8",
+  "evidence/fhs-w0-r26-repair-20261109/SHA256SUMS": "10e43543c570618abccbd772c33c231d84a7763de51c5920df882437365868cc",
+  "evidence/fhs-w0-r26-repair-20261109/tools/verify_quorum.py": "4a86ef7d4942dd064c43e5ec19be584d0be7a36f0115a03b174880ebf1a9d2a4"
+ },
+ "commit": "3099dec65cc29f04fcc4ae17f6a976f0a6b76832",
+ "branch": "r27/quorum-g29",
+ "commands": [
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\repro_false_green.py C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\verify_quorum.BASELINE.py",
+   "exit": 0,
+   "log": "01_false_green_BASELINE.log",
+   "log_sha256": "d9fe7f09ad38e18a38dd6c4bf0b558f96c45168bc26f715d760a9cd3e4614bd0"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --selftest",
+   "exit": 0,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root . --json-out C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\03_scan_round.json",
+   "exit": 0,
+   "log": "03_scan_round.log",
+   "log_sha256": "ccf5ea3d3570ecc2bc0727c0ff14ee0beae03a8167c0b227fa0168f4572f1739"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\run_negatives.py",
+   "exit": 0,
+   "log": "04_negatives_repaired.log",
+   "log_sha256": "7e23b1f26dbf74f7f0ff04ce0a565341c4cbcbc943e19dfb98ea5810a84a413b"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\eval_real_repairs.py",
+   "exit": 0,
+   "log": "05_real_repairs_eval.log",
+   "log_sha256": "187c7812d7b9b399a8f372a9b4ac86333d9fd4709bcfc8d473f9eafc00119977"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe tools/gate_r20.py --round . --profile payload --scope payload --skip-hygiene",
+   "exit": 0,
+   "log": "06_gate_payload.log",
+   "log_sha256": "05514dbdead8ad6b724835f79ffa7037ee94b44d9f2aaa3254881f725d36b2c7"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe tools/verify_reader_ack.py",
+   "exit": 1,
+   "log": "07_reader_ack.log",
+   "log_sha256": "d4e57a935f0a60d7ff8d98df32afdd4e4111224c8f9f20e0a48bc6eb97c0d75d"
+  },
+  {
+   "cmd": "replay of the 5 r26 workflow steps (see 08_replay_ci_steps.sh)",
+   "exit": 0,
+   "log": "08_ci_steps.log",
+   "log_sha256": "539cf3403ff45b218f9e62effc459c40c08dc514ed1b570ba8c72561d5ac009f"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG1_DICT_NO_BINDING --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG1_DICT_NO_BINDING",
+   "exit": 1,
+   "log": "10_neg_FG1_DICT_NO_BINDING.log",
+   "log_sha256": "c1a5c3311e2156e700306786838dda2acc3ebad0fb9e9c5783c7851340555659"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG2_FABRICATED_RAW --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG2_FABRICATED_RAW",
+   "exit": 1,
+   "log": "10_neg_FG2_FABRICATED_RAW.log",
+   "log_sha256": "e9ea5cc838570de08cd3d481c93b37f04d692c137caaa22781dbf646c78c83ae"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG3_INT_ONE_VOTE --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG3_INT_ONE_VOTE",
+   "exit": 1,
+   "log": "10_neg_FG3_INT_ONE_VOTE.log",
+   "log_sha256": "031ece07fe19b6a00997fcaf7d806927a43826b9d9bf1c973b95f570bba6383e"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG4_PROCESS_DUP --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG4_PROCESS_DUP",
+   "exit": 1,
+   "log": "10_neg_FG4_PROCESS_DUP.log",
+   "log_sha256": "f89f68d6bea3a2db11b99a4d28567faa58b5f1418446e84c21df7b21c5b0edb0"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG5_RAW_ABSENT --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG5_RAW_ABSENT",
+   "exit": 1,
+   "log": "10_neg_FG5_RAW_ABSENT.log",
+   "log_sha256": "386f76a9208131e2efd9a007b0d6c1a1d11779d8e9b1fec9ec814a98656958d1"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG6_INT_ONE_VALUE --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\FG6_INT_ONE_VALUE",
+   "exit": 1,
+   "log": "10_neg_FG6_INT_ONE_VALUE.log",
+   "log_sha256": "5422114972f27f244939f5e787aa0ae9c189703189a143e92d757233c636988b"
+  },
+  {
+   "cmd": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\python.exe C:/Projects/Agent_Workspace/FHS_R26_WT/sbl-quorum/evidence/fhs-w0-r26-repair-20261109\\tools\\verify_quorum.py --root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\POS_CONTROL --raw-root C:\\Projects\\Agent_Workspace\\FHS_W0_R26_POSTREPAIR_20261110\\evidence\\L1\\mirror_neg\\POS_CONTROL",
+   "exit": 0,
+   "log": "10_neg_POS_CONTROL.log",
+   "log_sha256": "e4a7247466ddefa4ba3fac9e1c53dde62ee40dd9335b6f0dffa104946e679661"
+  }
+ ],
+ "negatives": [
+  {
+   "id": "FG1_DICT_NO_BINDING",
+   "expected_code": "MISSING_CANDIDATE_BINDING",
+   "observed_code": "MISSING_CANDIDATE_BINDING",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG1_DICT_NO_BINDING.log",
+   "log_sha256": "c1a5c3311e2156e700306786838dda2acc3ebad0fb9e9c5783c7851340555659"
+  },
+  {
+   "id": "FG2_FABRICATED_RAW",
+   "expected_code": "RAW_DIGEST_MISMATCH",
+   "observed_code": "RAW_DIGEST_MISMATCH",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG2_FABRICATED_RAW.log",
+   "log_sha256": "e9ea5cc838570de08cd3d481c93b37f04d692c137caaa22781dbf646c78c83ae"
+  },
+  {
+   "id": "FG3_INT_ONE_VOTE",
+   "expected_code": "VOTE_TYPE_INVALID",
+   "observed_code": "VOTE_TYPE_INVALID",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG3_INT_ONE_VOTE.log",
+   "log_sha256": "031ece07fe19b6a00997fcaf7d806927a43826b9d9bf1c973b95f570bba6383e"
+  },
+  {
+   "id": "FG4_PROCESS_DUP",
+   "expected_code": "PROCESS_ID_DUPLICATE",
+   "observed_code": "PROCESS_ID_DUPLICATE",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG4_PROCESS_DUP.log",
+   "log_sha256": "f89f68d6bea3a2db11b99a4d28567faa58b5f1418446e84c21df7b21c5b0edb0"
+  },
+  {
+   "id": "FG5_RAW_ABSENT",
+   "expected_code": "RAW_EVIDENCE_UNREADABLE",
+   "observed_code": "RAW_EVIDENCE_UNREADABLE",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG5_RAW_ABSENT.log",
+   "log_sha256": "386f76a9208131e2efd9a007b0d6c1a1d11779d8e9b1fec9ec814a98656958d1"
+  },
+  {
+   "id": "FG6_INT_ONE_VALUE",
+   "expected_code": "VALUE_NOT_BOOLEAN",
+   "observed_code": "VALUE_NOT_BOOLEAN",
+   "exit": 1,
+   "ok_field": false,
+   "as_expected": true,
+   "log": "10_neg_FG6_INT_ONE_VALUE.log",
+   "log_sha256": "5422114972f27f244939f5e787aa0ae9c189703189a143e92d757233c636988b"
+  },
+  {
+   "id": "POS_CONTROL",
+   "expected_code": null,
+   "observed_code": null,
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "10_neg_POS_CONTROL.log",
+   "log_sha256": "e4a7247466ddefa4ba3fac9e1c53dde62ee40dd9335b6f0dffa104946e679661"
+  },
+  {
+   "id": "selftest:NEG-Q1",
+   "expected_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "observed_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q2",
+   "expected_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "observed_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:POS-Q3",
+   "expected_code": null,
+   "observed_code": null,
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q4",
+   "expected_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "observed_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q7",
+   "expected_code": "REREAD_EVIDENCE_MISSING",
+   "observed_code": "REREAD_EVIDENCE_MISSING",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q1b",
+   "expected_code": "STATE_NOT_DECIDED",
+   "observed_code": "STATE_NOT_DECIDED",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q5",
+   "expected_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "observed_code": "SIGNED_VOTE_QUORUM_FAIL",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q8",
+   "expected_code": "MISSING_CANDIDATE_BINDING",
+   "observed_code": "MISSING_CANDIDATE_BINDING",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q9",
+   "expected_code": "RAW_DIGEST_MISMATCH",
+   "observed_code": "RAW_DIGEST_MISMATCH",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q10",
+   "expected_code": "VOTE_TYPE_INVALID",
+   "observed_code": "VOTE_TYPE_INVALID",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q11",
+   "expected_code": "PROCESS_ID_DUPLICATE",
+   "observed_code": "PROCESS_ID_DUPLICATE",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q13",
+   "expected_code": "RAW_EVIDENCE_UNREADABLE",
+   "observed_code": "RAW_EVIDENCE_UNREADABLE",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q15",
+   "expected_code": "VOTE_TYPE_INVALID",
+   "observed_code": "VOTE_TYPE_INVALID",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q16",
+   "expected_code": "STALE_CANDIDATE_VOTE",
+   "observed_code": "STALE_CANDIDATE_VOTE",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:POS-Q12",
+   "expected_code": null,
+   "observed_code": null,
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:NEG-Q17",
+   "expected_code": "RAW_DIGEST_MISMATCH",
+   "observed_code": "RAW_DIGEST_MISMATCH",
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  },
+  {
+   "id": "selftest:POS-Q14",
+   "expected_code": null,
+   "observed_code": null,
+   "exit": 0,
+   "ok_field": true,
+   "as_expected": true,
+   "log": "02_selftest.log",
+   "log_sha256": "ff23380612279cc13389cfd84e4cd2ca7bbb75b8c0daf31ccc8c4de2f4581f49"
+  }
+ ],
+ "scan": {
+  "receipts": 10,
+  "properties_checked": 128,
+  "repair_properties": 2,
+  "legacy_properties": 126,
+  "findings": [],
+  "ok": true
+ },
+ "gate_verdict": "VERDICT PASS pass=16/16 blocking_fail=0 open_reporting=0 hygiene=0",
+ "real_repairs": [
+  {
+   "clause_id": "WP-FHS-00:L1:817",
+   "property": "exceptions_preserved",
+   "baseline": {
+    "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+    "first_fail": null,
+    "agreeing": 2
+   },
+   "repaired_default": {
+    "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+    "first_fail": null,
+    "agreeing": 2
+   },
+   "binding_forms": [
+    "manifest_as_measured"
+   ],
+   "provenance_binding_forms": [
+    "raw_bytes"
+   ],
+   "repaired_strict": {
+    "verdict": "HOLD",
+    "first_fail": "PROCESS_IDENTITY_MISSING"
+   }
+  },
+  {
+   "clause_id": "WP-FHS-01:L1:812",
+   "property": "scope_preserved",
+   "baseline": {
+    "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+    "first_fail": null,
+    "agreeing": 2
+   },
+   "repaired_default": {
+    "verdict": "ACCEPTABLE_FOR_FHS_READER_SCOPE",
+    "first_fail": null,
+    "agreeing": 2
+   },
+   "binding_forms": [
+    "manifest_as_measured"
+   ],
+   "provenance_binding_forms": [
+    "raw_bytes"
+   ],
+   "repaired_strict": {
+    "verdict": "HOLD",
+    "first_fail": "PROCESS_IDENTITY_MISSING"
+   }
+  }
+ ],
+ "gap_R26_01": {
+  "votes_measured": 4,
+  "present": {
+   "lane_id": 4,
+   "candidate_sha256": 4,
+   "source_sha256": 4,
+   "clause_id": 4,
+   "property": 4,
+   "raw_path": 0,
+   "raw_file": 4,
+   "raw_sha256": 4,
+   "timestamp": 0,
+   "at": 4,
+   "session_id": 0,
+   "process_id": 0
+  },
+  "absent": [
+   "raw_path",
+   "timestamp",
+   "session_id",
+   "process_id"
+  ]
+ },
+ "findings_closed": [
+  "EC-R26-003",
+  "R26-01"
+ ],
+ "not_claimed": [
+  "the 126 pre-repair properties whose countable source is the legacy `votes` dict are NOT held to the per-vote candidate binding: the repair-vote contract applies to `votes_r25` only (bounded scope, measured legacy_properties above); their typing is now exact (VOTE_TYPE_INVALID) but they still carry no per-vote candidate sha",
+  "`session_id`/`process_id` are a --strict-only requirement (R26-01_GAP): measured 0/4 present on the two signed r25 repairs, so a hard requirement would refuse the round's own signed votes",
+  "verify_reader_ack.py cannot run in this tree (lanes/CLAUSES.json is not shipped in the payload scope); its in-process evaluate() path was exercised directly instead (05 log, repaired_in_process_no_raw_root)",
+  "no push, no PR, no merge: work exists only on r27/quorum-g29",
+  "QUORUM_MIN (2) and the schema of signed files are unchanged",
+  "the r25 round's own tools/verify_quorum.py is untouched; its CI step still runs 7 cases"
+ ],
+ "notes": "raw_sha256 in the two signed r25 repairs does not match the round's payload copy (votes/raw_*.txt) byte for byte: measured 889f... vs 664147... for PLAN, and the pair differs by 74 B across 167 lines, so it is not a line-ending twin. The declared digest is the digest of the transcript where it was produced, and the payload MANIFEST declares exactly that pair (sha256_as_measured / sha256). The repaired verifier therefore accepts the manifest-anchored identity only when both sides re-hash, and still accepts exact bytes when --raw-root points at lanes/votes/ (05 log, form raw_bytes)."
+}

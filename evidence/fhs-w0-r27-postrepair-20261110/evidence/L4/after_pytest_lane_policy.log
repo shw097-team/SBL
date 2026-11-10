@@ -1,0 +1,106 @@
+FF...F                                                                   [100%]
+================================== FAILURES ===================================
+___________ TestLanePolicyConformance.test_drift_injection_subcases ___________
+
+self = <tests.test_lane_policy.TestLanePolicyConformance testMethod=test_drift_injection_subcases>
+
+    def test_drift_injection_subcases(self):
+        root = _source_root()
+        registry = lp.load_registry(_registry_path(root))
+    
+        scratch = Path(
+            os.environ.get("HGK_LANE_SCRATCH")
+            or (root / "var" / "far-lane-sod-003" / "scratch")
+        )
+        scratch.mkdir(parents=True, exist_ok=True)
+        work = Path(tempfile.mkdtemp(prefix="lane-drift-", dir=str(scratch)))
+        self.addCleanup(lambda: shutil.rmtree(work, ignore_errors=True))
+    
+        pristine = work / "pristine"
+        _copy_root(pristine, root)
+    
+        # Baseline MUST pass (only debt warnings) — the precondition for non-vacuity.
+        baseline = lp.check_drift(_registry_path(pristine), root=pristine, registry=registry)
+>       self.assertFalse(lp.drift_is_fatal(baseline),
+                         f"pristine baseline must not be fatal: {[f for f in baseline if f['severity']=='error']}")
+E       AssertionError: True is not false : pristine baseline must not be fatal: [{'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_version', 'expected': '0.166.0-alpha.5.1', 'actual': '0.165.0-alpha.1.2', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-codex-lane', 'path': 'config/hermes-codex-lane.json', 'pointer': '/codex_sha256', 'expected': '3097C909FB6D5CD63510D44ACEB1D42DF9F6E85722A3E447E477DEF1ECF60E16', 'actual': '0c09e45bc76433756eb2d492f6db0ce6f269967e6618f4a6ae73e2fa239694b8', 'severity': 'error'}, {'code': 'DRIFT_VALUE', 'id': 'hermes-binding', 'path': 'config/hermes.json', 'pointer': '/schema', 'expected': 'HGK-HERMES-BINDING/3', 'actual': 'HGK-HERMES-BINDING/2', 'severity': 'error'}]
+
+tests\test_lane_policy.py:214: AssertionError
+________ TestLanePolicyConformance.test_registry_and_projection_shape _________
+
+self = <tests.test_lane_policy.TestLanePolicyConformance testMethod=test_registry_and_projection_shape>
+
+    def test_registry_and_projection_shape(self):
+        root = _source_root()
+        registry = lp.load_registry(_registry_path(root))
+    
+        self.assertEqual(registry["schema"], "HGK-LANE-ROUTING-REGISTRY/1")
+        lanes = [r["lane"] for r in registry["routes"]]
+        self.assertEqual(lanes, list(lp.LANE_ORDER), "exactly the three mandated lanes, in order")
+        # Owner chain 2026-10-22: PLAN and EXECUTE are unchanged; every
+        # VERIFY_SECURITY slot names opencode-go/deepseek-v4.1-flash.
+        # The same chain-head equality checks remain: no weakening of the
+        # default, fallback-order, admission, drift, or SoD assertions.
+        # R15-MODEL-FALLBACK-20261023: the deleted arm is gone from every position; the promoted
+        # arm (MiMo-V2.6-Flash) takes the fallback-1 slot it vacated, and every lane's rank 1 is
+        # the owner-declared primary opencode-go/deepseek-v4.1-flash.
+        owner_chain = {
+            "PLAN": [("opencode-go", "deepseek-v4.1-flash"), ("openai-codex", "gpt-6.1-sol"), ("opencode-go", "glm-5.3-flash"), ("opencode-go", "mimo-v2.6-pro"), ("nvidia", "z-ai/glm-5.3-flash"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+            "VERIFY_SECURITY": [("opencode-go", "deepseek-v4.1-flash"), ("openai-codex", "gpt-6.1-sol"), ("opencode-go", "glm-5.3-flash"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+            "EXECUTE": [("opencode-go", "deepseek-v4.1-flash"), ("opencode-go", "mimo-v2.6-flash"), ("openai-codex", "gpt-6-luna"), ("nvidia", "deepseek-ai/deepseek-v4.1-flash")],
+        }
+        for route in registry["routes"]:
+            lane = route["lane"]
+            self.assertIn(lane, owner_chain, f"{lane} must be one of the three mandated lanes")
+            # rank-1 default must be the owner-declared default
+>           self.assertEqual((route["provider"], route["model"]), owner_chain[lane][0],
+                             f"{lane} rank-1 default must be owner-declared")
+E           AssertionError: Tuples differ: ('openai-codex', 'gpt-6.1-sol') != ('opencode-go', 'deepseek-v4.1-flash')
+E           
+E           First differing element 0:
+E           'openai-codex'
+E           'opencode-go'
+E           
+E           - ('openai-codex', 'gpt-6.1-sol')
+E           + ('opencode-go', 'deepseek-v4.1-flash') : PLAN rank-1 default must be owner-declared
+
+tests\test_lane_policy.py:138: AssertionError
+_ PoolSelectionTests.test_pool_arms_are_contiguous_and_rank_one_is_the_default _
+
+self = <tests.test_lane_policy.PoolSelectionTests testMethod=test_pool_arms_are_contiguous_and_rank_one_is_the_default>
+
+    def test_pool_arms_are_contiguous_and_rank_one_is_the_default(self) -> None:
+        doc = self.pool()
+        self.assertGreaterEqual(len(doc["lanes"]), 3)
+        for lane in doc["lanes"]:
+            name, arms = lane["lane"], lane["ordered_pool"]
+            self.assertTrue(arms, f"{name} pool must not be empty")
+            for i, arm in enumerate(arms):
+                self.assertIsInstance(arm, dict,
+                    f"{name} rank {i + 1} must be a JSON object, not a repr string (the dispatcher reads keys)")
+                self.assertEqual(arm.get("rank"), i + 1, f"{name} rank must equal list position")
+                self.assertIn("provider", arm); self.assertIn("model", arm)
+            defaults = [a for a in arms if a.get("default")]
+            autos = [a for a in arms if a.get("automatic_selection")]
+            self.assertEqual(len(defaults), 1, f"{name} must declare exactly one default, got {len(defaults)}")
+            self.assertEqual(len(autos), 1, f"{name} must declare exactly one automatic selection")
+            self.assertIs(defaults[0], arms[0], f"{name} default must be rank 1")
+            self.assertIs(autos[0], arms[0], f"{name} automatic_selection must be rank 1")
+>           self.assertEqual((arms[0]["provider"], arms[0]["model"]), self.MANDATE[name],
+                             f"{name} rank 1 must be the owner-mandated arm")
+E           AssertionError: Tuples differ: ('openai-codex', 'gpt-6.1-sol') != ('opencode-go', 'deepseek-v4.1-flash')
+E           
+E           First differing element 0:
+E           'openai-codex'
+E           'opencode-go'
+E           
+E           - ('openai-codex', 'gpt-6.1-sol')
+E           + ('opencode-go', 'deepseek-v4.1-flash') : PLAN rank 1 must be the owner-mandated arm
+
+tests\test_lane_policy.py:421: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_lane_policy.py::TestLanePolicyConformance::test_drift_injection_subcases
+FAILED tests/test_lane_policy.py::TestLanePolicyConformance::test_registry_and_projection_shape
+FAILED tests/test_lane_policy.py::PoolSelectionTests::test_pool_arms_are_contiguous_and_rank_one_is_the_default
+3 failed, 3 passed in 0.69s
+EXIT=1

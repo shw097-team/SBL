@@ -1,0 +1,38 @@
+$ C:/Users/user/AppData/Local/Programs/Python/Python311/python.exe C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-3lm\evidence\fhs-w0-r26-repair-20261109\tools\selftest_fhs_3lm.py --tool C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-3lm\evidence\fhs-w0-r26-repair-20261109\tools\fhs_3lm.py --hgk-root C:\Projects\Agent_Workspace\FHS_R26_WT\hgk-bridge --epoch33-root C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/L2/probe/epoch33 --workdir C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/ACCEPTANCE_RERUN/l2scratch --logdir C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/ACCEPTANCE_RERUN/l2logs --json-out C:/Projects/Agent_Workspace/FHS_W0_R26_POSTREPAIR_20261110/evidence/ACCEPTANCE_RERUN/l2selftest.json
+cwd=C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-3lm
+exit=0
+
+tool        C:\Projects\Agent_Workspace\FHS_R26_WT\sbl-3lm\evidence\fhs-w0-r26-repair-20261109\tools\fhs_3lm.py
+fa_tool_sha 49a1eea688a40649767ee08a11e8d87f83cc6efe38245f61abb91e36400f4afb
+hgk_root    C:\Projects\Agent_Workspace\FHS_R26_WT\hgk-bridge
+registry    5c7ce9de2c7602258bca7f0ce8b2dc1e295eca547b39ac75d10a21f2cf31c4b6
+pool        544564a9a0a19fa0ba2519a85ada7c122b1c6bd899d8a17ede9e0166cbb80fb5
+probes      ['arm_left_pool', 'no_pool_ledger', 'pool_drift', 'registry_vs_pool']
+
+[PASS] E00a  expect=8 observed=8 code=ERR_HGK_ROOT_UNRESOLVED
+[PASS] E00b  expect=8 observed=8 code=ERR_HGK_ROOT_INVALID
+[PASS] E01   expect=0 observed=0 code=None  9/9 admitted, epoch 41 from config/lane-routing-registry.yaml
+[PASS] E01b  expect=0 observed=0 code=None
+[PASS] E02a  expect=0 observed=0 code=None
+[PASS] E02b  expect=0 observed=0 code=None  two run-ids, same lane/slot, no overwrite
+[PASS] E02c  expect=0 observed=0 code=None  same run, second session: session-unique inside one run
+[PASS] E02d  expect=10 observed=10 code=BINDING_ALREADY_EXISTS  same run+session+lane+slot is refused, never overwritten
+[PASS] E03a  expect=0 observed=0 code=None
+[PASS] E03b  expect=0 observed=0 code=None  the control: the same binding still asserts against the unmutated plane
+[PASS] E03c  expect=7 observed=7 code=POOL_DIGEST_DRIFT  pool copy mutated, registry untouched: the drift is attributed to the pool, not the epoch
+[PASS] E04a  expect=9 observed=9 code=RETIRED_ARM
+[PASS] E04b  expect=0 observed=0 code=None  MEASURED, not a pass: the epoch-33 registry carries no retirement section and the epoch-33 pool carries no ledger, so nothing retires this arm at epoch 33; the retirement is an epoch-41 fact
+[PASS] E04c  expect=9 observed=9 code=RETIRED_ARM  pool retired_arms nulled on a copy: the registry retirement section alone refuses
+[PASS] E05a  expect=0 observed=0 code=None
+[PASS] E05b  expect=0 observed=0 code=None  PLAN and VERIFY both on openai-codex/gpt-6.1-sol: allowed and recorded
+[PASS] E05c  expect=0 observed=0 code=None
+[PASS] E06a  expect=0 observed=0 code=None
+[PASS] E06b  expect=7 observed=7 code=BINDING_EXPIRED  ttl 0: the record is genuine but no longer evidence of a current lane
+[PASS] E07   expect=8 observed=8 code=BINDING_TAMPERED  model edited, binding_id left in place -> digest mismatch, not an epoch story
+[PASS] E08a  expect=7 observed=7 code=HOLD_REGISTRY_POOL_DRIFT  epoch-41 registry + epoch-33 pool: the menu is withheld instead of printing a mixed plane
+[PASS] E08b  expect=7 observed=7 code=HOLD_REGISTRY_POOL_DRIFT  --assert-arm refuses the drift before it can call the arm retired-or-live
+[PASS] E09   expect=7 observed=7 code=EPOCH_DRIFT  41 -> 33: both the digest and the integer epoch are compared
+[PASS] E10   expect=7 observed=7 code=POOL_DIGEST_DRIFT  an arm removed from a lane pool moves the pool bytes, so the digest check refuses first; ARM_LEFT_POOL stays as the second line of defence and is not claimed as a first refusal
+[PASS] E11   expect=1 observed=1 code=BINDING_ALREADY_EXISTS  6 writers, one name: one binding, five BINDING_ALREADY_EXISTS (expected_exit=1 winner)
+
+PASS: 25/25 cases matched
