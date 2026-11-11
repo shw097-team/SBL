@@ -1,0 +1,148 @@
+{
+ "schema": "FHS.HERMES023.negatives/1",
+ "note": "baseline rows prove the checkers can pass; mutation rows prove they can fail; the consumer rows prove the intake binary discriminates between two source documents",
+ "results": [
+  {
+   "id": "BASE-sources",
+   "kind": "baseline",
+   "rejected_or_detected": true,
+   "detail": {
+    "files": 31,
+    "bad": [],
+    "bad_count": 0
+   }
+  },
+  {
+   "id": "BASE-slots",
+   "kind": "baseline",
+   "rejected_or_detected": true,
+   "detail": {
+    "donor": 24,
+    "method": 25,
+    "unique": 49
+   }
+  },
+  {
+   "id": "BASE-oracle",
+   "kind": "baseline",
+   "rejected_or_detected": true,
+   "detail": {
+    "counts": {
+     "AC15.json": 15,
+     "ORACLE96.json": 96,
+     "H4.json": 12,
+     "SEAM.json": 11
+    },
+    "cross_pairs": 96
+   }
+  },
+  {
+   "id": "BASE-inventory",
+   "kind": "baseline",
+   "rejected_or_detected": true,
+   "detail": {
+    "missing": [],
+    "n": 3
+   }
+  },
+  {
+   "id": "NEG-WP15-tools",
+   "kind": "own-tool",
+   "rejected_or_detected": true,
+   "detail": {
+    "exit": 0,
+    "tail": [
+     "NC-3 missing FUO column stop_rule      spec_distinctness.py   exit=1   caught=YES  architecture   FAIL  fields=17/17 missing=-  fuo_cols=9/10 missing=['stop_rule']  acc=5 (P",
+     "----------------------------------------------------------------------------------------------------",
+     "RESULT PASS  (3/3 faults caught)"
+    ]
+   }
+  },
+  {
+   "id": "NEG-WP21-discriminate",
+   "kind": "own-tool",
+   "rejected_or_detected": true,
+   "detail": {
+    "exit": 0,
+    "tail": [
+     "laundering probe: same POS fixture under AC-C39-SEC-DETERMINISTIC -> HOLD (scope refusal, because the 12 classes share one mechanism text per OracleType)",
+     "",
+     "verdict: DEMO_DISCRIMINATES (author-side mechanism only, NOT a native oracle run)"
+    ]
+   }
+  },
+  {
+   "id": "NEG-WP00-byteflip",
+   "kind": "mutation",
+   "rejected_or_detected": true,
+   "detail": {
+    "files": 31,
+    "bad": [
+     [
+      "00_INDEX_AND_DECISION(4).md",
+      "SHA_MISMATCH"
+     ]
+    ],
+    "bad_count": 1
+   }
+  },
+  {
+   "id": "NEG-WP16-duplicate-id",
+   "kind": "mutation",
+   "rejected_or_detected": true,
+   "detail": {
+    "donor": 24,
+    "method": 25,
+    "unique": 48
+   }
+  },
+  {
+   "id": "NEG-WP21-drop-one-case",
+   "kind": "mutation",
+   "rejected_or_detected": true,
+   "detail": {
+    "counts": {
+     "AC15.json": 15,
+     "ORACLE96.json": 95,
+     "H4.json": 12,
+     "SEAM.json": 11
+    },
+    "cross_pairs": 95
+   }
+  },
+  {
+   "id": "NEG-WP19-drop-repo",
+   "kind": "mutation",
+   "rejected_or_detected": true,
+   "detail": {
+    "missing": [
+     "Fabric"
+    ],
+    "n": 2
+   }
+  },
+  {
+   "id": "NEG-WP15-intake-NACK",
+   "kind": "consumer",
+   "rejected_or_detected": true,
+   "detail": {
+    "exit": 2,
+    "first_line": [
+     "{",
+     " \"code\": \"INTAKE_INVALID\",",
+     " \"message\": \"ambiguous compound: explicit subjects and predicates required\","
+    ]
+   }
+  },
+  {
+   "id": "POS-WP15-intake-control",
+   "kind": "consumer",
+   "rejected_or_detected": true,
+   "detail": {
+    "exit": 0,
+    "has_atoms": true
+   }
+  }
+ ],
+ "all_negatives_detected": true
+}

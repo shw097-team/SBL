@@ -1,0 +1,1883 @@
+{
+ "schema": "FHS.HERMES023.W0Coverage/3",
+ "generated_at": "2026-11-10T11:25:12+08:00",
+ "subject": "W0 six-WP (00/01/15/16/19/21) contract coverage on h23",
+ "host": "Hermes 0.23.0 / 786a3156d1db / hgk-governed; production h22 untouched",
+ "classes": {
+  "CARRIED_VALID": "existing raw, same subject/scope/sourceSHA/reader/contract, determinants unchanged",
+  "H23_MEASURED_PASS": "POS run this round, the cited negative control executed, readback obtained",
+  "WAVE_DEFERRED": "a later wave's effect; explicitly not a W0 pass",
+  "HOLD": "owed and not obtained"
+ },
+ "class_histogram": {
+  "H23_MEASURED_PASS": 11,
+  "HOLD": 2,
+  "PARTIAL": 1,
+  "CARRIED_VALID": 2,
+  "WAVE_DEFERRED": 1
+ },
+ "edge_class_histogram": {
+  "PARTIAL": 2,
+  "CONSUMED": 2,
+  "NOT_EVIDENCED": 1,
+  "WAVE_DEFERRED": 4
+ },
+ "per_wp": {
+  "WP-FHS-00": {
+   "atoms": 4,
+   "covered": 2,
+   "deferred": 0,
+   "hold": 2
+  },
+  "WP-FHS-01": {
+   "atoms": 3,
+   "covered": 2,
+   "deferred": 0,
+   "hold": 1
+  },
+  "WP-FHS-15": {
+   "atoms": 3,
+   "covered": 3,
+   "deferred": 0,
+   "hold": 0
+  },
+  "WP-FHS-16": {
+   "atoms": 3,
+   "covered": 2,
+   "deferred": 1,
+   "hold": 0
+  },
+  "WP-FHS-19": {
+   "atoms": 2,
+   "covered": 2,
+   "deferred": 0,
+   "hold": 0
+  },
+  "WP-FHS-21": {
+   "atoms": 2,
+   "covered": 2,
+   "deferred": 0,
+   "hold": 0
+  }
+ },
+ "atoms": [
+  {
+   "wp": "WP-FHS-00",
+   "atom": "A1",
+   "requirement": "SourceManifest: 31 sources resolved with bytes/lines/sha256",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/MEASURE1_FREEZE.json#/checks/sources_31",
+    "FHS_W0_R13_ACCEPTANCE_20261108/lanes/A/SOURCE_LOCK_V3.json"
+   ],
+   "measured_value": {
+    "files": 31,
+    "match": 31,
+    "bytes": 22281767,
+    "lines": 111331
+   },
+   "pos": "31/31 files re-hash to the declared digest, byte count and newline count",
+   "negative_controls": [
+    {
+     "id": "BASE-sources",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP00-byteflip",
+     "detected": true
+    }
+   ],
+   "firstfail": "SOURCE_SHA_MISMATCH",
+   "original_consumer": "Original TPM/PIPD Source Reader",
+   "invalidation_condition": "any source sha256 changes or the sources root moves",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05",
+    "NI-09"
+   ]
+  },
+  {
+   "wp": "WP-FHS-00",
+   "atom": "A2",
+   "requirement": "RepoContext: local vs remote HEAD, branch, dirty count; never conflated",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/MEASURE1_FREEZE.json#/facts/repositories"
+   ],
+   "measured_value": [
+    {
+     "repo": "Fabric",
+     "head": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+     "branch": "docs/fhs-asbuilt-w0w2-20261107",
+     "dirty_paths": 0,
+     "remote_main_live": "3b47550efce282f513965aa207b899913743eaa3",
+     "origin_main_ref": "6b4aa92ee1d1a5d1a7f47aa43dd849a500941175"
+    },
+    {
+     "repo": "SBL",
+     "head": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+     "branch": "r5/close-legacy-ack",
+     "dirty_paths": 0,
+     "remote_main_live": "1cb8abb0ef118bdd80b08961fd9ca54c657881b9",
+     "origin_main_ref": "c83b03785580bbf8f1c2cd853971be1b46b6b301"
+    },
+    {
+     "repo": "HG-KSEOS",
+     "head": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+     "branch": "r4/cap-registry-20261107",
+     "dirty_paths": 5,
+     "remote_main_live": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+     "origin_main_ref": "acd9196fcd748638673848bf62a426dcc3c22dc1"
+    }
+   ],
+   "pos": "local HEAD/branch/dirty and live remote main are separate fields; the divergence is recorded per repo rather than collapsed (Fabric and SBL are on feature branches, HG-KSEOS carries 5 dirty paths)",
+   "negative_controls": [
+    {
+     "id": "BASE-inventory",
+     "detected": true
+    }
+   ],
+   "firstfail": "LOCAL_REPO_CONTEXT_HOLD",
+   "original_consumer": "Original Source/Repo Reader",
+   "invalidation_condition": "any HEAD, branch or remote ref changes",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ],
+   "adjudication": {
+    "Fabric": "local feature branch d75e9765 != remote main 3b47550e — recorded, not merged",
+    "SBL": "local feature branch 47d4e600 != remote main 1cb8abb0 — recorded, not merged",
+    "HG-KSEOS": "local 86f40ec1 on a feature branch, 5 dirty paths, remote main acd9196f — recorded as REPO_CONTEXT_DIRTY_TREE",
+    "consequence": "no local HEAD is presented as remote main anywhere in this round"
+   }
+  },
+  {
+   "wp": "WP-FHS-00",
+   "atom": "A4",
+   "requirement": "RepoContext divergence is adjudicated, not just observed",
+   "class": "HOLD",
+   "evidence": [
+    "evidence/MEASURE1_FREEZE.json#/facts/repositories"
+   ],
+   "measured_value": {
+    "hgk_dirty_paths": 5,
+    "local_equals_remote_for": 0,
+    "note": "A2 passes because the two identities are kept apart; this atom is the separate question of whether the working trees are clean, and on HG-KSEOS they are not"
+   },
+   "pos": "the divergence is named per repo with its own field",
+   "negative_controls": [],
+   "firstfail": "REPO_CONTEXT_DIRTY_TREE",
+   "original_consumer": "Original Repo Owner",
+   "invalidation_condition": "the HG-KSEOS worktree is cleaned or its dirty paths are attributed",
+   "verdict": "HOLD",
+   "supports": [
+    "NI-05"
+   ],
+   "resume_predicate": "commit or stash the 5 dirty paths in worktrees/r4-hgk, then re-run m1_freeze.py and compare with the WP-00 baseline"
+  },
+  {
+   "wp": "WP-FHS-00",
+   "atom": "A3",
+   "requirement": "The SourceManifest is consumable by the next reader",
+   "class": "PARTIAL",
+   "evidence": [
+    "evidence/WIRING_CONSUMPTION.json#/edges/0"
+   ],
+   "measured_value": {
+    "consumer": "WP-FHS-01",
+    "sha_match": 31,
+    "files_on_disk": 31,
+    "source_ids": 31
+   },
+   "pos": "E01 PARTIAL: WP-01 re-hashes the same 31 files, which proves the same source set was read, but no digest of SOURCE_LOCK.json appears in the ledger, so 'consumed the manifest' and 'both sides independently re-read the sources' are not distinguishable from this evidence",
+   "negative_controls": [
+    {
+     "id": "BASE-sources",
+     "detected": true
+    }
+   ],
+   "firstfail": "EDGE_CONSUMPTION_NOT_EVIDENCED",
+   "original_consumer": "Original TPM/PIPD Source Reader",
+   "invalidation_condition": "the WP-01 ledger starts carrying the manifest digest",
+   "verdict": "PARTIAL",
+   "supports": [
+    "NI-09"
+   ],
+   "resume_predicate": "have WP-01's ledger record the SOURCE_LOCK.json sha256 as its input reference; that single field would close E01"
+  },
+  {
+   "wp": "WP-FHS-01",
+   "atom": "A1",
+   "requirement": "AuthorityConflictLedger over the same 31 sources; conflicts retained",
+   "class": "CARRIED_VALID",
+   "evidence": [
+    "FHS_W0_R6_20261108/evidence/WP01/AUTHORITY_CONFLICT_LEDGER.json",
+    "evidence/GATE_R26_ON_H23.json#G13"
+   ],
+   "measured_value": {
+    "in_set_denominator": 31,
+    "duplicate_sha_groups": 0,
+    "name_collisions_normalised": 17,
+    "sha_match": 31
+   },
+   "pos": "31 distinct basenames and digests in-set, 0 duplicates; 17 normalised external collisions retained",
+   "negative_controls": [
+    {
+     "id": "BASE-sources",
+     "detected": true
+    }
+   ],
+   "firstfail": "SOURCE_CURRENTNESS_HOLD",
+   "original_consumer": "Original PIPD Authority/Source Reader",
+   "invalidation_condition": "any ledger input changes, or an original reader contradicts a row",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-01",
+   "atom": "A2",
+   "requirement": "Oracle/ProfileBinding against the 19 contract families",
+   "class": "HOLD",
+   "evidence": [
+    "FHS_W0_R6_20261108/evidence/WP01/PROFILE_ORACLE_BINDING.json",
+    "FHS_W0_R6_20261108/evidence/WP01/REPORT.json#/holds"
+   ],
+   "measured_value": {
+    "families_bound": 19,
+    "schema_files_on_disk": 19,
+    "families_with_enum": 4,
+    "summary_says_families_hold": 0,
+    "hold_codes_in_families": {
+     "ORACLE_ENUM_ABSENT": 15
+    },
+    "internal_contradiction": "the summary reports families_hold=0 while 15 families carry ORACLE_ENUM_ABSENT in their own rows"
+   },
+   "pos": "19/19 families are bound to real schema files and source-grounded, but 15 of them carry ORACLE_ENUM_ABSENT in WP01's own holds array with resolution HOLD — owed and not obtained",
+   "negative_controls": [
+    {
+     "id": "BASE-slots",
+     "detected": true
+    }
+   ],
+   "firstfail": "ORACLE_ENUM_ABSENT",
+   "original_consumer": "Original PIPD contract Owner",
+   "invalidation_condition": "registry.json digest 85100a8e changes",
+   "verdict": "HOLD",
+   "supports": [
+    "NI-05"
+   ],
+   "artefact_defect": {
+    "id": "D-01",
+    "impact": "the binding's summary reports families_hold=0 while its own holds array reports ORACLE_ENUM_ABSENT x15; a reader that quotes the summary will under-report the gap"
+   },
+   "resume_predicate": "the original PIPD contract Owner closes the enum for the 15 families, or declares them out of scope for this wave"
+  },
+  {
+   "wp": "WP-FHS-01",
+   "atom": "A3",
+   "requirement": "U0 line/block partition published together with its rule",
+   "class": "CARRIED_VALID",
+   "evidence": [
+    "FHS_W0_R13_ACCEPTANCE_20261108/lanes/B/U0_PARTITION_V3.json",
+    "evidence/GATE_R26_ON_H23.json#G11,G12"
+   ],
+   "measured_value": {
+    "per_line_segments": 111331,
+    "structural_blocks": 25201,
+    "files_tiling": 31,
+    "independent_re_derivation": "G11 and G12 recomputed both counts from the 31 files today"
+   },
+   "pos": "31/31 files tile exactly; each count is stated with the rule that produced it",
+   "negative_controls": [
+    {
+     "id": "NEG-WP00-byteflip",
+     "detected": true
+    }
+   ],
+   "firstfail": "SEGMENTATION_RULE_MISSING",
+   "original_consumer": "Original Corpus Reader",
+   "invalidation_condition": "any source changes, or the rule is redefined without republishing the count",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-15",
+   "atom": "A1",
+   "requirement": "Three distinct SPEC drafts (Product / Architecture / Program)",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/wp15_verifiers_rerun.txt",
+    "evidence/NEG_wp15_negative_controls.log"
+   ],
+   "measured_value": {
+    "product_bytes": 9116,
+    "architecture_bytes": 9267,
+    "program_bytes": 9691,
+    "reported_max_pairwise": 0.2134,
+    "threshold": 0.85,
+    "independent_max_pairwise_difflib": 0.5522,
+    "note": "two methods disagree on the value but agree on the verdict (both far below 0.85)"
+   },
+   "pos": "pairwise distinct under two independent methods; consumer and NEG sets disjoint",
+   "negative_controls": [
+    {
+     "id": "BASE-oracle",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP15-tools",
+     "detected": true
+    }
+   ],
+   "firstfail": "SPEC_NOT_SOURCE_BOUND",
+   "original_consumer": "Original SBL TPM / PIPD Intake Reader",
+   "invalidation_condition": "any draft edited in place",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05",
+    "NI-09"
+   ]
+  },
+  {
+   "wp": "WP-FHS-15",
+   "atom": "A2",
+   "requirement": "Source binding: 52 spans, 18 stages, 15 acceptance entries, FUO ten columns",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/wp15_verifiers_rerun.txt"
+   ],
+   "measured_value": {
+    "spans": "52/52",
+    "stages": 18,
+    "acceptance": 15,
+    "acc_pos": 6,
+    "acc_neg": 9,
+    "fuo_columns": 10
+   },
+   "pos": "52/52 quoted spans re-slice to the same bytes; 18 stage contracts; 6 POS + 9 NEG",
+   "negative_controls": [
+    {
+     "id": "NEG-WP15-tools",
+     "detected": true
+    }
+   ],
+   "firstfail": "SPEC_TRACE_BROKEN",
+   "original_consumer": "Original SBL TPM Reader",
+   "invalidation_condition": "any source byte changes",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-15",
+   "atom": "A3",
+   "requirement": "Original consumer readback (ACCEPT or named NACK), captured",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/INTAKE_NACK_RAW.txt",
+    "evidence/INTAKE_CONTROL_RAW.txt",
+    "evidence/NEGATIVES.json"
+   ],
+   "measured_value": {
+    "nack": "INTAKE_INVALID, exit 2, clause 01_PRODUCT_AUTHORITY_SPINE(4).md @ char 8183 (FUO-01)",
+    "control": "the same binary returns atoms, exit 0, on 00_INDEX_AND_DECISION(4).md",
+    "binary": "SBL integrations/pipd v0.1.1a5, PYTHONPATH=worktrees/r4-sbl/integrations/pipd/src"
+   },
+   "pos": "executed, captured with stdout and exit code; the control run proves the refusal is specific",
+   "negative_controls": [
+    {
+     "id": "NEG-WP15-intake-NACK",
+     "detected": true
+    },
+    {
+     "id": "POS-WP15-intake-control",
+     "detected": true
+    }
+   ],
+   "firstfail": "INTAKE_INVALID",
+   "original_consumer": "SBL integrations/pipd `pipd intake` v0.1.1a5",
+   "invalidation_condition": "the intake reader or the source document changes",
+   "verdict": "PASS_NAMED_NACK",
+   "supports": [
+    "NI-05",
+    "NI-09"
+   ]
+  },
+  {
+   "wp": "WP-FHS-16",
+   "atom": "A1",
+   "requirement": "Donor24 + Method25 = 49 slots with original disposition retained",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/wp_verifiers_rerun.txt"
+   ],
+   "measured_value": {
+    "donor": 24,
+    "method": 25,
+    "combined": {
+     "ADOPT_CANDIDATE": 8,
+     "DEFER": 21,
+     "NOFIT": 1,
+     "HOLD": 19
+    },
+    "licence": {
+     "MIT": 8,
+     "UNKNOWN_NOT_STATED": 41
+    }
+   },
+   "pos": "24+25 with zero padding and zero duplicate identity; disposition histogram published",
+   "negative_controls": [
+    {
+     "id": "BASE-slots",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP16-duplicate-id",
+     "detected": true
+    }
+   ],
+   "firstfail": "DONOR_SET_FLATTENED",
+   "original_consumer": "Original SBL DOC06 TechnologyAdmission Reader",
+   "invalidation_condition": "source 08_TECHNOLOGY 1df04680 changes",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-16",
+   "atom": "A2",
+   "requirement": "Need-Occupant-Reader/Consumer with licence/host-fit and re-sliced refs",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/wp_verifiers_rerun.txt"
+   ],
+   "measured_value": {
+    "checks": "13/13",
+    "slots": 49,
+    "source_refs_in_tables": 52,
+    "note": "the verifier re-slices 52 references across the 49 slots; an earlier note said 49 refs and was low by 3"
+   },
+   "pos": "C04 re-slices every reference; C08 refuses an ADOPT_CANDIDATE with an unknown licence",
+   "negative_controls": [
+    {
+     "id": "NEG-WP16-duplicate-id",
+     "detected": true
+    }
+   ],
+   "firstfail": "CAPABILITY_GAP_HOLD",
+   "original_consumer": "Original Technology/Licence/Host Owner",
+   "invalidation_condition": "any table record edited",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-16",
+   "atom": "A3",
+   "requirement": "Downstream consumption by the W1 host matrix",
+   "class": "WAVE_DEFERRED",
+   "evidence": [
+    "evidence/WIRING_CONSUMPTION.json#/later_wave/1"
+   ],
+   "measured_value": {
+    "edge": "E35",
+    "hold": "W1_HOST_MATRIX_NOT_RUN",
+    "handoff": "49 slot translations"
+   },
+   "pos": "handoff artefact ready; the W1 matrix is a later-wave effect",
+   "negative_controls": [],
+   "firstfail": "W1_HOST_MATRIX_NOT_RUN",
+   "original_consumer": "Original Host/Tech Reader (W1)",
+   "invalidation_condition": "the W1 wave opens",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "supports": [
+    "NI-09"
+   ]
+  },
+  {
+   "wp": "WP-FHS-19",
+   "atom": "A1",
+   "requirement": "Live CI / licence / NOTICE / SBOM / dependency inventory",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/WP19_LIVE.json#/repos",
+    "evidence/WP19_INVENTORY_V2.json#/repos"
+   ],
+   "measured_value": {
+    "Fabric": {
+     "head": "3b47550efce2",
+     "root_licence": false,
+     "nested_licences": 5,
+     "sbom_artifacts": 3,
+     "sbom_note": "generator scripts only (sbom.ps1 / generate_sbom.py), no SBOM file",
+     "dependencies": 4,
+     "workflows": 1,
+     "jobs": [
+      "fhs-nav-static"
+     ],
+     "ci": "GREEN_NO_SUPPLY_CHAIN_JOB"
+    },
+    "SBL": {
+     "head": "1cb8abb0ef11",
+     "root_licence": true,
+     "sbom": [
+      "integrations/pipd/SBOM.cdx.json"
+     ],
+     "dependencies": 5,
+     "workflows": 2,
+     "jobs": [
+      "supply-chain (ubuntu, py3.11)",
+      "pipd-compat (ubuntu, py3.11)",
+      "test (windows-latest, py3.11)",
+      "test (ubuntu-latest, py3.11)"
+     ],
+     "supply_chain_job": true
+    },
+    "HG-KSEOS": {
+     "head": "acd9196fcd74",
+     "root_licence": false,
+     "licence_files": 0,
+     "sbom_artifacts": [
+      "evidence/r18/WP19_SBOM_RESCAN.json",
+      "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+      "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+      "scripts/sbom.ps1",
+      "tools/generate_sbom.py"
+     ],
+     "sbom_note": "an SBOM/1 package inventory declaring SUPPLY_CHAIN_UNVERIFIED, not a CycloneDX/SPDX component SBOM",
+     "dependencies": 1,
+     "workflows": 0,
+     "ci": "CI_SERVICE_ABSENT"
+    }
+   },
+   "pos": "present and absent both measured live; SBOM format named per repo; the three repos are in three different supply-chain states",
+   "negative_controls": [
+    {
+     "id": "BASE-inventory",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP19-drop-repo",
+     "detected": true
+    }
+   ],
+   "firstfail": "SUPPLY_CHAIN_RAW_MISSING",
+   "original_consumer": "Original CI / Release-readiness Reader",
+   "invalidation_condition": "any repo HEAD moves, or a workflow is added/removed",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05",
+    "NI-09"
+   ]
+  },
+  {
+   "wp": "WP-FHS-19",
+   "atom": "A2",
+   "requirement": "ScanExpectation + locatable CI raw handed to the release-readiness reader",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/WP19_LIVE.json#/repos/1/latest_run"
+   ],
+   "measured_value": {
+    "sbl_supply_chain_job": {
+     "name": "supply-chain (ubuntu, py3.11)",
+     "conclusion": "success"
+    },
+    "run_id": 42617671368,
+    "handoff": [
+     "evidence/WP19_LIVE.json",
+     "evidence/WP19_INVENTORY_V2.json"
+    ]
+   },
+   "pos": "job name, conclusion and run id are readable, so the W4 reader can locate the raw",
+   "negative_controls": [
+    {
+     "id": "NEG-WP19-drop-repo",
+     "detected": true
+    }
+   ],
+   "firstfail": "SUPPLY_CHAIN_RAW_MISSING",
+   "original_consumer": "Original Release-readiness Reader (W4)",
+   "invalidation_condition": "the run is deleted or the workflow removed",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-21",
+   "atom": "A1",
+   "requirement": "AC15 / Oracle96 / H4 / SEAM denominators, source-bound",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "evidence/wp_verifiers_rerun.txt",
+    "evidence/NEG_wp21_discriminate.log"
+   ],
+   "measured_value": {
+    "ac15": 15,
+    "oracle96": 96,
+    "h4": 12,
+    "seam": 11,
+    "total": 134,
+    "checks": "155/155",
+    "cross_product": "12 TestClass x 8 OracleType complete; 96 distinct __CORRUPT__ markers"
+   },
+   "pos": "134 rows, four denominators reconcile, 155/155 plan checks, independent re-derivation agrees",
+   "negative_controls": [
+    {
+     "id": "BASE-oracle",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP21-drop-one-case",
+     "detected": true
+    },
+    {
+     "id": "NEG-WP21-discriminate",
+     "detected": true
+    }
+   ],
+   "firstfail": "ORACLE_TYPE_OR_SCOPE_MISMATCH",
+   "original_consumer": "Original Case/Oracle Registry Reader",
+   "invalidation_condition": "source 07_ACCEPTANCE 81a8c2f1 changes",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05"
+   ]
+  },
+  {
+   "wp": "WP-FHS-21",
+   "atom": "A2",
+   "requirement": "Runner binding request kept, status PLAN_NOT_RUN",
+   "class": "H23_MEASURED_PASS",
+   "evidence": [
+    "FHS_W0_R6_20261108/evidence/WP21/REPORT.json#/holds"
+   ],
+   "measured_value": {
+    "status": "DELIVERED_AUTHOR_SIDE_PLAN",
+    "runner_bound": false,
+    "claim_ceiling": "AUTHOR_SIDE_ORACLE_PLAN_SOURCE_BOUND",
+    "holds": 7
+   },
+   "pos": "the plan is readable and hands a typed runner request; no case is marked executed",
+   "negative_controls": [
+    {
+     "id": "NEG-WP21-discriminate",
+     "detected": true
+    }
+   ],
+   "firstfail": "ORACLE_RUNNER_BIND_HOLD",
+   "original_consumer": "Original Protected AO Request Reader (W2)",
+   "invalidation_condition": "a runner is bound",
+   "verdict": "PASS",
+   "supports": [
+    "NI-05",
+    "NI-09"
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "edge": "E01",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-01",
+   "class": "PARTIAL",
+   "evidence": [
+    "evidence/WIRING_CONSUMPTION.json#/edges/0"
+   ],
+   "measured_value": {
+    "sha_match": 31,
+    "source_ids_crossed": 31,
+    "same_sources_root": true
+   },
+   "why": "WP-01 re-hashes the same 31 files, but the producer's digest (49c65214) appears nowhere in the consumer: same-source-set is not the same as consumed-the-manifest"
+  },
+  {
+   "edge": "E27",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-15",
+   "class": "CONSUMED",
+   "evidence": [
+    "evidence/wp15_verifiers_rerun.txt"
+   ],
+   "measured_value": {
+    "spans_verified": "52/52",
+    "files_scanned": 6
+   },
+   "why": "52 quoted spans re-slice to the same bytes across four source documents"
+  },
+  {
+   "edge": "E28",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-16",
+   "class": "CONSUMED",
+   "evidence": [
+    "evidence/wp_verifiers_rerun.txt"
+   ],
+   "measured_value": {
+    "slots": 49,
+    "source_refs_resliced": 52,
+    "checks": "13/13"
+   },
+   "why": "C04 re-slices every reference to its quoted text; 52 references across 49 slots"
+  },
+  {
+   "edge": "E33",
+   "producer": "WP-FHS-00",
+   "consumer": "WP-FHS-19",
+   "class": "PARTIAL",
+   "evidence": [
+    "evidence/WP19_LIVE.json#/repos",
+    "evidence/MEASURE1_FREEZE.json#/facts/repositories"
+   ],
+   "measured_value": {
+    "scan_repo_set": [
+     "Fabric",
+     "SBL",
+     "HG-KSEOS"
+    ],
+    "digest_cited": false
+   },
+   "why": "the three repo names coincide, but a name-set match is not a consumption: no digest or field of the SourceManifest appears in the scan artefacts, and the envelope that binds them is author-side with consumer_readback NOT_OBSERVED"
+  },
+  {
+   "edge": "E36",
+   "producer": "WP-FHS-01",
+   "consumer": "WP-FHS-21",
+   "class": "NOT_EVIDENCED",
+   "verdict": "HOLD",
+   "evidence": [
+    "evidence/WIRING_CONSUMPTION.json#/edges/4",
+    "out/W0_W1_HANDOFF_ENVELOPE.json#/joins/1"
+   ],
+   "measured_value": {
+    "plan_cites_binding": false,
+    "enum_bearing_families": 4,
+    "oracle_types": 8,
+    "overlap": 0,
+    "binding_hold_codes": {
+     "ORACLE_ENUM_ABSENT": 15
+    }
+   },
+   "why": "the plan is compiled from BODY-07's matrix; none of its eight oracle types is among the four enum-bearing families, so no value of the binding can be shown to have crossed",
+   "resume_predicate": "regenerate the WP-21 tables recording profile_oracle_binding.sha256, or have the W2 protected-AO reader consume the envelope",
+   "resume_owner": "Original Oracle/Profile Reader (W2)"
+  },
+  {
+   "edge": "E12",
+   "producer": "WP-FHS-15",
+   "consumer": "WP-FHS-07",
+   "class": "WAVE_DEFERRED",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "measured_value": {
+    "effect": "Native PLAN revision",
+    "hold": "W1_PLAN_EFFECT_NOT_RUN"
+   },
+   "why": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E35",
+   "producer": "WP-FHS-16",
+   "consumer": "WP-FHS-20",
+   "class": "WAVE_DEFERRED",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "measured_value": {
+    "effect": "Kind×Mode×Host matrix",
+    "hold": "W1_HOST_MATRIX_NOT_RUN"
+   },
+   "why": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E26",
+   "producer": "WP-FHS-19",
+   "consumer": "WP-FHS-14",
+   "class": "WAVE_DEFERRED",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "measured_value": {
+    "effect": "Release-ready supply-chain receipt",
+    "hold": "W4_RELEASE_EFFECT_NOT_RUN"
+   },
+   "why": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  },
+  {
+   "edge": "E16",
+   "producer": "WP-FHS-21",
+   "consumer": "WP-FHS-09",
+   "class": "WAVE_DEFERRED",
+   "verdict": "HANDOFF_READY_EFFECT_HELD",
+   "measured_value": {
+    "effect": "Protected checker run",
+    "hold": "W2_PROTECTED_RUN_NOT_QUALIFIED"
+   },
+   "why": "the effect belongs to a later wave; running it here would be a receipt the round has no authority to mint"
+  }
+ ],
+ "cov01_identity": {
+  "wp22": {
+   "count": 22,
+   "rows": [
+    {
+     "wp": "WP-FHS-00",
+     "title": "Source/Host Discovery",
+     "depends": "SourceManifest+RepoContext。",
+     "primary_wave": "W0"
+    },
+    {
+     "wp": "WP-FHS-01",
+     "title": "Authority/Oracle/Profile",
+     "depends": "AuthorityConflictLedger+Oracle/ProfileBinding。",
+     "primary_wave": "W0"
+    },
+    {
+     "wp": "WP-FHS-02",
+     "title": "Fabric Policy Consumer",
+     "depends": "PolicyLoadedConsumerACK。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-03",
+     "title": "HGK Registry/Issuer",
+     "depends": "IssuerReceiverBinding。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-04",
+     "title": "Hermes Durable Runtime",
+     "depends": "WakeLeaseRuntimeBinding。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-05",
+     "title": "PIPD Native Compiler",
+     "depends": "PI/PD/DEV-OPS候選。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-06",
+     "title": "Legal First Reversible Slice",
+     "depends": "最小可逆Repo diff+Raw。",
+     "primary_wave": "W2"
+    },
+    {
+     "wp": "WP-FHS-07",
+     "title": "Native PLAN Commander A/B/C",
+     "depends": "PlanRevisionProposal+CAS ACK。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-08",
+     "title": "FHS Execute Worker",
+     "depends": "WorkerEffectRaw+JournalCursor。",
+     "primary_wave": "W2"
+    },
+    {
+     "wp": "WP-FHS-09",
+     "title": "Challenge/Protected AO",
+     "depends": "ProtectedCheckerRequest/Receipt（需另一主體）。",
+     "primary_wave": "W2"
+    },
+    {
+     "wp": "WP-FHS-10",
+     "title": "B1 3 GWO & G-A/G-B",
+     "depends": "三GWO各自Raw+G-A/G-B。",
+     "primary_wave": "W3"
+    },
+    {
+     "wp": "WP-FHS-11",
+     "title": "Portable Host Dogfood",
+     "depends": "三SP逐Host loaded/invoked raw。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-12",
+     "title": "W18 Normal Mode",
+     "depends": "新PID普通Goal E33-E42 Raw。",
+     "primary_wave": "W3"
+    },
+    {
+     "wp": "WP-FHS-13",
+     "title": "CAP On-Demand + HotSwap",
+     "depends": "CAP gap/HotSwap parity+readback。",
+     "primary_wave": "W3"
+    },
+    {
+     "wp": "WP-FHS-14",
+     "title": "Release/Retire Candidate",
+     "depends": "ReleaseCandidate+原Publisher receipt。",
+     "primary_wave": "W4"
+    },
+    {
+     "wp": "WP-FHS-15",
+     "title": "TPM Corpus & SPEC 18Stage",
+     "depends": "原三SPECDraft、來源readback、FUO十欄；三份受界 SPECDraft／`TaskSpecSeed CANDIDATE`；歷史來源曾記 24 功能 Atom／PI/PD 設計意圖，但本輪未見同 Scope 原 PIPD Reader 真 ACK，`H-WP15-HISTORICAL-ACK-UNVERIFIED`。",
+     "primary_wave": "W0"
+    },
+    {
+     "wp": "WP-FHS-16",
+     "title": "Donor/Method Slot Translation",
+     "depends": "24slot/25method壓製候選。",
+     "primary_wave": "W0"
+    },
+    {
+     "wp": "WP-FHS-17",
+     "title": "CAP-BOOT Native Occupants",
+     "depends": "needed能力最小HostOccupant+loaded ACK。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-18",
+     "title": "FAR Bounded Repair & Incident",
+     "depends": "BoundedRepairDiff+RedGreen+residue。",
+     "primary_wave": "W2"
+    },
+    {
+     "wp": "WP-FHS-19",
+     "title": "CI/Supply Chain & Requal",
+     "depends": "CI/License/NOTICE/SBOM掃描Raw。",
+     "primary_wave": "W0"
+    },
+    {
+     "wp": "WP-FHS-20",
+     "title": "CLI/Agent/Host Kind Matrix",
+     "depends": "192Cell適用/NoFit/Host Raw。",
+     "primary_wave": "W1"
+    },
+    {
+     "wp": "WP-FHS-21",
+     "title": "Challenge 96/H4/SEAM Coverage",
+     "depends": "96Cell/H4/SEAM原Oracle計畫。",
+     "primary_wave": "W0"
+    }
+   ]
+  },
+  "edge36": {
+   "count": 36,
+   "rows": [
+    {
+     "edge": "E01",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-01",
+     "wave": "W0→W0"
+    },
+    {
+     "edge": "E02",
+     "from": "WP-FHS-01",
+     "to": "WP-FHS-02",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E03",
+     "from": "WP-FHS-01",
+     "to": "WP-FHS-03",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E04",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-04",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E05",
+     "from": "WP-FHS-01",
+     "to": "WP-FHS-05",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E06",
+     "from": "WP-FHS-02",
+     "to": "WP-FHS-06",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E07",
+     "from": "WP-FHS-03",
+     "to": "WP-FHS-06",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E08",
+     "from": "WP-FHS-04",
+     "to": "WP-FHS-06",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E09",
+     "from": "WP-FHS-05",
+     "to": "WP-FHS-06",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E10",
+     "from": "WP-FHS-17",
+     "to": "WP-FHS-06",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E11",
+     "from": "WP-FHS-01",
+     "to": "WP-FHS-07",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E12",
+     "from": "WP-FHS-15",
+     "to": "WP-FHS-07",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E13",
+     "from": "WP-FHS-06",
+     "to": "WP-FHS-08",
+     "wave": "W2→W2"
+    },
+    {
+     "edge": "E14",
+     "from": "WP-FHS-07",
+     "to": "WP-FHS-08",
+     "wave": "W1→W2"
+    },
+    {
+     "edge": "E15",
+     "from": "WP-FHS-08",
+     "to": "WP-FHS-09",
+     "wave": "W2→W2"
+    },
+    {
+     "edge": "E16",
+     "from": "WP-FHS-21",
+     "to": "WP-FHS-09",
+     "wave": "W0→W2"
+    },
+    {
+     "edge": "E17",
+     "from": "WP-FHS-09",
+     "to": "WP-FHS-10",
+     "wave": "W2→W3"
+    },
+    {
+     "edge": "E18",
+     "from": "WP-FHS-20",
+     "to": "WP-FHS-10",
+     "wave": "W1→W3"
+    },
+    {
+     "edge": "E19",
+     "from": "WP-FHS-05",
+     "to": "WP-FHS-11",
+     "wave": "W1→W1"
+    },
+    {
+     "edge": "E20",
+     "from": "WP-FHS-16",
+     "to": "WP-FHS-11",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E21",
+     "from": "WP-FHS-10",
+     "to": "WP-FHS-12",
+     "wave": "W3→W3"
+    },
+    {
+     "edge": "E22",
+     "from": "WP-FHS-11",
+     "to": "WP-FHS-12",
+     "wave": "W1→W3"
+    },
+    {
+     "edge": "E23",
+     "from": "WP-FHS-16",
+     "to": "WP-FHS-13",
+     "wave": "W0→W3"
+    },
+    {
+     "edge": "E24",
+     "from": "WP-FHS-17",
+     "to": "WP-FHS-13",
+     "wave": "W1→W3"
+    },
+    {
+     "edge": "E25",
+     "from": "WP-FHS-09",
+     "to": "WP-FHS-14",
+     "wave": "W2→W4"
+    },
+    {
+     "edge": "E26",
+     "from": "WP-FHS-19",
+     "to": "WP-FHS-14",
+     "wave": "W0→W4"
+    },
+    {
+     "edge": "E27",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-15",
+     "wave": "W0→W0"
+    },
+    {
+     "edge": "E28",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-16",
+     "wave": "W0→W0"
+    },
+    {
+     "edge": "E29",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-17",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E30",
+     "from": "WP-FHS-02",
+     "to": "WP-FHS-17",
+     "wave": "W1→W1"
+    },
+    {
+     "edge": "E31",
+     "from": "WP-FHS-03",
+     "to": "WP-FHS-17",
+     "wave": "W1→W1"
+    },
+    {
+     "edge": "E32",
+     "from": "WP-FHS-08",
+     "to": "WP-FHS-18",
+     "wave": "W2→W2"
+    },
+    {
+     "edge": "E33",
+     "from": "WP-FHS-00",
+     "to": "WP-FHS-19",
+     "wave": "W0→W0"
+    },
+    {
+     "edge": "E34",
+     "from": "WP-FHS-05",
+     "to": "WP-FHS-20",
+     "wave": "W1→W1"
+    },
+    {
+     "edge": "E35",
+     "from": "WP-FHS-16",
+     "to": "WP-FHS-20",
+     "wave": "W0→W1"
+    },
+    {
+     "edge": "E36",
+     "from": "WP-FHS-01",
+     "to": "WP-FHS-21",
+     "wave": "W0→W0"
+    }
+   ]
+  },
+  "expected": {
+   "wp": 22,
+   "edge": 36
+  },
+  "identity_intact": true
+ },
+ "cov01_per_wp_fields": {
+  "WP-FHS-00": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "SourceManifest: 31 sources resolved with bytes/lines/sha256",
+    "RepoContext: local vs remote HEAD, branch, dirty count; never conflated",
+    "RepoContext divergence is adjudicated, not just observed",
+    "The SourceManifest is consumable by the next reader"
+   ],
+   "operation": [
+    "31/31 files re-hash to the declared digest, byte count and newline count",
+    "local HEAD/branch/dirty and live remote main are separate fields; the divergence is recorded per repo rather than collapsed (Fabric and SBL are on feature branches, HG-KSEOS carries 5 dirty paths)",
+    "the divergence is named per repo with its own field",
+    "E01 PARTIAL: WP-01 re-hashes the same 31 files, which proves the same source set was read, but no digest of SOURCE_LOCK.json appears in the ledger, so 'consumed the manifest' and 'both sides independently re-read the sources' are not distinguishable from this evidence"
+   ],
+   "output": [
+    {
+     "files": 31,
+     "match": 31,
+     "bytes": 22281767,
+     "lines": 111331
+    },
+    [
+     {
+      "repo": "Fabric",
+      "head": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+      "branch": "docs/fhs-asbuilt-w0w2-20261107",
+      "dirty_paths": 0,
+      "remote_main_live": "3b47550efce282f513965aa207b899913743eaa3",
+      "origin_main_ref": "6b4aa92ee1d1a5d1a7f47aa43dd849a500941175"
+     },
+     {
+      "repo": "SBL",
+      "head": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+      "branch": "r5/close-legacy-ack",
+      "dirty_paths": 0,
+      "remote_main_live": "1cb8abb0ef118bdd80b08961fd9ca54c657881b9",
+      "origin_main_ref": "c83b03785580bbf8f1c2cd853971be1b46b6b301"
+     },
+     {
+      "repo": "HG-KSEOS",
+      "head": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+      "branch": "r4/cap-registry-20261107",
+      "dirty_paths": 5,
+      "remote_main_live": "acd9196fcd748638673848bf62a426dcc3c22dc1",
+      "origin_main_ref": "acd9196fcd748638673848bf62a426dcc3c22dc1"
+     }
+    ],
+    {
+     "hgk_dirty_paths": 5,
+     "local_equals_remote_for": 0,
+     "note": "A2 passes because the two identities are kept apart; this atom is the separate question of whether the working trees are clean, and on HG-KSEOS they are not"
+    },
+    {
+     "consumer": "WP-FHS-01",
+     "sha_match": 31,
+     "files_on_disk": 31,
+     "source_ids": 31
+    }
+   ],
+   "pos": [
+    "31/31 files re-hash to the declared digest, byte count and newline count",
+    "local HEAD/branch/dirty and live remote main are separate fields; the divergence is recorded per repo rather than collapsed (Fabric and SBL are on feature branches, HG-KSEOS carries 5 dirty paths)",
+    "the divergence is named per repo with its own field",
+    "E01 PARTIAL: WP-01 re-hashes the same 31 files, which proves the same source set was read, but no digest of SOURCE_LOCK.json appears in the ledger, so 'consumed the manifest' and 'both sides independently re-read the sources' are not distinguishable from this evidence"
+   ],
+   "neg": [
+    {
+     "firstfail": "SOURCE_SHA_MISMATCH",
+     "controls": [
+      {
+       "id": "BASE-sources",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP00-byteflip",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "LOCAL_REPO_CONTEXT_HOLD",
+     "controls": [
+      {
+       "id": "BASE-inventory",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "REPO_CONTEXT_DIRTY_TREE",
+     "controls": []
+    },
+    {
+     "firstfail": "EDGE_CONSUMPTION_NOT_EVIDENCED",
+     "controls": [
+      {
+       "id": "BASE-sources",
+       "detected": true
+      }
+     ]
+    }
+   ],
+   "original_reader_consumer": [
+    "Original Repo Owner",
+    "Original Source/Repo Reader",
+    "Original TPM/PIPD Source Reader"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "evidence/MEASURE1_FREEZE.json#/checks/sources_31",
+    "FHS_W0_R13_ACCEPTANCE_20261108/lanes/A/SOURCE_LOCK_V3.json",
+    "evidence/MEASURE1_FREEZE.json#/facts/repositories",
+    "evidence/MEASURE1_FREEZE.json#/facts/repositories",
+    "evidence/WIRING_CONSUMPTION.json#/edges/0"
+   ],
+   "invalidation_condition": [
+    "any source sha256 changes or the sources root moves",
+    "any HEAD, branch or remote ref changes",
+    "the HG-KSEOS worktree is cleaned or its dirty paths are attributed",
+    "the WP-01 ledger starts carrying the manifest digest"
+   ],
+   "wave": "W0",
+   "atoms": 4,
+   "covered": 2
+  },
+  "WP-FHS-01": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "AuthorityConflictLedger over the same 31 sources; conflicts retained",
+    "Oracle/ProfileBinding against the 19 contract families",
+    "U0 line/block partition published together with its rule"
+   ],
+   "operation": [
+    "31 distinct basenames and digests in-set, 0 duplicates; 17 normalised external collisions retained",
+    "19/19 families are bound to real schema files and source-grounded, but 15 of them carry ORACLE_ENUM_ABSENT in WP01's own holds array with resolution HOLD — owed and not obtained",
+    "31/31 files tile exactly; each count is stated with the rule that produced it"
+   ],
+   "output": [
+    {
+     "in_set_denominator": 31,
+     "duplicate_sha_groups": 0,
+     "name_collisions_normalised": 17,
+     "sha_match": 31
+    },
+    {
+     "families_bound": 19,
+     "schema_files_on_disk": 19,
+     "families_with_enum": 4,
+     "summary_says_families_hold": 0,
+     "hold_codes_in_families": {
+      "ORACLE_ENUM_ABSENT": 15
+     },
+     "internal_contradiction": "the summary reports families_hold=0 while 15 families carry ORACLE_ENUM_ABSENT in their own rows"
+    },
+    {
+     "per_line_segments": 111331,
+     "structural_blocks": 25201,
+     "files_tiling": 31,
+     "independent_re_derivation": "G11 and G12 recomputed both counts from the 31 files today"
+    }
+   ],
+   "pos": [
+    "31 distinct basenames and digests in-set, 0 duplicates; 17 normalised external collisions retained",
+    "19/19 families are bound to real schema files and source-grounded, but 15 of them carry ORACLE_ENUM_ABSENT in WP01's own holds array with resolution HOLD — owed and not obtained",
+    "31/31 files tile exactly; each count is stated with the rule that produced it"
+   ],
+   "neg": [
+    {
+     "firstfail": "SOURCE_CURRENTNESS_HOLD",
+     "controls": [
+      {
+       "id": "BASE-sources",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "ORACLE_ENUM_ABSENT",
+     "controls": [
+      {
+       "id": "BASE-slots",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "SEGMENTATION_RULE_MISSING",
+     "controls": [
+      {
+       "id": "NEG-WP00-byteflip",
+       "detected": true
+      }
+     ]
+    }
+   ],
+   "original_reader_consumer": [
+    "Original Corpus Reader",
+    "Original PIPD Authority/Source Reader",
+    "Original PIPD contract Owner"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "FHS_W0_R6_20261108/evidence/WP01/AUTHORITY_CONFLICT_LEDGER.json",
+    "evidence/GATE_R26_ON_H23.json#G13",
+    "FHS_W0_R6_20261108/evidence/WP01/PROFILE_ORACLE_BINDING.json",
+    "FHS_W0_R6_20261108/evidence/WP01/REPORT.json#/holds",
+    "FHS_W0_R13_ACCEPTANCE_20261108/lanes/B/U0_PARTITION_V3.json",
+    "evidence/GATE_R26_ON_H23.json#G11,G12"
+   ],
+   "invalidation_condition": [
+    "any ledger input changes, or an original reader contradicts a row",
+    "registry.json digest 85100a8e changes",
+    "any source changes, or the rule is redefined without republishing the count"
+   ],
+   "wave": "W0",
+   "atoms": 3,
+   "covered": 2
+  },
+  "WP-FHS-15": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "Three distinct SPEC drafts (Product / Architecture / Program)",
+    "Source binding: 52 spans, 18 stages, 15 acceptance entries, FUO ten columns",
+    "Original consumer readback (ACCEPT or named NACK), captured"
+   ],
+   "operation": [
+    "pairwise distinct under two independent methods; consumer and NEG sets disjoint",
+    "52/52 quoted spans re-slice to the same bytes; 18 stage contracts; 6 POS + 9 NEG",
+    "executed, captured with stdout and exit code; the control run proves the refusal is specific"
+   ],
+   "output": [
+    {
+     "product_bytes": 9116,
+     "architecture_bytes": 9267,
+     "program_bytes": 9691,
+     "reported_max_pairwise": 0.2134,
+     "threshold": 0.85,
+     "independent_max_pairwise_difflib": 0.5522,
+     "note": "two methods disagree on the value but agree on the verdict (both far below 0.85)"
+    },
+    {
+     "spans": "52/52",
+     "stages": 18,
+     "acceptance": 15,
+     "acc_pos": 6,
+     "acc_neg": 9,
+     "fuo_columns": 10
+    },
+    {
+     "nack": "INTAKE_INVALID, exit 2, clause 01_PRODUCT_AUTHORITY_SPINE(4).md @ char 8183 (FUO-01)",
+     "control": "the same binary returns atoms, exit 0, on 00_INDEX_AND_DECISION(4).md",
+     "binary": "SBL integrations/pipd v0.1.1a5, PYTHONPATH=worktrees/r4-sbl/integrations/pipd/src"
+    }
+   ],
+   "pos": [
+    "pairwise distinct under two independent methods; consumer and NEG sets disjoint",
+    "52/52 quoted spans re-slice to the same bytes; 18 stage contracts; 6 POS + 9 NEG",
+    "executed, captured with stdout and exit code; the control run proves the refusal is specific"
+   ],
+   "neg": [
+    {
+     "firstfail": "SPEC_NOT_SOURCE_BOUND",
+     "controls": [
+      {
+       "id": "BASE-oracle",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP15-tools",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "SPEC_TRACE_BROKEN",
+     "controls": [
+      {
+       "id": "NEG-WP15-tools",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "INTAKE_INVALID",
+     "controls": [
+      {
+       "id": "NEG-WP15-intake-NACK",
+       "detected": true
+      },
+      {
+       "id": "POS-WP15-intake-control",
+       "detected": true
+      }
+     ]
+    }
+   ],
+   "original_reader_consumer": [
+    "Original SBL TPM / PIPD Intake Reader",
+    "Original SBL TPM Reader",
+    "SBL integrations/pipd `pipd intake` v0.1.1a5"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "evidence/wp15_verifiers_rerun.txt",
+    "evidence/NEG_wp15_negative_controls.log",
+    "evidence/wp15_verifiers_rerun.txt",
+    "evidence/INTAKE_NACK_RAW.txt",
+    "evidence/INTAKE_CONTROL_RAW.txt",
+    "evidence/NEGATIVES.json"
+   ],
+   "invalidation_condition": [
+    "any draft edited in place",
+    "any source byte changes",
+    "the intake reader or the source document changes"
+   ],
+   "wave": "W0",
+   "atoms": 3,
+   "covered": 3
+  },
+  "WP-FHS-16": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "Donor24 + Method25 = 49 slots with original disposition retained",
+    "Need-Occupant-Reader/Consumer with licence/host-fit and re-sliced refs",
+    "Downstream consumption by the W1 host matrix"
+   ],
+   "operation": [
+    "24+25 with zero padding and zero duplicate identity; disposition histogram published",
+    "C04 re-slices every reference; C08 refuses an ADOPT_CANDIDATE with an unknown licence",
+    "handoff artefact ready; the W1 matrix is a later-wave effect"
+   ],
+   "output": [
+    {
+     "donor": 24,
+     "method": 25,
+     "combined": {
+      "ADOPT_CANDIDATE": 8,
+      "DEFER": 21,
+      "NOFIT": 1,
+      "HOLD": 19
+     },
+     "licence": {
+      "MIT": 8,
+      "UNKNOWN_NOT_STATED": 41
+     }
+    },
+    {
+     "checks": "13/13",
+     "slots": 49,
+     "source_refs_in_tables": 52,
+     "note": "the verifier re-slices 52 references across the 49 slots; an earlier note said 49 refs and was low by 3"
+    },
+    {
+     "edge": "E35",
+     "hold": "W1_HOST_MATRIX_NOT_RUN",
+     "handoff": "49 slot translations"
+    }
+   ],
+   "pos": [
+    "24+25 with zero padding and zero duplicate identity; disposition histogram published",
+    "C04 re-slices every reference; C08 refuses an ADOPT_CANDIDATE with an unknown licence",
+    "handoff artefact ready; the W1 matrix is a later-wave effect"
+   ],
+   "neg": [
+    {
+     "firstfail": "DONOR_SET_FLATTENED",
+     "controls": [
+      {
+       "id": "BASE-slots",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP16-duplicate-id",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "CAPABILITY_GAP_HOLD",
+     "controls": [
+      {
+       "id": "NEG-WP16-duplicate-id",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "W1_HOST_MATRIX_NOT_RUN",
+     "controls": []
+    }
+   ],
+   "original_reader_consumer": [
+    "Original Host/Tech Reader (W1)",
+    "Original SBL DOC06 TechnologyAdmission Reader",
+    "Original Technology/Licence/Host Owner"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "evidence/wp_verifiers_rerun.txt",
+    "evidence/wp_verifiers_rerun.txt",
+    "evidence/WIRING_CONSUMPTION.json#/later_wave/1"
+   ],
+   "invalidation_condition": [
+    "source 08_TECHNOLOGY 1df04680 changes",
+    "any table record edited",
+    "the W1 wave opens"
+   ],
+   "wave": "W0",
+   "atoms": 3,
+   "covered": 2
+  },
+  "WP-FHS-19": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "Live CI / licence / NOTICE / SBOM / dependency inventory",
+    "ScanExpectation + locatable CI raw handed to the release-readiness reader"
+   ],
+   "operation": [
+    "present and absent both measured live; SBOM format named per repo; the three repos are in three different supply-chain states",
+    "job name, conclusion and run id are readable, so the W4 reader can locate the raw"
+   ],
+   "output": [
+    {
+     "Fabric": {
+      "head": "3b47550efce2",
+      "root_licence": false,
+      "nested_licences": 5,
+      "sbom_artifacts": 3,
+      "sbom_note": "generator scripts only (sbom.ps1 / generate_sbom.py), no SBOM file",
+      "dependencies": 4,
+      "workflows": 1,
+      "jobs": [
+       "fhs-nav-static"
+      ],
+      "ci": "GREEN_NO_SUPPLY_CHAIN_JOB"
+     },
+     "SBL": {
+      "head": "1cb8abb0ef11",
+      "root_licence": true,
+      "sbom": [
+       "integrations/pipd/SBOM.cdx.json"
+      ],
+      "dependencies": 5,
+      "workflows": 2,
+      "jobs": [
+       "supply-chain (ubuntu, py3.11)",
+       "pipd-compat (ubuntu, py3.11)",
+       "test (windows-latest, py3.11)",
+       "test (ubuntu-latest, py3.11)"
+      ],
+      "supply_chain_job": true
+     },
+     "HG-KSEOS": {
+      "head": "acd9196fcd74",
+      "root_licence": false,
+      "licence_files": 0,
+      "sbom_artifacts": [
+       "evidence/r18/WP19_SBOM_RESCAN.json",
+       "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+       "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+       "scripts/sbom.ps1",
+       "tools/generate_sbom.py"
+      ],
+      "sbom_note": "an SBOM/1 package inventory declaring SUPPLY_CHAIN_UNVERIFIED, not a CycloneDX/SPDX component SBOM",
+      "dependencies": 1,
+      "workflows": 0,
+      "ci": "CI_SERVICE_ABSENT"
+     }
+    },
+    {
+     "sbl_supply_chain_job": {
+      "name": "supply-chain (ubuntu, py3.11)",
+      "conclusion": "success"
+     },
+     "run_id": 42617671368,
+     "handoff": [
+      "evidence/WP19_LIVE.json",
+      "evidence/WP19_INVENTORY_V2.json"
+     ]
+    }
+   ],
+   "pos": [
+    "present and absent both measured live; SBOM format named per repo; the three repos are in three different supply-chain states",
+    "job name, conclusion and run id are readable, so the W4 reader can locate the raw"
+   ],
+   "neg": [
+    {
+     "firstfail": "SUPPLY_CHAIN_RAW_MISSING",
+     "controls": [
+      {
+       "id": "BASE-inventory",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP19-drop-repo",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "SUPPLY_CHAIN_RAW_MISSING",
+     "controls": [
+      {
+       "id": "NEG-WP19-drop-repo",
+       "detected": true
+      }
+     ]
+    }
+   ],
+   "original_reader_consumer": [
+    "Original CI / Release-readiness Reader",
+    "Original Release-readiness Reader (W4)"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "evidence/WP19_LIVE.json#/repos",
+    "evidence/WP19_INVENTORY_V2.json#/repos",
+    "evidence/WP19_LIVE.json#/repos/1/latest_run"
+   ],
+   "invalidation_condition": [
+    "any repo HEAD moves, or a workflow is added/removed",
+    "the run is deleted or the workflow removed"
+   ],
+   "wave": "W0",
+   "atoms": 2,
+   "covered": 2
+  },
+  "WP-FHS-21": {
+   "trigger": "ordinary Goal whose affected scope lands on this WP",
+   "input": [
+    "AC15 / Oracle96 / H4 / SEAM denominators, source-bound",
+    "Runner binding request kept, status PLAN_NOT_RUN"
+   ],
+   "operation": [
+    "134 rows, four denominators reconcile, 155/155 plan checks, independent re-derivation agrees",
+    "the plan is readable and hands a typed runner request; no case is marked executed"
+   ],
+   "output": [
+    {
+     "ac15": 15,
+     "oracle96": 96,
+     "h4": 12,
+     "seam": 11,
+     "total": 134,
+     "checks": "155/155",
+     "cross_product": "12 TestClass x 8 OracleType complete; 96 distinct __CORRUPT__ markers"
+    },
+    {
+     "status": "DELIVERED_AUTHOR_SIDE_PLAN",
+     "runner_bound": false,
+     "claim_ceiling": "AUTHOR_SIDE_ORACLE_PLAN_SOURCE_BOUND",
+     "holds": 7
+    }
+   ],
+   "pos": [
+    "134 rows, four denominators reconcile, 155/155 plan checks, independent re-derivation agrees",
+    "the plan is readable and hands a typed runner request; no case is marked executed"
+   ],
+   "neg": [
+    {
+     "firstfail": "ORACLE_TYPE_OR_SCOPE_MISMATCH",
+     "controls": [
+      {
+       "id": "BASE-oracle",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP21-drop-one-case",
+       "detected": true
+      },
+      {
+       "id": "NEG-WP21-discriminate",
+       "detected": true
+      }
+     ]
+    },
+    {
+     "firstfail": "ORACLE_RUNNER_BIND_HOLD",
+     "controls": [
+      {
+       "id": "NEG-WP21-discriminate",
+       "detected": true
+      }
+     ]
+    }
+   ],
+   "original_reader_consumer": [
+    "Original Case/Oracle Registry Reader",
+    "Original Protected AO Request Reader (W2)"
+   ],
+   "host_binding": "h23 Hermes 0.23.0 / 786a3156d1db / hgk-governed",
+   "evidence_ref": [
+    "evidence/wp_verifiers_rerun.txt",
+    "evidence/NEG_wp21_discriminate.log",
+    "FHS_W0_R6_20261108/evidence/WP21/REPORT.json#/holds"
+   ],
+   "invalidation_condition": [
+    "source 07_ACCEPTANCE 81a8c2f1 changes",
+    "a runner is bound"
+   ],
+   "wave": "W0",
+   "atoms": 2,
+   "covered": 2
+  }
+ },
+ "consumer_readback_summary": {
+  "question_split": "two different questions are kept apart: (a) did a downstream consumer consume the output, (b) did the contract-named original Reader issue a readback",
+  "downstream_consumption": {
+   "E27": "CONSUMED",
+   "E28": "CONSUMED",
+   "E01": "PARTIAL",
+   "E33": "PARTIAL",
+   "E36": "NOT_EVIDENCED"
+  },
+  "original_reader_readback": {
+   "count": "0/6",
+   "why": "the six signed reader receipts verify (signature, payload, 32 clauses) but they all name one shared consumer ('SBL Original Source/Requirement/Corpus Semantic Reader') and bind candidate r15; no WP artifact digest appears in any receipt",
+   "raw": "evidence/R4_FRESH_SESSION_GOAL.md"
+  },
+  "typed_consumer_response": {
+   "wp": "WP-FHS-15",
+   "kind": "NACK",
+   "code": "INTAKE_INVALID",
+   "exit": 2,
+   "raw": [
+    "evidence/INTAKE_NACK_RAW.txt",
+    "evidence/INTAKE_CONTROL_RAW.txt"
+   ]
+  },
+  "note": "a typed NACK is a consumer response, not an acceptance; it is counted as the WP's readback atom because COV-03 explicitly permits 'Consumer ACK or named NACK'"
+ },
+ "host_isolation": {
+  "h23": {
+   "pid": 22880,
+   "code_sha": "786a3156d1db06bd9fc014c014cea4c8023653fd",
+   "home": "D:\\Hermes-Recovery\\port-serve-home"
+  },
+  "h22": {
+   "pid": 15576,
+   "code_version": "0.22.5",
+   "code_sha": "36396528a2a9ff52244a32fcf2f606dee5972b36",
+   "home": "D:/Hermes-Recovery/live22",
+   "state": "running",
+   "observed_at": "2026-11-10T11:24+08:00",
+   "note": "separate home and code tree; this round issued no write, restart or migration against it"
+  }
+ },
+ "negative_controls": {
+  "all_detected": true,
+  "rows": 12,
+  "raw": "evidence/NEGATIVES.json"
+ },
+ "layer_A": {
+  "state": "SIGNED_SOURCE_CONSUMABLE_ON_H23",
+  "r26": {
+   "bytes": 668540,
+   "sha256": "0ea05544499478859856f28da0c510bf0fb9b30109ecb577c00a907b435d3e0f",
+   "copies_checked": 3,
+   "distinct_digests": 1
+  },
+  "receipts": "6/6 by tools/verify_reader_ack.py (exit 0)",
+  "owner_ack": {
+   "payload_match": true,
+   "signature_ok": true,
+   "receipt_refs": "6/6",
+   "raw": "evidence/OWNER_ACK_REDERIVED.json"
+  },
+  "gate": {
+   "total": 22,
+   "pass": 21,
+   "blocking_fail": 0,
+   "open_reporting": 1
+  }
+ },
+ "layer_B": {
+  "state": "W0_SIX_WP_ATOMS_MEASURED_WITH_SCOPED_HOLDS",
+  "tier_B_established": false,
+  "atoms_covered": "13/17",
+  "meaning": "most atoms are measured, but WP-01 A2 is HOLD (15 enum holds), WP-00 A3 is PARTIAL (E01 not proven), and the edge layer carries one HOLD (E36) and two PARTIALs (E01, E33); NI-05 therefore does not pass and tier B is NOT established",
+  "edges": {
+   "E01": "PARTIAL",
+   "E27": "CONSUMED",
+   "E28": "CONSUMED",
+   "E33": "PARTIAL",
+   "E36": "NOT_EVIDENCED",
+   "E12": "WAVE_DEFERRED",
+   "E35": "WAVE_DEFERRED",
+   "E26": "WAVE_DEFERRED",
+   "E16": "WAVE_DEFERRED"
+  }
+ },
+ "layer_C": {
+  "state": "PENDING_R4",
+  "basis": "filled by the fresh-session goal artefact"
+ }
+}
