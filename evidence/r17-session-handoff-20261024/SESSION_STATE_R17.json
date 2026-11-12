@@ -1,0 +1,999 @@
+{
+ "schema": "r17.session.state.v1",
+ "handoff_id": "R17-HANDOFF-20261024T114018",
+ "at": "2026-10-24T11:40:18+0800",
+ "mission": "R17_FULL_NATIVE_IMPLEMENTATION",
+ "subphase": "SESSION_HANDOFF_AND_SAFE_EVIDENCE_PUBLICATION",
+ "round_state": "SESSION_HANDOFF",
+ "claim_ceiling": "EVIDENCE_BOUND",
+ "r17_mission_open": true,
+ "queue": {
+  "file": "WORK_QUEUE_R17.json",
+  "rows": 146,
+  "state_counts": {
+   "PARKED_NEEDS_SOURCE_OWNER_SIGNATURE": 1,
+   "PARTIAL": 5,
+   "BLOCKED_OWNER": 3,
+   "NOT_RUN": 57,
+   "BLOCKED_MANDATE": 1,
+   "DONE": 8,
+   "FAIL": 1,
+   "PARKED_NEEDS_NATIVE_OR_AO": 21,
+   "PARKED_NEEDS_INDEPENDENT_CHECKER": 25,
+   "DONE_DOC_RED": 14,
+   "UNIMPLEMENTED": 2,
+   "PARKED_NEEDS_NOFIT_RECEIPTS": 1,
+   "DONE_NOFIT": 1,
+   "PARKED_NEEDS_OWNER_PROMOTION": 1,
+   "PARKED_OWNER_ONLY_DELETION": 5
+  },
+  "queue_epoch": "2026-10-24T11:03:33+0800",
+  "conservation": {
+   "denominator": 145,
+   "unique": 145,
+   "duplicate_ids": [],
+   "non_denominator_rows_in_queue": [
+    "FABRIC-CANARY"
+   ],
+   "ok": true
+  }
+ },
+ "checkpoint": {
+  "latest": "CHECKPOINT_R17_REC09.json",
+  "at": "2026-10-24T11:03:33+0800",
+  "round_state": "ACTIVE_BUILD",
+  "state_ref": "MISSION_STATE_REC09.json"
+ },
+ "mission_state_rec09": {
+  "schema": "r17.rec09.mission.state.v1",
+  "at": "2026-10-24T11:03:33+0800",
+  "mission": "R17_FULL_NATIVE_IMPLEMENTATION",
+  "order": "REC09_FULL_MISSION_ANTI_STOP_2026-10-24",
+  "round_state": "ACTIVE_BUILD",
+  "supersedes": {
+   "checkpoint": "CHECKPOINT_R17.json",
+   "at": "2026-10-24T08:20:30+0800"
+  },
+  "claims": {
+   "queue_exhausted": false,
+   "agent_scope_closed": false,
+   "agent_quiescent": false,
+   "full_completion": false,
+   "agent_residuals": [
+    "C18 TQAEP cell manifest (96 cells) — bindable from DOC-08, agent can author",
+    "DEST-01..16 destructive fixtures — agent can build in isolation",
+    "W01-CONF conformance receipt — agent can produce then re-probe",
+    "W05-WIRE two candidate patches — agent can install and re-probe the write chain",
+    "F3B Fabric tamper/revoke/readback — agent can build the negative fixtures",
+    "F3C pipd validate family/schema defect — agent can write the failing fixture",
+    "G1-E2E bounded Codex CLI EXECUTE — needs lane recipe + time-boxed brief"
+   ],
+   "holds_without_named_actor": [],
+   "reason": "eligible_ready=0, agent_residuals=7, holds=57, blocked=40; full_completion stays false because Native/AO/Host signatures are external"
+  },
+  "selector": {
+   "rows": 146,
+   "eligible_ready": 0,
+   "owner_only": 41,
+   "closed": 8,
+   "holds": {
+    "W00": "PARKED_NEEDS_SOURCE_OWNER_SIGNATURE",
+    "W08": "BLOCKED_MANDATE",
+    "R14-TS00": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS01": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS02": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS03": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS05": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS06": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS07": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS08": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS09": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS13": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS14": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS15": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS16": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS18": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS19": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS20": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS21": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS22": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS23": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS27": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-TS29": "PARKED_NEEDS_NATIVE_OR_AO",
+    "R14-CHK00": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK01": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK02": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK03": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK05": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK06": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK07": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK08": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK09": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK10": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK11": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK13": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK14": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK15": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK16": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK17": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK18": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK19": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK20": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK21": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK22": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK23": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK27": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK28": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "R14-CHK29": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "DEST-10": "UNIMPLEMENTED",
+    "DEST-15": "UNIMPLEMENTED",
+    "R16-F07": "PARKED_NEEDS_NOFIT_RECEIPTS",
+    "R16-F14": "PARKED_NEEDS_OWNER_PROMOTION",
+    "DEL-01": "PARKED_OWNER_ONLY_DELETION",
+    "DEL-02": "PARKED_OWNER_ONLY_DELETION",
+    "DEL-03": "PARKED_OWNER_ONLY_DELETION",
+    "DEL-04": "PARKED_OWNER_ONLY_DELETION",
+    "DEL-06": "PARKED_OWNER_ONLY_DELETION"
+   },
+   "blocked": 40,
+   "conservation": {
+    "counted": 146,
+    "rows": 146,
+    "ok": true
+   },
+   "pre_fix_ready_reproduced": 6,
+   "hidden_not_run_rows": 72
+  },
+  "p0": {
+   "controls": {
+    "path": "<WORKSPACE>\\var\\R17-20261023\\receipts\\P0_RUNNER_CONTROLS.log",
+    "sha256": "db2b3bbb3f495998b0997e133b2643347464fda496bcef728c5aded73478b35e",
+    "passed": 28,
+    "total": 28,
+    "exit": 0
+   },
+   "runner_sha256": "9facca1c554a2368cf50c8205c2bc7de113e068565f67fe135c187715fb60c74",
+   "dispatch": {
+    "units_with_receipts": 56,
+    "status_tally": {
+     "RUNNER_FAILED": 51,
+     "MISSING_RUNNER": 2,
+     "ERR_ACTION_NOT_A_COMMAND": 2,
+     "DISPATCH_OK": 1
+    },
+    "dispatch_ok": [
+     "W00"
+    ],
+    "probe_unbound_count": 51,
+    "phantom_command_rows": [
+     "R16-F07",
+     "R16-F14"
+    ]
+   }
+  },
+  "coverage": {
+   "probe_coverage": {
+    "rows_probed": 25,
+    "verdicts": {
+     "PROBE_PARTIAL": 20,
+     "PROBE_OK": 2,
+     "PROBE_NO_EFFECT": 2,
+     "PROBE_UNBOUND": 1
+    },
+    "evidence_quality": {
+     "off_topic_evidence_ids": [
+      {
+       "id": "C07",
+       "verdict": "PROBE_PARTIAL",
+       "evidence": [
+        "var/R17-20261023/MANDATE_R17.json"
+       ]
+      },
+      {
+       "id": "C14",
+       "verdict": "PROBE_PARTIAL",
+       "evidence": [
+        "var/R17-20261023/runner/journal.jsonl",
+        "var/R17-20261023/DISPATCH_LEDGER_R17.json"
+       ]
+      },
+      {
+       "id": "C21",
+       "verdict": "PROBE_PARTIAL",
+       "evidence": [
+        "Fabric-rebind-publish/DESKTOP/var-fda/admit_workorder.py",
+        "Fabric-rebind-publish/DESKTOP/var-fda/atomic_reseal.py",
+        "Fabric-rebind-publish/DESKTOP/var-fda/bg10_menu_new.py",
+        "Fabric-rebind-publish/DESKTOP/var-fda/bg11_new_script2.py"
+       ]
+      }
+     ],
+     "no_evidence_ids": [
+      "C15",
+      "C18"
+     ],
+     "existence_only_checks": [
+      {
+       "id": "C01",
+       "checks": [
+        "hgk contract ABI report"
+       ]
+      },
+      {
+       "id": "C07",
+       "checks": [
+        "assignment registry"
+       ]
+      },
+      {
+       "id": "C14",
+       "checks": [
+        "runner journal"
+       ]
+      },
+      {
+       "id": "C16",
+       "checks": [
+        "pipd trace receipt"
+       ]
+      }
+     ],
+     "snapshot_copy_only_ids": [],
+     "rule": "an evidence path must intersect the CheckRun oracle keywords; path existence alone is not a pass (probe evidence_bearing rule)"
+    },
+    "note": "coverage only; never an obligation closure"
+   },
+   "build_coverage": {
+    "units_that_built_an_artefact": 0,
+    "note": "no dispatched card produced a build artefact this round"
+   },
+   "native_effect_coverage": {
+    "effects_executed": 0,
+    "why": "no HGK Native WorkOrder/Permit in force; zero effect by construction"
+   },
+   "independent_acceptance_coverage": {
+    "accepted_by_independent_checker": 0,
+    "why": "no distinct checker principal exercised this round"
+   }
+  },
+  "rec09_orphan": {
+   "verdict": "ORPHAN_EFFECT_KNOWN_ARTEFACT_INTACT_BUT_EVIDENCE_QUALITY_DEFECT",
+   "effect": "NO_TORN_WRITE",
+   "attribution": "RECEIPT_MATCHES_CURRENT_SCRIPT",
+   "evidence_quality": {
+    "off_topic_evidence_ids": [],
+    "no_evidence_ids": [
+     "C18"
+    ],
+    "existence_only_checks": [],
+    "snapshot_copy_only_ids": [],
+    "rule": "an evidence path must intersect the CheckRun oracle keywords; path existence alone is not a pass (probe evidence_bearing rule)"
+   }
+  },
+  "open_instrumentation_gaps": {
+   "probe_unbound_rows": [
+    "DEL-01",
+    "DEL-02",
+    "DEL-03",
+    "DEL-04",
+    "DEL-06",
+    "R14-CHK00",
+    "R14-CHK01",
+    "R14-CHK02",
+    "R14-CHK03",
+    "R14-CHK05",
+    "R14-CHK06",
+    "R14-CHK07",
+    "R14-CHK08",
+    "R14-CHK09",
+    "R14-CHK10",
+    "R14-CHK11",
+    "R14-CHK13",
+    "R14-CHK14",
+    "R14-CHK15",
+    "R14-CHK16",
+    "R14-CHK17",
+    "R14-CHK18",
+    "R14-CHK19",
+    "R14-CHK20",
+    "R14-CHK21",
+    "R14-CHK22",
+    "R14-CHK23",
+    "R14-CHK27",
+    "R14-CHK28",
+    "R14-CHK29",
+    "R14-TS00",
+    "R14-TS01",
+    "R14-TS02",
+    "R14-TS03",
+    "R14-TS05",
+    "R14-TS06",
+    "R14-TS07",
+    "R14-TS08",
+    "R14-TS09",
+    "R14-TS13",
+    "R14-TS14",
+    "R14-TS15",
+    "R14-TS16",
+    "R14-TS18",
+    "R14-TS19",
+    "R14-TS20",
+    "R14-TS21",
+    "R14-TS22",
+    "R14-TS23",
+    "R14-TS27",
+    "R14-TS29"
+   ],
+   "phantom_command_rows": [
+    "R16-F07",
+    "R16-F14"
+   ],
+   "c_family_no_evidence": [
+    "C18"
+   ],
+   "c_family_off_topic": [],
+   "c_family_existence_only": []
+  },
+  "principal_requests": [
+   {
+    "to": "HGK Native Owner",
+    "ask": "issue a Native WorkOrder/Lease/Permit for any repo effect",
+    "why": "no native permit in force; native_effect_coverage = 0",
+    "status": "UNDELIVERED"
+   },
+   {
+    "to": "Host Owner",
+    "ask": "admit a durable unattended runner (cron/scheduler) for the R17 cursor",
+    "why": "turn boundaries currently equal stops; no host receipt for background continuation",
+    "status": "UNDELIVERED"
+   },
+   {
+    "to": "Independent AO principal",
+    "ask": "run the checker on the frozen candidate SHA",
+    "why": "independent_acceptance_coverage = 0",
+    "status": "UNDELIVERED"
+   }
+  ],
+  "claim_ceiling": "LOCAL_RUNNER_REPAIRED_AND_MEASURED",
+  "not_claimed": [
+   "FULL_PRODUCT_ACCEPTED",
+   "NATIVE_EFFECT_VERIFIED",
+   "INDEPENDENT_PASS",
+   "HOST_UAT",
+   "RELEASED",
+   "M1",
+   "M2",
+   "M3",
+   "M4"
+  ],
+  "m1_m4": {
+   "M1": "PENDING",
+   "M2": "PARTIAL",
+   "M3": "BLOCKED",
+   "M4": "BLOCKED"
+  },
+  "next_legal_action": "close the 51 PROBE_UNBOUND rows and the 2 phantom commands, then re-run the C-family probes for the 7 ids with defective evidence binding"
+ },
+ "agent_residuals": [
+  "C18 TQAEP cell manifest (96 cells) — bindable from DOC-08, agent can author",
+  "DEST-01..16 destructive fixtures — agent can build in isolation",
+  "W01-CONF conformance receipt — agent can produce then re-probe",
+  "W05-WIRE two candidate patches — agent can install and re-probe the write chain",
+  "F3B Fabric tamper/revoke/readback — agent can build the negative fixtures",
+  "F3C pipd validate family/schema defect — agent can write the failing fixture",
+  "G1-E2E bounded Codex CLI EXECUTE — needs lane recipe + time-boxed brief"
+ ],
+ "lanes": {
+  "PLAN": {
+   "required": "openai-codex/gpt-6.1-sol",
+   "rank": 2,
+   "ok": true,
+   "served": "openai-codex/gpt-6.1-sol",
+   "nonce": true,
+   "seconds": 44.7,
+   "receipt": "receipts/LANE_ADMISSION_20261024T111811.json",
+   "identity_source": "codex-rollout",
+   "payer": "owner OAuth (chatgpt.com/backend-api/codex)"
+  },
+  "VERIFY_SECURITY": {
+   "required": "openai-codex/gpt-6.1-sol",
+   "rank": 2,
+   "ok": true,
+   "served": "openai-codex/gpt-6.1-sol",
+   "nonce": true,
+   "seconds": 29.6,
+   "receipt": "receipts/LANE_ADMISSION_20261024T111811.json",
+   "identity_source": "codex-rollout",
+   "payer": "owner OAuth (chatgpt.com/backend-api/codex)"
+  },
+  "EXECUTE": {
+   "required": "opencode-go/deepseek-v4.1-flash",
+   "rank": 1,
+   "ok": false,
+   "served": null,
+   "nonce": false,
+   "seconds": null,
+   "receipt": "receipts/LANE_EXECUTE_shim6.json",
+   "identity_source": "codex-rollout",
+   "payer": "owner OpenCode Go key shw0968 (via local 10105 shim)",
+   "cause_chain": [
+    "sanctioned frontdoor 127.0.0.1:10100 -> relay 10101 forwards a DEAD upstream key: 401 'Invalid credential'",
+    "relay 10101 upstream key states measured: shw0968=200, shw097=429 (monthly), 7776004=401",
+    "local passthrough shim tools/ocg_shim_10105.py (owner key + x-opencode-session) makes upstream serve: /v1/responses 200",
+    "codex CLI pins the provider-qualified id; upstream needs the BARE id -> shim normalises (`opencode-go/` stripped), measured 200",
+    "attempt shim6 ran 37.2s with a REAL model turn (57,294 in / 1,210 out tokens) but received the brief as a PATH, so it emitted no nonce -> ERR_NO_ARM_EMITTED_NONCE",
+    "attempt shim7 (inline --prompt text) was interrupted by the session handoff order; no receipt was written"
+   ]
+  }
+ },
+ "cron": [
+  {
+   "job_id": "3602bce285e8",
+   "name": "R17 queue runner (persistent dispatch)",
+   "enabled": false,
+   "state": "paused",
+   "paused_at": "2026-10-23T22:20:02+08:00",
+   "schedule": "every 10m",
+   "last_run_at": "2026-10-23T22:12:30+08:00",
+   "last_status": "ok",
+   "next_run_at": "2026-10-23T22:22:30+08:00",
+   "reading": "R17 has NO live durable runner. Autonomous continuation is unavailable until the owner resumes this job."
+  },
+  {
+   "job_id": "12eff9cba53c",
+   "name": "SBL R15.2 autonomy tick",
+   "enabled": true,
+   "state": "scheduled",
+   "schedule": "every 20m",
+   "last_run_at": "2026-10-24T11:25:37+08:00",
+   "next_run_at": "2026-10-24T11:45:37+08:00",
+   "reading": "belongs to another round (R15.2); not part of R17 and not modified by this handoff."
+  },
+  {
+   "job_id": "e539df5f39a4",
+   "name": "SBL R15 round watchdog tick",
+   "enabled": false,
+   "state": "paused",
+   "paused_at": "2026-10-23T13:26:11+08:00",
+   "schedule": "every 15m",
+   "reading": "paused before this session; not modified."
+  }
+ ],
+ "repos": {
+  "SBL": {
+   "root": "<WORKSPACE>\\SBL",
+   "branch": "candidate/r14-ts15-kinds",
+   "head": "10d510f7b052e6139fd4eb536f970c0245002e17",
+   "head_short": "10d510f",
+   "dirty_count": 6,
+   "dirty_sample": [
+    "M contracts/compiled/thin-prompt.md",
+    " M evidence/compiler/acceptance.stdout.txt",
+    " M evidence/compiler/activation.stdout.txt",
+    " M evidence/compiler/lint.stdout.txt",
+    "?? contracts/SBL_C0_C9_CONTRACT-R9.json",
+    "?? contracts/compiled-r9/"
+   ],
+   "remote_main": "dc5428f",
+   "note": "other sessions' dirty is preserved untouched"
+  },
+  "HG-KSEOS": {
+   "root": "<WORKSPACE>\\HG-KSEOS",
+   "branch": "codex/hgk-final-closure-002",
+   "head": "086a9402189a2bb0ac3b198a7a9805b3dcbe38d8",
+   "head_short": "086a940",
+   "dirty_count": 0,
+   "dirty_sample": [],
+   "remote_main": "MISSING",
+   "note": "other sessions' dirty is preserved untouched"
+  },
+  "Fabric": {
+   "root": "<WORKSPACE>\\Fabric",
+   "branch": "pub/far-minimax-mandate-20261021",
+   "head": "bb06b7a6c17c45c777a636e9dae3196e21eb77b9",
+   "head_short": "bb06b7a",
+   "dirty_count": 8,
+   "dirty_sample": [
+    "M FABRIC/assurance/admissions/W3/W3-SWOF-R153-01.owner-attested.json",
+    "?? evidence/FAR-FBKREORDER-20261021/",
+    "?? evidence/FAR-LANE-REMEDIATION-20261021/",
+    "?? evidence/review/",
+    "?? fabric-autonomous-research/methods/",
+    "?? fabric-autonomous-research/runs/FAR-20261021-024-fallback-chain-reorder/",
+    "?? fabric-autonomous-research/runs/FAR-20261022-027-sbl-hgk-degradation-rca/",
+    "?? stage/"
+   ],
+   "remote_main": "bcd9104",
+   "note": "other sessions' dirty is preserved untouched"
+  },
+  "PIPD": {
+   "root": "<WORKSPACE>\\PIPD",
+   "branch": "rescue/r5p-uncommitted-20261016",
+   "head": "39079c02b8f2a3a3e63d3f2a2d5537805d3a3594",
+   "head_short": "39079c0",
+   "dirty_count": 218,
+   "dirty_sample": [
+    "?? .hgk/artifacts/tqaep_design_tmp/",
+    "?? .hgk/preflight/R5-compiler/lane/log_ao.txt",
+    "?? .hgk/preflight/R5-compiler/lane/log_ao_attempt4_contaminated.txt",
+    "?? .hgk/preflight/R5-compiler/lane/log_wo1.txt",
+    "?? .hgk/preflight/R5-compiler/lane/log_wo2.txt",
+    "?? .hgk/preflight/R5-compiler/lane/log_wo3.txt",
+    "?? .hgk/preflight/R5-compiler/opencodex-config.backup-20261010.json",
+    "?? .hgk/preflight/R5R-compiler/",
+    "?? .hgk/rounds/R2-20261009-qualification/execute/knowledge/own-derived.db",
+    "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt1_provider_error.log",
+    "?? .hgk/rounds/R4-20261009-focused-repair/W8/raw/W8c_attempt2_provider_error.log",
+    "?? .hgk/rounds/R5-20261009-s4-user-operability/ao/attempt4_contaminated/"
+   ],
+   "remote_main": "e95942a",
+   "note": "other sessions' dirty is preserved untouched"
+  }
+ },
+ "anchor_files": {
+  "HG-KSEOS/scripts/hgk-lane-dispatch.py": {
+   "exists": true,
+   "sha256": "12e15d36aed9017e084718662f2ec5c93e6c4cf78f2467ee301dbbc8cd5e66d7"
+  },
+  "Fabric/FABRIC/fabric/consumers/hgk_policy_consumer.py": {
+   "exists": true,
+   "sha256": "d083083d13fe488169ea7bcde6e895981398a37f264ab40496d74d5a9898bc22"
+  },
+  "HG-KSEOS/config/model-lane-assignment.json": {
+   "exists": true,
+   "sha256": "cfbff111c804e2aab7c97dec0c1b98792a731f007d962d92e54924325d62213e"
+  },
+  "HG-KSEOS/config/lane-routing-registry.yaml": {
+   "exists": true,
+   "sha256": "ee8de93c53754fee56873d70a77582b8ada5b9c046836c56a4b96cdbd3181df1"
+  }
+ },
+ "blockers": [
+  {
+   "id": "EXECUTE_LANE_UNSETTLED",
+   "class": "ATTEMPT_INTERRUPTED",
+   "detail": "Route is proven to serve (upstream 200, real tokens); the nonce gate was never satisfied because the first working attempt passed the brief as a path and the corrected attempt was interrupted.",
+   "next": "restart tools/ocg_shim_10105.py, then dispatch with --prompt \"$(cat BRIEF.md)\" (inline text, nonce = first line)"
+  },
+  {
+   "id": "HOST_RUNNER_PAUSED",
+   "class": "HOST_DURABLE_RUNNER_OFF",
+   "detail": "cronjob 3602bce285e8 disabled since 2026-10-23T22:20:02+08:00; no autonomous R17 continuation exists.",
+   "next": "owner/host decision to resume the job (agent must not start a background process during handoff)"
+  },
+  {
+   "id": "NATIVE_PERMIT_MISSING",
+   "class": "NATIVE_AUTHORITY",
+   "detail": "No HGK Native WorkOrder/Permit, Fabric Active Designation, SWOF W3, AO or Release seal exists for R17 product effects.",
+   "next": "issue through the real issuer; textual owner order is not a permit"
+  },
+  {
+   "id": "PRINCIPAL_REQUESTS_UNDELIVERED",
+   "class": "EXTERNAL_CHANNEL",
+   "detail": "Three principal requests (Native WO/Permit, Host durable runner, independent AO) have no submission channel.",
+   "next": "deliver through a real channel and keep the receipt"
+  },
+  {
+   "id": "OPENCODE_KEY_ROTATION",
+   "class": "SECURITY_DEBT",
+   "detail": "The OpenCode Go key value was echoed into tool output in an earlier round; rotation is an owner action and is NOT done.",
+   "next": "owner rotates the key; no contaminated raw is published"
+  },
+  {
+   "id": "CHECKER_PENDING",
+   "class": "INDEPENDENT_ACCEPTANCE",
+   "detail": "No independent principal has accepted this handoff; the VERIFY lane is available but no acceptance receipt exists for it.",
+   "next": "dispatch a VERIFY_SECURITY brief over this pack's SHAs"
+  }
+ ],
+ "principal_requests": {
+  "schema": "SBL_R17_PRINCIPAL_REQUESTS/1",
+  "generated_utc": "2026-10-23T11:52:50.211273+00:00",
+  "count": 12,
+  "rule": "A request exists only for a genuine external authority: a repository write grant, an owner designation, a schema change, or an independent signer. Routine engineering never becomes a request.",
+  "requests": [
+   {
+    "id": "PR-R17-001-EXECUTE-CREDENTIAL",
+    "principal": "opencode-go credential holder (owner)",
+    "blocker": "EXECUTE lane dead: opencode-go upstream returns 401 on every local door",
+    "measured": [
+     "http://127.0.0.1:10100/v1/chat/completions -> 401",
+     "http://127.0.0.1:10101/v1/chat/completions -> 401",
+     "http://127.0.0.1:10102/v1/chat/completions -> 401",
+     "relay usage receipt status 401 (EXECUTE__BRIEF_R17_EXECUTE_dest_harness.json)",
+     "direct https://opencode.ai/zen/go/v1 from this client -> 403 error code: 1010 (WAF, not a key verdict)"
+    ],
+    "predicate": "a live opencode-go credential installed so that POST http://127.0.0.1:10101/v1/chat/completions with model deepseek-v4.1-flash returns HTTP 200 and the usage ledger records provider opencode-go + model deepseek-v4.1-flash",
+    "affected": "every queue row whose owner_class is AGENT but whose closure needs a bounded writer (W06, W07, DEST harness build, C17, C12, DEL-05)",
+    "signer": "the human holding the opencode-go account; no agent may mint it",
+    "evidence_format": "the 200 status line plus the usage row (provider, model, status) written by the relay",
+    "validity": "until the credential is rotated again",
+    "min_one_action": "refresh OPENCODE_GO_API_KEY and the relay key pool, then re-run the probe",
+    "no_effect": "without it the round stays PARTIAL: document-level oracles and read-only measurements only",
+    "resume": "curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:10101/v1/chat/completions -H 'Content-Type: application/json' -d '{\"model\":\"deepseek-v4.1-flash\",\"messages\":[{\"role\":\"user\",\"content\":\"ok\"}],\"max_tokens\":4}'  # expect 200",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-001-EXECUTE-CREDENTIAL.md",
+    "sha256": "31f1b75bbf5ef794af4d932eaf507d37d347ffbbc7aa5567c715a25b2047d506",
+    "state": "WITHDRAWN_RESOLVED",
+    "resolved_by": "EXECUTE ex5: ok=true, usage_provider=opencode-go, usage_model=deepseek-v4.1-flash, usage_status=200",
+    "resolved_evidence": "receipts/dispatch/EXECUTE__BRIEF_R17_EXECUTE_dest1015__ex5.json"
+   },
+   {
+    "id": "PR-R17-002-FABRIC-ACTIVE-POLICY",
+    "principal": "Fabric RP002 Active Policy Owner",
+    "blocker": "no active-policy designation artefact exists anywhere under Fabric; stage-1 freeze is not an active policy",
+    "measured": [
+     "walk of <WORKSPACE>/Fabric found 0 files matching active*policy*/designation",
+     "Fabric HEAD 1a8ff2d182724a7ffff710da7f2011345601b56b, 50 dirty entries"
+    ],
+    "predicate": "Fabric Owner designates exactly one active policy digest, signed, at a locator the HGK consumer reads",
+    "affected": "W02, C02, C04, R16-F13, C24",
+    "signer": "Fabric RP002 Policy Owner",
+    "evidence_format": "signed designation record carrying the policy file sha256 and the consumer readback path",
+    "validity": "until superseded by the owner",
+    "min_one_action": "sign the single active designation for the current digest",
+    "no_effect": "the six-edge consumption test stays BLOCKED_OWNER; no policy bytes are treated as active",
+    "resume": "python var/R17-20261023/tools/probe_readonly.py  # re-read designation candidates",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-002-FABRIC-ACTIVE-POLICY.md",
+    "sha256": "eeba989027350d16965176a663787fcf99a0523259d7b45b20d50c997afdf205",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-003-HGK-NATIVE-PERMIT",
+    "principal": "HGK Native Issuer",
+    "blocker": "R16-F01: no in-place WO/ECP/lease/Permit receipt for a bounded subject",
+    "measured": [
+     "HGK HEAD ece8e8a45bce7ecf16b87ba8f03378152551e0cc",
+     "no dispatch receipt with native_workorder_id in this round"
+    ],
+    "predicate": "HGK issues one WorkOrder + RoleBinding + Lease + single ECP + Permit for a named bounded subject, with TTL, nonce and revoke path",
+    "affected": "W01, C04, C19, W12, R16-F01, M1/M3 gates",
+    "signer": "HGK Native issuer only",
+    "evidence_format": "issuer receipt ids plus a deny/expiry negative and a readback",
+    "validity": "TTL-bound, revocable",
+    "min_one_action": "issue one bounded Permit so C04 can run POS + revoke NEG",
+    "no_effect": "no repo write is attributed; M1 stays open",
+    "resume": "python _r152_ev/_governance/round-20261022-r15_2/tools/run_lane.py --role EXECUTE --brief <bounded subject brief>",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-003-HGK-NATIVE-PERMIT.md",
+    "sha256": "ae5c7424834e8a2b170436e12d77b92289d5838d8fd52439ee26c4225ef878e9",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-004-INDEPENDENT-AO",
+    "principal": "Acceptance Officer (distinct principal from the maker)",
+    "blocker": "R16-F02: independent signer/bundle/validator not closed; no AO verdict exists for any R17 subject",
+    "measured": [
+     "all receipts this round are maker-side or lane-side; none is an AO signature"
+    ],
+    "predicate": "an AO distinct from the maker signs a verdict over the frozen candidate + evidence SHA + oracle SHA",
+    "affected": "C05, C06, R14-TS04, R14-CHK04, R14-TS17, DEL-10, M2/M4 gates",
+    "signer": "Acceptance Officer principal",
+    "evidence_format": "signed verdict block naming candidate_sha, evidence_sha, oracle_sha, verdict",
+    "validity": "per subject",
+    "min_one_action": "challenge SOURCE_FREEZE_R17.json and the DEST harness result as an independent principal",
+    "no_effect": "the round reports PARTIAL_CHALLENGE, never PASS",
+    "resume": "python _r152_ev/_governance/round-20261022-r15_2/tools/run_lane.py --role VERIFY --brief <subject brief>",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-004-INDEPENDENT-AO.md",
+    "sha256": "94114f67d3231d27007719dd89845127687ba8b484a1c647249e928cdab5db78",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-005-CHATGPT-HOST-PLUGINS",
+    "principal": "ChatGPT Host Owner / account holder",
+    "blocker": "R16-F03/F11: plugin management says not_installed for ids the creator lists as released; version coordinates 1.0.0 vs 0.1.1rc1 unresolved",
+    "measured": [
+     "no host-side installed list readback in any R17 receipt"
+    ],
+    "predicate": "same-session host installed list + one active invocation + one denied call + uninstall with zero residue, for each of the three private ids",
+    "affected": "C21, W13, R16-F03, R16-F11, DEL-07",
+    "signer": "ChatGPT Host Owner",
+    "evidence_format": "host-issued install readback plus invocation log with the host session id",
+    "validity": "per host release",
+    "min_one_action": "read the host installed list once and paste the three ids' status",
+    "no_effect": "C21 stays HOST_PENDING; portable ZIPs are not host installs",
+    "resume": "record the readback then re-run C21 row",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-005-CHATGPT-HOST-PLUGINS.md",
+    "sha256": "9214221c66303acdfefc45e53e6e7adbd55d4c67143f9a708e637b5844c421bc",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-006-RELEASE-SEAL",
+    "principal": "Release Owner + Security Owner",
+    "blocker": "R16-F09: prerelease SHA differs from mainline; SBOM/provenance/hardening incomplete",
+    "measured": [
+     "SBL HEAD 10d510f7b052e6139fd4eb536f970c0245002e17 on candidate/r14-ts15-kinds, not main"
+    ],
+    "predicate": "owner-signed release seal over the same subject SHA with SBOM, provenance, secret scan and action pins",
+    "affected": "W15, C22, C24, DEL-09, DEL-10",
+    "signer": "Release Owner",
+    "evidence_format": "signed release record + CI raw for the same SHA",
+    "validity": "per release",
+    "min_one_action": "approve or refuse the candidate SHA as release input",
+    "no_effect": "release stays BLOCKED; existing tags untouched",
+    "resume": "python var/R17-20261023/tools/probe_readonly.py",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-006-RELEASE-SEAL.md",
+    "sha256": "04f4a0b799631d1d536422d133218199ba0e374f9fea6507385fd6df2cd5bd5e",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-007-SWOF-W3",
+    "principal": "SWOF Domain Owner",
+    "blocker": "R16-F01/W12: no W2 re-challenge acceptance and no W3 admission",
+    "measured": [
+     "no SWOF receipt in this round; no write attempted to any SWOF repo"
+    ],
+    "predicate": "SWOF Owner accepts the frozen W2 readset and issues W3 with an exact WriteSet, then HGK issues the Permit",
+    "affected": "W12, C19, R14-TS24..26, M3",
+    "signer": "SWOF Domain Owner (+ HGK issuer)",
+    "evidence_format": "W2 acceptance + W3 scoped permit + receiver ACK",
+    "validity": "per wave",
+    "min_one_action": "accept or refuse the W2 re-challenge",
+    "no_effect": "SWOF stays zero-effect; only shadow material exists",
+    "resume": "no command until the owner signs",
+    "file": "<WORKSPACE>\\var\\R17-20261023\\principal_requests\\PR-R17-007-SWOF-W3.md",
+    "sha256": "318a4278eccc8458ea77010e78091ad996acfc4639e7b236ae4116b365d0d004",
+    "state": "OPEN"
+   },
+   {
+    "id": "PR-R17-008-FABRIC-WRITE",
+    "state": "OPEN",
+    "principal": "Fabric repository owner (write grant)",
+    "predicate": "permit a 1-line constant fix in FABRIC/fabric/consumers/hgk_policy_consumer.py",
+    "measured": [
+     "route_event() raises FileNotFoundError for .../Fabric/rp002/RP002_CHANGE_CLASS_ROUTER.yaml",
+     "the router actually lives at .../Fabric/FABRIC/rp002/",
+     "with the corrected root the canary routes 8/9 and PROVIDER_CHANGE fails closed"
+    ],
+    "candidate": {
+     "path": "candidate_diffs/fabric_policy_consumer_root.patch",
+     "sha256": "231d016fdfd45d3c4a796e98974d24c8268b6302ea160e4e78e26fe4732165d9"
+    },
+    "writeset": [
+     "FABRIC/fabric/consumers/hgk_policy_consumer.py"
+    ],
+    "rollback": "git -C Fabric restore --source=HEAD -- FABRIC/fabric/consumers/hgk_policy_consumer.py",
+    "negative_required": [
+     "BOGUS_CLASS must stay FAIL_CLOSED",
+     "empty class must stay FAIL_CLOSED",
+     "PROVIDER_CHANGE must still fail closed until the router table gains it"
+    ],
+    "evidence_format": "canary receipt with 9 classes + 2 negatives, before/after",
+    "expiry": "this round only"
+   },
+   {
+    "id": "PR-R17-009-PIPD-WRITE",
+    "state": "OPEN",
+    "principal": "PIPD repository owner (write grant)",
+    "predicate": "permit replacing the rglob drift walk with os.walk(followlinks=False) + pruned dirs",
+    "measured": [
+     "pipd doctor FAIL/INPUT_SHAPE_INVALID: OSError WinError 1920 on .hgk/rounds/.../venv_adjusted_record/lib64/SKILL.md",
+     "lib64 is a symlink to lib inside a committed evidence fixture",
+     "current rglob raises; the candidate walk completes and counts 482 SKILL.md",
+     "doctor on a clean scratch root returns findings=[] with 19 families"
+    ],
+    "candidate": {
+     "path": "candidate_diffs/pipd_doctor_skill_drift_walk.patch",
+     "sha256": "189241d5c3d042d8f86502e7c00efdad1f7cfa2386762d32f48fb05e07e1cade"
+    },
+    "writeset": [
+     "src/pipd_ls_sp/workspace.py"
+    ],
+    "rollback": "git -C PIPD restore --source=HEAD -- src/pipd_ls_sp/workspace.py",
+    "negative_required": [
+     "a planted duplicate SKILL.md must still be reported",
+     "a symlinked duplicate must not be followed"
+    ],
+    "evidence_format": "doctor receipt on the live root + scratch root + planted-duplicate negative",
+    "expiry": "this round only"
+   },
+   {
+    "id": "PR-R17-010-HGK-WRITE",
+    "state": "OPEN",
+    "principal": "HG-KSEOS native issuer (write grant)",
+    "predicate": "permit the credential-posture gate to receive the real child env",
+    "measured": [
+     "6/6 R17 dispatches printed WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE",
+     "lane_credential_posture.evaluate() calls classify() without a child env and can never return PASS or FAIL",
+     "credential_preflight.py on the ambient env returns FAIL (terminal_prompt_disabled=FAIL)",
+     "the strict candidate returns BLOCK for that FAIL, and 15/15 POS/NEG tests pass (receipts/lane_credential_posture_tests.json)"
+    ],
+    "candidate": {
+     "path": "tools/lane_credential_posture_full.py",
+     "sha256": "2614b663ebf2a7433db10d1836dd8e7bb05c38ea9074c0ca556bf521f3229f5d",
+     "tests": "tools/test_lane_credential_posture.py",
+     "tests_receipt": "receipts/lane_credential_posture_tests.json"
+    },
+    "writeset": [
+     "scripts/gcm-containment/lane_credential_posture.py",
+     "scripts/hgk-lane-dispatch.py"
+    ],
+    "rollback": "git -C HG-KSEOS restore --source=HEAD -- scripts/gcm-containment/lane_credential_posture.py scripts/hgk-lane-dispatch.py",
+    "negative_required": [
+     "FAIL must BLOCK the dispatch",
+     "INCONCLUSIVE must BLOCK a credential-bearing effect",
+     "GIT_TERMINAL_PROMPT=0 alone must not ALLOW"
+    ],
+    "expiry": "this round only"
+   },
+   {
+    "id": "PR-R17-011-FABRIC-DESIGNATION",
+    "state": "OPEN",
+    "principal": "Fabric Active Policy Owner",
+    "predicate": "designate one ACTIVE policy artefact for RP-002 and publish its digest",
+    "measured": [
+     "no active/designation artefact exists anywhere in the Fabric tree",
+     "the consumer routes from rp002/RP002_CHANGE_CLASS_ROUTER.yaml (a table, not a policy designation)"
+    ],
+    "writeset": [],
+    "rollback": "n/a (no effect without a signature)",
+    "negative_required": [
+     "a frozen Stage-1 artefact must not be readable as ACTIVE"
+    ],
+    "evidence_format": "signed designation + digest + the consumer readback that consumes it",
+    "expiry": "none"
+   },
+   {
+    "id": "PR-R17-012-SBL-SCHEMA",
+    "state": "OPEN",
+    "principal": "SBL product owner",
+    "predicate": "extend the freeze record schema so DEST-10 and DEST-15 have corruptible properties",
+    "measured": [
+     "DEST-10 needs fork/PR identity or a secret-read grant; the freeze record has neither",
+     "DEST-15 needs a benchmark sample pair or hardware identity; the freeze record has neither",
+     "the lane refused to fabricate a RED and emitted typed UNIMPLEMENTED rows instead"
+    ],
+    "writeset": [],
+    "rollback": "n/a",
+    "negative_required": [
+     "the extended schema must still reject a record that omits the new fields"
+    ],
+    "evidence_format": "schema delta + 2 new RED rows + a null control",
+    "expiry": "none"
+   }
+  ]
+ },
+ "tt_far": {
+  "schema": "SBL_R17_TT_FAR/1",
+  "generated_utc": "2026-10-23T10:58:06.844589+00:00",
+  "FAR": [
+   {
+    "id": "FAR-R17-01",
+    "class": "TRANSPORT",
+    "state": "FIXED",
+    "symptom": "ERR_REQUIRED_ARM_NOT_SERVED with model matching and exit 0",
+    "root_cause": "the 10105 shim wrote no usage row, so the gate had no post-offset evidence",
+    "fix": "shim v2 appends an observation row from the actual upstream response",
+    "proof": "EXECUTE ex5 ok=true, usage_provider=opencode-go, usage_model=deepseek-v4.1-flash, usage_status=200"
+   },
+   {
+    "id": "FAR-R17-02",
+    "class": "TRANSPORT",
+    "state": "FIXED",
+    "symptom": "turn.failed: remote compaction v2 expected exactly one output item, got 0 from 2",
+    "root_cause": "client-side auto compaction is incompatible with the opencode-go relay",
+    "fix": "HGK_LANE_CODEX_ARGS disables auto compaction; briefs forbid bulk reads",
+    "proof": "ex5 finished in 123.92 s with exit 0"
+   },
+   {
+    "id": "FAR-R17-03",
+    "class": "RUNTIME",
+    "state": "OPEN_CANDIDATE",
+    "symptom": "Fabric coordinator raises FileNotFoundError for its own router",
+    "root_cause": "FAB constant stops at ...\\Fabric instead of ...\\Fabric\\FABRIC",
+    "candidate": "one-line constant fix (see candidate_diffs/fabric_policy_consumer_root.patch)",
+    "blocked_by": "PERMISSION - Fabric write needs a native grant"
+   },
+   {
+    "id": "FAR-R17-04",
+    "class": "RUNTIME",
+    "state": "OPEN",
+    "symptom": "PIPD doctor FAIL / INPUT_SHAPE_INVALID",
+    "root_cause": "OSError WinError 1920 on .hgk/rounds/.../lib64/SKILL.md - an unreadable legacy artefact inside the repo",
+    "candidate": "doctor should skip .hgk; needs a PIPD write grant"
+   },
+   {
+    "id": "FAR-R17-05",
+    "class": "RUNTIME",
+    "state": "CANDIDATE_VALIDATED",
+    "symptom": "pipd doctor FAIL / INPUT_SHAPE_INVALID on the live product root",
+    "root_cause": "scan_skill_drift uses root.rglob('SKILL.md'), which follows a directory symlink .hgk/rounds/R5P-.../venv_adjusted_record/lib64 -> lib and raises OSError WinError 1920",
+    "proof": "current rglob raises; candidate os.walk(followlinks=False)+pruned set completes and counts 482 SKILL.md",
+    "candidate": "candidate_diffs/pipd_doctor_skill_drift_walk.patch",
+    "blocked_by": "PERMISSION - PIPD write needs a native grant",
+    "receipt": "<WORKSPACE>\\var\\R17-20261023\\receipts\\pipd_walk_fix_probe.json"
+   },
+   {
+    "id": "FAR-R17-06",
+    "class": "PERMISSION",
+    "state": "OPEN_WITH_MITIGATION",
+    "symptom": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE on 6/6 dispatches (12 lines); the gate never reached a verdict",
+    "root_cause": "hgk-lane-dispatch.run_credential_posture_gate invokes lane_credential_posture.py with --json only; that wrapper calls credential_preflight.classify(entries) WITHOUT a child env, which by construction returns 'helper-only verdict (no child env asserted)'. The richer credential_preflight.build_result(child_env) is never used on the dispatch path, so the verdict can never be PASS or FAIL.",
+    "measured_truth": "credential_preflight.py --json on the ambient child env returns FAIL: terminal_prompt_disabled=FAIL. The dispatch downgrades that real FAIL to INCONCLUSIVE/WARN_CONTINUE and proceeds.",
+    "mitigation_applied": "run dispatches with GIT_TERMINAL_PROMPT=0 exported -> terminal_prompt_disabled=PASS; residual helper_non_interactive=UNKNOWN and askpass_not_prompting=UNKNOWN keep the honest ceiling at INCONCLUSIVE",
+    "durable_fix": "dispatcher should call credential_preflight.build_result with the actual child env (HG-KSEOS write -> needs a native grant)",
+    "occurrences": "6 of 6 R17 dispatches (execute_dispatch, execute_c3, execute_d4, execute_e5, plan_v2, verify)"
+   },
+   {
+    "id": "FAR-R17-07",
+    "class": "TEST_ORACLE",
+    "state": "OPEN_CANDIDATE",
+    "symptom": "PIPD validate --bundle <technology-admission card> fails INPUT_SHAPE_INVALID naming schemas/pin_license_currentness.schema.json",
+    "root_cause": "the schema resolver treats a required FIELD name as a schema family; no such schema file exists (19 families, none named pin_license_currentness)",
+    "measured": "registry.json lists pin_license_currentness only inside TechnologyAdmission.required_fields; no pin_license* file exists anywhere",
+    "candidate": "resolve families from registry.families[].schema_file only, never from required_fields",
+    "blocked_by": "PERMISSION - PIPD write"
+   },
+   {
+    "id": "FAR-R17-08",
+    "class": "TEST_ORACLE",
+    "reproduction": "pipd_skills_conformance.py counts refuse_enforced only when a JSON schema rejects the case; both PARTIAL skills have a semantic-only NEG-001 and land PARTIAL",
+    "failed_predicate": "the metric reports \"not enforced\" for a rule the schema cannot express",
+    "owner": "HG-KSEOS measurement owner",
+    "legal_repair_cone": "add SEMANTIC_ENFORCED with the rule name and a negative control that a fake rule still reports UNENFORCED; do NOT relax the pass condition",
+    "negatives": [
+     "a skill with no declared semantic rule must stay UNENFORCED",
+     "a skill whose rule refuses must show the refusal text"
+    ],
+    "rollback": "revert the measurement change; no product code touched",
+    "last_checked_utc": "2026-10-23T12:37:25.411603+00:00"
+   },
+   {
+    "id": "FAR-R17-09",
+    "class": "RUNNER_FAILURE",
+    "reproduction": "hermes/scripts/r17_queue_runner.py returned 0 for every outcome, including a non-zero child and a 1700s timeout, and tools/runner.py used child timeouts (800s/1500s) longer than its own 900s lease",
+    "failed_predicate": "a broken runner was indistinguishable from a healthy idle tick, and a hung card could outlive its lease",
+    "owner": "R17 runner owner (this round)",
+    "legal_repair_cone": "typed statuses + exit codes, stderr kept, execution bound inside the lease, monotonic fence, non-owner release refusal",
+    "negatives": "receipts/runner_negatives.json 13/13 (missing runner, non-zero child, timeout, live lease, stale lease, restart, bound outside lease, foreign release)",
+    "rollback": "git restore the two runner files; the queue and spine are untouched",
+    "raw": "receipts/runner_negatives.json",
+    "repeat_budget": 1,
+    "last_checked_utc": "2026-10-23T13:22:26.031880+00:00",
+    "status": "REPAIRED_CANDIDATE_NOT_NATIVE_ACCEPTED"
+   }
+  ],
+  "TT": [
+   {
+    "id": "TT-R17-05",
+    "text": "PROVIDER_CHANGE is not routed by RP002 (FAIL_CLOSED). Not a defect in the consumer; a gap in the router table."
+   },
+   {
+    "id": "TT-R17-06",
+    "text": "PIPD init does not scaffold schemas/registry.json, so an empty root can never pass doctor."
+   },
+   {
+    "id": "TT-R17-07",
+    "text": "DEST-10/DEST-15 cannot be implemented because the freeze schema lacks the properties they corrupt; schema extension is a product change."
+   },
+   {
+    "id": "TT-R17-08",
+    "text": "HGK WorkOrder/Permit issuance has no CLI surface; it lives in hg_kseos.lifecycle. Readback is agent-actionable; issuance is not."
+   },
+   {
+    "id": "TT-R17-09",
+    "text": "PLAN/VERIFY run on the owner OAuth arm; their attribution comes from the usage ledger rows the relay appends for gpt-6.1-sol, not from the opencode-go shim."
+   },
+   {
+    "id": "TT-R17-10",
+    "text": "A credential-posture wrapper that cannot return FAIL is weaker than the preflight it wraps; declaring the lane 'secure' from its INCONCLUSIVE would invert the finding."
+   },
+   {
+    "id": "TT-R17-11",
+    "text": "A launcher defect looks like a card defect: subprocess shell=True picks cmd.exe (env-prefix syntax dies) and bare bash may be WSL's, which cannot see /c/... Both were hit and fixed by pinning git-bash and absolute tool paths."
+   },
+   {
+    "id": "TT-R17-12",
+    "text": "PIPD fixtures are technology-admission cards, not validation bundles; validate --bundle needs a real bundle with PI-PKG, so the validator still has no POS case on this host."
+   },
+   {
+    "id": "TT-R17-13",
+    "text": "The R17 prompt's '18 red conformance rerun' does not exist as a suite: scripts/pipd_skills_conformance.py ships 8 skills (6 PASS, 2 PARTIAL, 0 FAIL). Recording a phantom denominator is the same class of error as a fabricated pass, so the real 8 is what is tracked."
+   }
+  ]
+ },
+ "services": {
+  "10100_exec_frontdoor": "started by this session (pid 23688) and STOPPED at handoff; recipe: pwsh -NoProfile -File HG-KSEOS/scripts/start-hgk-exec-frontdoor.ps1 -Action Start (requires aiohttp in HG-KSEOS/.venv, installed this session)",
+  "10101_relay": "pre-existing (opencodex), forwards a dead upstream key -> 401",
+  "10102_desktop_router": "pre-existing, another session's service, untouched",
+  "10105_passthrough_shim": "created this session (tools/ocg_shim_10105.py) and STOPPED at handoff"
+ }
+}

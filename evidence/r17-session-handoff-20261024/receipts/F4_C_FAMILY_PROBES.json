@@ -1,0 +1,686 @@
+[
+ {
+  "id": "C00",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "source freeze schema",
+    "count": 1,
+    "detail": "SBL_R17_SOURCE_FREEZE/1"
+   },
+   {
+    "name": "44 sources matched / 0 drift",
+    "count": 1,
+    "detail": "matched=44 expected=44 mismatched=0"
+   },
+   {
+    "name": "official compiler skill",
+    "count": 8,
+    "hits": [
+     "HG-KSEOS/var/a3/final-closure/wt-hgk/knowledge-base-compiler/construction-acceptance-prompt-compiler/construction-acceptance-prompt-compiler_SKILL.md",
+     "HG-KSEOS/var/swof-construction-002-w2-repair-001/evidence/R6_HANDOVER/R6_COMPILER_BUNDLE/construction-acceptance-prompt-compiler_SKILL.md",
+     "SWOF/SWOF-w2r9e-evidence-wt/acceptance/handover/w2r6/R6_COMPILER_BUNDLE/construction-acceptance-prompt-compiler_SKILL.md"
+    ]
+   }
+  ],
+  "why": "source freeze + the official compiler skill must both bind",
+  "bound_checks": 3,
+  "total_checks": 3
+ },
+ {
+  "id": "C01",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "hgk conformance receipt",
+    "pattern": "HG-KSEOS/**/conformance*.json",
+    "count": 4,
+    "hits": [
+     "HG-KSEOS/var/far-lane-sod-003/evidence/CONFORMANCE_DEMONSTRATION.json",
+     "HG-KSEOS/var/far-lane-sod-003/evidence/CONFORMANCE_REPORT_R2.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/var/far-lane-sod-003/evidence/CONFORMANCE_DEMONSTRATION.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/var/far-lane-sod-003/evidence/CONFORMANCE_REPORT_R2.json"
+    ],
+    "expect": ">=1",
+    "expect_met": true
+   },
+   {
+    "name": "conformance verdict",
+    "count": 0,
+    "detail": "verdict=None"
+   },
+   {
+    "name": "conformance subject head",
+    "count": 0,
+    "detail": "head=None"
+   }
+  ],
+  "why": "HGK native baseline read from the receipt's own verdict field",
+  "bound_checks": 1,
+  "total_checks": 3
+ },
+ {
+  "id": "C02",
+  "verdict": "PROBE_OK",
+  "checks": [
+   {
+    "name": "canonical router",
+    "path": "Fabric/FABRIC/rp002/RP002_CHANGE_CLASS_ROUTER.yaml",
+    "exists": true,
+    "contains": "classes",
+    "contains_hit": true
+   },
+   {
+    "name": "consumer resolves router relative to module",
+    "path": "Fabric/FABRIC/fabric/consumers/hgk_policy_consumer.py",
+    "exists": true,
+    "contains": "ROUTER_RELPATH",
+    "contains_hit": true
+   },
+   {
+    "name": "six-edge evidence",
+    "pattern": "var/R17-20261023/candidates/fabric-hgk-rec07/test_six_edge.py",
+    "count": 1,
+    "hits": [
+     "var/R17-20261023/candidates/fabric-hgk-rec07/test_six_edge.py"
+    ],
+    "expect": ">=1",
+    "expect_met": true
+   }
+  ],
+  "why": "Fabric Active Policy consumed by HGK at candidate level only",
+  "bound_checks": 3,
+  "total_checks": 3
+ },
+ {
+  "id": "C03",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "commander sp definition",
+    "pattern": "SBL/**/commander*.py",
+    "count": 0,
+    "hits": []
+   },
+   {
+    "name": "commander invoke receipt",
+    "pattern": "var/R17-20261023/receipts/*COMMANDER*",
+    "count": 8,
+    "hits": [
+     "Fabric/stage/RP002-STAGE-HGK/CF1/vendor/contextforge/charts/mcp-stack/templates/deployment-redis-commander.yaml",
+     "Fabric/stage/RP002-STAGE-HGK/CF1/vendor/contextforge/charts/mcp-stack/templates/service-redis-commander.yaml",
+     "HG-KSEOS/tests/test_sp_identity_commander_plan.py",
+     "HG-KSEOS/var/checker-scratch/round-20261023-r12o2/candidate-dc5428f/sbl_sp/manifests/commander_sp.json",
+     "HG-KSEOS/var/far-lane-sod-003/scratch/sbl-repro-build/src-5237aaac708d/_governance/round-20261022-r14/raw/sp_invocations/commander_invocation.json",
+     "HG-KSEOS/var/far-lane-sod-003/scratch/sbl-repro-build/src-5237aaac708d/_governance/round-20261022-r14/raw/sp_invocations/commander_joined_receipt.json",
+     "HG-KSEOS/var/far-lane-sod-003/scratch/sbl-repro-build/src-5237aaac708d/_governance/round-20261022-r14/raw/sp_invocations/commander_receipt.json",
+     "HG-KSEOS/var/far-lane-sod-003/scratch/sbl-repro-build/src-5237aaac708d/_governance/round-20261022-r15_2/evidence/LANE_ESCAPE_20261023/test_sp_identity_commander_plan.py"
+    ]
+   }
+  ],
+  "why": "Commander real invoke needs an invocation receipt, not a class",
+  "bound_checks": 1,
+  "total_checks": 2
+ },
+ {
+  "id": "C04",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "work order artefact",
+    "pattern": "HG-KSEOS/**/WORKORDER*.json",
+    "count": 8,
+    "hits": [
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015/R6_DELIVERY/RAW/scratch_pipd/schemas/WorkOrderCandidate.schema.json",
+     "HG-KSEOS/evidence/swof-construction-002/w1_r4_binding_order/WORKORDER_RAW.json",
+     "HG-KSEOS/var/R5R-20261014-s4-preview4-focused-close/verify/new_tree/schemas/WorkOrderCandidate.schema.json",
+     "HG-KSEOS/var/R5R-20261014-s4-preview4-focused-close/verify/old_tree/schemas/WorkOrderCandidate.schema.json",
+     "HG-KSEOS/var/R5R-20261014-s4-preview4-focused-close/verify/wheel_x/pipd_ls_sp/schemas/WorkOrderCandidate.schema.json",
+     "PIPD-MERGE-EV-wt/schemas/WorkOrderCandidate.schema.json",
+     "PIPD-MERGE-wt/schemas/WorkOrderCandidate.schema.json",
+     "PIPD-REPO-HYGIENE-EV-wt/schemas/WorkOrderCandidate.schema.json"
+    ]
+   },
+   {
+    "name": "permit/lease artefact",
+    "pattern": "HG-KSEOS/**/*permit*.json",
+    "count": 5,
+    "hits": [
+     "HG-KSEOS/evidence/swof-construction-002/w1_r4_binding_order/MUTATION_PERMIT_RECEIPT.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/W2_MUTATION_PERMIT_RECEIPT.json",
+     "SWOF/evidence/SWOF-evidence-cleanup-wt/acceptance/evidence/7e1f912d863b8c155eb9ae5ae9682b0e185450fc/MUTATION_PERMIT_RECEIPT.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/evidence/swof-construction-002/w1_r4_binding_order/MUTATION_PERMIT_RECEIPT.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/evidence/swof-construction-002/w2_binding_order/W2_MUTATION_PERMIT_RECEIPT.json"
+    ]
+   },
+   {
+    "name": "native readback",
+    "pattern": "var/R17-20261023/receipts/*READBACK*",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/rr7_stop_readback.py",
+     "Fabric-rebind-publish/EVIDENCE/SKILL-CONVERGENCE-20261014/publish_readback.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-spine/far_spine_readback.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-spine/far_spine_readback_final.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-spine/far_spine_readback_final_r2.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_MIRROR_READBACK_RECEIPT.json",
+     "Fabric-rebind-publish/FABRIC/profiles/construction-acceptance-oracle/validators/evidence_readback.py",
+     "Fabric-rebind-publish/HG-KSEOS/evidence/FAR-LANE-ROUTE-REBIND-20261015/h1_lane_policy_readback.json"
+    ]
+   }
+  ],
+  "why": "an admitted effect needs WO + lease/permit + native readback",
+  "bound_checks": 3,
+  "total_checks": 3
+ },
+ {
+  "id": "C05",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "independent challenge verdict",
+    "pattern": "var/R17-20261023/receipts/APPLY_VERDICT_V*.json",
+    "count": 3,
+    "hits": [
+     "var/R17-20261023/receipts/APPLY_VERDICT_V4.json",
+     "var/R17-20261023/receipts/APPLY_VERDICT_V5.json",
+     "var/R17-20261023/receipts/APPLY_VERDICT_V6.json"
+    ]
+   },
+   {
+    "name": "challenge transcripts",
+    "pattern": "var/R17-20261023/briefs/BRIEF_*CHALLENGE*",
+    "count": 1,
+    "hits": [
+     "var/R17-20261023/briefs/BRIEF_R17_VERIFY_freeze_challenge.md"
+    ]
+   }
+  ],
+  "why": "distinct principal required; maker-side verdict files are not a pass",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C06",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "AO regression receipt",
+    "pattern": "var/R17-20261023/receipts/*AO*",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/FABRIC/evidence/review/FAR-AO-INDEPENDENCE-20261010/FAR-AO-INDEPENDENCE-20261010_EVIDENCE.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-receipts/FAR_AO_LANE_RECEIPT.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/AO_FINDING_FAR_002.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_AO_LANE_RECEIPT.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_HARDENING_AO_RECEIPT.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_Q10_AO_RECEIPT.json",
+     "Fabric-rebind-publish/HG-KSEOS/evidence/FAR-AO-INDEPENDENCE-20261010/FAR-AO-INDEPENDENCE-20261010_EVIDENCE.md",
+     "Fabric/FABRIC/evidence/review/FAR-AO-INDEPENDENCE-20261010/FAR-AO-INDEPENDENCE-20261010_EVIDENCE.md"
+    ]
+   },
+   {
+    "name": "r13/r14 acceptance",
+    "pattern": "**/*R14*ACCEPT*",
+    "count": 8,
+    "hits": [
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/control/skills/requirement-acceptance-compile/SKILL.md",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/eval/FROZEN_ACCEPTANCE_CASES.csv",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/c5/INDEPENDENT_ACCEPTANCE_92.json",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/checkpoints/HGK_TASK011_EXTERNAL_ACCEPTANCE_SEMANTIC_CLOSURE_012.json",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/domains/graph/KG_GRAPHRAG_RUNTIME_ACCEPTANCE.json",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/domains/knowledge/KNOWLEDGE_FACTORY_ACCEPTANCE.json",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/domains/memory/MEMORY_RUNTIME_ACCEPTANCE.json",
+     "HG-KSEOS/var/checker-scratch/round-20261022-r14/copy/evidence/domains/retrieval/RAG_KB_RUNTIME_ACCEPTANCE.json"
+    ]
+   }
+  ],
+  "why": "R13/R14 AO regression on a frozen subject",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C07",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "mandate epoch present",
+    "count": 0,
+    "detail": "epoch=None"
+   },
+   {
+    "name": "required==served per lane",
+    "count": 0,
+    "detail": "pairs=0 mismatched=[]"
+   }
+  ],
+  "why": "declared == transported per role, read from the lane fields (not a path)",
+  "bound_checks": 0,
+  "total_checks": 2
+ },
+ {
+  "id": "C08",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "kanban cards on a board",
+    "count": 7,
+    "detail": "board=r17-native cards=7"
+   },
+   {
+    "name": "dispatch mode",
+    "count": 1,
+    "detail": "UNBOUND_LOCAL_FEATURE"
+   }
+  ],
+  "why": "board exists; cards were never driven by a dispatcher",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C09",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "swarm executed",
+    "count": 0,
+    "detail": "executed=False admission=PRESENT_NOT_EXERCISED"
+   }
+  ],
+  "why": "Swarm fan-in: present is not operated",
+  "bound_checks": 0,
+  "total_checks": 1
+ },
+ {
+  "id": "C10",
+  "verdict": "PROBE_NO_EFFECT",
+  "checks": [
+   {
+    "name": "gstack present",
+    "count": 0,
+    "detail": "present=False disposition=NO_FIT_METHOD_NOT_ADMITTED"
+   }
+  ],
+  "why": "gstack methods: NO_FIT_METHOD_NOT_ADMITTED",
+  "bound_checks": 0,
+  "total_checks": 1
+ },
+ {
+  "id": "C11",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "openspec admission",
+    "count": 0,
+    "detail": "version=1.8.0 admission=CLI_PRESENT_NOT_ADMITTED_TO_A_TARGET_REPO"
+   }
+  ],
+  "why": "OpenSpec strict: a CLI on PATH is not an admission to a target repo",
+  "bound_checks": 0,
+  "total_checks": 1
+ },
+ {
+  "id": "C12",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "bounded repair receipt",
+    "pattern": "var/R17-20261023/receipts/APPLIED_*.json",
+    "count": 8,
+    "hits": [
+     "HG-KSEOS/var/FAR-LANE-REUSE-RCA-20261015/FIX/applied_changeset_digests.json",
+     "HG-KSEOS/var/hgk-solution-apply-20261012/candidate/APPLIED_REBINDING_RECEIPT.json",
+     "HG-KSEOS/var/hgk-solution-apply-20261012/evidence/APPLIED_W3_RECEIPT.json",
+     "HG-KSEOS/var/hgk-solution-apply-20261012/evidence/APPLIED_W3_RECEIPT_V2.json",
+     "HG-KSEOS/var/hgk-solution-apply-20261012/evidence/APPLIED_W3_RECEIPT_V3.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/var/FAR-LANE-REUSE-RCA-20261015/FIX/applied_changeset_digests.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/var/hgk-solution-apply-20261012/candidate/APPLIED_REBINDING_RECEIPT.json",
+     "_handover/CNV-PIPD-LS-SP-20261015-R7/R7_CHECKER_ATTEMPT2/checkproduct/HG-KSEOS/var/hgk-solution-apply-20261012/evidence/APPLIED_W3_RECEIPT.json"
+    ]
+   },
+   {
+    "name": "repair budget declaration",
+    "pattern": "var/R17-20261023/*BUDGET*",
+    "count": 8,
+    "hits": [
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/apply/preimage/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/repaired_candidate/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre/preimage/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre2/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live/references/verdict-artifact-and-budget.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live2/references/verdict-artifact-and-budget.md",
+     "HG-KSEOS/var/LANE-ENFORCEMENT-APPLY-20261015/candidate/hermes/agent/iteration_budget.py"
+    ]
+   }
+  ],
+  "why": "bounded repair needs a declared budget and a second-attempt refusal",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C13",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "FAR reports",
+    "pattern": "var/R17-20261023/FAR/FAR_*.md",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/FAR_SELF_RESEARCH_DOD17.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/FAR_FINAL_ACCEPTANCE_EVIDENCE.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/FAR_FINAL_HARDENING_ACCEPTANCE_EVIDENCE.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-receipts/FAR_FIRST_USE_EVIDENCE.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-receipts/FAR_IMPLEMENTATION_EVIDENCE.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/evidence-bundle/raw-receipts/FAR_Q0_CROSSWALK.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_Q0_CROSSWALK.md",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_R8_HISTORICAL_BASELINE.md"
+    ]
+   },
+   {
+    "name": "FAR register",
+    "pattern": "var/R17-20261023/TT_FAR_R17.json",
+    "count": 1,
+    "hits": [
+     "var/R17-20261023/TT_FAR_R17.json"
+    ]
+   }
+  ],
+  "why": "FAR standing: adjudication is not a scheduler",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C14",
+  "verdict": "PROBE_OK",
+  "checks": [
+   {
+    "name": "lease carries expiry+fence",
+    "count": 1,
+    "detail": "expires_at=1792810872.0037518 fence=7"
+   },
+   {
+    "name": "second concurrent attempt refused (at-most-once)",
+    "count": 1,
+    "detail": "observed refusal lines=1"
+   },
+   {
+    "name": "ledger has per-unit attempt counts",
+    "count": 52,
+    "detail": "units=52"
+   }
+  ],
+  "why": "at-most-once proven by an OBSERVED refusal, not by a field name",
+  "bound_checks": 3,
+  "total_checks": 3
+ },
+ {
+  "id": "C15",
+  "verdict": "PROBE_NO_EFFECT",
+  "checks": [
+   {
+    "name": "evolution proposal (candidate only)",
+    "pattern": "**/*EVOLUTION*PROPOSAL*",
+    "count": 0,
+    "hits": [],
+    "expect": ">=1",
+    "expect_met": false
+   }
+  ],
+  "why": "typed route-out: no ImprovementCandidate on disk; evolution may only propose",
+  "bound_checks": 0,
+  "total_checks": 1
+ },
+ {
+  "id": "C16",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "audit row count",
+    "count": 0,
+    "detail": "rows=None"
+   },
+   {
+    "name": "conservation counters",
+    "count": 1,
+    "detail": "closed=None conservation={'denominator': 145, 'rows_seen': 146, 'non_denominator_rows': ['FABRI"
+   },
+   {
+    "name": "pipd validate output",
+    "pattern": "var/R17-20261023/receipts/*PIPD*",
+    "count": 8,
+    "hits": [
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/WS1_PIPD_COPY_VERIFICATION.json",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/WS1_PIPD_COPY_VERIFICATION.json.err",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/WS1_PIPD_COPY_VERIFICATION.json",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_B/RAW/pipd_scratch_source.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RAW/cap_pipd_bind_pd.json",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RAW/cap_pipd_bind_pd.stderr.txt",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RAW/cap_pipd_bind_pd.stdout.txt",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015/R6_CHECKER/COPIES/probes/RAW/cap_pipd_bind_pd_nocxt.json"
+    ]
+   }
+  ],
+  "why": "PIPD trace read from the audit's own counters, not its filename",
+  "bound_checks": 2,
+  "total_checks": 3
+ },
+ {
+  "id": "C17",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "kinds exercised",
+    "count": 3,
+    "hits": [
+     "CLI_TOOL",
+     "AGENT_SKILL",
+     "SIMPLE_AGENT"
+    ]
+   },
+   {
+    "name": "three-kind receipt",
+    "path": "var/R17-20261023/receipts/F3D_THREE_KINDS.json",
+    "exists": true,
+    "contains": "\"total\"",
+    "contains_hit": true
+   }
+  ],
+  "why": "3 of 8 kinds x 3 modes x hosts — 3 kinds measured, hosts not",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C18",
+  "verdict": "PROBE_UNBOUND",
+  "checks": [
+   {
+    "name": "TQAEP cell manifest",
+    "pattern": "**/TQAEP*CELL*",
+    "count": 0,
+    "hits": []
+   }
+  ],
+  "why": "no cell manifest on disk: the 96-cell denominator cannot be bound here",
+  "bound_checks": 0,
+  "total_checks": 1
+ },
+ {
+  "id": "C19",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "SWOF W3 attestation",
+    "pattern": "Fabric/**/W3-*.json",
+    "count": 1,
+    "hits": [
+     "Fabric/FABRIC/assurance/admissions/W3/W3-SWOF-R153-01.owner-attested.json"
+    ]
+   },
+   {
+    "name": "SWOF W2 acceptance",
+    "pattern": "**/*SWOF*W2*",
+    "count": 8,
+    "hits": [
+     "HG-KSEOS/evidence/swof-construction-002/W1_DEFECT_W1_004B_CW2B_RECEIPT.json",
+     "HG-KSEOS/evidence/swof-construction-002/W1_DEFECT_W1_004_CW2_RECEIPT.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/BINDING_WO-SWOF-W2-001.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/BINDING_WO-SWOF-W2-002.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/BINDING_WO-SWOF-W2-003.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/BINDING_WO-SWOF-W2-004.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/REPOCONTEXT_PRE_MUTATION_READBACK.json",
+     "HG-KSEOS/evidence/swof-construction-002/w2_binding_order/W2_APPLY_RECEIPT_SCHEMA_DISCLOSURE.json"
+    ]
+   }
+  ],
+  "why": "W3 effect requires W2 acceptance first; an attestation file is not a permit",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C20",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "tool packages",
+    "pattern": "**/SBL_*TOOLS*.zip",
+    "count": 0,
+    "hits": []
+   },
+   {
+    "name": "tool receipts",
+    "pattern": "var/R17-20261023/receipts/*TOOL*",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/far_v11_xtptoolbar.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/far_v7_toolbar_ids.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/final_p3a_toolbar.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/quarantined_violations/far_v3_toolbar.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/run_f06_toolbar.py",
+     "Fabric-rebind-publish/FABRIC/control/STAGE1_TOOL_CAPABILITY_FREEZE_MATRIX.yaml",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_install_aris_tools_symlink.py",
+     "Fabric-rebind-publish/FABRIC/rp002/RP002_TOOL_AND_INHERITED_CAPABILITY_MATRIX.yaml"
+    ]
+   }
+  ],
+  "why": "five tools / three ZIP artifacts",
+  "bound_checks": 1,
+  "total_checks": 2
+ },
+ {
+  "id": "C21",
+  "verdict": "PROBE_NO_EFFECT",
+  "checks": [
+   {
+    "name": "three private SP roots",
+    "count": 0,
+    "detail": "[]"
+   },
+   {
+    "name": "SP definition files",
+    "count": 0,
+    "detail": "files=0"
+   }
+  ],
+  "why": "three ChatGPT private SPs need three host-issued ids; local files are not ids",
+  "bound_checks": 0,
+  "total_checks": 2
+ },
+ {
+  "id": "C22",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "ci workflows",
+    "pattern": "**/.github/workflows/*.yml",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/xq-auto-skill/.github/workflows/ci.yml",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/check-skills-inventory.yml",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/lint-skills-helpers.yml",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/test-install-aris-ps1.yml",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/test-suite.yml",
+     "Fabric/DESKTOP/var-fda/xq-auto-skill/.github/workflows/ci.yml",
+     "Fabric/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/check-skills-inventory.yml",
+     "Fabric/FABRIC/fabric-autonomous-research/methods/aris-vendor/.github/workflows/lint-skills-helpers.yml"
+    ]
+   },
+   {
+    "name": "supply-chain scan",
+    "pattern": "var/R17-20261023/receipts/*SCAN*",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/bg15_scan_dialogs.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/final_p23_dbscan.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/full_dialog_scan.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/pure_scan.py",
+     "Fabric-rebind-publish/DESKTOP/var-fda/scan_xq_dbs.py",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/aris-monitor/scanner.py",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/tests/test_threat_scan.py",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/methods/aris-vendor/tools/threat_scan.py"
+    ]
+   }
+  ],
+  "why": "CI + supply chain scan on the deliverable, not on the reports",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C23",
+  "verdict": "PROBE_PARTIAL",
+  "checks": [
+   {
+    "name": "performance comparison",
+    "pattern": "var/R17-20261023/**/*PERF*",
+    "count": 8,
+    "hits": [
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/apply/preimage/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/repaired_candidate/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre/preimage/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/drill_pre2/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live/references/verify-lane-performance.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R8/WS_A/sim/live2/references/verify-lane-performance.md",
+     "Fabric/fabric-autonomous-research/runs/FAR-20261022-027-sbl-hgk-degradation-rca/evidence/W4_performance_delta.md"
+    ]
+   },
+   {
+    "name": "baseline B0",
+    "pattern": "var/R17-20261023/**/*BASELINE*",
+    "count": 8,
+    "hits": [
+     "Fabric-rebind-publish/DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/references/function-regression/baseline-v1.json",
+     "Fabric-rebind-publish/FABRIC/fabric-autonomous-research/governance/FAR_R8_HISTORICAL_BASELINE.md",
+     "Fabric/DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/references/function-regression/baseline-v1.json",
+     "Fabric/FABRIC/fabric-autonomous-research/governance/FAR_R8_HISTORICAL_BASELINE.md",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R11/R11_VERIFY/raw/16_guard_baseline.txt",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/R7_BASELINE_MAIN.json",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/WS1_BLOCKER_STALE_BASELINE.json",
+     "Fabric/evidence/CNV-PIPD-LS-SP-20261015-R7/R7_VERIFIER_SWARM/artifacts/WS1_BLOCKER_STALE_BASELINE.json.err"
+    ]
+   }
+  ],
+  "why": "matched performance keeps the HGK-only B0 baseline",
+  "bound_checks": 2,
+  "total_checks": 2
+ },
+ {
+  "id": "C24",
+  "verdict": "PROBE_OK",
+  "checks": [
+   {
+    "name": "claim ceiling recorded",
+    "count": 1,
+    "detail": "CANDIDATE_TESTED + CANDIDATE_EVIDENCE_PUBLISHED_DRAFT_PR"
+   },
+   {
+    "name": "not_claimed enumerated",
+    "count": 4,
+    "detail": "['NATIVE_EFFECT_VERIFIED', 'INDEPENDENT_PASS', 'HOST_UAT', 'RELEASED']"
+   }
+  ],
+  "why": "the ceiling must be a typed value, not prose in a report",
+  "bound_checks": 2,
+  "total_checks": 2
+ }
+]

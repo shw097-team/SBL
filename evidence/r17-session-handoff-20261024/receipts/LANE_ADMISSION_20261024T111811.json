@@ -1,0 +1,57 @@
+{
+ "schema": "R17_LANE_ADMISSION/1",
+ "at": "2026-10-24T11:18:11+0800",
+ "owner_order": "2026-10-24 owner message: PLAN=gpt-6.1-sol (OAuth), EXECUTE=deepseek-v4.1-flash via Codex CLI, IAO/VERIFY/SECURITY=gpt-6.1-sol (OAuth)",
+ "roles": {
+  "PLAN": {
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "required_rank": 2,
+   "ok": true,
+   "served_arm": "openai-codex/gpt-6.1-sol",
+   "used_rank": 2,
+   "identity_source": "codex-rollout",
+   "nonce_present": true,
+   "code": null,
+   "elapsed_s": 44.7,
+   "exit": 0,
+   "receipt": "receipts\\LANE_PLAN_20261024T111811.json",
+   "raw_stdout": "<WORKSPACE>\\HG-KSEOS\\var\\R17\\PLAN\\attempt-1-20261024T031811Z\\attempt-24216-1792811891-2-stdout.txt",
+   "stdout_head": "{\r\n  \"schema\": \"HGK-LANE-RESOLUTION/1\",\r\n  \"lane\": \"PLAN\",\r\n  \"role\": \"writer\",\r\n  \"role_binding_source\": null,\r\n  \"engine\": \"codex-cli\",\r\n  \"codex_executable\": \"<HOME>\\\\AppData\\\\Local\\\\OpenAI\\\\Codex\\\\bin\\\\6257d9e8f63c0f2b\\\\codex.exe\",\r\n  \"codex_home\": \"<HOME>\\\\.codex\",\r\n  \"relay_base\": \"https://chatgpt.com/backend-api/codex\",\r\n  \"codex_home_is_declared_lane_home\": false,\r\n  \"hum",
+   "stderr_head": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.\r\nWARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: creden"
+  },
+  "EXECUTE": {
+   "required_arm": "opencode-go/deepseek-v4.1-flash",
+   "required_rank": 1,
+   "ok": false,
+   "served_arm": null,
+   "used_rank": null,
+   "identity_source": "relay-usage",
+   "nonce_present": false,
+   "code": "ERR_LANE_ALL_ROUTES_EXHAUSTED",
+   "elapsed_s": 21.1,
+   "exit": 3,
+   "receipt": "receipts\\LANE_EXECUTE_20261024T111811.json",
+   "raw_stdout": "<WORKSPACE>\\HG-KSEOS\\var\\R17\\EXECUTE\\attempt-1-20261024T031855Z\\attempt-4664-1792811935-1-stdout.txt",
+   "stdout_head": "{\r\n  \"schema\": \"HGK-LANE-RESOLUTION/1\",\r\n  \"lane\": \"EXECUTE\",\r\n  \"role\": \"writer\",\r\n  \"role_binding_source\": null,\r\n  \"engine\": \"codex-cli\",\r\n  \"codex_executable\": \"<HOME>\\\\AppData\\\\Local\\\\OpenAI\\\\Codex\\\\bin\\\\6257d9e8f63c0f2b\\\\codex.exe\",\r\n  \"codex_home\": \"<HOME>\\\\AppData\\\\Local\\\\HG-KSEOS\\\\codex-hermes\",\r\n  \"relay_base\": \"http://127.0.0.1:10100/v1\",\r\n  \"codex_home_is_declared_lan",
+   "stderr_head": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.\r\nWARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: creden"
+  },
+  "VERIFY_SECURITY": {
+   "required_arm": "openai-codex/gpt-6.1-sol",
+   "required_rank": 2,
+   "ok": true,
+   "served_arm": "openai-codex/gpt-6.1-sol",
+   "used_rank": 2,
+   "identity_source": "codex-rollout",
+   "nonce_present": true,
+   "code": null,
+   "elapsed_s": 29.6,
+   "exit": 0,
+   "receipt": "receipts\\LANE_VERIFY_SECURITY_20261024T111811.json",
+   "raw_stdout": "<WORKSPACE>\\HG-KSEOS\\var\\R17\\VERIFY_SECURITY\\attempt-1-20261024T031917Z\\attempt-4012-1792811957-2-stdout.txt",
+   "stdout_head": "{\r\n  \"schema\": \"HGK-LANE-RESOLUTION/1\",\r\n  \"lane\": \"VERIFY_SECURITY\",\r\n  \"role\": \"checker\",\r\n  \"role_binding_source\": null,\r\n  \"engine\": \"codex-cli\",\r\n  \"codex_executable\": \"<HOME>\\\\AppData\\\\Local\\\\OpenAI\\\\Codex\\\\bin\\\\6257d9e8f63c0f2b\\\\codex.exe\",\r\n  \"codex_home\": \"<HOME>\\\\.codex\",\r\n  \"relay_base\": \"https://chatgpt.com/backend-api/codex\",\r\n  \"codex_home_is_declared_lane_home\": fa",
+   "stderr_head": "WARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: the credential-posture detector could not reach a verdict (helper-only verdict (no child env asserted): helper_resolution_reset=PASS; helper_non_interactive=UNKNOWN); continuing -- the user-scope git default (L1) remains the structural control and this gate is the second layer. Inconclusive is NOT a pass.\r\nWARN_LANE_CREDENTIAL_POSTURE_INCONCLUSIVE: creden"
+  }
+ },
+ "verdict": "PARTIAL_LANE_ADMISSION",
+ "claim_ceiling": "routing+serving admitted for these bounded probes; NOT product acceptance, NOT independent AO acceptance of any deliverable"
+}
