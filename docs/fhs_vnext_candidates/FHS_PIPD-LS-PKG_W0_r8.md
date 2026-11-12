@@ -4700,9 +4700,12 @@ HG-KSEOS 已接受、不主張 W1 的工程入口規格已完成；W1 入口仍�
 
 ### R8.1 E0 來源凍結
 
-九份輸入逐份 `path / bytes / sha256 / observed_at` 釘住（`out/E0_SOURCE_SNAPSHOT.json` `c8df044dc145…`）：
-r2 `MISSING…`、r26 `MISSING…`、r7 `35daf4c1ab1d…`、
-R4 ZIP `f94b41d84e9e…`。Git 物件以 blob（LF）計；`config/` 與 `config.live/` 四檔逐位元組相同＝`True`。
+十份輸入逐份 `path / bytes / sha256 / observed_at` 釘住（`out/E0_SOURCE_SNAPSHOT.json` `b84f095570b7…`），全部解析成功＝`True`：
+r2 `ffab46249333…`（146199 B）、r26 `0ea055444994…`（668540 B）、r7 `35daf4c1ab1d…`（677204 B）、R4 ZIP `f94b41d84e9e…`（270936 B）。
+Git 物件以 blob（LF）計；`config/` 與 `config.live/` 四檔逐位元組相同＝`True`。
+
+> 修正 `E0-SOURCE-BINDING-CORRECTION-2`：初版把 `升級前置實作` 串接兩次，r2／r26 被記成 `MISSING`；其後 owner 把兩個輸入移入 `OLD/`，
+> 已依 **digest** 重新解析（zip `f94b41d8…`、控制書 `25d6bc09…`），不是「來源不存在」。現行十份全部解析、逐份可重算。
 
 ### R8.2 E1／E2／E3
 
