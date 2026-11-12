@@ -1,0 +1,44 @@
+{
+ "schema": "FHS.W0R10.OwnerAuth/1",
+ "generated_at": "2026-11-08T08:55:52+0800",
+ "question": "does this round need an owner-key passphrase envelope window opened before it can run unattended?",
+ "window_found": {
+  "envelope": "C:/Projects/Agent_Workspace/HG-KSEOS/ops/session-20261031/r18-durable/governance/owner_envelope.json",
+  "schema": "HGK.OWNER_KEY_ENVELOPE/1",
+  "kdf": "scrypt n=32768 r=8 p=1",
+  "cipher": "AES-256-GCM",
+  "public_key_hex": "97e2000b39a3e49b164b7e62317195ccc6deea36c826b416bba3593fc60321b5",
+  "prompt_entrypoint": "C:/Projects/Agent_Workspace/HG-KSEOS/ops/session-20261031/tools/owner_prompt.py",
+  "prompt_paths": [
+   "env",
+   "tty",
+   "tkinter modal masked entry",
+   "OWNER_PROMPT.ps1 fallback"
+  ],
+  "single_audit_point": "get_secret()"
+ },
+ "signing_demand_measured": {
+  "registry": "C:/Projects/Agent_Workspace/var/B1-PIPD-PKG-20261027/admission/registry/runner-registry.json",
+  "registry_sha256": "3254714b05ecc4345806664d3bb0690f67ae1bd5218be24b793d838b08ec9d57",
+  "registry_rev": 13,
+  "row_count": 31,
+  "status_all": "INSTALLED",
+  "rows_with_owner_signature": 31,
+  "root_owner_signature_present": true,
+  "rows_added_or_changed_this_round": 0,
+  "permits_minted_this_round": 0
+ },
+ "effects_this_round": [
+  "SOURCE_READ",
+  "LOCAL_DRAFT_WRITE",
+  "LOCAL_PROCESS_EXECUTE",
+  "REPO_BRANCH_PUSH_WITH_TOKEN"
+ ],
+ "decision": "NOT_OPENED",
+ "reason": "every effect this round is read/draft/local-exec plus a feature-branch push authorised by the repo token; no registry row is added or changed and no Permit is minted, so there is nothing for the owner key to sign. Opening the window would be an empty ceremony and would block an unattended run for no gain.",
+ "resume_if_needed": {
+  "trigger": "only if a task in this round needed to mint a Permit or write registry rev 14",
+  "command": "python ops/session-20261031/tools/owner_prompt.py (tkinter modal) then the issuer tool with --max-ops 33",
+  "owner_todo": "R1-ISSUER-REV14"
+ }
+}
