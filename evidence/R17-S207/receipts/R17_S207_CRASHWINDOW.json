@@ -1,0 +1,72 @@
+{
+ "schema": "R17_S207_CRASHWINDOW/1",
+ "generated_local": "2026-10-24T20:38:56+08:00",
+ "fixture_root": "C:\\Users\\user\\AppData\\Local\\Temp\\s207crash_aycrv_eg",
+ "results": {
+  "baseline": {
+   "reader_sees": {
+    "schema": "FIXTURE_LEDGER/1",
+    "cursor": {
+     "index": 0
+    },
+    "attempts": {}
+   }
+  },
+  "crash_before_rename": {
+   "reader_sees": {
+    "schema": "FIXTURE_LEDGER/1",
+    "cursor": {
+     "index": 0
+    },
+    "attempts": {}
+   },
+   "tmp_leftover": true,
+   "consequence": "old ledger: cursor unmoved, no ACK -> card stays selectable"
+  },
+  "crash_after_rename": {
+   "reader_sees": {
+    "schema": "FIXTURE_LEDGER/1",
+    "cursor": {
+     "index": 1
+    },
+    "attempts": {
+     "C14.x": {
+      "exit": 0,
+      "digest": "d1"
+     }
+    }
+   },
+   "consequence": "new ledger: cursor+ACK both present, no re-dispatch"
+  },
+  "no_torn_read": {
+   "iterations": 50,
+   "always_parseable": true
+  },
+  "effect_without_commit": {
+   "effect_op_id": "ea188eda46a42d22",
+   "ledger_still_says": {
+    "C14.x": {
+     "exit": 0,
+     "digest": "d2"
+    }
+   },
+   "consequence": "the unit is selectable again while the world already changed -> replay risk; only a native operation-id readback can decide, os.replace cannot",
+   "replay_would_duplicate_effect": true,
+   "readback_op_id": "ea188eda46a42d22"
+  },
+  "durability_claims": {
+   "file_fsync_before_rename": true,
+   "directory_fsync": false,
+   "note": "file contents are flushed; a directory entry fsync is not portable on Windows and is not performed, so rename durability across a power cut is NOT claimed",
+   "cross_volume_rename_tested": false
+  }
+ },
+ "verdict": {
+  "atomic_single_file_commit": true,
+  "ack_and_cursor_same_commit": true,
+  "prevents_duplicate_readonly_dispatch": true,
+  "prevents_duplicate_effect": false,
+  "durability_across_power_loss": "NOT_CLAIMED"
+ },
+ "claim_ceiling": "FIXTURE_MEASURED_ATOMIC_SINGLE_FILE_ONLY"
+}

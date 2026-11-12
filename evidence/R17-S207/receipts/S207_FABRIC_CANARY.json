@@ -1,0 +1,120 @@
+{
+ "schema": "S207_FABRIC_CANARY/1",
+ "generated_utc": "2026-10-24T12:44:00Z",
+ "repo": "C:\\Projects\\Agent_Workspace\\Fabric",
+ "repo_head": "bb06b7a6c17c45c777a636e9dae3196e21eb77b9",
+ "branch": "pub/far-minimax-mandate-20261021",
+ "tracked_dirty": 1,
+ "tracked_dirty_files": [
+  "FABRIC/assurance/admissions/W3/W3-SWOF-R153-01.owner-attested.json"
+ ],
+ "tracked_dirty_owner": "other actor; not touched by this session",
+ "consumer_files": [
+  {
+   "path": "C:\\Projects\\Agent_Workspace\\Fabric\\FABRIC\\fabric\\consumers\\hgk_policy_consumer.py",
+   "sha256": "d083083d13fe488169ea7bcde6e895981398a37f264ab40496d74d5a9898bc22",
+   "role": "consumer (owns route_event)",
+   "functions": ["_fabric_root", "load_router", "route_event", "apply_preapproved"],
+   "policy_consuming_functions": ["load_router", "route_event"]
+  },
+  {
+   "path": "C:\\Projects\\Agent_Workspace\\Fabric\\FABRIC\\rp002\\scripts\\rp002_f0_policy.py",
+   "sha256": "b70e93a82743a23b69e3f0f80827d7508e8854ed83d032a39b95870bf543b423",
+   "role": "caller/executor (invokes route_event in a subprocess, does not parse policy itself)",
+   "functions": ["check", "<module>"],
+   "policy_consuming_functions": []
+  }
+ ],
+ "router_files": [
+  {
+   "path": "C:\\Projects\\Agent_Workspace\\Fabric\\FABRIC\\rp002\\RP002_CHANGE_CLASS_ROUTER.yaml",
+   "sha256": "93ec36da9f487b41dc3655ff94a788b0cedb7d8a16a26687e1243d0e4b3aa734",
+   "bytes": 1021,
+   "tracked": true,
+   "consumed_by": "hgk_policy_consumer.load_router -> route_event (FAB resolves to FABRIC)",
+   "declared_active": false,
+   "note": "no stage/active marker in file; schema RP002-CHANGE-CLASS-ROUTER/1"
+  },
+  {
+   "path": "C:\\Projects\\Agent_Workspace\\Fabric\\FABRIC\\control\\CHANGE_CLASS_ROUTER.yaml",
+   "sha256": "2b76f5de663c9106a4dd7500a719d20a5c06686d31bac4a05ca947a1b8b9422c",
+   "bytes": 1745,
+   "tracked": true,
+   "consumed_by": null,
+   "declared_active": false,
+   "note": "self-declares stage1_state: CONTRACT_FROZEN_INACTIVE, runtime_consumption_gate: F0, all_non_bootstrap_routes_active_in_stage1: false; read by no consumer (only listed in control/STAGE1_CONTRACT_EXACT_SET.yaml)"
+  }
+ ],
+ "canary": {
+  "script": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\tools\\fabric_consumer_canary.py",
+  "command": "cd C:/Projects/Agent_Workspace && PYTHONDONTWRITEBYTECODE=1 python var/R17-20261023/tools/fabric_consumer_canary.py",
+  "exit": 0,
+  "stdout_sha256": "c7230a4f7a42c12cde466840215fd7d0d4fd22798419a2ec041bd618815f939c",
+  "body": {
+   "declared_call": {
+    "ok": true
+   },
+   "tally": {
+    "route_ok": 8,
+    "fail_closed": 1,
+    "negatives_fail_closed": 2
+   },
+   "provider_change": {
+    "verdict": "FAIL_CLOSED",
+    "reason": "UNKNOWN_CHANGE_CLASS:PROVIDER_CHANGE"
+   },
+   "out": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\receipts\\fabric_consumer_canary.json"
+  },
+  "exit_semantics": "exit 0 iff route_ok==8 and negatives_fail_closed==2; it measures routing breadth only, not integrity",
+  "own_receipt": {
+   "path": "C:\\Projects\\Agent_Workspace\\var\\R17-20261023\\receipts\\fabric_consumer_canary.json",
+   "sha256_before_run": "1ceb290eddde3c8798c7283304e4867ef3162e6ff3bb671a749b364d73fd41ba",
+   "note": "the canary's own designed output, written by the tool (not an authored artefact)"
+  }
+ },
+ "active_designation": {
+  "found": false,
+  "path": null,
+  "sha256": null,
+  "searched": [
+   "Fabric/**/*active*policy*",
+   "Fabric/**/*designation*",
+   "Fabric/**/*active_policy*",
+   "Fabric/FABRIC/config/active-policy.json",
+   "grep -rniE 'active[_ -]?polic|policy[_ -]?designation|designation' over *.py/*.json/*.yaml/*.md/*.tsv"
+  ],
+  "hits_and_disposition": [
+   "hgk_policy_consumer.py:30 - docstring prose 'not read the active policy at all', not an artefact",
+   "fabric-autonomous-research/.../patent-format-ep.md:171 - 'designation fees', unrelated",
+   "fabric-autonomous-research/runs/.../audit.json - historical log text quoting .hgk/rounds/.../CANDIDATE_DESIGNATION.json from another round, not a live designation for this consumer"
+  ]
+ },
+ "integrity": {
+  "digest_verified": false,
+  "signature_verified": false,
+  "loader_entry": "hgk_policy_consumer.load_router() -> yaml.safe_load(read_text())",
+  "evidence": [
+   "hgk_policy_consumer.py:58 `def load_router() -> dict:` - the loader accepts no expected-digest or expected-signature argument, so no caller can require one",
+   "hgk_policy_consumer.py:60 `router = yaml.safe_load((FAB / \"rp002\" / \"RP002_CHANGE_CLASS_ROUTER.yaml\").read_text(encoding=\"utf-8\"))` - bytes parsed straight from disk; no hash or signature comparison before or after parse",
+   "hgk_policy_consumer.py:61 `return router[\"classes\"]` - raw mapping handed to callers unvalidated",
+   "hgk_policy_consumer.py:66 `router = load_router()` - route_event() performs no post-load integrity gate before acting on the policy",
+   "hgk_policy_consumer.py:93 `sha = __import__(\"hashlib\").sha256(raw).hexdigest()` - the module's ONLY digest use, inside apply_preapproved(), computes a sha256 of config bytes it just read and records it; it is never compared to a trusted value and has no fail-closed branch (no verify/hmac/signature token anywhere in the file)",
+   "token scan for sha256|sha1|md5|hmac|signature|verify|digest|signed over hgk_policy_consumer.py returns only lines 93-94; zero hits in the router loader path (lines 22-61)",
+   "live probe (read-only, out-of-repo): 2 bytes changed in a copy at %TEMP%/s207fab/rp002/RP002_CHANGE_CLASS_ROUTER.yaml (HERMES_NATIVE->HERMES_NATIVF, pack: profile->profila); router sha256 93ec36da... -> cbad1001b910ceea576a6121eec01a79f0ae1aabbba96441924f22aff3150401; route_event returned {\"verdict\":\"FAIL_CLOSED\",\"reason\":\"UNROUTED:HERMES_NATIVF\"} and {\"pack\":\"profila\"} with no warning and no refusal",
+   "consumption fidelity side-note: hgk_policy_consumer.py:72 `\"oracle_required\": False` and :84 `\"auto_promotion\": False` are hardcoded in route_event rather than read from the entry, so tampering those router fields is invisible to callers"
+  ],
+  "probe_disposal": "temp tree C:/Users/user/AppData/Local/Temp/s207fab/ deleted after the probe; nothing written into the Fabric repo"
+ },
+ "verdict": "POLICY_ROUTER_INTEGRITY_UNBOUND",
+ "notes": [
+  "Recorded defect 'policy router integrity unbound' REPRODUCES at HEAD bb06b7a6: a 2-byte edit of the router is loaded and acted on by route_event() with no digest or signature check.",
+  "Legacy root defect is FIXED, not reproducing: _fabric_root() now resolves to ...\\Fabric\\FABRIC and the canary reports declared_call ok:true where it previously raised FileNotFoundError; canary module_sha256 matches the on-disk consumer hash.",
+  "No ACTIVE policy designation artefact exists anywhere under Fabric - no config/active-policy.json, no *designation* file, no *active_policy* file; the only textual hits are prose and an unrelated historical log. So nothing formally designates any router as the active policy.",
+  "Routing is 8/9, not 9/9: PROVIDER_CHANGE fails closed as UNKNOWN_CHANGE_CLASS because the router declares PROVIDER_UPGRADE; both negatives (BOGUS_CLASS, empty) fail closed as required.",
+  "The consumed router (rp002, sha 93ec36da) carries no active/inactive marker, while the unconsumed control/CHANGE_CLASS_ROUTER.yaml (sha 2b76f5de) declares CONTRACT_FROZEN_INACTIVE with runtime_consumption_gate: F0 - activation state and the file actually read are decoupled.",
+  "Canary exit 0 must not be read as an integrity pass: its exit code is a routing-breadth assertion (route_ok==8 and negatives_fail_closed==2).",
+  "Repo untouched: head and tracked-dirty count unchanged (bb06b7a6, 1 file, the pre-existing W3-SWOF-R153-01.owner-attested.json owned by another actor); no __pycache__ written under FABRIC (PYTHONDONTWRITEBYTECODE=1); no stash/checkout/commit/patch.",
+  "Side effect of running the existing canary: it rewrote its own receipt var/R17-20261023/receipts/fabric_consumer_canary.json (sha256 before run 1ceb290e). This is the tool's designed output, not an authored file; the only file authored here is this receipt.",
+  "Tampered copy was confined to C:/Users/user/AppData/Local/Temp/s207fab/ and deleted; no tampered material was ever placed in the Fabric repo."
+ ]
+}

@@ -1,0 +1,155 @@
+{
+ "repo_head": "39079c02b8f2a3a3e63d3f2a2d5537805d3a3594",
+ "tracked_dirty_before": 0,
+ "tracked_dirty_after": 0,
+ "cli_help_exit": 0,
+ "verbs": [
+  "init",
+  "intake",
+  "profile",
+  "compile-pi",
+  "bind-pd",
+  "compile-ecp",
+  "compile-tqaep",
+  "validate",
+  "doctor",
+  "project",
+  "export",
+  "diff",
+  "repair"
+ ],
+ "doctor": {
+  "exit": 2,
+  "stdout_sha256": "b40a7b7a2fe2f0ed28d549264073582a87c8c678dca83955b1b1afeac69b64e8",
+  "tail": [
+   "{",
+   " \"code\": \"INPUT_SHAPE_INVALID\",",
+   " \"message\": \"OSError: [WinError 1920] 系統無法存取該檔案。: 'C:\\\\\\\\Projects\\\\\\\\Agent_Workspace\\\\\\\\PIPD\\\\\\\\.hgk\\\\\\\\rounds\\\\\\\\R5P-20261010-s4-post-challenge\\\\\\\\ao\\\\\\\\out\\\\\\\\v2\\\\\\\\venv_adjusted_record\\\\\\\\lib64\\\\\\\\SKILL.md'\",",
+   " \"verdict\": \"FAIL\"",
+   "}"
+  ],
+  "created_files": []
+ },
+ "validate_help_exit": 0,
+ "validate_argv_required": [
+  "--bundle"
+ ],
+ "skills": {
+  "pipd-route-intake": {
+   "found": true,
+   "sha256": "72afada18aa79c33bee2d1190b296af153f37734c967f7bbf4574675786acc88"
+  },
+  "pipd-authority-source": {
+   "found": true,
+   "sha256": "89d04cf2e753e539f1d661beaa8e0df348f6ca8db9e423f516656106dcf68e91"
+  },
+  "pipd-profile-tailor": {
+   "found": true,
+   "sha256": "611d367d3062bce4f41e0906ed9236d1569205231e9b17625df6e73f190d84fc"
+  },
+  "pipd-pi-compile": {
+   "found": true,
+   "sha256": "1a8e054f445f4150bdea01e9f302ae471b10896548dd1bbbc5fd13a89db82658"
+  },
+  "pipd-pd-bind": {
+   "found": true,
+   "sha256": "613ab403d1163dd1563dc1430b0a247a245b4330d76c33f4d85e65e8223d2f10"
+  },
+  "pipd-execution-contract": {
+   "found": true,
+   "sha256": "903c0af6ce09929b3c9c9f23abe650989c0a952fa4372dbe9414d076e7648478"
+  },
+  "pipd-assurance-tqaep": {
+   "found": true,
+   "sha256": "703d354c5b04caa96c3deded4cd57c3a6ba91603a6419479117e4b83d568f776"
+  },
+  "pipd-package-project": {
+   "found": true,
+   "sha256": "a5f2a57af6f903adec3cad069d2b1e4c15df42f14a14a8e3940830faae129a67"
+  }
+ },
+ "verb_probes": {
+  "init": {
+   "repo_root_exit": 0,
+   "verdict": "PASS",
+   "created": [],
+   "fresh_root_exit": 2,
+   "fresh_root_code": "VALIDATION_FAIL"
+  },
+  "intake": {
+   "exit": 0,
+   "verdict": "PASS",
+   "note": "accepts a plain path locator; rejects 'path#L1'"
+  },
+  "profile": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "compile-pi": {
+   "exit": 0,
+   "verdict": "PASS",
+   "replay_identity_equal": true
+  },
+  "bind-pd": {
+   "exit": 0,
+   "verdict": "PASS",
+   "repo_context_derived": true,
+   "branch": "rescue/r5p-uncommitted-20261016"
+  },
+  "compile-ecp": {
+   "exit": 0,
+   "verdict": "PASS"
+  },
+  "compile-tqaep": {
+   "exit": 0,
+   "verdict": "PASS",
+   "claim_ceiling": "TQAEP_DESIGNED"
+  },
+  "validate": {
+   "exit": 1,
+   "verdict": "FAIL",
+   "checked": 1,
+   "runs": true,
+   "note": "rejects the CLI's own compile-pi output (_profile_meta)"
+  },
+  "doctor": {
+   "exit": 2,
+   "verdict": "FAIL",
+   "code": "INPUT_SHAPE_INVALID",
+   "note": "cannot complete on this host"
+  },
+  "project": {
+   "exit": 0,
+   "verdict": "PASS",
+   "mode": "dry-run"
+  },
+  "export": {
+   "exit": 0,
+   "verdict": "PASS",
+   "mode": "READ_ONLY_MANIFEST",
+   "note": "at scratch root; exit 2 at repo root"
+  },
+  "diff": {
+   "exit": 0,
+   "verdict": "PASS",
+   "count": 0
+  },
+  "repair": {
+   "exit": 0,
+   "verdict": "PASS",
+   "mode": "dry-run"
+  }
+ },
+ "notes": [
+  "READ-ONLY: no file under C:/Projects/Agent_Workspace/PIPD was created, modified or deleted. git status tracked-dirty 0 before and after; full porcelain entry set byte-identical before/after (218 untracked entries belong to another actor and were left untouched). No stash/checkout/clean/commit/pip install; no network used. PYTHONDONTWRITEBYTECODE=1 held: src/pipd_ls_sp/__pycache__ mtime still 2026-10-15 21:41:37, pre-existing and gitignored.",
+  "DEFECT CONFIRMED (code level), 'doctor passes without workspace schemas': src/pipd_ls_sp/workspace.py:171 `if local.is_dir():` guards the workspace-local surface, and no else-branch appends a finding, so an absent <root>/schemas is silently skipped instead of failing. Measured: doctor run from an empty scratch cwd (no schemas/ at all) returned exit 0, verdict PASS, findings [], families 19, schema_source.mode=SOURCE pointing at C:\\Projects\\Agent_Workspace\\PIPD\\schemas. A workspace with a missing schemas surface is therefore reported healthy.",
+  "DEFECT (new, blocks the verb here): doctor does NOT pass on this host. src/pipd_ls_sp/workspace.py:208 `for s in root.rglob(\"SKILL.md\"):` raises OSError WinError 1920 on the dangling symlink .hgk/rounds/R5P-20261010-s4-post-challenge/ao/out/v2/venv_adjusted_record/lib64 -> lib (lib64 exists, lib64/SKILL.md does not). The OSError escapes doctor (workspace.py:188 `drift = scan_skill_drift(root)`) and is converted by the catch-all at src/pipd_ls_sp/cli.py:321-326 into INPUT_SHAPE_INVALID with exit 2. rglob is not exception-hardened; a single dangling symlink under any caller-supplied root kills the verb.",
+  "DEFECT (same root cause): `export` without --out is read-only but scans the whole tree via workspace.py:59 `for p in sorted(root.rglob(\"*\")):`; run against the repo root it fails identically (exit 2, INPUT_SHAPE_INVALID, WinError 1920 on .../venv_adjusted_record/lib64). It succeeds at a clean root (exit 0, READ_ONLY_MANIFEST, wrote_nothing true).",
+  "DEFECT: `init` cannot bootstrap an empty workspace. workspace.py:47-51 creates docs/schemas/src/tests/dist, then workspace.py:52 `reg = registry.load_registry(root / \"schemas\")` raises because init never populates schemas/: fresh root -> exit 2 VALIDATION_FAIL 'registry missing: <root>\\\\schemas\\\\registry.json'. Against the repo root (schemas already present) it returns exit 0 PASS created=[] and writes nothing.",
+  "DEFECT: the CLI's own pipeline artifacts do not validate. compile-pi (exit 0) emits a top-level `_profile_meta` key; schemas/PI-PKG.schema.json:13 declares \"additionalProperties\": false, so `validate --bundle {PI-PKG: <compile-pi output>}` returns exit 1 FAIL 'Additional properties are not allowed (\\'_profile_meta\\' was unexpected)'. With --replay it also adds `replay` (same rejection) plus a content_hash mismatch. checked=4 on a PI+PD+ECP+TQAEP bundle, so PD-PKG/ECP/TQAEP passed; PI-PKG is the failing leg.",
+  "DEFECT: intake rejects the documented fragment locator form. pipeline.py:92 `if not Path(s).exists():` tests the raw string, so --source 'docs/cli.md#L1' -> AUTHORITY_UNKNOWN 'source locator does not exist' even with docs/cli.md present; --source 'docs/cli.md' -> exit 0 with a clause-bound atom. compile-pi inherits the failure (INTAKE_INVALID 'cannot read clause source').",
+  "CLI ergonomics: --root is defined only on the top-level parser (cli.py:39), so `pipd init --root X` is a usage error (exit 2, USAGE_INVALID 'invalid command line'); the working form is `pipd --root X init`. project/export additionally accept a post-verb --root (cli.py:69,78), so the surface is inconsistent between verbs.",
+  "validate IS read-only: no write_text / open(...,'w') / mkdir / rmtree / shutil usage in src/pipd_ls_sp/validate.py; it was therefore run against the real repo's schemas dir (--root C:/Projects/Agent_Workspace/PIPD) with no repo write, confirmed by the unchanged porcelain set.",
+  "Skill surface complete: all 8 pipd-* skills carry skills/<name>/SKILL.md; no SKILL.md is missing. cli --help and validate --help both exit 0 with empty stderr; validate's only required argument is --bundle (--explain optional)."
+ ]
+}

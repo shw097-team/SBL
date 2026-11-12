@@ -1,0 +1,1096 @@
+{
+ "schema": "SBL_R17_READY_SET/1",
+ "generated_utc": "2026-10-24T12:35:25.447026+00:00",
+ "invariant": "READY_COUNT > 0 AND ACTIVE_WORKERS = 0 => DISPATCH_NEXT_READY",
+ "ready_count": 0,
+ "active_workers": [],
+ "decision": "IDLE_NO_READY",
+ "rg04_armed": true,
+ "rg04_allowlist": [
+  "C14.1",
+  "C14.2",
+  "C14.3",
+  "C14.4",
+  "C14.5",
+  "C14.6",
+  "C14.7",
+  "C14.8"
+ ],
+ "rg04_gated": 14,
+ "cursor": {
+  "before": 0,
+  "start": 0,
+  "after": 0,
+  "ready_n": 0
+ },
+ "next": null,
+ "buckets": {
+  "DONE_VERIFIED": [
+   {
+    "id": "W00",
+    "command": null,
+    "why": "44/44 source freeze + F10 rebind",
+    "queue_state": "PARKED_NEEDS_SOURCE_OWNER_SIGNATURE",
+    "ceiling": "44/44 source hashes and four repo HEADs are recorded, but predecessor reconciliation, canonical Owner/currentness and CAPC bundle identity are NOT established; PLAN v2 corrected the earlier DONE"
+   },
+   {
+    "id": "C01",
+    "command": "cd HG-KSEOS && PYTHONPATH=src /c/Users/user/.local/bin/uv.exe run --python 3.12 python -m hg_kseos doctor",
+    "why": "HGK doctor rerun",
+    "queue_state": "DONE",
+    "ceiling": "HGK doctor PASS under CPython 3.12: 13 checks, 0 blocking; the 18-red conformance rerun is a separate card"
+   },
+   {
+    "id": "C11",
+    "command": "python var/R17-20261023/tools/hgk_native_abi_readback.py",
+    "why": "native ABI readback",
+    "queue_state": "DONE",
+    "ceiling": "native ABI discovery + read-only readback: 33 tables, workorder census over 640 rows, lease ABI PRESENT, Permit ABI ABSENT (asserted, not assumed)"
+   },
+   {
+    "id": "R16-F10",
+    "command": null,
+    "why": "static oracle rebind",
+    "queue_state": "DONE",
+    "ceiling": "static oracle rebound to measured HEADs (oracle sha 609c380c..., master 8276b1bd..., 1799 lines); runtime qualification explicitly NOT_CLAIMED"
+   },
+   {
+    "id": "R16-F08",
+    "command": null,
+    "why": "NoFit declaration",
+    "queue_state": "DONE_NOFIT",
+    "ceiling": "gstack ABSENT measured; closed as NO_FIT_METHOD_NOT_ADMITTED with named native alternatives; C10 stays unpassed, provider qualification OPEN"
+   },
+   {
+    "id": "R16-F12",
+    "command": "python var/R17-20261023/tools/join_lanes.py",
+    "why": "lane join artefact",
+    "queue_state": "DONE",
+    "ceiling": "three-lane join artefact written: 3 GREEN_ATTRIBUTED (PLAN x2, VERIFY) + EXECUTE ex5 GREEN_ATTRIBUTED; ex2/ex3 recorded RED; epoch 33"
+   },
+   {
+    "id": "R16-F06",
+    "command": "python var/R17-20261023/tools/hgk_native_abi_readback.py --selftest",
+    "why": "swarm fan-in evidence is the ABI selftest",
+    "queue_state": "DONE",
+    "ceiling": "native ABI readback + 14/14 offline POS/NEG dispatched through tools/advance.py (exit 0); a live swarm replay is still not run"
+   },
+   {
+    "id": "DEL-01",
+    "command": null,
+    "why": "freeze artefact",
+    "queue_state": "PARKED_OWNER_ONLY_DELETION",
+    "ceiling": "freeze artefact exists and is hash-bound, but the delivery claim 'SOURCE_FROZEN' needs the owner currentness signature; corrected from DONE by PLAN v2"
+   },
+   {
+    "id": "FABRIC-CANARY",
+    "command": "python var/R17-20261023/tools/fabric_consumer_canary.py",
+    "why": "re-runnable Fabric consumer readback: 8/9 route, PROVIDER_CHANGE fail-closed",
+    "queue_state": "DONE",
+    "ceiling": "8/9 route_ok, PROVIDER_CHANGE fail-closed, 2 negatives fail closed; 8/9 is not 9/9 and no ACTIVE designation exists"
+   },
+   {
+    "id": "DEST-01",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-11",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-12",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-13",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   },
+   {
+    "id": "DEST-16",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "DONE_DOC_RED"
+   }
+  ],
+  "READY_READONLY": [
+   {
+    "id": "C07",
+    "command": "python var/R17-20261023/tools/join_lanes.py",
+    "why": "three-lane join refresh",
+    "queue_state": "SAFETY_HOLD_EXECUTE",
+    "ceiling": "N9 root cause CONFIRMED: the lane ran danger-full-access by role default and no exec-time write-set barrier exists. Writer dispatch is held until a Host-provisioned enforcing sandbox passes a canary N"
+   },
+   {
+    "id": "C16",
+    "command": "cd PIPD && PYTHONPATH=src python -m pipd_ls_sp.cli doctor",
+    "why": "PIPD doctor + verb surface",
+    "queue_state": "PARTIAL_DEFECT_REPAIRED_AS_CANDIDATE",
+    "ceiling": "DOCTOR_PASSES_WITHOUT_WORKSPACE_SCHEMAS measured on the live code and repaired as a candidate: bare root -> FAIL naming the workspace-local surface, real workspace -> PASS, unpatched control still PAS"
+   },
+   {
+    "id": "W01",
+    "command": "python var/R17-20261023/tools/probe_all.py --id W01",
+    "why": "diagnose the 2 PARTIAL skills from the conformance output, read-only",
+    "queue_state": "PARTIAL_MEASURED",
+    "ceiling": "8-skill conformance re-run today: 6 PASS, 2 PARTIAL (pipd-assurance-tqaep, pipd-package-project: refuse enforced 3/4), 0 FAIL. The '18 red' conformance suite referenced by R17 does not exist on this h",
+    "source": "ROW_AUDIT_R17.json"
+   },
+   {
+    "id": "W05",
+    "command": "python var/R17-20261023/tools/probe_all.py --id W05",
+    "why": "reproduce doctor/validate failures read-only and bind every verb's failure mode",
+    "queue_state": "EVIDENCE_BOUND_CANDIDATE_VERIFIED",
+    "ceiling": "PIPD drift-scan patch applied in an isolated mirror: no exception, planted duplicate reported exactly once, vendored lib64 symlink not followed, unpatched original diverges. The Fabric root patch is S",
+    "source": "ROW_AUDIT_R17.json"
+   },
+   {
+    "id": "R14-CHK00",
+    "command": "python var/R17-20261023/tools/row_audit.py",
+    "why": "static predicate over the frozen artefacts (sandbox)",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "ceiling": "",
+    "source": "ROW_AUDIT_R17.json"
+   },
+   {
+    "id": "R14-CHK01",
+    "command": "python var/R17-20261023/tools/row_audit.py",
+    "why": "static predicate over the frozen artefacts (sandbox)",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER",
+    "ceiling": "",
+    "source": "ROW_AUDIT_R17.json"
+   }
+  ],
+  "READY_ISOLATED_CANDIDATE": [
+   {
+    "id": "W01.1",
+    "command": "python var/R17-20261023/tools/semantic_sod_candidate.py",
+    "why": "classify the two PARTIAL skills' NEG-001 as SCHEMA_REFUSED / SEMANTIC_REFUSED / NOT_ENFORCED",
+    "parent": "W01",
+    "queue_state": "PARTIAL_MEASURED",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W01.2",
+    "command": "python var/R17-20261023/tools/candidate_neg001.py",
+    "why": "prove the package-project approval conditional closes NEG-001 without regressing POS/EDGE/SEC",
+    "parent": "W01",
+    "queue_state": "PARTIAL_MEASURED",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W01.3",
+    "command": "python var/R17-20261023/tools/diagnose_skill_findings.py",
+    "why": "name the exact unenforced refusal case per skill instead of 'refuse 3/4'",
+    "parent": "W01",
+    "queue_state": "PARTIAL_MEASURED",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W02.1",
+    "command": "python var/R17-20261023/tools/fabric_consumer_canary.py",
+    "why": "re-measure the Fabric consumer root defect and the routing table",
+    "parent": "W02",
+    "queue_state": "BLOCKED_OWNER",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W02.2",
+    "command": "python var/R17-20261023/tools/probe_all.py --id W02",
+    "why": "compare the router's declared change classes with the canonical class vocabulary",
+    "parent": "W02",
+    "queue_state": "BLOCKED_OWNER",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W05.1",
+    "command": "python var/R17-20261023/tools/probe_all.py --id W05",
+    "why": "bind every PIPD verb's failure mode and re-measure doctor on clean vs live root",
+    "parent": "W05",
+    "queue_state": "EVIDENCE_BOUND_CANDIDATE_VERIFIED",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "W05.2",
+    "command": "python var/R17-20261023/tools/row_audit.py",
+    "why": "recompute the static predicates over the frozen artefacts",
+    "parent": "W05",
+    "queue_state": "EVIDENCE_BOUND_CANDIDATE_VERIFIED",
+    "source": "SUBTASKS_R17.json"
+   },
+   {
+    "id": "C00.1",
+    "command": "python var/R17-20261023/tools/probe_all.py --id C00",
+    "why": "verify the existing compiled contract artefacts by digest (no recompile)",
+    "parent": "C00",
+    "queue_state": "PARTIAL",
+    "source": "SUBTASKS_R17.json"
+   }
+  ],
+  "READY_ADMITTED_EFFECT": [],
+  "BLOCKED_SECURITY": [],
+  "BLOCKED_OWNER": [
+   {
+    "id": "C02",
+    "command": null,
+    "why": "Fabric active designation",
+    "queue_state": "BLOCKED_OWNER_WITH_NEW_DEFECTS",
+    "ceiling": "Consumer root resolution now works in-tree (8/9 classes ROUTE_OK, PROVIDER_CHANGE fails closed), FABRIC_ROOT override fails closed - but two defects are measured: the consumer routes a TAMPERED router"
+   },
+   {
+    "id": "C10",
+    "command": null,
+    "why": "gstack not admitted -> NoFit recorded",
+    "queue_state": "FAIL",
+    "ceiling": "gstack executable absent on this host; the row closes as NO_FIT_METHOD_NOT_ADMITTED, never as a provider PASS"
+   },
+   {
+    "id": "R16-F13",
+    "command": null,
+    "why": "Fabric designation + path fix grant",
+    "queue_state": "BLOCKED_OWNER_WITH_NEW_DEFECTS",
+    "ceiling": "same measurement as C02: designation absent, router integrity unbound; six-edge join still not attempted"
+   }
+  ],
+  "BLOCKED_DEPENDENCY": [
+   {
+    "id": "C00",
+    "command": null,
+    "why": "official C0..C9 compile rerun writes into SBL/contracts -> needs an SBL write grant (no such script exists in-round)",
+    "queue_state": "PARTIAL",
+    "ceiling": "44/44 sources hash-bound; the four official stages (lint/activation/acceptance/compile) each exited 0 against the existing C0..C9 contract, package_sha256=754cf7be...; the prompt's named runner script"
+   },
+   {
+    "id": "W02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "BLOCKED_OWNER"
+   },
+   {
+    "id": "W03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "SAFETY_HOLD_EXECUTE"
+   },
+   {
+    "id": "W09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W10",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W11",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W12",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W13",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W15",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W16",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "W17",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C12",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C13",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C15",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C17",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C18",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "EVIDENCE_BOUND_DENOMINATOR_ONLY"
+   },
+   {
+    "id": "C19",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C20",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C21",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C22",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C23",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "C24",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS00",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS01",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS10",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS11",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS12",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS13",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS15",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS16",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS17",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS18",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS19",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS20",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS21",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS22",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS23",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS24",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS25",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS26",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS27",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS28",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-TS29",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NATIVE_OR_AO"
+   },
+   {
+    "id": "R14-TS30",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK10",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK11",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK12",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK13",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK15",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK16",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK17",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK18",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK19",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK20",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK21",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK22",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK23",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK24",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK25",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK26",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R14-CHK27",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK28",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK29",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_INDEPENDENT_CHECKER"
+   },
+   {
+    "id": "R14-CHK30",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "DEST-10",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "EVIDENCE_BOUND_FIXTURE_RED"
+   },
+   {
+    "id": "DEST-15",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "EVIDENCE_BOUND_FIXTURE_RED"
+   },
+   {
+    "id": "R16-F01",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R16-F02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R16-F03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R16-F04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARTIAL_WITH_NEW_DEFECT"
+   },
+   {
+    "id": "R16-F05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARTIAL"
+   },
+   {
+    "id": "R16-F07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_NOFIT_RECEIPTS"
+   },
+   {
+    "id": "R16-F09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R16-F11",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "R16-F14",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_NEEDS_OWNER_PROMOTION"
+   },
+   {
+    "id": "DEL-02",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_OWNER_ONLY_DELETION"
+   },
+   {
+    "id": "DEL-03",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_OWNER_ONLY_DELETION"
+   },
+   {
+    "id": "DEL-04",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_OWNER_ONLY_DELETION"
+   },
+   {
+    "id": "DEL-05",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "DEL-06",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "PARKED_OWNER_ONLY_DELETION"
+   },
+   {
+    "id": "DEL-07",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "DEL-08",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "DEL-09",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   },
+   {
+    "id": "DEL-10",
+    "command": null,
+    "why": "not classified by the driver",
+    "queue_state": "NOT_RUN"
+   }
+  ],
+  "STALLED_NO_NEW_EVIDENCE": [
+   {
+    "id": "C14.1",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag A0",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:32:05.617119+00:00"
+   },
+   {
+    "id": "C14.2",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag A",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:33:12.484957+00:00"
+   },
+   {
+    "id": "C14.3",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag B",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:33:10.181020+00:00"
+   },
+   {
+    "id": "C14.4",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag C",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:33:14.775902+00:00"
+   },
+   {
+    "id": "C14.5",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag D",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:55:12.406727+00:00"
+   },
+   {
+    "id": "C14.6",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag E",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:55:10.023544+00:00"
+   },
+   {
+    "id": "C14.7",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag F",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T10:55:14.839496+00:00"
+   },
+   {
+    "id": "C14.8",
+    "command": "python var/R17-20261023/tools/rg04_probe.py --tag G",
+    "why": "same inputs as the last successful run",
+    "parent": "C14",
+    "queue_state": "NOT_RUN",
+    "source": "SUBTASKS_R17.json",
+    "digest": "0d424420998b57e6",
+    "last_utc": "2026-10-24T11:06:10.133682+00:00"
+   }
+  ]
+ },
+ "counts": {
+  "DONE_VERIFIED": 23,
+  "READY_READONLY": 6,
+  "READY_ISOLATED_CANDIDATE": 8,
+  "READY_ADMITTED_EFFECT": 0,
+  "BLOCKED_SECURITY": 0,
+  "BLOCKED_OWNER": 3,
+  "BLOCKED_DEPENDENCY": 114,
+  "STALLED_NO_NEW_EVIDENCE": 8
+ }
+}
