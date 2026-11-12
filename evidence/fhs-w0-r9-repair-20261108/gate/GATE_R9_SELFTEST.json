@@ -1,0 +1,82 @@
+[
+ {
+  "check": "G11",
+  "name": "LINE_CONVENTION",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "LINE_FIELD_FALSE",
+  "mutated_detail": "1 records have a false match field; first=SBL-DOC-00"
+ },
+ {
+  "check": "G12",
+  "name": "SEGMENTATION_RULE",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "RULES_COLLAPSED",
+  "mutated_detail": "both rules report 111331: they are not two rules"
+ },
+ {
+  "check": "G13",
+  "name": "COUNT_SCOPE",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "COUNT_WITHOUT_SCOPE",
+  "mutated_detail": "block kb_external_normalised carries no scope string"
+ },
+ {
+  "check": "G14",
+  "name": "MAXIMUM_IS_GLOBAL",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "MAXIMUM_IS_NOT_GLOBAL",
+  "mutated_detail": "max_overall=0.0 but the largest breakdown value is 0.245432"
+ },
+ {
+  "check": "G15",
+  "name": "LICENCE_LAYER",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "LICENCE_SCOPE_NOTE",
+  "mutated_detail": "sbl: no scope_note"
+ },
+ {
+  "check": "G16",
+  "name": "DECLARED_COVERS_IMPORTS",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "YAML_NOT_LOCATED",
+  "mutated_detail": "undeclared modules found: []"
+ },
+ {
+  "check": "G17",
+  "name": "ENUM_SLASH_SAFE",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "SLASH_PARSE_NOT_DEMONSTRATED",
+  "mutated_detail": "{\"naive\": 11, \"robust\": 11, \"delta\": 1, \"missing_id\": \"SEAM-09\", \"cause\": \"斜線標題使 token 切分失敗\", \"cause_detail\": \"SEAM-09 的標題 'Replay/stale' 使該列 cell 的 '/' 分段由 2 變 3，slash-first 解析器判定該列結構不符而丟棄；robust 以行首"
+ },
+ {
+  "check": "G18",
+  "name": "DIGEST_LOCALITY",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "DIGEST_CROSSES_PAYLOAD",
+  "mutated_detail": "1 unresolved: [{'entry': '../other-payload/not-here.json', 'why': 'PATH_OUTSIDE_PAYLOAD', 'manifest': 'out\\\\stage\\\\fabric\\\\INTEGRATION\\\\FHS\\\\docs\\\\as-built\\\\W0\\\\r9\\\\PROVENANCE.json'}]"
+ },
+ {
+  "check": "G19",
+  "name": "COPY_REGISTER",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "COPY_CANONICAL_STATE",
+  "mutated_detail": "canonical resolution is not OWNER_UNRESOLVED"
+ },
+ {
+  "check": "G20",
+  "name": "SUPPLY_CHAIN_SPLIT",
+  "baseline": "PASS",
+  "mutated": "FIRED",
+  "mutated_code": "SUPPLY_CHAIN_SUBSTITUTION_ALLOWED",
+  "mutated_detail": "claim_shape does not state that the halves are different evidence classes"
+ }
+]

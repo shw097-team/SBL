@@ -1,0 +1,33 @@
+{
+  "schema": "FHS.KANBAN/1",
+  "round": "FHS_W0_R9_REPAIR_20261108",
+  "object_under_repair": "FHS_PIPD-LS-PKG_W0 (local implementation of the six W0 work packages)",
+  "draft_treated_as": "FHS_PIPD-LS-PKG_W0_r8 (539,712 B, sha256 ccd545b5…)",
+  "upstream_verdict_ingested": "FHS_W0_R7_VERIFICATION_REPORT_2026-11-08 (AUTHOR_SIDE_MEASURED_WITH_SCOPED_HOLDS)",
+  "generated_at": "2026-11-08T07:50:00+0800",
+  "columns": ["READY", "IN_PROGRESS", "COLLECTED", "GATED", "PARKED_OWNER", "DONE_LOCAL"],
+  "owner_signing_demand_measured": 0,
+  "owner_window_opened": false,
+  "why_no_window": "registry rev 13 unchanged; 31/31 rows INSTALLED and owner-signed; root owner_signature present; this round adds no row and changes no row; every effect is SOURCE_READ / LOCAL_DRAFT_WRITE / LOCAL_PROCESS_EXECUTE / repository feature-branch publish via repo token. Opening would end at ops_used:0.",
+  "items": [
+    {"id": "WK-00", "wp": "WP-FHS-00", "title": "source lock v2: one line convention, verdict covers bytes+lines+sha (V-07)", "state": "IN_PROGRESS", "lane": "A", "defect": "V-07", "done_when": "31/31 true on bytes, lines and sha; declared sum == observed sum == 111331"},
+    {"id": "WK-01", "wp": "WP-FHS-01", "title": "U0 dual segmentation: per-line and structural blocks, both tile exactly (V-04)", "state": "IN_PROGRESS", "lane": "B", "defect": "V-04", "done_when": "both rules tile 0..filesize on 31/31; per-line sum == 111331; structural count published with reconciliation"},
+    {"id": "WK-02", "wp": "WP-FHS-01", "title": "authority conflict ledger v2: in-set duplicates vs external copies, explicit scope (V-03)", "state": "IN_PROGRESS", "lane": "A", "defect": "V-03", "done_when": "every count carries a scope string; in-set == 0; external divergent measured independently"},
+    {"id": "WK-03", "wp": "WP-FHS-15", "title": "distinctness v2: four method families, true maximum, 0.0755 demoted (V-02)", "state": "IN_PROGRESS", "lane": "C", "defect": "V-02", "done_when": "max_overall is the maximum over all pairs and methods; prior claim marked not-a-maximum; negative control bites"},
+    {"id": "WK-04", "wp": "WP-FHS-19", "title": "licence scope split root vs nested; declared-vs-imported dependency (V-06, A-01)", "state": "IN_PROGRESS", "lane": "D", "defect": "V-06/A-01", "done_when": "three repos carry root_licence_present + nested_licence_count + scope_note; HG-KSEOS cryptography located with file/line count"},
+    {"id": "WK-05", "wp": "WP-FHS-19", "title": "SBL supply-chain claim split into offline-reproducible and hosted-conclusion (A-03)", "state": "IN_PROGRESS", "lane": "D", "defect": "A-03", "done_when": "two evidence classes recorded separately; no substitution between them"},
+    {"id": "WK-06", "wp": "WP-FHS-21", "title": "slash-safe SEAM enumeration; naive undercount reproduced then caught (A-02)", "state": "IN_PROGRESS", "lane": "E", "defect": "A-02", "done_when": "robust == 11 and set equals {01..11}; naive == 10 with the missing id named"},
+    {"id": "WK-07", "wp": "cross", "title": "source copy register: every cited document name resolved to copies by digest (V-01)", "state": "READY", "lane": "MAIN", "defect": "V-01", "done_when": "each cited name maps to digests; two r6 copies both listed; canonical state OWNER_UNRESOLVED"},
+    {"id": "WK-08", "wp": "cross", "title": "publication manifest v2: every digest resolves inside its own payload (V-05)", "state": "READY", "lane": "MAIN", "defect": "V-05", "done_when": "verifier finds 0 digests that resolve only by crossing payloads; old manifest marked superseded not rewritten"},
+    {"id": "WK-09", "wp": "cross", "title": "GSTACK v2: inherited 16 + G11..G19, each proven to bite", "state": "READY", "lane": "MAIN", "defect": "gate-coverage", "done_when": "r9 all green; r8 red on the G11..G19 family; injected violations red with named codes; empty round exit 2"},
+    {"id": "WK-10", "wp": "cross", "title": "r9 write-back chapter, sidecars, WP matrix, layer audit, self-errors", "state": "READY", "lane": "MAIN", "defect": null, "done_when": "r8 bytes preserved as exact prefix; every number read from a final artifact"},
+    {"id": "WK-11", "wp": "cross", "title": "publish to SBL and Fabric as candidate PRs with payload-local manifests", "state": "READY", "lane": "MAIN", "defect": "V-05", "done_when": "both branches pushed, CI read back, PRs open and unmerged"},
+    {"id": "WK-12", "wp": "cross", "title": "closeout: integrated MD for external verifier, handover, SHA256SUMS", "state": "READY", "lane": "MAIN", "defect": null, "done_when": "single MD delivered as MEDIA with reproducible commands"},
+    {"id": "OWN-01", "wp": "owner", "title": "R1-ISSUER-REV14: registry rev 14 issuer recovery", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "REGISTRY_REV13_NO_ISSUER_RECOVERY", "predicate": "protected terminal + issuer private key; owner runs the tool"},
+    {"id": "OWN-02", "wp": "owner", "title": "AUTHORITY-17-COLLISIONS incl. the two r6 copies (V-01 canonical choice)", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "NAME_COLLISION_DIFFERENT_DIGEST", "predicate": "owner names the authoritative copy per name group"},
+    {"id": "OWN-03", "wp": "owner", "title": "LICENCE-FABRIC-HGK: licence decision for two repos", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "LICENCE_ABSENT_AT_ROOT", "predicate": "root LICENSE/NOTICE exists and the scan re-runs"},
+    {"id": "OWN-04", "wp": "owner", "title": "HGK-CI-ABSENT: whether HG-KSEOS gets CI (now two reasons: no CI, undeclared cryptography)", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "CI_SERVICE_ABSENT", "predicate": "a workflow exists and runs, or a decision not to build one with narrowed expectations"},
+    {"id": "OWN-05", "wp": "owner", "title": "PIPD-15-VALUESET: 15 contract families value-set closure", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "CONTRACT_FAMILY_VALUE_SET_UNCLOSED", "predicate": "closure lands and schema binding is renewed"},
+    {"id": "OWN-06", "wp": "owner", "title": "ORIGINAL-ACK-18: any of the 18 original work-package readers issues a receipt", "state": "PARKED_OWNER", "lane": "OWNER", "firstfail": "ORIGINAL_READER_ACK_UNOBSERVED", "predicate": "original domain reader reads the same subject/scope bytes and issues ACK or scoped NACK"}
+  ]
+}

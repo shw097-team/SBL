@@ -1,0 +1,98 @@
+{
+ "schema": "FHS.W0.Gate/2",
+ "gate": "GSTACK v2",
+ "mode": "prior",
+ "round": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108",
+ "prior": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108",
+ "generated_at": "2026-11-08T07:57:45+08:00",
+ "checks": [
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "verdict": "FAIL",
+   "code": "LINE_CONVENTION_INCONSISTENT",
+   "detail": "0/31 line fields true while counts say 31/31: a verdict that omits the field it prints"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "verdict": "FAIL",
+   "code": "SEGMENTATION_RULE_ABSENT",
+   "detail": "only one rule published (segments=111331); no structural count exists, so the number cannot be attributed"
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "scope present"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "verdict": "FAIL",
+   "code": "MAXIMUM_NOT_PUBLISHED",
+   "detail": "no global maximum published; largest pair value is 0.2134, yet one sub-method field (0.0755) was quoted elsewhere as the maximum"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "verdict": "FAIL",
+   "code": "LICENCE_UNLAYERED_CLAIM",
+   "detail": "['Fabric', 'HG-KSEOS'] carry a bare absence string with no layer"
+  },
+  {
+   "check": "G16",
+   "name": "DECLARED_COVERS_IMPORTS",
+   "verdict": "FAIL",
+   "code": "DECLARED_VS_IMPORTED_ABSENT",
+   "detail": "dependency inventory lists declared packages only; no import set is compared"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "verdict": "PASS",
+   "code": "OK_PARSER_NOT_EXERCISED",
+   "detail": "denominators correct, but the artifact never shows a naive parse: fragility is untested here and is proven by injection instead"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "verdict": "NOT_APPLICABLE",
+   "code": "NO_ANALOGUE",
+   "detail": "prior round staged no payload"
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "verdict": "NOT_APPLICABLE",
+   "code": "NO_ANALOGUE",
+   "detail": "prior round kept no copy register"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_SPLIT",
+   "verdict": "FAIL",
+   "code": "SUPPLY_CHAIN_NOT_SPLIT",
+   "detail": "the prior report does not separate an offline result from a hosted conclusion"
+  }
+ ],
+ "summary": {
+  "total": 10,
+  "pass": 2,
+  "fail": 6,
+  "absent": 0,
+  "not_applicable": 2
+ },
+ "hygiene": {
+  "findings": [],
+  "count": 0
+ },
+ "claim_ceiling": "GATE_VERDICT_NOT_ACCEPTANCE",
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_WORLDRAW",
+  "RELEASE_GRANTED",
+  "INDEPENDENT_PASS"
+ ]
+}

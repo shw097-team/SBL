@@ -1,0 +1,421 @@
+{
+  "schema": "FHS.WP15.DISTINCTNESS_V2/1",
+  "generated_at": "2026-11-08T07:45:02+08:00",
+  "status": "MEASURED_DISTINCT_ALL_METHODS_PASS",
+  "tool": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/lanes/C/tools/distinctness_v2.py",
+  "tool_sha256": "b95cbe1b58babb2767ffa997610ae67716f1caafc6d5a05c1f9a628b1f3db479",
+  "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+  "inputs": {
+    "product": {
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs/product_SPEC.md",
+      "bytes": 9116,
+      "sha256": "6a1e9255a690e3de57d4b6790c4d3f7fee162a894849c9e7d2c419be86ce1d59"
+    },
+    "architecture": {
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs/architecture_SPEC.md",
+      "bytes": 9267,
+      "sha256": "221ff09a29426c815bc77a64839af8c90fc451a2f742e43c35269bfc91b19b3b"
+    },
+    "program": {
+      "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/specs/program_SPEC.md",
+      "bytes": 9691,
+      "sha256": "c7b21c1c504cb26b9c6d899098d5da356c1700178c2d0e25d3bef3f8da77a60f"
+    }
+  },
+  "input_files": {
+    "sha256_all_different": true,
+    "bytes_all_different": true,
+    "sha256": {
+      "product": "6a1e9255a690e3de57d4b6790c4d3f7fee162a894849c9e7d2c419be86ce1d59",
+      "architecture": "221ff09a29426c815bc77a64839af8c90fc451a2f742e43c35269bfc91b19b3b",
+      "program": "c7b21c1c504cb26b9c6d899098d5da356c1700178c2d0e25d3bef3f8da77a60f"
+    },
+    "bytes": {
+      "product": 9116,
+      "architecture": 9267,
+      "program": 9691
+    }
+  },
+  "files_distinct": true,
+  "prior_0075_reproduced": true,
+  "prior_0075_is_maximum": false,
+  "negative_control_bites": true,
+  "notes": "六族並列：句 2g/3g、char 5g、token 3g、非空行。max_overall 為 15 個 pair×方法量測的全域最大值；0.0755 以本輪正規化不可重現（最近 0.0922，A-G 句 2g），但以前輪工具正規化可精確複製為 P-A 句 2g 值，且前輪同次執行的 max 欄為 0.2134。負控（只改 H1）最高 0.9966，度量確實會咬。",
+  "normalization": {
+    "rules": [
+      "CRLF→LF",
+      "全形空白 U+3000→空白",
+      "連續空白/tab 收斂為一個空白",
+      "行首行尾空白去除",
+      "3+ 連續換行收斂為 2",
+      "保留標點與換行"
+    ],
+    "sentence_split": "lookbehind [。！？!?；;] 或換行",
+    "tokenization": "拉丁/數字連續段為一詞；CJK 逐字為一 token",
+    "char5gram": "去全部空白後取 5 字元滑窗集合",
+    "line_set": "非空行（strip 後）集合"
+  },
+  "matrix": {
+    "P-A": {
+      "sentence_shingle_2gram": 0.105,
+      "sentence_shingle_3gram": 0.052885,
+      "char5gram_jaccard": 0.245432,
+      "token3gram_jaccard": 0.118884,
+      "line_jaccard": 0.235294
+    },
+    "P-G": {
+      "sentence_shingle_2gram": 0.094527,
+      "sentence_shingle_3gram": 0.048077,
+      "char5gram_jaccard": 0.241181,
+      "token3gram_jaccard": 0.11439,
+      "line_jaccard": 0.227273
+    },
+    "A-G": {
+      "sentence_shingle_2gram": 0.092233,
+      "sentence_shingle_3gram": 0.046948,
+      "char5gram_jaccard": 0.243413,
+      "token3gram_jaccard": 0.123887,
+      "line_jaccard": 0.225806
+    }
+  },
+  "max_per_method": {
+    "sentence_shingle_2gram": 0.105,
+    "sentence_shingle_3gram": 0.052885,
+    "char5gram_jaccard": 0.245432,
+    "token3gram_jaccard": 0.123887,
+    "line_jaccard": 0.235294
+  },
+  "max_by_pair": {
+    "P-A": 0.245432,
+    "P-G": 0.241181,
+    "A-G": 0.243413
+  },
+  "max_overall": 0.245432,
+  "max_overall_argmax": [
+    {
+      "pair": "P-A",
+      "method": "char5gram_jaccard"
+    }
+  ],
+  "max_overall_definition": "max over {3 pairs} × {5 methods} = 15 個量測值",
+  "prior_claim": {
+    "value": 0.0755,
+    "reproduced_as_maximum": false,
+    "reproduced_at_all": true,
+    "field_it_actually_belongs_to": "P-A / sentence_shingle_2gram",
+    "reproduced_exact_value": 0.075472,
+    "measured_value_here": 0.105,
+    "reproduction_normalization": "前輪 tools/spec_distinctness.py：NFKC + 去標點與空白 + 小寫，句長≥8，k=2 句 shingle",
+    "prior_replication": {
+      "P-A": {
+        "sentence_shingle_2gram": 0.075472,
+        "char5gram_jaccard": 0.213394
+      },
+      "P-G": {
+        "sentence_shingle_2gram": 0.061728,
+        "char5gram_jaccard": 0.210174
+      },
+      "A-G": {
+        "sentence_shingle_2gram": 0.06135,
+        "char5gram_jaccard": 0.211289
+      }
+    },
+    "prior_replication_max": {
+      "pair": "P-A",
+      "method": "char5gram_jaccard",
+      "value": 0.213394
+    },
+    "v2_nearest": {
+      "pair": "A-G",
+      "method": "sentence_shingle_2gram",
+      "value": 0.092233
+    },
+    "v2_hits_at_0075": [],
+    "delta_nearest_v2": 0.016733,
+    "nearest_5_v2": [
+      {
+        "pair": "A-G",
+        "method": "sentence_shingle_2gram",
+        "value": 0.092233
+      },
+      {
+        "pair": "P-G",
+        "method": "sentence_shingle_2gram",
+        "value": 0.094527
+      },
+      {
+        "pair": "P-A",
+        "method": "sentence_shingle_3gram",
+        "value": 0.052885
+      },
+      {
+        "pair": "P-G",
+        "method": "sentence_shingle_3gram",
+        "value": 0.048077
+      },
+      {
+        "pair": "A-G",
+        "method": "sentence_shingle_3gram",
+        "value": 0.046948
+      }
+    ],
+    "verdict": "0.0755 可重現，但只是 P-A 的句級 shingle 值（前輪正規化下=0.0755）；它不是上限——前輪同一次執行的 max 欄是 0.2134（P-A char5gram），本輪 15 個 pair×方法量測的全域最大值是 0.245432（P-A/char5gram_jaccard）。"
+  },
+  "thresholds": {
+    "sentence_threshold": 0.85,
+    "char5_threshold": 0.8,
+    "per_method": {
+      "sentence_shingle_2gram": {
+        "threshold": 0.85,
+        "pairs": {
+          "P-A": {
+            "value": 0.105,
+            "verdict": "PASS"
+          },
+          "P-G": {
+            "value": 0.094527,
+            "verdict": "PASS"
+          },
+          "A-G": {
+            "value": 0.092233,
+            "verdict": "PASS"
+          }
+        }
+      },
+      "sentence_shingle_3gram": {
+        "threshold": 0.85,
+        "pairs": {
+          "P-A": {
+            "value": 0.052885,
+            "verdict": "PASS"
+          },
+          "P-G": {
+            "value": 0.048077,
+            "verdict": "PASS"
+          },
+          "A-G": {
+            "value": 0.046948,
+            "verdict": "PASS"
+          }
+        }
+      },
+      "char5gram_jaccard": {
+        "threshold": 0.8,
+        "pairs": {
+          "P-A": {
+            "value": 0.245432,
+            "verdict": "PASS"
+          },
+          "P-G": {
+            "value": 0.241181,
+            "verdict": "PASS"
+          },
+          "A-G": {
+            "value": 0.243413,
+            "verdict": "PASS"
+          }
+        }
+      },
+      "token3gram_jaccard": {
+        "threshold": null,
+        "threshold_note": "本輪未給門檻；僅量測與記錄",
+        "pairs": {
+          "P-A": {
+            "value": 0.118884,
+            "verdict": "NO_THRESHOLD"
+          },
+          "P-G": {
+            "value": 0.11439,
+            "verdict": "NO_THRESHOLD"
+          },
+          "A-G": {
+            "value": 0.123887,
+            "verdict": "NO_THRESHOLD"
+          }
+        }
+      },
+      "line_jaccard": {
+        "threshold": null,
+        "threshold_note": "本輪未給門檻；僅量測與記錄",
+        "pairs": {
+          "P-A": {
+            "value": 0.235294,
+            "verdict": "NO_THRESHOLD"
+          },
+          "P-G": {
+            "value": 0.227273,
+            "verdict": "NO_THRESHOLD"
+          },
+          "A-G": {
+            "value": 0.225806,
+            "verdict": "NO_THRESHOLD"
+          }
+        }
+      }
+    }
+  },
+  "threshold_all_pass": true,
+  "negative_control": {
+    "id": "NC-V2-1",
+    "description": "product_SPEC.md 複製後僅改 H1 標題（附加 ' [NC-CLONE]'），其餘 byte 完全相同",
+    "clone_sha256": "6573344afce9a1f2ca5af984cb38cbab37438f7d8d2929d4376c9995aa646c17",
+    "clone_bytes": 9127,
+    "original_bytes": 9116,
+    "len_delta": 11,
+    "mutated_line": "# Product SPEC（PM） [NC-CLONE]",
+    "similarities": {
+      "sentence_shingle_2gram": 0.981651,
+      "sentence_shingle_3gram": 0.981481,
+      "char5gram_jaccard": 0.995568,
+      "token3gram_jaccard": 0.996624,
+      "line_jaccard": 0.978947
+    },
+    "bites": true,
+    "bite_rule": "max(similarities) > 0.85",
+    "max": 0.996624,
+    "cleaned_up": true
+  },
+  "structural_distinctness": {
+    "product": {
+      "h1": [
+        "Product SPEC（PM）"
+      ],
+      "h2_count": 14,
+      "h2_first8": [
+        "1. goal（目標）",
+        "2. scope（範圍）",
+        "3. persona_or_owner（角色與責任界線）",
+        "4. jtbd（使用者任務）",
+        "5. fuo（第一個有用結果，十欄）",
+        "6. non_goals（非目標）",
+        "7. assumptions（假設）",
+        "8. decisions（決策）"
+      ],
+      "consumer": "Original SBL Product Reader → Original PIPD Intake",
+      "neg_entries": 3,
+      "neg_statements": [
+        "以「已建立 N 個文件／N 個章節」交付，沒有任何使用者可取用的差額",
+        "把「Owner 已簽核並發行」寫進 FUO，而本輪沒有任何 Original Reader 讀回",
+        "把三份 SPEC 合併成一段 prose，或三份同文只換標題，仍宣稱已編成 PI"
+      ],
+      "neg_firstfail_codes": [
+        "`FUO_NOT_OBSERVABLE`",
+        "`PRODUCT_SPEC_FUO_MISSING`",
+        "`SPEC_NOT_SOURCE_BOUND`"
+      ]
+    },
+    "architecture": {
+      "h1": [
+        "Architecture SPEC（SE）"
+      ],
+      "h2_count": 14,
+      "h2_first8": [
+        "1. goal（目標）",
+        "2. scope（範圍）",
+        "3. persona_or_owner（角色與責任界線）",
+        "4. jtbd（使用者任務）",
+        "5. fuo（第一個有用結果，十欄）",
+        "6. non_goals（非目標）",
+        "7. assumptions（假設）",
+        "8. decisions（決策）"
+      ],
+      "consumer": "Original SBL/HGK/Fabric Architecture Registry Reader",
+      "neg_entries": 3,
+      "neg_statements": [
+        "同一個新服務同時簽 Permit 又當 Checker（SoD 破壞）仍被接受",
+        "把 GitHub HEAD 或 staging 的狀態當成 Host Active 讀回，並據此宣告 ABI 已綁",
+        "把所有操作歸成一律 OPS 權限，使 READ／DRAFT 也被 Permit 阻塞"
+      ],
+      "neg_firstfail_codes": [
+        "`ARCH_SOD_BREACH`",
+        "`EFFECT_CLASS_COLLAPSED`",
+        "`HOST_READBACK_HOLD`"
+      ]
+    },
+    "program": {
+      "h1": [
+        "Program SPEC（TPgM）"
+      ],
+      "h2_count": 14,
+      "h2_first8": [
+        "1. goal（目標）",
+        "2. scope（範圍）",
+        "3. persona_or_owner（角色與責任界線）",
+        "4. jtbd（使用者任務）",
+        "5. fuo（第一個有用結果，十欄）",
+        "6. non_goals（非目標）",
+        "7. assumptions（假設）",
+        "8. decisions（決策）"
+      ],
+      "consumer": "Original FHS BODY-11 Program/DAG Reader",
+      "neg_entries": 3,
+      "neg_statements": [
+        "把 WP-FHS-06 列為 W0 已執行完成（或其可逆效果已通過）",
+        "為縮工而改動原 DAG 邊、刪除 WP 或新增替代波，仍宣稱 22/36 保持不變",
+        "首份 W0 Draft 要等未來 W2 的 receipt 才願交付，使第一波沒有可讀產物"
+      ],
+      "neg_firstfail_codes": [
+        "`FUTURE_RECEIPT_DEPENDENCY`",
+        "`PROGRAM_WAVE_MISMATCH`",
+        "`SPEC_TRACE_BROKEN`"
+      ]
+    },
+    "h1_distinct": true,
+    "h2_distinct": false,
+    "consumer_distinct": true,
+    "neg_entries_distinct": false,
+    "neg_statement_sets_distinct": true,
+    "neg_firstfail_code_sets_distinct": true
+  },
+  "prior_report_evidence": {
+    "path": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15/REPORT.json",
+    "distinctness": {
+      "threshold": 0.85,
+      "pairs": [
+        {
+          "pair": [
+            "product",
+            "architecture"
+          ],
+          "sentence_shingle_jaccard": 0.0755,
+          "char5gram_jaccard": 0.2134,
+          "max": 0.2134,
+          "status": "PASS"
+        },
+        {
+          "pair": [
+            "product",
+            "program"
+          ],
+          "sentence_shingle_jaccard": 0.0617,
+          "char5gram_jaccard": 0.2102,
+          "max": 0.2102,
+          "status": "PASS"
+        },
+        {
+          "pair": [
+            "architecture",
+            "program"
+          ],
+          "sentence_shingle_jaccard": 0.0613,
+          "char5gram_jaccard": 0.2113,
+          "max": 0.2113,
+          "status": "PASS"
+        }
+      ],
+      "consumers_disjoint": true,
+      "neg_sets_disjoint": true,
+      "result": "PASS"
+    },
+    "counts": {
+      "specs": 3,
+      "acceptance_entries": 15,
+      "acceptance_pos": 6,
+      "acceptance_neg": 9
+    }
+  },
+  "limits": [
+    "本檔為作者端自我量測，不構成 Original Reader 驗收，也不構成任何世界效果。",
+    "Jaccard 值依方法族與正規化規則而變；不同工具的 0.0755 與本輪數值不可混用為同一量。"
+  ]
+}

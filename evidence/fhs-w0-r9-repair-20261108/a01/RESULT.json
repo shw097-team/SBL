@@ -1,0 +1,191 @@
+{
+ "schema": "FHS.W0.A01DependencyPatch/1",
+ "generated_at": "2026-11-08T07:57:22+08:00",
+ "tool_sha256": "de5d826330c4e4b64d72440dcc67ddc3b780e4c9b9d9da1cb72134297e62e3a8",
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED",
+ "repo": "C:/Projects/Agent_Workspace/HG-KSEOS",
+ "pyproject_sha256_before": "88264084de7e003d19aadb3e88c18a3bc09fa4e1c15cbd1bf7b6baebfd1b02cf",
+ "pyproject_bytes_before": 356,
+ "eol": "CRLF",
+ "corrections_of_prior_round": [
+  {
+   "prior_claim": "HG-KSEOS imports cryptography in three source modules while pyproject declares dependencies = []",
+   "measured": {
+    "pyproject_dependencies_line": "dependencies = [\"cryptography>=42\"]",
+    "issuer_binding_exists": false,
+    "cryptography_declared": true
+   },
+   "verdict": "PRIOR_CLAIM_FALSE_IN_BOTH_PARTS",
+   "consequence": "the supply-chain finding survives, but against a different module and a narrower shape"
+  }
+ ],
+ "before": {
+  "declared_runtime": [
+   "cryptography"
+  ],
+  "declared_optional": {},
+  "third_party_imported": [
+   "cryptography",
+   "yaml"
+  ],
+  "local_modules_excluded": [
+   "__init__",
+   "__main__",
+   "agents",
+   "assurance",
+   "bootstrap",
+   "capability_delta",
+   "capture_hermes_install",
+   "capture_hermes_runtime_validation",
+   "capture_local_verification",
+   "case_executors",
+   "case_executors_depth",
+   "check_acceptance_independent",
+   "check_package_local",
+   "check_security_nrtv",
+   "cli",
+   "compile_acceptance_cases",
+   "compile_requirements",
+   "control_validation",
+   "doctor",
+   "errors",
+   "evidence_graph",
+   "evolution",
+   "generate_sbom",
+   "harness",
+   "hlpe",
+   "knowledge",
+   "lane_admission",
+   "lane_policy",
+   "lane_route_resolver",
+   "lifecycle",
+   "mandate_gate",
+   "materialize_controls",
+   "meta_gates",
+   "named_methods",
+   "native_admission",
+   "observability",
+   "package_local",
+   "providers",
+   "r15_ledger",
+   "recovery",
+   "release",
+   "repo_intelligence",
+   "restore_drill",
+   "role_binding",
+   "run_acceptance",
+   "security",
+   "semantic_oracle",
+   "spine",
+   "task013_write_evidence_part1",
+   "task013_write_evidence_part2",
+   "user_trust",
+   "util",
+   "verify_hlpe"
+  ],
+  "undeclared": [
+   "yaml"
+  ],
+  "sites": {
+   "yaml": [
+    {
+     "path_rel": "src/hg_kseos/lane_policy.py",
+     "line": 71,
+     "inside_function": true,
+     "text": "import yaml  # local import; optional dependency"
+    }
+   ]
+  },
+  "verdict": "UNDECLARED_DEPENDENCY"
+ },
+ "after": {
+  "declared_runtime": [
+   "cryptography"
+  ],
+  "declared_optional": {
+   "yaml": [
+    "pyyaml"
+   ]
+  },
+  "third_party_imported": [
+   "cryptography",
+   "yaml"
+  ],
+  "local_modules_excluded": [
+   "__init__",
+   "__main__",
+   "agents",
+   "assurance",
+   "bootstrap",
+   "capability_delta",
+   "capture_hermes_install",
+   "capture_hermes_runtime_validation",
+   "capture_local_verification",
+   "case_executors",
+   "case_executors_depth",
+   "check_acceptance_independent",
+   "check_package_local",
+   "check_security_nrtv",
+   "cli",
+   "compile_acceptance_cases",
+   "compile_requirements",
+   "control_validation",
+   "doctor",
+   "errors",
+   "evidence_graph",
+   "evolution",
+   "generate_sbom",
+   "harness",
+   "hlpe",
+   "knowledge",
+   "lane_admission",
+   "lane_policy",
+   "lane_route_resolver",
+   "lifecycle",
+   "mandate_gate",
+   "materialize_controls",
+   "meta_gates",
+   "named_methods",
+   "native_admission",
+   "observability",
+   "package_local",
+   "providers",
+   "r15_ledger",
+   "recovery",
+   "release",
+   "repo_intelligence",
+   "restore_drill",
+   "role_binding",
+   "run_acceptance",
+   "security",
+   "semantic_oracle",
+   "spine",
+   "task013_write_evidence_part1",
+   "task013_write_evidence_part2",
+   "user_trust",
+   "util",
+   "verify_hlpe"
+  ],
+  "undeclared": [],
+  "sites": {},
+  "verdict": "DECLARED_COVERS_IMPORTS"
+ },
+ "patch": {
+  "path": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/out/A01_DEPENDENCY_PATCH/pyproject.toml.patch",
+  "inserted_lines": [
+   "[project.optional-dependencies]",
+   "yaml = [\"PyYAML>=6\"]  # imported lazily by hg_kseos.lane_policy._yaml_load_unique; absence degrades to None"
+  ],
+  "dry_run_and_apply": "apply rc=0; applied_equals_candidate=True",
+  "applied_equals_candidate": true,
+  "applied_sha256": "555576f347497eb49ec56a08dc5fe8939af9d3993ea3da9af8336ec1ca661646",
+  "candidate_path": "C:/Projects/Agent_Workspace/FHS_W0_R9_REPAIR_20261108/out/A01_DEPENDENCY_PATCH/pyproject.toml.candidate",
+  "candidate_sha256": "555576f347497eb49ec56a08dc5fe8939af9d3993ea3da9af8336ec1ca661646"
+ },
+ "not_applied_to_repo": true,
+ "why_not_applied": "HG-KSEOS is the native control source export; a packaging change there is the owner's write, and the repo has no CI to verify it. The patch is delivered validated and unapplied.",
+ "not_claimed": [
+  "UNDECLARED_DEPENDENCY_CLOSED_IN_REPO",
+  "OWNER_ACCEPTANCE"
+ ]
+}
