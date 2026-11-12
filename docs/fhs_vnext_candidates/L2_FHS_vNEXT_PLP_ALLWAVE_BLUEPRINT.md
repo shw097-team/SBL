@@ -13,7 +13,9 @@ generated: 2026-11-12T20:45:46
 ## 1. 波次 DAG
 
 `W0（受界完成）→ W1（單庫＋ABI＋手冊接線）→ W2（首個 Protected Slice）→ W3（4Host×3SP/192Cell）→ W4（Cutover）`。
-上游不得先於下游升格；W0 的 `E3` 判定為 `READY_TO_DRAFT_L0_L1_L2_WITH_SCOPED_HOLDS`。
+**下游正式規格不得早於其所依賴之上游有效基線的採納**：作者端候選可先行準備（prepare in advance），
+但正式生效順序仍為 L0 → L1 → L2 → L3，不得倒置。W0 的 `E3` 判定為 `READY_TO_DRAFT_L0_L1_L2_WITH_SCOPED_HOLDS`，
+因此本回合三份 L0/L1/L2 僅為作者候選，不構成任何下游正式規格的生效。
 
 ## 2. 每波 Done／FirstFail／Resume
 
