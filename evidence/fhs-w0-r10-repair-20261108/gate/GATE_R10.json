@@ -1,0 +1,145 @@
+{
+ "schema": "FHS.W0.Gate/3",
+ "gate": "GSTACK v3",
+ "round": "C:/Projects/Agent_Workspace/FHS_W0_R10_REPAIR_20261108",
+ "generated_at": "2026-11-08T10:55:57+08:00",
+ "checks": [
+  {
+   "check": "G10",
+   "name": "CHAIN_INTEGRITY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "chain r5→r6→r7→r8→r9→r10; own parent c15693d88d03 == r9; 6 declarations in the file, the last one counts"
+  },
+  {
+   "check": "G11",
+   "name": "LINE_CONVENTION",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "31/31 bytes+lines+sha; 111331/111331"
+  },
+  {
+   "check": "G12",
+   "name": "SEGMENTATION_RULE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "per_line=111331 structural=25201 rule published"
+  },
+  {
+   "check": "G13",
+   "name": "COUNT_SCOPE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "duplicate_sha256_groups=0 (key present); external [('kb_external_exact', 0), ('kb_external_normalised', 17)]"
+  },
+  {
+   "check": "G14",
+   "name": "MAXIMUM_IS_GLOBAL",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "21 cells, range [0.046948, 0.519037]"
+  },
+  {
+   "check": "G15",
+   "name": "LICENCE_LAYER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "HG-KSEOS@6c9fc73:False/8; worktrees/r4-hgk@a7046a3:False/0; GitHub-main@acd9196f:False/0"
+  },
+  {
+   "check": "G16a",
+   "name": "DEPENDENCY_TRUTHFUL",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "3 subjects agree with the trees"
+  },
+  {
+   "check": "G16b",
+   "name": "DEPENDENCY_CLOSED",
+   "severity": "REPORTING",
+   "verdict": "OPEN",
+   "code": "UNDECLARED_DEPENDENCY_OPEN",
+   "detail": "{\"hgk-main\": {\"undeclared\": [\"cryptography\", \"yaml\"], \"module_level\": [], \"scan_complete\": false}, \"hgk-local\": {\"undeclared\": [\"yaml\"], \"module_level\": [], \"scan_complete\": true}, \"hgk-worktree\": {\"undeclared\": [\"cryptography\", \"yaml\"], \"module_level\": [\"cryptography\"], \"scan_complete\": true}}"
+  },
+  {
+   "check": "G17",
+   "name": "ENUM_SLASH_SAFE",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "15/96/12/11; naive(slash)=10 robust=11"
+  },
+  {
+   "check": "G18",
+   "name": "DIGEST_LOCALITY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "32/32 resolve inside their own payload (realpath containment), 3 manifests"
+  },
+  {
+   "check": "G19",
+   "name": "COPY_REGISTER",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "45 names, r6 copies=3 in ['FHS_W0W2_R4_20261107', 'worktrees/r4-fabric', '知識庫'], digests=2"
+  },
+  {
+   "check": "G20",
+   "name": "SUPPLY_CHAIN_CLAIM_SHAPE",
+   "severity": "REPORTING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "offline=EXECUTED hosted=NOT_OBSERVED (claim-shape lint only)"
+  },
+  {
+   "check": "G21",
+   "name": "NUMBER_CONSISTENCY",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "handover states 568,120 B and a matching digest"
+  },
+  {
+   "check": "G22",
+   "name": "SELFTEST_CONTRACT",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "documented exit 0 == actual"
+  },
+  {
+   "check": "G23",
+   "name": "TRACE_ID_NAMED",
+   "severity": "BLOCKING",
+   "verdict": "PASS",
+   "code": "OK",
+   "detail": "19 defects, all closed ones named in the body"
+  }
+ ],
+ "summary": {
+  "total": 15,
+  "pass": 14,
+  "blocking_fail": 0,
+  "open_reporting_findings": 1
+ },
+ "hygiene": {
+  "count": 0,
+  "findings": []
+ },
+ "claim_ceiling": "GATE_VERDICT_NOT_ACCEPTANCE",
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_WORLDRAW",
+  "RELEASE_GRANTED",
+  "INDEPENDENT_PASS"
+ ]
+}
