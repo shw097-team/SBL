@@ -1,33 +1,54 @@
-# R4 最終效力裁決（優先於以下歷史紀錄）
+# 當前狀態（最高效力）— Current Status / Supersedes / Authority
 
-- 源文本合併結果：`SOURCE_MERGE_COMPLETE`；**E3 Gate 尚需真實核准**。
-- 現行 W0 r7 SHA：`35daf4c1ab1dda913344f6c452f0b72971d95a686f9aac464aad386876a88b20`。
-- Published HGK Epoch 41 已合併；R4 Local Battery=LOCAL_GREEN；非 Native／Release。
-- G19 新回合 73 群／394 副本 PASS；舊 431/431 文案待由原 Owner 修正；舊 R13 verdict 不回改。
-- H16／Reader／PLAN 原件／H15 按 E2–E3 受影核對；不得寫成未驗先 PASS。
+> 本區塊是本文件**唯一**的當期狀態來源。以下所有歷史章節（含 §0–§9、附錄 A–D）保留原文供稽核，
+> 但其狀態敘述**一律視為 Historical Snapshot**，與本區塊衝突時以本區塊為準。
+
+## 1. Current Status（2026-11-12，R5 ONEPASS 後）
+
+| 面 | 當期值 |
+|---|---|
+| 來源整合 | `SOURCE_MERGE_COMPLETE`；附錄 A（R2 報告）、B（W1 Handoff）、C（`W0_AS_BUILT` b6f1dbb61484…）、D（R4 Closeout）**各一次、原文嵌入** |
+| E3 Gate | **`READY_TO_DRAFT_L0_L1_L2_WITH_SCOPED_HOLDS`**（11 列見下方 `W0_CURRENT_EXIT`） |
+| W0 規格 | `spec/FHS_PIPD-LS-PKG_W0_20261112_r8.md`，680998 B，sha256 `42546311c3c6…`；r26 原文＋R6／R7／R8 追加節，正文 byte-identical |
+| 控制平面 | registry `epoch 41`／`contract_epoch 41`、assignment `revision 44`／`registry_epoch 41`、pool `revision 37`／`epoch 41`；PR #19–#22、#24 已合併 |
+| G16b | `PASS`（`OK`）；變異負例可重現 `cryptography`＋`yaml` |
+| served==required | 由原回執 `required_arm`／`served_arm_assigned` 自證；VERIFY 審查 `APPROVE_CLOSURE` |
+| 入口面 | Fabric #57 與 HG-KSEOS #23 **closed, unmerged**；入口仍為 README ＋ `repository-map.json` |
+
+## 2. Superseded（歷史敘述，保留但不再具當期效力）
+
+| 歷史文字（本文件內） | 標記 | 當期值 |
+|---|---|---|
+| 「E3 Gate 尚需真實核准」 | `SUPERSEDED-2026-11-12` | E3 已判定 `READY_TO_DRAFT_L0_L1_L2_WITH_SCOPED_HOLDS` |
+| 「As-Built 未隨附／`MISSING_FROM_THIS_REVIEW`」 | `SUPERSEDED-2026-11-12` | 附錄 C 已嵌入 `W0_AS_BUILT` 38,379 B 原文，且只出現一次 |
+| 「目前版本為 Draft，尚未完成四來源整合」 | `SUPERSEDED-2026-11-12` | 四來源已合一，`SOURCE_MERGE_COMPLETE` |
+| 「舊 HGK Epoch 33／PR Open」 | `HISTORICAL_SNAPSHOT` | registry `epoch 41`；PR #19–#22、#24 已合併；#23／Fabric #57 已撤回 |
+| 「H16／Reader 可視為已驗」 | `SCOPED_HOLD` | H16 `PASS_WRAPPER_SCOPED`；Reader 為 scoped ACK；兩者皆未寫成 PASS |
+
+## 3. Authority（裁決順位）
+
+`《FHS_vNEXT_W0_TRANSITION_BASELINE_AND_W1_ENTRY_20261112》` ＞ `《FHS_NEXT_藍圖_r2》` ＞ `《FHS_PIPD-LS-PKG_W0_r26》`；
+本區塊屬第一份文件的當期狀態，但**不因此取得**任何原域簽章權。
 
 <!-- W0_CURRENT_EXIT_BEGIN -->
 E3 判定：**READY_TO_DRAFT_L0_L1_L2_WITH_SCOPED_HOLDS**
-（E0 frozen `c8df044dc145…`；E1 `109291` bytes `66454df86823…`；
-G16b `PASS`，NEG 以 `dependencies = []` 重現 `cryptography`＋`yaml`；
-served==required 由原回執 `required_arm` 欄位證明，審查 `APPROVE_CLOSURE`）
+（E0 `b84f095570b7…`；E1 109291 bytes；G16b `PASS`；served==required 審查 `APPROVE_CLOSURE`）
 
 | Case | 名稱 | 狀態 | RawSHA | 證據 |
 |---|---|---|---|---|
-| E2-01 | HOST/PROFILE | PASS | `443c25196189…` | Hermes Agent v0.23.1 (2026.9.24) · stable · local 3b4215785882
-Install directory |
+| E2-01 | HOST/PROFILE | PASS | `443c25196189…` | Hermes Agent v0.23.1 (2026.9.24) · stable · local 3b4215785882 |
 | E2-02 | SOURCE/G19 | PASS | `a1c7b419bb60…` | members 394/394, groups 73 |
 | E2-03 | H1 LIVE-CONSUMER | PASS | `c8df044dc145…` | registry 41/41, assignment r44/41, pool r37/41 |
-| E2-04 | PLAN ACTUALSERVED | ACTUALSERVED_PLAN_PROVEN | `da58715e4aa4…` | origin receipt: required_arm=opencode-go/deepseek-v4.1-flash, served_arm_assigned=True,  |
-| E2-05 | H16 TRUSTED SoD | PASS_WRAPPER_SCOPED | `a836e208e1fc…` | guarded dispatch refuses missing/forged maker, maker==checker, maker not in assignment,  |
+| E2-04 | PLAN ACTUALSERVED | PASS | `da58715e4aa4…` | caller=None nonce=FHS-W0R4-CALLER-D1 served=True |
+| E2-05 | H16 TRUSTED SoD | PASS_WRAPPER_SCOPED | `a836e208e1fc…` | guarded dispatch refuses missing/forged maker, maker==checker, maker not in as |
 | E2-06 | H11/H14 | PASS | `0b3308ae9426…` | retirement POS=PASS NEG=FAIL |
-| E2-07 | H10/H15 | PASS | `e3b0c44298fc…` | evidence_producers.py --list under a before/after tree hash of the imported origin |
-| E2-08 | READER CURRENTNESS | PASS_SCOPED | `0c589a40d727…` | owner-signed scoped reader ACK: subject 668,540 B / 0ea05544…, supersedes CURRENT_READER |
+| E2-07 | H10/H15 | PASS | `89f653f50108…` | evidence_producers.py --list exit=0, tree 169->169 files, sha same |
+| E2-08 | READER CURRENTNESS | PASS_SCOPED | `0c589a40d727…` | ack subject=None scope=None |
 | E2-09 | SIX WP/SPEC/FUO | PASS | `6006049919e5…` | spec_identity exit=0 fuo_present=True |
-| E2-10 | COVERAGE/TRIAGE | PASS_SCOPED | `a1c7b419bb60…` | G16b now PASS (OK); NEG with dependencies=[] reports cryptography+yaml |
-| E2-11 | FABRIC-FIRST/REPO | PASS | `444e39af23d1…` | {"HG-KSEOS#19": {"state": "closed", "merged": true}, "HG-KSEOS#20": {"state": "closed",  |
+| E2-10 | COVERAGE/TRIAGE | PASS_SCOPED | `a1c7b419bb60…` | G19 394/394 groups=73 |
+| E2-11 | FABRIC-FIRST/REPO | PASS | `444e39af23d1…` | {"HG-KSEOS#19": {"state": "closed", "merged": true}, "HG-KSEOS#20": {"state":  |
 
-受界 HOLD（不屬本根可關）：H-H16, H-READER, H-ENTRY — 各屬 HGK 原 Owner、SBL 原 Reader、Fabric 鏡像 Owner。
+受界 HOLD（不屬本根可關）：H-H16＝HGK original owner, H-READER＝SBL/PIPD original reader, H-ENTRY＝Fabric mirror owner / W1。
 <!-- W0_CURRENT_EXIT_END -->
 
 ---
