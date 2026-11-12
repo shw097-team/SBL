@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import tempfile
 from datetime import datetime, timezone
 from hashlib import sha256
 from pathlib import Path
@@ -137,10 +138,25 @@ def _load_state(data_dir: Path) -> dict[str, Any]:
 def _save_state(data_dir: Path, state: dict[str, Any]) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
     target = _state_path(data_dir)
-    tmp = data_dir / TMP_FILE
     payload = json.dumps(state, ensure_ascii=False, indent=2) + "\n"
-    tmp.write_text(payload, encoding="utf-8")
-    os.replace(tmp, target)
+    tmp: Path | None = None
+    try:
+        # O_EXCL allocation in this directory preserves foreign data.json.tmp
+        # files and prevents writers from sharing a predictable staging file.
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=data_dir,
+            prefix=".sbl-todo-", suffix=".tmp", delete=False,
+        ) as stream:
+            tmp = Path(stream.name)
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(tmp, target)
+        tmp = None
+    finally:
+        # Remove only the file allocated by this invocation, never old residue.
+        if tmp is not None:
+            tmp.unlink(missing_ok=True)
 
 
 def _cmd_init(data_dir: Path, args: list[str]) -> dict[str, Any]:
