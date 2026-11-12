@@ -1,0 +1,567 @@
+{
+ "schema": "FHS.W0R7.LaneC/1",
+ "lane": "C",
+ "wp": [
+  "WP-FHS-19",
+  "WP-FHS-21"
+ ],
+ "generated_at_utc": "2026-11-07T18:43:30Z",
+ "effect_class": "SOURCE_READ",
+ "claim_ceiling": "AUTHOR_SIDE_INDEPENDENT_REDERIVATION",
+ "non_claims": [
+  "NOT an original ACK; no ORIGINAL_ACK, NATIVE_WORLDRAW, RELEASE_GRANTED or INDEPENDENT_PASS is claimed.",
+  "No oracle was executed against the world; no protected checker read this lane's output.",
+  "No protected-checker verdict: this lane re-derives enumerations from source bytes only.",
+  "CI 'green' status is a GitHub-side readback; this lane has no network and cannot re-derive a run conclusion.",
+  "Re-running WP21's own tools/oracle_plan_check.py is re-execution, not independence; the independent part is lanes/C/independent_verify.py, which never reads tables/*.json to derive counts."
+ ],
+ "method": {
+  "part1": "os.walk over C:/Projects/Agent_Workspace/worktrees/{r4-fabric,r4-sbl,r4-hgk}; licence named by header text not filename; dependency counts by TOML/line parse (part1_scan.py)",
+  "part2": "regex over the raw UTF-8 bytes of sources/07_ACCEPTANCE_CHALLENGE(4).md (independent_verify.py); WP21 tables read only in a separate, labelled reconciliation step",
+  "part3": "byte spans recomputed from the source bytes; span = one markdown table row, newline excluded"
+ },
+ "part1_wp_fhs_19": {
+  "repos": {
+   "r4-fabric": {
+    "licence_files": [
+     {
+      "path": "DESKTOP/var-fda/xq-auto-skill/LICENSE",
+      "names": "MIT",
+      "at_root": false,
+      "sha256": "917acf27849ce6dd61e2cab17f119f865539d477b1c93b53a70957811c3d5662"
+     },
+     {
+      "path": "DESKTOP/var-fda/xq-auto-skill/third_party/xshelp/NOTICE.md",
+      "names": "UNIDENTIFIED",
+      "at_root": false,
+      "sha256": "ac20eb636d5f7622a216f5af30dbb14df11cb87c62f43d9f41c61a6d3d0df5f7"
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/LICENSE",
+      "names": "MIT",
+      "at_root": false,
+      "sha256": "e30cf5dd5f49b4f9b656590e23d782b4756c924a9f0ff0162b3e7b5d87006bf5"
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/NOTICE.md",
+      "names": "UNIDENTIFIED",
+      "at_root": false,
+      "sha256": "058090d55f2c7d143f70b4e3020cb7bcb8349480edd9dbf46921e05067862ab1"
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/proof-orchestrator/NOTICE.md",
+      "names": "MIT",
+      "at_root": false,
+      "sha256": "a496eb4ac401ae1fcfcd0958f47e585c1949e4cf43553517468fcdf73fc17124"
+     }
+    ],
+    "licence_at_root": [],
+    "licence_any_depth_count": 5,
+    "notice_at_root": [],
+    "sbom_artefacts": [
+     "EVIDENCE/ROUND3-LANE-REBIND-AND-CLOSURE-20261016/implementation/writer_output/scripts/sbom.ps1",
+     "HG-KSEOS/scripts/sbom.ps1",
+     "HG-KSEOS/tools/generate_sbom.py"
+    ],
+    "sbom_component_sbom": [],
+    "lock_files": [],
+    "root_manifest": false,
+    "manifests": [
+     {
+      "path": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/requirements.txt",
+      "kind": "requirements.txt",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": 3
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/requirements.txt",
+      "kind": "requirements.txt",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": 1
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/llm-chat/requirements.txt",
+      "kind": "requirements.txt",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": 1
+     },
+     {
+      "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/minimax-chat/requirements.txt",
+      "kind": "requirements.txt",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": 1
+     }
+    ],
+    "dependency_totals": {
+     "pyproject_dependencies_lines": 0,
+     "requirements_txt_lines": 6
+    },
+    "dependency_total_declared": 6,
+    "optional_total": 0,
+    "workflows": [
+     {
+      "file": ".github/workflows/fhs-entry-check.yml",
+      "name": "FHS navigation candidate checks",
+      "jobs": [
+       "fhs-nav-static"
+      ],
+      "has_supply_chain_job": false,
+      "supply_chain_steps": []
+     }
+    ],
+    "has_github_workflows_dir": true
+   },
+   "r4-sbl": {
+    "licence_files": [
+     {
+      "path": "LICENSE",
+      "names": "MIT",
+      "at_root": true,
+      "sha256": "759b0f8830b642eadfb405bd92703a4058a80b3a886f07282a27f5851a43bfc8"
+     },
+     {
+      "path": "NOTICE",
+      "names": "MIT",
+      "at_root": true,
+      "sha256": "3ffd9f06639e9a95b3f057b3400574d6d8c6682318375559221c46a62d81d7fc"
+     },
+     {
+      "path": "integrations/pipd/LICENSE",
+      "names": "Apache-2.0",
+      "at_root": false,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+     },
+     {
+      "path": "integrations/pipd/NOTICE",
+      "names": "Apache-2.0",
+      "at_root": false,
+      "sha256": "ab07de025ce64621963831d19acf3525596362a18d6c72606d0341239206ea7d"
+     }
+    ],
+    "licence_at_root": [
+     "LICENSE",
+     "NOTICE"
+    ],
+    "licence_any_depth_count": 4,
+    "notice_at_root": [
+     "NOTICE"
+    ],
+    "sbom_artefacts": [
+     "integrations/pipd/SBOM.cdx.json"
+    ],
+    "sbom_component_sbom": [
+     "integrations/pipd/SBOM.cdx.json"
+    ],
+    "lock_files": [
+     "integrations/pipd/requirements.lock"
+    ],
+    "root_manifest": true,
+    "manifests": [
+     {
+      "path": "pyproject.toml",
+      "kind": "pyproject.toml",
+      "runtime_dependencies": 0,
+      "optional_dependencies": {
+       "tpm-pre-v2": 2
+      },
+      "requirement_lines": null
+     },
+     {
+      "path": "integrations/pipd/pyproject.toml",
+      "kind": "pyproject.toml",
+      "runtime_dependencies": 1,
+      "optional_dependencies": {
+       "test": 6,
+       "harness": 1
+      },
+      "requirement_lines": null
+     },
+     {
+      "path": "integrations/pipd/setup.py",
+      "kind": "setup.py",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": null
+     },
+     {
+      "path": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/requirements.txt",
+      "kind": "requirements.txt",
+      "runtime_dependencies": null,
+      "optional_dependencies": null,
+      "requirement_lines": 2
+     }
+    ],
+    "dependency_totals": {
+     "pyproject_dependencies_lines": 1,
+     "requirements_txt_lines": 2
+    },
+    "dependency_total_declared": 3,
+    "optional_total": 9,
+    "workflows": [
+     {
+      "file": ".github/workflows/ci.yml",
+      "name": "ci",
+      "jobs": [
+       "test",
+       "supply-chain",
+       "pipd-compat"
+      ],
+      "has_supply_chain_job": true,
+      "supply_chain_steps": [
+       "run: python tools/supply_chain_check.py",
+       "run: python tools/supply_chain_check.py --self-test"
+      ]
+     }
+    ],
+    "has_github_workflows_dir": true
+   },
+   "r4-hgk": {
+    "licence_files": [],
+    "licence_at_root": [],
+    "licence_any_depth_count": 0,
+    "notice_at_root": [],
+    "sbom_artefacts": [
+     "evidence/r18/WP19_SBOM_RESCAN.json",
+     "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+     "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+     "scripts/sbom.ps1",
+     "tools/generate_sbom.py"
+    ],
+    "sbom_component_sbom": [],
+    "lock_files": [],
+    "root_manifest": true,
+    "manifests": [
+     {
+      "path": "pyproject.toml",
+      "kind": "pyproject.toml",
+      "runtime_dependencies": 0,
+      "optional_dependencies": {},
+      "requirement_lines": null
+     }
+    ],
+    "dependency_totals": {
+     "pyproject_dependencies_lines": 0,
+     "requirements_txt_lines": 0
+    },
+    "dependency_total_declared": 0,
+    "optional_total": 0,
+    "workflows": [],
+    "has_github_workflows_dir": false
+   }
+  },
+  "claims": [
+   {
+    "id": "C-P1-01",
+    "claim": "Fabric has no LICENSE/NOTICE/SBOM and no supply-chain job.",
+    "verdict": "REPRODUCED_WITH_DEFINITION_DRIFT",
+    "measured": {
+     "root_level_licence_or_notice": "absent (0 files at repo root)",
+     "licence_or_notice_any_depth": 5,
+     "vendored_named_licences": [
+      "DESKTOP/var-fda/xq-auto-skill/LICENSE = MIT",
+      "FABRIC/fabric-autonomous-research/methods/aris-vendor/LICENSE = MIT"
+     ],
+     "sbom_artefact": "none (no CycloneDX/SPDX document anywhere); only generator scripts HG-KSEOS/scripts/sbom.ps1, HG-KSEOS/tools/generate_sbom.py, EVIDENCE/.../writer_output/scripts/sbom.ps1",
+     "lockfile": "none",
+     "root_package_manifest": "none",
+     "dependency_count": 6,
+     "dependency_breakdown": "0 from any pyproject/package.json/setup.py; 6 requirement lines from 4 vendored requirements.txt (3+1+1+1)",
+     "workflows": 1,
+     "workflow_names": [
+      "FHS navigation candidate checks (fhs-entry-check.yml)"
+     ],
+     "jobs": [
+      "fhs-nav-static"
+     ],
+     "supply_chain_step": "none - the only job runs INTEGRATION/FHS/validate_entry.py and a unittest discover"
+    },
+    "drift_note": "True at repo root and true for 'no SBOM document' and 'no supply-chain job'. False as an unqualified statement: the tree carries 5 vendored licence/NOTICE files, 2 of which are named MIT LICENSE files, plus 4 requirements.txt files totalling 6 declared dependencies."
+   },
+   {
+    "id": "C-P1-02",
+    "claim": "HG-KSEOS has no licence file and no CI at all.",
+    "verdict": "REPRODUCED",
+    "measured": {
+     "licence_or_notice_any_depth": 0,
+     "has_github_dir": false,
+     "has_github_workflows_dir": false,
+     "workflows": 0,
+     "root_package_manifest": "pyproject.toml (name=hg-kseos, dependencies = [])",
+     "dependency_count": 0,
+     "optional_dependencies": 0,
+     "lockfile": "none",
+     "sbom_artefact": "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json (schema SBOM/1, an inventory that self-declares supply_chain_claim=SUPPLY_CHAIN_UNVERIFIED and license_files_found=[]) + generator scripts; no CycloneDX/SPDX component SBOM"
+    },
+    "extra_findings": [
+     "UNDECLARED_DEPENDENCY: pyproject declares dependencies = [] but 3 src modules import the third-party `cryptography` package (src/hg_kseos/user_trust.py, src/hg_kseos/native_admission.py, src/hg_kseos/fhs/issuer_binding.py). The handoff SBOM's own finding 'the tools are stdlib-only python' is therefore out of date.",
+     "A stale second copy of HG-KSEOS lives inside the Fabric clone (r4-fabric/HG-KSEOS/) with sbom.ps1 and generate_sbom.py but no manifest and no licence."
+    ]
+   },
+   {
+    "id": "C-P1-03",
+    "claim": "SBL has supply-chain CI green.",
+    "verdict": "REPRODUCED_WITH_DEFINITION_DRIFT",
+    "measured": {
+     "workflows": 1,
+     "workflow_names": [
+      "ci (ci.yml)"
+     ],
+     "jobs": [
+      "test",
+      "supply-chain",
+      "pipd-compat"
+     ],
+     "supply_chain_job": "supply-chain on ubuntu-latest: `python tools/supply_chain_check.py` then `--self-test`",
+     "licence_files": [
+      "LICENSE = MIT (root)",
+      "NOTICE (root, MIT)",
+      "integrations/pipd/LICENSE = Apache-2.0",
+      "integrations/pipd/NOTICE"
+     ],
+     "sbom_artefact": "integrations/pipd/SBOM.cdx.json (CycloneDX 1.5, 8 components, unsigned, 5 components UNPINNED per WP19)",
+     "lockfile": "integrations/pipd/requirements.lock (6 pins, not hash-pinned by its own admission)",
+     "dependency_count": 3,
+     "dependency_breakdown": "root pyproject runtime 0 + pipd runtime 1 (jsonschema>=4.0) + private-overlay requirements.txt 2",
+     "optional_total": 9,
+     "local_gate_replay": "python tools/supply_chain_check.py -> 'SUPPLY_CHAIN_OK ...' exit 0; --self-test -> baseline PASS + 3/3 injected defects refused (SBOM_COMPONENT_MISMATCH, UNDECLARED_DEPENDENCY, LICENSE_MISSING_FOR_REQUIRED), exit 0"
+    },
+    "drift_note": "The supply-chain job and its gate genuinely exist and pass locally. 'Green' itself is a GitHub Actions run conclusion; this lane is network-off and holds no run log or check-run id, so the greenness is carried, not re-derived. Reproduced: the job exists, the gate exits 0, the gate discriminates."
+   }
+  ]
+ },
+ "part2_wp_fhs_21": {
+  "source": {
+   "file": "C:\\Projects\\Agent_Workspace\\FHS_W1_Work_Final\\FHS_W1_Work_Final\\sources\\07_ACCEPTANCE_CHALLENGE(4).md",
+   "bytes": 211405,
+   "sha256": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741",
+   "pin_match": true,
+   "pin": "81a8c2f1cc4629f59829f11f87aebd14cd57f7c4dd0970d672880e90e2899741"
+  },
+  "a_ac15": {
+   "claim": "15 acceptance-challenge edges",
+   "verdict": "REPRODUCED",
+   "measured_count": 15,
+   "distinct_ids": 15,
+   "ids": [
+    "AC-E01",
+    "AC-E02",
+    "AC-E03",
+    "AC-E04",
+    "AC-E05",
+    "AC-E06",
+    "AC-E07",
+    "AC-E08",
+    "AC-E09",
+    "AC-E10",
+    "AC-E11",
+    "AC-E12",
+    "AC-E13",
+    "AC-E14",
+    "AC-E15"
+   ],
+   "note": "17 raw byte-level matches for AC-E\\d\\d exist: the 15 '#### AC-Exx｜' headings plus the section title '### 8.1 AC-E01～E15' and one prose scope mention 'AC-E09/12/13'. Only the 15 headings are edge definitions.",
+   "ids_identical_to_wp21_tables": true
+  },
+  "b_oracle96": {
+   "claim": "96 typed oracle cells = 12 test classes x 8 oracle types, complete",
+   "verdict": "REPRODUCED",
+   "measured_count": 96,
+   "distinct_case_ids": 96,
+   "test_classes": [
+    "EDGE",
+    "JOURNEY",
+    "MUT",
+    "NEG",
+    "PARITY",
+    "PERF",
+    "POS",
+    "RECOVERY",
+    "ROLLBACK",
+    "SEC",
+    "UNINSTALL",
+    "UPGRADE"
+   ],
+   "oracle_types": [
+    "COMPOSITE",
+    "DETERMINISTIC",
+    "HUMAN",
+    "PROPERTY",
+    "REFERENCE_OUTPUT",
+    "SEMANTIC_JUDGE",
+    "STATE_READBACK",
+    "STATISTICAL"
+   ],
+   "cross_product_expected": 96,
+   "missing_cells": [],
+   "duplicate_ids": [],
+   "ids_identical_to_wp21_tables": true
+  },
+  "c_h4": {
+   "claim": "H4 has 12 items",
+   "verdict": "REPRODUCED",
+   "measured_count": 12,
+   "ids": [
+    "H4-01",
+    "H4-02",
+    "H4-03",
+    "H4-04",
+    "H4-05",
+    "H4-06",
+    "H4-07",
+    "H4-08",
+    "H4-09",
+    "H4-10",
+    "H4-11",
+    "H4-12"
+   ],
+   "ids_identical_to_wp21_tables": true
+  },
+  "d_seam": {
+   "claim": "SEAM has 11 items",
+   "verdict": "REPRODUCED",
+   "measured_count": 11,
+   "ids": [
+    "SEAM-01",
+    "SEAM-02",
+    "SEAM-03",
+    "SEAM-04",
+    "SEAM-05",
+    "SEAM-06",
+    "SEAM-07",
+    "SEAM-08",
+    "SEAM-09",
+    "SEAM-10",
+    "SEAM-11"
+   ],
+   "ids_identical_to_wp21_tables": true,
+   "note": "SEAM-09's title contains a slash ('Replay/stale'); a naive [^|/]+ title regex silently yields 10 rows. The 11-row count stands."
+  },
+  "e_checker_replay": {
+   "claim": "prior round's checker: 155 of 155 checks pass; negative control detects 5 of 5 mutations",
+   "verdict": "REPRODUCED",
+   "independence": "RE_EXECUTION of the lane's own checker on byte-identical copies of its tables (sha256 of all five table files match REPORT.json), NOT an independent check",
+   "checker": "tools/oracle_plan_check.py (C1..C9)",
+   "exit_code": 0,
+   "checks_total": 155,
+   "checks_pass": 155,
+   "checks_fail": 0,
+   "checker_last_line": "checks=155 pass=155 fail=0",
+   "negative_control": {
+    "exit_code": 1,
+    "detected_defect_ids": [
+     "C1:AC15",
+     "C3:AC15",
+     "C4:ORACLE96",
+     "C5:ORACLE96",
+     "C6:H4"
+    ],
+    "detected": "5 of 5",
+    "fail_lines": 7,
+    "verdict_line": [
+     "negative_control_verdict=DETECTED_ALL_INJECTED_DEFECTS"
+    ]
+   },
+   "lane_authored_mutations": {
+    "note": "two mutations written by this lane (not copies of the prior control) and applied to a fresh copy of the WP21 tables",
+    "mutations": [
+     "M1: AC-E05 source_ref.byte_start += 1 (quoted_text no longer equals the source bytes)",
+     "M2: SEAM-10 neg_observation := expected_observation (POS == NEG)"
+    ],
+    "checker_exit_code": 1,
+    "checks_pass": 153,
+    "checks_fail": 2,
+    "fail_lines": [
+     "[FAIL] C1:AC15:AC-E05               quoted_text != bytes at [5912,6030)",
+     "[FAIL] C5:SEAM                      identical POS/NEG: ['SEAM-10'] ; empty: []"
+    ],
+    "result": "checker still fails on both"
+   },
+   "what_it_does_not_prove": "internal consistency of the plan against the source bytes; nothing about any oracle having run"
+  }
+ },
+ "part3_repair_inputs": {
+  "file": "repair_inputs_h4_seam.json",
+  "h4_items": 12,
+  "seam_items": 11,
+  "byte_span_definition": "[byte_start, byte_end) covers one markdown table row, trailing newline excluded; equal to len(quoted_text.encode('utf-8'))",
+  "spans_equal_to_wp21_spans": true,
+  "span_mismatches": [],
+  "slice_verified": "each span sliced out of the source bytes contains its own id and title, and each quoted row occurs exactly once in the file"
+ },
+ "verdicts": {
+  "REPRODUCED": [
+   "C-P1-02",
+   "C-P2-a",
+   "C-P2-b",
+   "C-P2-c",
+   "C-P2-d",
+   "C-P2-e"
+  ],
+  "REPRODUCED_WITH_DEFINITION_DRIFT": [
+   "C-P1-01",
+   "C-P1-03"
+  ],
+  "NOT_REPRODUCED": []
+ },
+ "artifacts": [
+  {
+   "path": "part1_scan.py",
+   "bytes": 9196,
+   "sha256": "a9fa4354a6e8fa70406cee8edc403cb454995a9ae626e916fff736e1463be9dd"
+  },
+  {
+   "path": "independent_verify.py",
+   "bytes": 6239,
+   "sha256": "46b22146d20a9a41747f9c9de30fdaff01ecc282a75a20cf1e6fac00cb99feda"
+  },
+  {
+   "path": "repair_inputs_h4_seam.json",
+   "bytes": 6152,
+   "sha256": "25048436706ab2b98f9ec3d59df518a25b195ee8a2539362a877a1ca3b0cc27f"
+  },
+  {
+   "path": "C_SUMMARY.md",
+   "bytes": 3120,
+   "sha256": "dd5a9f3e1c125d52ae314a80864fca435df8ab50364353e15651a41c5ff0bccf"
+  },
+  {
+   "path": "raw/part1_inventory.json",
+   "bytes": 16309,
+   "sha256": "1b8a008f3e64157b381a613d10856ecb299c78c021174a69c7d896ccfab4e5d2"
+  },
+  {
+   "path": "raw/part1_scan_output.txt",
+   "bytes": 1795,
+   "sha256": "15854810ea1805881027d4fe1c30896cd23c16b3c5522766a575e89bb5b53e98"
+  },
+  {
+   "path": "raw/independent_derivation.json",
+   "bytes": 15337,
+   "sha256": "cc39c0788d11e56f9f0396105d060693779575d450f28bbcefa441ec9134848f"
+  },
+  {
+   "path": "raw/checker_rerun.txt",
+   "bytes": 14744,
+   "sha256": "8208e0968b9bf112df08d373c0fb1435268dd36e9e30bc9e703ab93490d46044"
+  },
+  {
+   "path": "raw/negctl_rerun.txt",
+   "bytes": 15093,
+   "sha256": "4f834ac19d46d7e2100cdaa92523ec9d3256326d0aeb3b025167228e7dfcbddc"
+  },
+  {
+   "path": "raw/mutations_lane_own.txt",
+   "bytes": 14685,
+   "sha256": "825fef456be873b3dee431308361569043b44833b5551a17ecca855be94a60f6"
+  }
+ ],
+ "artifact_note": "C_REPORT.json cannot carry its own sha256; every other lane artefact is hashed above.",
+ "boundaries": [
+  "Everything was written under lanes/C/. No file under worktrees/, FHS_W0_R6_20261108/ or FHS_W1_Work_Final/ was modified; the WP21 tables were copied into lanes/C/wp21_mirror for replay.",
+  "No git command that writes, no network call, no credential used."
+ ]
+}

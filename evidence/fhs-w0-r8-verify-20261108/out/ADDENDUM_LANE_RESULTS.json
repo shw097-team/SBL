@@ -1,0 +1,57 @@
+{
+ "schema": "FHS.W0R7.Addendum/1",
+ "generated_at": "2026-11-08T03:25:56+0800",
+ "status": "POST_CHAPTER_MEASUREMENT",
+ "why": "three facts were measured by the lanes after the r8 chapter was written and published; they narrow, but do not reverse, the chapter's WP19 and WP21 rows, so they are recorded here rather than by rewriting the chapter (which would change the document digest)",
+ "items": [
+  {
+   "id": "A-01",
+   "wp": "WP-FHS-19",
+   "fact": "HG-KSEOS imports the third-party module cryptography in three source modules while pyproject declares dependencies = []",
+   "measured": {
+    "modules": [
+     "src/hg_kseos/fhs/issuer_binding.py",
+     "src/hg_kseos/native_admission.py",
+     "src/hg_kseos/user_trust.py"
+    ],
+    "declared_dependencies": [],
+    "import_style": "lazy, inside the function, wrapped so a missing module fails closed (refusal, never a pass)",
+    "command": "grep -rl cryptography src | sort; grep -n dependencies -A4 pyproject.toml"
+   },
+   "impact": "a fresh install without cryptography refuses signature verification instead of failing open; the packaging defect is that the requirement is undeclared, so the refusal is silent until a signature path is exercised",
+   "irony": "shw097-team/SBL carries a supply-chain gate whose self-test refuses exactly this class (UNDECLARED_DEPENDENCY); HG-KSEOS has no CI, so nothing runs that gate there",
+   "disposition": "owner item HGK-CI-ABSENT gains a second reason; not corrected here (another repository's packaging is not this round's write)"
+  },
+  {
+   "id": "A-02",
+   "wp": "WP-FHS-21",
+   "fact": "SEAM-09 carries a slash in its title, so a naive identifier regex counts 10 seams instead of 11",
+   "measured": {
+    "source_line": "SEAM-09 Replay/stale / SRC-01:L229",
+    "source_file": "07_ACCEPTANCE_CHALLENGE(4).md",
+    "true_count": 11,
+    "naive_count": 10
+   },
+   "impact": "a reader re-deriving the SEAM denominator with a permissive pattern will undercount by one and conclude the plan is short; the repair fragments carry the correct 11",
+   "disposition": "recorded; no document change needed"
+  },
+  {
+   "id": "A-03",
+   "wp": "WP-FHS-19",
+   "fact": "the SBL supply-chain claim has two parts with different evidence: the gate is reproducible offline, the CI conclusion is a hosted readback",
+   "measured": {
+    "offline": "python tools/supply_chain_check.py --self-test -> baseline PASS (0 findings) and three mutations REFUSED (SBOM_COMPONENT_MISMATCH, UNDECLARED_DEPENDENCY, LICENSE_MISSING_FOR_REQUIRED), exit 0",
+    "hosted": "the job conclusion success is read from the check-runs API; it cannot be re-derived offline"
+   },
+   "impact": "'green' should always be read as the hosted conclusion, while the gate's discrimination is reproducible; the chapter's WP19 row keeps REPRODUCED at that scope",
+   "disposition": "recorded"
+  }
+ ],
+ "not_claimed": [
+  "ORIGINAL_ACK",
+  "NATIVE_WORLDRAW",
+  "RELEASE_GRANTED",
+  "INDEPENDENT_PASS"
+ ],
+ "claim_ceiling": "AUTHOR_SIDE_MEASURED_WITH_SCOPED_HOLDS"
+}

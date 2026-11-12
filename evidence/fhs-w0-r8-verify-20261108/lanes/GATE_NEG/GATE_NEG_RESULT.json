@@ -1,0 +1,48 @@
+{
+ "schema": "FHS.W0R7.GateNegativeControl/1",
+ "gate_exit_code": 1,
+ "gate_verdict": "FAIL",
+ "checks_pass": 12,
+ "checks_total": 15,
+ "mutations": [
+  {
+   "layer": "byte",
+   "file": "evidence/WP16/tables/DONOR24.json",
+   "mutation": "appended one 0x0a byte",
+   "expect_check": "G2-ARTIFACT-DIGEST"
+  },
+  {
+   "layer": "prose",
+   "file": "evidence/WP21/PLAN.md",
+   "mutation": "appended a bare ORIGINAL_ACK/RELEASE_GRANTED claim",
+   "expect_check": "G5b-NO-BARE-CLAIM"
+  },
+  {
+   "layer": "span",
+   "file": "evidence\\WP15\\evidence\\firstfail_codes.json",
+   "json_path": "codes[0]",
+   "mutation": "changed the last character of one quoted_text",
+   "expect_check": "G6-SPAN-RESOLUTION"
+  }
+ ],
+ "failed_checks": [
+  "G2-ARTIFACT-DIGEST",
+  "G5b-NO-BARE-CLAIM",
+  "G6-SPAN-RESOLUTION"
+ ],
+ "expected_failed_checks": [
+  "G2-ARTIFACT-DIGEST",
+  "G5b-NO-BARE-CLAIM",
+  "G6-SPAN-RESOLUTION"
+ ],
+ "all_expected_caught": true,
+ "caught_extra": [],
+ "clean_run_for_comparison": {
+  "file": "out/GATE_RERUN.json",
+  "verdict": "PASS",
+  "checks_pass": 15,
+  "checks_total": 15
+ },
+ "note": "the identical gate binary passes 15/15 on the untouched round and fails on these three mutated layers, so the pass is discriminating rather than empty",
+ "stderr_tail": ""
+}

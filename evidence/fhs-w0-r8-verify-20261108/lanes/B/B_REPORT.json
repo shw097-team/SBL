@@ -1,0 +1,339 @@
+{
+ "schema": "FHS.W0R7.LaneB/1",
+ "lane": "B",
+ "lane_ceiling": "AUTHOR_SIDE_INDEPENDENT_REDERIVATION",
+ "generated_at": "2026-11-08T02:50:07+08:00",
+ "scope": {
+  "wp15_evidence": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP15",
+  "wp16_evidence": "C:/Projects/Agent_Workspace/FHS_W0_R6_20261108/evidence/WP16",
+  "sources": "C:/Projects/Agent_Workspace/FHS_W1_Work_Final/FHS_W1_Work_Final/sources",
+  "w0_r6_doc": "C:/Projects/Agent_Workspace/FHS_W0W2_R4_20261107/writeback/W0/FHS_PIPD-LS-PKG_W0_r6.md",
+  "prior_tools_read_only": [
+   "tools/build_w0_r7.py",
+   "evidence/WP15/tools/*.py",
+   "evidence/WP16/tools/*.py"
+  ]
+ },
+ "verdict_tally": {
+  "REPRODUCED_WITH_DEFINITION_DRIFT": 1,
+  "REPRODUCED": 7
+ },
+ "claims": [
+  {
+   "id": "WP15-1a",
+   "wp": "WP-FHS-15",
+   "claim_as_prior": "3 份 SPEC body 互異；pairwise 最大相似度 0.0755（門檻 0.85）",
+   "measured": {
+    "distinct_spec_bodies": 3,
+    "normalised_tokens": {
+     "product": 1762,
+     "architecture": 1704,
+     "program": 1904
+    },
+    "pairs": [
+     {
+      "pair": [
+       "product",
+       "architecture"
+      ],
+      "token_3gram_jaccard": 0.1181,
+      "max_over_methods": 0.2051
+     },
+     {
+      "pair": [
+       "product",
+       "program"
+      ],
+      "token_3gram_jaccard": 0.1115,
+      "max_over_methods": 0.1999
+     },
+     {
+      "pair": [
+       "architecture",
+       "program"
+      ],
+      "token_3gram_jaccard": 0.1208,
+      "max_over_methods": 0.2063
+     }
+    ],
+    "max_over_all_method_families": 0.2063,
+    "max_primary_method": 0.1208,
+    "prior_pair_values": {
+     "product|architecture": 0.0755,
+     "product|program": 0.0617,
+     "architecture|program": 0.0613
+    },
+    "prior_char5gram_column": {
+     "product|architecture": 0.2134,
+     "product|program": 0.2102,
+     "architecture|program": 0.2113
+    }
+   },
+   "method": "token_3gram_jaccard (Latin word / single CJK char tokens); families: token_2/3/4gram, sentence_1/2gram, char_5gram (YAML front matter 與 markdown heading 行已排除，正文小寫並正規化空白)",
+   "verdict": "REPRODUCED_WITH_DEFINITION_DRIFT",
+   "why": "3 個互異 body 與『全部 pair 遠低於 0.85』的實質結論在我 6 個方法族下都成立（最大 0.2063）；但 0.0755 這個數字不重現：我的 sentence-2gram 為 0.0497/0.0370/0.0355，token-3gram 為 0.1181/0.1115/0.1208。前輪自己的 REPORT.json 同列 char5gram 0.2134，故『最大 0.0755』與其自身欄位互相矛盾——0.0755 是 sentence-shingle 欄位值，不是全方法最大值。"
+  },
+  {
+   "id": "WP15-1b",
+   "wp": "WP-FHS-15",
+   "claim_as_prior": "52/52 source_ref span 重切與 quoted_text 逐字相等",
+   "measured": {
+    "total_refs_checked": 52,
+    "exact": 52,
+    "other": {},
+    "composition": {
+     "spec_source_refs": 22,
+     "stage_source_span": 18,
+     "stage_document_claim_refs": 2,
+     "firstfail_code_refs": 10
+    },
+    "distinct_files_cited": 5,
+    "refs_per_file": {
+     "FHS_PIPD-LS-PKG_W0_r6.md": 24,
+     "01_PRODUCT_AUTHORITY_SPINE(4).md": 4,
+     "02_PIPD_LIFECYCLE_AND_TPM(4).md": 21,
+     "03_ARCHITECTURE_ABI_AND_EFFECT(4).md": 2,
+     "11_WORKPACKAGES_AND_DAG(4).md": 1
+    },
+    "md_table_vs_json": {
+     "total": 22,
+     "matching": 22,
+     "bad": []
+    }
+   },
+   "method": "對每個 ref 重開 file（來源樹或 W0 r6 原檔）→ bytes[byte_start:byte_end] 與 quoted_text.encode('utf-8') 逐位元比較，並核 file_sha256",
+   "verdict": "REPRODUCED",
+   "why": "52 筆全部 EXACT，0 mismatch；22 筆 SPEC md 表格的 file/sha 前綴/span 與 JSON 完全一致。附註：前輪記 files_scanned=6，我實測被引用檔案為 5 個（W0 r6、01、02、03、11），屬報告中繼資料小差異，不影響 span 正確性。"
+  },
+  {
+   "id": "WP15-1c",
+   "wp": "WP-FHS-15",
+   "claim_as_prior": "acceptance 15 列，6 POS / 9 NEG",
+   "measured": {
+    "total": 15,
+    "POS": 6,
+    "NEG": 9,
+    "per_spec": {
+     "product": {
+      "rows": 5,
+      "POS": 2,
+      "NEG": 3
+     },
+     "architecture": {
+      "rows": 5,
+      "POS": 2,
+      "NEG": 3
+     },
+     "program": {
+      "rows": 5,
+      "POS": 2,
+      "NEG": 3
+     }
+    }
+   },
+   "method": "逐份 SPEC json 的 acceptance[] 計數 kind",
+   "verdict": "REPRODUCED",
+   "why": "3 份各 5 列（每份 2 POS／3 NEG），合計 15 = 6 POS + 9 NEG。"
+  },
+  {
+   "id": "WP15-1d",
+   "wp": "WP-FHS-15",
+   "claim_as_prior": "18 個 stage contract 記錄",
+   "measured": {
+    "count": 18,
+    "unique": 18,
+    "ids": [
+     "PM:T0",
+     "PM:T1",
+     "PM:T2",
+     "PM:T3",
+     "PM:T4",
+     "PM:T5",
+     "SE:T0",
+     "SE:T1",
+     "SE:T2",
+     "SE:T3",
+     "SE:T4",
+     "SE:T5",
+     "TPgM:T0",
+     "TPgM:T1",
+     "TPgM:T2",
+     "TPgM:T3",
+     "TPgM:T4",
+     "TPgM:T5"
+    ],
+    "declared_measured_count": 18,
+    "declared_expected_count": 18,
+    "document_enumerates_stages": false
+   },
+   "method": "STAGE_CONTRACTS.json stages[] 計數與 stage_id 去重；另回查來源 02 的 STATIC-v1 表是否有逐列列舉",
+   "verdict": "REPRODUCED",
+   "why": "18 筆、18 個唯一識別碼（PM/SE/TPgM × T0–T5）。但數量正確不等於文件已列舉：W0 r6 CH-11 只宣告數量，18 列實質契約只在來源 02；此為 H-WP15-STAGE-ENUMERATION-GAP，由本 lane 的 repair_inputs.json 補上可引用的 18 列座標。"
+  },
+  {
+   "id": "WP16-2a",
+   "wp": "WP-FHS-16",
+   "claim_as_prior": "24 donor + 25 method 記錄，無填充、無重複 id",
+   "measured": {
+    "donor_records": 24,
+    "donor_declared": 24,
+    "method_records": 25,
+    "method_declared": 25,
+    "donor_unique": {
+     "slot_id": 24,
+     "original_id": 24,
+     "original_use": 24,
+     "name": 6
+    },
+    "method_unique": {
+     "slot_id": 25,
+     "original_id": 25,
+     "original_use": 25,
+     "name": 25
+    },
+    "duplicate_ids": [],
+    "duplicate_original_ids": [],
+    "blank_fields": 0,
+    "cross_table_id_collisions": [],
+    "donor_name_repeats_expected": "donor name 只有 6 個（OpenSpec/Spec Kit/mattpocock/GSD/gstack/Superpowers），係 4 槽同一家族，原用途 original_use 24/24 互異，故非填充"
+   },
+   "method": "計數 + slot_id/original_id/original_use 去重 + 空白欄位掃描 + 跨表 id 交集",
+   "verdict": "REPRODUCED",
+   "why": "24/25 與宣告一致；slot_id 與 original_id 各自唯一、跨表無交集、49 筆無空白欄位；donor 名稱重複係家族分組而非複製。"
+  },
+  {
+   "id": "WP16-2b",
+   "wp": "WP-FHS-16",
+   "claim_as_prior": "處置 8 ADOPT_CANDIDATE / 21 DEFER / 1 NOFIT / 19 HOLD",
+   "measured": {
+    "combined": {
+     "ADOPT_CANDIDATE": 8,
+     "DEFER": 21,
+     "NOFIT": 1,
+     "HOLD": 19
+    },
+    "sum": 49,
+    "donor": {
+     "HOLD": 8,
+     "DEFER": 12,
+     "ADOPT_CANDIDATE": 4
+    },
+    "method": {
+     "DEFER": 9,
+     "ADOPT_CANDIDATE": 4,
+     "HOLD": 11,
+     "NOFIT": 1
+    },
+    "disposition_total_equals_records": true,
+    "outside_vocabulary": []
+   },
+   "method": "逐筆 disposition 分類計數並與記錄數對帳",
+   "verdict": "REPRODUCED",
+   "why": "donor 4/12/0/8 + method 4/9/1/11 = 8/21/1/19，合計 49 與記錄數一致，無詞彙外值。"
+  },
+  {
+   "id": "WP16-2c",
+   "wp": "WP-FHS-16",
+   "claim_as_prior": "49 筆中 8 筆具名授權（MIT），41 筆未述",
+   "measured": {
+    "named_licence_total": 8,
+    "without_named_licence": 41,
+    "donor": {
+     "UNKNOWN_NOT_STATED": 20,
+     "MIT": 4
+    },
+    "method": {
+     "UNKNOWN_NOT_STATED": 21,
+     "MIT": 4
+    },
+    "named_ids": [
+     "SLOT-MP-01",
+     "SLOT-MP-02",
+     "SLOT-MP-03",
+     "SLOT-MP-04",
+     "METHOD-02",
+     "METHOD-03",
+     "METHOD-04",
+     "METHOD-05"
+    ],
+    "named_licences": [
+     "MIT"
+    ]
+   },
+   "method": "licence 欄非空、非 UNKNOWN_NOT_STATED、非佔位字串者視為具名授權",
+   "verdict": "REPRODUCED",
+   "why": "8 筆皆為 MIT（SLOT-MP-01..04、METHOD-02..05），其餘 41 筆 UNKNOWN_NOT_STATED。僅 4+4 具名，且證據為 DOC-04 研究表觀測，未讀 upstream LICENSE digest（沿用 H-LICENSE-FILE-DIGEST）。"
+  },
+  {
+   "id": "WP16-2d",
+   "wp": "WP-FHS-16",
+   "claim_as_prior": "每筆 donor/method 皆有可解析到真實檔案與 byte span 的來源引用",
+   "measured": {
+    "source_ref_exact": 49,
+    "records": 49,
+    "donor_source_ref": {
+     "EXACT": 24
+    },
+    "method_source_ref": {
+     "EXACT": 25
+    },
+    "chapter_ref": {
+     "EXACT": 25
+    },
+    "source_tree_files": 31,
+    "distinct_source_spans": {
+     "donor": 24,
+     "method": 25
+    },
+    "bad_refs": []
+   },
+   "method": "每個 source_ref 的 file basename 必須存在於 31-source 樹 → 切 [start:end) 與 quoted_text 逐位元比較；chapter_ref 另行解析（指向 W0 r6 原檔）",
+   "verdict": "REPRODUCED",
+   "why": "49/49 source_ref EXACT（皆落在 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md，31 檔樹內），49/49 chapter_ref 亦 EXACT（指向樹外的 W0 r6 原檔，屬設計而非缺陷）；無一筆落在不存在的檔案或越界 span。"
+  }
+ ],
+ "repair_inputs": {
+  "path": "repair_inputs.json",
+  "stages": 18,
+  "donor_slots": 24,
+  "method_slots": 25,
+  "span_self_check": "0 bad (every entry re-slices to quoted_text)",
+  "name_drift_vs_prior_tables": 0
+ },
+ "discrepancies": [
+  {
+   "id": "D-1",
+   "claim": "WP15-1a",
+   "detail": "『最大相似度 0.0755』與同檔 distinctness.pairs[].max（0.2134/0.2102/0.2113）自相矛盾；0.0755 僅為 sentence_shingle 欄位。以 0.0755 對 0.85 門檻作結論在方向上仍成立，但數值表述需改為分方法並列。"
+  },
+  {
+   "id": "D-2",
+   "claim": "WP15-1b",
+   "detail": "前輪 files_scanned=6；我實測被引用檔案 5 個。span 全數正確，屬中繼資料偏差。"
+  },
+  {
+   "id": "D-3",
+   "claim": "WP15-1d",
+   "detail": "stage 數量成立但文件未列舉：W0 r6 CH-11 只有『18 Stage』字樣，18 列契約僅存在於來源 02。修補需引用 repair_inputs.json 的 18 列座標。"
+  },
+  {
+   "id": "D-4",
+   "claim": "WP16-2c",
+   "detail": "8 筆 MIT 來自 DOC-04 研究表，非 upstream LICENSE 檔 digest；『具名授權』不等於『授權已清』。"
+  }
+ ],
+ "verification": {
+  "command": "python tools/verify_deliverables.py",
+  "checks_failed": 0,
+  "log": "raw/verify_deliverables.log",
+  "note": "重讀 WP15/WP16 原始 artifact 與 31 檔來源樹，逐項對帳 B_REPORT 的 measured 值與 repair_inputs 全部 span 重切。"
+ },
+ "not_claimed": [
+  "ORIGINAL_ACK / 任何 Original Reader 讀回",
+  "NATIVE_WORLDRAW / Host install-load-invoke 實測",
+  "RELEASE_GRANTED / 任何世界效果",
+  "INDEPENDENT_PASS（本 lane 為作者端獨立重導，非獨立 Case 裁決）",
+  "licence cleared 或 TechnologyAdmission",
+  "W0 r7 文件已修補完成（本 lane 只提供可引用的列舉輸入）"
+ ]
+}
