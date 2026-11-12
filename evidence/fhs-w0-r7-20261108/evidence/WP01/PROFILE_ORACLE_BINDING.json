@@ -1,0 +1,1988 @@
+{
+ "schema": "FHS.WP01.ProfileOracleBinding/1",
+ "wp": "WP-FHS-01",
+ "generated_at": "2026-11-08T00:39:56+0800",
+ "registry": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\registry.json",
+ "registry_sha256": "85100a8e5ba6320f6648d33a14099fb999b2c452a94aff1652854d2550065e9d",
+ "registry_schema": "PIPD-S0-CONTRACT-REGISTRY/1",
+ "counts": {
+  "families_measured": 19,
+  "families_documented": 19,
+  "matches_documented": true,
+  "schema_files_on_disk": 19,
+  "schema_files_not_in_registry": [],
+  "families_bound": 19,
+  "families_hold": 0,
+  "families_with_enum": 4,
+  "families_shape_only": 15,
+  "families_source_grounded": 19,
+  "families_source_ungrounded": 0,
+  "hold_codes": {
+   "ORACLE_ENUM_ABSENT": 15
+  }
+ },
+ "claim_ceiling": "AUTHOR_SIDE_SOURCE_BOUND",
+ "not_claimed": [
+  "the contracts are not exercised against a live PIPD compiler",
+  "schema $id uniqueness across the wider tree is not asserted here",
+  "enum absence is reported as an oracle limit, not as a defect of the registry"
+ ],
+ "families": [
+  {
+   "index": "01",
+   "family": "ArtifactIdentity",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "all planes"
+   ],
+   "schema_filename": "ArtifactIdentity.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ArtifactIdentity.schema.json",
+   "registry_required_fields": [
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version",
+    "supersedes",
+    "invalidates"
+   ],
+   "schema_present": true,
+   "schema_sha256": "d747387f45e52647edebc7f5487304e6465626998b0597356936a9ffa45920ea",
+   "schema_bytes": 952,
+   "declared_id": "urn:pipd:s0:ArtifactIdentity:1",
+   "schema_required": [
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version",
+    "supersedes",
+    "invalidates"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "invalidates",
+    "schema_version",
+    "subject_id",
+    "supersedes",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12088,
+    "byte_end": 12104,
+    "span_sha256": "4ee2e605b9ef6160b825e9d00765f359dec219802a04bbdb3df951f03b8f8621",
+    "context_head": "ArtifactIdentity`, `AuthorityBinding`, `RequirementAtom`, `ProfileBinding`, `TechnologyAdmission"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 12,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ArtifactIdentity.schema.json",
+     "schema_sha256": "d747387f45e52647edebc7f5487304e6465626998b0597356936a9ffa45920ea",
+     "declared_id": "urn:pipd:s0:ArtifactIdentity:1",
+     "fields_verified": [
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version",
+      "supersedes",
+      "invalidates"
+     ],
+     "fields_verified_count": 6
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12088,
+     "byte_end": 12104,
+     "span_sha256": "4ee2e605b9ef6160b825e9d00765f359dec219802a04bbdb3df951f03b8f8621",
+     "context_head": "ArtifactIdentity`, `AuthorityBinding`, `RequirementAtom`, `ProfileBinding`, `TechnologyAdmission"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for ArtifactIdentity; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "02",
+   "family": "AuthorityBinding",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "all compilers/adapters"
+   ],
+   "schema_filename": "AuthorityBinding.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\AuthorityBinding.schema.json",
+   "registry_required_fields": [
+    "source_id",
+    "authority_rank",
+    "locator",
+    "supersession",
+    "conflict_state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "245d33ffb2578a4b00c982f73e768959a00c5d71aa73a44fe94fcae2258470ca",
+   "schema_bytes": 1106,
+   "declared_id": "urn:pipd:s0:AuthorityBinding:1",
+   "schema_required": [
+    "source_id",
+    "authority_rank",
+    "locator",
+    "supersession",
+    "conflict_state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "authority_rank",
+    "conflict_state",
+    "content_hash",
+    "locator",
+    "schema_version",
+    "source_id",
+    "subject_id",
+    "supersession",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12108,
+    "byte_end": 12124,
+    "span_sha256": "19f6af4e708f118982334adf6b09b172c84e544f40f6bb6786c13fed1edfd1c2",
+    "context_head": "AuthorityBinding`, `RequirementAtom`, `ProfileBinding`, `TechnologyAdmission`, `PI-PKG`, `PD-PKG"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 151,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\AuthorityBinding.schema.json",
+     "schema_sha256": "245d33ffb2578a4b00c982f73e768959a00c5d71aa73a44fe94fcae2258470ca",
+     "declared_id": "urn:pipd:s0:AuthorityBinding:1",
+     "fields_verified": [
+      "source_id",
+      "authority_rank",
+      "locator",
+      "supersession",
+      "conflict_state",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12108,
+     "byte_end": 12124,
+     "span_sha256": "19f6af4e708f118982334adf6b09b172c84e544f40f6bb6786c13fed1edfd1c2",
+     "context_head": "AuthorityBinding`, `RequirementAtom`, `ProfileBinding`, `TechnologyAdmission`, `PI-PKG`, `PD-PKG"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for AuthorityBinding; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "03",
+   "family": "RequirementAtom",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "PI compiler/TQAEP"
+   ],
+   "schema_filename": "RequirementAtom.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\RequirementAtom.schema.json",
+   "registry_required_fields": [
+    "req_id",
+    "source_clause",
+    "owner",
+    "acceptance_cue",
+    "risk_guard",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "3394c61dd771ed62a2741ef48e779a7811f7c190101a45d7ebf77eea22ec5541",
+   "schema_bytes": 1078,
+   "declared_id": "urn:pipd:s0:RequirementAtom:1",
+   "schema_required": [
+    "req_id",
+    "source_clause",
+    "owner",
+    "acceptance_cue",
+    "risk_guard",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "acceptance_cue",
+    "content_hash",
+    "owner",
+    "req_id",
+    "risk_guard",
+    "schema_version",
+    "source_clause",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 2079,
+    "byte_end": 2094,
+    "span_sha256": "760f95147c74f269b1c0f37bd84a7d807d4e5da2955a57ec08b8602567cfb084",
+    "context_head": "RequirementAtom、24條 TraceLink，回覆 PASS；另對 strict TaskSpecSeed/ExecutionHandoff/W"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 75,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\RequirementAtom.schema.json",
+     "schema_sha256": "3394c61dd771ed62a2741ef48e779a7811f7c190101a45d7ebf77eea22ec5541",
+     "declared_id": "urn:pipd:s0:RequirementAtom:1",
+     "fields_verified": [
+      "req_id",
+      "source_clause",
+      "owner",
+      "acceptance_cue",
+      "risk_guard",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 2079,
+     "byte_end": 2094,
+     "span_sha256": "760f95147c74f269b1c0f37bd84a7d807d4e5da2955a57ec08b8602567cfb084",
+     "context_head": "RequirementAtom、24條 TraceLink，回覆 PASS；另對 strict TaskSpecSeed/ExecutionHandoff/W"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for RequirementAtom; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "04",
+   "family": "ProfileBinding",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "Skills/JIT/HGK"
+   ],
+   "schema_filename": "ProfileBinding.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ProfileBinding.schema.json",
+   "registry_required_fields": [
+    "profile",
+    "axes",
+    "vetoes",
+    "artifact_depth",
+    "assurance",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "63798436312fee6a814a1ade64380d3a36646fecea1a0bac07f77a095ee8739d",
+   "schema_bytes": 2727,
+   "declared_id": "urn:pipd:s0:ProfileBinding:1",
+   "schema_required": [
+    "profile",
+    "axes",
+    "vetoes",
+    "artifact_depth",
+    "assurance",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "artifact_depth",
+    "assurance",
+    "axes",
+    "content_hash",
+    "profile",
+    "schema_version",
+    "subject_id",
+    "version",
+    "vetoes"
+   ],
+   "enum_sites": [
+    {
+     "pointer": "/properties/profile/enum",
+     "values": [
+      "LITE",
+      "STANDARD",
+      "ASSURED"
+     ]
+    },
+    {
+     "pointer": "/properties/axes/items/enum",
+     "values": [
+      "intent",
+      "knowledge",
+      "verification",
+      "release",
+      "trust_boundary",
+      "preexisting_repo",
+      "profile",
+      "tech_candidates",
+      "host_surface"
+     ]
+    },
+    {
+     "pointer": "/properties/artifact_depth/enum",
+     "values": [
+      "L1_SCHEMA_CONTRACT",
+      "L3_INTEGRATION_RUNTIME",
+      "L4_FAILURE_RECOVERY"
+     ]
+    },
+    {
+     "pointer": "/properties/assurance/items/enum",
+     "values": [
+      "deterministic_validator",
+      "negative_security",
+      "adversarial",
+      "independent_checker"
+     ]
+    }
+   ],
+   "has_enum": true,
+   "enum_count": 4,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 1763,
+    "byte_end": 1777,
+    "span_sha256": "a3a4f6187ee111a57a961fe17bcaf31232f0e4e689703cbc3c67655b4ae8e202",
+    "context_head": "ProfileBinding.json` 與 Compiler 的有效 Profile 使用原九軸安全 veto，沒有將十�"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 172,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ProfileBinding.schema.json",
+     "schema_sha256": "63798436312fee6a814a1ade64380d3a36646fecea1a0bac07f77a095ee8739d",
+     "declared_id": "urn:pipd:s0:ProfileBinding:1",
+     "fields_verified": [
+      "profile",
+      "axes",
+      "vetoes",
+      "artifact_depth",
+      "assurance",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 1763,
+     "byte_end": 1777,
+     "span_sha256": "a3a4f6187ee111a57a961fe17bcaf31232f0e4e689703cbc3c67655b4ae8e202",
+     "context_head": "ProfileBinding.json` 與 Compiler 的有效 Profile 使用原九軸安全 veto，沒有將十�"
+    }
+   },
+   "oracle_decidability": "ENUM_CLOSED_SET",
+   "holds": []
+  },
+  {
+   "index": "05",
+   "family": "TechnologyAdmission",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "tool/provider adapters"
+   ],
+   "schema_filename": "TechnologyAdmission.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TechnologyAdmission.schema.json",
+   "registry_required_fields": [
+    "capability_need",
+    "candidate",
+    "disposition",
+    "pin_license_currentness",
+    "fallback_exit",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version",
+    "technology_id",
+    "external_name",
+    "capability_slot",
+    "license",
+    "immutable_pin"
+   ],
+   "schema_present": true,
+   "schema_sha256": "098be650cce90ed956c9b5224f6907fa7081f57d162819c0cb5c7b3dcec4008e",
+   "schema_bytes": 3185,
+   "declared_id": "urn:pipd:s0:TechnologyAdmission:1",
+   "schema_required": [
+    "capability_need",
+    "candidate",
+    "disposition",
+    "pin_license_currentness",
+    "fallback_exit",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version",
+    "technology_id",
+    "external_name",
+    "capability_slot",
+    "license",
+    "immutable_pin"
+   ],
+   "schema_properties": [
+    "acceptance_gate_ref",
+    "adapter_contract",
+    "adapter_materialization_state",
+    "adapter_ref",
+    "adoption_owner",
+    "candidate",
+    "capability_need",
+    "capability_slot",
+    "content_hash",
+    "current_design_state",
+    "current_runtime_state",
+    "design_selection_state",
+    "disposition",
+    "enablement_plan",
+    "external_name",
+    "fallback",
+    "fallback_exit",
+    "fixture_ref",
+    "immutable_pin",
+    "install_plan",
+    "integration_owner",
+    "internal_short_name",
+    "known_limitations",
+    "license",
+    "observed_version",
+    "oracle_ref",
+    "output_ref",
+    "pin_license_currentness",
+    "reselection_trigger",
+    "rollback_plan",
+    "rollback_target",
+    "runtime_admission_state",
+    "schema_ref",
+    "schema_version",
+    "security_requirements",
+    "selected_baseline",
+    "source_repository",
+    "subject_id",
+    "technology_id",
+    "translation_method",
+    "upstream_disposition",
+    "verification_suite",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12165,
+    "byte_end": 12184,
+    "span_sha256": "ce4b6728cd8e3e90b46cc27d80a877517f57e3504eaa996e4b2fc341d7bab84c",
+    "context_head": "TechnologyAdmission`, `PI-PKG`, `PD-PKG`, `TraceLink`, `TaskSpecSeed`, `ConstructionContract`, `Wor"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 493,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TechnologyAdmission.schema.json",
+     "schema_sha256": "098be650cce90ed956c9b5224f6907fa7081f57d162819c0cb5c7b3dcec4008e",
+     "declared_id": "urn:pipd:s0:TechnologyAdmission:1",
+     "fields_verified": [
+      "capability_need",
+      "candidate",
+      "disposition",
+      "pin_license_currentness",
+      "fallback_exit",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version",
+      "technology_id",
+      "external_name",
+      "capability_slot",
+      "license",
+      "immutable_pin"
+     ],
+     "fields_verified_count": 14
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12165,
+     "byte_end": 12184,
+     "span_sha256": "ce4b6728cd8e3e90b46cc27d80a877517f57e3504eaa996e4b2fc341d7bab84c",
+     "context_head": "TechnologyAdmission`, `PI-PKG`, `PD-PKG`, `TraceLink`, `TaskSpecSeed`, `ConstructionContract`, `Wor"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for TechnologyAdmission; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "06",
+   "family": "PI-PKG",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "PD binder"
+   ],
+   "schema_filename": "PI-PKG.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\PI-PKG.schema.json",
+   "registry_required_fields": [
+    "stable_semantic_contract",
+    "trace",
+    "acceptance",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "ee9b0f8bf7d64fc74b979ddb785f6a739783b45c4deaee81172e9e29a22fce77",
+   "schema_bytes": 4696,
+   "declared_id": "urn:pipd:s0:PI-PKG:1",
+   "schema_required": [
+    "stable_semantic_contract",
+    "trace",
+    "acceptance",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "acceptance",
+    "content_hash",
+    "schema_version",
+    "stable_semantic_contract",
+    "subject_id",
+    "trace",
+    "version"
+   ],
+   "enum_sites": [
+    {
+     "pointer": "/properties/trace/items/properties/from_type/enum",
+     "values": [
+      "ArtifactIdentity",
+      "AuthorityBinding",
+      "RequirementAtom",
+      "ProfileBinding",
+      "TechnologyAdmission",
+      "PI-PKG",
+      "PD-PKG",
+      "TraceLink",
+      "TaskSpecSeed",
+      "ConstructionContract",
+      "WorkOrderCandidate",
+      "ECP",
+      "TQAEP",
+      "ExecutionHandoff",
+      "EvidenceExpectation",
+      "ClaimCeiling",
+      "SurfaceProjectionManifest",
+      "GENIEProjectionRef",
+      "ExecutionBindingRef"
+     ]
+    },
+    {
+     "pointer": "/properties/trace/items/properties/to_type/enum",
+     "values": [
+      "ArtifactIdentity",
+      "AuthorityBinding",
+      "RequirementAtom",
+      "ProfileBinding",
+      "TechnologyAdmission",
+      "PI-PKG",
+      "PD-PKG",
+      "TraceLink",
+      "TaskSpecSeed",
+      "ConstructionContract",
+      "WorkOrderCandidate",
+      "ECP",
+      "TQAEP",
+      "ExecutionHandoff",
+      "EvidenceExpectation",
+      "ClaimCeiling",
+      "SurfaceProjectionManifest",
+      "GENIEProjectionRef",
+      "ExecutionBindingRef"
+     ]
+    }
+   ],
+   "has_enum": true,
+   "enum_count": 2,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 10219,
+    "byte_end": 10225,
+    "span_sha256": "a6c4df1b3f37527227e15907e0f5a9e161a0514e3ae06e517267e4256cadd706",
+    "context_head": "PI-PKG/RequirementAtom` | POS strict schema＋SourceSHA 同 Subject；缺 Source、Pro"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 866,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\PI-PKG.schema.json",
+     "schema_sha256": "ee9b0f8bf7d64fc74b979ddb785f6a739783b45c4deaee81172e9e29a22fce77",
+     "declared_id": "urn:pipd:s0:PI-PKG:1",
+     "fields_verified": [
+      "stable_semantic_contract",
+      "trace",
+      "acceptance",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 7
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 10219,
+     "byte_end": 10225,
+     "span_sha256": "a6c4df1b3f37527227e15907e0f5a9e161a0514e3ae06e517267e4256cadd706",
+     "context_head": "PI-PKG/RequirementAtom` | POS strict schema＋SourceSHA 同 Subject；缺 Source、Pro"
+    }
+   },
+   "oracle_decidability": "ENUM_CLOSED_SET",
+   "holds": []
+  },
+  {
+   "index": "07",
+   "family": "PD-PKG",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "execution handoff"
+   ],
+   "schema_filename": "PD-PKG.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\PD-PKG.schema.json",
+   "registry_required_fields": [
+    "RepoContext",
+    "currentness",
+    "late_bound_construction_binding",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "62609e550e527019ceea1928e00137e240d5d5dd86d4b9dc2f3b8fb6808a80af",
+   "schema_bytes": 2064,
+   "declared_id": "urn:pipd:s0:PD-PKG:1",
+   "schema_required": [
+    "RepoContext",
+    "currentness",
+    "late_bound_construction_binding",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "RepoContext",
+    "content_hash",
+    "currentness",
+    "evidence_completeness",
+    "late_bound_construction_binding",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 10486,
+    "byte_end": 10492,
+    "span_sha256": "d0c27faf4536eedd7e268b431613e8f96326c992aacc4160e692fb7ec415095f",
+    "context_head": "PD-PKG＋WriteSet Candidate | POS exact Subject/HEAD/root；stale HEAD/`**`/path escap"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 1207,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\PD-PKG.schema.json",
+     "schema_sha256": "62609e550e527019ceea1928e00137e240d5d5dd86d4b9dc2f3b8fb6808a80af",
+     "declared_id": "urn:pipd:s0:PD-PKG:1",
+     "fields_verified": [
+      "RepoContext",
+      "currentness",
+      "late_bound_construction_binding",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 7
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 10486,
+     "byte_end": 10492,
+     "span_sha256": "d0c27faf4536eedd7e268b431613e8f96326c992aacc4160e692fb7ec415095f",
+     "context_head": "PD-PKG＋WriteSet Candidate | POS exact Subject/HEAD/root；stale HEAD/`**`/path escap"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for PD-PKG; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "08",
+   "family": "TraceLink",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD/TQAEP",
+   "consumers": [
+    "validators/checkers"
+   ],
+   "schema_filename": "TraceLink.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TraceLink.schema.json",
+   "registry_required_fields": [
+    "from_type",
+    "from_id",
+    "from_hash",
+    "to_type",
+    "to_id",
+    "to_hash",
+    "rationale",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "7bd3ab0ff4ed2c3eb8750530dcbabd8a7f0a08b2febe48fbb230cdd21139faaa",
+   "schema_bytes": 3259,
+   "declared_id": "urn:pipd:s0:TraceLink:1",
+   "schema_required": [
+    "from_type",
+    "from_id",
+    "from_hash",
+    "to_type",
+    "to_id",
+    "to_hash",
+    "rationale",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "from_hash",
+    "from_id",
+    "from_type",
+    "rationale",
+    "schema_version",
+    "subject_id",
+    "to_hash",
+    "to_id",
+    "to_type",
+    "version"
+   ],
+   "enum_sites": [
+    {
+     "pointer": "/properties/from_type/enum",
+     "values": [
+      "ArtifactIdentity",
+      "AuthorityBinding",
+      "RequirementAtom",
+      "ProfileBinding",
+      "TechnologyAdmission",
+      "PI-PKG",
+      "PD-PKG",
+      "TraceLink",
+      "TaskSpecSeed",
+      "ConstructionContract",
+      "WorkOrderCandidate",
+      "ECP",
+      "TQAEP",
+      "ExecutionHandoff",
+      "EvidenceExpectation",
+      "ClaimCeiling",
+      "SurfaceProjectionManifest",
+      "GENIEProjectionRef",
+      "ExecutionBindingRef"
+     ]
+    },
+    {
+     "pointer": "/properties/to_type/enum",
+     "values": [
+      "ArtifactIdentity",
+      "AuthorityBinding",
+      "RequirementAtom",
+      "ProfileBinding",
+      "TechnologyAdmission",
+      "PI-PKG",
+      "PD-PKG",
+      "TraceLink",
+      "TaskSpecSeed",
+      "ConstructionContract",
+      "WorkOrderCandidate",
+      "ECP",
+      "TQAEP",
+      "ExecutionHandoff",
+      "EvidenceExpectation",
+      "ClaimCeiling",
+      "SurfaceProjectionManifest",
+      "GENIEProjectionRef",
+      "ExecutionBindingRef"
+     ]
+    }
+   ],
+   "has_enum": true,
+   "enum_count": 2,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 2103,
+    "byte_end": 2112,
+    "span_sha256": "ddce079f1abffb609e4071a64ac6c10b03b2b11aeb8ff9abf6f747cf3a5c1691",
+    "context_head": "TraceLink，回覆 PASS；另對 strict TaskSpecSeed/ExecutionHandoff/WorkOrderCandidate "
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 55,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TraceLink.schema.json",
+     "schema_sha256": "7bd3ab0ff4ed2c3eb8750530dcbabd8a7f0a08b2febe48fbb230cdd21139faaa",
+     "declared_id": "urn:pipd:s0:TraceLink:1",
+     "fields_verified": [
+      "from_type",
+      "from_id",
+      "from_hash",
+      "to_type",
+      "to_id",
+      "to_hash",
+      "rationale",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 11
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 2103,
+     "byte_end": 2112,
+     "span_sha256": "ddce079f1abffb609e4071a64ac6c10b03b2b11aeb8ff9abf6f747cf3a5c1691",
+     "context_head": "TraceLink，回覆 PASS；另對 strict TaskSpecSeed/ExecutionHandoff/WorkOrderCandidate "
+    }
+   },
+   "oracle_decidability": "ENUM_CLOSED_SET",
+   "holds": []
+  },
+  {
+   "index": "09",
+   "family": "TaskSpecSeed",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "receiver adapter"
+   ],
+   "schema_filename": "TaskSpecSeed.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TaskSpecSeed.schema.json",
+   "registry_required_fields": [
+    "goal",
+    "inputs",
+    "outputs",
+    "constraints",
+    "dependencies",
+    "tests",
+    "rollback",
+    "evidence",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "0230171cb7f72dccd5b081d00ce079b6ef9f456bcf614388f4e2acb71140940c",
+   "schema_bytes": 1156,
+   "declared_id": "urn:pipd:s0:TaskSpecSeed:1",
+   "schema_required": [
+    "goal",
+    "inputs",
+    "outputs",
+    "constraints",
+    "dependencies",
+    "tests",
+    "rollback",
+    "evidence",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "constraints",
+    "content_hash",
+    "dependencies",
+    "evidence",
+    "goal",
+    "inputs",
+    "outputs",
+    "rollback",
+    "schema_version",
+    "subject_id",
+    "tests",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-00",
+    "byte_start": 1352,
+    "byte_end": 1364,
+    "span_sha256": "cb9a2167e1aa4983ec88e1c4b5a5d47820f66b3386ea5cc4e7f079b6d36c8e21",
+    "context_head": "TaskSpecSeed 與 PD 晚綁接收契約。此首工作的入口與本文第一受影契約在"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 90,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TaskSpecSeed.schema.json",
+     "schema_sha256": "0230171cb7f72dccd5b081d00ce079b6ef9f456bcf614388f4e2acb71140940c",
+     "declared_id": "urn:pipd:s0:TaskSpecSeed:1",
+     "fields_verified": [
+      "goal",
+      "inputs",
+      "outputs",
+      "constraints",
+      "dependencies",
+      "tests",
+      "rollback",
+      "evidence",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 12
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-00",
+     "byte_start": 1352,
+     "byte_end": 1364,
+     "span_sha256": "cb9a2167e1aa4983ec88e1c4b5a5d47820f66b3386ea5cc4e7f079b6d36c8e21",
+     "context_head": "TaskSpecSeed 與 PD 晚綁接收契約。此首工作的入口與本文第一受影契約在"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for TaskSpecSeed; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "10",
+   "family": "ConstructionContract",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "HGK adapter"
+   ],
+   "schema_filename": "ConstructionContract.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ConstructionContract.schema.json",
+   "registry_required_fields": [
+    "subject",
+    "writable_scope",
+    "expected_changes",
+    "tests",
+    "rollback",
+    "evidence_expectations",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "d40bc15d09e9694a3a778f8d9e7fd512779b65bfde391a0421ef97f50683c28e",
+   "schema_bytes": 1142,
+   "declared_id": "urn:pipd:s0:ConstructionContract:1",
+   "schema_required": [
+    "subject",
+    "writable_scope",
+    "expected_changes",
+    "tests",
+    "rollback",
+    "evidence_expectations",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "evidence_expectations",
+    "expected_changes",
+    "rollback",
+    "schema_version",
+    "subject",
+    "subject_id",
+    "tests",
+    "version",
+    "writable_scope"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 10733,
+    "byte_end": 10753,
+    "span_sha256": "8b264711529cd18e25e24f48b79ce429e04cda4ff0922ff0de37eabdc23426d7",
+    "context_head": "ConstructionContract | POS 原 DEV Writer＋Original HGK Admission 才可 Repo Write；缺 WriteSet/"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 94,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ConstructionContract.schema.json",
+     "schema_sha256": "d40bc15d09e9694a3a778f8d9e7fd512779b65bfde391a0421ef97f50683c28e",
+     "declared_id": "urn:pipd:s0:ConstructionContract:1",
+     "fields_verified": [
+      "subject",
+      "writable_scope",
+      "expected_changes",
+      "tests",
+      "rollback",
+      "evidence_expectations",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 10
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 10733,
+     "byte_end": 10753,
+     "span_sha256": "8b264711529cd18e25e24f48b79ce429e04cda4ff0922ff0de37eabdc23426d7",
+     "context_head": "ConstructionContract | POS 原 DEV Writer＋Original HGK Admission 才可 Repo Write；缺 WriteSet/"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for ConstructionContract; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "11",
+   "family": "WorkOrderCandidate",
+   "materialization": "REQUIRED_NOW_NONAUTHORITY",
+   "owner": "PIPD",
+   "consumers": [
+    "HGK admission"
+   ],
+   "schema_filename": "WorkOrderCandidate.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\WorkOrderCandidate.schema.json",
+   "registry_required_fields": [
+    "candidate_only",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "9cedabd6038862c014641c20714dab086b9b535165c515326b7db9c56b690788",
+   "schema_bytes": 1079,
+   "declared_id": "urn:pipd:s0:WorkOrderCandidate:1",
+   "schema_required": [
+    "candidate_only",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "candidate_only",
+    "content_hash",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-00",
+    "byte_start": 2095,
+    "byte_end": 2113,
+    "span_sha256": "9b8bb409e69736d67cbcdc793cee89bc97176d45b5ac3408ee8c0db03514380d",
+    "context_head": "WorkOrderCandidate 是接收候選，不是已准入 WorkID。\n\n## 本輪同域受影修復：r2 �"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 18,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\WorkOrderCandidate.schema.json",
+     "schema_sha256": "9cedabd6038862c014641c20714dab086b9b535165c515326b7db9c56b690788",
+     "declared_id": "urn:pipd:s0:WorkOrderCandidate:1",
+     "fields_verified": [
+      "candidate_only",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 5
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-00",
+     "byte_start": 2095,
+     "byte_end": 2113,
+     "span_sha256": "9b8bb409e69736d67cbcdc793cee89bc97176d45b5ac3408ee8c0db03514380d",
+     "context_head": "WorkOrderCandidate 是接收候選，不是已准入 WorkID。\n\n## 本輪同域受影修復：r2 �"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for WorkOrderCandidate; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "12",
+   "family": "ECP",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD/ECP semantics",
+   "consumers": [
+    "HGK/TQAEP"
+   ],
+   "schema_filename": "ECP.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ECP.schema.json",
+   "registry_required_fields": [
+    "effect_intent",
+    "permission",
+    "retries",
+    "idempotency",
+    "readback",
+    "rollback",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "33688671e6eec18229e3da35a210f0c88799d4e21c5378d0518cd1e4213c7331",
+   "schema_bytes": 1104,
+   "declared_id": "urn:pipd:s0:ECP:1",
+   "schema_required": [
+    "effect_intent",
+    "permission",
+    "retries",
+    "idempotency",
+    "readback",
+    "rollback",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "effect_intent",
+    "idempotency",
+    "permission",
+    "readback",
+    "retries",
+    "rollback",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-01",
+    "byte_start": 7891,
+    "byte_end": 7894,
+    "span_sha256": "c0e0f30286108b662f4bf9afbc246129e992c00da70f9d0eee7f2ffca8ec4a02",
+    "context_head": "ECP/TQAEP | 原 Writer；無 Schema 合法 ABI→PIPD_HOLD |\n| TDR-02 | Fabric/HG-K"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 2826,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ECP.schema.json",
+     "schema_sha256": "33688671e6eec18229e3da35a210f0c88799d4e21c5378d0518cd1e4213c7331",
+     "declared_id": "urn:pipd:s0:ECP:1",
+     "fields_verified": [
+      "effect_intent",
+      "permission",
+      "retries",
+      "idempotency",
+      "readback",
+      "rollback",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 10
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-01",
+     "byte_start": 7891,
+     "byte_end": 7894,
+     "span_sha256": "c0e0f30286108b662f4bf9afbc246129e992c00da70f9d0eee7f2ffca8ec4a02",
+     "context_head": "ECP/TQAEP | 原 Writer；無 Schema 合法 ABI→PIPD_HOLD |\n| TDR-02 | Fabric/HG-K"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for ECP; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "13",
+   "family": "TQAEP",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD/TQAEP semantics",
+   "consumers": [
+    "Independent checker/release"
+   ],
+   "schema_filename": "TQAEP.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TQAEP.schema.json",
+   "registry_required_fields": [
+    "tests",
+    "oracles",
+    "fixtures",
+    "acceptance",
+    "requalification",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "1e704b3f9942bdbe15cdfc9b1be9baf8880ac39841ef91fd7ddf2084eb0a9fa6",
+   "schema_bytes": 1104,
+   "declared_id": "urn:pipd:s0:TQAEP:1",
+   "schema_required": [
+    "tests",
+    "oracles",
+    "fixtures",
+    "acceptance",
+    "requalification",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "acceptance",
+    "content_hash",
+    "fixtures",
+    "oracles",
+    "requalification",
+    "schema_version",
+    "subject_id",
+    "tests",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-00",
+    "byte_start": 4701,
+    "byte_end": 4706,
+    "span_sha256": "1aedf240d0840095e269db21a7fcecffb95a623e2e06d808b3139681255a58a5",
+    "context_head": "TQAEP schema-shape 狀態與獨立 effect 檢查。\n- F-06/F-11：四庫指定 symbol"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 1074,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\TQAEP.schema.json",
+     "schema_sha256": "1e704b3f9942bdbe15cdfc9b1be9baf8880ac39841ef91fd7ddf2084eb0a9fa6",
+     "declared_id": "urn:pipd:s0:TQAEP:1",
+     "fields_verified": [
+      "tests",
+      "oracles",
+      "fixtures",
+      "acceptance",
+      "requalification",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-00",
+     "byte_start": 4701,
+     "byte_end": 4706,
+     "span_sha256": "1aedf240d0840095e269db21a7fcecffb95a623e2e06d808b3139681255a58a5",
+     "context_head": "TQAEP schema-shape 狀態與獨立 effect 檢查。\n- F-06/F-11：四庫指定 symbol"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for TQAEP; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "14",
+   "family": "ExecutionHandoff",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "HGK/other receiver"
+   ],
+   "schema_filename": "ExecutionHandoff.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ExecutionHandoff.schema.json",
+   "registry_required_fields": [
+    "receiver",
+    "abi_version",
+    "payload_refs",
+    "ack_nack_state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "2a96e0d2ce33974beb4d27dd61386cd6b809cc3dd63c6dffebc17d581e641d3a",
+   "schema_bytes": 1056,
+   "declared_id": "urn:pipd:s0:ExecutionHandoff:1",
+   "schema_required": [
+    "receiver",
+    "abi_version",
+    "payload_refs",
+    "ack_nack_state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "abi_version",
+    "ack_nack_state",
+    "content_hash",
+    "payload_refs",
+    "receiver",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 2156,
+    "byte_end": 2172,
+    "span_sha256": "334bd1590ded21ae54256f39fb52d468c2564ae5cec5cd518ecdcee192886b23",
+    "context_head": "ExecutionHandoff/WorkOrderCandidate 驗 Schema與 frozen context回覆 PASS。每 Atom 的專屬"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 12,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ExecutionHandoff.schema.json",
+     "schema_sha256": "2a96e0d2ce33974beb4d27dd61386cd6b809cc3dd63c6dffebc17d581e641d3a",
+     "declared_id": "urn:pipd:s0:ExecutionHandoff:1",
+     "fields_verified": [
+      "receiver",
+      "abi_version",
+      "payload_refs",
+      "ack_nack_state",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 8
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 2156,
+     "byte_end": 2172,
+     "span_sha256": "334bd1590ded21ae54256f39fb52d468c2564ae5cec5cd518ecdcee192886b23",
+     "context_head": "ExecutionHandoff/WorkOrderCandidate 驗 Schema與 frozen context回覆 PASS。每 Atom 的專屬"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for ExecutionHandoff; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "15",
+   "family": "EvidenceExpectation",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD/TQAEP",
+   "consumers": [
+    "HGK/CI/provider"
+   ],
+   "schema_filename": "EvidenceExpectation.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\EvidenceExpectation.schema.json",
+   "registry_required_fields": [
+    "expected_evidence_type",
+    "producer",
+    "postcondition",
+    "freshness",
+    "claim_effect",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "b975375b59ae151b6b5740bb0069a5c8441b3a7e0acc94cf5404fa15ce5068e7",
+   "schema_bytes": 1126,
+   "declared_id": "urn:pipd:s0:EvidenceExpectation:1",
+   "schema_required": [
+    "expected_evidence_type",
+    "producer",
+    "postcondition",
+    "freshness",
+    "claim_effect",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "claim_effect",
+    "content_hash",
+    "expected_evidence_type",
+    "freshness",
+    "postcondition",
+    "producer",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12319,
+    "byte_end": 12338,
+    "span_sha256": "e88aa30d1f7e5e71bd3a6af756205f7e624b042d155b3f55bc047c3eb722a827",
+    "context_head": "EvidenceExpectation`, `ClaimCeiling`, `SurfaceProjectionManifest`, `GENIEProjectionRef`, `Execution"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 125,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\EvidenceExpectation.schema.json",
+     "schema_sha256": "b975375b59ae151b6b5740bb0069a5c8441b3a7e0acc94cf5404fa15ce5068e7",
+     "declared_id": "urn:pipd:s0:EvidenceExpectation:1",
+     "fields_verified": [
+      "expected_evidence_type",
+      "producer",
+      "postcondition",
+      "freshness",
+      "claim_effect",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12319,
+     "byte_end": 12338,
+     "span_sha256": "e88aa30d1f7e5e71bd3a6af756205f7e624b042d155b3f55bc047c3eb722a827",
+     "context_head": "EvidenceExpectation`, `ClaimCeiling`, `SurfaceProjectionManifest`, `GENIEProjectionRef`, `Execution"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for EvidenceExpectation; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "16",
+   "family": "ClaimCeiling",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "all planes"
+   ],
+   "schema_filename": "ClaimCeiling.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ClaimCeiling.schema.json",
+   "registry_required_fields": [
+    "allowed_claims",
+    "forbidden_escalation",
+    "close_conditions",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "ee2f063b36a623d4c9854109dbb9a05aa601556c9450daf242dc7a597ce24ad1",
+   "schema_bytes": 2145,
+   "declared_id": "urn:pipd:s0:ClaimCeiling:1",
+   "schema_required": [
+    "allowed_claims",
+    "forbidden_escalation",
+    "close_conditions",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "allowed_claims",
+    "close_conditions",
+    "content_hash",
+    "forbidden_escalation",
+    "schema_version",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [
+    {
+     "pointer": "/properties/allowed_claims/items/enum",
+     "values": [
+      "PROMPT_COMPILE_PASS",
+      "HGK_ADMITTED",
+      "RUNTIME_READY",
+      "LOCAL_QUALIFIED",
+      "INDEPENDENT_PASS",
+      "PUBLICATION_APPROVED",
+      "RELEASED",
+      "PRODUCTION_VERIFIED"
+     ]
+    },
+    {
+     "pointer": "/properties/forbidden_escalation/items/enum",
+     "values": [
+      "PROMPT_COMPILE_PASS",
+      "HGK_ADMITTED",
+      "RUNTIME_READY",
+      "LOCAL_QUALIFIED",
+      "INDEPENDENT_PASS",
+      "PUBLICATION_APPROVED",
+      "RELEASED",
+      "PRODUCTION_VERIFIED"
+     ]
+    }
+   ],
+   "has_enum": true,
+   "enum_count": 2,
+   "source_span": {
+    "source_id": "FHS-BODY-00",
+    "byte_start": 842,
+    "byte_end": 854,
+    "span_sha256": "926a8c30ccabf6e8209b0e199756d05e3deb4d0e8db427ce35949b51d280cfdc",
+    "context_head": "ClaimCeiling** `SOURCE_BOUND_INTEGRATED_DESIGN_WITH_LOCAL_READBACK`；`REPO_SOURCE_REMOTE_OB"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 183,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ClaimCeiling.schema.json",
+     "schema_sha256": "ee2f063b36a623d4c9854109dbb9a05aa601556c9450daf242dc7a597ce24ad1",
+     "declared_id": "urn:pipd:s0:ClaimCeiling:1",
+     "fields_verified": [
+      "allowed_claims",
+      "forbidden_escalation",
+      "close_conditions",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 7
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-00",
+     "byte_start": 842,
+     "byte_end": 854,
+     "span_sha256": "926a8c30ccabf6e8209b0e199756d05e3deb4d0e8db427ce35949b51d280cfdc",
+     "context_head": "ClaimCeiling** `SOURCE_BOUND_INTEGRATED_DESIGN_WITH_LOCAL_READBACK`；`REPO_SOURCE_REMOTE_OB"
+    }
+   },
+   "oracle_decidability": "ENUM_CLOSED_SET",
+   "holds": []
+  },
+  {
+   "index": "17",
+   "family": "SurfaceProjectionManifest",
+   "materialization": "REQUIRED_NOW",
+   "owner": "PIPD",
+   "consumers": [
+    "surface compiler"
+   ],
+   "schema_filename": "SurfaceProjectionManifest.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\SurfaceProjectionManifest.schema.json",
+   "registry_required_fields": [
+    "surface",
+    "source_hashes",
+    "generated_files",
+    "parity_loss",
+    "stale_rule",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "acca81b498b787f8279f0981847ed7d13e19ca559c750aa593c99ff9b0c4abc3",
+   "schema_bytes": 1112,
+   "declared_id": "urn:pipd:s0:SurfaceProjectionManifest:1",
+   "schema_required": [
+    "surface",
+    "source_hashes",
+    "generated_files",
+    "parity_loss",
+    "stale_rule",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "generated_files",
+    "parity_loss",
+    "schema_version",
+    "source_hashes",
+    "stale_rule",
+    "subject_id",
+    "surface",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12358,
+    "byte_end": 12383,
+    "span_sha256": "d075043d3836e83716892c24c23d57421909f9082522d095e3652298d6827cf7",
+    "context_head": "SurfaceProjectionManifest`, `GENIEProjectionRef`, `ExecutionBindingRef`。原 `$id` 以 `schemas/registry"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 9,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\SurfaceProjectionManifest.schema.json",
+     "schema_sha256": "acca81b498b787f8279f0981847ed7d13e19ca559c750aa593c99ff9b0c4abc3",
+     "declared_id": "urn:pipd:s0:SurfaceProjectionManifest:1",
+     "fields_verified": [
+      "surface",
+      "source_hashes",
+      "generated_files",
+      "parity_loss",
+      "stale_rule",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12358,
+     "byte_end": 12383,
+     "span_sha256": "d075043d3836e83716892c24c23d57421909f9082522d095e3652298d6827cf7",
+     "context_head": "SurfaceProjectionManifest`, `GENIEProjectionRef`, `ExecutionBindingRef`。原 `$id` 以 `schemas/registry"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for SurfaceProjectionManifest; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "18",
+   "family": "GENIEProjectionRef",
+   "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S6",
+   "owner": "GENIE adapter",
+   "consumers": [
+    "GENIE compiler"
+   ],
+   "schema_filename": "GENIEProjectionRef.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\GENIEProjectionRef.schema.json",
+   "registry_required_fields": [
+    "target_refs",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "df0b6303bb5f02a489c3b7bbfcb97dabcb05f5834323f24e0b9a3cfe6613d41f",
+   "schema_bytes": 1451,
+   "declared_id": "urn:pipd:s0:GENIEProjectionRef:1",
+   "schema_required": [
+    "target_refs",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "schema_version",
+    "subject_id",
+    "target_refs",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12387,
+    "byte_end": 12405,
+    "span_sha256": "cfdc96311d6c0a2fcab1b57c09dba4e8c148afb422bde7acf4a463c4a8c35382",
+    "context_head": "GENIEProjectionRef`, `ExecutionBindingRef`。原 `$id` 以 `schemas/registry.json` 讀值，名稱"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 10,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\GENIEProjectionRef.schema.json",
+     "schema_sha256": "df0b6303bb5f02a489c3b7bbfcb97dabcb05f5834323f24e0b9a3cfe6613d41f",
+     "declared_id": "urn:pipd:s0:GENIEProjectionRef:1",
+     "fields_verified": [
+      "target_refs",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 5
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12387,
+     "byte_end": 12405,
+     "span_sha256": "cfdc96311d6c0a2fcab1b57c09dba4e8c148afb422bde7acf4a463c4a8c35382",
+     "context_head": "GENIEProjectionRef`, `ExecutionBindingRef`。原 `$id` 以 `schemas/registry.json` 讀值，名稱"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for GENIEProjectionRef; an oracle over it can only check shape, not membership"
+    }
+   ]
+  },
+  {
+   "index": "19",
+   "family": "ExecutionBindingRef",
+   "materialization": "SCHEMA_SEAM_ONLY_UNTIL_S5",
+   "owner": "HGK adapter",
+   "consumers": [
+    "HGK"
+   ],
+   "schema_filename": "ExecutionBindingRef.schema.json",
+   "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ExecutionBindingRef.schema.json",
+   "registry_required_fields": [
+    "receiver_binding_id",
+    "receiver_binding_version",
+    "receiver_binding_hash",
+    "lease",
+    "state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_present": true,
+   "schema_sha256": "3372a5ce1fbbc510372e01e59eec41e13abfd496f0812c39f2a176a02b8c9ae4",
+   "schema_bytes": 1322,
+   "declared_id": "urn:pipd:s0:ExecutionBindingRef:1",
+   "schema_required": [
+    "receiver_binding_id",
+    "receiver_binding_version",
+    "receiver_binding_hash",
+    "lease",
+    "state",
+    "subject_id",
+    "version",
+    "content_hash",
+    "schema_version"
+   ],
+   "schema_properties": [
+    "content_hash",
+    "lease",
+    "receiver_binding_hash",
+    "receiver_binding_id",
+    "receiver_binding_version",
+    "schema_version",
+    "state",
+    "subject_id",
+    "version"
+   ],
+   "enum_sites": [],
+   "has_enum": false,
+   "enum_count": 0,
+   "source_span": {
+    "source_id": "FHS-BODY-02",
+    "byte_start": 12409,
+    "byte_end": 12428,
+    "span_sha256": "7c42c19e08c1aa3a44fb6821a0de3d50e342ec311f77312e0313c7b7800a800c",
+    "context_head": "ExecutionBindingRef`。原 `$id` 以 `schemas/registry.json` 讀值，名稱並非憑本文件新�"
+   },
+   "source_grounding": "GROUNDED",
+   "source_occurrences_total": 10,
+   "binding": {
+    "status": "BOUND",
+    "code": null,
+    "artifact": {
+     "schema_path": "C:\\Projects\\Agent_Workspace\\worktrees\\r4-sbl\\integrations\\pipd\\schemas\\ExecutionBindingRef.schema.json",
+     "schema_sha256": "3372a5ce1fbbc510372e01e59eec41e13abfd496f0812c39f2a176a02b8c9ae4",
+     "declared_id": "urn:pipd:s0:ExecutionBindingRef:1",
+     "fields_verified": [
+      "receiver_binding_id",
+      "receiver_binding_version",
+      "receiver_binding_hash",
+      "lease",
+      "state",
+      "subject_id",
+      "version",
+      "content_hash",
+      "schema_version"
+     ],
+     "fields_verified_count": 9
+    },
+    "source_artifact": {
+     "source_id": "FHS-BODY-02",
+     "byte_start": 12409,
+     "byte_end": 12428,
+     "span_sha256": "7c42c19e08c1aa3a44fb6821a0de3d50e342ec311f77312e0313c7b7800a800c",
+     "context_head": "ExecutionBindingRef`。原 `$id` 以 `schemas/registry.json` 讀值，名稱並非憑本文件新�"
+    }
+   },
+   "oracle_decidability": "SHAPE_ONLY",
+   "holds": [
+    {
+     "code": "ORACLE_ENUM_ABSENT",
+     "reason": "schema closes no value set for ExecutionBindingRef; an oracle over it can only check shape, not membership"
+    }
+   ]
+  }
+ ]
+}

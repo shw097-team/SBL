@@ -1,0 +1,135 @@
+{
+ "schema": "FHS.WP19.ScanSummary/1",
+ "work_package": "WP-FHS-19",
+ "round": "FHS-W0-R6-EXEC-20261108",
+ "effect_class": "SOURCE_READ",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "claim_ceiling": "SOURCE_READ_INVENTORY_ONLY",
+ "table": [
+  {
+   "repo": "Fabric",
+   "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "licence": "ABSENT",
+   "licence_spdx": [],
+   "notice": "ABSENT",
+   "sbom": "ABSENT",
+   "sbom_components": 0,
+   "dependencies_declared": 6,
+   "dependencies_optional": 0,
+   "dependencies_lock_pins": 0,
+   "workflow_files": 1,
+   "workflow_jobs": [
+    "fhs-nav-static"
+   ],
+   "ci_verdict": "GREEN_NO_SUPPLY_CHAIN_JOB",
+   "latest_run": 42387827579,
+   "latest_run_conclusion": "success",
+   "main_head_check_conclusions": [
+    "success"
+   ]
+  },
+  {
+   "repo": "SBL",
+   "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "licence": "LICENSE MIT",
+   "licence_spdx": [
+    "MIT"
+   ],
+   "notice": "present",
+   "sbom": "integrations/pipd/SBOM.cdx.json CycloneDX 1.5 components=8 unsigned",
+   "sbom_components": 8,
+   "dependencies_declared": 3,
+   "dependencies_optional": 9,
+   "dependencies_lock_pins": 6,
+   "workflow_files": 1,
+   "workflow_jobs": [
+    "test",
+    "supply-chain",
+    "pipd-compat"
+   ],
+   "ci_verdict": "SUPPLY_CHAIN_JOB_GREEN_AT_READBACK",
+   "latest_run": 42361088797,
+   "latest_run_conclusion": "success",
+   "main_head_check_conclusions": [
+    "success",
+    "success",
+    "success",
+    "success"
+   ]
+  },
+  {
+   "repo": "HG-KSEOS",
+   "head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "licence": "ABSENT",
+   "licence_spdx": [],
+   "notice": "ABSENT",
+   "sbom": "SBOM_PRESENT_NOT_CYCLONEDX",
+   "sbom_components": 0,
+   "dependencies_declared": 0,
+   "dependencies_optional": 0,
+   "dependencies_lock_pins": 0,
+   "workflow_files": 0,
+   "workflow_jobs": [],
+   "ci_verdict": "CI_SERVICE_ABSENT",
+   "latest_run": null,
+   "latest_run_conclusion": null,
+   "main_head_check_conclusions": []
+  }
+ ],
+ "absences": [
+  "Fabric：repo 根層 LICENSE 與 NOTICE 皆缺席",
+  "HG-KSEOS：repo 根層 LICENSE 與 NOTICE 皆缺席",
+  "Fabric：沒有任何格式的 SBOM 文件",
+  "HG-KSEOS：CI_SERVICE_ABSENT——無 workflow 檔、0 個 workflow run、0 個 check run",
+  "Fabric：CI 只有一個 job（fhs-nav-static），沒有 supply-chain job",
+  "三個 repo 皆無：簽章 SBOM、provenance attestation、SLSA statement",
+  "三個 repo 皆無：弱點／advisory 掃描（本 lane 未執行）"
+ ],
+ "what_this_proves": [
+  "三個 repo 各自存在哪些 licence／notice／SBOM／workflow 檔案，附位元組數與 sha256，後續任何關於這些檔案的主張都可以對回摘要值。",
+  "存在哪些 SBOM 文件，以及每一份是否解析成功、是 CycloneDX 還是 SPDX、spec 版本為何、實測 component 數為何。",
+  "存在哪些依賴宣告、出自哪個檔案、各自貢獻幾行。",
+  "存在哪些 workflow 檔、宣告哪些事件、定義哪些 job，以及 GitHub 回報的最新 run 與 main head 上的 check run——含 run id 與 job 層級結論。",
+  "三個 repo 中有兩個在根層沒有授權檔、一個完全沒有 CI 服務；這些都以明列的缺席呈現，而不是靜默略過。"
+ ],
+ "what_this_does_not_prove": [
+  "CI 綠燈不是供應鏈 attestation。它只證明被點名的 job 在被點名的 commit 上退出碼為 0；對於建置輸入是什麼、由誰產生、SBOM 與出貨產物是否相符，它什麼都不證明。",
+  "解析成功不是簽章。SBOM.cdx.json 解析成功並列出 8 個 component，但它沒有簽章、沒有簽署者身分、也沒有 transparency log 紀錄，因此其真實性與完整性未經證實。",
+  "component 數是「文件列了幾個」的計數，不是與已安裝環境或 wheel 的對帳。這裡沒有任何一步把 SBOM 與解析後的 lock、或與 SBOM 所描述的產物做比對。",
+  "workflow 的觸發事件與 job 是以行／縮排掃描取得，不是 YAML 解析：若 workflow 使用 anchors、merge keys 或多文件語法，會被讀漏。",
+  "根層沒有 LICENSE 是量測結果，不是法律結論：它既不授予也不否認權利，也不代表 owner 的意圖。",
+  "沒有做弱點掃描、沒有查 advisory、沒有驗證 provenance（SLSA／in-toto）、沒有驗簽，也沒有做 release qualification。",
+  "即時 CI 回讀是帶 token 的 REST 讀取，不是 original CI reader ACK：沒有取得 job log、沒有 artefact digest、也沒有 runner attestation。"
+ ],
+ "counts": {
+  "repos": 3,
+  "licence_files_found": 1,
+  "repos_missing_licence": 2,
+  "sboms_found": 2,
+  "sboms_parsed": 2,
+  "signed_sboms": 0,
+  "dependencies_declared": 9,
+  "workflow_files": 2,
+  "repos_without_ci": 1
+ },
+ "api_http_codes": {
+  "Fabric": {
+   "actions_runs": "200",
+   "commit_check_runs": "200",
+   "commit_main": "200",
+   "repo_meta": "200"
+  },
+  "SBL": {
+   "actions_runs": "200",
+   "commit_check_runs": "200",
+   "commit_main": "200",
+   "repo_meta": "200"
+  },
+  "HG-KSEOS": {
+   "actions_runs": "200",
+   "commit_check_runs": "200",
+   "commit_main": "200",
+   "repo_meta": "200"
+  }
+ }
+}

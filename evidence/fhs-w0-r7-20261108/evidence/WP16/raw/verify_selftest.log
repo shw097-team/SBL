@@ -1,0 +1,74 @@
+--- selftest: injecting defects, each must be caught ---
+PASS C01 required keys present
+PASS C02 record count == declared count — donor=24 method=25 declared={'DONOR24.json': 24, 'METHOD25.json': 25}
+PASS C03 source sha256/bytes unchanged — 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa; 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa
+FAIL C04 source_ref re-slices to quoted_text (49 refs) — SLOT-OS-01 quoted_text mismatch at 158197:159165 (714 vs 1 chars)
+PASS C05 slot_id unique per table
+PASS C06 slot_id prefix/shape
+PASS C07 disposition in allowed set
+PASS C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (8 adopt)
+PASS C09 stated licence has provenance
+PASS C09b licence_evidence span re-slices
+PASS C10 consumer/neg/original_use/host_fit non-empty
+PASS C11 chapter_ref (CH-24/CH-25) re-slices
+FAIL C12 span heading carries original_id — SLOT-OS-01 heading='x'
+  CAUGHT tampered quoted_text (failed checks: C04 source_ref re-slices to quoted_text (49 refs),C12 span heading carries original_id)
+PASS C01 required keys present
+PASS C02 record count == declared count — donor=24 method=25 declared={'DONOR24.json': 24, 'METHOD25.json': 25}
+PASS C03 source sha256/bytes unchanged — 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa; 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa
+PASS C04 source_ref re-slices to quoted_text (49 refs)
+FAIL C05 slot_id unique per table — METHOD-01 x2
+PASS C06 slot_id prefix/shape
+PASS C07 disposition in allowed set
+PASS C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (8 adopt)
+PASS C09 stated licence has provenance
+PASS C09b licence_evidence span re-slices
+PASS C10 consumer/neg/original_use/host_fit non-empty
+PASS C11 chapter_ref (CH-24/CH-25) re-slices
+PASS C12 span heading carries original_id
+  CAUGHT duplicate slot_id (failed checks: C05 slot_id unique per table)
+PASS C01 required keys present
+PASS C02 record count == declared count — donor=24 method=25 declared={'DONOR24.json': 24, 'METHOD25.json': 25}
+PASS C03 source sha256/bytes unchanged — 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa; 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa
+PASS C04 source_ref re-slices to quoted_text (49 refs)
+PASS C05 slot_id unique per table
+PASS C06 slot_id prefix/shape
+FAIL C07 disposition in allowed set — SLOT-OS-03=KEEP
+PASS C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (8 adopt)
+PASS C09 stated licence has provenance
+PASS C09b licence_evidence span re-slices
+PASS C10 consumer/neg/original_use/host_fit non-empty
+PASS C11 chapter_ref (CH-24/CH-25) re-slices
+PASS C12 span heading carries original_id
+  CAUGHT bad disposition (failed checks: C07 disposition in allowed set)
+PASS C01 required keys present
+PASS C02 record count == declared count — donor=24 method=25 declared={'DONOR24.json': 24, 'METHOD25.json': 25}
+PASS C03 source sha256/bytes unchanged — 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa; 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa
+PASS C04 source_ref re-slices to quoted_text (49 refs)
+PASS C05 slot_id unique per table
+PASS C06 slot_id prefix/shape
+PASS C07 disposition in allowed set
+FAIL C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (9 adopt) — DEFECT: downgrade to HOLD — METHOD-01
+PASS C09 stated licence has provenance
+PASS C09b licence_evidence span re-slices
+PASS C10 consumer/neg/original_use/host_fit non-empty
+PASS C11 chapter_ref (CH-24/CH-25) re-slices
+PASS C12 span heading carries original_id
+  CAUGHT unlicensed adopt (failed checks: C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (9 adopt))
+PASS C01 required keys present
+PASS C02 record count == declared count — donor=24 method=25 declared={'DONOR24.json': 24, 'METHOD25.json': 25}
+PASS C03 source sha256/bytes unchanged — 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa; 08_TECHNOLOGY_DEFAULT_HOTSWAP(4).md 1df04680319796aa
+PASS C04 source_ref re-slices to quoted_text (49 refs)
+PASS C05 slot_id unique per table
+PASS C06 slot_id prefix/shape
+PASS C07 disposition in allowed set
+PASS C08 no ADOPT_CANDIDATE with UNKNOWN_NOT_STATED licence (8 adopt)
+PASS C09 stated licence has provenance
+FAIL C09b licence_evidence span re-slices — SLOT-MP-01 quoted_text mismatch at 114205:114390 (185 vs 7 chars)
+PASS C10 consumer/neg/original_use/host_fit non-empty
+PASS C11 chapter_ref (CH-24/CH-25) re-slices
+PASS C12 span heading carries original_id
+  CAUGHT tampered licence citation (failed checks: C09b licence_evidence span re-slices)
+selftest: 5/5 defects caught
+SELFTEST PASS
+selftest_exit=0

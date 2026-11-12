@@ -1,0 +1,452 @@
+{
+ "schema": "FHS.WP15.StageContracts/1",
+ "source_of_truth": {
+  "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+  "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+  "section": "## STATIC-v1 三角色 18 Stage：按插件原 Clause Reader 的實際契約",
+  "rows": [
+   "PM:T0",
+   "PM:T1",
+   "PM:T2",
+   "PM:T3",
+   "PM:T4",
+   "PM:T5",
+   "SE:T0",
+   "SE:T1",
+   "SE:T2",
+   "SE:T3",
+   "SE:T4",
+   "SE:T5",
+   "TPgM:T0",
+   "TPgM:T1",
+   "TPgM:T2",
+   "TPgM:T3",
+   "TPgM:T4",
+   "TPgM:T5"
+  ]
+ },
+ "measured_count": 18,
+ "expected_count": 18,
+ "count_matches_document_claim": true,
+ "document_enumerates_stages": false,
+ "document_claim_refs": [
+  {
+   "source_id": "S18-W0-CH11-TITLE",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 125064,
+   "byte_end": 125134,
+   "quoted_text": "# CH-11｜TPM 三 SPEC：Product、Architecture、Program 與 18 Stage"
+  },
+  {
+   "source_id": "S18-W0-CH11-BODY",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 125222,
+   "byte_end": 125356,
+   "quoted_text": "**W0 主責：三 SPEC 與 18 Stage。** 章義不壓平。引用 L1 r4 同 CH 原生章；L2 r4 §5.0/§6 與本版 SourceManifest。"
+  }
+ ],
+ "finding": "W0 r6 CH-11 只宣告「18 Stage」這個數量，章內沒有列舉任何 stage 列（全文 grep `PM:T0|SE:T0|TPgM:T0` 命中 0）。18 列的實質契約只存在於來源 02_PIPD_LIFECYCLE_AND_TPM(4).md 的 STATIC-v1 表（第 38–55 行）。因此 stage_count=18 是由來源量測而得，不是由 W0 文件列舉而得；此差額記為 H-WP15-STAGE-ENUMERATION-GAP，不補寫、不虛構 W0 內條文。",
+ "holds": [
+  "H-WP15-STAGE-ENUMERATION-GAP"
+ ],
+ "stages": [
+  {
+   "stage_id": "PM:T0",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "goalcard, known_answer_refs, source_sha256",
+   "output": "ProductKnownState@1(goal_sha,missing_questions)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "segregate facts from user guesses; detect unanswered JTBD",
+   "exit_criteria": {
+    "next_stage": "T1",
+    "guard": "ASK_NEW_ONLY",
+    "input_guard": "GoalCard+known_answer_refs; source_sha present"
+   },
+   "firstfail": "KNOWN_ANSWER_REASK",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 4371,
+    "byte_end": 4656,
+    "quoted_text": "| PM:T0 | goalcard, known_answer_refs, source_sha256 | segregate facts from user guesses; detect unanswered JTBD → ProductKnownState@1(goal_sha,missing_questions) / ProductOwner/PIPD Reader | GoalCard+known_answer_refs; source_sha present；KNOWN_ANSWER_REASK；ASK_NEW_ONLY；`T1` |"
+   }
+  },
+  {
+   "stage_id": "PM:T1",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "persona, painledger, jtbd, source_sha256",
+   "output": "QuestionPriority@1(qid,impact,source_ref)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "rank questions by user information gain",
+   "exit_criteria": {
+    "next_stage": "T2",
+    "guard": "FUO_PATH_BOUND",
+    "input_guard": "Persona+PainLedger+JTBD; source_sha present"
+   },
+   "firstfail": "JTBD_UNBOUND",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 4657,
+    "byte_end": 4909,
+    "quoted_text": "| PM:T1 | persona, painledger, jtbd, source_sha256 | rank questions by user information gain → QuestionPriority@1(qid,impact,source_ref) / ProductOwner/PIPD Reader | Persona+PainLedger+JTBD; source_sha present；JTBD_UNBOUND；FUO_PATH_BOUND；`T2` |"
+   }
+  },
+  {
+   "stage_id": "PM:T2",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "fuo, useroutcome, variants, source_sha256",
+   "output": "ProductSuccess@1(FUO,exit_code,negative_cases)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "define observable CLI/add,list,delete or brownfield user result",
+   "exit_criteria": {
+    "next_stage": "T3",
+    "guard": "USER_VALUE_MEASURABLE",
+    "input_guard": "FUO+UserOutcome+variants; source_sha present"
+   },
+   "firstfail": "FUO_UNTESTABLE",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 4910,
+    "byte_end": 5202,
+    "quoted_text": "| PM:T2 | fuo, useroutcome, variants, source_sha256 | define observable CLI/add,list,delete or brownfield user result → ProductSuccess@1(FUO,exit_code,negative_cases) / ProductOwner/PIPD Reader | FUO+UserOutcome+variants; source_sha present；FUO_UNTESTABLE；USER_VALUE_MEASURABLE；`T3` |"
+   }
+  },
+  {
+   "stage_id": "PM:T3",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "productsuccess, primarykind, source_sha256",
+   "output": "ProductSPECDraft@1(journey_id,kind,acceptance_sha)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "compile ProductSPEC draft and acceptance cues",
+   "exit_criteria": {
+    "next_stage": "T4",
+    "guard": "OWNER_REVIEW_REQUESTED",
+    "input_guard": "ProductSuccess+PrimaryKind; source_sha present"
+   },
+   "firstfail": "KIND_ID_DRIFT",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 5203,
+    "byte_end": 5484,
+    "quoted_text": "| PM:T3 | productsuccess, primarykind, source_sha256 | compile ProductSPEC draft and acceptance cues → ProductSPECDraft@1(journey_id,kind,acceptance_sha) / ProductOwner/PIPD Reader | ProductSuccess+PrimaryKind; source_sha present；KIND_ID_DRIFT；OWNER_REVIEW_REQUESTED；`T4` |"
+   }
+  },
+  {
+   "stage_id": "PM:T4",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "productspecdraft, acc_neg, source_sha256",
+   "output": "ProductAcceptanceProposal@1(pos,neg,raw_expect)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "issue user-facing POS/NEG proposal, not Native verdict",
+   "exit_criteria": {
+    "next_stage": "T5",
+    "guard": "PIPD_ACC_REF_AVAILABLE",
+    "input_guard": "ProductSPECDraft+ACC_NEG; source_sha present"
+   },
+   "firstfail": "ACC_NOT_BOUND",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 5485,
+    "byte_end": 5768,
+    "quoted_text": "| PM:T4 | productspecdraft, acc_neg, source_sha256 | issue user-facing POS/NEG proposal, not Native verdict → ProductAcceptanceProposal@1(pos,neg,raw_expect) / ProductOwner/PIPD Reader | ProductSPECDraft+ACC_NEG; source_sha present；ACC_NOT_BOUND；PIPD_ACC_REF_AVAILABLE；`T5` |"
+   }
+  },
+  {
+   "stage_id": "PM:T5",
+   "owner_role": "ProductOwner",
+   "author_role": "tpm-product-plan",
+   "input": "fuo_raw_refs, feedback, source_sha256",
+   "output": "ProductReviewRequest@1(gap,affected_journeys)",
+   "consumer": "ProductOwner/PIPD Reader",
+   "operation": "compare observable use vs claimed outcome; create repair request",
+   "exit_criteria": {
+    "next_stage": "T5 final review or affected T3/T4 rework",
+    "guard": "REVIEW_WITH_RAW_OR_HOLD",
+    "input_guard": "FUO_raw_refs+feedback; source_sha present"
+   },
+   "firstfail": "FUO_RAW_MISSING",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 5769,
+    "byte_end": 6095,
+    "quoted_text": "| PM:T5 | fuo_raw_refs, feedback, source_sha256 | compare observable use vs claimed outcome; create repair request → ProductReviewRequest@1(gap,affected_journeys) / ProductOwner/PIPD Reader | FUO_raw_refs+feedback; source_sha present；FUO_RAW_MISSING；REVIEW_WITH_RAW_OR_HOLD；`T5 final review or affected T3/T4 rework` |"
+   }
+  },
+  {
+   "stage_id": "SE:T0",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "repoboundaries, sourceindex, source_sha256",
+   "output": "SystemReadset@1(owners,sha,scope)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "enumerate source/destination trust seams",
+   "exit_criteria": {
+    "next_stage": "T1",
+    "guard": "SOURCE_BOUND",
+    "input_guard": "RepoBoundaries+SourceIndex; source_sha present"
+   },
+   "firstfail": "SYSTEM_SOURCE_GAP",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 6096,
+    "byte_end": 6353,
+    "quoted_text": "| SE:T0 | repoboundaries, sourceindex, source_sha256 | enumerate source/destination trust seams → SystemReadset@1(owners,sha,scope) / ArchitectureOwner/HostReader | RepoBoundaries+SourceIndex; source_sha present；SYSTEM_SOURCE_GAP；SOURCE_BOUND；`T1` |"
+   }
+  },
+  {
+   "stage_id": "SE:T1",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "systemreadset, adrrefs, source_sha256",
+   "output": "OwnershipSeamMap@1(writer,reader,forbidden_effect)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "assign every seam to exactly one writer",
+   "exit_criteria": {
+    "next_stage": "T2",
+    "guard": "ONE_WRITER_PER_SEAM",
+    "input_guard": "SystemReadset+ADRRefs; source_sha present"
+   },
+   "firstfail": "SEAM_OWNER_CONFLICT",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 6354,
+    "byte_end": 6626,
+    "quoted_text": "| SE:T1 | systemreadset, adrrefs, source_sha256 | assign every seam to exactly one writer → OwnershipSeamMap@1(writer,reader,forbidden_effect) / ArchitectureOwner/HostReader | SystemReadset+ADRRefs; source_sha present；SEAM_OWNER_CONFLICT；ONE_WRITER_PER_SEAM；`T2` |"
+   }
+  },
+  {
+   "stage_id": "SE:T2",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "riskinventory, hostcaps, source_sha256",
+   "output": "ADRSet@1(option,tradeoff,security_guard)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "trade off typed ABI and provider-off reliability",
+   "exit_criteria": {
+    "next_stage": "T3",
+    "guard": "ADR_OWNER_REVIEW",
+    "input_guard": "RiskInventory+HostCaps; source_sha present"
+   },
+   "firstfail": "ARCHITECTURE_RISK_OPEN",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 6627,
+    "byte_end": 6900,
+    "quoted_text": "| SE:T2 | riskinventory, hostcaps, source_sha256 | trade off typed ABI and provider-off reliability → ADRSet@1(option,tradeoff,security_guard) / ArchitectureOwner/HostReader | RiskInventory+HostCaps; source_sha present；ARCHITECTURE_RISK_OPEN；ADR_OWNER_REVIEW；`T3` |"
+   }
+  },
+  {
+   "stage_id": "SE:T3",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "adrset, c4, componentcards, source_sha256",
+   "output": "ArchitectureSPEC@1(abi,compat,host_matrix)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "bind schemas and compatibility version",
+   "exit_criteria": {
+    "next_stage": "T4",
+    "guard": "SCHEMA_READER_BOUND",
+    "input_guard": "ADRSet+C4+ComponentCards; source_sha present"
+   },
+   "firstfail": "ABI_SCHEMA_MISMATCH",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 6901,
+    "byte_end": 7171,
+    "quoted_text": "| SE:T3 | adrset, c4, componentcards, source_sha256 | bind schemas and compatibility version → ArchitectureSPEC@1(abi,compat,host_matrix) / ArchitectureOwner/HostReader | ADRSet+C4+ComponentCards; source_sha present；ABI_SCHEMA_MISMATCH；SCHEMA_READER_BOUND；`T4` |"
+   }
+  },
+  {
+   "stage_id": "SE:T4",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "architecturespec, boundaryneg, source_sha256",
+   "output": "ArchitectureNEGRequest@1(neg,oracle_source)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "test scope/token/provider-off/thin adapter semantics",
+   "exit_criteria": {
+    "next_stage": "T5",
+    "guard": "NEG_PROPOSAL_READY",
+    "input_guard": "ArchitectureSPEC+BoundaryNEG; source_sha present"
+   },
+   "firstfail": "PERMISSION_NEG_MISSING",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 7172,
+    "byte_end": 7466,
+    "quoted_text": "| SE:T4 | architecturespec, boundaryneg, source_sha256 | test scope/token/provider-off/thin adapter semantics → ArchitectureNEGRequest@1(neg,oracle_source) / ArchitectureOwner/HostReader | ArchitectureSPEC+BoundaryNEG; source_sha present；PERMISSION_NEG_MISSING；NEG_PROPOSAL_READY；`T5` |"
+   }
+  },
+  {
+   "stage_id": "SE:T5",
+   "owner_role": "ArchitectureOwner",
+   "author_role": "tpm-system-plan",
+   "input": "nativerawrefs, integrationrisks, source_sha256",
+   "output": "ArchitectureReview@1(findings,repair_cone)",
+   "consumer": "ArchitectureOwner/HostReader",
+   "operation": "re-evaluate actual host ABI and raw results",
+   "exit_criteria": {
+    "next_stage": "T5 final review or affected T3/T4 rework",
+    "guard": "RAW_OR_HOLD",
+    "input_guard": "NativeRawRefs+IntegrationRisks; source_sha present"
+   },
+   "firstfail": "HOST_RAW_MISSING",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 7467,
+    "byte_end": 7780,
+    "quoted_text": "| SE:T5 | nativerawrefs, integrationrisks, source_sha256 | re-evaluate actual host ABI and raw results → ArchitectureReview@1(findings,repair_cone) / ArchitectureOwner/HostReader | NativeRawRefs+IntegrationRisks; source_sha present；HOST_RAW_MISSING；RAW_OR_HOLD；`T5 final review or affected T3/T4 rework` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T0",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "ownerroster, costtime, source_sha256",
+   "output": "ProgramIntent@1(milestone,owner,risk)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "identify budget milestones without claiming approval",
+   "exit_criteria": {
+    "next_stage": "T1",
+    "guard": "OWNER_ROSTER_COMPLETE",
+    "input_guard": "OwnerRoster+CostTime; source_sha present"
+   },
+   "firstfail": "MILESTONE_OWNER_MISSING",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 7781,
+    "byte_end": 8056,
+    "quoted_text": "| TPgM:T0 | ownerroster, costtime, source_sha256 | identify budget milestones without claiming approval → ProgramIntent@1(milestone,owner,risk) / ProgramOwner/NativeRouter | OwnerRoster+CostTime; source_sha present；MILESTONE_OWNER_MISSING；OWNER_ROSTER_COMPLETE；`T1` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T1",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "unknowndependencies, resourcecaps, source_sha256",
+   "output": "SchedulingAssumptions@1(edges,confidence)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "record sequencing constraints and blocking decisions",
+   "exit_criteria": {
+    "next_stage": "T2",
+    "guard": "DEPENDENCY_DISCLOSED",
+    "input_guard": "UnknownDependencies+ResourceCaps; source_sha present"
+   },
+   "firstfail": "UNBOUNDED_WORK",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 8057,
+    "byte_end": 8350,
+    "quoted_text": "| TPgM:T1 | unknowndependencies, resourcecaps, source_sha256 | record sequencing constraints and blocking decisions → SchedulingAssumptions@1(edges,confidence) / ProgramOwner/NativeRouter | UnknownDependencies+ResourceCaps; source_sha present；UNBOUNDED_WORK；DEPENDENCY_DISCLOSED；`T2` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T2",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "ownergates, dependencyedges, source_sha256",
+   "output": "ProgramDAG@1(topo,locks,no_fit)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "toposort bounded DAG and cycle check",
+   "exit_criteria": {
+    "next_stage": "T3",
+    "guard": "ACYCLIC_AND_SCOPED",
+    "input_guard": "OwnerGates+DependencyEdges; source_sha present"
+   },
+   "firstfail": "DAG_CYCLE",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 8351,
+    "byte_end": 8599,
+    "quoted_text": "| TPgM:T2 | ownergates, dependencyedges, source_sha256 | toposort bounded DAG and cycle check → ProgramDAG@1(topo,locks,no_fit) / ProgramOwner/NativeRouter | OwnerGates+DependencyEdges; source_sha present；DAG_CYCLE；ACYCLIC_AND_SCOPED；`T3` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T3",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "programdag, productspec, architecturespec, source_sha256",
+   "output": "ProgramSPEC@1(wp,effort,owner,stop)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "package work with traceable scope and approver",
+   "exit_criteria": {
+    "next_stage": "T4",
+    "guard": "WORK_PACKAGE_OWNER_REVIEW",
+    "input_guard": "ProgramDAG+ProductSPEC+ArchitectureSPEC; source_sha present"
+   },
+   "firstfail": "WP_SCOPE_UNKNOWN",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 8600,
+    "byte_end": 8903,
+    "quoted_text": "| TPgM:T3 | programdag, productspec, architecturespec, source_sha256 | package work with traceable scope and approver → ProgramSPEC@1(wp,effort,owner,stop) / ProgramOwner/NativeRouter | ProgramDAG+ProductSPEC+ArchitectureSPEC; source_sha present；WP_SCOPE_UNKNOWN；WORK_PACKAGE_OWNER_REVIEW；`T4` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T4",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "pi_pd_refs, verifierreferral, source_sha256",
+   "output": "HandoffReferral@1(expected_grants,oracle_conflict)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "route to correct Native ECP/Oracle Owner",
+   "exit_criteria": {
+    "next_stage": "T5",
+    "guard": "NATIVE_REF_NOT_SYNTHESIZED",
+    "input_guard": "PI_PD_refs+VerifierReferral; source_sha present"
+   },
+   "firstfail": "CR_ORACLE_001",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 8904,
+    "byte_end": 9189,
+    "quoted_text": "| TPgM:T4 | pi_pd_refs, verifierreferral, source_sha256 | route to correct Native ECP/Oracle Owner → HandoffReferral@1(expected_grants,oracle_conflict) / ProgramOwner/NativeRouter | PI_PD_refs+VerifierReferral; source_sha present；CR_ORACLE_001；NATIVE_REF_NOT_SYNTHESIZED；`T5` |"
+   }
+  },
+  {
+   "stage_id": "TPgM:T5",
+   "owner_role": "ProgramOwner",
+   "author_role": "tpm-program-plan",
+   "input": "milestoneraw, issueledger, source_sha256",
+   "output": "ProgramReview@1(blocked_waves,replan_cone)",
+   "consumer": "ProgramOwner/NativeRouter",
+   "operation": "review schedule with evidence status; refreeze affected only",
+   "exit_criteria": {
+    "next_stage": "T5 final review or affected T3/T4 rework",
+    "guard": "REVIEW_OR_HOLD",
+    "input_guard": "MilestoneRaw+IssueLedger; source_sha present"
+   },
+   "firstfail": "STALE_MILESTONE_EVIDENCE",
+   "source_span": {
+    "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+    "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+    "byte_start": 9190,
+    "byte_end": 9518,
+    "quoted_text": "| TPgM:T5 | milestoneraw, issueledger, source_sha256 | review schedule with evidence status; refreeze affected only → ProgramReview@1(blocked_waves,replan_cone) / ProgramOwner/NativeRouter | MilestoneRaw+IssueLedger; source_sha present；STALE_MILESTONE_EVIDENCE；REVIEW_OR_HOLD；`T5 final review or affected T3/T4 rework` |"
+   }
+  }
+ ]
+}

@@ -1,0 +1,106 @@
+{
+ "schema": "FHS.GSTACK.W0/1",
+ "round": "FHS_W0_R6_20261108",
+ "verdict": "FAIL",
+ "exit_code": 1,
+ "checks_total": 15,
+ "checks_pass": 11,
+ "checks_fail": 4,
+ "checks": [
+  {
+   "id": "G0-SOURCES",
+   "status": "PASS",
+   "detail": "31 source files present (expected 31)"
+  },
+  {
+   "id": "G1-WP01",
+   "status": "PASS",
+   "detail": "report present, schema=FHS.WP01.Report/1"
+  },
+  {
+   "id": "G1-WP15",
+   "status": "PASS",
+   "detail": "report present, schema=FHS.WP15.Report/1"
+  },
+  {
+   "id": "G1-WP16",
+   "status": "PASS",
+   "detail": "report present, schema=FHS.WP16.Report/1"
+  },
+  {
+   "id": "G1-WP19",
+   "status": "PASS",
+   "detail": "report present, schema=FHS.WP19.Report/1"
+  },
+  {
+   "id": "G1-WP21",
+   "status": "PASS",
+   "detail": "report present, schema=FHS.WP21.Report/1"
+  },
+  {
+   "id": "G2-ARTIFACT-DIGEST",
+   "status": "FAIL",
+   "detail": "116 declared artifacts re-hashed (0 self rows skipped, a report cannot hash itself); 4 problem(s)",
+   "problems": [
+    "WP16: digest drift tables/DONOR24.json",
+    "WP16: size drift tables/DONOR24.json",
+    "WP21: digest drift PLAN.md",
+    "WP21: size drift PLAN.md"
+   ]
+  },
+  {
+   "id": "G3-HYGIENE",
+   "status": "PASS",
+   "detail": "no forbidden types, no oversize outside raw/; 0 problem(s)",
+   "problems": []
+  },
+  {
+   "id": "G4-NO-SECRETS",
+   "status": "PASS",
+   "detail": "0 file(s) carry token or private-key shapes",
+   "problems": []
+  },
+  {
+   "id": "G5-CLAIM-CEILING",
+   "status": "PASS",
+   "detail": "ceilings declared by 5 lane(s); 0 outside the vocabulary",
+   "problems": []
+  },
+  {
+   "id": "G5b-NO-BARE-CLAIM",
+   "status": "FAIL",
+   "detail": "1 bare ceiling claim(s) in prose",
+   "problems": [
+    "evidence\\WP21\\PLAN.md:212: 本輪已取得 ORIGINAL_ACK 並完成 RELEASE_GRANTED。"
+   ]
+  },
+  {
+   "id": "G6-SPAN-RESOLUTION",
+   "status": "FAIL",
+   "detail": "350 source refs re-sliced from original bytes across 55 json files; 1 mismatch(es)",
+   "problems": [
+    "DONOR24.json$.records[0].source_ref: quote != bytes"
+   ]
+  },
+  {
+   "id": "G7-COUNT-RECONCILIATION",
+   "status": "FAIL",
+   "detail": "1 reconciliation problem(s)",
+   "problems": [
+    "WP16: evidence/WP16/tables/DONOR24.json holds 24 records, report declares 26 (measured.donor_slots_found)"
+   ]
+  },
+  {
+   "id": "G8-REPOS-UNTOUCHED",
+   "status": "PASS",
+   "detail": "3 repos compared against the WP-00 baseline; 0 drift(s)",
+   "problems": []
+  },
+  {
+   "id": "G9-WP00-SOURCELOCK",
+   "status": "PASS",
+   "detail": "sources 31/31, upper docs 6/6"
+  }
+ ],
+ "note": "the gate re-derives every digest and every source span from the original bytes; it does not read a lane's own verdict as evidence"
+}

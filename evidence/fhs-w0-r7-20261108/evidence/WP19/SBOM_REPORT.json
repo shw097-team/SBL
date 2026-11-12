@@ -1,0 +1,181 @@
+{
+ "schema": "FHS.WP19.SBOMReport/1",
+ "work_package": "WP-FHS-19",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "discovery": "以檔名在 tracked tree 上比對：SBOM.cdx.json、*.cdx.json、*.spdx.json、sbom*.json、*.spdx。每個命中都用 json 解析，component 數取 components／packages 陣列的實測長度。不從 lock 檔、不安裝環境、也不從宣告補進任何 component：只有 SBOM 文件自己列出的才算。",
+ "repos": [
+  {
+   "repo": "Fabric",
+   "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "sboms": [],
+   "sbom_count": 0,
+   "cyclonedx_or_spdx_count": 0,
+   "sbom_absent": true,
+   "sbom_shaped_but_not_matched": [],
+   "consequence": "此 repo 沒有任何 SBOM 文件。供應鏈狀態是 UNKNOWN，不是 clean。"
+  },
+  {
+   "repo": "SBL",
+   "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "sboms": [
+    {
+     "path": "integrations/pipd/SBOM.cdx.json",
+     "bytes": 5170,
+     "sha256": "92a6873b46186cd5d17efe8addbd482092746b0ee5e51b748c0257cef2258ca9",
+     "parse_ok": true,
+     "format": "CycloneDX",
+     "spec_version": "1.5",
+     "component_count": 8,
+     "components": [
+      {
+       "name": "jsonschema",
+       "version": "4.26.0",
+       "type": "library",
+       "licence": "MIT"
+      },
+      {
+       "name": "cryptography",
+       "version": "50.0.1",
+       "type": "library",
+       "licence": "Apache-2.0"
+      },
+      {
+       "name": "pyyaml",
+       "version": "UNPINNED",
+       "type": "library",
+       "licence": null
+      },
+      {
+       "name": "build",
+       "version": "UNPINNED",
+       "type": "library",
+       "licence": null
+      },
+      {
+       "name": "setuptools",
+       "version": "UNPINNED",
+       "type": "library",
+       "licence": null
+      },
+      {
+       "name": "wheel",
+       "version": "UNPINNED",
+       "type": "library",
+       "licence": null
+      },
+      {
+       "name": "hg-kseos",
+       "version": "0.1.0",
+       "type": "library",
+       "licence": null
+      },
+      {
+       "name": "pytest",
+       "version": "UNPINNED",
+       "type": "library",
+       "licence": null
+      }
+     ],
+     "error": null,
+     "match_rule": "CycloneDX 檔名（.cdx.json）",
+     "is_cyclonedx_or_spdx": true,
+     "signed": false,
+     "top_level_keys": [
+      "bomFormat",
+      "components",
+      "metadata",
+      "properties",
+      "specVersion",
+      "version"
+     ],
+     "component_has_hash_count": 0,
+     "component_no_version_or_unpinned": 5,
+     "document_properties": [
+      {
+       "name": "pipd:sbom_scope",
+       "value": "declared python dependency set only (no transitive closure computed)"
+      }
+     ]
+    }
+   ],
+   "sbom_count": 1,
+   "cyclonedx_or_spdx_count": 1,
+   "sbom_absent": false,
+   "sbom_shaped_but_not_matched": [],
+   "consequence": "至少有一份 CycloneDX／SPDX 文件且解析成功；但它未簽章，所以是 manifest，不是 attestation。"
+  },
+  {
+   "repo": "HG-KSEOS",
+   "head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "sboms": [
+    {
+     "path": "fhs_msc_handoff_20261030/evidence/WP-FHS-19-SUPPLY-CHAIN/SBOM.json",
+     "bytes": 681,
+     "sha256": "59efc0a1828831255b36ea19c26b59da3d57fa0dc04ca21467cc5605a57881ed",
+     "parse_ok": true,
+     "format": "unrecognised",
+     "spec_version": null,
+     "component_count": null,
+     "components": [],
+     "error": "JSON parsed but neither bomFormat=CycloneDX nor an spdxVersion field",
+     "match_rule": "檔名為寬鬆比對 sbom*.json；為完整性納入，但它不是 CycloneDX／SPDX 檔名",
+     "is_cyclonedx_or_spdx": false,
+     "signed": false,
+     "top_level_keys": [
+      "declared_dependency_manifests",
+      "file_inventory_by_extension",
+      "finding",
+      "generated_at",
+      "license_files_found",
+      "schema",
+      "subject",
+      "supply_chain_claim",
+      "work_package"
+     ],
+     "component_has_hash_count": 0,
+     "component_no_version_or_unpinned": 0,
+     "document_properties": [],
+     "unrecognised_document_note": "可作為 JSON 解析，但既不是 CycloneDX（無 bomFormat）也不是 SPDX（無 spdxVersion）；它是本 repo 自製的 SBOM/1 盤點紀錄，因此不捏造component 數，改為回報不可計數。"
+    }
+   ],
+   "sbom_count": 1,
+   "cyclonedx_or_spdx_count": 0,
+   "sbom_absent": false,
+   "sbom_shaped_but_not_matched": [
+    {
+     "path": "evidence/r18/WP19_SBOM_RESCAN.json",
+     "bytes": 10241,
+     "sha256": "aa70f704f71937ca8f93eaa10e197daaff89a6196ca12a996758b81c31eade28",
+     "reason": "檔名含 sbom，但不符合 SBOM.cdx.json／*.cdx.json／*.spdx.json 的比對規則"
+    },
+    {
+     "path": "evidence/r18/receipts/WP19_SBOM_RESCAN.json",
+     "bytes": 10241,
+     "sha256": "aa70f704f71937ca8f93eaa10e197daaff89a6196ca12a996758b81c31eade28",
+     "reason": "檔名含 sbom，但不符合 SBOM.cdx.json／*.cdx.json／*.spdx.json 的比對規則"
+    }
+   ],
+   "consequence": "有 SBOM 文件，但既非 CycloneDX 也非 SPDX，且不帶 component 清單；SBOM 工具無法消費它。"
+  }
+ ],
+ "counts": {
+  "sboms_found": 2,
+  "parse_succeeded": 2,
+  "parse_failed": 0,
+  "cyclonedx_or_spdx": 1,
+  "signed": 0,
+  "components_total": 8,
+  "components_with_hash": 0,
+  "components_unpinned": 5,
+  "repos_without_any_sbom": 1
+ },
+ "integrity_findings": [
+  "SBOM.cdx.json 的 8 個 component 全部沒有 hashes 欄位：SBOM 內沒有任何雜湊，因此無法用它驗證任何一個相依套件的位元組。",
+  "其中 5 個 component（pyyaml、build、setuptools、wheel、pytest）版本為字面值 'UNPINNED'，即文件自承未釘版。",
+  "文件的 properties 自述 scope 為 'declared python dependency set only (no transitive closure computed)'：它宣告的是直接依賴集合，不含遞迴閉包，因此不是一份完整 SBOM。",
+  "全檔沒有 signature 成員，也沒有簽署者或 transparency log 資訊。"
+ ],
+ "repos_without_sbom": [
+  "Fabric"
+ ]
+}

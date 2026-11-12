@@ -1,0 +1,393 @@
+{
+ "schema": "FHS.WP19.DependencyInventory/1",
+ "work_package": "WP-FHS-19",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "counting_rules": {
+  "runtime_declared": "[project].dependencies 的行數（pyproject 以 tomllib 解析）、requirements*.txt 的需求行（略過註解與空行）、setup.py 的 install_requires 條目。摘要表回報的就是這個數。",
+  "optional_declared": "[project.optional-dependencies] 的條目；單獨列出、單獨計數，絕不加進 runtime_declared。",
+  "pinned_lock_entries": "requirements*.lock 的需求行；這是解析後的釘版清單，不是宣告，而且除非出現 --hash 行，否則並非 hash-pinned。",
+  "build_requires": "[build-system].requires；單獨計數。"
+ },
+ "repos": [
+  {
+   "repo": "Fabric",
+   "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "sources": [
+    {
+     "path": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/requirements.txt",
+     "bytes": 58,
+     "sha256": "5f8eaf71c59bfd4e74824efc9d6dab11420d376971191678cec5790a94865beb",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 3,
+     "comment_or_blank_lines": 0,
+     "requirements": [
+      "pywinauto>=0.6.9,<0.7",
+      "Pillow>=10,<13",
+      "tzdata>=2025.2,<2027"
+     ],
+     "options": []
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/requirements.txt",
+     "bytes": 20,
+     "sha256": "2a2c17c400824a8bad12b99d25b382aa33e7f0b330c5c6a5161b88f59dbf36e4",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 1,
+     "comment_or_blank_lines": 0,
+     "requirements": [
+      "lark-oapi>=1.0,<2.0"
+     ],
+     "options": []
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/llm-chat/requirements.txt",
+     "bytes": 17,
+     "sha256": "1c9327746b9637a24f178ee83c5825c5a1ff49aec60d30aec5c75fd71592af3a",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 1,
+     "comment_or_blank_lines": 0,
+     "requirements": [
+      "httpx>=0.27,<1.0"
+     ],
+     "options": []
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/minimax-chat/requirements.txt",
+     "bytes": 17,
+     "sha256": "1c9327746b9637a24f178ee83c5825c5a1ff49aec60d30aec5c75fd71592af3a",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 1,
+     "comment_or_blank_lines": 0,
+     "requirements": [
+      "httpx>=0.27,<1.0"
+     ],
+     "options": []
+    }
+   ],
+   "source_file_count": 4,
+   "declared_dependency_count": 6,
+   "declared": [
+    {
+     "spec": "pywinauto>=0.6.9,<0.7",
+     "source": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=7)"
+    },
+    {
+     "spec": "Pillow>=10,<13",
+     "source": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=7)"
+    },
+    {
+     "spec": "tzdata>=2025.2,<2027",
+     "source": "DESKTOP/var-fda/xq-auto-skill/.agents/skills/xq-xscript-compiler/scripts/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=7)"
+    },
+    {
+     "spec": "lark-oapi>=1.0,<2.0",
+     "source": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/feishu-bridge/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=6)"
+    },
+    {
+     "spec": "httpx>=0.27,<1.0",
+     "source": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/llm-chat/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=6)"
+    },
+    {
+     "spec": "httpx>=0.27,<1.0",
+     "source": "FABRIC/fabric-autonomous-research/methods/aris-vendor/mcp-servers/minimax-chat/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=6)"
+    }
+   ],
+   "declared_root_count": 0,
+   "declared_nested_count": 6,
+   "optional_dependency_count": 0,
+   "optional": [],
+   "pinned_lock_count": 0,
+   "lock_entries": [],
+   "hash_pinned": false,
+   "build_requires": [],
+   "repo_level_manifest_present": false,
+   "absence_statements": [
+    "NO_ROOT_MANIFEST：此 repo 的依賴宣告全部落在巢狀的 vendored 子樹裡；repo 本身在根層沒有宣告任何 runtime 依賴，因此沒有根層依賴面可供對帳。"
+   ]
+  },
+  {
+   "repo": "SBL",
+   "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "sources": [
+    {
+     "path": "integrations/pipd/pyproject.toml",
+     "bytes": 3885,
+     "sha256": "06223a893f0e7969e4ea86fc602f746a44b58b17255d76e0fa287bd76b37038a",
+     "source_kind": "pyproject.toml",
+     "parse_ok": true,
+     "error": null,
+     "project_name": "pipd-ls-sp",
+     "license_field": "Apache-2.0",
+     "requires_python": ">=3.11",
+     "build_requires": [
+      "setuptools>=68"
+     ],
+     "dependencies": [
+      "jsonschema>=4.0"
+     ],
+     "optional_dependencies": {
+      "test": [
+       "pyyaml>=6.0",
+       "build>=1.2",
+       "setuptools>=68",
+       "wheel",
+       "cryptography>=42",
+       "pytest>=8"
+      ],
+      "harness": [
+       "hg-kseos @ git+https://github.com/shw097-team/HG-KSEOS@a7046a36956e2179d7125449ce9b6f05fa5451cf"
+      ]
+     },
+     "optional_dependency_counts": {
+      "test": 6,
+      "harness": 1
+     }
+    },
+    {
+     "path": "integrations/pipd/requirements.lock",
+     "bytes": 1785,
+     "sha256": "074f3371ceb64cedba3519a91759fc70338492893c1b428dcf12e13fcc4fad0c",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 6,
+     "comment_or_blank_lines": 24,
+     "requirements": [
+      "attrs==25.4.0",
+      "jsonschema==4.26.0",
+      "jsonschema-specifications==2025.9.1",
+      "referencing==0.37.0",
+      "rpds-py==0.30.0",
+      "typing-extensions==4.15.0"
+     ],
+     "options": []
+    },
+    {
+     "path": "integrations/pipd/setup.py",
+     "bytes": 6252,
+     "sha256": "b153e72e4d2dd042a978592018a2ad550fafdb711c58bc08043ba3c9dae9a702",
+     "source_kind": "setup.py",
+     "parse_ok": true,
+     "parse_note": "僅以 regex 掃描 install_requires=[...]",
+     "requirement_count": 0,
+     "requirements": []
+    },
+    {
+     "path": "pyproject.toml",
+     "bytes": 1375,
+     "sha256": "29a114e99911c3323887e59b9c93dfdb399fb7a85ce6f659a9337abbd46550b7",
+     "source_kind": "pyproject.toml",
+     "parse_ok": true,
+     "error": null,
+     "project_name": "sbl-v01",
+     "license_field": "MIT",
+     "requires_python": ">=3.11",
+     "build_requires": [
+      "setuptools>=77"
+     ],
+     "dependencies": [],
+     "optional_dependencies": {
+      "tpm-pre-v2": [
+       "jsonschema==4.26.0",
+       "cryptography>=42"
+      ]
+     },
+     "optional_dependency_counts": {
+      "tpm-pre-v2": 2
+     }
+    },
+    {
+     "path": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/requirements.txt",
+     "bytes": 33,
+     "sha256": "0b0709dc3105d98b29f4fc6a870c15c0cf42191498384ef8a2a32d3fcf5f34ed",
+     "source_kind": "requirements",
+     "parse_ok": true,
+     "parse_note": "以行掃描：略過註解行與空行",
+     "requirement_count": 2,
+     "comment_or_blank_lines": 0,
+     "requirements": [
+      "PyYAML==6.0.3",
+      "jsonschema==4.26.0"
+     ],
+     "options": []
+    }
+   ],
+   "source_file_count": 5,
+   "declared_dependency_count": 3,
+   "declared": [
+    {
+     "spec": "jsonschema>=4.0",
+     "source": "integrations/pipd/pyproject.toml",
+     "kind": "runtime",
+     "scope": "nested(depth=2)"
+    },
+    {
+     "spec": "PyYAML==6.0.3",
+     "source": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=5)"
+    },
+    {
+     "spec": "jsonschema==4.26.0",
+     "source": "sbl_sp/plugins/tpm_sp/pre_v2/private-overlay/requirements.txt",
+     "kind": "requirements.txt",
+     "scope": "nested(depth=5)"
+    }
+   ],
+   "declared_root_count": 0,
+   "declared_nested_count": 3,
+   "optional_dependency_count": 9,
+   "optional": [
+    {
+     "spec": "pyyaml>=6.0",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "build>=1.2",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "setuptools>=68",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "wheel",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "cryptography>=42",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "pytest>=8",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:test"
+    },
+    {
+     "spec": "hg-kseos @ git+https://github.com/shw097-team/HG-KSEOS@a7046a36956e2179d7125449ce9b6f05fa5451cf",
+     "source": "integrations/pipd/pyproject.toml",
+     "group": "extra:harness"
+    },
+    {
+     "spec": "jsonschema==4.26.0",
+     "source": "pyproject.toml",
+     "group": "extra:tpm-pre-v2"
+    },
+    {
+     "spec": "cryptography>=42",
+     "source": "pyproject.toml",
+     "group": "extra:tpm-pre-v2"
+    }
+   ],
+   "pinned_lock_count": 6,
+   "lock_entries": [
+    {
+     "spec": "attrs==25.4.0",
+     "source": "integrations/pipd/requirements.lock"
+    },
+    {
+     "spec": "jsonschema==4.26.0",
+     "source": "integrations/pipd/requirements.lock"
+    },
+    {
+     "spec": "jsonschema-specifications==2025.9.1",
+     "source": "integrations/pipd/requirements.lock"
+    },
+    {
+     "spec": "referencing==0.37.0",
+     "source": "integrations/pipd/requirements.lock"
+    },
+    {
+     "spec": "rpds-py==0.30.0",
+     "source": "integrations/pipd/requirements.lock"
+    },
+    {
+     "spec": "typing-extensions==4.15.0",
+     "source": "integrations/pipd/requirements.lock"
+    }
+   ],
+   "hash_pinned": false,
+   "build_requires": [
+    {
+     "spec": "setuptools>=68",
+     "source": "integrations/pipd/pyproject.toml"
+    },
+    {
+     "spec": "setuptools>=77",
+     "source": "pyproject.toml"
+    }
+   ],
+   "repo_level_manifest_present": true,
+   "absence_statements": []
+  },
+  {
+   "repo": "HG-KSEOS",
+   "head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "sources": [
+    {
+     "path": "pyproject.toml",
+     "bytes": 338,
+     "sha256": "906997eb95282824e6e59a02712e44e08ebc595548429cabffd3016eb448cf58",
+     "source_kind": "pyproject.toml",
+     "parse_ok": true,
+     "error": null,
+     "project_name": "hg-kseos",
+     "license_field": null,
+     "requires_python": ">=3.12",
+     "build_requires": [],
+     "dependencies": [],
+     "optional_dependencies": {}
+    }
+   ],
+   "source_file_count": 1,
+   "declared_dependency_count": 0,
+   "declared": [],
+   "declared_root_count": 0,
+   "declared_nested_count": 0,
+   "optional_dependency_count": 0,
+   "optional": [],
+   "pinned_lock_count": 0,
+   "lock_entries": [],
+   "hash_pinned": false,
+   "build_requires": [],
+   "repo_level_manifest_present": true,
+   "absence_statements": [
+    "ZERO_DECLARED：[project].dependencies 是空清單。零是量測結果，不是健康證明：任何需要外部 distribution 的 import 都會成為未宣告依賴。"
+   ]
+  }
+ ],
+ "counts": {
+  "repos_scanned": 3,
+  "declared_total": 9,
+  "optional_total": 9,
+  "lock_pins_total": 6,
+  "repos_without_root_manifest": [
+   "Fabric"
+  ]
+ }
+}

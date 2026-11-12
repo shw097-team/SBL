@@ -1,0 +1,141 @@
+{
+ "schema": "FHS.WP15.FirstFailCodes/1",
+ "note": "每個 code 取 W0 r6 的第一次出現行；quoted_text 為該行完整 bytes。",
+ "codes": [
+  {
+   "code": "SPEC_NOT_SOURCE_BOUND",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 763,
+   "occurrences_in_w0": 4,
+   "byte_start": 126011,
+   "byte_end": 126135,
+   "quoted_text": "**Acceptance NEG／FirstFail**：NEG：把 3 SPEC 合併成一段 prose 便冒已編 PI；FirstFail=SPEC_NOT_SOURCE_BOUND。",
+   "used_by": [
+    "P-ACC-01",
+    "P-ACC-04"
+   ]
+  },
+  {
+   "code": "PRODUCT_SPEC_FUO_MISSING",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 800,
+   "occurrences_in_w0": 1,
+   "byte_start": 131557,
+   "byte_end": 132102,
+   "quoted_text": "**Product SPEC — `W0/PM/ProductSPEC-DRAFT`**：`persona=single human owner`, `goal=ordinary_goal_to_source_bound_fuo`, `JTBD=取用可落地需求與可回溯增量`, `FUO=A:answer|B:SpecDelta`, `MVP=W0-A`, `scope=SBL14/FHS17 affected`, `non_goals=[new_issuer,new_compiler,force_full_release_gate]`, `source_refs`, `ACC±`, `known_answers`。輸入普通 Goal 與來源；輸出具名產品需求條位。Consumer：原 SBL Product/PIPD Intake；POS 任何需求有可觀察價值；NEG 用文件數替代 FUO → `PRODUCT_SPEC_FUO_MISSING`。",
+   "used_by": [
+    "P-ACC-02",
+    "P-ACC-03"
+   ]
+  },
+  {
+   "code": "FUO_NOT_OBSERVABLE",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 291,
+   "occurrences_in_w0": 2,
+   "byte_start": 40357,
+   "byte_end": 40474,
+   "quoted_text": "**Acceptance NEG／FirstFail**：NEG：將完成三檔當最終產品 Native 閉環；FirstFail=FUO_NOT_OBSERVABLE。",
+   "used_by": [
+    "P-ACC-05"
+   ]
+  },
+  {
+   "code": "ARCH_SOD_BREACH",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 802,
+   "occurrences_in_w0": 1,
+   "byte_start": 132104,
+   "byte_end": 132662,
+   "quoted_text": "**Architecture SPEC — `W0/SE/ArchitectureSPEC-DRAFT`**：`system_context=Fabric→SBL(PIPD)→HGK→Hermes`, `original_writers`, `seams=S1..S5`, `effect_matrix`, `ABI_version_candidate`, `ADR-001..`, `security_SO_D`, `sourceSHA`, `NEG wrongScope/PolicyEpoch/Writer`, `recovery=WorldRaw reconciliation before retry`。輸入 Product SPEC；輸出五 Seam/ADR/ABI 接線草案和受影拒收。Consumer：原 SBL/PIPD/Fabric/HGK 原 Registry；POS 每 seam 有唯一責任與原 Consumer；NEG 同一新服務同時簽 Permit/Checker → `ARCH_SOD_BREACH`。",
+   "used_by": [
+    "A-ACC-01",
+    "A-ACC-03"
+   ]
+  },
+  {
+   "code": "EFFECT_UNBOUND",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 919,
+   "occurrences_in_w0": 1,
+   "byte_start": 146967,
+   "byte_end": 147473,
+   "quoted_text": "`SOURCE_READ`=原 ACL+hash；`LOCAL_DRAFT_WRITE`=授權隔離 output root+cleanup；`REPO_WRITE`=W2 exact RepoContext/HEAD/preimages/DEV ECP/Issuer；`HOST_OP`=原 Host SID/PolicyEpoch/TTL/OPS ECP；`RELEASE`=原 Publisher/GHP-02+Protected Checker。W0 不核發 Permit，原 ABI/OperationType 未綁標 `EFFECT_UNBOUND`。POS 同一段原 source read 不受未授權 HOST_OP 阻斷；NEG 把所有操作歸一律 OPS → `EFFECT_CLASS_COLLAPSED`。此處只作 W1/W2 handoff，不改寫 CH15 原 Writer。",
+   "used_by": [
+    "A-ACC-02"
+   ]
+  },
+  {
+   "code": "HOST_READBACK_HOLD",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 780,
+   "occurrences_in_w0": 1,
+   "byte_start": 128694,
+   "byte_end": 129083,
+   "quoted_text": "| Architecture SPEC | Product SPEC 同 Subject + 五 Typed Seam + 原現役三庫/ABI/Effect Registry → SE 給 ADR | 五 Seam 各有原 Producer/Reader/Consumer、原單 Writer、風險、Positive/Negative、No-Second-Issuer | SBL Architecture/HGK/Fabric Domain Reader | POS：正確區分 READ/DRAFT/DEV/OPS；NEG：把 GitHub HEAD 或 staging 當 Host Active → `HOST_READBACK_HOLD` |",
+   "used_by": [
+    "A-ACC-04"
+   ]
+  },
+  {
+   "code": "EFFECT_CLASS_COLLAPSED",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 919,
+   "occurrences_in_w0": 1,
+   "byte_start": 146967,
+   "byte_end": 147473,
+   "quoted_text": "`SOURCE_READ`=原 ACL+hash；`LOCAL_DRAFT_WRITE`=授權隔離 output root+cleanup；`REPO_WRITE`=W2 exact RepoContext/HEAD/preimages/DEV ECP/Issuer；`HOST_OP`=原 Host SID/PolicyEpoch/TTL/OPS ECP；`RELEASE`=原 Publisher/GHP-02+Protected Checker。W0 不核發 Permit，原 ABI/OperationType 未綁標 `EFFECT_UNBOUND`。POS 同一段原 source read 不受未授權 HOST_OP 阻斷；NEG 把所有操作歸一律 OPS → `EFFECT_CLASS_COLLAPSED`。此處只作 W1/W2 handoff，不改寫 CH15 原 Writer。",
+   "used_by": [
+    "A-ACC-05"
+   ]
+  },
+  {
+   "code": "PROGRAM_WAVE_MISMATCH",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 804,
+   "occurrences_in_w0": 1,
+   "byte_start": 132664,
+   "byte_end": 133119,
+   "quoted_text": "**Program SPEC — `W0/TPgM/ProgramSPEC-DRAFT`**：`milestone=W0-A/W0-B`, `WP_original=00..21`, `edges_original=36`, `primary_wave_per_WP`, `done_predicate`, `stop_resume`, `evidence_expectation`, `handoff=[W1,W2,W3,W4]`, `hold_owner`。輸入前兩 SPEC/原 DAG；輸出具名可驗 WorkPackage 交接與依賴。Consumer：Original Program/Native PLAN Reader；POS 22/36 保持 DAG 無環；NEG W0 把 WP06 宣告已執行 → `PROGRAM_WAVE_MISMATCH`。",
+   "used_by": [
+    "G-ACC-01",
+    "G-ACC-03"
+   ]
+  },
+  {
+   "code": "FUTURE_RECEIPT_DEPENDENCY",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 322,
+   "occurrences_in_w0": 5,
+   "byte_start": 45236,
+   "byte_end": 45522,
+   "quoted_text": "| MVP | W0-A 完成問題/已知答案/源索引和三 SPEC；W0-B 交付五 Seam 的預期 Input/Output、原 Receiver 和最短可測 fixture | 無 Host Raw 也能作合法 W1 文檔交接；未觀測項在 HOLD | 要求 W0 執行 GJ02 的 REPO_WRITE → `FUTURE_RECEIPT_DEPENDENCY` |",
+   "used_by": [
+    "G-ACC-02",
+    "G-ACC-04"
+   ]
+  },
+  {
+   "code": "SPEC_TRACE_BROKEN",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "line": 309,
+   "occurrences_in_w0": 5,
+   "byte_start": 43267,
+   "byte_end": 43395,
+   "quoted_text": "- **正反驗收與 FirstFail**：POS Owner 能逐項審 Source+ACC±；NEG 同文換標題或自簽核 → SPEC_TRACE_BROKEN。",
+   "used_by": [
+    "G-ACC-05"
+   ]
+  }
+ ]
+}

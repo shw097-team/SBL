@@ -1,0 +1,47 @@
+{
+ "schema": "FHS.OwnerSigningDemand/1",
+ "round": "FHS-W0-R6-EXEC-20261108",
+ "generated_at": "2026-11-08T00:27:47+08:00",
+ "question": "does completing the W0 (r6 draft) items require an owner-key signature?",
+ "measured": {
+  "live_registry_path": "C:\\Projects\\Agent_Workspace\\var\\B1-PIPD-PKG-20261027\\admission\\registry\\runner-registry.json",
+  "live_registry_sha256": "3254714b05ecc4345806664d3bb0690f67ae1bd5218be24b793d838b08ec9d57",
+  "registry_rev": 13,
+  "rows": 31,
+  "rows_installed": 31,
+  "rows_owner_signed": 31,
+  "root_owner_signature_present": true
+ },
+ "w0_wp_effect_classes": {
+  "WP-FHS-00": "SOURCE_READ",
+  "WP-FHS-01": "SOURCE_READ",
+  "WP-FHS-15": "LOCAL_DRAFT_WRITE",
+  "WP-FHS-16": "LOCAL_DRAFT_WRITE",
+  "WP-FHS-19": "SOURCE_READ",
+  "WP-FHS-21": "SOURCE_READ"
+ },
+ "reasoning": [
+  "every W0 work package is SOURCE_READ or LOCAL_DRAFT_WRITE; none is HOST_OP, RELEASE or a registry mutation",
+  "the live registry is rev 13 with all 31 rows INSTALLED and owner-signed, and a root owner_signature is present; no row is added or re-pointed by this round",
+  "a row-and-root window signs registry content, not documents; a W0 SPEC draft is not registry content",
+  "the GitHub publish step uses the repository token, not the owner key"
+ ],
+ "required_signatures": 0,
+ "why_not_open": "a window would be an unguarded capability with nothing to sign; it would close at ops_used 0 and prove only that the round bought a key for nothing",
+ "prior_window_observed": {
+  "window_id": "WIN-c79a0bfc93f4",
+  "task_id": "FHS-W0W2-R4-PYYAML-RUNNER-20261107",
+  "state": "CLOSED",
+  "max_ops": 34,
+  "ops_used": 32,
+  "owner_fingerprint": "412b351937be72a1"
+ },
+ "named_owner_item_that_would_use_a_window": {
+  "id": "R1-ISSUER-REV14",
+  "what": "re-issue the HGK issuer so the registry reaches rev 14 (Leaf@2)",
+  "why_not_in_this_round": "it is a W1 policy-effectiveness prerequisite, not a W0 DonePredicate; it also needs the issuer private key, which is not on this host",
+  "ready_to_run": "python owner_window.py open --task FHS-R1-REV14 --ttl-hours 2 --max-ops 33 --scope registry_row_sign,merkle_root_sign --effect-ceiling REPOSITORY_WRITE --workspace C:/Projects/Agent_Workspace/var/B1-PIPD-PKG-20261027",
+  "note": "33 = 31 rows + 1 root + 1 margin; the owner must run the issuer tool in their own terminal afterwards"
+ },
+ "claim_ceiling": "MEASURED_DEMAND_ZERO_FOR_W0_SCOPE"
+}

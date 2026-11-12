@@ -1,0 +1,156 @@
+{
+ "schema": "FHS.WP19.LicenceInventory/1",
+ "work_package": "WP-FHS-19",
+ "effect_class": "SOURCE_READ",
+ "generated_at_utc": "2026-11-07T16:43:25Z",
+ "method": "以 git ls-files 逐 worktree 列舉。license/notice 位於 repo 深度 0-1 者視為 root；更深的副本記為 nested vendored 檔案，不當作該 repo 的授權。sha256 由檔案位元組直接計算。只有在檔案自身載明時才回報 SPDX 識別碼（SPDX-License-Identifier 標籤，或可辨識的授權內文）；不從目錄名稱、也不單從 GitHub metadata 反推識別碼。",
+ "repos": [
+  {
+   "repo": "Fabric",
+   "github_slug": "shw097-team/Fabric",
+   "local_path": "C:/Projects/Agent_Workspace/worktrees/r4-fabric",
+   "head_sha": "d75e97654279dc063e3f3e3da7b0879f5470abdf",
+   "branch": "docs/fhs-asbuilt-w0w2-20261107",
+   "root_licence_files": [],
+   "root_notice_files": [],
+   "licence_present": false,
+   "notice_present": false,
+   "spdx_identifiers_stated": [],
+   "github_api_license_spdx_id": null,
+   "github_api_license_note": "GitHub 的 licence detector 對此 repo 回傳 null，與本地量測到的 root 授權檔缺席一致",
+   "nested_licence_or_notice_files": [
+    {
+     "path": "DESKTOP/var-fda/xq-auto-skill/LICENSE",
+     "bytes": 1066,
+     "sha256": "917acf27849ce6dd61e2cab17f119f865539d477b1c93b53a70957811c3d5662",
+     "spdx_identifier_stated": "MIT"
+    },
+    {
+     "path": "DESKTOP/var-fda/xq-auto-skill/third_party/xshelp/NOTICE.md",
+     "bytes": 463,
+     "sha256": "ac20eb636d5f7622a216f5af30dbb14df11cb87c62f43d9f41c61a6d3d0df5f7",
+     "spdx_identifier_stated": null
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/LICENSE",
+     "bytes": 1067,
+     "sha256": "e30cf5dd5f49b4f9b656590e23d782b4756c924a9f0ff0162b3e7b5d87006bf5",
+     "spdx_identifier_stated": "MIT"
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/paper-poster-html/NOTICE.md",
+     "bytes": 3288,
+     "sha256": "058090d55f2c7d143f70b4e3020cb7bcb8349480edd9dbf46921e05067862ab1",
+     "spdx_identifier_stated": null
+    },
+    {
+     "path": "FABRIC/fabric-autonomous-research/methods/aris-vendor/skills/proof-orchestrator/NOTICE.md",
+     "bytes": 1147,
+     "sha256": "a496eb4ac401ae1fcfcd0958f47e585c1949e4cf43553517468fcdf73fc17124",
+     "spdx_identifier_stated": "MIT"
+    }
+   ],
+   "absence_statements": [
+    "LICENSE_ABSENT：Fabric 的 repo 根層沒有 LICENSE／LICENCE／COPYING 檔案（以 git ls-files 掃過 tracked tree、深度 0-1 後量測）。",
+    "NOTICE_ABSENT：Fabric 的 repo 根層沒有 NOTICE 檔案。",
+    "NESTED_ONLY：樹狀目錄較深處另有 5 個 licence/notice 檔案，位於 vendored 路徑下；它們授權的是被 vendored 的元件，不是這個 repo，因此不填補 root 的缺席。"
+   ]
+  },
+  {
+   "repo": "SBL",
+   "github_slug": "shw097-team/SBL",
+   "local_path": "C:/Projects/Agent_Workspace/worktrees/r4-sbl",
+   "head_sha": "47d4e600dd9b6879a2a2ca87195ca6bc7825602d",
+   "branch": "r5/close-legacy-ack",
+   "root_licence_files": [
+    {
+     "path": "LICENSE",
+     "bytes": 1068,
+     "sha256": "759b0f8830b642eadfb405bd92703a4058a80b3a886f07282a27f5851a43bfc8",
+     "spdx_identifier_stated": "MIT",
+     "identifier_basis": [
+      {
+       "basis": "body_text",
+       "match": "MIT License"
+      }
+     ],
+     "first_line": "MIT License",
+     "holds_spdx_tag": false
+    }
+   ],
+   "root_notice_files": [
+    {
+     "path": "NOTICE",
+     "bytes": 684,
+     "sha256": "3ffd9f06639e9a95b3f057b3400574d6d8c6682318375559221c46a62d81d7fc",
+     "spdx_identifier_stated": "MIT",
+     "identifier_basis": [
+      {
+       "basis": "body_text",
+       "match": "MIT License"
+      }
+     ],
+     "first_line": "SBL — SpecBuild Loop",
+     "holds_spdx_tag": false
+    }
+   ],
+   "licence_present": true,
+   "notice_present": true,
+   "spdx_identifiers_stated": [
+    "MIT"
+   ],
+   "github_api_license_spdx_id": "MIT",
+   "github_api_license_note": "GitHub 的 licence detector 也判定存在授權檔，與本地量測一致",
+   "nested_licence_or_notice_files": [
+    {
+     "path": "integrations/pipd/LICENSE",
+     "bytes": 11358,
+     "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+     "spdx_identifier_stated": "Apache-2.0"
+    },
+    {
+     "path": "integrations/pipd/NOTICE",
+     "bytes": 3571,
+     "sha256": "ab07de025ce64621963831d19acf3525596362a18d6c72606d0341239206ea7d",
+     "spdx_identifier_stated": "Apache-2.0"
+    }
+   ],
+   "absence_statements": []
+  },
+  {
+   "repo": "HG-KSEOS",
+   "github_slug": "shw097-team/HG-KSEOS",
+   "local_path": "C:/Projects/Agent_Workspace/worktrees/r4-hgk",
+   "head_sha": "a7046a36956e2179d7125449ce9b6f05fa5451cf",
+   "branch": "r4/cap-registry-20261107",
+   "root_licence_files": [],
+   "root_notice_files": [],
+   "licence_present": false,
+   "notice_present": false,
+   "spdx_identifiers_stated": [],
+   "github_api_license_spdx_id": null,
+   "github_api_license_note": "GitHub 的 licence detector 對此 repo 回傳 null，與本地量測到的 root 授權檔缺席一致",
+   "nested_licence_or_notice_files": [],
+   "absence_statements": [
+    "LICENSE_ABSENT：HG-KSEOS 的 repo 根層沒有 LICENSE／LICENCE／COPYING 檔案（以 git ls-files 掃過 tracked tree、深度 0-1 後量測）。",
+    "NOTICE_ABSENT：HG-KSEOS 的 repo 根層沒有 NOTICE 檔案。"
+   ]
+  }
+ ],
+ "counts": {
+  "repos_scanned": 3,
+  "repos_with_root_licence": 1,
+  "repos_without_root_licence": 2,
+  "repos_without_root_notice": 2,
+  "root_licence_files_total": 1,
+  "nested_licence_or_notice_total": 7
+ },
+ "repos_missing_root_licence": [
+  "Fabric",
+  "HG-KSEOS"
+ ],
+ "repos_missing_root_notice": [
+  "Fabric",
+  "HG-KSEOS"
+ ]
+}

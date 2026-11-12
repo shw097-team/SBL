@@ -1,0 +1,210 @@
+{
+ "artifact_id": "FHS-WP15-SPEC-PROGRAM-DRAFT",
+ "version": "W0-r6-wp15-1",
+ "role": "TPgM",
+ "goal": "把一份 Product SPEC 與一份 Architecture SPEC，交成 22 個 WorkPackage、36 條邊的排程契約：每個 WP 恰一個 Primary Wave、一個 DonePredicate、一組 stop/resume，並且在第一波就能交付，不必等未來的世界收據。",
+ "subject_ref": {
+  "subject_id": "FHS-W0-EXAMPLE-SOURCE-BOUND-SPEC-001",
+  "binding": "AUTHOR_W0_DEMO_SUBJECT__ORIGINAL_PIPD_UNBOUND",
+  "note": "與 Product／Architecture SPEC 同一 Subject；本 SPEC 只增加排程與交接軸。"
+ },
+ "source_refs": [
+  {
+   "source_id": "G01-W0-CH37-WP15-ROW",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 242935,
+   "byte_end": 243434,
+   "quoted_text": "| `WP-FHS-15` TPM Corpus & SPEC 18Stage | 原三SPECDraft、來源readback、FUO十欄；三份受界 SPECDraft／`TaskSpecSeed CANDIDATE`；歷史來源曾記 24 功能 Atom／PI/PD 設計意圖，但本輪未見同 Scope 原 PIPD Reader 真 ACK，`H-WP15-HISTORICAL-ACK-UNVERIFIED`。 | `WP-FHS-00` | **W0** | \\`LOCAL_DRAFT_WRITE\\`；明列隔離 output root 的使用者授權。；原 TPM Corpus Reader/PM/SE/TPgM → \\`SBL 三 SPECDraft + source-bound Stage contracts\\` → 原 PIPD Intake。 |"
+  },
+  {
+   "source_id": "G02-W0-CH37-WP-TABLE-HEAD",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 238474,
+   "byte_end": 238906,
+   "quoted_text": "### 完整 22 個 Original WP、唯一 Primary Wave 與 Effect（L2 r4 §4.1）\n| Original WP／功能 | 原輸出 | 原依賴 | Primary Wave | 原 Effect/Consumer |\n|---|---|---|---|---|\n| `WP-FHS-00` Source/Host Discovery | SourceManifest+RepoContext。 | `ROOT` | **W0** | \\`SOURCE_READ\\`；原唯讀 ACL/read scope。；原 SourceReader/RepoProbe → \\`SourceManifest + RepoContext readback\\` → 原 TPM/PIPD Source Reader。 |"
+  },
+  {
+   "source_id": "G03-W0-CH37-DAG-HEAD",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 245239,
+   "byte_end": 245614,
+   "quoted_text": "### 原 36 邊 DAG（L2 r4 §4.2，原 Reader 判定 consumption 時 Hard/Soft）\n| EdgeID | 原前置→後件 | 跨波方向 | Hard/Soft 原域條件 |\n|---|---|---|---|\n| E01 | `WP-FHS-00 → WP-FHS-01` | `W0→W0` | 原結構邊保持；操作消耗前置 Raw/ACK 時為 **Hard**，僅可同波合法並行讀取的為 **Soft**；需要原 Reader 核定具體 operation |"
+  },
+  {
+   "source_id": "G04-W0-CH37-POS-NEG",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 237241,
+   "byte_end": 237353,
+   "quoted_text": "**Acceptance POS**：POS：22/36 原資料有向無環；每原 WP 只有一主波，受影 effect 需真 ACK。"
+  },
+  {
+   "source_id": "G05-W0-CH37-TPGM-CONTRACT",
+   "file": "FHS_PIPD-LS-PKG_W0_r6.md",
+   "file_sha256": "69a08e7fae0404d7fc33842d66c28a21684a6d13caa6ac40ba7a269411db28d5",
+   "byte_start": 132664,
+   "byte_end": 133119,
+   "quoted_text": "**Program SPEC — `W0/TPgM/ProgramSPEC-DRAFT`**：`milestone=W0-A/W0-B`, `WP_original=00..21`, `edges_original=36`, `primary_wave_per_WP`, `done_predicate`, `stop_resume`, `evidence_expectation`, `handoff=[W1,W2,W3,W4]`, `hold_owner`。輸入前兩 SPEC/原 DAG；輸出具名可驗 WorkPackage 交接與依賴。Consumer：Original Program/Native PLAN Reader；POS 22/36 保持 DAG 無環；NEG W0 把 WP06 宣告已執行 → `PROGRAM_WAVE_MISMATCH`。"
+  },
+  {
+   "source_id": "G06-SRC11-WP15",
+   "file": "11_WORKPACKAGES_AND_DAG(4).md",
+   "file_sha256": "6c526c991b5996c2d4f862f153fbf580d456f78b45d2a714abe11bcb9a9cc811",
+   "byte_start": 31113,
+   "byte_end": 33568,
+   "quoted_text": "### WP-FHS-15｜TPM Corpus & SPEC 18Stage\n\n\n#### HANDOFF-v1 首工作有效接收契約\n\n- **真功能與Input**：普通Goal、live KnownAnswer、內建24 DOC bytes/SHA → 原 corpus/QuestionLedger/三SPEC draft Reader；不是只保留ID/FirstFail。\n- **Output**：原三SPECDraft、來源readback、FUO十欄；24功能Atom的原PI、TaskSpecSeed與PD晚綁契約已存在，PIPD Reader ACK可讀回。\n- **合法起點／DAG**：WP00 source snapshot；WP01 source/profile author decision；WP15只依賴WP00既有讀入。WP05.prepare是原Compiler服務，消費已存在的設計SPEC，不等待WP15未來的Native完成Receipt。原22 WP edges不改，無bootstrap循環。\n- **Producer→Schema→Consumer**：原 TPM `plan_spec`→Product/Architecture/ProgramSPECDraft→原PIPD `intake/compile_pi/validate_pi`→原TaskSpecSeed/ExecutionHandoff→HGK原adapter→原Hermes。\n- **Effect／Scope／Admission**：SOURCE_READ + LOCAL_DRAFT；只在receiver-authorized root寫五個精確檔。此階段不索Live Permit。若後續需要Repo/Host/User/Remote/Release則各原ECP/Issuer在effect前准入，不能混用。\n- **POS／NEG／Done**：24功能源句/24Atom、全部原trace與strict Reader PASS、三SPEC可讀且KnownAnswer零重問；空goal、source drift、foreign root、漏NEG/雙writer、cycle、stale PD/lease、ProviderOff外呼、UNKNOWN盲重送均受影拒收或Reconcile。只說明靜態接收，Native/Checker/Release仍NOT_RUN。\n- **Evidence／Rollback／Resume**：`03_HANDOFF_EVIDENCE/MINIMAL_STATIC_TESTS.json`、真Compiler ACK與pure request constructor讀回；撤本WorkID草稿的exact preimage，不改來源；sameSource/key重用，source drift只失效受影錐，真effectUNKNOWN先原reconcile，沿原WorkID續行。\n- **餘項分派**：全部7649量詞候選、485技術、282Runner/W18等產品義務留在原WP與適用驗收，未完成不在本輪灌PASS，也不成為此首工作的無關global HOLD。\n- **Producer → ABI/Schema → Consumer**：原 TPM Corpus Reader/PM/SE/TPgM → `SBL 三 SPECDraft + source-bound Stage contracts` → 原 PIPD Intake。\n- **Input**：SBL14/PIPD10 原 bytes/SHA、普通 Goal、KnownAnswer、18Stage 原來源；不重問已知答案。\n- **Output**：三SPEC+18stage trace。\n- **DAG dependency**：WP-FHS-00；依賴原服務，不創第二 Scheduler。\n- **EffectClass / Admission**：`LOCAL_DRAFT_WRITE`；明列隔離 output root 的使用者授權。"
+  },
+  {
+   "source_id": "G07-SRC01-PROGRAM-SPEC",
+   "file": "01_PRODUCT_AUTHORITY_SPINE(4).md",
+   "file_sha256": "e257dfcd01f2e8afeda1dd88fdd33b4ef7346bf224572e60935bf9834d25b02c",
+   "byte_start": 13916,
+   "byte_end": 14907,
+   "quoted_text": "### Program SPEC｜Typed DAG、最小自舉與有界續工\n\n- **起跑線**：WP-FHS-00 → WP-FHS-01 → WP-FHS-02 先 source/authority/Host 唯讀；依 Need 選 ready WP，無 effect 時可停於可交付 design FUO。\n- **首效果**：只在 Active/Consumed Policy、HGK Issuer、CAP-BOOT 當期 qualified 後開始；WP17 技術啟用不能反依賴 WP06 的首個效果，須以原 Host installer 自舉。\n- **B1→W18**：保留 PI27、PD31、TQAEP 282 cases，依 Worker crash/resume/unknown-operation、new PID everyday Goal 給出單獨 Runner Binding 與 H18 原本 test ID；Maker/Checker 分權。\n- **Stop**：只停止第一失敗依賴的 WorkPackage 受影錐，維持其他 READY；一個已回答且同 Subject/Scope 的 Owner QuestionLedger 答覆不得重新詢問。\n- **Resume**：重新讀 SHA/current HEAD/PolicyEpoch/receiver schema/operation World Raw，只重試尚未有已知效果且獲原 Issuer 新授權的卡；不同 Subject 不借用 nonce。\n\n\n---\n\n\n\n"
+  },
+  {
+   "source_id": "G08-SRC02-TPGM-STAGES",
+   "file": "02_PIPD_LIFECYCLE_AND_TPM(4).md",
+   "file_sha256": "c336d3d9d702834e84bc2e45037e21e6ac56fb99c7abcb3adea372d901824ea2",
+   "byte_start": 8351,
+   "byte_end": 8903,
+   "quoted_text": "| TPgM:T2 | ownergates, dependencyedges, source_sha256 | toposort bounded DAG and cycle check → ProgramDAG@1(topo,locks,no_fit) / ProgramOwner/NativeRouter | OwnerGates+DependencyEdges; source_sha present；DAG_CYCLE；ACYCLIC_AND_SCOPED；`T3` |\n| TPgM:T3 | programdag, productspec, architecturespec, source_sha256 | package work with traceable scope and approver → ProgramSPEC@1(wp,effort,owner,stop) / ProgramOwner/NativeRouter | ProgramDAG+ProductSPEC+ArchitectureSPEC; source_sha present；WP_SCOPE_UNKNOWN；WORK_PACKAGE_OWNER_REVIEW；`T4` |"
+  }
+ ],
+ "scope": {
+  "in": [
+   "22 個 WP 的 Primary Wave 指派與前置（36 條原邊不改）",
+   "每個 WP 的 DonePredicate、Stop／Resume、具名 HOLD",
+   "W0-A／W0-B 的分界與 W1 交接信封"
+  ],
+  "out": [
+   "重畫、刪除或新增 DAG 邊",
+   "宣告任何 WP 的世界效果已完成",
+   "代替原 Native PLAN Reader 決定 execution binding"
+  ],
+  "effect_class": "LOCAL_DRAFT_WRITE",
+  "output_root": "evidence/WP15/stages"
+ },
+ "persona_or_owner": {
+  "persona": "TPgM：排程與交接責任人，對「誰先誰後、什麼算做完、卡住時停在哪」負責",
+  "not": "不是執行者；不發 WorkOrder，不簽 Receipt，不把排程當成已完成事件",
+  "owner_of_this_spec": "tpm-program-plan（TPgM 作者角色）"
+ },
+ "jtbd": "當我要把一整包變更交給後續幾波時，我需要一張能直接照著跑的順序表：哪一個工作包這一波就能做、做到什麼算完、卡住時要停在哪一格、醒來時從哪裡續，而不是等到第二波才發現第一波其實交不出東西。",
+ "fuo": {
+  "outcome": "一份 ProgramSPECDraft：22 列 WP×Wave 表、36 條原邊的無環證明、每列一組 done/stop/resume，以及一份可被原 Program Reader 讀回的 W1 交接信封；其中沒有任何 WP 引用尚未觀測的收據。",
+  "columns": {
+   "who": "TPgM（排程作者），與 Original Program/DAG Reader 對讀",
+   "trigger": "Product 與 Architecture 兩份 SPEC 已可在隔離目錄讀取，且需要交成可執行順序",
+   "input": "兩份 SPEC、原 22 WP 表、原 36 條邊、每個 WP 的 EffectClass",
+   "operation": "對每個 WP 指定唯一 Primary Wave 與前置、寫 DonePredicate、標 Stop 錐與 Resume 條件、登記具名 HOLD，最後跑一次拓撲檢查",
+   "output": "ProgramSPECDraft：WaveAssignment + DonePredicate + HoldRegister + HandoffEnvelope",
+   "observable proof": "tools/verify_dag.py 對 36 條邊跑拓撲排序：節點 22、邊 36、無環、每個 WP 的 Primary Wave 與 WP 表一致（已量測 22/36 acyclic，見 evidence/dag_check.json）；沒有任何 done_predicate 需要 W2 以後的 receipt 才成立",
+   "consumer": "Original FHS BODY-11 Program/DAG Reader",
+   "first_fail": "PROGRAM_WAVE_MISMATCH",
+   "stop_rule": "當某個 WP 的 done_predicate 需要未來 receipt 時，把該 WP 標 FUTURE_RECEIPT_DEPENDENCY 並停在那個 cone，不重排邊、不新增替代波",
+   "resume_predicate": "該 receipt 由原 Consumer 讀回後，只恢復受影 cone 的 WP；同 WorkID 已 admitted 時，續工優先於新包"
+  },
+  "ten_columns": [
+   "who",
+   "trigger",
+   "input",
+   "operation",
+   "output",
+   "observable proof",
+   "consumer",
+   "first_fail",
+   "stop_rule",
+   "resume_predicate"
+  ]
+ },
+ "non_goals": [
+  "不改動 36 條原邊的方向、數量或 hard/soft 判定；不新增 W4 替代方案來縮工",
+  "不把 WP-FHS-06（First Reversible Slice）提前到 W0 執行，也不宣稱它已可逆通過",
+  "不建立第二個排程器、Kanban 佇列或 shadow queue",
+  "不以 Scheduled／In Progress 當成 Done，也不以文件存在當成世界效果",
+  "不代替原 HGK Issuer 發 WorkOrder，或代替原 Protected Checker 發 verdict"
+ ],
+ "assumptions": [
+  "22 個 WP 與 36 條邊是來源 11 與 CH-37 已列名的原結構，本輪不改",
+  "W0 的六個 WP（00/01/15/16/19/21）只做 READ 與隔離 Draft，因此可在無 Host Raw 時交付",
+  "同一 WorkID 的續工優先於新包啟動，此假設沿用 CH-37 的 stop/resume 條文"
+ ],
+ "decisions": [
+  "D-G1：每個 WP 只能有一個 Primary Wave；跨波需求以邊表達，不以第二個 Wave 欄位表達",
+  "D-G2：DonePredicate 必須是可在本輪觀測的條件；需要未來的 receipt 時，該 WP 不得標 DONE",
+  "D-G3：Stop 以「第一失敗依賴的 cone」為界，其他 READY 的 WP 繼續",
+  "D-G4：交接信封裡的 hold 一律具名 owner 與 unblock 條件，未具名者不得進入信封"
+ ],
+ "acceptance": [
+  {
+   "id": "G-ACC-01",
+   "kind": "POS",
+   "statement": "22 個 WP 各恰一個 Primary Wave，36 條邊的拓撲排序成功且節點數為 22",
+   "oracle": "python tools/verify_dag.py：從 W0 CH-37 兩張表解析後跑 Kahn 拓撲排序，斷言 22 WP／36 邊／無環／wave 與 WP 表一致",
+   "consumer": "Original FHS BODY-11 Program/DAG Reader",
+   "firstfail_code": "PROGRAM_WAVE_MISMATCH",
+   "local_measurement": "PASS 22WP/36edges/acyclic（evidence/dag_check.json）"
+  },
+  {
+   "id": "G-ACC-02",
+   "kind": "POS",
+   "statement": "每個 WP 都有 done_predicate、stop_rule、resume_predicate 與至少一個具名 hold 或明示無 hold",
+   "oracle": "逐列檢查四欄；缺欄或 hold 未具名 owner 即不成立",
+   "consumer": "Original FHS BODY-11 Program/DAG Reader",
+   "firstfail_code": "FUTURE_RECEIPT_DEPENDENCY"
+  },
+  {
+   "id": "G-ACC-03",
+   "kind": "NEG",
+   "statement": "把 WP-FHS-06 列為 W0 已執行完成（或其可逆效果已通過）",
+   "oracle": "對照 Primary Wave 表；WP-06 屬 W2 且需 W1 的 PI/PD/RepoContext/Permit（verify_dag.py 量測 WP-FHS-06 primary wave = W2）",
+   "consumer": "Original Program Reader",
+   "firstfail_code": "PROGRAM_WAVE_MISMATCH"
+  },
+  {
+   "id": "G-ACC-04",
+   "kind": "NEG",
+   "statement": "首份 W0 Draft 要等未來 W2 的 receipt 才願交付，使第一波沒有可讀產物",
+   "oracle": "檢查 W0 六個 WP 的 done_predicate 是否引用未觀測 receipt",
+   "consumer": "Original Program Reader",
+   "firstfail_code": "FUTURE_RECEIPT_DEPENDENCY"
+  },
+  {
+   "id": "G-ACC-05",
+   "kind": "NEG",
+   "statement": "為縮工而改動原 DAG 邊、刪除 WP 或新增替代波，仍宣稱 22/36 保持不變",
+   "oracle": "邊集合與節點集合逐項比對來源 11；差集非空即拒收",
+   "consumer": "Original FHS BODY-11 Program/DAG Reader",
+   "firstfail_code": "SPEC_TRACE_BROKEN"
+  }
+ ],
+ "open_questions": [
+  "Q-G1：W0-B 的 WP06 準備工作是否可在 W0 內以純設計形式存在（不產生 Repo diff），待原 Program Reader 回答",
+  "Q-G2：36 條邊的 hard/soft 判定權在原 Operator，本輪只標候選，需確認是否要逐邊列出",
+  "Q-G3：W1 交接信封的 YAML 是否要固定 schema 版本，或維持 CH-37 的自由欄位"
+ ],
+ "affected_holds": [
+  {
+   "id": "H-WP15-G-ORIGINAL-PROGRAM-READER",
+   "scope": "22WP/36 邊與 wave 指派",
+   "owner": "Original FHS BODY-11 Program/DAG Reader",
+   "unblock": "同 Subject/Scope 的原 Reader 讀回，或具名 NACK 指明哪條邊"
+  },
+  {
+   "id": "H-WP15-G-CR-DOC04-STATE-MAP",
+   "scope": "T4/T5 transition 當期映射",
+   "owner": "Original PIPD Compiler Owner",
+   "unblock": "T4/T5 映射經原 Compiler 確認；在此之前維持 HOLD，不升為 StateEnum"
+  }
+ ],
+ "original_reader": {
+  "reader": "Original FHS BODY-11 Program/DAG Reader → Native PLAN Reader",
+  "ack": "ORIGINAL_READER_ACK_UNOBSERVED",
+  "note": "排程只到候選；W1 之後的 execution binding 由原 Native PLAN Reader 決定。"
+ },
+ "claim_ceiling": "AUTHOR_SIDE_SPEC_DRAFT_SOURCE_BOUND"
+}

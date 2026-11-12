@@ -1,0 +1,188 @@
+{
+ "schema": "FHS.LayerAudit/1",
+ "round": "FHS-W0-R6-EXEC-20261108",
+ "generated_at": "2026-11-08T01:50:22+08:00",
+ "authoritative_inputs_read_only": [
+  {
+   "path": "evidence/WP00/raw/SOURCE_LOCK.json",
+   "layer": "AUTHORITATIVE_INPUT_MEASURED",
+   "what": "digest readback of the 31 sources and six upper documents; the files themselves were only read",
+   "state": "READ_ONLY",
+   "bytes": 22730,
+   "sha256": "49c65214d757f136f047833bffd5056ec807aeb6f711a5a981b47055c5f5b782"
+  },
+  {
+   "path": "evidence/WP19/LICENCE_INVENTORY.json",
+   "layer": "AUTHORITATIVE_INPUT_MEASURED",
+   "what": "licence/NOTICE state of the three repositories, read from their worktrees",
+   "state": "READ_ONLY",
+   "bytes": 5759,
+   "sha256": "076230565ee15c364ddcf7e878a6700314b70cec37cdcde2c861fa068bce8204"
+  },
+  {
+   "path": "evidence/WP19/CI_INVENTORY.json",
+   "layer": "AUTHORITATIVE_INPUT_MEASURED",
+   "what": "live CI state read from the GitHub API with a token; the repos were not written",
+   "state": "READ_ONLY",
+   "bytes": 14970,
+   "sha256": "d15569e250e863a421420edaace21dc4cd07d33e9b4dba6b249a4550ef1fe521"
+  }
+ ],
+ "candidate_layer": [
+  {
+   "path": "writeback/W0/FHS_PIPD-LS-PKG_W0_r7.md",
+   "layer": "CANDIDATE",
+   "what": "as-built revision: r6 body byte-identical plus the appended chapter",
+   "state": "NOT_ACCEPTED",
+   "bytes": 492290,
+   "sha256": "264787b065fbca6a8e728054fd3abdb6133883bbeb87710ddf5e880071f61845"
+  },
+  {
+   "path": "out/W0_WP_MATRIX.json",
+   "layer": "CANDIDATE",
+   "what": "per-WP measured state with hashed evidence refs",
+   "state": "NOT_ACCEPTED",
+   "bytes": 14323,
+   "sha256": "7266a0e19db9d68b80213c167871f960290a60c9e00647d5624fc4e266978cb4"
+  },
+  {
+   "path": "evidence/WP15/specs/product_SPEC.json",
+   "layer": "CANDIDATE",
+   "what": "Product SPEC draft",
+   "state": "NOT_ACCEPTED",
+   "bytes": 14401,
+   "sha256": "13e64bf4e33f49071c1be739c0283bb841288e809c8ad23c53bc2b92caca76b9"
+  },
+  {
+   "path": "evidence/WP15/specs/architecture_SPEC.json",
+   "layer": "CANDIDATE",
+   "what": "Architecture SPEC draft",
+   "state": "NOT_ACCEPTED",
+   "bytes": 15026,
+   "sha256": "f8e5192bb8576f101d9c68ceb207a83bec1873c53337052a40c6af62c51f7146"
+  },
+  {
+   "path": "evidence/WP15/specs/program_SPEC.json",
+   "layer": "CANDIDATE",
+   "what": "Program SPEC draft",
+   "state": "NOT_ACCEPTED",
+   "bytes": 15599,
+   "sha256": "ae4b3a5a0c4dae3c1bf5926e30839602705a75c28757e7c2c8c896c57ecdc4ef"
+  },
+  {
+   "path": "evidence/WP16/tables/DONOR24.json",
+   "layer": "CANDIDATE",
+   "what": "24 donor slots with licence state made explicit",
+   "state": "NOT_ACCEPTED",
+   "bytes": 76729,
+   "sha256": "ae17b9fabbb791b3ba9312ab3a7947145912ca5d22e44efde8bc13718fe01b90"
+  },
+  {
+   "path": "evidence/WP16/tables/METHOD25.json",
+   "layer": "CANDIDATE",
+   "what": "25 method slots with original use stated",
+   "state": "NOT_ACCEPTED",
+   "bytes": 76555,
+   "sha256": "d2be0a7a82ac68a6c7ebf3a88dcd5328fd0dfa7bacccb6c833bed5e35bdbee83"
+  },
+  {
+   "path": "evidence/WP21/tables/ORACLE96.json",
+   "layer": "CANDIDATE",
+   "what": "96 oracle cells, each NOT_EXECUTED",
+   "state": "NOT_ACCEPTED",
+   "bytes": 214175,
+   "sha256": "7bda8c3bec83a1f59f2f98b26c3bf87b91952a43b0aa7ea7509dcc0be25eea90"
+  }
+ ],
+ "discardable_layer": [
+  {
+   "path": "evidence/WP01/raw/U0_byte_partition.jsonl",
+   "layer": "DISCARDABLE_REPRODUCIBLE",
+   "what": "19 MB partition table; rebuildable from the 31 sources by tools/u0_partition.py",
+   "state": "REPRODUCIBLE",
+   "bytes": 19891274,
+   "sha256": "2cbcd90fb165da4882c2ab658ee772a3c432de4cf7236e590f0bb9d19bc4b688"
+  },
+  {
+   "path": "evidence/WP01/raw/U1_subclaims.jsonl",
+   "layer": "DISCARDABLE_REPRODUCIBLE",
+   "what": "2.6 MB subclaim candidates; rebuildable by tools/u1_subclaims.py",
+   "state": "REPRODUCIBLE",
+   "bytes": 2718187,
+   "sha256": "e1c760d6c7a9eb080fd742f4f7014332cd792bfd265d8bee96e8a235a9edbd87"
+  },
+  {
+   "path": "tools/gstack_w0.py",
+   "layer": "DISCARDABLE_REPRODUCIBLE",
+   "what": "invariant gate; itself a tool, not evidence",
+   "state": "REPRODUCIBLE",
+   "bytes": 18130,
+   "sha256": "13069efe19be2f977535bb1bee1042c0df882b5256ee32b7ab34dda37686d2c6"
+  },
+  {
+   "path": "out/GSTACK_INJECTED.json",
+   "layer": "DISCARDABLE_REPRODUCIBLE",
+   "what": "the non-vacuity proof: the gate's verdict on a deliberately violated tree",
+   "state": "REPRODUCIBLE",
+   "bytes": 2807,
+   "sha256": "d34523a91f6180ecbe53165657706728cc7978330f093f568b9ee1839eb54769"
+  }
+ ],
+ "misplacements": [
+  {
+   "id": "L-01",
+   "what": "the r6 control document exists both in the previous round directory and in the Fabric mirror (INTEGRATION/FHS/docs/as-built/W0/)",
+   "why_it_matters": "two copies of one document invite a reader to quote whichever is handier",
+   "state": "ACCEPTED_BY_DESIGN",
+   "detail": "the Fabric copy is declared NON_AUTHORITATIVE in INTEGRATION/FHS/docs/as-built/README.md; the round copy is the working parent of r7. r7 is published to the same mirror with the same declaration, so the pair stays distinguishable by layer, not by filename"
+  },
+  {
+   "id": "L-02",
+   "what": "19 MB and 2.6 MB raw tables sit inside the round directory",
+   "why_it_matters": "a naive publish would put a 19 MB derived table into a repository",
+   "state": "CONTAINED",
+   "detail": "they live under evidence/*/raw/, the gate refuses oversize outside raw/, and the publish step excludes raw/ by name"
+  },
+  {
+   "id": "L-03",
+   "what": "the WP-16 report was mutated four times during the non-vacuity test",
+   "why_it_matters": "a mutated evidence file that was not restored would silently disagree with its own report",
+   "state": "RESTORED_AND_PROVEN",
+   "detail": "each mutation was made from a byte backup and restored with cp -p; the restored sha256 equals the pre-injection value recorded in the test transcript (ae17b9fa…, cf21cd62…, a823b6bc…) and the gate returned to 15/15 PASS"
+  },
+  {
+   "id": "L-04",
+   "what": "the round wrote nothing into any repository until the publish step",
+   "why_it_matters": "G8 must be able to say 'the repos are unchanged' as a comparison, not a claim",
+   "state": "PROVEN",
+   "detail": "G8 compares HEAD and dirty-path count against the WP-00 baseline for all three worktrees: 0 drift"
+  }
+ ],
+ "not_done_and_who_owns_it": [
+  {
+   "item": "original-domain acceptance of any W0 work package",
+   "owner": "Original Domain Reader/Owner",
+   "count": 0
+  },
+  {
+   "item": "issuer re-issue to registry rev 14",
+   "owner": "OWNER (protected terminal, owner key)",
+   "count": 1
+  },
+  {
+   "item": "authoritative copy of each colliding source name",
+   "owner": "Original Domain Owner",
+   "count": 17
+  },
+  {
+   "item": "licence determination for Fabric and HG-KSEOS",
+   "owner": "OWNER",
+   "count": 2
+  },
+  {
+   "item": "value-set closure for 15 PIPD contract families",
+   "owner": "Original PIPD contract Owner",
+   "count": 15
+  }
+ ]
+}

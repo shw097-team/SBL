@@ -1,0 +1,27 @@
+== 1. field completeness ==
+product        PASS  fields=17/17 missing=-  fuo_cols=10/10 missing=-  acc=5 (POS=2 NEG=3) bad_acc=-
+architecture   PASS  fields=17/17 missing=-  fuo_cols=10/10 missing=-  acc=5 (POS=2 NEG=3) bad_acc=-
+program        PASS  fields=17/17 missing=-  fuo_cols=10/10 missing=-  acc=5 (POS=2 NEG=3) bad_acc=-
+
+== 2. pairwise body similarity (threshold 0.85) ==
+product vs architecture  sentence_shingle(2g)=0.0755  char_5gram=0.2134  max=0.2134  PASS
+product vs program       sentence_shingle(2g)=0.0617  char_5gram=0.2102  max=0.2102  PASS
+architecture vs program  sentence_shingle(2g)=0.0613  char_5gram=0.2113  max=0.2113  PASS
+
+== 3. disjoint consumer / NEG sets ==
+product        consumers=2 ['OriginalSBLProductReader', 'OriginalSBLProductReader→OriginalPIPDIntake']
+product        NEG codes=3 ['FUO_NOT_OBSERVABLE', 'PRODUCT_SPEC_FUO_MISSING', 'SPEC_NOT_SOURCE_BOUND']
+architecture   consumers=4 ['OriginalHGKEffectRegistryReader', 'OriginalHGKIssuerRegistryReader', 'OriginalHostRawReader', 'OriginalSBLHGKFabricArchitectureRegistryReader']
+architecture   NEG codes=3 ['ARCH_SOD_BREACH', 'EFFECT_CLASS_COLLAPSED', 'HOST_READBACK_HOLD']
+program        consumers=3 ['OriginalFHSBODY11ProgramDAGReader', 'OriginalFHSBODY11ProgramDAGReader→NativePLANReader', 'OriginalProgramReader']
+program        NEG codes=3 ['FUTURE_RECEIPT_DEPENDENCY', 'PROGRAM_WAVE_MISMATCH', 'SPEC_TRACE_BROKEN']
+disjoint product / architecture consumers=∅ NEG=∅  PASS
+disjoint product / program      consumers=∅ NEG=∅  PASS
+disjoint architecture / program consumers=∅ NEG=∅  PASS
+
+== 4. body sizes (bytes) ==
+product          9116 bytes   6261 chars
+architecture     9267 bytes   6723 chars
+program          9691 bytes   6812 chars
+----------------------------------------------------------------------------------------------------
+RESULT PASS  (threshold 0.85, pairs=3)
