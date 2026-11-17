@@ -1,65 +1,130 @@
 {
-  "schema": "SBL.OperationRegistry.Binding@2",
-  "contract_id": "SBL-PRE-V2-OPERATION-EFFECT-2026-11-03-r3",
-  "version": "r3.1",
-  "policy_epoch": "2026-11-03T00:00:00Z",
-  "authority_state": "SOURCE_BOUND_OWNER_UNVERIFIED",
-  "authority_note": "Effect semantics are bound per operation from source text owned by the SBL/PIPD contract surface. The value set is not owner-ratified: this file records the source binding only, and every consumer must keep grant_state NOT_GRANTED until the original issuer acts.",
-  "owner": {
-    "principal": "SBL-PIPD-CONTRACT-OWNER",
-    "decision_ref": null,
-    "decision_state": "PENDING_OWNER_RATIFICATION"
-  },
-  "source": {
-    "locator": "integrations/pipd/PROVENANCE.md",
-    "contract_surface": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC",
-    "effect_vocabulary": "integrations/pipd/schemas/ECP.schema.json"
-  },
-  "scope_policy": {
-    "path_representation": "SCOPE_IS_OPERATION_BOUND",
-    "note": "An operation's effect class is fixed by this contract. Rewriting the scope as a relative, absolute or UNC path must never reclassify the effect; a representation that leaves the declared scope is refused outright.",
-    "readback": {
-      "SOURCE_READ": "SOURCE_SHA256",
-      "LOCAL_DRAFT_WRITE": "DRAFT_DIFF",
-      "REPOSITORY_WRITE": "GIT_POSTIMAGE"
-    }
-  },
-  "operations": [
-    {
-      "operation_type": "SOURCE_READ",
-      "operation_id": "OP-SRC-READ-01",
-      "effect_class": "SOURCE_READ",
-      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.SOURCE_READ",
-      "original_consumer": "SBL-SOURCE-READER",
-      "consumer_abi": "ABI-SOURCE-READ-1"
-    },
-    {
-      "operation_type": "LOCAL_DRAFT_WRITE",
-      "operation_id": "OP-DRAFT-WRITE-01",
-      "effect_class": "LOCAL_DRAFT_WRITE",
-      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.LOCAL_DRAFT_WRITE",
-      "original_consumer": "SBL-ISOLATED-DRAFT-WRITER",
-      "consumer_abi": "ABI-DRAFT-WRITE-1"
-    },
-    {
-      "operation_type": "REPOSITORY_WRITE",
-      "operation_id": "OP-DEV-REPO-WRITE-01",
-      "effect_class": "REPOSITORY_WRITE",
-      "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.REPOSITORY_WRITE",
-      "original_consumer": "SBL-DEV-REPOSITORY-WRITER",
-      "consumer_abi": "ABI-REPO-WRITE-1"
-    }
-  ],
-  "operation_scopes": {
-    "SOURCE_READ": [
-      "src/demo/billing.py",
-      "tests/test_billing.py"
-    ],
-    "LOCAL_DRAFT_WRITE": [
-      "src/demo/billing.py"
-    ],
-    "REPOSITORY_WRITE": [
-      "src/demo/billing.py"
-    ]
+ "schema": "SBL.OperationRegistry.Binding@2",
+ "contract_id": "SBL-PRE-V2-OPERATION-EFFECT-2026-11-18-r4-CANDIDATE",
+ "version": "r4.1-candidate",
+ "policy_epoch": "2026-11-03T00:00:00Z",
+ "authority_state": "SOURCE_BOUND_OWNER_UNVERIFIED",
+ "authority_note": "CANDIDATE INSTANCE, NOT A CONTRACT. The effect vocabulary, the three operation rows and operation_scopes are byte-for-byte the r3 values; the only addition is operation_instances, which quantifies the existing REPOSITORY_WRITE operation down to one repository identity, one head and one exact write set. Nothing here is ratified: authority_state stays SOURCE_BOUND_OWNER_UNVERIFIED, owner.decision_state stays PENDING_OWNER_RATIFICATION, and every consumer must keep grant_state NOT_GRANTED. Replacing the canonical contract with this file without the original owner signing over its sha256 would break verify_owner_sidecar (SIGNED_CONTRACT_SHA_MISMATCH) rather than grant anything.",
+ "owner": {
+  "principal": "SBL-PIPD-CONTRACT-OWNER",
+  "decision_ref": null,
+  "decision_state": "PENDING_OWNER_RATIFICATION",
+  "candidate_prepared_by": "LOCAL_HERMES_AGENT_WINDOWS under OWNER control-pack v1.1 section 2 preference A",
+  "candidate_prepared_on": "2026-11-18",
+  "decision_requested": "RATIFY_OPERATION_EFFECT_BINDING over this contract sha256, naming OP-WP06-FHSVNEXT-ADD-01 in the ratified scope, OR AMEND, OR REFUSE"
+ },
+ "source": {
+  "locator": "integrations/pipd/PROVENANCE.md",
+  "contract_surface": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC",
+  "effect_vocabulary": "integrations/pipd/schemas/ECP.schema.json"
+ },
+ "scope_policy": {
+  "path_representation": "SCOPE_IS_OPERATION_BOUND",
+  "note": "An operation's effect class is fixed by this contract. Rewriting the scope as a relative, absolute or UNC path must never reclassify the effect; a representation that leaves the declared scope is refused outright. operation_scopes is unchanged from r3 and is NOT extended by an instance: an instance carries its own exact write set, and any path outside both is refused.",
+  "readback": {
+   "SOURCE_READ": "SOURCE_SHA256",
+   "LOCAL_DRAFT_WRITE": "DRAFT_DIFF",
+   "REPOSITORY_WRITE": "GIT_POSTIMAGE"
   }
+ },
+ "operations": [
+  {
+   "operation_type": "SOURCE_READ",
+   "operation_id": "OP-SRC-READ-01",
+   "effect_class": "SOURCE_READ",
+   "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.SOURCE_READ",
+   "original_consumer": "SBL-SOURCE-READER",
+   "consumer_abi": "ABI-SOURCE-READ-1"
+  },
+  {
+   "operation_type": "LOCAL_DRAFT_WRITE",
+   "operation_id": "OP-DRAFT-WRITE-01",
+   "effect_class": "LOCAL_DRAFT_WRITE",
+   "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.LOCAL_DRAFT_WRITE",
+   "original_consumer": "SBL-ISOLATED-DRAFT-WRITER",
+   "consumer_abi": "ABI-DRAFT-WRITE-1"
+  },
+  {
+   "operation_type": "REPOSITORY_WRITE",
+   "operation_id": "OP-DEV-REPO-WRITE-01",
+   "effect_class": "REPOSITORY_WRITE",
+   "source_locator": "integrations/pipd/src/pipd_ls_sp/pre_v2_adapter.py#SPECIFIC.REPOSITORY_WRITE",
+   "original_consumer": "SBL-DEV-REPOSITORY-WRITER",
+   "consumer_abi": "ABI-REPO-WRITE-1"
+  }
+ ],
+ "operation_scopes": {
+  "SOURCE_READ": [
+   "src/demo/billing.py",
+   "tests/test_billing.py"
+  ],
+  "LOCAL_DRAFT_WRITE": [
+   "src/demo/billing.py"
+  ],
+  "REPOSITORY_WRITE": [
+   "src/demo/billing.py"
+  ]
+ },
+ "operation_instances": [
+  {
+   "instance_id": "OP-WP06-FHSVNEXT-ADD-01",
+   "operation_type": "REPOSITORY_WRITE",
+   "effect_class": "REPOSITORY_WRITE",
+   "repo": {
+    "id": 1457756751,
+    "full_name": "shw097-team/FHS_vNEXT",
+    "head_at_bind": "27abc69b21f66cbf345fc799263d7ed83e34b7cf",
+    "tree_at_bind": "14bb6ef11a041a08f4665595999ca278f02fa5ac",
+    "head_measured_basis": "GitHub REST GET /repos/shw097-team/FHS_vNEXT/commits/main = 27abc69b21f66cbf345fc799263d7ed83e34b7cf, then git clone + git rev-parse HEAD^{tree} in the isolated staging clone = 14bb6ef11a041a08f4665595999ca278f02fa5ac (two instruments agree, 2026-11-18)"
+   },
+   "write_set": [
+    {
+     "relpath": "adapters/hgk_admission/admission_ref.py",
+     "change": "ADD",
+     "preimage": "ABSENT",
+     "preimage_basis": "git cat-file -e 27abc69b:adapters/hgk_admission/admission_ref.py -> rc 128",
+     "postimage_sha256": "21ee790faebc5cbe62b7033bfdf253bd17d26e2f1ddd5f00b10bc2d80079b52c",
+     "postimage_bytes": 26909,
+     "postimage_basis": "git cat-file blob 2872a3cbabeb7ae327c53671c685be93f78d1bef applied as LF bytes in the staging clone; sha256 recomputed = declared"
+    },
+    {
+     "relpath": "tests/affected/W1/test_hgk_admission_ref.py",
+     "change": "ADD",
+     "preimage": "ABSENT",
+     "preimage_basis": "git cat-file -e 27abc69b:tests/affected/W1/test_hgk_admission_ref.py -> rc 128",
+     "postimage_sha256": "110f081659a14c12380cfe0252e5c0d2a2ecc316f81384640ed388bcb1e3e1a8",
+     "postimage_bytes": 18759,
+     "postimage_basis": "git cat-file blob 790108f9ce3403e8ec15f1b7ce9948ad7e718c6d applied as LF bytes in the staging clone; sha256 recomputed = declared"
+    }
+   ],
+   "scope_policy": "EXACT_WRITE_SET_ONLY",
+   "trees_created_by_this_add": [
+    "adapters/",
+    "adapters/hgk_admission/",
+    "tests/",
+    "tests/affected/",
+    "tests/affected/W1/"
+   ],
+   "rollback": "delete both files; both preimages are ABSENT at the bound head, so removal restores the exact bound tree (14bb6ef1) with no residue",
+   "max_ops": 1,
+   "ttl_seconds": 3600,
+   "requires": [
+    "REPO_PRINCIPAL_F3_WRITABLE_ROOT",
+    "REPO_READER_F6_F7_F10",
+    "SIDECAR_SCOPE_PARITY",
+    "HGK_ISSUER_TASKSPEC_WORKORDER_REFERENCES"
+   ],
+   "explicitly_not": [
+    "not src/demo/billing.py and not OP-DEV-REPO-WRITE-01",
+    "not a change to operations, operation_scopes, ALLOWED_AUTHORITY, w1_lifecycle or any ceiling",
+    "not a TaskSpec, WorkOrder, WorkID, Permit, Issuer grant or ADMITTED verdict",
+    "not a push to main: the write is one ADD pair on a branch, reviewed as a PR"
+   ]
+  }
+ ],
+ "instance_contract_notes": {
+  "why_an_instance_rather_than_a_new_operation_type": "OWNER control pack v1.1 section 2 preference A: reuse the existing REPOSITORY_WRITE semantics and bind them to one RepoID plus two exact paths. A second operation type would create a second effect vocabulary, and reusing the demo row as-is would widen the demo scope — both are refused by this design.",
+  "what_the_validator_must_add": "operation_registry.verify_owner_sidecar verifies the signature over the contract sha and checks that ratified operations are a subset of the contract's rows; it never compares the ratified scope with a write set. operation_instance.ratified_scope_covers() is that missing comparison, and it reports the r3 sidecar as NOT covering these two paths.",
+  "open_pointer_w1_lifecycle": "w1_lifecycle.dev_ops_ecp() still emits the DESIGN PATH LABEL effect_class=\"DEV_REPO_WRITE\". This candidate does not touch it: the label is not a registered operation type, and renaming it is a separate semantic decision for the contract holder."
+ }
 }
