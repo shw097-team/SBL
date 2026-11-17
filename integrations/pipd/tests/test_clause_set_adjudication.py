@@ -449,6 +449,123 @@ class CompletionGates(_AdjudicationFixture):
             self.assertIn(expected, [r["code"] for r in refused["refusals"]])
 
 
+class ConsumerGateIsTheOnlyPassage(_AdjudicationFixture):
+    """G4 enforced: three signals that LOOK like a decision, three NEGs that prove they are not.
+
+    Each NEG is a real `validate` run: the signal is genuinely true in the run, a consumer that
+    trusted it alone would proceed, and `consumer_gate()` refuses with a named code. If any of
+    these three ever becomes sufficient, the corresponding test fails -- that is the whole point of
+    pinning them here rather than describing them in a document.
+    """
+
+    def signed(self, private, **over) -> dict:
+        rec = self.record(reader_id="TEST_FIXTURE_READER", **over)
+        rec["signature"] = _sign(rec, private)
+        return rec
+
+    def run_validate(self, *extra: str, index_extra: int = 0, with_index: bool = True) -> tuple:
+        private, enrollment = self._key()
+        records = self.write("all.jsonl", [self.signed(private)])
+        args = ["validate", "--bundle", str(self.dir / "bundle.json"),
+                "--adjudications", str(records), "--subject", str(self.subject),
+                "--reader-enrollment", str(enrollment), *extra]
+        if with_index:
+            args += ["--source-index", str(self.index(extra=index_extra))]
+        code, out = cli(*args)
+        return code, out, adjudication.consumer_gate(out)
+
+    # NEG 1 -- exit 0 alone. The command succeeded; nothing was decided.
+    def test_neg1_exit_zero_alone_is_refused(self) -> None:
+        code, out, gate = self.run_validate(index_extra=2)
+        self.assertEqual(code, 0, "exit 0 is the trap this NEG exists to prove")
+        self.assertEqual(out["verdict"], "PASS")
+        self.assertEqual(out["adjudication"]["decided"], 1)
+        self.assertEqual(out["adjudication"]["expected"], 3)
+        self.assertFalse(gate["accepted"])
+        self.assertIn(adjudication.CONSUMER_VERDICT_NOT_COMPLETE,
+                      [r["code"] for r in gate["refusals"]])
+        self.assertTrue(gate["exit_code_is_not_a_check"])
+        self.assertIn("exit_code_0", gate["insufficient_signals"])
+        self.assertEqual(gate["signal_refusals"]["exit_code_0"],
+                         [adjudication.CONSUMER_VERDICT_NOT_COMPLETE])
+
+    # NEG 2 -- bundle PASS alone. A PASS bundle is a schema/trace statement about four objects and
+    # says nothing about the reader, so a consumer handed only the bundle has no decision at all.
+    def test_neg2_bundle_pass_alone_is_refused(self) -> None:
+        code, out = cli("validate", "--bundle", str(self.dir / "bundle.json"))
+        self.assertEqual(code, 0)
+        self.assertEqual(out["verdict"], "PASS")
+        self.assertNotIn("adjudication", out)
+        gate = adjudication.consumer_gate(out)
+        self.assertFalse(gate["accepted"])
+        self.assertEqual(gate["refusals"][0]["code"], adjudication.CONSUMER_NO_BLOCK)
+        self.assertIn("bundle_verdict_PASS", gate["insufficient_signals"])
+        self.assertEqual(gate["signal_refusals"]["bundle_verdict_PASS"],
+                         [adjudication.CONSUMER_NO_BLOCK, adjudication.CONSUMER_VERDICT_NOT_COMPLETE])
+
+    # NEG 3 -- fixture COMPLETE. Every row of the declared denominator is SIGNED AND VERIFIED, the
+    # verdict literally says COMPLETE_*, and the hold is still held: a fixture key is not the reader.
+    def test_neg3_fixture_complete_is_refused(self) -> None:
+        code, out, gate = self.run_validate()
+        self.assertEqual(code, 0)
+        self.assertEqual(out["verdict"], "PASS")
+        block = out["adjudication"]
+        self.assertEqual(block["verdict"], "COMPLETE_FIXTURE_KEY_ONLY")
+        self.assertEqual(block["states"]["VERIFIED"], 1)
+        self.assertEqual(block["decided"], block["expected"])
+        self.assertFalse(block["complete"])
+        self.assertEqual(block["claim_ceiling"], "FIXTURE_KEY_NOT_ORIGINAL_READER")
+        self.assertFalse(gate["accepted"])
+        codes = [r["code"] for r in gate["refusals"]]
+        self.assertIn(adjudication.CONSUMER_VERDICT_NOT_COMPLETE, codes)
+        self.assertIn(adjudication.CONSUMER_ORIGINAL_READER_UNVERIFIED, codes)
+        self.assertIn("adjudication_verdict_COMPLETE_FIXTURE_KEY_ONLY", gate["insufficient_signals"])
+        # and the gate that reached this verdict is the one stamped into the payload
+        self.assertFalse(block["consumer_gate"]["accepted"])
+        self.assertEqual(block["consumer_gate"]["only_lawful_passage"],
+                         "consumer_gate().accepted is True")
+
+    # NEG 4 -- the enforcement lip: with --require-consumer-gate the same run cannot exit 0.
+    def test_neg4_require_consumer_gate_turns_exit_zero_into_exit_three(self) -> None:
+        code, out, gate = self.run_validate("--require-consumer-gate")
+        self.assertEqual(code, 3, "a refused gate must not be able to ride on exit 0")
+        self.assertEqual(out["verdict"], "PASS", "the bundle half is still untouched")
+        stamped = out["adjudication"]["consumer_gate"]
+        self.assertTrue(stamped["required"])
+        self.assertFalse(stamped["accepted"])
+        self.assertEqual(stamped["exit_code"], 3)
+        self.assertEqual(stamped["refusals"][0]["code"], adjudication.CONSUMER_GATE_NOT_ACCEPTED)
+        self.assertIn(adjudication.CONSUMER_VERDICT_NOT_COMPLETE,
+                      [r["code"] for r in stamped["refusals"]])
+
+    def test_require_consumer_gate_without_adjudications_is_refused(self) -> None:
+        code, out = cli("validate", "--bundle", str(self.dir / "bundle.json"),
+                        "--require-consumer-gate")
+        self.assertEqual(code, 2)
+        self.assertEqual(out["code"], "INPUT_SHAPE_INVALID")
+
+    # H-01 -- the hold waits on the reader's own per-Source-ID disposition, never on a signature.
+    def test_h01_hold_is_never_released_by_a_fixture_key(self) -> None:
+        private, enrollment = self._key()
+        block = self.check([self.signed(private)], enrollment=enrollment, source_index=self.index())
+        self.assertEqual(block["verdict"], "COMPLETE_FIXTURE_KEY_ONLY")
+        hold = block["hold_h01"]
+        self.assertEqual(hold["hold_id"], "H-01")
+        self.assertEqual(hold["state"], "HELD")
+        self.assertEqual(hold["released_by"], adjudication.H01_RELEASE_REQUIRES)
+        self.assertIs(hold["fixture_key_cannot_release"], True)
+        self.assertEqual(hold["dispositions"], {"ACCEPT": 0, "NOT_APPLICABLE": 0, "NACK": 0},
+                         "a fixture signature counts no disposition of the reader's")
+        # 428/428 fixture-signed rows still do not release it -- the coverage is not the criterion
+        rows = [{"state": "VERIFIED", "in_denominator": True,
+                 "original_reader_signature_verified": False} for _ in range(428)]
+        cover = adjudication.coverage_summary(rows, 428, denominator_declared=True,
+                                             fixture_key=True)
+        self.assertEqual(cover["verified_in_denominator"], 428)
+        self.assertFalse(cover["complete"])
+        self.assertFalse(cover["original_reader_signature_verified"])
+
+
 
 def _sign(record: dict, private) -> dict:
     payload = canonical_json({k: record.get(k) for k in adjudication.PAYLOAD_FIELDS}).encode("utf-8")

@@ -100,6 +100,11 @@ def build_parser(*, goal_required: bool = True) -> argparse.ArgumentParser:
                    help="TEST_FIXTURE_ONLY enrollment only; the original-reader key is committed")
     s.add_argument("--maker", default="HERMES-MAKER",
                    help="identity a reader record may never claim (self-acceptance)")
+    # G4, enforced: `consumer_gate()` is a function, so a pipeline that never calls it has no gate.
+    # This flag makes the CLI itself refuse to exit 0 on a refused gate, which is the only way
+    # "the command succeeded" stops being readable as "the wave was decided".
+    s.add_argument("--require-consumer-gate", dest="require_consumer_gate", action="store_true",
+                   help="exit 3 unless consumer_gate(accepted) is True (fixture COMPLETE is not enough)")
     s.add_argument("--explain", action="store_true")
     sub.add_parser("doctor")
     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
@@ -267,6 +272,17 @@ def run(args: argparse.Namespace) -> dict:
                 subject=getattr(args, "subject", None),
                 enrollment=getattr(args, "reader_enrollment", None),
                 maker=getattr(args, "maker", "") or "")
+            # G4: the one lawful passage, stamped into the payload the caller receives. The gate
+            # lives INSIDE the read-only adjudication block, so the bundle half of the payload is
+            # still byte-identical with and without this flag.
+            adjudication_module.enforce_consumer_gate(
+                out, required=bool(getattr(args, "require_consumer_gate", False)))
+        elif getattr(args, "require_consumer_gate", False):
+            # --require-consumer-gate without --adjudications is a usage error, not a pass: there is
+            # no gate result to require, so silently exiting 0 would be the exact hole this closes.
+            from .errors import InputShapeInvalid
+            raise InputShapeInvalid("--require-consumer-gate needs --adjudications: without an "
+                                    "adjudication block there is nothing for the gate to accept")
         if args.planned_sidecar:
             if out.get('verdict')!='PASS':
                 return out
@@ -445,6 +461,12 @@ def main(argv: list[str] | None = None) -> int:
         _emit(InputShapeInvalid(f"{type(exc).__name__}: {str(exc)[:200]}").as_dict())
         return 2
     _emit(result)
+    # G4: exit 3 = "the bundle is fine but the consumer gate refused". It never overrides a bundle
+    # FAIL (1) or a typed refusal (2); it exists so a refused gate cannot ride on exit 0.
+    gate = ((result or {}).get("adjudication") or {}).get("consumer_gate") or {}
+    if gate.get("required") and not gate.get("accepted") and \
+            result.get("verdict", "PASS") != "FAIL":
+        return 3
     return 0 if result.get("verdict", "PASS") != "FAIL" else 1
 
 

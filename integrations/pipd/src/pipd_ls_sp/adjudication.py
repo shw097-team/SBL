@@ -22,6 +22,15 @@ READ-ONLY
     untouched: "is this four-object bundle schema-and-trace valid" and "did the reader decide the
     wave" are different questions, and a bundle PASS must not become FAIL because decisions are
     still pending.
+
+H-01 -- WHAT THE HOLD ACTUALLY WAITS ON
+    H-01 is the hold on the wave's undisposed Source IDs. The only thing that releases it is the
+    ORIGINAL Reader's own per-Source-ID disposition -- one ACCEPT / NOT_APPLICABLE / NACK per
+    Source ID of the declared denominator, bound to the pinned subject and signed by the key the
+    owner enrolled for that reader. It is NOT released by a signature as such, not by a bundle
+    verdict, not by an exit code, and never by a TEST_FIXTURE key: a fixture signature proves the
+    verifier works and carries no disposition of its own, so it is structurally incapable of
+    releasing H-01 (see ``H01_FIXTURE_KEY_CANNOT_RELEASE`` and the ``hold_h01`` block below).
 """
 from __future__ import annotations
 
@@ -62,7 +71,9 @@ INCOMPLETE_VERDICTS = ("INCOMPLETE", "INCOMPLETE_DENOMINATOR_UNDECLARED",
 #: G3 - original_reader_signature_verified is per-row, and the aggregate is true only when EVERY
 #:      row of the DECLARED denominator is verified
 #: G4 - consumer_gate() is the only accepted consumer check: adjudication.verdict + per-row
-#:      decisions + coverage. Exit 0 and a PASS bundle are explicitly insufficient.
+#:      decisions + coverage. Exit 0 and a PASS bundle are explicitly insufficient, by name
+#:      (CONSUMER_* refusals), and `--require-consumer-gate` turns a refused gate into a non-zero
+#:      exit so that "the command succeeded" cannot be read as "the wave was decided".
 GATE_NO_DENOMINATOR = "ADJUDICATION_DENOMINATOR_UNDECLARED"
 GATE_NO_SUBJECT = "ADJUDICATION_SUBJECT_UNBOUND"
 GATE_PARTIAL_COVERAGE = "ADJUDICATION_PARTIAL_COVERAGE"
@@ -78,6 +89,34 @@ CONSUMER_ROW_NOT_VERIFIED = "CONSUMER_ROW_NOT_VERIFIED"
 CONSUMER_ROW_DECISION_UNKNOWN = "CONSUMER_ROW_DECISION_UNKNOWN"
 CONSUMER_ORIGINAL_READER_UNVERIFIED = "CONSUMER_ORIGINAL_READER_UNVERIFIED"
 CONSUMER_BUNDLE_NOT_PASS = "CONSUMER_BUNDLE_NOT_PASS"
+#: The single passage itself, named so a pipeline can act on a refused gate without re-deriving why.
+CONSUMER_GATE_NOT_ACCEPTED = "CONSUMER_GATE_NOT_ACCEPTED"
+
+#: The three signals that LOOK like a decision and are each individually insufficient. They are
+#: published inside every gate result so no consumer has to be told twice, and each one has a NEG
+#: in tests/test_clause_set_adjudication.py that fails if it ever becomes sufficient.
+INSUFFICIENT_SIGNALS = (
+    "exit_code_0",                                   # the command succeeded
+    "bundle_verdict_PASS",                          # the four-object bundle is schema-and-trace valid
+    "adjudication_verdict_COMPLETE_FIXTURE_KEY_ONLY",  # every signature verified -- under a fixture key
+)
+#: signal -> the refusal codes consumer_gate() returns when that signal is the ONLY thing a caller
+#: has. Published with the gate result so a pipeline can pin the mapping instead of re-deriving it.
+SIGNAL_REFUSALS = {
+    "exit_code_0": [CONSUMER_VERDICT_NOT_COMPLETE],
+    "bundle_verdict_PASS": [CONSUMER_NO_BLOCK, CONSUMER_VERDICT_NOT_COMPLETE],
+    "adjudication_verdict_COMPLETE_FIXTURE_KEY_ONLY": [CONSUMER_VERDICT_NOT_COMPLETE,
+                                                       CONSUMER_ORIGINAL_READER_UNVERIFIED],
+}
+
+#: H-01 is the hold on the wave's undisposed Source IDs. Its release condition is the ORIGINAL
+#: Reader's own per-Source-ID disposition, not a signature: a TEST_FIXTURE key proves the verifier
+#: runs and carries no ACCEPT / NOT_APPLICABLE / NACK of the reader's, so no fixture-signed record
+#: set can release it, however many rows it covers.
+H01_HOLD = "H-01"
+H01_RELEASE_REQUIRES = "ORIGINAL_READER_PER_SOURCE_ID_DISPOSITION"
+H01_DISPOSITIONS = DECISIONS
+H01_FIXTURE_KEY_CANNOT_RELEASE = True
 
 
 def canonical_enrollment() -> Path:
@@ -501,6 +540,15 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
                                        "aggregate is true only when every row of the declared "
                                        "denominator is verified"})
 
+    # H-01 counts the reader's OWN dispositions only. A row verified under a TEST_FIXTURE key is
+    # state VERIFIED but its per-row original_reader_signature_verified is false, so it contributes
+    # nothing here: that is what "a fixture key cannot release H-01" means at the data level.
+    hold_dispositions = {d: 0 for d in H01_DISPOSITIONS}
+    for row in out_records:
+        if (row.get("original_reader_signature_verified") is True
+                and row.get("decision") in hold_dispositions):
+            hold_dispositions[row["decision"]] += 1
+
     states = {r["state"] for r in out_records}
     if SEVERITY_REFUSED in states:
         verdict = SEVERITY_REFUSED
@@ -549,6 +597,24 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
         "records": out_records,
         "claim_ceiling": (CLAIM_CEILING if not key.get("fixture_key")
                           else "FIXTURE_KEY_NOT_ORIGINAL_READER"),
+        # H-01's own state, derived from the same coverage the verdict is derived from: a hold is
+        # released only by the original reader's per-Source-ID disposition, so it can be RELEASED
+        # only on a verdict that requires exactly that. A fixture key cannot appear here as a
+        # release: it never reaches "COMPLETE", `released_by` names the disposition, not a
+        # signature, and `dispositions` counts ONLY rows whose per-row original-reader flag is true
+        # -- a fixture-verified ACCEPT is not a disposition of the reader's and counts as zero.
+        "hold_h01": {
+            "hold_id": H01_HOLD,
+            "state": "RELEASED" if verdict == "COMPLETE" else "HELD",
+            "released_by": H01_RELEASE_REQUIRES,
+            "dispositions": hold_dispositions,
+            "disposition_vocabulary": list(H01_DISPOSITIONS),
+            "fixture_key_cannot_release": H01_FIXTURE_KEY_CANNOT_RELEASE,
+            "why": ("H-01 waits on the original Reader's own ACCEPT / NOT_APPLICABLE / NACK for each "
+                    "Source ID of the declared denominator. A TEST_FIXTURE signature verifies the "
+                    "checker, carries no disposition and therefore cannot release the hold, even "
+                    "when every row of the wave is fixture-signed."),
+        },
         "note": ("this block is a check of the reader's records, not a compiler decision; it does "
                  "not change the bundle verdict and grants no acceptance"),
     }
@@ -609,12 +675,17 @@ def consumer_gate(validate_output: dict[str, Any] | None,
     refused with ``CONSUMER_NO_ADJUDICATION_BLOCK``.
 
     A `validate --adjudications` run can exit 0 with a `PASS` bundle and an `adjudication.verdict`
-    of `UNVERIFIED` or `INCOMPLETE_*`, because the two denominators are deliberately independent.
-    A consumer that treats "exit 0" or `bundle["verdict"] == "PASS"` as "the wave was decided" has
-    therefore accepted an undecided wave. This function refuses, by name, every shape of that
-    mistake and returns ``{"accepted": bool, "refusals": [...]}``. Bundle PASS is necessary and
-    never sufficient; a non-PASS bundle is refused here too so a consumer cannot read decisions
-    off an invalid bundle.
+    of `UNVERIFIED`, `INCOMPLETE_*` or `COMPLETE_FIXTURE_KEY_ONLY`, because the two denominators are
+    deliberately independent. A consumer that treats "exit 0", `bundle["verdict"] == "PASS"` or a
+    `COMPLETE_FIXTURE_KEY_ONLY` verdict as "the wave was decided" has therefore accepted an
+    undecided wave. This function refuses, by name, every shape of that mistake and returns
+    ``{"accepted": bool, "refusals": [...]}``.
+
+    ``accepted is True`` is the only lawful passage. Each of the three signals that look like one
+    is individually insufficient -- ``INSUFFICIENT_SIGNALS`` names them and ``SIGNAL_REFUSALS``
+    gives the refusal code each one earns when it is all a caller has. Bundle PASS is necessary and
+    never sufficient; a non-PASS bundle is refused here too so a consumer cannot read decisions off
+    an invalid bundle.
     """
     refusals: list[dict[str, str]] = []
     if adjudication_block is None and isinstance(validate_output, dict):
@@ -626,7 +697,11 @@ def consumer_gate(validate_output: dict[str, Any] | None,
                                    "whether the reader decided the wave; re-run validate with "
                                    "--adjudications and pass its whole output"})
         return {"accepted": False, "refusals": refusals, "verdict": None,
-                "required_verdict": "COMPLETE", "exit_code_is_not_a_check": True}
+                "required_verdict": "COMPLETE", "exit_code_is_not_a_check": True,
+                "bundle_pass_is_not_sufficient": True,
+                "fixture_complete_is_not_sufficient": True,
+                "insufficient_signals": list(INSUFFICIENT_SIGNALS),
+                "signal_refusals": {k: list(v) for k, v in SIGNAL_REFUSALS.items()}}
 
     if adjudication_block.get("read_only") is not True:
         refusals.append({"code": CONSUMER_NOT_A_READ_CHECK,
@@ -698,6 +773,38 @@ def consumer_gate(validate_output: dict[str, Any] | None,
             "required_verdict": "COMPLETE",
             "rows_checked": len(rows),
             "exit_code_is_not_a_check": True,
-            "bundle_pass_is_not_sufficient": True}
+            "bundle_pass_is_not_sufficient": True,
+            "fixture_complete_is_not_sufficient": True,
+            "insufficient_signals": list(INSUFFICIENT_SIGNALS),
+            "signal_refusals": {k: list(v) for k, v in SIGNAL_REFUSALS.items()},
+            "only_lawful_passage": "consumer_gate().accepted is True"}
 
 
+def enforce_consumer_gate(validate_output: dict[str, Any], *, required: bool = False) -> dict[str, Any]:
+    """Stamp the single lawful passage into a `validate` payload and say what it decided.
+
+    ``consumer_gate()`` is a function; a pipeline that never calls it has no gate at all. This
+    helper exists so the assembled `validate` payload carries the gate's own result (nested in the
+    read-only `adjudication` block, so the bundle half of the payload stays byte-identical), and so
+    ``--require-consumer-gate`` has a single place to ask "must a refused gate stop this run".
+
+    When ``required`` is true and the gate refuses, ``exit_code`` is 3 and the refusal list is
+    prefixed with ``CONSUMER_GATE_NOT_ACCEPTED``: the run then cannot succeed on the bundle's exit
+    code alone. When the gate accepts, ``exit_code`` is None and the CLI's normal exit code stands.
+
+    Returns the same payload object it was given (mutated in place, `adjudication` only).
+    """
+    block = validate_output.get("adjudication") if isinstance(validate_output, dict) else None
+    if not isinstance(block, dict):
+        return validate_output
+    gate = consumer_gate(validate_output)
+    gate["required"] = bool(required)
+    if required and not gate["accepted"]:
+        gate["refusals"] = [{"code": CONSUMER_GATE_NOT_ACCEPTED,
+                             "detail": "--require-consumer-gate was set and consumer_gate() "
+                                       "refused: exit 0 + bundle PASS is not a decision"}] + gate["refusals"]
+        gate["exit_code"] = 3
+    else:
+        gate["exit_code"] = None
+    block["consumer_gate"] = gate
+    return validate_output

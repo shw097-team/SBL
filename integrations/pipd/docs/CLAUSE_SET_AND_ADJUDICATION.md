@@ -125,6 +125,11 @@ denominators, and neither may fail the other:
 The exit code follows the **bundle** verdict, as it always has. The adjudication has its own
 `adjudication.verdict`, because one exit integer cannot carry two denominators.
 
+`--require-consumer-gate` is the one opt-in exception, and it exists because a function that nobody
+calls is not a gate: with it set, a refused `consumer_gate()` exits **3** (never overriding a bundle
+`FAIL` (1) or a typed refusal (2)), while the bundle half of the payload stays byte-identical and
+still `PASS`. Passing it without `--adjudications` is a typed usage refusal (exit `2`).
+
 ### `SBL.SourceAdjudication@1`
 
 One record per Source ID. Schema: `contracts/SourceAdjudication.schema.json` (deliberately **not**
@@ -219,7 +224,47 @@ reads those, never the exit code — see `CONSUMER_CONTRACT.md`.
 | G1b no `--subject` | `ADJUDICATION_SUBJECT_UNBOUND` → `INCOMPLETE_SUBJECT_UNBOUND` | a verified signature over a binding no byte of the pinned subject was checked against |
 | G2 signed subset | `ADJUDICATION_PARTIAL_SIGNATURE_SET`, `complete: false` | 3 signed rows reporting themselves as the 428-source wave |
 | G3 partial aggregate | `ADJUDICATION_ORIGINAL_READER_UNVERIFIED`; per-row flag on every row | `original_reader_signature_verified` flipping true from partial coverage |
-| G4 consumer | `consumer_gate()` → `CONSUMER_*` | an automated consumer accepting exit 0 / bundle `PASS` as a decision |
+| G4 consumer | `consumer_gate()` → `CONSUMER_*`; `--require-consumer-gate` → exit `3` | an automated consumer accepting exit 0 / bundle `PASS` / `COMPLETE_FIXTURE_KEY_ONLY` as a decision |
+
+`consumer_gate()` is the **only** lawful passage: `accepted is True`. The three signals that look
+like one are each individually insufficient, and the gate publishes the mapping it refuses them
+with (`insufficient_signals`, `signal_refusals`):
+
+| signal | what it is | refused by |
+|---|---|---|
+| exit `0` | the bundle did not fail | `CONSUMER_VERDICT_NOT_COMPLETE` |
+| `bundle.verdict == "PASS"` | four objects are schema-and-trace valid | `CONSUMER_NO_ADJUDICATION_BLOCK` / `CONSUMER_VERDICT_NOT_COMPLETE` |
+| `adjudication.verdict == "COMPLETE_FIXTURE_KEY_ONLY"` | every signature verified, under a **fixture** key | `CONSUMER_VERDICT_NOT_COMPLETE` + `CONSUMER_ORIGINAL_READER_UNVERIFIED` |
+
+Each has a NEG that fails if it ever becomes sufficient
+(`tests/test_clause_set_adjudication.py::ConsumerGateIsTheOnlyPassage`), and the gate result is
+stamped into the returned payload at `adjudication.consumer_gate`.
+
+### H-01 — what the hold waits on
+
+H-01 is the hold on the wave's undisposed Source IDs, and it is released by exactly one thing: the
+**original Reader's own per-Source-ID disposition** — one `ACCEPT` / `NOT_APPLICABLE` / `NACK` per
+Source ID of the declared denominator, bound to the pinned subject, signed under the key the owner
+enrolled for that reader. It is *not* released by a signature as such, by a bundle verdict, by an
+exit code, or by any number of fixture-signed rows.
+
+A `TEST_FIXTURE_ONLY` key is **structurally incapable** of releasing it: `_enrollment()` marks the
+run `fixture_key: True`, every row's `original_reader_signature_verified` stays false, the verdict
+is capped at `COMPLETE_FIXTURE_KEY_ONLY`, and `hold_h01.dispositions` counts only rows whose per-row
+original-reader flag is true — which is zero for a fixture. 428 of 428 fixture-signed rows therefore
+report `hold_h01.state == "HELD"`. That is the correct state, and it is asserted
+(`test_h01_hold_is_never_released_by_a_fixture_key`). The hold is reported per run as:
+
+```jsonc
+"hold_h01": {
+  "hold_id": "H-01",
+  "state": "HELD",                                     // RELEASED only on verdict COMPLETE
+  "released_by": "ORIGINAL_READER_PER_SOURCE_ID_DISPOSITION",
+  "dispositions": {"ACCEPT": 0, "NOT_APPLICABLE": 0, "NACK": 0},
+  "fixture_key_cannot_release": true,
+  "why": "…"
+}
+```
 
 `original_reader_signature_verified` is now **per row** (`records[i].original_reader_signature_verified`,
 true only for a row whose own signature verified against a non-fixture enrolled key) and the
