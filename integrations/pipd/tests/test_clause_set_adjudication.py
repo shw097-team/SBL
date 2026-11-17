@@ -150,7 +150,9 @@ class SurfaceIsStillThirteenVerbs(unittest.TestCase):
         self.assertEqual(out["code"], "INPUT_SHAPE_INVALID")
 
 
-class AdjudicationIsReadOnly(unittest.TestCase):
+class _AdjudicationFixture(unittest.TestCase):
+    """Shared fixture: one real clause of a real subject, its real Source ID, a real bundle."""
+
     def setUp(self) -> None:
         self._tmp = tempfile.TemporaryDirectory()
         self.dir = Path(self._tmp.name)
@@ -188,10 +190,40 @@ class AdjudicationIsReadOnly(unittest.TestCase):
         path.write_text("\n".join(json.dumps(r) for r in records) + "\n", encoding="utf-8")
         return path
 
+    def index(self, extra: int = 0) -> Path:
+        """A Source Span table whose first row is this record's own Source ID.
+
+        `extra` adds rows the record set does not decide, which is how a signed SUBSET is built
+        without inventing a second subject: the index is the denominator, the records are not.
+        """
+        lines = ["source_id\tclause_id\tspan_start\tspan_end\tclause_sha256"]
+        lines.append(f"{self.source_id}\tclause-{self.span[0]}-{self.span[1]}\t"
+                     f"{self.span[0]}\t{self.span[1]}\t{self.clause_sha}")
+        for n in range(extra):
+            lines.append(f"SRC-{n:020d}\tclause-{n}-{n + 1}\t{n}\t{n + 1}\t{'0' * 64}")
+        path = self.dir / f"index_{extra}.tsv"
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        return path
+
     def check(self, records: list[dict], **kw):
         return adjudication.check(self.write("a.jsonl", records),
                                   subject=self.subject, **kw)
 
+    def _key(self):
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+        private = Ed25519PrivateKey.generate()
+        public_hex = private.public_key().public_bytes(
+            serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+        enrollment = self.dir / "test_enrollment.json"
+        enrollment.write_text(json.dumps({
+            "schema": "SBL.READER_ENROLLMENT@1", "reader_id": "TEST_FIXTURE_READER",
+            "authority": "TEST_FIXTURE_ONLY", "state": "READER_KEY_ENROLLED",
+            "reader_public_hex": public_hex, "reader_fingerprint": "test"}), encoding="utf-8")
+        return private, enrollment
+
+
+class AdjudicationIsReadOnly(_AdjudicationFixture):
     def test_bundle_verdict_is_byte_identical_with_and_without_the_flag(self) -> None:
         bundle = str(self.dir / "bundle.json")
         plain_code, plain = cli("validate", "--bundle", bundle)
@@ -223,10 +255,23 @@ class AdjudicationIsReadOnly(unittest.TestCase):
         private, enrollment = self._key()
         rec = self.record(reader_id="TEST_FIXTURE_READER")
         rec["signature"] = _sign(rec, private)
-        block = self.check([rec], enrollment=enrollment)
+        # G1: a records-only run declares no denominator, so it is capped by name and may not
+        #     report any completion verdict at all. Before the gate this run read as
+        #     COMPLETE_FIXTURE_KEY_ONLY - i.e. a one-record file spoke for a whole wave.
+        records_only = self.check([rec], enrollment=enrollment)
+        self.assertFalse(records_only["denominator_declared"])
+        self.assertEqual(records_only["verdict"], "INCOMPLETE_DENOMINATOR_UNDECLARED")
+        self.assertIn("ADJUDICATION_DENOMINATOR_UNDECLARED",
+                      [f["code"] for f in records_only["findings"]])
+        self.assertFalse(records_only["complete"])
+        # With the denominator declared, the fixture key verifies the signature and is still
+        # capped: it is not the original reader's authority.
+        block = self.check([rec], enrollment=enrollment, source_index=self.index())
         self.assertEqual(block["states"]["VERIFIED"], 1)
         self.assertEqual(block["verdict"], "COMPLETE_FIXTURE_KEY_ONLY")
+        self.assertFalse(block["complete"])
         self.assertFalse(block["original_reader_signature_verified"])
+        self.assertFalse(block["records"][0]["original_reader_signature_verified"])
         self.assertEqual(block["claim_ceiling"], "FIXTURE_KEY_NOT_ORIGINAL_READER")
 
     def test_non_fixture_enrollment_cannot_be_substituted(self) -> None:
@@ -270,18 +315,139 @@ class AdjudicationIsReadOnly(unittest.TestCase):
         self.assertIn("ADJUDICATION_SOURCE_MISMATCH",
                       [f["code"] for f in block["findings"]])
 
-    def _key(self):
-        from cryptography.hazmat.primitives import serialization
-        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
-        private = Ed25519PrivateKey.generate()
-        public_hex = private.public_key().public_bytes(
-            serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
-        enrollment = self.dir / "test_enrollment.json"
-        enrollment.write_text(json.dumps({
-            "schema": "SBL.READER_ENROLLMENT@1", "reader_id": "TEST_FIXTURE_READER",
-            "authority": "TEST_FIXTURE_ONLY", "state": "READER_KEY_ENROLLED",
-            "reader_public_hex": public_hex, "reader_fingerprint": "test"}), encoding="utf-8")
-        return private, enrollment
+
+class CompletionGates(_AdjudicationFixture):
+    """G1-G4: the four minimal gates that stop a partial run declaring a complete wave.
+
+    Each test below FAILS against the candidate head de8b83f6 as shipped and passes only with the
+    gate. The point of every one is a refusal by NAME, not a smaller number.
+    """
+
+    def signed(self, private, **over) -> dict:
+        rec = self.record(reader_id="TEST_FIXTURE_READER", **over)
+        rec["signature"] = _sign(rec, private)
+        return rec
+
+    def test_g1_no_source_index_cannot_be_complete(self) -> None:
+        private, enrollment = self._key()
+        block = self.check([self.signed(private)], enrollment=enrollment)
+        self.assertFalse(block["denominator_declared"])
+        self.assertEqual(block["denominator_source"], "ADJUDICATIONS_ONLY")
+        self.assertEqual(block["verdict"], "INCOMPLETE_DENOMINATOR_UNDECLARED")
+        self.assertIn(adjudication.GATE_NO_DENOMINATOR,
+                      [f["code"] for f in block["findings"]])
+        self.assertFalse(block["complete"])
+        self.assertIn(adjudication.GATE_NO_DENOMINATOR, block["completion_refusals"])
+
+    def test_g1_no_subject_cannot_be_complete(self) -> None:
+        private, enrollment = self._key()
+        block = adjudication.check(self.write("a.jsonl", [self.signed(private)]),
+                                   source_index=self.index(), enrollment=enrollment)
+        self.assertFalse(block["denominator_declared"])
+        # every row verified, the denominator is fully covered - and it is still not complete,
+        # because no binding field was recomputed from the pinned bytes.
+        self.assertEqual(block["states"]["VERIFIED"], 1)
+        self.assertEqual(block["verdict"], "INCOMPLETE_SUBJECT_UNBOUND")
+        self.assertIn(adjudication.GATE_NO_SUBJECT, [f["code"] for f in block["findings"]])
+        self.assertFalse(block["complete"])
+
+    def test_g2_signed_subset_does_not_set_a_completion_flag(self) -> None:
+        private, enrollment = self._key()
+        # one signed record, an index that declares four Source IDs: the record set is a subset
+        block = self.check([self.signed(private)], enrollment=enrollment,
+                           source_index=self.index(extra=3))
+        self.assertEqual(block["expected"], 4)
+        self.assertEqual(block["decided"], 1)
+        self.assertFalse(block["complete"])
+        self.assertIn(adjudication.GATE_PARTIAL_SIGNATURE, block["completion_refusals"])
+        self.assertIn(adjudication.GATE_PARTIAL_SIGNATURE,
+                      [f["code"] for f in block["findings"]])
+        self.assertNotEqual(block["verdict"], "COMPLETE")
+        self.assertNotEqual(block["verdict"], "COMPLETE_FIXTURE_KEY_ONLY")
+        # and exactly the other three Source IDs are named missing
+        self.assertEqual([f["source_id"] for f in block["findings"]
+                          if f["code"] == "ADJUDICATION_MISSING"],
+                         [f"SRC-{n:020d}" for n in range(3)])
+
+    def test_g3_per_row_flag_is_per_row_and_the_aggregate_needs_every_row(self) -> None:
+        private, enrollment = self._key()
+        block = self.check([self.signed(private)], enrollment=enrollment,
+                           source_index=self.index(extra=3))
+        self.assertTrue(block["records"][0]["original_reader_signature_verified"] is False,
+                        "a fixture key must never set the per-row original-reader flag")
+        self.assertFalse(block["original_reader_signature_verified"])
+        # The rule itself, with the fixture cap lifted: 3 of 428 verified rows do NOT aggregate.
+        rows = [{"state": "VERIFIED", "in_denominator": True,
+                 "original_reader_signature_verified": True} for _ in range(3)]
+        partial = adjudication.coverage_summary(rows, 428, denominator_declared=True,
+                                               fixture_key=False)
+        self.assertFalse(partial["original_reader_signature_verified"])
+        self.assertFalse(partial["complete"])
+        self.assertIn(adjudication.GATE_PARTIAL_SIGNATURE, partial["refusals"])
+        # 428 of 428 does aggregate - so the gate discriminates instead of refusing everything.
+        full_rows = [{"state": "VERIFIED", "in_denominator": True,
+                      "original_reader_signature_verified": True} for _ in range(428)]
+        full = adjudication.coverage_summary(full_rows, 428, denominator_declared=True,
+                                             fixture_key=False)
+        self.assertTrue(full["original_reader_signature_verified"])
+        self.assertTrue(full["complete"])
+        # ...and one row short of the denominator is enough to drop it again
+        short = adjudication.coverage_summary(full_rows[:-1], 428, denominator_declared=True,
+                                              fixture_key=False)
+        self.assertFalse(short["original_reader_signature_verified"])
+
+    def test_g4_exit_zero_and_a_pass_bundle_are_not_a_decision(self) -> None:
+        private, enrollment = self._key()
+        records = self.write("one.jsonl", [self.signed(private)])
+        code, out = cli("validate", "--bundle", str(self.dir / "bundle.json"),
+                        "--adjudications", str(records), "--source-index", str(self.index()),
+                        "--subject", str(self.subject),
+                        "--reader-enrollment", str(enrollment))
+        self.assertEqual(code, 0, "the bundle owns the exit code; this is the trap")
+        self.assertEqual(out["verdict"], "PASS")
+        self.assertNotEqual(out["adjudication"]["verdict"], "COMPLETE")
+        gate = adjudication.consumer_gate(out, out["adjudication"])
+        self.assertFalse(gate["accepted"])
+        codes = [r["code"] for r in gate["refusals"]]
+        self.assertIn(adjudication.CONSUMER_VERDICT_NOT_COMPLETE, codes)
+        self.assertTrue(gate["exit_code_is_not_a_check"])
+
+    def test_g4_consumer_refuses_a_pass_bundle_with_no_adjudication_at_all(self) -> None:
+        gate = adjudication.consumer_gate({"verdict": "PASS"}, None)
+        self.assertFalse(gate["accepted"])
+        self.assertEqual(gate["refusals"][0]["code"], adjudication.CONSUMER_NO_BLOCK)
+
+    def test_g4_consumer_accepts_a_fully_decided_wave_and_nothing_less(self) -> None:
+        row = {"source_id": "SRC-x", "state": "VERIFIED", "decision": "ACCEPT",
+               "original_reader_signature_verified": True}
+        block = {"read_only": True, "verdict": "COMPLETE", "denominator_declared": True,
+                 "expected": 1, "decided": 1, "records": [row],
+                 "coverage": {"verified_in_denominator": 1},
+                 "original_reader_signature_verified": True, "complete": True,
+                 "completion_refusals": []}
+        gate = adjudication.consumer_gate({"verdict": "PASS"}, block)
+        self.assertTrue(gate["accepted"], gate["refusals"])
+        # every single-field mutation of that block must be refused by name
+        for mutate, expected in (
+                (lambda b: b.__setitem__("verdict", "COMPLETE_FIXTURE_KEY_ONLY"),
+                 adjudication.CONSUMER_VERDICT_NOT_COMPLETE),
+                (lambda b: b.__setitem__("denominator_declared", False),
+                 adjudication.CONSUMER_DENOMINATOR_UNDECLARED),
+                (lambda b: b.__setitem__("decided", 0), adjudication.CONSUMER_PARTIAL_COVERAGE),
+                (lambda b: b["records"][0].__setitem__("state", "UNVERIFIED"),
+                 adjudication.CONSUMER_ROW_NOT_VERIFIED),
+                (lambda b: b["records"][0].__setitem__("decision", None),
+                 adjudication.CONSUMER_ROW_DECISION_UNKNOWN),
+                (lambda b: b.__setitem__("original_reader_signature_verified", False),
+                 adjudication.CONSUMER_ORIGINAL_READER_UNVERIFIED),
+                (lambda b: b.__setitem__("complete", False),
+                 adjudication.CONSUMER_VERDICT_NOT_COMPLETE)):
+            broken = json.loads(json.dumps(block))
+            mutate(broken)
+            refused = adjudication.consumer_gate({"verdict": "PASS"}, broken)
+            self.assertFalse(refused["accepted"])
+            self.assertIn(expected, [r["code"] for r in refused["refusals"]])
+
 
 
 def _sign(record: dict, private) -> dict:

@@ -48,6 +48,36 @@ COMPILER_REFUSAL_CODES = ("INTAKE_INVALID", "AUTHORITY_UNKNOWN", "PI_SCHEMA", "P
                           "EFFECT_UNKNOWN", "PROJECTION_LOSS", "EXPORT_HASH", "ZERO_OBLIGATION")
 SEVERITY_REFUSED = "REFUSED"
 SEVERITY_UNVERIFIED = "UNVERIFIED"
+SEVERITY_CAPPED = "CAPPED"
+#: Verdicts that can only ever be produced by a capped / incomplete run. A consumer that reads a
+#: verdict off this list as "the reader decided the wave" has read a name, not a completion.
+INCOMPLETE_VERDICTS = ("INCOMPLETE", "INCOMPLETE_DENOMINATOR_UNDECLARED",
+                       "INCOMPLETE_SUBJECT_UNBOUND", "INCOMPLETE_PARTIAL_COVERAGE",
+                       "UNVERIFIED", "REFUSED", "COMPLETE_FIXTURE_KEY_ONLY")
+
+#: The four completion gates. Each one is a REASON a run may not claim completion; none of them is
+#: a new verb, a new contract family or a new reader key.
+#: G1 - a run without --source-index or --subject has no declared denominator and cannot be complete
+#: G2 - a signed subset is not the denominator; partial signatures never set a completion flag
+#: G3 - original_reader_signature_verified is per-row, and the aggregate is true only when EVERY
+#:      row of the DECLARED denominator is verified
+#: G4 - consumer_gate() is the only accepted consumer check: adjudication.verdict + per-row
+#:      decisions + coverage. Exit 0 and a PASS bundle are explicitly insufficient.
+GATE_NO_DENOMINATOR = "ADJUDICATION_DENOMINATOR_UNDECLARED"
+GATE_NO_SUBJECT = "ADJUDICATION_SUBJECT_UNBOUND"
+GATE_PARTIAL_COVERAGE = "ADJUDICATION_PARTIAL_COVERAGE"
+GATE_PARTIAL_SIGNATURE = "ADJUDICATION_PARTIAL_SIGNATURE_SET"
+GATE_AGGREGATE_NOT_EVERY_ROW = "ADJUDICATION_ORIGINAL_READER_UNVERIFIED"
+
+CONSUMER_NO_BLOCK = "CONSUMER_NO_ADJUDICATION_BLOCK"
+CONSUMER_NOT_A_READ_CHECK = "CONSUMER_BLOCK_IS_NOT_A_READ_CHECK"
+CONSUMER_VERDICT_NOT_COMPLETE = "CONSUMER_VERDICT_NOT_COMPLETE"
+CONSUMER_DENOMINATOR_UNDECLARED = "CONSUMER_DENOMINATOR_UNDECLARED"
+CONSUMER_PARTIAL_COVERAGE = "CONSUMER_PARTIAL_COVERAGE"
+CONSUMER_ROW_NOT_VERIFIED = "CONSUMER_ROW_NOT_VERIFIED"
+CONSUMER_ROW_DECISION_UNKNOWN = "CONSUMER_ROW_DECISION_UNKNOWN"
+CONSUMER_ORIGINAL_READER_UNVERIFIED = "CONSUMER_ORIGINAL_READER_UNVERIFIED"
+CONSUMER_BUNDLE_NOT_PASS = "CONSUMER_BUNDLE_NOT_PASS"
 
 
 def canonical_enrollment() -> Path:
@@ -247,7 +277,6 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
     out_records: list[dict[str, Any]] = []
     by_decision = {d: 0 for d in DECISIONS}
     seen: dict[str, int] = {}
-    decided_verified = 0
 
     for position, record in enumerate(records, 1):
         if not isinstance(record, dict):
@@ -401,7 +430,6 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
                                    "not proof")}]
         else:
             state = "VERIFIED"
-            decided_verified += 1
             if decision in by_decision:
                 by_decision[decision] += 1
         for finding in refused:
@@ -417,6 +445,12 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
             "codes": [c["code"] for c in refused],
             "reader_id": claimed_reader,
             "signed": isinstance(signature, dict),
+            # G3 (per row): this row, and only this row, carries a verified original-reader
+            # signature. It is never inherited from the aggregate and never promoted to it.
+            "original_reader_signature_verified": bool(state == "VERIFIED"
+                                                       and not key.get("fixture_key")),
+            # None = no denominator was declared, so membership is unknown, not false.
+            "in_denominator": (source_id in index) if index else None,
         })
 
     expected = len(index) if index else len({str(r.get("source_id") or "") for r in records
@@ -429,32 +463,85 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
                          "detail": "the bound index carries this Source ID and no verified "
                                    "adjudication decides it"})
 
+    # --- G1: no declared denominator, no completion claim -------------------------------
+    # Without --source-index the "expected" count is just the number of records the file happens
+    # to carry, so a three-record file would read as a three-of-three complete wave. Without
+    # --subject no binding field is recomputed from bytes, so a signature proves the signer
+    # signed something, not this wave's clause. Both are named caps, not silent defaults.
+    denominator_declared = bool(index) and bool(subject_sha)
+    caps: list[dict[str, str]] = []
+    if not index:
+        caps.append({"code": GATE_NO_DENOMINATOR,
+                     "detail": "no --source-index: the denominator is whatever the records file "
+                               "names, so this run cannot declare a complete Original "
+                               "Adjudication over the wave"})
+    if not subject_sha:
+        caps.append({"code": GATE_NO_SUBJECT,
+                     "detail": "no --subject: subject_sha256, clause_id, span and clause_sha256 "
+                               "are not recomputed from the pinned bytes, so a verified "
+                               "signature is not a verified binding"})
+    for cap in caps:
+        findings.append({"kind": SEVERITY_CAPPED, "code": cap["code"], "source_id": "",
+                         "detail": cap["detail"]})
+
+    # --- G2/G3: coverage is computed against the DECLARED denominator only --------------
+    coverage = coverage_summary(out_records, expected,
+                                denominator_declared=denominator_declared,
+                                fixture_key=bool(key.get("fixture_key")))
+    for code in coverage["refusals"]:
+        if code == GATE_PARTIAL_SIGNATURE:
+            findings.append({"kind": SEVERITY_CAPPED, "code": code, "source_id": "",
+                             "detail": f"{coverage['verified_in_denominator']} of "
+                                       f"{coverage['expected']} declared Source IDs carry a "
+                                       "verified signature; a signed subset is not the "
+                                       "denominator and may not set a completion flag"})
+        elif code == GATE_AGGREGATE_NOT_EVERY_ROW:
+            findings.append({"kind": SEVERITY_CAPPED, "code": code, "source_id": "",
+                             "detail": "original_reader_signature_verified stays false: the "
+                                       "aggregate is true only when every row of the declared "
+                                       "denominator is verified"})
+
     states = {r["state"] for r in out_records}
     if SEVERITY_REFUSED in states:
         verdict = SEVERITY_REFUSED
     elif SEVERITY_UNVERIFIED in states or missing:
         verdict = SEVERITY_UNVERIFIED
-    elif decided_verified == expected and expected:
+    elif not index:
+        verdict = "INCOMPLETE_DENOMINATOR_UNDECLARED"
+    elif not subject_sha:
+        verdict = "INCOMPLETE_SUBJECT_UNBOUND"
+    elif coverage["verified_in_denominator"] != coverage["expected"] or coverage["expected"] == 0:
+        verdict = "INCOMPLETE_PARTIAL_COVERAGE"
+    elif key.get("fixture_key"):
+        # a fixture key proves the verifier works; it is not the original reader's authority
+        verdict = "COMPLETE_FIXTURE_KEY_ONLY"
+    elif coverage["original_reader_signature_verified"]:
         verdict = "COMPLETE"
     else:
         verdict = "INCOMPLETE"
-    if key.get("fixture_key") and verdict == "COMPLETE":
-        # a fixture key proves the verifier works; it is not the original reader's authority
-        verdict = "COMPLETE_FIXTURE_KEY_ONLY"
 
     return {
         "schema": SCHEMA,
         "read_only": True,
         "wrote_nothing": True,
         "records_file": str(records_path),
-        "expected": expected,
+        "expected": coverage["expected"],
         "denominator_source": "SOURCE_INDEX" if index else "ADJUDICATIONS_ONLY",
-        "decided": decided_verified,
-        "undecided": expected - decided_verified,
+        # G1: named denominators, so "complete" can never be reached by omission.
+        "denominator_declared": denominator_declared,
+        "denominator_caps": caps,
+        "decided": coverage["verified"],
+        "undecided": coverage["expected"] - coverage["verified_in_denominator"],
         "by_decision": by_decision,
         "states": {s: sum(1 for r in out_records if r["state"] == s)
                    for s in ("VERIFIED", SEVERITY_UNVERIFIED, SEVERITY_REFUSED)},
-        "original_reader_signature_verified": bool(decided_verified) and not key.get("fixture_key"),
+        # G2/G3: `complete` is the ONLY full-completion flag, it is per-run and it is false
+        # unless every row of the declared denominator is verified. `completion_refusals`
+        # names why, so a false is never mistaken for "not checked".
+        "complete": coverage["complete"],
+        "completion_refusals": coverage["refusals"],
+        "coverage": coverage,
+        "original_reader_signature_verified": coverage["original_reader_signature_verified"],
         "reader_key": key,
         "verdict": verdict,
         "findings": findings,
@@ -465,3 +552,152 @@ def check(records_path: Path | str, *, source_index: Path | str | None = None,
         "note": ("this block is a check of the reader's records, not a compiler decision; it does "
                  "not change the bundle verdict and grants no acceptance"),
     }
+
+
+def coverage_summary(rows: list[dict[str, Any]], expected: int, *,
+                     denominator_declared: bool, fixture_key: bool) -> dict[str, Any]:
+    """G2/G3 in one place: what coverage this record set actually has, and what it may claim.
+
+    ``verified`` counts rows whose signature verified (fixture or not). ``verified_in_denominator``
+    counts only rows that are members of the DECLARED denominator, which is why a records-only run
+    can never be reported as covered. ``original_reader_signature_verified`` is the aggregate the
+    ruling cares about: it is true only when the denominator was declared AND every member of it
+    has a row whose own per-row flag is true AND no row was refused.
+    """
+    refusals: list[str] = []
+    verified = sum(1 for r in rows if r.get("state") == "VERIFIED")
+    in_denominator = sum(1 for r in rows if r.get("state") == "VERIFIED"
+                         and r.get("in_denominator") is not False)
+    per_row_all = bool(rows) and all(r.get("original_reader_signature_verified") is True
+                                     for r in rows)
+    refused_rows = sum(1 for r in rows if r.get("state") == SEVERITY_REFUSED)
+
+    if not denominator_declared:
+        refusals.append(GATE_NO_DENOMINATOR)
+    if expected and in_denominator < expected:
+        refusals.append(GATE_PARTIAL_SIGNATURE)
+    if not per_row_all or verified < expected or refused_rows:
+        refusals.append(GATE_AGGREGATE_NOT_EVERY_ROW)
+    if expected == 0:
+        refusals.append(GATE_PARTIAL_COVERAGE)
+
+    aggregate = bool(denominator_declared and per_row_all and expected > 0
+                     and in_denominator == expected and verified == expected
+                     and not fixture_key and not refused_rows)
+    complete = bool(aggregate and not refusals)
+    return {
+        "expected": expected,
+        "verified": verified,
+        "verified_in_denominator": in_denominator,
+        "not_in_denominator": verified - in_denominator,
+        "refused_rows": refused_rows,
+        "every_row_verified": per_row_all,
+        "denominator_declared": denominator_declared,
+        "fixture_key": fixture_key,
+        "original_reader_signature_verified": aggregate,
+        "complete": complete,
+        "refusals": sorted(set(refusals)),
+    }
+
+
+def consumer_gate(validate_output: dict[str, Any] | None,
+                  adjudication_block: dict[str, Any] | None = None) -> dict[str, Any]:
+    """G4 - the ONLY check an automated consumer may run. Exit code and bundle PASS are not it.
+
+    Call it with the WHOLE `validate` payload (bundle verdict + `adjudication` beside it); a
+    consumer that was handed only the four-object bundle file has no verdict to read and is
+    refused with ``CONSUMER_NO_ADJUDICATION_BLOCK``.
+
+    A `validate --adjudications` run can exit 0 with a `PASS` bundle and an `adjudication.verdict`
+    of `UNVERIFIED` or `INCOMPLETE_*`, because the two denominators are deliberately independent.
+    A consumer that treats "exit 0" or `bundle["verdict"] == "PASS"` as "the wave was decided" has
+    therefore accepted an undecided wave. This function refuses, by name, every shape of that
+    mistake and returns ``{"accepted": bool, "refusals": [...]}``. Bundle PASS is necessary and
+    never sufficient; a non-PASS bundle is refused here too so a consumer cannot read decisions
+    off an invalid bundle.
+    """
+    refusals: list[dict[str, str]] = []
+    if adjudication_block is None and isinstance(validate_output, dict):
+        adjudication_block = validate_output.get("adjudication")
+
+    if not isinstance(adjudication_block, dict):
+        refusals.append({"code": CONSUMER_NO_BLOCK,
+                         "detail": "no adjudication block: a PASS bundle says nothing about "
+                                   "whether the reader decided the wave; re-run validate with "
+                                   "--adjudications and pass its whole output"})
+        return {"accepted": False, "refusals": refusals, "verdict": None,
+                "required_verdict": "COMPLETE", "exit_code_is_not_a_check": True}
+
+    if adjudication_block.get("read_only") is not True:
+        refusals.append({"code": CONSUMER_NOT_A_READ_CHECK,
+                         "detail": "the block does not identify itself as a read-only check of "
+                                   "the reader's records"})
+
+    bundle_verdict = (validate_output or {}).get("verdict")
+    if bundle_verdict != "PASS":
+        refusals.append({"code": CONSUMER_BUNDLE_NOT_PASS,
+                         "detail": f"bundle verdict is {bundle_verdict!r}; decisions may not be "
+                                   "read off a bundle that is not PASS"})
+
+    verdict = adjudication_block.get("verdict")
+    if verdict != "COMPLETE":
+        refusals.append({"code": CONSUMER_VERDICT_NOT_COMPLETE,
+                         "detail": f"adjudication.verdict is {verdict!r}; only 'COMPLETE' is a "
+                                   f"decided wave (capped/incomplete: "
+                                   f"{', '.join(INCOMPLETE_VERDICTS)})"})
+
+    if adjudication_block.get("denominator_declared") is not True:
+        refusals.append({"code": CONSUMER_DENOMINATOR_UNDECLARED,
+                         "detail": "no declared denominator (--source-index/--subject); coverage "
+                                   "is unknowable, so no count in this block is a coverage claim"})
+
+    expected = adjudication_block.get("expected")
+    decided = adjudication_block.get("decided")
+    rows = adjudication_block.get("records")
+    rows = rows if isinstance(rows, list) else []
+    coverage = adjudication_block.get("coverage") or {}
+    if (not isinstance(expected, int) or expected <= 0 or decided != expected
+            or len(rows) != expected
+            or coverage.get("verified_in_denominator") != expected):
+        refusals.append({"code": CONSUMER_PARTIAL_COVERAGE,
+                         "detail": f"decided={decided!r} expected={expected!r} "
+                                   f"rows={len(rows)} verified_in_denominator="
+                                   f"{coverage.get('verified_in_denominator')!r}: a partial set "
+                                   "is not the denominator"})
+
+    # per-row refusals are grouped by code so a 428-row wave yields a few named refusals, not 428
+    row_problems: dict[str, list[str]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            row_problems.setdefault(CONSUMER_ROW_NOT_VERIFIED, []).append("<not an object>")
+            continue
+        source_id = str(row.get("source_id") or "?")
+        if row.get("state") != "VERIFIED":
+            row_problems.setdefault(CONSUMER_ROW_NOT_VERIFIED, []).append(source_id)
+        if row.get("decision") not in DECISIONS:
+            row_problems.setdefault(CONSUMER_ROW_DECISION_UNKNOWN, []).append(source_id)
+        if row.get("original_reader_signature_verified") is not True:
+            row_problems.setdefault(CONSUMER_ORIGINAL_READER_UNVERIFIED, []).append(source_id)
+    for code, ids in row_problems.items():
+        shown = ", ".join(ids[:3]) + (f", +{len(ids) - 3} more" if len(ids) > 3 else "")
+        refusals.append({"code": code,
+                         "detail": f"{len(ids)} of {len(rows)} row(s) fail this check: {shown}"})
+
+    if adjudication_block.get("original_reader_signature_verified") is not True:
+        refusals.append({"code": CONSUMER_ORIGINAL_READER_UNVERIFIED,
+                         "detail": "the aggregate original_reader_signature_verified is not true"})
+
+    if adjudication_block.get("complete") is not True:
+        refusals.append({"code": CONSUMER_VERDICT_NOT_COMPLETE,
+                         "detail": "the run does not set complete=true; refusals: "
+                                   f"{adjudication_block.get('completion_refusals')}"})
+
+    return {"accepted": not refusals,
+            "refusals": refusals,
+            "verdict": verdict,
+            "required_verdict": "COMPLETE",
+            "rows_checked": len(rows),
+            "exit_code_is_not_a_check": True,
+            "bundle_pass_is_not_sufficient": True}
+
+

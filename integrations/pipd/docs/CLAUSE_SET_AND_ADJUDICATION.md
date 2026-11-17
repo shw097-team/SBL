@@ -202,8 +202,29 @@ the correct state of the tree today, not a limitation to be worked around.
 ### `adjudication.verdict`
 
 `REFUSED` (any record positively refused) > `UNVERIFIED` (any record unverified, or an index row
-undecided) > `INCOMPLETE` > `COMPLETE`. A decision histogram (`by_decision`) counts **verified**
+undecided) > `INCOMPLETE_DENOMINATOR_UNDECLARED` (no `--source-index`) >
+`INCOMPLETE_SUBJECT_UNBOUND` (no `--subject`) > `INCOMPLETE_PARTIAL_COVERAGE` >
+`COMPLETE_FIXTURE_KEY_ONLY` > `COMPLETE`. A decision histogram (`by_decision`) counts **verified**
 decisions only, so a NACK that failed verification never appears as a decided NACK.
+
+### The four completion gates
+
+Completion is a claim about a **declared denominator**, so it cannot be reached by omission. Every
+run reports `complete`, `completion_refusals`, `coverage` and `denominator_declared`; a consumer
+reads those, never the exit code — see `CONSUMER_CONTRACT.md`.
+
+| gate | refused/capped by | what it stops |
+|---|---|---|
+| G1a no `--source-index` | `ADJUDICATION_DENOMINATOR_UNDECLARED` → `INCOMPLETE_DENOMINATOR_UNDECLARED` | a records-only file whose "denominator" is just the number of records it happens to carry |
+| G1b no `--subject` | `ADJUDICATION_SUBJECT_UNBOUND` → `INCOMPLETE_SUBJECT_UNBOUND` | a verified signature over a binding no byte of the pinned subject was checked against |
+| G2 signed subset | `ADJUDICATION_PARTIAL_SIGNATURE_SET`, `complete: false` | 3 signed rows reporting themselves as the 428-source wave |
+| G3 partial aggregate | `ADJUDICATION_ORIGINAL_READER_UNVERIFIED`; per-row flag on every row | `original_reader_signature_verified` flipping true from partial coverage |
+| G4 consumer | `consumer_gate()` → `CONSUMER_*` | an automated consumer accepting exit 0 / bundle `PASS` as a decision |
+
+`original_reader_signature_verified` is now **per row** (`records[i].original_reader_signature_verified`,
+true only for a row whose own signature verified against a non-fixture enrolled key) and the
+aggregate is true only when every row of the declared denominator carries the per-row true. With no
+key enrolled, all of them are false — which is the correct state of this tree.
 
 ### Test-fixture keys
 
