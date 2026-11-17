@@ -17,7 +17,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from .errors import IntakeInvalid, PiSemanticFail
+from .errors import IntakeInvalid, PiSemanticFail, PipdError
 from .util import canonical_json, sha256_text
 
 STAGES = ('SRC', 'REQ/Child', 'SPEC', 'ACC', 'VER', 'EVD', 'DEL', 'GATE')
@@ -247,6 +247,80 @@ def source_id_for(file: str, clause_id: str, source_sha256: str) -> str:
     """Stable hash reference to a normalized source clause (one entry per source clause)."""
     return 'SRC-' + sha256_text(canonical_json(
         {'file': file, 'clause_id': clause_id, 'sha256': source_sha256}))[:20]
+
+
+def compile_pinned_clauses(text: str, file: str,
+                           spans: list[tuple[int, int]]) -> list[dict[str, Any]]:
+    """Compile PINNED clause spans of ONE subject: per-clause atoms, or the compiler's refusal.
+
+    This is the FILE-SOURCE branch of :func:`compile_requirements` lifted into a function so a
+    caller that already holds the clause boundaries (a wave's Source Span table) does not have to
+    re-cut the document and does not lose the remaining clauses when one of them is refused.
+
+    The two invariants that make it the same compiler and not a second one:
+
+    * the only span source is :func:`_parts` over the SAME subject text - a requested span that is
+      not a boundary ``_parts`` itself yielded is refused by name, never trimmed or re-derived;
+    * the atom is built from the SAME locator dict, the same ``_expand`` / ``_is_filler`` /
+      ``_polarity`` calls and the same ``req_id`` formula, with ``file`` = the subject path and
+      ``source_sha256`` = the digest of the WHOLE subject. The atom ids therefore equal
+      ``compile_requirements(text, [file])`` for every clause that function reaches, which is
+      asserted in ``tests/test_clause_set_adjudication.py``.
+
+    What it adds is only failure isolation: ``compile_requirements`` raises on the first refusal
+    and returns nothing for the rest of the document; this returns one row per requested span with
+    ``state`` ``ATOMS`` or ``REFUSED`` plus the compiler's own ``code``/``message``. It never
+    invents a disposition - ``REFUSED`` is the compiler's refusal, not a reader verdict.
+    """
+    clause_index = {(start, end): clause for start, end, clause in _parts(text)}
+    whole_sha = sha256_text(text)
+    rows: list[dict[str, Any]] = []
+    for start, end in spans:
+        clause_id = f'clause-{start}-{end}'
+        clause = clause_index.get((start, end))
+        row: dict[str, Any] = {'clause_id': clause_id, 'span': [start, end],
+                               'clause_sha256': sha256_text(clause) if clause is not None else '',
+                               'atoms': [], 'state': 'REFUSED', 'code': None, 'message': ''}
+        if clause is None:
+            row['code'] = 'SPAN_NOT_A_CLAUSE_BOUNDARY'
+            row['message'] = ('the requested span is not a clause boundary requirements._parts '
+                              'yields for this subject; the compiler does not re-cut a source span')
+            rows.append(row)
+            continue
+        try:
+            children = _expand(clause)
+            atoms: list[dict[str, Any]] = []
+            for child, (statement, negation_inherited) in enumerate(children):
+                if _is_filler(statement):
+                    continue
+                polarity = _polarity(statement, negation_inherited)
+                locator = {'file': file, 'kind': 'file', 'clause_id': clause_id,
+                           'span': [start, end], 'child': child, 'text': statement,
+                           'source_text': clause, 'source_sha256': whole_sha}
+                rid = 'REQ-' + sha256_text(canonical_json(locator))[:20]
+                atoms.append({'req_id': rid, 'source_clause': locator, 'owner': 'PIPD-EC',
+                              'axis': advisory_axis(statement),
+                              'acceptance_cue': f'{polarity}: {statement}',
+                              'risk_guard': {
+                                  'polarity': polarity,
+                                  'oracle': {'id': 'ORACLE-' + rid, 'predicate': statement,
+                                             'expected': 'forbidden' if polarity == 'MUST NOT'
+                                             else 'required'},
+                                  'negative_fixture': f'fixtures/{rid}/negative',
+                                  'failure_condition': f'violate {polarity}: {statement}'}})
+            if not atoms:
+                # the exact refusal compile_requirements raises for a clause with no obligation
+                raise IntakeInvalid('goal produced zero requirement atoms')
+            validate_atoms(atoms)
+        except PipdError as exc:
+            row['code'] = exc.code
+            row['message'] = exc.message
+            rows.append(row)
+            continue
+        row['atoms'] = atoms
+        row['state'] = 'ATOMS'
+        rows.append(row)
+    return rows
 
 
 def source_table(atoms: list[dict[str, Any]]) -> list[dict[str, Any]]:

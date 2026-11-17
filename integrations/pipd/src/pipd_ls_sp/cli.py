@@ -2,6 +2,10 @@
 
 2026-11-02: additive PRE-V2 effect/plan options on existing verbs; canonical commands and
 legacy defaults preserved. It is still 13 verbs — the additions are flags, not a 14th command.
+
+2026-11-17 (G1/G2 candidate): `intake --clause-set` emits per-Source-ID atoms + FirstFail for a
+whole clause set in one call, and `validate --adjudications` checks the reader's
+SBL.SourceAdjudication@1 records READ-ONLY. Still 13 verbs, still flags; no default output changed.
 """
 from __future__ import annotations
 
@@ -38,15 +42,23 @@ def _emit(payload: dict) -> None:
     print(json.dumps(payload, ensure_ascii=False, indent=1, sort_keys=True))
 
 
-def build_parser() -> argparse.ArgumentParser:
+def build_parser(*, goal_required: bool = True) -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="pipd", description=f"PIPD-LS-SP compiler CLI {__version__} (13 commands)")
     p.add_argument("--root", type=Path, default=Path.cwd())
     sub = p.add_subparsers(dest="command", required=True)
     sub.add_parser("init")
-    s = sub.add_parser("intake"); s.add_argument("--goal", required=True)
+    s = sub.add_parser("intake"); s.add_argument("--goal", required=goal_required)
     s.add_argument("--source", action="append", default=[])
     s.add_argument("--constraint", action="append", default=[])
     s.add_argument("--non-goal", action="append", default=[])
+    # ADDITIVE (2026-11-17): a per-Source-ID clause set, answered with atoms + FirstFail for
+    # every row in ONE call instead of one process per clause. It is a flag, not a 14th verb.
+    # `--goal` stays `required=True` unless this flag is present, so the default command line is
+    # still parsed by exactly the same parser and still fails the same way when it is malformed.
+    s.add_argument("--clause-set", dest="clause_set", type=Path, default=None,
+                   help="one pinned span per Source ID; emits sources[] with atoms + FirstFail")
+    s.add_argument("--subject", type=Path, default=None,
+                   help="the pinned subject --clause-set spans index into (required with it)")
     s = sub.add_parser("profile"); s.add_argument("--profile", default="LITE")
     s.add_argument("--axis", action="append", default=[])
     s = sub.add_parser("compile-pi"); s.add_argument("--intent", type=Path, required=True)
@@ -75,6 +87,24 @@ def build_parser() -> argparse.ArgumentParser:
                    help="fail when any of PI-PKG/PD-PKG/ECP/TQAEP is missing")
     s.add_argument("--planned-sidecar", type=Path, default=None)
     s.add_argument("--fixture-root", type=Path, default=None)
+    # ADDITIVE (2026-11-17): READ-ONLY check of the reader's SBL.SourceAdjudication@1 records.
+    # It never changes `verdict`/`checked`: "is this four-object bundle valid" and "did the reader
+    # decide the wave" are different denominators and must not be able to fail each other.
+    s.add_argument("--adjudications", type=Path, default=None,
+                   help="reader SBL.SourceAdjudication@1 records (.jsonl/.json); checked read-only")
+    s.add_argument("--source-index", dest="source_index", type=Path, default=None,
+                   help="the wave Source Span table the adjudications must cover")
+    s.add_argument("--subject", type=Path, default=None,
+                   help="pinned subject, so a span/clause digest is recomputed from bytes")
+    s.add_argument("--reader-enrollment", dest="reader_enrollment", type=Path, default=None,
+                   help="TEST_FIXTURE_ONLY enrollment only; the original-reader key is committed")
+    s.add_argument("--maker", default="HERMES-MAKER",
+                   help="identity a reader record may never claim (self-acceptance)")
+    # G4, enforced: `consumer_gate()` is a function, so a pipeline that never calls it has no gate.
+    # This flag makes the CLI itself refuse to exit 0 on a refused gate, which is the only way
+    # "the command succeeded" stops being readable as "the wave was decided".
+    s.add_argument("--require-consumer-gate", dest="require_consumer_gate", action="store_true",
+                   help="exit 3 unless consumer_gate(accepted) is True (fixture COMPLETE is not enough)")
     s.add_argument("--explain", action="store_true")
     sub.add_parser("doctor")
     s = sub.add_parser("project"); s.add_argument("--out", type=Path, default=None)
@@ -130,6 +160,16 @@ def run(args: argparse.Namespace) -> dict:
     if cmd == "init":
         return workspace.init_workspace(root)
     if cmd == "intake":
+        if getattr(args, "clause_set", None) is not None:
+            # Deliberately NOT pipeline.intake: a clause set is N goals, and calling the
+            # single-goal compiler would return one card whose `goal` field is not the input.
+            from . import clause_set as clause_set_module
+            if args.subject is None:
+                from .errors import InputShapeInvalid
+                raise InputShapeInvalid("--clause-set requires --subject: the spans index into "
+                                        "one pinned subject, and Source IDs bind its digest")
+            return clause_set_module.run(args.clause_set, args.subject,
+                                         constraints=args.constraint, non_goals=args.non_goal)
         return pipeline.intake(args.goal, sources=args.source,
                                constraints=args.constraint, non_goals=args.non_goal)
     if cmd == "profile":
@@ -221,6 +261,28 @@ def run(args: argparse.Namespace) -> dict:
         schemas_dir, mode, tried = registry.resolve_for_validate(root)
         out = validate.validate_bundle(bundle, schemas_dir,
                                        require_four=bool(getattr(args, "require_four", False)))
+        if getattr(args, "adjudications", None) is not None:
+            # READ-ONLY: attached beside the bundle verdict, never folded into it. A pending
+            # decision set must not be able to turn a valid four-object bundle into a FAIL, and a
+            # valid bundle must not be able to launder an undecided wave into a PASS.
+            from . import adjudication as adjudication_module
+            out["adjudication"] = adjudication_module.check(
+                args.adjudications,
+                source_index=getattr(args, "source_index", None),
+                subject=getattr(args, "subject", None),
+                enrollment=getattr(args, "reader_enrollment", None),
+                maker=getattr(args, "maker", "") or "")
+            # G4: the one lawful passage, stamped into the payload the caller receives. The gate
+            # lives INSIDE the read-only adjudication block, so the bundle half of the payload is
+            # still byte-identical with and without this flag.
+            adjudication_module.enforce_consumer_gate(
+                out, required=bool(getattr(args, "require_consumer_gate", False)))
+        elif getattr(args, "require_consumer_gate", False):
+            # --require-consumer-gate without --adjudications is a usage error, not a pass: there is
+            # no gate result to require, so silently exiting 0 would be the exact hole this closes.
+            from .errors import InputShapeInvalid
+            raise InputShapeInvalid("--require-consumer-gate needs --adjudications: without an "
+                                    "adjudication block there is nothing for the gate to accept")
         if args.planned_sidecar:
             if out.get('verdict')!='PASS':
                 return out
@@ -372,7 +434,11 @@ def _read_json(p: Path, what: str) -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = build_parser()
+    argv = list(sys.argv[1:] if argv is None else argv)
+    # `--goal` is required for `intake` EXCEPT when the caller is supplying a clause set. The
+    # parser is therefore built with the historical requirement unless that one flag is present,
+    # so a malformed default command line still produces byte-identical usage behaviour.
+    parser = build_parser(goal_required=not ("intake" in argv and "--clause-set" in argv))
     try:
         args = parser.parse_args(argv)
     except SystemExit as exc:
@@ -395,6 +461,12 @@ def main(argv: list[str] | None = None) -> int:
         _emit(InputShapeInvalid(f"{type(exc).__name__}: {str(exc)[:200]}").as_dict())
         return 2
     _emit(result)
+    # G4: exit 3 = "the bundle is fine but the consumer gate refused". It never overrides a bundle
+    # FAIL (1) or a typed refusal (2); it exists so a refused gate cannot ride on exit 0.
+    gate = ((result or {}).get("adjudication") or {}).get("consumer_gate") or {}
+    if gate.get("required") and not gate.get("accepted") and \
+            result.get("verdict", "PASS") != "FAIL":
+        return 3
     return 0 if result.get("verdict", "PASS") != "FAIL" else 1
 
 
